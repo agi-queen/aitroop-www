@@ -1,0 +1,163 @@
+/* ── Digital Human page specific styles ─────────────────────────── */
+
+/* Hero section */
+.dh-section--hero {
+  background-color: var(--p-bg-alt);
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(248,247,244,1)   0%,
+      rgba(248,247,244,1)  40%,
+      rgba(248,247,244,0.72) 65%,
+      rgba(248,247,244,0.1) 100%
+    ),
+    url('/digital-human.png');
+  background-size: auto, cover;
+  background-position: center, center right;
+  background-repeat: no-repeat, no-repeat;
+}
+@media (max-width: 900px) {
+  .dh-section--hero {
+    background-image: none;
+    background-color: var(--p-bg-alt);
+  }
+}
+
+/* ── History Timeline ───────────────────────────────────────────── */
+.dh-timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.dh-milestone-card {
+  background: var(--p-bg-alt);
+  border: var(--p-border);
+  border-radius: var(--p-radius);
+  padding: 32px 28px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.dh-milestone-card:hover {
+  box-shadow: 0 6px 28px rgba(0,0,0,0.09);
+  transform: translateY(-2px);
+}
+.dh-milestone-card:last-child {
+  background: var(--p-ink);
+  border-color: transparent;
+}
+
+.dh-milestone-year {
+  font-family: var(--p-serif);
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  color: var(--p-ink);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.dh-milestone-card:last-child .dh-milestone-year { color: #fff; }
+
+.dh-milestone-era {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--p-muted);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--p-rule);
+}
+.dh-milestone-card:last-child .dh-milestone-era {
+  color: #3a3a38;
+  border-bottom-color: #1a1a18;
+}
+
+.dh-milestone-title {
+  font-weight: 600;
+  color: var(--p-ink);
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+.dh-milestone-card:last-child .dh-milestone-title { color: #fff; }
+
+.dh-milestone-body {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--p-body);
+}
+.dh-milestone-card:last-child .dh-milestone-body { color: #6a6a68; }
+
+/* ── Capabilities Limitations ───────────────────────────────────── */
+.dh-limitations {
+  margin-top: 64px;
+  padding-top: 48px;
+  border-top: 1px solid var(--p-rule);
+}
+.dh-limitations-header { margin-bottom: 24px; }
+.dh-limitations-title {
+  font-family: var(--p-serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--p-ink);
+  margin: 8px 0 0;
+  letter-spacing: -0.01em;
+}
+
+.dh-limitations-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.dh-limitation-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: var(--p-bg-alt);
+  border: var(--p-border);
+  border-radius: var(--p-radius);
+  padding: 24px;
+}
+.dh-limitation-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.dh-limitation-title {
+  font-weight: 600;
+  color: var(--p-ink);
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.dh-limitation-body {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--p-body);
+}
+
+/* ── Implementation Steps — 4-column ────────────────────────────── */
+.dh-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+/* ── Key Points — 4-column ──────────────────────────────────────── */
+.dh-key-points-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .dh-timeline-grid { grid-template-columns: repeat(2, 1fr); }
+  .dh-steps-grid { grid-template-columns: repeat(2, 1fr); }
+  .dh-key-points-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .dh-limitations-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .dh-timeline-grid { grid-template-columns: 1fr; }
+  .dh-steps-grid { grid-template-columns: 1fr; }
+  .dh-key-points-grid { grid-template-columns: 1fr; }
+}
