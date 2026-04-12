@@ -2,12 +2,13 @@
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import Content from '~/components/widgets/Content.astro';
 import Features2 from '~/components/widgets/Features2.astro';
+import Features3 from '~/components/widgets/Features3.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Testimonials from '~/components/widgets/Testimonials.astro';
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
-  title: 'Services',
+  title: '功能特色',
 };
 ---
 
@@ -15,74 +16,76 @@ const metadata = {
   <!-- Hero Widget ******************* -->
 
   <Hero
-    tagline="Services"
-    title="Elevate your projects with our stunning templates"
-    subtitle="Explore our meticulously crafted templates tailored to various industries and purposes. From captivating presentations to functional website designs, we offer the tools you need to succeed."
-    actions={[{ variant: 'primary', target: '_blank', text: 'Start exploring', href: '/' }]}
+    tagline="功能特色"
+    title="你需要的每一個 GTM 超能力，全在這裡"
+    subtitle="Aitroop 將資料富化、AI 研究、個性化外聯、多渠道自動化、CRM 同步和收入運營整合為一個平台，讓你的銷售與行銷團隊真正做到：少花時間在工具上，多花時間在客戶上。"
+    actions={[{ variant: 'primary', text: '預約產品示範', href: '/contact' }]}
     image={{
-      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-      alt: 'AstroWind Hero Image',
+      src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80',
+      alt: 'Aitroop 功能特色',
     }}
   />
 
   <!-- Features2 Widget ************** -->
 
   <Features2
-    title="Explore our diverse templates"
-    subtitle="Discover our selection below to streamline and elevate your projects."
+    title="全方位覆蓋 GTM 工作流"
+    subtitle="從找到對的客戶，到促成交易、守住客戶——Aitroop 的每個功能模組都為一個核心目的而設計：讓你的每一份努力產生更大的業績回報。"
     columns={3}
     items={[
       {
-        title: 'Educational',
+        title: '客戶資料富化',
         description:
-          'By harmonizing instructional design and visual appeal, templates streamline content creation for varied materials, expediting development and cultivating engaging educational spaces.',
-        icon: 'tabler:school',
+          '上傳名單後自動補全有效郵箱、手機號、LinkedIn 主頁、融資資訊、員工規模、技術棧。Waterfall 智能富化邏輯，有效聯繫人覆蓋率 80% 以上。',
+        icon: 'tabler:database-search',
       },
       {
-        title: 'Interior Design',
+        title: 'AI 客戶研究助手',
         description:
-          'Crafting functional, visually appealing spaces for residential and commercial use. Templates emphasize layout, colors, and furniture setups, offering a versatile toolkit for your design vision.',
-        icon: 'tabler:home-star',
+          '輸入公司域名，AI 自動瀏覽官網、新聞、LinkedIn，在 90 秒內回答你預設的問題：他們的主要客群是誰？最近有哪些切入點？結果結構化填入外聯模板。',
+        icon: 'tabler:robot',
       },
       {
-        title: 'Photography',
-        description: `Empowering photographers, our templates facilitate captivating storytelling. With a keen focus on layout, galleries, and typography, they cater to both professionals and enthusiasts.`,
-        icon: 'tabler:photo',
-      },
-      {
-        title: 'E-commerce',
+        title: '個性化外聯流水線',
         description:
-          'Developing engaging online stores, our E-commerce templates ensure a dynamic presence to effectively showcase products. Ideal for startups or revamps.',
-        icon: 'tabler:shopping-cart',
+          '資料富化 → AI 生成個性化信件 → 推送外聯序列，全流程在一個界面內完成。基於融資事件、招聘動態、CEO 文章的個性化首句，回覆率提升 3 倍以上。',
+        icon: 'tabler:send',
       },
       {
-        title: 'Blog',
+        title: '郵件送達率基礎設施',
         description:
-          'With attention to typography, these templates empower effective content presentation for writers at any stage, ensuring visually engaging and user-friendly blogs.',
-        icon: 'tabler:article',
+          '域名預熱、信譽監控、多域名智能輪轉——確保你的冷郵件進主收件箱而不是垃圾箱。主收件箱到達率穩定維持在 90% 以上。',
+        icon: 'tabler:mail-check',
       },
       {
-        title: 'Business',
+        title: '多渠道自動化序列',
         description:
-          'Providing polished options for effective visual communication, these templates empower both startups and established companies for a professional brand presence.',
-        icon: 'tabler:building-store',
+          '郵件 + LinkedIn 混合序列，自動化跟進節奏。設定一次規則，系統持續運轉。Email + LinkedIn 混合外聯比純郵件回覆率高 30-50%。',
+        icon: 'tabler:list-check',
       },
       {
-        title: 'Branding',
+        title: 'CRM 雙向同步',
         description:
-          'Offering pre-designed elements for a consistent brand identity, including logos and marketing materials. Ideal for new ventures or revamps.',
-        icon: 'tabler:arrow-big-up-lines',
+          '深度整合 Salesforce、HubSpot、纷享销客、销售易。線索、聯繫人、商機雙向即時同步，銷售不再需要在兩個系統間手動複製資料。',
+        icon: 'tabler:refresh',
       },
       {
-        title: 'Medical',
-        description: `From presentations to patient forms, these tools enhance communication effectiveness for healthcare professionals. Ideal for medical practices and research pursuits.`,
-        icon: 'tabler:vaccine',
-      },
-      {
-        title: 'Fashion Design',
+        title: '線索評分與意圖識別',
         description:
-          'With attention to detail, customization, and contemporary design, they empower designers to showcase ideas cohesively. Ideal for all levels of designers.',
-        icon: 'tabler:tie',
+          '官網訪客 IP 反查，即時識別是哪家公司在研究你。AI 評估購買意圖（0-100 分），高意圖客戶自動推送銷售優先跟進。',
+        icon: 'tabler:target',
+      },
+      {
+        title: '競品與市場情報監控',
+        description:
+          '設定關鍵字，系統自動監控目標公司的融資事件、高管變動、產品發布、競品動向。第一時間掌握最佳切入時機。',
+        icon: 'tabler:radar',
+      },
+      {
+        title: 'AI 內容批量生成',
+        description:
+          '輸入話題和目標客群，AI 在 30 秒內生成部落格、LinkedIn 貼文、郵件序列草稿，支援批量生成最多 20 篇，配合統一內容日曆管理發布節奏。',
+        icon: 'tabler:pencil',
       },
     ]}
   />
@@ -93,37 +96,31 @@ const metadata = {
     isReversed
     items={[
       {
-        title: 'High-Quality Designs',
+        title: '找到最值得跟進的線索',
         description:
-          'Our templates feature top-tier designs that ensure a professional and polished appearance for your projects.',
-        icon: 'tabler:wand',
+          'AI 自動對每條線索進行評分，綜合公司規模、行業匹配度、意圖信號和互動歷史，讓銷售每天的優先清單一目了然。',
+        icon: 'tabler:star',
       },
       {
-        title: 'Customization Tools',
+        title: '收入預測誤差 < 15%',
         description:
-          'Tailor each template to your unique needs with user-friendly customization tools that let you personalize colors, fonts, and content.',
-        icon: 'tabler:settings',
+          'AI 分析商機健康度、歷史成交規律、Pipeline 流速，給出可信的季度收入預測。告別「靠感覺報數字」，讓管理層做決策有依據。',
+        icon: 'tabler:chart-arrows',
       },
       {
-        title: 'Pre-Designed Elements',
+        title: 'Pipeline 停滯預警',
         description:
-          'Save time and effort with our ready-to-use elements, including graphics, icons, and layouts that enhance the visual appeal of your creations.',
-        icon: 'tabler:presentation',
-      },
-      {
-        title: 'Preview and Mockup Views',
-        description:
-          'Visualize the final outcome before making any changes using our preview and mockup views, ensuring your projects meet your expectations.',
-        icon: 'tabler:carousel-horizontal',
+          '自動識別哪些商機已超過正常推進週期、哪些客戶出現冷淡信號，提前介入，避免到季末才發現 Pipeline 有缺口。',
+        icon: 'tabler:alert-triangle',
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1525909002-1b05e0c869d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
-      alt: 'Features Image',
+      src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=870&q=80',
+      alt: '收入運營功能',
     }}
   >
     <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Main Features</h3>
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">收入運營：讓預測變成現實</h3>
     </Fragment>
   </Content>
 
@@ -133,77 +130,101 @@ const metadata = {
     isAfterContent
     items={[
       {
-        title: 'Time Savings',
+        title: '客戶健康度即時評分',
         description:
-          'Streamline your workflow, enabling you to create stunning materials efficiently and allocate more time to your core tasks.',
-        icon: 'tabler:clock',
+          '持續追蹤產品使用頻率、功能採用深度、支援工單趨勢，自動計算每個客戶帳號的健康分數。',
+        icon: 'tabler:heart-rate-monitor',
       },
       {
-        title: 'Professional Appearance',
+        title: '流失預警：比客戶先知道',
         description:
-          'Elevate your projects with the polished and sophisticated look that our templates provide, making a lasting impression on your audience.',
-        icon: 'tabler:school',
+          '健康分數持續下滑或關鍵行為消失時，系統立即推送預警，讓客戶成功團隊在流失發生前 30 天介入，成本僅是事後挽回的 1/5。',
+        icon: 'tabler:bell-ringing',
       },
       {
-        title: 'Cost-Efficiency',
+        title: '自動化續費與增購序列',
         description:
-          'Benefit from cost savings by avoiding the need for custom design work, as our templates offer professional-grade designs at a fraction of the cost.',
-        icon: 'tabler:coin',
-      },
-      {
-        title: 'Instant Download',
-        description:
-          'Enjoy immediate access to your chosen templates upon purchase, enabling you to begin working on your projects without delay.',
-        icon: 'tabler:file-download',
+          '基於客戶旅程設計個性化的續費提醒和增購推薦，自動觸發、自動跟進，不再靠人工逐個盯客戶。',
+        icon: 'tabler:arrow-up-circle',
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1552664688-cf412ec27db2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
-      alt: 'Benefits Image',
+      src: 'https://images.unsplash.com/photo-1573497491765-dccce02b29df?ixlib=rb-4.0.3&auto=format&fit=crop&w=870&q=80',
+      alt: '客戶成功功能',
     }}
   >
     <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Benefits</h3>
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">客戶成功：把流失扼殺在搖籃裡</h3>
     </Fragment>
   </Content>
+
+  <!-- Features3 Widget ************** -->
+
+  <Features3
+    title="整合你現有的每一個工具"
+    subtitle="Aitroop 不是要替換你的工具，而是把它們連接起來，消除協作摩擦。"
+    columns={2}
+    items={[
+      {
+        title: 'CRM 整合',
+        description: 'Salesforce、HubSpot、纷享销客、销售易——雙向即時同步，資料永遠一致。',
+        icon: 'tabler:plug',
+      },
+      {
+        title: '數據供應商',
+        description: '探迹、企查查、Apollo、Crunchbase——一站式搜尋全球 B2B 聯繫人資料。',
+        icon: 'tabler:database',
+      },
+      {
+        title: '溝通工具',
+        description: '郵件客戶端、企業微信、Slack——通知和工作流直達你的日常協作工具。',
+        icon: 'tabler:message',
+      },
+      {
+        title: '行銷平台',
+        description: '廣告歸因、UTM 管理、官網追蹤——從流量到成交，全路徑數據打通。',
+        icon: 'tabler:chart-pie',
+      },
+    ]}
+    classes={{ container: 'max-w-5xl' }}
+  />
 
   <!-- Testimonials Widget *********** -->
 
   <Testimonials
-    title="Words from real customers"
+    title="他們用 Aitroop 改變了業績軌跡"
     testimonials={[
       {
-        testimonial: `The designs are not only visually appealing but also highly professional. The templates have saved me a significant amount of time while helping me make a lasting impression on my clients.`,
-        name: 'Emily Kennedy',
-        job: 'Front-end developer',
+        testimonial: `以前每天花兩三個小時調研客戶、寫個性化郵件，用了 Aitroop 之後，我只需要審核 AI 生成的內容，每天外聯量從 20 人增加到 100 人以上，預約率提升了將近一倍。`,
+        name: '陳建宏',
+        job: '企業軟體公司 SDR',
         image: {
-          src: 'https://images.unsplash.com/photo-1618835962148-cf177563c6c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=930&q=80',
-          alt: 'Emily Kennedy Image',
+          src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=930&q=80',
+          alt: '陳建宏',
         },
       },
       {
-        testimonial: `It beautifully showcases my work, with its clean and elegant design that lets my photographs shine. Customization was a breeze, even for a non-tech person like me. The result is a professional and immersive portfolio that's garnered numerous compliments.`,
-        name: 'Sarah Hansen',
-        job: 'Photographer',
+        testimonial: `最讓我驚訝的是歸因功能。以前老闆問「這筆預算帶來了多少收入」我只能說大概，現在每個渠道的 ROI 清清楚楚，預算申請容易多了，行銷和銷售的摩擦也少了。`,
+        name: '林雅婷',
+        job: 'SaaS 公司行銷運營負責人',
         image: {
-          src: 'https://images.unsplash.com/photo-1561406636-b80293969660?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
-          alt: 'Sarah Hansen Image',
+          src: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=774&q=80',
+          alt: '林雅婷',
         },
       },
       {
-        testimonial: `I discovered these templates and I'm impressed by their variety and quality. They've helped me establish a consistent brand image across my marketing and social platforms, elevating my business's overall appearance.`,
-        name: 'Mark Wilkinson',
-        job: 'Small business owner',
+        testimonial: `收入預測這件事做了五年，誤差從沒低於 25%。Aitroop 上線三個季度後，我們的預測誤差穩定在 12% 以內。這對我們做人員規劃和預算分配意義重大。`,
+        name: '王志強',
+        job: '製造業數位化公司 RevOps 總監',
         image: {
-          src: 'https://images.unsplash.com/photo-1545167622-3a6ac756afa4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=824&q=80',
-          alt: 'Mark Wilkinson Image',
+          src: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=824&q=80',
+          alt: '王志強',
         },
       },
     ]}
     callToAction={{
-      target: '_blank',
-      text: 'More testimonials...',
-      href: 'https://github.com/arthelokyo/astrowind',
+      text: '查看更多用戶故事',
+      href: '/contact',
       icon: 'tabler:chevron-right',
     }}
   />
@@ -214,11 +235,11 @@ const metadata = {
     actions={[
       {
         variant: 'primary',
-        text: 'Start exploring',
-        href: '/',
+        text: '預約 30 分鐘產品示範',
+        href: '/contact',
       },
     ]}
-    title="Dive into our template collection"
-    subtitle="Whether you're in business, design, or education, our templates are here to elevate your projects."
+    title="親眼看看 Aitroop 如何改變你的 GTM 效率"
+    subtitle="讓我們的顧問根據你的業務場景，展示最適合你的工作流方案。"
   />
 </Layout>

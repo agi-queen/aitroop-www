@@ -5,74 +5,99 @@ import ContactUs from '~/components/widgets/Contact.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 
 const metadata = {
-  title: 'Contact',
+  title: '聯絡我們',
 };
 ---
 
 <Layout metadata={metadata}>
   <!-- HeroText Widget ******************* -->
 
-  <HeroText tagline="Contact" title="Let's Connect!" />
+  <HeroText
+    tagline="聯絡我們"
+    title="讓我們聊聊你的 GTM 挑戰"
+    subtitle="無論你是想預約產品示範、探討企業方案，還是只是想了解更多，我們的顧問都很樂意與你交流。"
+  />
 
   <ContactUs
     id="form"
-    title="Drop us a message today!"
-    subtitle="For quicker answers, explore our FAQs section. You may find the solution you're looking  for right there! If not, our support team is delighted to help you."
+    title="預約產品示範或諮詢"
+    subtitle="填寫以下表單，我們的顧問將在 1 個工作日內與你聯繫，安排最適合的時間進行 30 分鐘一對一示範。"
     inputs={[
       {
         type: 'text',
         name: 'name',
-        label: 'Name',
+        label: '你的姓名',
+        placeholder: '王小明',
       },
       {
         type: 'email',
         name: 'email',
-        label: 'Email',
+        label: '工作郵箱',
+        placeholder: 'name@company.com',
+      },
+      {
+        type: 'text',
+        name: 'company',
+        label: '公司名稱',
+        placeholder: '你的公司名稱',
+      },
+      {
+        type: 'text',
+        name: 'role',
+        label: '你的職位',
+        placeholder: '例如：銷售總監、市場負責人、RevOps',
       },
     ]}
     textarea={{
-      label: 'Message',
+      label: '你最想解決的問題是什麼？',
+      placeholder: '例如：SDR 外聯效率低、收入預測不準、客戶資料品質差……簡單描述你的場景，有助於我們為你準備最相關的示範內容。',
     }}
     disclaimer={{
       label:
-        'By submitting this contact form, you acknowledge and agree to the collection of your personal information.',
+        '提交此表單，即表示你同意我們根據隱私政策收集和使用你的聯繫資訊，用於回應你的諮詢。我們不會將你的資訊分享給第三方。',
     }}
-    description="Our support team typically responds within 24 business hours."
+    description="通常在 1 個工作日內回覆。如需緊急聯繫，請直接發送郵件至 hello@aitroop.net。"
   />
 
   <!-- Features2 Widget ************** -->
 
   <Features2
-    title="We are here to help!"
+    title="我們能為你提供什麼"
     items={[
       {
-        title: 'General support',
-        description: `Chat with us for inquiries related to account management, website navigation, payment issues, accessing purchased templates or general questions about the website's functionality.`,
-      },
-      {
-        title: 'Contact sales',
+        title: '一對一產品示範',
         description:
-          'Chat with us for questions about purchases, customization options, licensing for commercial use, inquiries about specific template, etc.',
+          '我們的顧問會根據你的業務場景（SDR 外聯、市場歸因、RevOps、客戶成功），準備最有針對性的示範內容，不是通用的 PPT 演示。',
+        icon: 'tabler:presentation',
       },
       {
-        title: 'Technical support',
+        title: '企業方案諮詢',
         description:
-          'Chat with us when facing issues like template installation, problems editing difficulties, compatibility issues with software or download errors, or other technical challenges related to using the templates.',
+          '如果你的團隊超過 20 人，或有私有化部署、定制整合等需求，我們的企業銷售團隊可以為你設計專屬解決方案和定價。',
+        icon: 'tabler:building',
       },
       {
-        title: 'Phone',
-        description: '+1 (234) 567-890',
-        icon: 'tabler:headset',
+        title: '技術整合支援',
+        description:
+          '需要將 Aitroop 連接到你現有的 CRM、數據系統或內部工具？我們的解決方案工程師可以評估整合可行性並提供技術方案。',
+        icon: 'tabler:plug',
       },
       {
-        title: 'Email',
-        description: 'contact@support.com',
+        title: '合作夥伴洽談',
+        description:
+          '數據供應商、CRM 廠商、系統整合商——我們積極尋求可以共同為 B2B 客戶創造更大價值的生態合作夥伴。',
+        icon: 'tabler:handshake',
+        icon: 'tabler:handshake',
+      },
+      {
+        title: '郵件直接聯繫',
+        description: 'hello@aitroop.net',
         icon: 'tabler:mail',
       },
       {
-        title: 'Location',
-        description: '1234 Lorem Ipsum St, 12345, Miami, EEUU',
-        icon: 'tabler:map-pin',
+        title: '微信公眾號',
+        description: '搜索「Aitroop」關注我們，獲取最新 B2B 銷售和 GTM 洞察內容。',
+        icon: 'tabler:brand-wechat',
       },
     ]}
   />

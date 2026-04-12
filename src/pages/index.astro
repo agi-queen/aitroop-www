@@ -13,7 +13,7 @@ import Stats from '~/components/widgets/Stats.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
-  title: 'AstroWind — Free template for creating websites with Astro + Tailwind CSS',
+  title: 'Aitroop — AI 驅動的 B2B 業績增長平台',
   ignoreTitleTemplate: true,
 };
 ---
@@ -25,78 +25,77 @@ const metadata = {
     actions={[
       {
         variant: 'primary',
-        text: 'Get template',
-        href: 'https://github.com/arthelokyo/astrowind',
-        target: '_blank',
-        icon: 'tabler:download',
+        text: '免費預約示範',
+        href: '/contact',
+        icon: 'tabler:calendar',
       },
-      { text: 'Learn more', href: '#features' },
+      { text: '瞭解更多', href: '#features' },
     ]}
-    image={{ src: '~/assets/images/hero-image.png', alt: 'AstroWind Hero Image' }}
+    image={{
+      src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      alt: 'Aitroop — B2B 銷售 AI 平台',
+    }}
   >
     <Fragment slot="title">
-      Free template for <span class="hidden xl:inline">creating websites with</span>
-      <span class="text-accent dark:text-white"> Astro 5.0</span> + Tailwind CSS
+      讓 AI 替你的<span class="text-accent dark:text-white">銷售團隊</span>
+      <br />每天多開 5 倍客戶
     </Fragment>
 
     <Fragment slot="subtitle">
       <span class="hidden sm:inline">
-        <span class="font-semibold">AstroWind</span> is a free, customizable and production-ready template for Astro 5.0
-        + Tailwind CSS.</span
+        <span class="font-semibold">Aitroop</span> 是專為 B2B 企業打造的 AI GTM 平台。</span
       >
-      <span class="block mb-1 sm:hidden font-bold text-blue-600">AstroWind: Production-ready.</span>
-      Suitable for Startups, Small Business, SaaS websites, Professional Portfolios, Marketing websites, Landing Pages &
-      Blogs.
+      從精準客戶資料、個性化外聯信件，到商機管理與收入預測，一個平台讓你的銷售與行銷團隊告別重複性工作，專注於真正創造業績的事。
     </Fragment>
   </Hero>
 
   <!-- Note Widget ******************* -->
 
-  <Note title="Philosophy:" description="Simplicity, Best Practices and High Performance" />
+  <Note title="我們的使命：" description="讓每一家 B2B 企業，都能用 AI 以大公司的市場競爭力運轉。" />
 
   <!-- Features Widget *************** -->
 
   <Features
     id="features"
-    tagline="Features"
-    title="What you get with AstroWind"
-    subtitle="One of the most professional and comprehensive templates currently on the market. Most starred & forked Astro theme in 2022, 2023 and 2024."
+    tagline="核心功能"
+    title="一個平台，搞定整個 GTM 流程"
+    subtitle="從找到對的人、寫出打動人心的信，到準確預測下季收入——Aitroop 把分散在 10 個工具裡的事，整合成一個順暢的工作流。"
     items={[
       {
-        title: 'Astro + Tailwind CSS Integration',
+        title: '智能資料富化',
         description:
-          'A seamless integration between two great frameworks that offer high productivity, performance and versatility.',
-        icon: 'tabler:brand-tailwind',
+          '上傳公司名單，AI 自動補全有效郵箱、手機號、LinkedIn 主頁。有效聯繫人覆蓋率達 80% 以上，讓每一次外聯都不再打水漂。',
+        icon: 'tabler:database',
       },
       {
-        title: 'Ready-to-use Components',
+        title: 'AI 客戶調研助手',
         description:
-          'Widgets made with Tailwind CSS ready to be used in Marketing Websites, SaaS, Blogs, Personal Profiles, Small Business...',
-        icon: 'tabler:components',
+          '輸入公司域名，AI 在 90 秒內自動調研客戶背景、近期新聞、痛點，直接填入外聯模板。原本需要 30 分鐘的準備工作，現在 5 分鐘搞定。',
+        icon: 'tabler:search',
       },
       {
-        title: 'Best Practices',
+        title: '規模化個性化外聯',
         description:
-          'Creating secure, efficient, and user-friendly websites that deliver exceptional experiences and lasting value.',
-        icon: 'tabler:list-check',
+          '基於客戶真實的融資動態、招聘趨勢、LinkedIn 文章，AI 自動生成每一封都像親筆寫的個性化郵件。一人的產出，超越整個外聯團隊。',
+        icon: 'tabler:mail',
       },
       {
-        title: 'Excellent Page Speed',
+        title: '多渠道自動化序列',
         description:
-          'Having a good page speed impacts organic search ranking, improves user experience (UI/UX) and increase conversion rates.',
-        icon: 'tabler:rocket',
+          '郵件 + LinkedIn 混合序列，自動化跟進節奏。回覆率比純郵件高 30-50%，而你只需設定一次規則，系統持續運轉。',
+        icon: 'tabler:route',
       },
       {
-        title: 'Search Engine Optimization (SEO)',
+        title: '線索評分與意圖識別',
         description:
-          "SEO lies in its ability to enhance a website's visibility, driving organic traffic and enabling it to reach a wider audience.",
-        icon: 'tabler:arrows-right-left',
+          '即時識別誰在訪問你的官網、研究你的產品。高意圖客戶自動推送給銷售優先跟進，再也不會讓熱門線索冷掉。',
+        icon: 'tabler:target',
       },
       {
-        title: 'Open to new ideas and contributions',
+        title: '收入預測與 Pipeline 管理',
         description:
-          'Embracing a culture that is open to new ideas and contributions is integral fostering innovation, collaboration, and a dynamic user experience.',
-        icon: 'tabler:bulb',
+          '告別「靠感覺」的收入預測。AI 模型持續分析商機健康度，誤差控制在 15% 以內，讓管理層對每季業績胸有成竹。',
+        icon: 'tabler:chart-line',
       },
     ]}
   />
@@ -105,33 +104,33 @@ const metadata = {
 
   <Content
     isReversed
-    tagline="Inside template"
-    title="AstroWind's Blueprint: Fun Meets Functionality!"
+    tagline="效率革命"
+    title="銷售代表 65% 的時間，不是在做銷售"
     items={[
       {
-        title: 'Built on top of Astro 5.0',
+        title: '手動調研客戶背景：每條耗時 15-20 分鐘',
         description:
-          'Benefiting from the performance and developer-friendly features of this modern static site generator.',
+          'Aitroop 的 AI Research Agent 自動抓取客戶資訊，90 秒完成人工需要半小時的調研。',
       },
       {
-        title: 'Styled using Tailwind CSS',
+        title: '寫個性化郵件：批量模板回覆率極低',
         description:
-          'Facilitating rapid design and consistent styling with this highly popular utility-first CSS framework.',
+          '基於真實客戶資料生成的個性化信件，讓每封郵件都有切入點，而不是千篇一律的模板。',
       },
       {
-        title: 'Cross-browser compatibility',
+        title: '數據分散在 10 個工具：協作內耗嚴重',
         description:
-          'Ensure your website looks and functions consistently across various web browsers, delivering a seamless experience to all users.',
+          '與 Salesforce、HubSpot、纷享销客、销售易無縫雙向同步，所有人在同一份資料上工作。',
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Colorful Image',
+      src: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      alt: '銷售效率問題',
     }}
   >
     <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Building on modern foundations</h3>
-      Gain a competitive advantage by incorporating industry leading practices
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">用 AI 奪回你的銷售時間</h3>
+      把銷售代表從數據錄入、郵件撰寫、客戶調研中解放出來，讓他們專注在真正需要人的事：建立信任、促成決策。
     </Fragment>
 
     <Fragment slot="bg">
@@ -145,69 +144,32 @@ const metadata = {
     isAfterContent
     items={[
       {
-        title: 'High level of customization',
-        description: `Tailor the template effortlessly to match your brand's identity and requirements, making your website distinct and saving you time.`,
+        title: '即時識別高意圖訪客',
+        description:
+          '97% 的官網訪客不填表單就離開。Aitroop 的 IP 反查技術，讓你知道是哪家公司在悄悄研究你，並在第一時間推送給銷售跟進。',
       },
       {
-        title: 'Multiple layout possibilities',
+        title: '郵件主收件箱到達率 ≥ 90%',
         description:
-          'Explore various layout options to find the structure that best presents your content, enhancing user engagement and navigation.',
+          '冷郵件最大的殺手是進垃圾箱。Aitroop 的送達率基礎設施——域名預熱、信譽監控、智能輪轉——確保每封信都落在主收件箱。',
       },
       {
-        title: 'Fully responsive design',
+        title: '客戶流失前 30 天發出預警',
         description:
-          "Ensure your website's optimal performance on various devices and screen sizes, providing a consistent and enjoyable user experience.",
+          '大多數客戶在決定不續費前，行為早已改變。Aitroop 的健康度評分模型持續監測，在流失危機發生前讓客戶成功團隊介入。',
       },
       {
-        title: 'Integration of media',
+        title: 'AI 批量內容生成',
         description:
-          'Seamlessly incorporate images, videos, and multimedia elements that enhance your content and engage visitors effectively.',
+          '一篇 SEO 博客一天？一套郵件序列一周？讓 AI 在 30 秒內生成高品質草稿，你只需要審核和發布。',
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2194&q=80',
-      alt: 'Blueprint Image',
+      src: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      alt: 'Aitroop 平台功能',
     }}
   >
-    <Fragment slot="content">Ensure your online presence truly represents you.</Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
-
-  <!-- Content Widget **************** -->
-
-  <Content
-    isReversed
-    isAfterContent
-    items={[
-      {
-        title: 'Enhanced user engagement',
-        description:
-          'Captivate your audience with interactive elements, intuitive navigation, and visually appealing layouts, encouraging longer visits.',
-      },
-      {
-        title: 'Continuous improvement',
-        description:
-          'Ensure your website stays aligned with the latest trends and technologies through regular updates and enhancements.',
-      },
-      {
-        title: 'Time and resource efficiency',
-        description:
-          'Skip the time-consuming process of building a website from scratch and launch your online presence sooner with AstroWind.',
-      },
-      {
-        title: 'Community support',
-        description: `Join the growing AstroWind community for insights, resources, and assistance, ensuring you're never alone on your web development journey.`,
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1611462985358-60d3498e0364?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Astronauts Image',
-    }}
-  >
-    <Fragment slot="content">Designed to foster growth and success.</Fragment>
+    <Fragment slot="content">讓每一個市場和業務動作都更精準、更高效。</Fragment>
 
     <Fragment slot="bg">
       <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
@@ -217,93 +179,63 @@ const metadata = {
   <!-- Steps Widget ****************** -->
 
   <Steps
-    title="Get your dream website up and running in no time with AstroWind."
+    title="三步啟動你的 AI GTM 引擎"
     items={[
       {
-        title: 'Step 1: <span class="font-medium">Download</span>',
+        title: '第一步：<span class="font-medium">導入你的目標客戶名單</span>',
         description:
-          "Kickstart with GitHub! Either fork the AstroWind template or simply click 'Use this template'. Your canvas awaits, ready for your digital masterpiece. In just a few clicks, you've already set the foundation.",
-        icon: 'tabler:package',
+          '上傳 CSV、從 CRM 同步，或直接在平台內搜尋目標公司。Aitroop 立即開始自動富化聯繫人資料，補全有效郵箱、LinkedIn 和公司資訊。',
+        icon: 'tabler:upload',
       },
       {
-        title: 'Step 2: <span class="font-medium">Add content</span>',
+        title: '第二步：<span class="font-medium">AI 生成個性化外聯內容</span>',
         description:
-          "Pour your vision into it. Add images, text, and all that jazz to breathe life into your digital space. Remember, it's the content that tells your story, so make it captivating.",
-        icon: 'tabler:letter-case',
+          '選擇外聯模板，AI 自動根據每位客戶的背景——融資動態、最近招聘、CEO 文章——生成專屬個性化信件。批量預覽，一鍵確認。',
+        icon: 'tabler:wand',
       },
       {
-        title: 'Step 3: <span class="font-medium">Customize styles</span>',
+        title: '第三步：<span class="font-medium">自動化跟進，持續優化</span>',
         description:
-          'Give it your personal touch. Tailor colors, fonts, and layouts until it feels just right. Your unique flair, amplified by AstroWind! Precision in design ensures a seamless user experience.',
-        icon: 'tabler:paint',
+          '設定郵件 + LinkedIn 混合序列，系統自動按節奏發送。即時查看開信率、回覆率，AI 持續學習哪種信件效果最好。',
+        icon: 'tabler:rocket',
       },
       {
-        title: 'Ready!',
+        title: '業績增長，持續複利',
         icon: 'tabler:check',
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1616198814651-e71f960c3180?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80',
-      alt: 'Steps image',
+      src: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      alt: '三步啟動 AI GTM',
     }}
   />
 
   <!-- Features2 Widget ************** -->
 
   <Features2
-    title="Most used widgets"
-    subtitle="Provides frequently used components for building websites using Tailwind CSS"
-    tagline="Components"
+    title="服務每一個 GTM 角色"
+    subtitle="無論你是負責開發新客戶的 SDR、管理市場預算的行銷主管，還是掌管收入預測的 RevOps，Aitroop 都有為你設計的工作流。"
+    tagline="適用角色"
     items={[
       {
-        title: 'Headers',
-        description: "Ever tried driving without GPS? Boom! That's why websites need headers for direction.",
-        icon: 'flat-color-icons:template',
+        title: '銷售開發代表（SDR）',
+        description: '每天觸達更多精準客戶，個性化外聯不再需要逐條手寫，預約更多演示，完成更高配額。',
+        icon: 'tabler:user-check',
       },
       {
-        title: 'Heros',
-        description:
-          "Picture a superhero landing – epic, right? That's the job of a Hero section, making grand entrances!",
-        icon: 'flat-color-icons:gallery',
+        title: '市場運營負責人',
+        description: 'AI 批量生成內容，廣告投放到成交的完整歸因，讓你有數據證明每一塊行銷預算的價值。',
+        icon: 'tabler:speakerphone',
       },
       {
-        title: 'Features',
-        description:
-          'Where websites strut their stuff and show off superpowers. No holding back on the bragging rights here!',
-        icon: 'flat-color-icons:approval',
+        title: '銷售管理 / RevOps',
+        description: '可信的收入預測、統一數據儀表盤、Pipeline 健康度實時預警，讓管理層做決策有底氣。',
+        icon: 'tabler:chart-bar',
       },
       {
-        title: 'Content',
-        description:
-          "Dive into the meat and potatoes of a site; without it, you'd just be window shopping. Content is king.",
-        icon: 'flat-color-icons:document',
-      },
-      {
-        title: 'Call-to-Action',
-        description:
-          'That enthusiastic friend who\'s always urging, "Do it! Do it!"? Yeah, that\'s this button nudging you towards adventure.',
-        icon: 'flat-color-icons:advertising',
-      },
-      {
-        title: 'Pricing',
-        description: 'Behold the dessert menu of the website world. Tempting choices await, can you resist?',
-        icon: 'flat-color-icons:currency-exchange',
-      },
-      {
-        title: 'Testimonial',
-        description: 'Step into the gossip corner! Here, other visitors spill the beans and share the juicy details.',
-        icon: 'flat-color-icons:voice-presentation',
-      },
-      {
-        title: 'Contact',
-        description:
-          'Like a digital mailbox, but faster! Drop a line, ask a question, or send a virtual high-five. Ding! Message in.',
-        icon: 'flat-color-icons:business-contact',
-      },
-      {
-        title: 'Footers',
-        description: "The footer's like the credits of a movie but sprinkled with easter eggs. Time to hunt!",
-        icon: 'flat-color-icons:database',
+        title: '客戶成功經理（CSM）',
+        description: '健康度實時評分、流失預警、自動化續費序列，讓每一個客戶都感受到被重視，續費率持續提升。',
+        icon: 'tabler:heart-handshake',
       },
     ]}
   >
@@ -312,66 +244,63 @@ const metadata = {
     </Fragment>
   </Features2>
 
-  <!-- HighlightedPosts Widget ******* -->
+  <!-- Stats Widget ****************** -->
 
-  <BlogLatestPosts
-    title="Find out more content in our Blog"
-    information={`The blog is used to display AstroWind documentation.
-                        Each new article will be an important step that you will need to know to be an expert in creating a website using Astro + Tailwind CSS.
-                        Astro is a very interesting technology. Thanks.
-                `}
+  <Stats
+    stats={[
+      { title: '外聯效率提升', amount: '10x' },
+      { title: '有效資料覆蓋率', amount: '80%+' },
+      { title: '郵件主收件箱到達率', amount: '90%+' },
+      { title: '銷售時間節省', amount: '25%' },
+    ]}
   />
 
   <!-- FAQs Widget ******************* -->
 
   <FAQs
-    title="Frequently Asked Questions"
-    subtitle="Dive into the following questions to gain insights into the powerful features that AstroWind offers and how it can elevate your web development journey."
-    tagline="FAQs"
+    title="常見問題"
+    subtitle="在開始之前，這些是我們最常被問到的問題。如果你有其他疑問，歡迎直接聯繫我們。"
+    tagline="FAQ"
     classes={{ container: 'max-w-6xl' }}
     items={[
       {
-        title: 'Why AstroWind?',
+        title: 'Aitroop 和我現有的 CRM 有衝突嗎？',
         description:
-          "Michael Knight a young loner on a crusade to champion the cause of the innocent. The helpless. The powerless in a world of criminals who operate above the law. Here he comes Here comes Speed Racer. He's a demon on wheels.",
+          '完全不會。Aitroop 與 Salesforce、HubSpot、纷享销客、销售易支持雙向同步，所有資料保持一致，不需要替換現有系統。',
       },
       {
-        title: 'What do I need to start?',
+        title: '我的資料安全嗎？',
         description:
-          'Space, the final frontier. These are the voyages of the Starship Enterprise. Its five-year mission: to explore strange new worlds. Many say exploration is part of our destiny, but it’s actually our duty to future generations.',
+          '是的。我們採用企業級加密和嚴格的資料隔離機制，符合 GDPR 和國內相關數據安全法規，你的客戶資料永遠屬於你。',
       },
       {
-        title: 'How to install the Astro + Tailwind CSS template?',
+        title: '沒有技術背景的人可以使用嗎？',
         description:
-          "Well, the way they make shows is, they make one show. That show's called a pilot. Then they show that show to the people who make shows, and on the strength of that one show they decide if they're going to make more shows.",
+          '可以。Aitroop 的目標就是讓銷售和行銷人員不需要依賴 IT 部門，可視化工作流、拖拽編輯、自然語言查詢——30 分鐘內完成第一個完整外聯流程。',
       },
       {
-        title: "What's something that you don't understand?",
+        title: '如何計費？是否按使用量收費？',
         description:
-          "A flower in my garden, a mystery in my panties. Heart attack never stopped old Big Bear. I didn't even know we were calling him Big Bear.",
+          '我們提供按用戶數的月度或年度訂閱方案，資料富化的查詢次數根據套餐有相應額度。詳情請查看定價頁面，或直接與我們的銷售顧問溝通。',
       },
       {
-        title: 'What is something that you would like to try again?',
+        title: '可以試用嗎？',
         description:
-          "A business big enough that it could be listed on the NASDAQ goes belly up. Disappears! It ceases to exist without me. No, you clearly don't know who you're talking to, so let me clue you in.",
+          '可以。我們提供 14 天免費試用，無需綁定信用卡。你也可以預約一對一的產品示範，由我們的顧問根據你的業務場景進行個性化演示。',
       },
       {
-        title: 'If you could only ask one question to each person you meet, what would that question be?',
+        title: '支援中文市場的資料供應商嗎？',
         description:
-          "This is not about revenge. This is about justice. A lot of things can change in twelve years, Admiral. Well, that's certainly good to know. About four years. I got tired of hearing how young I looked.",
+          '支援。Aitroop 深度整合了探迹、企查查等主流中文商業資料庫，同時對接 Apollo、Crunchbase 等國際數據源，覆蓋國內外 B2B 市場。',
       },
     ]}
   />
 
-  <!-- Stats Widget ****************** -->
+  <!-- HighlightedPosts Widget ******* -->
 
-  <Stats
-    stats={[
-      { title: 'Downloads', amount: '132K' },
-      { title: 'Stars', amount: '24.8K' },
-      { title: 'Forks', amount: '10.3K' },
-      { title: 'Users', amount: '48.4K' },
-    ]}
+  <BlogLatestPosts
+    title="最新洞察與實戰指南"
+    information="我們定期分享 B2B 銷售、GTM 策略和 AI 應用的深度內容，幫助你的團隊持續學習行業最佳實踐。"
   />
 
   <!-- CallToAction Widget *********** -->
@@ -380,20 +309,23 @@ const metadata = {
     actions={[
       {
         variant: 'primary',
-        text: 'Get template',
-        href: 'https://github.com/arthelokyo/astrowind',
-        target: '_blank',
-        icon: 'tabler:download',
+        text: '免費預約 30 分鐘示範',
+        href: '/contact',
+        icon: 'tabler:calendar',
+      },
+      {
+        variant: 'secondary',
+        text: '查看定價方案',
+        href: '/pricing',
       },
     ]}
   >
     <Fragment slot="title">
-      Astro&nbsp;+&nbsp;<br class="block sm:hidden" /><span class="sm:whitespace-nowrap">Tailwind CSS</span>
+      準備好讓你的 GTM 團隊<br class="block sm:hidden" /><span class="sm:whitespace-nowrap">進入 AI 時代了嗎？</span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      Be very surprised by these huge fake numbers you are seeing on this page. <br class="hidden md:inline" />Don't
-      waste more time! :P
+      每天仍有數以千計的 B2B 銷售代表在手動調研客戶、逐封撰寫郵件。<br class="hidden md:inline" />你的競爭對手可能已經用 Aitroop 提速了。
     </Fragment>
   </CallToAction>
 </Layout>

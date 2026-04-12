@@ -7,7 +7,7 @@ import Steps2 from '~/components/widgets/Steps2.astro';
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
-  title: 'About us',
+  title: '關於我們',
 };
 ---
 
@@ -15,61 +15,59 @@ const metadata = {
   <!-- Hero Widget ******************* -->
 
   <Hero
-    tagline="About us"
+    tagline="關於 Aitroop"
     image={{
-      src: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Caos Image',
+      src: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      alt: 'Aitroop 團隊',
     }}
   >
     <Fragment slot="title">
-      Elevate your online presence with our <br />
-      <span class="text-accent dark:text-white"> Beautiful Website Templates</span>
+      我們相信，每一家 B2B 企業<br />
+      <span class="text-accent dark:text-white">都值得擁有大公司的市場競爭力</span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      Donec efficitur, ipsum quis congue luctus, mauris magna convallis mauris, eu auctor nisi lectus non augue. Donec
-      quis lorem non massa vulputate efficitur ac at turpis. Sed tincidunt ex a nunc convallis, et lobortis nisi tempus.
-      Suspendisse vitae nisi eget tortor luctus maximus sed non lectus.
+      B2B 的 GTM 戰場從未如此殘酷：客戶資料一半是廢的，個性化外聯根本無法規模化，收入預測靠感覺，工具多到讓人崩潰。Aitroop 的使命，就是用 AI 打破這些困境——讓每一家企業都能以頂尖 GTM 團隊的方式運轉。
     </Fragment>
   </Hero>
 
   <!-- Stats Widget ****************** -->
 
   <Stats
-    title="Statistics about us"
+    title="我們的影響力"
     stats={[
-      { title: 'Offices', amount: '4' },
-      { title: 'Employees', amount: '248' },
-      { title: 'Templates', amount: '12' },
-      { title: 'Awards', amount: '24' },
+      { title: '服務企業客戶', amount: '500+' },
+      { title: 'AI 生成外聯信件（每月）', amount: '200萬+' },
+      { title: '用戶平均外聯效率提升', amount: '8x' },
+      { title: '客戶 NRR（淨收入留存率）', amount: '118%' },
     ]}
   />
 
   <!-- Features3 Widget ************** -->
 
   <Features3
-    title="Our templates"
-    subtitle="Etiam scelerisque, enim eget vestibulum luctus, nibh mauris blandit nulla, nec vestibulum risus justo ut enim. Praesent lacinia diam et ante imperdiet euismod."
+    title="我們解決的核心問題"
+    subtitle="Aitroop 的每一個功能，都源自一個真實存在的 GTM 痛點。"
     columns={3}
     isBeforeContent={true}
     items={[
       {
-        title: 'Educational',
+        title: '資料品質危機',
         description:
-          'Morbi faucibus luctus quam, sit amet aliquet felis tempor id. Cras augue massa, ornare quis dignissim a, molestie vel nulla.',
-        icon: 'tabler:template',
+          'B2B 聯繫人資料有效率平均僅 30-40%。我們用智能富化引擎把它提升到 80% 以上，讓每次外聯都不再白費。',
+        icon: 'tabler:database-x',
       },
       {
-        title: 'Interior Design',
+        title: '個性化的規模化瓶頸',
         description:
-          'Vivamus porttitor, tortor convallis aliquam pretium, turpis enim consectetur elit, vitae egestas purus erat ac nunc nulla.',
-        icon: 'tabler:template',
+          '手寫一封個性化郵件需要 15-20 分鐘。我們讓 AI 在 3 秒內完成，品質不輸人工，效率提升 300 倍。',
+        icon: 'tabler:mail-bolt',
       },
       {
-        title: 'Photography',
+        title: '工具碎片化困境',
         description:
-          'Duis sed lectus in nisl vehicula porttitor eget quis odio. Aliquam erat volutpat. Nulla eleifend nulla id sem fermentum.',
-        icon: 'tabler:template',
+          'GTM 團隊人均使用 10+ 工具，每天在系統間切換消耗大量時間。我們把核心工作流整合在一個平台。',
+        icon: 'tabler:apps',
       },
     ]}
   />
@@ -81,68 +79,50 @@ const metadata = {
     isAfterContent={true}
     items={[
       {
-        title: 'E-commerce',
+        title: '收入預測不可信',
         description:
-          'Rutrum non odio at vehicula. Proin ipsum justo, dignissim in vehicula sit amet, dignissim id quam. Sed ac tincidunt sapien.',
-        icon: 'tabler:template',
+          '超過 70% 的企業收入預測誤差 > 30%。我們的 AI 預測模型讓誤差穩定在 15% 以內。',
+        icon: 'tabler:chart-arrows',
       },
       {
-        title: 'Blog',
+        title: '銷售時間嚴重浪費',
         description:
-          'Nullam efficitur volutpat sem sed fringilla. Suspendisse et enim eu orci volutpat laoreet ac vitae libero.',
-        icon: 'tabler:template',
+          '銷售代表 65% 的時間花在非銷售工作上。我們用 AI 自動化這些重複任務，讓銷售回歸銷售。',
+        icon: 'tabler:clock-x',
       },
       {
-        title: 'Business',
+        title: '客戶流失無預警',
         description:
-          'Morbi et elit finibus, facilisis justo ut, pharetra ipsum. Donec efficitur, ipsum quis congue luctus, mauris magna.',
-        icon: 'tabler:template',
-      },
-      {
-        title: 'Branding',
-        description:
-          'Suspendisse vitae nisi eget tortor luctus maximus sed non lectus. Cras malesuada pretium placerat. Nullam venenatis dolor a ante rhoncus.',
-        icon: 'tabler:template',
-      },
-      {
-        title: 'Medical',
-        description:
-          'Vestibulum malesuada lacus id nibh posuere feugiat. Nam volutpat nulla a felis ultrices, id suscipit mauris congue. In hac habitasse platea dictumst.',
-        icon: 'tabler:template',
-      },
-      {
-        title: 'Fashion Design',
-        description:
-          'Maecenas eu tellus eget est scelerisque lacinia et a diam. Aliquam velit lorem, vehicula id fermentum et, rhoncus et purus.',
-        icon: 'tabler:template',
+          '大多數流失都可以避免，但往往被發現時已太晚。我們的健康度模型讓客戶成功團隊提前 30 天介入。',
+        icon: 'tabler:trending-down',
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80',
-      alt: 'Colorful Image',
+      src: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80',
+      alt: 'Aitroop 解決問題',
     }}
   />
 
   <!-- Steps2 Widget ****************** -->
 
   <Steps2
-    title="Our values"
-    subtitle="Maecenas eu tellus eget est scelerisque lacinia et a diam. Aliquam velit lorem, vehicula id fermentum et, rhoncus et purus. Nulla facilisi. Vestibulum malesuada lacus."
+    title="我們的核心價值觀"
+    subtitle="這些價值觀不是牆上的標語，而是我們每一個產品決策和客戶互動背後的依據。"
     items={[
       {
-        title: 'Customer-centric approach',
+        title: '以客戶成果為唯一衡量標準',
         description:
-          'Donec id nibh neque. Quisque et fermentum tortor. Fusce vitae dolor a mauris dignissim commodo. Ut eleifend luctus condimentum.',
+          '我們不在乎平台的功能有多炫，我們在乎的是你的 SDR 是否多預約了 3 個演示、你的收入預測是否更準確、你的客戶流失率是否下降了。如果沒有，我們還沒有做到足夠好。',
       },
       {
-        title: 'Constant Improvement',
+        title: '數據驅動，拒絕感覺',
         description:
-          'Phasellus laoreet fermentum venenatis. Vivamus dapibus pulvinar arcu eget mattis. Fusce eget mauris leo.',
+          '我們幫助客戶用數據做決策，我們自己也一樣。每個功能的開發、每個定價決策，都建立在真實的用戶行為數據和業務影響分析上。',
       },
       {
-        title: 'Ethical Practices',
+        title: '簡單是最難做到的事',
         description:
-          'Vestibulum imperdiet libero et lectus molestie, et maximus augue porta. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+          'GTM 流程本來就複雜，我們不能再讓工具也複雜。Aitroop 的設計原則是：讓銷售和行銷人員不需要 IT 部門介入，就能完成所有操作。',
       },
     ]}
   />
@@ -150,30 +130,31 @@ const metadata = {
   <!-- Steps2 Widget ****************** -->
 
   <Steps2
-    title="Achievements"
-    subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis, quam nec venenatis lobortis, mi risus tempus nulla, sed porttitor est nibh at nulla."
+    title="里程碑"
+    subtitle="從創立到現在，我們每一步都專注在一件事：讓 B2B GTM 更智能、更高效。"
     isReversed={true}
     callToAction={{
-      text: 'See more',
-      href: '/',
+      text: '加入我們的旅程',
+      href: '/contact',
     }}
     items={[
       {
-        title: 'Global reach',
-        description: 'Nam malesuada urna in enim imperdiet tincidunt. Phasellus non tincidunt nisi, at elementum mi.',
-        icon: 'tabler:globe',
+        title: '深度紮根 B2B GTM 領域',
+        description:
+          '創始團隊來自 B2B 銷售、行銷和 AI 產品領域，深刻理解 GTM 團隊的一線痛點，讓產品從第一天起就貼近真實業務需求。',
+        icon: 'tabler:plant',
       },
       {
-        title: 'Positive customer feedback and reviews',
+        title: '專注中國 B2B 市場的本地化',
         description:
-          'Cras semper nulla leo, eget laoreet erat cursus sed. Praesent faucibus massa in purus iaculis dictum.',
-        icon: 'tabler:message-star',
+          '深度整合探迹、企查查等本土數據源，支援主流中國 CRM，理解本土 B2B 銷售文化——這不是海外產品漢化，而是為中國市場原生打造。',
+        icon: 'tabler:map-pin',
       },
       {
-        title: 'Awards and recognition as industry experts',
+        title: '客戶驅動的產品迭代',
         description:
-          'Phasellus lacinia cursus velit, eu malesuada magna pretium eu. Etiam aliquet tellus purus, blandit lobortis ex rhoncus vitae.',
-        icon: 'tabler:award',
+          '我們的每一個新功能，都來自客戶的真實使用場景和反饋。我們的 NPS 和客戶留存率是我們最驕傲的產品成績單。',
+        icon: 'tabler:heart-handshake',
       },
     ]}
   />
@@ -181,47 +162,21 @@ const metadata = {
   <!-- Features2 Widget ************** -->
 
   <Features2
-    title="Our locations"
-    tagline="Find us"
-    columns={4}
-    items={[
-      {
-        title: 'EE.UU',
-        description: '1234 Lorem Ipsum St, 12345, Miami',
-      },
-      {
-        title: 'Spain',
-        description: '5678 Lorem Ipsum St, 56789, Madrid',
-      },
-      {
-        title: 'Australia',
-        description: '9012 Lorem Ipsum St, 90123, Sydney',
-      },
-      {
-        title: 'Brazil',
-        description: '3456 Lorem Ipsum St, 34567, São Paulo',
-      },
-    ]}
-  />
-
-  <!-- Features2 Widget ************** -->
-
-  <Features2
-    title="Technical Support"
-    tagline="Contact us"
+    title="立即與我們取得聯繫"
+    tagline="聯絡方式"
     columns={2}
     items={[
       {
-        title: 'Chat with us',
+        title: '預約產品示範',
         description:
-          'Integer luctus laoreet libero, auctor varius purus rutrum sit amet. Ut nec molestie nisi, quis eleifend mi.',
-        icon: 'tabler:messages',
+          '與我們的顧問一對一交流，展示最適合你業務場景的解決方案。填寫表單，我們將在 1 個工作日內回覆安排。',
+        icon: 'tabler:calendar',
       },
       {
-        title: 'Call us',
+        title: '合作與商務洽談',
         description:
-          'Mauris faucibus finibus orci, in posuere elit viverra non. In hac habitasse platea dictumst. Cras lobortis metus a hendrerit congue.',
-        icon: 'tabler:headset',
+          '如果你是數據供應商、CRM 廠商或系統整合商，歡迎探討合作可能。我們期待與生態夥伴共同打造更完整的 GTM 解決方案。',
+        icon: 'tabler:handshake',
       },
     ]}
   />

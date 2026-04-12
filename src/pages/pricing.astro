@@ -8,7 +8,7 @@ import Features3 from '~/components/widgets/Features3.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
-  title: 'Pricing',
+  title: '定價方案',
 };
 ---
 
@@ -16,95 +16,75 @@ const metadata = {
   <!-- HeroText Widget ******************* -->
 
   <HeroText
-    tagline="Pricing"
-    title="Stellar Pricing for Every Journey"
-    subtitle="Choose the perfect plan that aligns with your cosmic goals."
+    tagline="定價方案"
+    title="透明定價，按需擴展"
+    subtitle="從小型銷售團隊到大型企業，我們都有適合你的方案。所有方案均包含 14 天免費試用，無需綁定信用卡。"
   />
 
   <!-- Pricing Widget ******************* -->
 
   <Prices
-    title="Our prices"
-    subtitle="Only pay for what you need"
+    title="選擇你的方案"
+    subtitle="年付享 8 折優惠"
     prices={[
       {
-        title: 'basic',
-        subtitle: 'Optimal choice for personal use',
-        price: 29,
-        period: 'per month',
+        title: '成長版',
+        subtitle: '適合 1-3 人的小型銷售團隊',
+        price: 199,
+        period: '每月 / 每用戶',
         items: [
-          {
-            description: 'Etiam in libero, et volutpat',
-          },
-          {
-            description: 'Aenean ac nunc dolor tristique',
-          },
-          {
-            description: 'Cras scelerisque accumsan lib',
-          },
-          {
-            description: 'In hac habitasse',
-          },
+          { description: '每月 1,000 次資料富化查詢' },
+          { description: 'AI 個性化郵件生成（無限量）' },
+          { description: '郵件 + LinkedIn 自動化序列' },
+          { description: 'CRM 雙向同步（1 個 CRM）' },
+          { description: '基礎線索評分' },
+          { description: '標準郵件送達率監控' },
         ],
         callToAction: {
-          target: '_blank',
-          text: 'Get started',
-          href: '#',
+          text: '免費試用 14 天',
+          href: '/contact',
         },
       },
       {
-        title: 'standard',
-        subtitle: 'Optimal choice for small teams',
-        price: 69,
-        period: 'Per Month',
+        title: '專業版',
+        subtitle: '適合成長中的 GTM 團隊',
+        price: 499,
+        period: '每月 / 每用戶',
         items: [
-          {
-            description: 'Proin vel laoreet',
-          },
-          {
-            description: 'Ut efficitur habitasse egestas',
-          },
-          {
-            description: 'Volutpat hac curabitur',
-          },
-          {
-            description: 'Pellentesque blandit ut nibh',
-          },
-          {
-            description: 'Donec fringilla sem',
-          },
+          { description: '每月 5,000 次資料富化查詢' },
+          { description: 'AI 客戶研究助手（批量處理）' },
+          { description: '多渠道自動化序列（無限量）' },
+          { description: 'CRM 雙向同步（無限個）' },
+          { description: '進階線索評分 + 意圖識別' },
+          { description: '官網訪客識別（IP 反查）' },
+          { description: 'Pipeline 健康度監控' },
+          { description: '多觸點歸因分析' },
         ],
         callToAction: {
-          target: '_blank',
-          text: 'Get started',
-          href: '#',
+          text: '免費試用 14 天',
+          href: '/contact',
         },
         hasRibbon: true,
-        ribbonTitle: 'popular',
+        ribbonTitle: '最受歡迎',
       },
       {
-        title: 'premium',
-        subtitle: 'Optimal choice for companies',
-        price: 199,
-        period: 'Per Month',
+        title: '企業版',
+        subtitle: '適合大型銷售與行銷組織',
+        price: 999,
+        period: '每月 / 每用戶（起）',
         items: [
-          {
-            description: 'Curabitur suscipit risus',
-          },
-          {
-            description: 'Aliquam habitasse malesuada',
-          },
-          {
-            description: 'Suspendisse sit amet blandit',
-          },
-          {
-            description: 'Suspendisse auctor blandit dui',
-          },
+          { description: '無限資料富化查詢' },
+          { description: '全功能 AI 助手（會議摘要、CRM 自動回填）' },
+          { description: '客戶健康度評分 + 流失預警' },
+          { description: 'AI 收入預測模型' },
+          { description: '自訂 ICP 建模與 ABM 帳戶管理' },
+          { description: '單一租戶部署（可選）' },
+          { description: '專屬客戶成功經理' },
+          { description: '服務等級協議（SLA）保障' },
         ],
         callToAction: {
-          target: '_blank',
-          text: 'Get started',
-          href: '#',
+          text: '聯繫銷售顧問',
+          href: '/contact',
         },
       },
     ]}
@@ -113,39 +93,39 @@ const metadata = {
   <!-- Features3 Widget ************** -->
 
   <Features3
-    title="Price-related features"
-    subtitle="Discover the advantages of choosing our plans"
+    title="所有方案都包含的核心保障"
+    subtitle="無論選擇哪個方案，這些都是你應得的基礎服務。"
     columns={2}
     items={[
       {
-        title: 'Tiered Pricing Plans',
-        description: 'Choose from a range of pricing plans designed to accommodate different budgets and requirements.',
+        title: '分層透明定價',
+        description: '根據你的團隊規模和使用量選擇最合適的方案，不為用不到的功能付費。',
         icon: 'tabler:stairs',
       },
       {
-        title: 'Transparent Pricing',
-        description: 'Clearly displayed pricing details for each plan, with no hidden costs or unexpected charges.',
-        icon: 'tabler:flip-vertical',
-      },
-      {
-        title: 'Secure Payment Methods',
-        description: 'Secure payment gateways to protect your financial information during transactions.',
+        title: '資料安全與合規',
+        description: '企業級加密，符合 GDPR 及國內數據安全法規，你的客戶資料永遠屬於你。',
         icon: 'tabler:shield-lock',
       },
       {
-        title: 'Instant Access',
-        description: `Immediate access to your chosen plan's features and templates upon subscription.`,
-        icon: 'tabler:accessible',
+        title: '14 天免費試用',
+        description: '完整體驗產品功能，無需信用卡，到期後再決定是否訂閱。',
+        icon: 'tabler:calendar-check',
       },
       {
-        title: 'Upgrade Value',
-        description: 'Upgrade to higher-tier plans to unlock more features and benefits for an enhanced experience.',
+        title: '彈性升降方案',
+        description: '業務擴張時隨時升級，也可以根據實際使用情況調整方案，不鎖定不強迫。',
         icon: 'tabler:chevrons-up',
       },
       {
-        title: '24H support',
-        description: 'Questions answered via live chat, email or phone, every calendar day.',
+        title: '標準支援服務',
+        description: '工作日電子郵件支援，企業版可升級為專屬客戶成功經理和優先支援通道。',
         icon: 'tabler:headset',
+      },
+      {
+        title: '即時啟用',
+        description: '訂閱後立即獲得全部功能存取權限，連接你的 CRM，30 分鐘內完成第一個外聯工作流。',
+        icon: 'tabler:rocket',
       },
     ]}
     classes={{ container: 'max-w-5xl' }}
@@ -154,76 +134,77 @@ const metadata = {
   <!-- Steps Widget ****************** -->
 
   <Steps
-    title="A guided journey from plans to creativity"
-    tagline="simplified process"
+    title="從試用到上線，最快 30 分鐘"
+    tagline="快速啟動"
     isReversed={true}
     items={[
       {
-        title: 'Explore plans',
+        title: '選擇方案，開始免費試用',
         icon: 'tabler:number-1',
       },
       {
-        title: 'Select a plan',
+        title: '連接你的 CRM 和郵件賬戶',
         icon: 'tabler:number-2',
       },
       {
-        title: 'Sign Up / Log In',
+        title: '導入第一批目標客戶名單',
         icon: 'tabler:number-3',
       },
       {
-        title: 'Review order',
+        title: 'AI 自動富化資料並生成個性化信件',
         icon: 'tabler:number-4',
       },
       {
-        title: 'Enter payment details',
+        title: '啟動第一個外聯序列',
         icon: 'tabler:number-5',
       },
       {
-        title: 'Confirmation',
+        title: '查看開信率和回覆率，持續優化',
         icon: 'tabler:number-6',
-      },
-      {
-        title: 'Download and start using the template(s)',
-        icon: 'tabler:number-7',
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1536816579748-4ecb3f03d72a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80',
-      alt: 'Steps image',
+      src: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80',
+      alt: '快速啟動流程',
     }}
   />
 
   <!-- FAQs Widget ******************* -->
 
   <FAQs
-    title="Pricing FAQs"
-    subtitle="Choosing the right plan is important, and we're here to answer your questions. If you have queries about our pricing options, you're in the right place."
+    title="定價常見問題"
+    subtitle="對我們的定價方案有疑問？這裡有最常被問到的解答。"
     columns={1}
     items={[
       {
-        title: 'Do the plans come with customer support?',
+        title: '資料富化查詢次數超額後怎麼辦？',
         description:
-          'Absolutely, all plans include access to our dedicated customer support to assist you with any queries or concerns.',
+          '超出方案額度後，按單次查詢費用計費（根據數據源類型有所不同），我們會在接近額度上限時提前通知。企業版用戶可協商無限量套餐。',
       },
       {
-        title: 'Is there a trial period for the different plans?',
+        title: '可以免費試用嗎？需要信用卡嗎？',
         description:
-          "Unfortunately, we don't offer trial periods for the plans. However, you can check out our demo section to preview the quality of our templates.",
+          '所有方案均提供 14 天免費試用，期間可體驗全部功能，無需填寫信用卡資訊。試用結束後，選擇適合的方案繼續使用，或資料可匯出。',
       },
       {
-        title: 'Can I switch between plans?',
+        title: '年付和月付有什麼差異？',
         description:
-          'Certainly! You can easily upgrade or downgrade your plan, at any time, to find the one that best suits your evolving requirements.',
+          '選擇年付方案可享受 8 折優惠（即享 2 個月免費），費用一次結清。月付則按月收費，靈活度更高。你可以隨時從月付升級到年付。',
       },
       {
-        title: 'What payment methods do you accept?',
+        title: '可以中途更換方案嗎？',
         description:
-          'We accept major credit cards and online payment methods to ensure a convenient and secure transaction process.',
+          '可以。升級方案立即生效，差額按比例計算。降級方案在當前計費週期結束後生效。我們不設最低訂閱期限（年付除外）。',
       },
       {
-        title: 'Are there any hidden fees beyond the displayed cost?',
+        title: '私有化部署或本地化部署是否支援？',
         description:
-          'No, the subscription cost covers all the features and templates listed under each plan. There are no hidden fees or extra charges.',
+          '企業版支援私有雲或本地化部署選項，適合有嚴格數據主權要求的大型企業。具體方案和費用請聯繫我們的企業銷售團隊洽談。',
+      },
+      {
+        title: '支援哪些支付方式？',
+        description:
+          '支援主流信用卡（Visa、Mastercard）、支付寶、微信支付及企業對公轉帳。大型企業客戶可申請季付或年付發票。',
       },
     ]}
   />
@@ -231,13 +212,19 @@ const metadata = {
   <!-- CallToAction Widget *********** -->
 
   <CallToAction
-    title="Ready to boost your projects?"
-    subtitle="Join our community of satisfied customers who have transformed their work with our templates."
+    title="還在猶豫？先免費試用 14 天再說"
+    subtitle="無需信用卡，無需承諾。帶著你的真實業務場景，親自感受 Aitroop 如何改變你的 GTM 效率。"
     actions={[
       {
         variant: 'primary',
-        text: 'Get started now',
-        href: '/',
+        text: '免費開始試用',
+        href: '/contact',
+        icon: 'tabler:rocket',
+      },
+      {
+        variant: 'secondary',
+        text: '聯繫銷售顧問',
+        href: '/contact',
       },
     ]}
   />

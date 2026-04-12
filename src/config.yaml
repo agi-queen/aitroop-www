@@ -1,6 +1,6 @@
 site:
-  name: AstroWind
-  site: 'https://astrowind.vercel.app'
+  name: Aitroop
+  site: 'https://aitroop.net'
   base: '/'
   trailingSlash: false
 
@@ -9,26 +9,26 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: AstroWind
-    template: '%s — AstroWind'
-  description: "\U0001F680 Suitable for Startups, Small Business, Sass Websites, Professional Portfolios, Marketing Websites, Landing Pages & Blogs."
+    default: Aitroop — AI 驅動的 B2B 業績增長平台
+    template: '%s — Aitroop'
+  description: "Aitroop 是專為 B2B 企業打造的 AI GTM 平台，從資料富化、個性化外聯到商機管理，讓每一家企業都能以大公司的市場競爭力運轉。"
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: AstroWind
+    site_name: Aitroop
     images:
       - url: '~/assets/images/default.png'
         width: 1200
         height: 628
     type: website
   twitter:
-    handle: '@arthelokyo'
-    site: '@arthelokyo'
+    handle: '@aitroop'
+    site: '@aitroop'
     cardType: summary_large_image
 
 i18n:
-  language: en
+  language: zh-TW
   textDirection: ltr
 
 apps:
