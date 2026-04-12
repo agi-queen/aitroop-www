@@ -16,8 +16,8 @@ const metadata = {
 
   <Hero
     tagline="解決方案"
-    title="為每一個 GTM 角色，量身打造的 AI 工作流"
-    subtitle="B2B 銷售和行銷的挑戰，因角色而異。Aitroop 針對 SDR、市場運營、RevOps 和客戶成功團隊，分別提供最切中痛點的解決方案——讓每個人都能用 AI 發揮 10 倍效能。"
+    title="無論你在增長旅程的哪個階段，Aitroop 都有答案"
+    subtitle="獲客難、跟進累、留客靠感情——這些問題不是規模的問題，而是方法的問題。Aitroop 把 AI 的力量帶到每一個增長場景，讓你用更少的精力，做出更可預測的成果。"
     image={{
       src: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
       alt: 'Aitroop 解決方案',
@@ -28,36 +28,36 @@ const metadata = {
 
   <Content
     isReversed
-    tagline="銷售開發代表（SDR）"
-    title="每天觸達更多精準客戶，讓配額不再是壓力"
+    tagline="場景一"
+    title="從零開始找到第一批精準客戶"
     items={[
       {
-        title: '調研客戶背景：30 分鐘 → 5 分鐘',
+        title: '不再大海撈針，直接找「對的人」',
         description:
-          'AI Research Agent 自動抓取目標公司的官網、新聞、LinkedIn 動態，90 秒生成完整客戶背景摘要，直接填入外聯模板。',
+          'AI 分析你的目標客群特徵，自動在資料庫中篩選匹配的潛在客戶，並補全有效的聯繫方式。你只需要決定「找哪類人」，剩下的交給系統。',
+        icon: 'tabler:crosshair',
+      },
+      {
+        title: '90 秒了解一個陌生客戶',
+        description:
+          'AI Research Agent 自動調研目標對象的業務背景、近期動態和潛在痛點，生成結構化的客戶摘要。你在開口說話之前，就已經比對方更了解他自己的需求。',
         icon: 'tabler:clock',
       },
       {
-        title: '個性化郵件：不再逐封手寫',
+        title: '第一封信就讓對方感覺「這是為我寫的」',
         description:
-          '基於客戶的融資事件、招聘動態、CEO 近期文章，AI 自動生成每封都有具體切入點的個性化首句和正文。批量生成，逐條預覽，一鍵發送。',
-        icon: 'tabler:mail',
-      },
-      {
-        title: '智能線索優先排序',
-        description:
-          '每天一睜眼，最值得跟進的線索已經排好了。AI 根據意圖信號、ICP 匹配度和互動歷史給每條線索打分，讓你的時間花在最有可能成交的客戶上。',
-        icon: 'tabler:list-numbers',
+          'AI 根據真實的客戶背景——近期新聞、業務方向、公開言論——生成有具體切入點的個性化開場白。不是模板，是真實的連結感。',
+        icon: 'tabler:mail-heart',
       },
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      alt: 'SDR 解決方案',
+      alt: '精準獲客',
     }}
   >
     <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">SDR 的日均外聯量提升 5 倍以上</h3>
-      把時間從調研和寫信中解放出來，專注在真正需要人的事：建立信任、推動決策。
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">精準，是獲客效率的乘數</h3>
+      找到一百個普通線索，不如找到十個真正有需求的人。Aitroop 讓你把精力放在值得溝通的對象上。
     </Fragment>
 
     <Fragment slot="bg">
@@ -65,81 +65,40 @@ const metadata = {
     </Fragment>
   </Content>
 
-  <!-- Features3 Widget ************** -->
-
-  <Features3
-    tagline="SDR 專屬工具組"
-    title="SDR 最需要的每一個功能"
-    columns={3}
-    items={[
-      {
-        title: '資料富化',
-        description: '一鍵補全有效郵箱、電話、LinkedIn，不再在空白聯繫人上浪費時間。',
-        icon: 'tabler:database',
-      },
-      {
-        title: 'AI 個性化信件',
-        description: '批量生成，每封都有真實切入點，回覆率媲美一對一手寫。',
-        icon: 'tabler:pencil',
-      },
-      {
-        title: 'LinkedIn 自動外聯',
-        description: '郵件 + LinkedIn 混合序列，多觸點增加回覆機會。',
-        icon: 'tabler:brand-linkedin',
-      },
-      {
-        title: '郵件送達保障',
-        description: '域名預熱和信譽監控，確保你的心血不進垃圾箱。',
-        icon: 'tabler:shield-check',
-      },
-      {
-        title: '回覆即時通知',
-        description: '客戶回覆第一時間通知，趁熱打鐵，不錯失任何機會。',
-        icon: 'tabler:bell',
-      },
-      {
-        title: '外聯效果分析',
-        description: '哪種信件最有效？AI 持續學習，幫你不斷優化外聯策略。',
-        icon: 'tabler:chart-bar',
-      },
-    ]}
-    isBeforeContent={true}
-  />
-
   <!-- Content Widget **************** -->
 
   <Content
     isAfterContent
-    tagline="市場運營負責人"
-    title="讓每一塊行銷預算都能交出清晰的 ROI 答卷"
+    tagline="場景二"
+    title="規模化觸達，不犧牲個性化品質"
     items={[
       {
-        title: 'AI 批量內容生成',
+        title: '一個人，做出整個外聯團隊的產出',
         description:
-          '輸入話題和目標客群，30 秒生成部落格、LinkedIn 貼文、郵件序列草稿。內容生產速度提升 10 倍，讓行銷團隊從「永遠欠稿」變成「內容充裕」。',
-        icon: 'tabler:pencil-plus',
+          '批量生成個性化觸達內容，每一封都有真實的切入點。逐條預覽確認，一鍵發送。原本需要一天才能做完的工作，現在一小時搞定。',
+        icon: 'tabler:users',
       },
       {
-        title: '廣告到成交的完整歸因',
+        title: '設定一次，系統持續跟進',
         description:
-          '從第一次點擊廣告到最終簽約，每一個接觸點的貢獻都清楚記錄。再也不需要靠感覺分配預算，每一塊錢都有數據支撐。',
-        icon: 'tabler:git-branch',
+          '設定跟進節奏和觸達渠道，系統自動在對的時間送出對的內容。你不需要每天盯著哪些人該跟進了——有回覆的時候，系統會通知你。',
+        icon: 'tabler:repeat',
       },
       {
-        title: '官網訪客識別與個性化',
+        title: '郵件確實進主收件箱',
         description:
-          '97% 的 B2B 訪客不填表單。Aitroop 識別匿名訪客所在公司，推送給銷售跟進；同時根據訪客行業和公司規模，即時展示最相關的價值主張。',
-        icon: 'tabler:user-search',
+          '寫了絕妙的開場白，結果進了垃圾箱，一切白費。Aitroop 的送達率基礎設施——域名預熱、信譽監控、智能輪轉——確保你的心血真的被看見。',
+        icon: 'tabler:mail-check',
       },
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1533750349088-cd871a92f312?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      alt: '市場運營解決方案',
+      alt: '規模化個性化觸達',
     }}
   >
     <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">行銷和銷售，從對立到協同</h3>
-      統一 MQL 評分標準，消除線索交接摩擦，讓市場和銷售真正為同一個目標工作。
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">個性化 × 規模化，魚與熊掌都要</h3>
+      這個矛盾在 AI 時代已經可以化解。你不需要在品質和數量之間做取捨。
     </Fragment>
 
     <Fragment slot="bg">
@@ -152,36 +111,36 @@ const metadata = {
   <Content
     isReversed
     isAfterContent
-    tagline="銷售管理 / RevOps"
-    title="可信的收入預測，不再靠感覺報數字"
+    tagline="場景三"
+    title="把隱形的興趣轉化成可行動的機會"
     items={[
       {
-        title: 'Pipeline 健康度即時監控',
+        title: '97% 的訪客不留資料就離開',
         description:
-          '哪些商機停滯超過正常週期？哪些客戶出現冷淡信號？系統自動識別並預警，讓你在季末之前就知道缺口在哪裡。',
-        icon: 'tabler:activity',
+          'Aitroop 的訪客識別技術，讓你看見那些悄悄瀏覽你官網、研究你產品的潛在客戶。IP 反查匹配公司資訊，結合訪問頁面和停留時長，識別真正有興趣的對象。',
+        icon: 'tabler:eye',
       },
       {
-        title: '收入預測誤差 < 15%',
+        title: '三維意圖信號，不靠猜測',
         description:
-          'AI 分析歷史成交規律、當前 Pipeline 流速和外部市場信號，提供比人工判斷更可靠的季度預測，支撐更精準的資源配置決策。',
-        icon: 'tabler:chart-line',
+          '官網行為、第三方意圖數據、產品使用信號——三個維度的興趣信號融合成統一的意圖評分。高意圖對象自動推送到跟進隊列，讓你在最佳時機出現。',
+        icon: 'tabler:radar',
       },
       {
-        title: '統一數據儀表盤',
+        title: '搶在競爭對手之前',
         description:
-          '10 個工具的數據整合到一個儀表盤。從線索漏斗、成交週期到各渠道 ROI，所有關鍵指標一眼可見，拉報告不再花半天。',
-        icon: 'tabler:dashboard',
+          '當一個潛在客戶正在研究解決方案的時候，誰先出現誰就有優勢。Aitroop 讓你做到這件事，而不需要一直守著官網分析後台。',
+        icon: 'tabler:bolt',
       },
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1543286386-713bdd548da4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      alt: 'RevOps 解決方案',
+      alt: '意圖識別與轉化',
     }}
   >
     <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">讓收入運營成為增長的引擎</h3>
-      統一銷售流程、數據和工具，消除系統間的摩擦，讓每個銷售代表都能按最佳路徑推進商機。
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">主動出擊，而不是等人上門</h3>
+      增長不靠等待，靠的是在對的時機找到對的人。意圖雷達讓這件事變得系統化。
     </Fragment>
 
     <Fragment slot="bg">
@@ -193,36 +152,36 @@ const metadata = {
 
   <Content
     isAfterContent
-    tagline="客戶成功經理（CSM）"
-    title="在客戶決定不續費之前，你就已經知道了"
+    tagline="場景四"
+    title="守住客戶，比獲得新客戶更划算"
     items={[
       {
-        title: '客戶健康度評分：自動、即時、可追溯',
+        title: '在客戶開始冷淡之前就察覺',
         description:
-          'Aitroop 持續監測產品使用頻率、功能採用深度、支援互動趨勢，每個客戶帳號都有一個動態健康分數，你管理 100 個客戶也一樣輕鬆。',
+          'Aitroop 持續追蹤客戶的使用狀況和互動頻率，自動計算健康度評分。當信號開始下滑，系統在第一時間通知你，讓你有足夠的時間採取行動。',
         icon: 'tabler:heart-rate-monitor',
       },
       {
-        title: '流失預警：提前 30 天介入',
+        title: '個性化的留存和增購觸達',
         description:
-          '當客戶的健康分數持續下滑，或關鍵功能使用量突然下降，系統立即發出預警。讓你在客戶還有挽回餘地的時候採取行動。',
-        icon: 'tabler:alert-triangle',
+          '根據每個客戶的使用深度和旅程階段，自動觸發有針對性的培育內容或升級建議。不是群發通知，而是基於真實行為的個性化互動。',
+        icon: 'tabler:arrow-up-circle',
       },
       {
-        title: '自動化續費序列',
+        title: '把每一個滿意的客戶變成推薦來源',
         description:
-          '根據合約到期日和客戶健康度，自動觸發個性化的續費溝通序列——包括健康客戶的增購推薦和高風險客戶的挽留方案。',
-        icon: 'tabler:repeat',
+          '客戶最滿意的時候，是推薦你的最好時機。Aitroop 幫你識別這個時機，並自動啟動推薦邀請，讓你的獲客成本持續下降。',
+        icon: 'tabler:users-group',
       },
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1573497491765-dccce02b29df?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      alt: '客戶成功解決方案',
+      alt: '客戶留存與增長',
     }}
   >
     <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">客戶流失成本是獲客的 5-7 倍</h3>
-      守住現有客戶，是最划算的增長策略。Aitroop 讓客戶成功不再靠感情維系，而是靠數據驅動。
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">留住客戶，是複利最強的增長引擎</h3>
+      獲客是開始，守住客戶、讓客戶帶來更多客戶，才是可持續增長的真正源頭。
     </Fragment>
 
     <Fragment slot="bg">
@@ -230,13 +189,54 @@ const metadata = {
     </Fragment>
   </Content>
 
+  <!-- Features3 Widget ************** -->
+
+  <Features3
+    tagline="核心技能模組"
+    title="掌握這六項 AI 複合能力，讓你在增長上無可取代"
+    columns={3}
+    items={[
+      {
+        title: '數據洞察力',
+        description: '讀懂客戶數據、識別意圖信號、量化渠道效果，讓每個決策都有依據。',
+        icon: 'tabler:chart-bar',
+      },
+      {
+        title: '精準觸達力',
+        description: '找到對的人、說對的話、在對的時機出現，提升每一次溝通的命中率。',
+        icon: 'tabler:target',
+      },
+      {
+        title: '個性化創作力',
+        description: '用 AI 大規模生成有真實切入點的個性化內容，品質不輸手寫，速度快 50 倍。',
+        icon: 'tabler:pencil',
+      },
+      {
+        title: '自動化執行力',
+        description: '把重複性工作系統化，設定一次規則持續運轉，把精力留給需要判斷力的事。',
+        icon: 'tabler:settings-automation',
+      },
+      {
+        title: '客戶洞察力',
+        description: '理解客戶的健康狀態、需求變化和流失風險，在最關鍵的時刻主動出現。',
+        icon: 'tabler:eye',
+      },
+      {
+        title: '增長預測力',
+        description: '把直覺變成數據，用可信的預測支撐增長決策，不再靠感覺行事。',
+        icon: 'tabler:trending-up',
+      },
+    ]}
+    isBeforeContent={true}
+  />
+
   <!-- Stats Widget ****************** -->
 
   <Stats
     stats={[
-      { title: 'SDR 日均外聯量提升', amount: '5x' },
-      { title: '內容生成速度提升', amount: '10x' },
-      { title: '收入預測誤差', amount: '<15%' },
+      { title: '觸達效率提升', amount: '10x' },
+      { title: '意圖識別準確率', amount: '60%+' },
+      { title: '平均留存率提升', amount: '25%' },
       { title: '流失預警提前', amount: '30天' },
     ]}
   />
@@ -247,12 +247,12 @@ const metadata = {
     actions={[
       {
         variant: 'primary',
-        text: '與我們的顧問聊聊你的場景',
+        text: '找我們聊聊你的增長挑戰',
         href: '/contact',
         icon: 'tabler:messages',
       },
     ]}
-    title="哪種解決方案最適合你的團隊？"
-    subtitle="每家公司的 GTM 挑戰都不同。我們的顧問會根據你的業務規模、團隊結構和目標，提供最有針對性的建議。"
+    title="你面對的增長挑戰，Aitroop 大概率有答案"
+    subtitle="每個人的場景不同。告訴我們你現在卡在哪裡，我們來展示最有針對性的解決方式。"
   />
 </Layout>

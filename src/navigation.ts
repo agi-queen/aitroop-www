@@ -41,10 +41,10 @@ export const footerData = {
     {
       title: '解決方案',
       links: [
-        { text: '銷售開發代表（SDR）', href: getPermalink('/solutions') },
-        { text: '市場運營團隊', href: getPermalink('/solutions') },
-        { text: '收入運營（RevOps）', href: getPermalink('/solutions') },
-        { text: '客戶成功團隊', href: getPermalink('/solutions') },
+        { text: '精準獲客', href: getPermalink('/solutions') },
+        { text: '規模化觸達', href: getPermalink('/solutions') },
+        { text: '意圖識別與轉化', href: getPermalink('/solutions') },
+        { text: '客戶留存與增長', href: getPermalink('/solutions') },
       ],
     },
     {

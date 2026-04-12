@@ -13,7 +13,7 @@ import Stats from '~/components/widgets/Stats.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
-  title: 'Aitroop — AI 驅動的 B2B 業績增長平台',
+  title: 'Aitroop — AI 驅動的獲客與留客平台',
   ignoreTitleTemplate: true,
 };
 ---
@@ -33,69 +33,68 @@ const metadata = {
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Aitroop — B2B 銷售 AI 平台',
+      alt: 'Aitroop — 獲客與留客平台',
     }}
   >
     <Fragment slot="title">
-      讓 AI 替你的<span class="text-accent dark:text-white">銷售團隊</span>
-      <br />每天多開 5 倍客戶
+      讓你同時掌握<span class="text-accent dark:text-white">獲客與留客</span>的
+      <br />AI 複合能力
     </Fragment>
 
     <Fragment slot="subtitle">
-      <span class="hidden sm:inline">
-        <span class="font-semibold">Aitroop</span> 是專為 B2B 企業打造的 AI GTM 平台。</span
-      >
-      從精準客戶資料、個性化外聯信件，到商機管理與收入預測，一個平台讓你的銷售與行銷團隊告別重複性工作，專注於真正創造業績的事。
+      Aitroop 不是替你工作的機器，而是讓你變得更強的工具。
+      用 AI 掌握資料洞察、個性化觸達、客戶培育和增長分析的複合技能，
+      一個人做出過去整個團隊的業績。
     </Fragment>
   </Hero>
 
   <!-- Note Widget ******************* -->
 
-  <Note title="我們的使命：" description="讓每一家 B2B 企業，都能用 AI 以大公司的市場競爭力運轉。" />
+  <Note title="核心理念：" description="技能不會過時，但掌握 AI 的人會把不掌握的人遠遠甩在後面。" />
 
   <!-- Features Widget *************** -->
 
   <Features
     id="features"
-    tagline="核心功能"
-    title="一個平台，搞定整個 GTM 流程"
-    subtitle="從找到對的人、寫出打動人心的信，到準確預測下季收入——Aitroop 把分散在 10 個工具裡的事，整合成一個順暢的工作流。"
+    tagline="平台能力"
+    title="從找到客戶到守住客戶，每個環節都有 AI 加持"
+    subtitle="獲客和留客從來不是兩件獨立的事。Aitroop 把整個客戶生命週期整合在一個平台裡，讓你的每一個動作都更精準、更高效、更可持續。"
     items={[
       {
-        title: '智能資料富化',
+        title: '精準客戶洞察',
         description:
-          '上傳公司名單，AI 自動補全有效郵箱、手機號、LinkedIn 主頁。有效聯繫人覆蓋率達 80% 以上，讓每一次外聯都不再打水漂。',
-        icon: 'tabler:database',
-      },
-      {
-        title: 'AI 客戶調研助手',
-        description:
-          '輸入公司域名，AI 在 90 秒內自動調研客戶背景、近期新聞、痛點，直接填入外聯模板。原本需要 30 分鐘的準備工作，現在 5 分鐘搞定。',
+          '在聯繫任何人之前，先真正了解他們。AI 自動調研目標客戶的業務背景、近期動態和潛在需求，讓你的每一次觸達都有真實的切入點。',
         icon: 'tabler:search',
       },
       {
-        title: '規模化個性化外聯',
+        title: '個性化規模化觸達',
         description:
-          '基於客戶真實的融資動態、招聘趨勢、LinkedIn 文章，AI 自動生成每一封都像親筆寫的個性化郵件。一人的產出，超越整個外聯團隊。',
+          '個性化不代表一封一封手寫。AI 根據每個客戶的真實背景生成量身定製的溝通內容，一個人可以做到過去整個外聯團隊的觸達量。',
         icon: 'tabler:mail',
       },
       {
-        title: '多渠道自動化序列',
+        title: '智能資料富化',
         description:
-          '郵件 + LinkedIn 混合序列，自動化跟進節奏。回覆率比純郵件高 30-50%，而你只需設定一次規則，系統持續運轉。',
+          '有效聯繫方式是一切的起點。Waterfall 智能富化引擎串聯多個數據源，讓你從名字和公司名就能找到真實可用的聯繫方式，覆蓋率達 80% 以上。',
+        icon: 'tabler:database',
+      },
+      {
+        title: '多渠道自動化跟進',
+        description:
+          '設定一次觸達節奏，系統持續運轉。郵件和 LinkedIn 混合序列，智能判斷最佳跟進時機，讓你不再因為「忘記跟進」而錯失機會。',
         icon: 'tabler:route',
       },
       {
-        title: '線索評分與意圖識別',
+        title: '意圖雷達',
         description:
-          '即時識別誰在訪問你的官網、研究你的產品。高意圖客戶自動推送給銷售優先跟進，再也不會讓熱門線索冷掉。',
-        icon: 'tabler:target',
+          '知道誰正在找你，比他們找上門更早一步。官網訪客識別、行為信號追蹤、意圖評分——讓你把精力放在最有可能成交的人身上。',
+        icon: 'tabler:radar',
       },
       {
-        title: '收入預測與 Pipeline 管理',
+        title: '客戶健康度與留存',
         description:
-          '告別「靠感覺」的收入預測。AI 模型持續分析商機健康度，誤差控制在 15% 以內，讓管理層對每季業績胸有成竹。',
-        icon: 'tabler:chart-line',
+          '獲得客戶只是開始，守住客戶才是複利。持續追蹤客戶健康度，在流失信號出現的第一時間介入，把流失率降下去，把續費率提上來。',
+        icon: 'tabler:heart-rate-monitor',
       },
     ]}
   />
@@ -104,33 +103,33 @@ const metadata = {
 
   <Content
     isReversed
-    tagline="效率革命"
-    title="銷售代表 65% 的時間，不是在做銷售"
+    tagline="重新定義生產力"
+    title="同樣的時間，做出 10 倍的成果"
     items={[
       {
-        title: '手動調研客戶背景：每條耗時 15-20 分鐘',
+        title: '從「找人」到「找對人」',
         description:
-          'Aitroop 的 AI Research Agent 自動抓取客戶資訊，90 秒完成人工需要半小時的調研。',
+          '不只是找到更多聯繫人，而是找到真正有需求的人。AI 洞察讓你把時間花在值得溝通的對象上，而不是大海撈針。',
       },
       {
-        title: '寫個性化郵件：批量模板回覆率極低',
+        title: '從「群發」到「精準說話」',
         description:
-          '基於真實客戶資料生成的個性化信件，讓每封郵件都有切入點，而不是千篇一律的模板。',
+          '每個人都討厭被當成數字。AI 根據真實的客戶背景生成個性化內容，讓對方感受到你是在和他說話，而不是在群發廣告。',
       },
       {
-        title: '數據分散在 10 個工具：協作內耗嚴重',
+        title: '從「靠記憶」到「系統跟進」',
         description:
-          '與市場主流 CRM 無縫雙向同步，所有人在同一份資料上工作，不再需要在多個系統間手動複製數據。',
+          '不再靠記憶和電子表格管理跟進節奏。設定一次規則，系統自動在對的時間送出對的訊息，你只需要在有回覆時出現。',
       },
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      alt: '銷售效率問題',
+      alt: '重新定義生產力',
     }}
   >
     <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">用 AI 奪回你的銷售時間</h3>
-      把銷售代表從數據錄入、郵件撰寫、客戶調研中解放出來，讓他們專注在真正需要人的事：建立信任、促成決策。
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">不是讓你更忙，而是讓你更值錢</h3>
+      Aitroop 把那些可以被系統化的工作交給 AI，讓你把精力放在只有人才能做的事：判斷、創意、建立真實的信任關係。
     </Fragment>
 
     <Fragment slot="bg">
@@ -144,73 +143,32 @@ const metadata = {
     isAfterContent
     items={[
       {
-        title: '即時識別高意圖訪客',
+        title: '複合技能，才是真正的護城河',
         description:
-          '97% 的官網訪客不填表單就離開。Aitroop 的 IP 反查技術，讓你知道是哪家公司在悄悄研究你，並在第一時間推送給銷售跟進。',
+          '懂得同時運用數據分析、精準溝通、自動化跟進和客戶洞察的人，在市場上的價值遠遠超過只掌握單一技能的人。Aitroop 讓你把這些能力整合起來。',
       },
       {
-        title: '郵件主收件箱到達率 ≥ 90%',
+        title: '知道誰在關注你，提前佈局',
         description:
-          '冷郵件最大的殺手是進垃圾箱。Aitroop 的送達率基礎設施——域名預熱、信譽監控、智能輪轉——確保每封信都落在主收件箱。',
+          '97% 的網站訪客不會主動留下聯繫方式。Aitroop 的意圖識別技術讓你看見這些「沉默的興趣」，在對方主動找你之前，你就已經出現了。',
       },
       {
-        title: '客戶流失前 30 天發出預警',
+        title: '數據支撐每一個決策',
         description:
-          '大多數客戶在決定不續費前，行為早已改變。Aitroop 的健康度評分模型持續監測，在流失危機發生前讓客戶成功團隊介入。',
-      },
-      {
-        title: 'AI 批量內容生成',
-        description:
-          '一篇 SEO 博客一天？一套郵件序列一周？讓 AI 在 30 秒內生成高品質草稿，你只需要審核和發布。',
+          '獲客花了多少錢？哪條渠道帶來的客戶最值？哪個客戶快要流失了？讓數據說話，而不是靠感覺行事。',
       },
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Aitroop 平台功能',
+      alt: '複合技能與數據洞察',
     }}
   >
-    <Fragment slot="content">讓每一個市場和業務動作都更精準、更高效。</Fragment>
+    <Fragment slot="content">掌握 AI，不只是提升效率，而是建立別人難以複製的競爭優勢。</Fragment>
 
     <Fragment slot="bg">
       <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
     </Fragment>
   </Content>
-
-  <!-- Steps Widget ****************** -->
-
-  <Steps
-    title="三步啟動你的 AI GTM 引擎"
-    items={[
-      {
-        title: '第一步：<span class="font-medium">導入你的目標客戶名單</span>',
-        description:
-          '上傳 CSV、從 CRM 同步，或直接在平台內搜尋目標公司。Aitroop 立即開始自動富化聯繫人資料，補全有效郵箱、LinkedIn 和公司資訊。',
-        icon: 'tabler:upload',
-      },
-      {
-        title: '第二步：<span class="font-medium">AI 生成個性化外聯內容</span>',
-        description:
-          '選擇外聯模板，AI 自動根據每位客戶的背景——融資動態、最近招聘、CEO 文章——生成專屬個性化信件。批量預覽，一鍵確認。',
-        icon: 'tabler:wand',
-      },
-      {
-        title: '第三步：<span class="font-medium">自動化跟進，持續優化</span>',
-        description:
-          '設定郵件 + LinkedIn 混合序列，系統自動按節奏發送。即時查看開信率、回覆率，AI 持續學習哪種信件效果最好。',
-        icon: 'tabler:rocket',
-      },
-      {
-        title: '業績增長，持續複利',
-        icon: 'tabler:check',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      alt: '三步啟動 AI GTM',
-    }}
-  />
-
-  <!-- Features2 Widget ************** -->
 
   <!-- Content Widget: Differentiators *** -->
 
@@ -218,24 +176,24 @@ const metadata = {
     isReversed
     isAfterContent
     tagline="Aitroop 的差異"
-    title="不只是另一個外聯工具，而是你的 GTM 作業系統"
+    title="不只是工具，而是你的獲客與留客作業系統"
     items={[
       {
         title: '中國市場原生打造，不是翻譯版',
         description:
-          '深度整合中文商業資料庫、企業微信、微博等本土渠道，支援人民幣計費與增值稅發票，符合《個人信息保護法》數據合規要求。這是為中國 B2B 市場原生設計的產品，不是海外工具的漢化版。',
+          '深度整合中文商業資料庫、企業微信、微博等本土渠道，支援人民幣計費與增值稅發票，符合《個人信息保護法》數據合規要求。這是為中國市場原生設計的產品，不是海外工具的漢化版。',
         icon: 'tabler:map-pin',
       },
       {
-        title: '一個平台，替代你桌面上的 10 個工具',
+        title: '一個平台，整合你的獲客與留客全流程',
         description:
-          '資料富化、AI 外聯、序列管理、CRM 同步、線索評分、Pipeline 監控、客戶健康度——全部在一個工作台完成。GTM 團隊人均每天在工具間切換超過 50 次，Aitroop 讓這件事成為歷史。',
+          '資料洞察、個性化觸達、自動化跟進、效果追蹤、客戶健康度——全部在一個工作台完成。你的注意力是最珍貴的資源，不應該浪費在工具之間的切換上。',
         icon: 'tabler:layout-dashboard',
       },
       {
-        title: '意圖雷達：知道誰正在找你，比他們聯繫你更早一步',
+        title: '意圖雷達：三維信號融合',
         description:
-          '官網訪客 IP 反查、第三方意圖信號、產品內行為追蹤——Aitroop 的意圖雷達整合三個維度的信號，自動識別哪家公司正在研究你的產品，並在最佳時機將高意圖客戶推送給銷售。',
+          '官網訪客行為、第三方意圖數據、產品內使用追蹤——三個維度的興趣信號融合成一個統一的意圖評分，讓你在最佳時機觸達最有可能成交的人。',
         icon: 'tabler:radar',
       },
     ]}
@@ -249,32 +207,66 @@ const metadata = {
     </Fragment>
   </Content>
 
-  <!-- Features2 Widget: Roles ******** -->
+  <!-- Steps Widget ****************** -->
 
-  <Features2
-    title="服務每一個 GTM 角色"
-    subtitle="無論你是負責開發新客戶的 SDR、管理市場預算的行銷主管，還是掌管收入預測的 RevOps，Aitroop 都有為你設計的工作流。"
-    tagline="適用角色"
+  <Steps
+    title="三步建立你的 AI 獲客引擎"
     items={[
       {
-        title: '銷售開發代表（SDR）',
-        description: '每天觸達更多精準客戶，個性化外聯不再需要逐條手寫，預約更多演示，完成更高配額。',
+        title: '第一步：<span class="font-medium">定義你的目標客群</span>',
+        description:
+          'AI 分析你現有的優質客戶，自動提煉理想客戶畫像，幫你找到更多「對的人」。上傳名單或直接在平台搜尋，系統自動補全可用的聯繫方式。',
+        icon: 'tabler:upload',
+      },
+      {
+        title: '第二步：<span class="font-medium">AI 生成個性化觸達內容</span>',
+        description:
+          '選擇溝通策略，AI 根據每個對象的真實背景——近期動態、業務方向、潛在痛點——生成有真實切入點的個性化內容。批量預覽，確認後一鍵發送。',
+        icon: 'tabler:wand',
+      },
+      {
+        title: '第三步：<span class="font-medium">自動跟進，持續優化</span>',
+        description:
+          '設定跟進節奏，系統自動運轉。即時查看哪些人回覆了、哪些人點擊了、哪些人在看你的官網。AI 持續學習哪種內容效果最好，幫你不斷迭代策略。',
+        icon: 'tabler:rocket',
+      },
+      {
+        title: '持續複利，業績增長',
+        icon: 'tabler:check',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      alt: '三步啟動 AI 獲客引擎',
+    }}
+  />
+
+  <!-- Features2 Widget ************** -->
+
+  <Features2
+    title="適合每一個需要增長的人"
+    subtitle="無論你是創業者、業務開發、行銷人員，還是希望精進複合技能的個人——只要你需要持續獲客和守住客戶，Aitroop 都能幫到你。"
+    tagline="適用場景"
+    items={[
+      {
+        title: '創業者 / 獨立開發者',
+        description: '用 AI 的力量，讓一個人做到以往需要整個業務團隊才能完成的事。從找到潛在客戶到促成第一筆交易，全流程自動化。',
+        icon: 'tabler:rocket',
+      },
+      {
+        title: '業務拓展 / 客戶開發',
+        description: '每天觸達更多精準對象，個性化不再是時間殺手。讓 AI 幫你做調研和寫信，你專注在真正的溝通和關係建立上。',
         icon: 'tabler:user-check',
       },
       {
-        title: '市場運營負責人',
-        description: 'AI 批量生成內容，廣告投放到成交的完整歸因，讓你有數據證明每一塊行銷預算的價值。',
+        title: '行銷 / 增長負責人',
+        description: 'AI 批量生成內容，廣告到成交的完整歸因，官網訪客識別——讓每一塊行銷預算都能交出清晰的業績答卷。',
         icon: 'tabler:speakerphone',
       },
       {
-        title: '銷售管理 / RevOps',
-        description: '可信的收入預測、統一數據儀表盤、Pipeline 健康度實時預警，讓管理層做決策有底氣。',
-        icon: 'tabler:chart-bar',
-      },
-      {
-        title: '客戶成功經理（CSM）',
-        description: '健康度實時評分、流失預警、自動化續費序列，讓每一個客戶都感受到被重視，續費率持續提升。',
-        icon: 'tabler:heart-handshake',
+        title: '想掌握複合技能的個人',
+        description: '同時懂得數據、溝通、自動化和客戶洞察的人，在市場上的競爭力遠超單一技能者。Aitroop 讓你快速建立這套複合能力。',
+        icon: 'tabler:school',
       },
     ]}
   >
@@ -287,10 +279,10 @@ const metadata = {
 
   <Stats
     stats={[
-      { title: '外聯效率提升', amount: '10x' },
-      { title: '有效資料覆蓋率', amount: '80%+' },
+      { title: '觸達效率提升', amount: '10x' },
+      { title: '有效聯繫方式覆蓋率', amount: '80%+' },
       { title: '郵件主收件箱到達率', amount: '90%+' },
-      { title: '銷售時間節省', amount: '25%' },
+      { title: '平均節省的調研時間', amount: '25hr/週' },
     ]}
   />
 
@@ -298,39 +290,39 @@ const metadata = {
 
   <FAQs
     title="常見問題"
-    subtitle="在開始之前，這些是我們最常被問到的問題。如果你有其他疑問，歡迎直接聯繫我們。"
+    subtitle="在開始之前，這些是我們最常被問到的問題。"
     tagline="FAQ"
     classes={{ container: 'max-w-6xl' }}
     items={[
       {
-        title: 'Aitroop 和我現有的 CRM 有衝突嗎？',
+        title: 'Aitroop 和我現有的工具有衝突嗎？',
         description:
-          '完全不會。Aitroop 與市場主流 CRM 支持雙向同步，所有資料保持一致，不需要替換現有系統。',
+          '不會。Aitroop 與市場主流 CRM 支持雙向同步，所有資料保持一致，不需要替換現有系統。你可以把它理解為在現有工具上加了一層 AI 智能層。',
       },
       {
-        title: '我的資料安全嗎？',
+        title: '我不是技術人員，可以用嗎？',
         description:
-          '是的。我們採用企業級加密和嚴格的資料隔離機制，符合 GDPR 和國內相關數據安全法規，你的客戶資料永遠屬於你。',
+          '完全可以。Aitroop 的設計目標是讓任何人都能在 30 分鐘內完成第一個完整的獲客工作流，不需要寫程式，不需要 IT 支援。可視化操作、自然語言指令，開箱即用。',
       },
       {
-        title: '沒有技術背景的人可以使用嗎？',
+        title: '是否只適合大公司？',
         description:
-          '可以。Aitroop 的目標就是讓銷售和行銷人員不需要依賴 IT 部門，可視化工作流、拖拽編輯、自然語言查詢——30 分鐘內完成第一個完整外聯流程。',
+          '恰恰相反。Aitroop 最核心的價值，是讓小團隊和個人能做出大公司才有能力做的事。一個人用 Aitroop，可以達到過去需要 3-5 人才能完成的獲客產出。',
       },
       {
-        title: '如何計費？是否按使用量收費？',
+        title: '如何計費？有免費試用嗎？',
         description:
-          '我們提供按用戶數的月度或年度訂閱方案，資料富化的查詢次數根據套餐有相應額度。詳情請查看定價頁面，或直接與我們的銷售顧問溝通。',
+          '我們提供 14 天免費試用，無需綁定信用卡。正式方案按用戶數月付或年付，資料富化查詢按 Credit 計費，不用擔心付了錢卻用不到。詳情請查看定價頁面。',
       },
       {
-        title: '可以試用嗎？',
+        title: '支援哪些渠道的觸達？',
         description:
-          '可以。我們提供 14 天免費試用，無需綁定信用卡。你也可以預約一對一的產品示範，由我們的顧問根據你的業務場景進行個性化演示。',
+          '目前支援電子郵件序列、LinkedIn 訊息自動化、企業微信整合。官網訪客識別可觸發多渠道跟進。後續將持續擴充渠道支援。',
       },
       {
-        title: '支援中文市場的資料供應商嗎？',
+        title: '數據安全性如何保障？',
         description:
-          '支援。Aitroop 深度整合了主流中文商業資料庫，同時對接多個國際數據源，Waterfall 智能富化策略讓國內外 B2B 市場都能獲得 80% 以上的有效聯繫人覆蓋率。',
+          '我們採用企業級加密和嚴格的數據隔離機制，符合《個人信息保護法》和相關數據安全法規。你的客戶數據永遠屬於你，我們不會將其用於任何其他用途。',
       },
     ]}
   />
@@ -338,8 +330,8 @@ const metadata = {
   <!-- HighlightedPosts Widget ******* -->
 
   <BlogLatestPosts
-    title="最新洞察與實戰指南"
-    information="我們定期分享 B2B 銷售、GTM 策略和 AI 應用的深度內容，幫助你的團隊持續學習行業最佳實踐。"
+    title="獲客與留客的實戰洞察"
+    information="我們定期分享獲客技巧、AI 應用實踐和客戶增長策略，幫助你持續精進複合能力。"
   />
 
   <!-- CallToAction Widget *********** -->
@@ -360,11 +352,11 @@ const metadata = {
     ]}
   >
     <Fragment slot="title">
-      準備好讓你的 GTM 團隊<br class="block sm:hidden" /><span class="sm:whitespace-nowrap">進入 AI 時代了嗎？</span>
+      準備好讓 AI 成為<br class="block sm:hidden" /><span class="sm:whitespace-nowrap">你的獲客超能力了嗎？</span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      每天仍有數以千計的 B2B 銷售代表在手動調研客戶、逐封撰寫郵件。<br class="hidden md:inline" />你的競爭對手可能已經用 Aitroop 提速了。
+      掌握 AI 獲客技能的人，正在以一人之力創造過去整個團隊的成果。<br class="hidden md:inline" />你的下一步，從這裡開始。
     </Fragment>
   </CallToAction>
 </Layout>
