@@ -1,27 +1,50 @@
 # Dependencies
 node_modules/
+vendor/
 
 # Build output
 dist/
+.output/
+
+# Astro
+.astro/
 
 # Environment variables
 .env
 .env.local
 .env.*.local
+.env.production
 
 # Logs
+logs/
 *.log
 npm-debug.log*
-
-# Editor
-.vscode/
-.idea/
-*.swp
-*.swo
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Cache
+.cache/
+.eslintcache
+.prettier_cache/
 
 # TypeScript
 *.tsbuildinfo
+
+# Sharp (image processing cache)
+.sharp/
