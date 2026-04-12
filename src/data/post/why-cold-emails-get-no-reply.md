@@ -3,7 +3,7 @@ publishDate: 2026-04-01T00:00:00Z
 author: Aitroop 團隊
 title: 為什麼你的冷郵件沒人回？SDR 必看的個性化外聯完整指南
 excerpt: 你花了時間寫信，卻換來一片沉默。不是你的產品不好，而是你的郵件根本沒有讓對方覺得「這封信是為我寫的」。本文從實戰角度拆解個性化外聯的三個核心要素。
-image: https://images.unsplash.com/photo-1596526131083-e8c633064204?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80
+image: https://images.unsplash.com/photo-1596526131083-e8c633064204?auto=format&fit=crop&w=2070&q=80
 category: 銷售實戰
 tags:
   - 冷郵件
