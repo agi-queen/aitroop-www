@@ -2,14 +2,11 @@
 import Layout from '~/layouts/PageLayout.astro';
 
 import Hero from '~/components/widgets/Hero.astro';
-import Note from '~/components/widgets/Note.astro';
 import Features from '~/components/widgets/Features.astro';
-import Features2 from '~/components/widgets/Features2.astro';
 import Steps from '~/components/widgets/Steps.astro';
 import Content from '~/components/widgets/Content.astro';
-import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
-import FAQs from '~/components/widgets/FAQs.astro';
 import Stats from '~/components/widgets/Stats.astro';
+import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
@@ -32,25 +29,30 @@ const metadata = {
       { text: '瞭解更多', href: '#features' },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=2070&q=80',
       alt: 'Aitroop — 獲客與留客平台',
     }}
   >
     <Fragment slot="title">
-      讓你同時掌握<span class="text-accent dark:text-white">獲客與留客</span>的
-      <br />AI 複合能力
+      讓你同時掌握<span class="text-accent dark:text-white">獲客與留客</span>的 AI 複合能力
     </Fragment>
 
     <Fragment slot="subtitle">
-      Aitroop 不是替你工作的機器，而是讓你變得更強的工具。
-      用 AI 掌握資料洞察、個性化觸達、客戶培育和增長分析的複合技能，
-      一個人做出過去整個團隊的業績。
+      Aitroop 把資料洞察、個性化觸達、客戶培育和增長分析整合在一個平台，
+      讓一個人做出過去整個團隊的業績。
     </Fragment>
   </Hero>
 
-  <!-- Note Widget ******************* -->
+  <!-- Stats Widget ****************** -->
 
-  <Note title="核心理念：" description="技能不會過時，但掌握 AI 的人會把不掌握的人遠遠甩在後面。" />
+  <Stats
+    stats={[
+      { title: '觸達效率提升', amount: '10x' },
+      { title: '有效聯繫方式覆蓋率', amount: '80%+' },
+      { title: '郵件主收件箱到達率', amount: '90%+' },
+      { title: '平均節省調研時間', amount: '25hr/週' },
+    ]}
+  />
 
   <!-- Features Widget *************** -->
 
@@ -58,154 +60,46 @@ const metadata = {
     id="features"
     tagline="平台能力"
     title="從找到客戶到守住客戶，每個環節都有 AI 加持"
-    subtitle="獲客和留客從來不是兩件獨立的事。Aitroop 把整個客戶生命週期整合在一個平台裡，讓你的每一個動作都更精準、更高效、更可持續。"
+    subtitle="獲客和留客從來不是兩件獨立的事。Aitroop 把整個客戶生命週期整合在一個平台裡，讓你的每一個動作都更精準、更高效。"
     items={[
       {
         title: '精準客戶洞察',
         description:
-          '在聯繫任何人之前，先真正了解他們。AI 自動調研目標客戶的業務背景、近期動態和潛在需求，讓你的每一次觸達都有真實的切入點。',
+          'AI 自動調研目標客戶的業務背景、近期動態和潛在需求，讓你的每一次觸達都有真實的切入點。',
         icon: 'tabler:search',
       },
       {
         title: '個性化規模化觸達',
         description:
-          '個性化不代表一封一封手寫。AI 根據每個客戶的真實背景生成量身定製的溝通內容，一個人可以做到過去整個外聯團隊的觸達量。',
+          'AI 根據每個客戶的真實背景生成量身定製的溝通內容，一個人可以做到過去整個外聯團隊的觸達量。',
         icon: 'tabler:mail',
       },
       {
         title: '智能資料富化',
         description:
-          '有效聯繫方式是一切的起點。Waterfall 智能富化引擎串聯多個數據源，讓你從名字和公司名就能找到真實可用的聯繫方式，覆蓋率達 80% 以上。',
+          'Waterfall 智能富化引擎串聯多個數據源，從名字和公司名就能找到真實可用的聯繫方式，覆蓋率達 80% 以上。',
         icon: 'tabler:database',
       },
       {
         title: '多渠道自動化跟進',
         description:
-          '設定一次觸達節奏，系統持續運轉。郵件和 LinkedIn 混合序列，智能判斷最佳跟進時機，讓你不再因為「忘記跟進」而錯失機會。',
+          '郵件和 LinkedIn 混合序列，智能判斷最佳跟進時機，讓你不再因為「忘記跟進」而錯失機會。',
         icon: 'tabler:route',
       },
       {
         title: '意圖雷達',
         description:
-          '知道誰正在找你，比他們找上門更早一步。官網訪客識別、行為信號追蹤、意圖評分——讓你把精力放在最有可能成交的人身上。',
+          '官網訪客識別、行為信號追蹤、意圖評分——讓你把精力放在最有可能成交的人身上。',
         icon: 'tabler:radar',
       },
       {
         title: '客戶健康度與留存',
         description:
-          '獲得客戶只是開始，守住客戶才是複利。持續追蹤客戶健康度，在流失信號出現的第一時間介入，把流失率降下去，把續費率提上來。',
+          '持續追蹤客戶健康度，在流失信號出現的第一時間介入，把流失率降下去，把續費率提上來。',
         icon: 'tabler:heart-rate-monitor',
       },
     ]}
   />
-
-  <!-- Content Widget **************** -->
-
-  <Content
-    isReversed
-    tagline="重新定義生產力"
-    title="同樣的時間，做出 10 倍的成果"
-    items={[
-      {
-        title: '從「找人」到「找對人」',
-        description:
-          '不只是找到更多聯繫人，而是找到真正有需求的人。AI 洞察讓你把時間花在值得溝通的對象上，而不是大海撈針。',
-      },
-      {
-        title: '從「群發」到「精準說話」',
-        description:
-          '每個人都討厭被當成數字。AI 根據真實的客戶背景生成個性化內容，讓對方感受到你是在和他說話，而不是在群發廣告。',
-      },
-      {
-        title: '從「靠記憶」到「系統跟進」',
-        description:
-          '不再靠記憶和電子表格管理跟進節奏。設定一次規則，系統自動在對的時間送出對的訊息，你只需要在有回覆時出現。',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      alt: '重新定義生產力',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">不是讓你更忙，而是讓你更值錢</h3>
-      Aitroop 把那些可以被系統化的工作交給 AI，讓你把精力放在只有人才能做的事：判斷、創意、建立真實的信任關係。
-    </Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
-
-  <!-- Content Widget **************** -->
-
-  <Content
-    isAfterContent
-    items={[
-      {
-        title: '複合技能，才是真正的護城河',
-        description:
-          '懂得同時運用數據分析、精準溝通、自動化跟進和客戶洞察的人，在市場上的價值遠遠超過只掌握單一技能的人。Aitroop 讓你把這些能力整合起來。',
-      },
-      {
-        title: '知道誰在關注你，提前佈局',
-        description:
-          '97% 的網站訪客不會主動留下聯繫方式。Aitroop 的意圖識別技術讓你看見這些「沉默的興趣」，在對方主動找你之前，你就已經出現了。',
-      },
-      {
-        title: '數據支撐每一個決策',
-        description:
-          '獲客花了多少錢？哪條渠道帶來的客戶最值？哪個客戶快要流失了？讓數據說話，而不是靠感覺行事。',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      alt: '複合技能與數據洞察',
-    }}
-  >
-    <Fragment slot="content">掌握 AI，不只是提升效率，而是建立別人難以複製的競爭優勢。</Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
-
-  <!-- Content Widget: Differentiators *** -->
-
-  <Content
-    isReversed
-    isAfterContent
-    tagline="Aitroop 的差異"
-    title="不只是工具，而是你的獲客與留客作業系統"
-    items={[
-      {
-        title: '中國市場原生打造，不是翻譯版',
-        description:
-          '深度整合中文商業資料庫、企業微信、微博等本土渠道，支援人民幣計費與增值稅發票，符合《個人信息保護法》數據合規要求。這是為中國市場原生設計的產品，不是海外工具的漢化版。',
-        icon: 'tabler:map-pin',
-      },
-      {
-        title: '一個平台，整合你的獲客與留客全流程',
-        description:
-          '資料洞察、個性化觸達、自動化跟進、效果追蹤、客戶健康度——全部在一個工作台完成。你的注意力是最珍貴的資源，不應該浪費在工具之間的切換上。',
-        icon: 'tabler:layout-dashboard',
-      },
-      {
-        title: '意圖雷達：三維信號融合',
-        description:
-          '官網訪客行為、第三方意圖數據、產品內使用追蹤——三個維度的興趣信號融合成一個統一的意圖評分，讓你在最佳時機觸達最有可能成交的人。',
-        icon: 'tabler:radar',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Aitroop 差異化特色',
-    }}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
 
   <!-- Steps Widget ****************** -->
 
@@ -215,19 +109,19 @@ const metadata = {
       {
         title: '第一步：<span class="font-medium">定義你的目標客群</span>',
         description:
-          'AI 分析你現有的優質客戶，自動提煉理想客戶畫像，幫你找到更多「對的人」。上傳名單或直接在平台搜尋，系統自動補全可用的聯繫方式。',
+          'AI 分析你現有的優質客戶，自動提煉理想客戶畫像，幫你找到更多「對的人」。系統自動補全可用的聯繫方式。',
         icon: 'tabler:upload',
       },
       {
         title: '第二步：<span class="font-medium">AI 生成個性化觸達內容</span>',
         description:
-          '選擇溝通策略，AI 根據每個對象的真實背景——近期動態、業務方向、潛在痛點——生成有真實切入點的個性化內容。批量預覽，確認後一鍵發送。',
+          'AI 根據每個對象的真實背景——近期動態、業務方向、潛在痛點——生成有切入點的個性化內容。批量預覽，確認後一鍵發送。',
         icon: 'tabler:wand',
       },
       {
         title: '第三步：<span class="font-medium">自動跟進，持續優化</span>',
         description:
-          '設定跟進節奏，系統自動運轉。即時查看哪些人回覆了、哪些人點擊了、哪些人在看你的官網。AI 持續學習哪種內容效果最好，幫你不斷迭代策略。',
+          '設定跟進節奏，系統自動運轉。即時查看哪些人回覆、哪些人在看你的官網。AI 持續學習幫你不斷迭代策略。',
         icon: 'tabler:rocket',
       },
       {
@@ -236,98 +130,48 @@ const metadata = {
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      src: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=2070&q=80',
       alt: '三步啟動 AI 獲客引擎',
     }}
   />
 
-  <!-- Features2 Widget ************** -->
+  <!-- Content Widget **************** -->
 
-  <Features2
-    title="適合每一個需要增長的人"
-    subtitle="無論你是創業者、業務開發、行銷人員，還是希望精進複合技能的個人——只要你需要持續獲客和守住客戶，Aitroop 都能幫到你。"
-    tagline="適用場景"
+  <Content
+    isReversed
+    tagline="Aitroop 的差異"
+    title="不只是工具，而是你的獲客與留客作業系統"
     items={[
       {
-        title: '創業者 / 獨立開發者',
-        description: '用 AI 的力量，讓一個人做到以往需要整個業務團隊才能完成的事。從找到潛在客戶到促成第一筆交易，全流程自動化。',
-        icon: 'tabler:rocket',
+        title: '中國市場原生打造，不是翻譯版',
+        description:
+          '深度整合中文商業資料庫、企業微信等本土渠道，支援人民幣計費與增值稅發票，符合《個人信息保護法》合規要求。',
+        icon: 'tabler:map-pin',
       },
       {
-        title: '業務拓展 / 客戶開發',
-        description: '每天觸達更多精準對象，個性化不再是時間殺手。讓 AI 幫你做調研和寫信，你專注在真正的溝通和關係建立上。',
-        icon: 'tabler:user-check',
+        title: '一個平台，整合全流程',
+        description:
+          '資料洞察、個性化觸達、自動化跟進、效果追蹤、客戶健康度——全部在一個工作台完成，不需要在工具之間反覆切換。',
+        icon: 'tabler:layout-dashboard',
       },
       {
-        title: '行銷 / 增長負責人',
-        description: 'AI 批量生成內容，廣告到成交的完整歸因，官網訪客識別——讓每一塊行銷預算都能交出清晰的業績答卷。',
-        icon: 'tabler:speakerphone',
-      },
-      {
-        title: '想掌握複合技能的個人',
-        description: '同時懂得數據、溝通、自動化和客戶洞察的人，在市場上的競爭力遠超單一技能者。Aitroop 讓你快速建立這套複合能力。',
-        icon: 'tabler:school',
+        title: '意圖雷達：三維信號融合',
+        description:
+          '官網訪客行為、第三方意圖數據、產品內使用追蹤——三個維度的信號融合成統一的意圖評分，讓你在最佳時機觸達最有可能成交的人。',
+        icon: 'tabler:radar',
       },
     ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=2070&q=80',
+      alt: 'Aitroop 差異化特色',
+    }}
   >
     <Fragment slot="bg">
       <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
     </Fragment>
-  </Features2>
+  </Content>
 
-  <!-- Stats Widget ****************** -->
-
-  <Stats
-    stats={[
-      { title: '觸達效率提升', amount: '10x' },
-      { title: '有效聯繫方式覆蓋率', amount: '80%+' },
-      { title: '郵件主收件箱到達率', amount: '90%+' },
-      { title: '平均節省的調研時間', amount: '25hr/週' },
-    ]}
-  />
-
-  <!-- FAQs Widget ******************* -->
-
-  <FAQs
-    title="常見問題"
-    subtitle="在開始之前，這些是我們最常被問到的問題。"
-    tagline="FAQ"
-    classes={{ container: 'max-w-6xl' }}
-    items={[
-      {
-        title: 'Aitroop 和我現有的工具有衝突嗎？',
-        description:
-          '不會。Aitroop 與市場主流 CRM 支持雙向同步，所有資料保持一致，不需要替換現有系統。你可以把它理解為在現有工具上加了一層 AI 智能層。',
-      },
-      {
-        title: '我不是技術人員，可以用嗎？',
-        description:
-          '完全可以。Aitroop 的設計目標是讓任何人都能在 30 分鐘內完成第一個完整的獲客工作流，不需要寫程式，不需要 IT 支援。可視化操作、自然語言指令，開箱即用。',
-      },
-      {
-        title: '是否只適合大公司？',
-        description:
-          '恰恰相反。Aitroop 最核心的價值，是讓小團隊和個人能做出大公司才有能力做的事。一個人用 Aitroop，可以達到過去需要 3-5 人才能完成的獲客產出。',
-      },
-      {
-        title: '如何計費？有免費試用嗎？',
-        description:
-          '我們提供 14 天免費試用，無需綁定信用卡。正式方案按用戶數月付或年付，資料富化查詢按 Credit 計費，不用擔心付了錢卻用不到。詳情請查看定價頁面。',
-      },
-      {
-        title: '支援哪些渠道的觸達？',
-        description:
-          '目前支援電子郵件序列、LinkedIn 訊息自動化、企業微信整合。官網訪客識別可觸發多渠道跟進。後續將持續擴充渠道支援。',
-      },
-      {
-        title: '數據安全性如何保障？',
-        description:
-          '我們採用企業級加密和嚴格的數據隔離機制，符合《個人信息保護法》和相關數據安全法規。你的客戶數據永遠屬於你，我們不會將其用於任何其他用途。',
-      },
-    ]}
-  />
-
-  <!-- HighlightedPosts Widget ******* -->
+  <!-- BlogLatestPosts Widget ********* -->
 
   <BlogLatestPosts
     title="獲客與留客的實戰洞察"
