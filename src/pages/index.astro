@@ -120,7 +120,7 @@ const metadata = {
       {
         title: '數據分散在 10 個工具：協作內耗嚴重',
         description:
-          '與 Salesforce、HubSpot、纷享销客、销售易無縫雙向同步，所有人在同一份資料上工作。',
+          '與市場主流 CRM 無縫雙向同步，所有人在同一份資料上工作，不再需要在多個系統間手動複製數據。',
       },
     ]}
     image={{
@@ -212,6 +212,45 @@ const metadata = {
 
   <!-- Features2 Widget ************** -->
 
+  <!-- Content Widget: Differentiators *** -->
+
+  <Content
+    isReversed
+    isAfterContent
+    tagline="Aitroop 的差異"
+    title="不只是另一個外聯工具，而是你的 GTM 作業系統"
+    items={[
+      {
+        title: '中國市場原生打造，不是翻譯版',
+        description:
+          '深度整合中文商業資料庫、企業微信、微博等本土渠道，支援人民幣計費與增值稅發票，符合《個人信息保護法》數據合規要求。這是為中國 B2B 市場原生設計的產品，不是海外工具的漢化版。',
+        icon: 'tabler:map-pin',
+      },
+      {
+        title: '一個平台，替代你桌面上的 10 個工具',
+        description:
+          '資料富化、AI 外聯、序列管理、CRM 同步、線索評分、Pipeline 監控、客戶健康度——全部在一個工作台完成。GTM 團隊人均每天在工具間切換超過 50 次，Aitroop 讓這件事成為歷史。',
+        icon: 'tabler:layout-dashboard',
+      },
+      {
+        title: '意圖雷達：知道誰正在找你，比他們聯繫你更早一步',
+        description:
+          '官網訪客 IP 反查、第三方意圖信號、產品內行為追蹤——Aitroop 的意圖雷達整合三個維度的信號，自動識別哪家公司正在研究你的產品，並在最佳時機將高意圖客戶推送給銷售。',
+        icon: 'tabler:radar',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+      alt: 'Aitroop 差異化特色',
+    }}
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <!-- Features2 Widget: Roles ******** -->
+
   <Features2
     title="服務每一個 GTM 角色"
     subtitle="無論你是負責開發新客戶的 SDR、管理市場預算的行銷主管，還是掌管收入預測的 RevOps，Aitroop 都有為你設計的工作流。"
@@ -266,7 +305,7 @@ const metadata = {
       {
         title: 'Aitroop 和我現有的 CRM 有衝突嗎？',
         description:
-          '完全不會。Aitroop 與 Salesforce、HubSpot、纷享销客、销售易支持雙向同步，所有資料保持一致，不需要替換現有系統。',
+          '完全不會。Aitroop 與市場主流 CRM 支持雙向同步，所有資料保持一致，不需要替換現有系統。',
       },
       {
         title: '我的資料安全嗎？',
@@ -291,7 +330,7 @@ const metadata = {
       {
         title: '支援中文市場的資料供應商嗎？',
         description:
-          '支援。Aitroop 深度整合了探迹、企查查等主流中文商業資料庫，同時對接 Apollo、Crunchbase 等國際數據源，覆蓋國內外 B2B 市場。',
+          '支援。Aitroop 深度整合了主流中文商業資料庫，同時對接多個國際數據源，Waterfall 智能富化策略讓國內外 B2B 市場都能獲得 80% 以上的有效聯繫人覆蓋率。',
       },
     ]}
   />
