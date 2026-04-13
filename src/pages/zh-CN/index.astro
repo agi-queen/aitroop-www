@@ -1,0 +1,208 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import Content from '~/components/widgets/Content.astro';
+import Stats from '~/components/widgets/Stats.astro';
+import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: 'Aitroop — AI 驱动的获客与留客平台',
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero -->
+
+  <Hero
+    actions={[
+      {
+        variant: 'primary',
+        text: '免费预约演示',
+        href: '/contact',
+        icon: 'tabler:calendar',
+      },
+      { text: '了解更多', href: '#features' },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=2070&q=80',
+      alt: 'Aitroop — 获客与留客平台',
+    }}
+  >
+    <Fragment slot="title">
+      让你同时掌握<span class="text-accent dark:text-white">获客与留客</span>的 AI 复合能力
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      Aitroop 把数据洞察、个性化触达、客户培育和增长分析整合在一个平台，
+      让一个人做出过去整个团队的业绩。
+    </Fragment>
+  </Hero>
+
+  <!-- Stats -->
+
+  <Stats
+    stats={[
+      { title: '触达效率提升', amount: '10x' },
+      { title: '有效联系方式覆盖率', amount: '80%+' },
+      { title: '邮件主收件箱到达率', amount: '90%+' },
+      { title: '平均节省调研时间', amount: '25hr/周' },
+    ]}
+  />
+
+  <!-- Features -->
+
+  <Features
+    id="features"
+    tagline="平台能力"
+    title="从找到客户到守住客户，每个环节都有 AI 加持"
+    subtitle="获客和留客从来不是两件独立的事。Aitroop 把整个客户生命周期整合在一个平台里，让你的每一个动作都更精准、更高效。"
+    items={[
+      {
+        title: '精准客户洞察',
+        description:
+          'AI 自动调研目标客户的业务背景、近期动态和潜在需求，让你的每一次触达都有真实的切入点。',
+        icon: 'tabler:search',
+      },
+      {
+        title: '个性化规模化触达',
+        description:
+          'AI 根据每个客户的真实背景生成量身定制的沟通内容，一个人可以做到过去整个外联团队的触达量。',
+        icon: 'tabler:mail',
+      },
+      {
+        title: '智能数据富化',
+        description:
+          'Waterfall 智能富化引擎串联多个数据源，从名字和公司名就能找到真实可用的联系方式，覆盖率达 80% 以上。',
+        icon: 'tabler:database',
+      },
+      {
+        title: '多渠道自动化跟进',
+        description:
+          '邮件和 LinkedIn 混合序列，智能判断最佳跟进时机，让你不再因为「忘记跟进」而错失机会。',
+        icon: 'tabler:route',
+      },
+      {
+        title: '意图雷达',
+        description:
+          '官网访客识别、行为信号追踪、意图评分——让你把精力放在最有可能成交的人身上。',
+        icon: 'tabler:radar',
+      },
+      {
+        title: '客户健康度与留存',
+        description:
+          '持续追踪客户健康度，在流失信号出现的第一时间介入，把流失率降下去，把续费率提上来。',
+        icon: 'tabler:heart-rate-monitor',
+      },
+    ]}
+  />
+
+  <!-- Steps -->
+
+  <Steps
+    title="三步建立你的 AI 获客引擎"
+    items={[
+      {
+        title: '第一步：<span class="font-medium">定义你的目标客群</span>',
+        description:
+          'AI 分析你现有的优质客户，自动提炼理想客户画像，帮你找到更多「对的人」。系统自动补全可用的联系方式。',
+        icon: 'tabler:upload',
+      },
+      {
+        title: '第二步：<span class="font-medium">AI 生成个性化触达内容</span>',
+        description:
+          'AI 根据每个对象的真实背景——近期动态、业务方向、潜在痛点——生成有切入点的个性化内容。批量预览，确认后一键发送。',
+        icon: 'tabler:wand',
+      },
+      {
+        title: '第三步：<span class="font-medium">自动跟进，持续优化</span>',
+        description:
+          '设定跟进节奏，系统自动运转。实时查看哪些人回复、哪些人在看你的官网。AI 持续学习帮你不断迭代策略。',
+        icon: 'tabler:rocket',
+      },
+      {
+        title: '持续复利，业绩增长',
+        icon: 'tabler:check',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=2070&q=80',
+      alt: '三步启动 AI 获客引擎',
+    }}
+  />
+
+  <!-- Content / Differentiators -->
+
+  <Content
+    isReversed
+    tagline="Aitroop 的差异"
+    title="不只是工具，而是你的获客与留客操作系统"
+    items={[
+      {
+        title: '中国市场原生打造，不是翻译版',
+        description:
+          '深度整合中文商业数据库、企业微信等本土渠道，支持人民币计费与增值税发票，符合《个人信息保护法》合规要求。',
+        icon: 'tabler:map-pin',
+      },
+      {
+        title: '一个平台，整合全流程',
+        description:
+          '数据洞察、个性化触达、自动化跟进、效果追踪、客户健康度——全部在一个工作台完成，不需要在工具之间反复切换。',
+        icon: 'tabler:layout-dashboard',
+      },
+      {
+        title: '意图雷达：三维信号融合',
+        description:
+          '官网访客行为、第三方意图数据、产品内使用追踪——三个维度的信号融合成统一的意图评分，让你在最佳时机触达最有可能成交的人。',
+        icon: 'tabler:radar',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=2070&q=80',
+      alt: 'Aitroop 差异化特色',
+    }}
+  >
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <!-- Blog -->
+
+  <BlogLatestPosts
+    title="获客与留客的实战洞察"
+    information="我们定期分享获客技巧、AI 应用实践和客户增长策略，帮助你持续精进复合能力。"
+  />
+
+  <!-- CTA -->
+
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: '免费预约 30 分钟演示',
+        href: '/contact',
+        icon: 'tabler:calendar',
+      },
+      {
+        variant: 'secondary',
+        text: '查看定价方案',
+        href: '/pricing',
+      },
+    ]}
+  >
+    <Fragment slot="title">
+      准备好让 AI 成为<br class="block sm:hidden" /><span class="sm:whitespace-nowrap"
+        >你的获客超能力了吗？</span
+      >
+    </Fragment>
+
+    <Fragment slot="subtitle">
+      掌握 AI 获客技能的人，正在以一人之力创造过去整个团队的成果。<br class="hidden md:inline" />你的下一步，从这里开始。
+    </Fragment>
+  </CallToAction>
+</Layout>

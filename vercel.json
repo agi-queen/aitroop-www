@@ -1,6 +1,10 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "i18n": {
+    "defaultLocale": "en",
+    "locales": ["en", "zh-TW", "zh-CN"]
+  },
   "headers": [
     {
       "source": "/_astro/(.*)",

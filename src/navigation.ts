@@ -1,82 +1,183 @@
 import { getPermalink, getBlogPermalink, getAsset } from './utils/permalinks';
+import type { Locale } from './i18n/utils';
 
-export const headerData = {
-  links: [
-    {
-      text: '功能特色',
-      href: getPermalink('/services'),
-    },
-    {
-      text: '解決方案',
-      href: getPermalink('/solutions'),
-    },
-    {
-      text: '定價方案',
-      href: getPermalink('/pricing'),
-    },
-    {
-      text: '部落格',
-      href: getBlogPermalink(),
-    },
-    {
-      text: '關於我們',
-      href: getPermalink('/about'),
-    },
+// ─── Header ──────────────────────────────────────────────────────────────────
+
+const headerLinks: Record<Locale, object[]> = {
+  en: [
+    { text: 'Features', href: getPermalink('/services') },
+    { text: 'Solutions', href: getPermalink('/solutions') },
+    { text: 'Pricing', href: getPermalink('/pricing') },
+    { text: 'Blog', href: getBlogPermalink() },
+    { text: 'About', href: getPermalink('/about') },
   ],
-  actions: [{ text: '預約示範', href: getPermalink('/contact'), variant: 'primary' }],
+  'zh-TW': [
+    { text: '功能特色', href: getPermalink('/services') },
+    { text: '解決方案', href: getPermalink('/solutions') },
+    { text: '定價方案', href: getPermalink('/pricing') },
+    { text: '部落格', href: getBlogPermalink() },
+    { text: '關於我們', href: getPermalink('/about') },
+  ],
+  'zh-CN': [
+    { text: '功能特色', href: getPermalink('/services') },
+    { text: '解决方案', href: getPermalink('/solutions') },
+    { text: '定价方案', href: getPermalink('/pricing') },
+    { text: '博客', href: getBlogPermalink() },
+    { text: '关于我们', href: getPermalink('/about') },
+  ],
 };
 
-export const footerData = {
-  links: [
-    {
-      title: '產品',
-      links: [
-        { text: '功能特色', href: getPermalink('/services') },
-        { text: '定價方案', href: getPermalink('/pricing') },
-        { text: '整合工具', href: '#' },
-        { text: '安全性', href: '#' },
-        { text: '更新日誌', href: '#' },
-      ],
-    },
-    {
-      title: '解決方案',
-      links: [
-        { text: '精準獲客', href: getPermalink('/solutions') },
-        { text: '規模化觸達', href: getPermalink('/solutions') },
-        { text: '意圖識別與轉化', href: getPermalink('/solutions') },
-        { text: '客戶留存與增長', href: getPermalink('/solutions') },
-      ],
-    },
-    {
-      title: '支援',
-      links: [
-        { text: '使用文件', href: '#' },
-        { text: '常見問題', href: '#' },
-        { text: '聯絡客服', href: getPermalink('/contact') },
-        { text: '系統狀態', href: '#' },
-      ],
-    },
-    {
-      title: '公司',
-      links: [
-        { text: '關於我們', href: getPermalink('/about') },
-        { text: '部落格', href: getBlogPermalink() },
-        { text: '加入我們', href: '#' },
-        { text: '媒體資源', href: '#' },
-      ],
-    },
-  ],
-  secondaryLinks: [
-    { text: '服務條款', href: getPermalink('/terms') },
-    { text: '隱私政策', href: getPermalink('/privacy') },
-  ],
-  socialLinks: [
-    { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: '#' },
-    { ariaLabel: 'X', icon: 'tabler:brand-x', href: '#' },
-    { ariaLabel: 'WeChat', icon: 'tabler:brand-wechat', href: '#' },
-    { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') },
-  ],
-  footNote: `
-    © 2026 <a class="text-blue-600 underline dark:text-muted" href="https://aitroop.net">Aitroop</a> · 保留所有權利。
-  `,
+const headerActions: Record<Locale, object[]> = {
+  en: [{ text: 'Book a Demo', href: getPermalink('/contact'), variant: 'primary' }],
+  'zh-TW': [{ text: '預約示範', href: getPermalink('/contact'), variant: 'primary' }],
+  'zh-CN': [{ text: '预约演示', href: getPermalink('/contact'), variant: 'primary' }],
 };
+
+export function getHeaderData(locale: Locale = 'en') {
+  return {
+    links: headerLinks[locale] ?? headerLinks['en'],
+    actions: headerActions[locale] ?? headerActions['en'],
+  };
+}
+
+// ─── Footer ──────────────────────────────────────────────────────────────────
+
+export function getFooterData(locale: Locale = 'en') {
+  const t = {
+    en: {
+      product: 'Product',
+      features: 'Features',
+      pricing: 'Pricing',
+      integrations: 'Integrations',
+      security: 'Security',
+      changelog: 'Changelog',
+      solutions: 'Solutions',
+      acquisition: 'Precision Acquisition',
+      outreach: 'Scalable Outreach',
+      intent: 'Intent & Conversion',
+      retention: 'Customer Retention',
+      support: 'Support',
+      docs: 'Documentation',
+      faq: 'FAQ',
+      contact: 'Contact Us',
+      status: 'System Status',
+      company: 'Company',
+      about: 'About',
+      blog: 'Blog',
+      careers: 'Careers',
+      press: 'Press Kit',
+      terms: 'Terms of Service',
+      privacy: 'Privacy Policy',
+      footNote: '© 2026 <a class="text-blue-600 underline dark:text-muted" href="https://aitroop.net">Aitroop</a> · All rights reserved.',
+    },
+    'zh-TW': {
+      product: '產品',
+      features: '功能特色',
+      pricing: '定價方案',
+      integrations: '整合工具',
+      security: '安全性',
+      changelog: '更新日誌',
+      solutions: '解決方案',
+      acquisition: '精準獲客',
+      outreach: '規模化觸達',
+      intent: '意圖識別與轉化',
+      retention: '客戶留存與增長',
+      support: '支援',
+      docs: '使用文件',
+      faq: '常見問題',
+      contact: '聯絡客服',
+      status: '系統狀態',
+      company: '公司',
+      about: '關於我們',
+      blog: '部落格',
+      careers: '加入我們',
+      press: '媒體資源',
+      terms: '服務條款',
+      privacy: '隱私政策',
+      footNote: '© 2026 <a class="text-blue-600 underline dark:text-muted" href="https://aitroop.net">Aitroop</a> · 保留所有權利。',
+    },
+    'zh-CN': {
+      product: '产品',
+      features: '功能特色',
+      pricing: '定价方案',
+      integrations: '集成工具',
+      security: '安全性',
+      changelog: '更新日志',
+      solutions: '解决方案',
+      acquisition: '精准获客',
+      outreach: '规模化触达',
+      intent: '意图识别与转化',
+      retention: '客户留存与增长',
+      support: '支持',
+      docs: '使用文档',
+      faq: '常见问题',
+      contact: '联系客服',
+      status: '系统状态',
+      company: '公司',
+      about: '关于我们',
+      blog: '博客',
+      careers: '加入我们',
+      press: '媒体资源',
+      terms: '服务条款',
+      privacy: '隐私政策',
+      footNote: '© 2026 <a class="text-blue-600 underline dark:text-muted" href="https://aitroop.net">Aitroop</a> · 保留所有权利。',
+    },
+  }[locale] ?? t['en' as Locale];
+
+  return {
+    links: [
+      {
+        title: t.product,
+        links: [
+          { text: t.features, href: getPermalink('/services') },
+          { text: t.pricing, href: getPermalink('/pricing') },
+          { text: t.integrations, href: '#' },
+          { text: t.security, href: '#' },
+          { text: t.changelog, href: '#' },
+        ],
+      },
+      {
+        title: t.solutions,
+        links: [
+          { text: t.acquisition, href: getPermalink('/solutions') },
+          { text: t.outreach, href: getPermalink('/solutions') },
+          { text: t.intent, href: getPermalink('/solutions') },
+          { text: t.retention, href: getPermalink('/solutions') },
+        ],
+      },
+      {
+        title: t.support,
+        links: [
+          { text: t.docs, href: '#' },
+          { text: t.faq, href: '#' },
+          { text: t.contact, href: getPermalink('/contact') },
+          { text: t.status, href: '#' },
+        ],
+      },
+      {
+        title: t.company,
+        links: [
+          { text: t.about, href: getPermalink('/about') },
+          { text: t.blog, href: getBlogPermalink() },
+          { text: t.careers, href: '#' },
+          { text: t.press, href: '#' },
+        ],
+      },
+    ],
+    secondaryLinks: [
+      { text: t.terms, href: getPermalink('/terms') },
+      { text: t.privacy, href: getPermalink('/privacy') },
+    ],
+    socialLinks: [
+      { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: '#' },
+      { ariaLabel: 'X', icon: 'tabler:brand-x', href: '#' },
+      { ariaLabel: 'WeChat', icon: 'tabler:brand-wechat', href: '#' },
+      { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') },
+    ],
+    footNote: t.footNote,
+  };
+}
+
+// Backward-compatible exports (used by pages that haven't been migrated)
+export const headerData = getHeaderData('en');
+export const footerData = getFooterData('en');

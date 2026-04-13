@@ -1,0 +1,28 @@
+---
+import { getLocaleFromPath, getLocalePath, locales, localeLabels } from '~/i18n/utils';
+
+const currentPath = Astro.url.pathname;
+const currentLocale = getLocaleFromPath(currentPath);
+---
+
+<div class="flex items-center gap-0.5 text-sm font-medium">
+  {
+    locales.map((locale, i) => (
+      <>
+        {i > 0 && <span class="text-muted opacity-40 select-none">|</span>}
+        <a
+          href={getLocalePath(currentPath, locale)}
+          class:list={[
+            'px-1.5 py-0.5 rounded transition-colors',
+            locale === currentLocale
+              ? 'text-default font-semibold'
+              : 'text-muted hover:text-default dark:hover:text-white',
+          ]}
+          aria-current={locale === currentLocale ? 'true' : undefined}
+        >
+          {localeLabels[locale]}
+        </a>
+      </>
+    ))
+  }
+</div>
