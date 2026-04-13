@@ -1,5 +1,6 @@
 ---
 publishDate: 2026-04-05T00:00:00Z
+updateDate: 2026-04-13T00:00:00Z
 author: Aitroop Team
 title: Sales Reps Spend 65% of Their Time Not Selling — How to Reclaim Your Real Working Hours with AI
 excerpt: Research consistently shows that B2B sales reps spend only 28–35% of their time on actual selling activities. The rest is consumed by CRM data entry, prospect research, writing emails, internal meetings, and context-switching between tools. This guide shows you how AI can systematically reclaim that lost time.

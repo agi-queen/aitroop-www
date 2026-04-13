@@ -43,9 +43,33 @@ const metadata = merge(
   },
   { ...(post?.metadata ? { ...post.metadata, canonical: post.metadata?.canonical || url } : {}) }
 ) as MetaData;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.title,
+  description: post.excerpt,
+  datePublished: post.publishDate instanceof Date ? post.publishDate.toISOString() : post.publishDate,
+  dateModified: post.updateDate
+    ? (post.updateDate instanceof Date ? post.updateDate.toISOString() : post.updateDate)
+    : (post.publishDate instanceof Date ? post.publishDate.toISOString() : post.publishDate),
+  author: {
+    '@type': 'Organization',
+    name: post.author || 'Aitroop 團隊',
+    url: 'https://aitroop.net',
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'Aitroop',
+    url: 'https://aitroop.net',
+  },
+  url: url.toString(),
+  ...(image ? { image: typeof image === 'string' ? image : (image as ImageMetadata).src } : {}),
+};
 ---
 
 <Layout metadata={metadata}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <SinglePost post={{ ...post, image: image }} url={url}>
     {post.Content ? <post.Content /> : <Fragment set:html={post.content || ''} />}
   </SinglePost>

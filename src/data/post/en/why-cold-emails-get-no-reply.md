@@ -1,5 +1,6 @@
 ---
 publishDate: 2026-04-01T00:00:00Z
+updateDate: 2026-04-13T00:00:00Z
 author: Aitroop Team
 title: Why Your Cold Emails Get No Reply — The Complete SDR Guide to Personalized Outreach
 excerpt: You put time into writing the email, but got nothing but silence in return. It's not that your product isn't good enough — it's that your email never made the recipient feel like it was written for them. This guide breaks down the three core elements of personalized outreach from a practitioner's perspective.
@@ -124,6 +125,30 @@ If you don't have AI tooling yet, here's a manual framework you can implement im
    > "How are you currently balancing personalization quality against outreach volume?"
 
 One critical rule: **don't pitch your product in the first email**. The only goal of the first email is to make the recipient feel you're worth replying to.
+
+---
+
+## Frequently Asked Questions
+
+**What is a normal cold email reply rate?**
+
+The industry average for B2B cold email reply rates is 1–3%. Highly personalized emails can reach 8–15%, while generic batch templates typically fall below 1%. The core factor driving reply rates is relevance, not volume.
+
+**Should the first cold email introduce your product?**
+
+No. The sole purpose of the first email is to make the recipient feel it's worth replying to. Introducing your product too early makes the email feel like an ad and sharply reduces reply rates. Lead with a specific observation and an open-ended question — save the product pitch for follow-up.
+
+**How many cold emails should an SDR send per day?**
+
+It depends on the level of personalization. With deep manual personalization (15–20 minutes per email), 20–30 per day is a reasonable ceiling. With AI-assisted research and drafting, it's possible to maintain the same personalization quality at 80–100 emails per day.
+
+**What should I do if my emails are going to spam?**
+
+Start by diagnosing your domain reputation using MXToolbox or Google Postmaster Tools. Then audit your content for spam triggers: too many promotional words, image-heavy layouts, or missing unsubscribe links. New domains need a 4–8 week warmup period with gradually increasing daily send volume.
+
+**How many follow-ups is too many?**
+
+Research shows most replies happen between the 2nd and 4th email, but many SDRs give up after the first or second. A sequence of 5–7 emails, spaced 3–5 business days apart, each offering a new angle or piece of value rather than just nudging, tends to perform best.
 
 ---
 
