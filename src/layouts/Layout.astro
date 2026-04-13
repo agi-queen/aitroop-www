@@ -30,6 +30,21 @@ const lang = langProp || language;
 <!doctype html>
 <html lang={lang} dir={textDirection} class="2xl:text-[20px]">
   <head>
+    <!-- Language preference redirect — runs before paint to avoid flash -->
+    <script is:inline>
+      (function () {
+        try {
+          var pref = localStorage.getItem('lang-pref');
+          if (!pref) return;
+          var path = window.location.pathname;
+          var cur = path.startsWith('/zh-TW') ? 'zh-TW' : path.startsWith('/zh-CN') ? 'zh-CN' : 'en';
+          if (pref === cur) return;
+          var clean = path.replace(/^\/(zh-TW|zh-CN)(\/|$)/, '/') || '/';
+          var target = pref === 'en' ? clean : '/' + pref + (clean === '/' ? '' : clean);
+          window.location.replace(target);
+        } catch (e) {}
+      })();
+    </script>
     <CommonMeta />
     <Favicons />
     <CustomStyles />

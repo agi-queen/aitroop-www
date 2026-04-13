@@ -13,6 +13,11 @@ export interface Props {
 const { post } = Astro.props;
 
 const relatedPosts = post.tags ? await getRelatedPosts(post, 4) : [];
+
+const locale = Astro.currentLocale ?? 'en';
+const blogHref = locale !== 'en' ? `/${locale}${getBlogPermalink()}` : getBlogPermalink();
+const relatedTitle = locale === 'zh-TW' ? '相關文章' : locale === 'zh-CN' ? '相关文章' : 'Related Posts';
+const viewAllText = locale === 'zh-TW' ? '查看全部' : locale === 'zh-CN' ? '查看全部' : 'View All Posts';
 ---
 
 {
@@ -22,9 +27,9 @@ const relatedPosts = post.tags ? await getRelatedPosts(post, 4) : [];
         container:
           'pt-0 lg:pt-0 md:pt-0 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade',
       }}
-      title="Related Posts"
-      linkText="View All Posts"
-      linkUrl={getBlogPermalink()}
+      title={relatedTitle}
+      linkText={viewAllText}
+      linkUrl={blogHref}
       postIds={relatedPosts.map((post) => post.id)}
     />
   ) : null

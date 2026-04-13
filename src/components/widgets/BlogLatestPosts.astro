@@ -17,10 +17,14 @@ export interface Props extends Widget {
   count?: number;
 }
 
+const locale = Astro.currentLocale ?? 'en';
+const localeBlogHref = locale !== 'en' ? `/${locale}${getBlogPermalink()}` : getBlogPermalink();
+const defaultLinkText = locale === 'zh-TW' ? '查看全部文章' : locale === 'zh-CN' ? '查看全部文章' : 'View all posts';
+
 const {
   title = await Astro.slots.render('title'),
-  linkText = 'View all posts',
-  linkUrl = getBlogPermalink(),
+  linkText = defaultLinkText,
+  linkUrl = localeBlogHref,
   information = await Astro.slots.render('information'),
   count = 4,
 

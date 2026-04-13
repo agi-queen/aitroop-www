@@ -12,6 +12,7 @@ const currentLocale = getLocaleFromPath(currentPath);
         {i > 0 && <span class="text-muted opacity-40 select-none">|</span>}
         <a
           href={getLocalePath(currentPath, locale)}
+          data-lang-pick={locale}
           class:list={[
             'px-1.5 py-0.5 rounded transition-colors',
             locale === currentLocale
@@ -26,3 +27,19 @@ const currentLocale = getLocaleFromPath(currentPath);
     ))
   }
 </div>
+
+<script>
+  // Save language preference when user manually picks a language
+  function initLangPicker() {
+    document.querySelectorAll('[data-lang-pick]').forEach((el) => {
+      el.addEventListener('click', function (this: HTMLElement) {
+        const lang = this.dataset.langPick;
+        if (lang) localStorage.setItem('lang-pref', lang);
+      });
+    });
+  }
+
+  // Run on initial load and after View Transitions
+  initLangPicker();
+  document.addEventListener('astro:page-load', initLangPicker);
+</script>
