@@ -7,7 +7,7 @@ import Steps2 from '~/components/widgets/Steps2.astro';
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
-  title: '關於我們',
+  title: 'About Us',
 };
 ---
 
@@ -15,58 +15,58 @@ const metadata = {
   <!-- Hero Widget ******************* -->
 
   <Hero
-    tagline="關於 Aitroop"
+    tagline="About Aitroop"
     image={{
       src: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Aitroop 團隊',
+      alt: 'Aitroop Team',
     }}
   >
     <Fragment slot="title">
-      我們相信，掌握 AI 技能的人<br />
-      <span class="text-accent dark:text-white">能夠創造出過去無法想像的增長成果</span>
+      We believe that people who master AI skills<br />
+      <span class="text-accent dark:text-white">can achieve growth outcomes that were once unimaginable</span>
     </Fragment>
 
     <Fragment slot="subtitle">
-      獲客難、留客靠感情、工具越用越多但效率越來越低——這些問題的根源不是努力不夠，而是方法沒有跟上時代。Aitroop 的使命，是讓每一個人都能掌握 AI 驅動的獲客與留客複合能力，以更少的資源，做出更可持續的增長。
+      Struggling to acquire new customers, relying on relationships to retain them, and watching tool sprawl drain your efficiency — these problems are not caused by a lack of effort. They are caused by methods that have not kept pace with the times. The mission of Aitroop is to help everyone master the compound capability of AI-driven acquisition and retention, so they can achieve more sustainable growth with fewer resources.
     </Fragment>
   </Hero>
 
   <!-- Stats Widget ****************** -->
 
   <Stats
-    title="我們的影響力"
+    title="Our Impact"
     stats={[
-      { title: '服務客戶', amount: '500+' },
-      { title: 'AI 生成觸達內容（每月）', amount: '200萬+' },
-      { title: '用戶平均獲客效率提升', amount: '8x' },
-      { title: '客戶留存率', amount: '118% NRR' },
+      { title: 'Customers Served', amount: '500+' },
+      { title: 'AI-Generated Touchpoints (Monthly)', amount: '2M+' },
+      { title: 'Average Acquisition Efficiency Gain', amount: '8x' },
+      { title: 'Customer Retention Rate', amount: '118% NRR' },
     ]}
   />
 
   <!-- Features3 Widget ************** -->
 
   <Features3
-    title="我們解決的核心問題"
-    subtitle="Aitroop 的每一個功能，都源自一個真實存在的增長痛點。"
+    title="The Core Problems We Solve"
+    subtitle="Every feature in Aitroop traces back to a real growth pain point."
     columns={3}
     isBeforeContent={true}
     items={[
       {
-        title: '獲客沒有系統',
+        title: 'No System for Acquisition',
         description:
-          '靠人脈、靠介紹、靠廣告砸錢——這些方式不可複製。我們讓獲客變成一套可以持續運轉的系統，而不是每次都從零開始。',
+          "Relying on referrals, introductions, and paid ads is not repeatable. We turn customer acquisition into a continuously operating system — not something you rebuild from scratch every time.",
         icon: 'tabler:users-plus',
       },
       {
-        title: '個性化觸達太費時',
+        title: 'Personalized Outreach Takes Too Long',
         description:
-          '要讓對方感覺「這是為我寫的」，原本需要大量的時間調研和撰寫。AI 讓這件事快 50 倍，且品質不打折。',
+          'Making a prospect feel like a message was written just for them used to require hours of research and writing. AI makes it 50x faster without sacrificing quality.',
         icon: 'tabler:mail-bolt',
       },
       {
-        title: '工具越來越多，效率卻沒提高',
+        title: 'More Tools, No More Efficiency',
         description:
-          '每加一個工具，就多一個切換的負擔。我們把獲客、觸達、跟進、留存整合在一個平台，讓你的注意力聚焦在增長本身。',
+          'Every new tool adds another context switch. We consolidate acquisition, outreach, follow-up, and retention into a single platform so your focus stays on growth itself.',
         icon: 'tabler:apps',
       },
     ]}
@@ -79,50 +79,50 @@ const metadata = {
     isAfterContent={true}
     items={[
       {
-        title: '增長缺乏可預測性',
+        title: 'Unpredictable Growth',
         description:
-          '不知道哪條渠道真的有效、下個月會來多少新客戶——我們讓增長有數據支撐，讓預測成為決策的依據，而不是猜測。',
+          "Not knowing which channel truly works or how many new customers will arrive next month is a real problem. We make growth data-driven so forecasts become the basis for decisions, not guesswork.",
         icon: 'tabler:chart-arrows',
       },
       {
-        title: '重複性工作消耗最好的精力',
+        title: 'Repetitive Work Drains Your Best Energy',
         description:
-          '最有價值的時間，不應該花在填表、複製貼上和手動跟進上。我們讓 AI 處理這些，你專注在需要創意和判斷力的事。',
+          "Your most valuable time should not be spent on data entry, copy-pasting, and manual follow-ups. We let AI handle those tasks so you can focus on work that requires creativity and judgment.",
         icon: 'tabler:clock-x',
       },
       {
-        title: '客戶流失沒有預警',
+        title: 'Churn With No Early Warning',
         description:
-          '大多數流失都是可以避免的，只是太晚被發現。我們的健康度監測讓你在流失信號出現的早期就能介入。',
+          'Most churn is preventable — it is just caught too late. Our health monitoring lets you intervene at the earliest signs of a customer at risk.',
         icon: 'tabler:trending-down',
       },
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80',
-      alt: 'Aitroop 解決問題',
+      alt: 'Aitroop Solving Problems',
     }}
   />
 
   <!-- Steps2 Widget ****************** -->
 
   <Steps2
-    title="我們的核心價值觀"
-    subtitle="這些價值觀不是牆上的標語，而是我們每一個產品決策和客戶互動背後的依據。"
+    title="Our Core Values"
+    subtitle="These values are not slogans on a wall. They are the principles behind every product decision and every customer interaction we make."
     items={[
       {
-        title: '以用戶成果為唯一衡量標準',
+        title: 'User Outcomes Are the Only Measure That Matters',
         description:
-          '我們不在乎平台有多少功能，我們在乎的是你用了 Aitroop 之後，獲客效率是否真的提升了、客戶是否真的留住了、增長是否真的變得更可預測了。如果沒有，我們還沒有做到足夠好。',
+          "We do not care how many features the platform has. We care whether using Aitroop actually improved your acquisition efficiency, whether your customers are genuinely retained, and whether your growth has become more predictable. If not, we have not done enough.",
       },
       {
-        title: '讓複雜的事情變簡單',
+        title: 'Make Complex Things Simple',
         description:
-          '增長本身已經夠複雜了，工具不應該再增加認知負擔。Aitroop 的設計原則是：任何人不需要技術背景，30 分鐘內就能完成第一個完整的獲客工作流。',
+          'Growth is already complex enough. Tools should not add cognitive overhead. The design principle at Aitroop is that anyone — regardless of technical background — can complete their first full acquisition workflow within 30 minutes.',
       },
       {
-        title: '技能比工具更重要',
+        title: 'Skills Matter More Than Tools',
         description:
-          '工具會過時，技能不會。Aitroop 不只是讓你用 AI，更是讓你真正理解如何用 AI 思考和行動——這是別人無法輕易複製的競爭優勢。',
+          "Tools become obsolete. Skills do not. Aitroop is not just about using AI — it is about helping you truly understand how to think and act with AI. That is a competitive advantage others cannot easily replicate.",
       },
     ]}
   />
@@ -130,30 +130,30 @@ const metadata = {
   <!-- Steps2 Widget ****************** -->
 
   <Steps2
-    title="里程碑"
-    subtitle="從創立到現在，我們每一步都專注在一件事：讓 B2B GTM 更智能、更高效。"
+    title="Milestones"
+    subtitle="From founding to today, every step has been focused on one thing: making B2B GTM smarter and more efficient."
     isReversed={true}
     callToAction={{
-      text: '加入我們的旅程',
+      text: 'Join Our Journey',
       href: '/contact',
     }}
     items={[
       {
-        title: '深度紮根 B2B GTM 領域',
+        title: 'Deep Roots in B2B GTM',
         description:
-          '創始團隊來自 B2B 銷售、行銷和 AI 產品領域，深刻理解 GTM 團隊的一線痛點，讓產品從第一天起就貼近真實業務需求。',
+          'The founding team comes from B2B sales, marketing, and AI product backgrounds. We understand the front-line pain points of GTM teams firsthand, which is why the product has been close to real business needs from day one.',
         icon: 'tabler:plant',
       },
       {
-        title: '專注中國 B2B 市場的本地化',
+        title: 'Built for the China B2B Market',
         description:
-          '深度整合中國本土商業資料庫與主流國內 CRM，原生支援企業微信、微博等中國渠道，理解本土 B2B 銷售文化——這不是海外產品漢化，而是為中國市場原生打造。',
+          'We deeply integrate with Chinese business databases and leading domestic CRMs, and natively support channels like WeCom and Weibo. We understand local B2B sales culture. This is not a localized version of an overseas product — it is built natively for the China market.',
         icon: 'tabler:map-pin',
       },
       {
-        title: '客戶驅動的產品迭代',
+        title: 'Customer-Driven Product Iteration',
         description:
-          '我們的每一個新功能，都來自客戶的真實使用場景和反饋。我們的 NPS 和客戶留存率是我們最驕傲的產品成績單。',
+          'Every new feature we ship comes from real customer use cases and feedback. Our NPS and customer retention rate are the product report card we are most proud of.',
         icon: 'tabler:heart-handshake',
       },
     ]}
@@ -162,20 +162,20 @@ const metadata = {
   <!-- Features2 Widget ************** -->
 
   <Features2
-    title="立即與我們取得聯繫"
-    tagline="聯絡方式"
+    title="Get in Touch With Us"
+    tagline="Contact"
     columns={2}
     items={[
       {
-        title: '預約產品示範',
+        title: 'Book a Product Demo',
         description:
-          '與我們的顧問一對一交流，展示最適合你業務場景的解決方案。填寫表單，我們將在 1 個工作日內回覆安排。',
+          'Speak one-on-one with one of our consultants who will walk you through the solution best suited to your business. Fill out the form and we will follow up within one business day to schedule a time.',
         icon: 'tabler:calendar',
       },
       {
-        title: '合作與商務洽談',
+        title: 'Partnerships and Business Inquiries',
         description:
-          '如果你是數據供應商、CRM 廠商或系統整合商，歡迎探討合作可能。我們期待與生態夥伴共同打造更完整的 GTM 解決方案。',
+          'If you are a data provider, CRM vendor, or systems integrator, we welcome conversations about potential collaboration. We look forward to building a more complete GTM solution together with ecosystem partners.',
         icon: 'tabler:users',
       },
     ]}

@@ -1,0 +1,246 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import Prices from '~/components/widgets/Pricing.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import Features3 from '~/components/widgets/Features3.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+
+const metadata = {
+  title: '定价方案',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- HeroText Widget ******************* -->
+
+  <HeroText
+    tagline="定价方案"
+    title="透明定价，按用量付费"
+    subtitle="数据富化按 Credit 计费，AI 生成和邮件发送量包含在各方案内。年付节省 15%，所有方案均含 14 天免费试用。"
+  />
+
+  <!-- Pricing Widget ******************* -->
+
+  <Prices
+    title="选择适合你团队的方案"
+    subtitle="以下价格为每用户每月费用（年付）。月付在此基础上加 20%。"
+    prices={[
+      {
+        title: '入门版',
+        subtitle: '适合 1–3 人的小型 SDR 或市场团队',
+        price: 99,
+        period: '每用户 / 每月（年付）',
+        items: [
+          { description: '每月 500 笔数据富化 Credits（邮件查询）' },
+          { description: '每月 50 笔电话号码查询 Credits' },
+          { description: '每月 3,000 封 AI 个性化邮件生成' },
+          { description: '每月最多发送 10,000 封邮件' },
+          { description: '最多 3 条活跃外联序列' },
+          { description: 'LinkedIn 序列（每月 200 条消息）' },
+          { description: '1 个 CRM 双向同步' },
+          { description: '基础线索评分' },
+          { description: '邮件送达率监控' },
+        ],
+        callToAction: {
+          text: '免费试用 14 天',
+          href: '/zh-CN/contact',
+        },
+      },
+      {
+        title: '增长版',
+        subtitle: '专为快速扩张的 GTM 团队打造',
+        price: 249,
+        period: '每用户 / 每月（年付）',
+        items: [
+          { description: '每月 2,000 笔数据富化 Credits（邮件查询）' },
+          { description: '每月 300 笔电话号码查询 Credits' },
+          { description: '每月 20,000 封 AI 个性化邮件生成' },
+          { description: '每月最多发送 100,000 封邮件' },
+          { description: '无限活跃外联序列' },
+          { description: 'LinkedIn 序列（每月 1,000 条消息）' },
+          { description: '无限 CRM 双向同步' },
+          { description: 'AI 账户调研助手（批量，每月 500 个账户）' },
+          { description: '高级线索评分 + 意图识别' },
+          { description: '访客识别（IP 反查，每月 1,000 次）' },
+          { description: '流水线健康度监控' },
+          { description: '多触点归因分析' },
+        ],
+        callToAction: {
+          text: '免费试用 14 天',
+          href: '/zh-CN/contact',
+        },
+        hasRibbon: true,
+        ribbonTitle: '最受欢迎',
+      },
+      {
+        title: '企业版',
+        subtitle: '适合大型销售与市场组织',
+        price: 499,
+        period: '每用户 / 每月起（年付）',
+        items: [
+          { description: '自定义数据富化 Credit 额度（可谈无上限）' },
+          { description: '自定义电话号码查询 Credit 额度' },
+          { description: '自定义 AI 生成配额（含博客和提案）' },
+          { description: '自定义每月发送量' },
+          { description: 'AI 助手：会议摘要、CRM 自动填写、Text-to-SQL' },
+          { description: '客户健康评分 + 流失预警' },
+          { description: 'AI 收入预测建模（误差 < 15%）' },
+          { description: '自定义 ICP 建模与 ABM 账户管理' },
+          { description: '私有云 / 本地化部署（可选）' },
+          { description: '专属客户成功经理' },
+          { description: '服务等级协议（SLA）保障' },
+        ],
+        callToAction: {
+          text: '联系销售顾问',
+          href: '/zh-CN/contact',
+        },
+      },
+    ]}
+  />
+
+  <!-- Features3 Widget ************** -->
+
+  <Features3
+    title="关于 Credits：完全透明"
+    subtitle="我们用 Credits 衡量数据富化消耗，因为每次查询都需要连接外部数据源，存在真实的成本。"
+    columns={2}
+    items={[
+      {
+        title: '1 Credit = 1 次邮件查询',
+        description: '向数据供应商查询一个有效邮件地址消耗 1 Credit。如果查询无结果，不扣除 Credit。',
+        icon: 'tabler:mail',
+      },
+      {
+        title: '电话查询单独计费',
+        description: '电话号码数据成本远高于邮件数据，因此单独设有配额。入门版每月 50 次，增长版每月 300 次。',
+        icon: 'tabler:phone',
+      },
+      {
+        title: 'Credits 按月清零，不累积结转',
+        description: '未使用的 Credits 不结转至下月。年付用户可提前支取下一季度配额的 20%。额外 Credits 可随时单独购买。',
+        icon: 'tabler:calendar-time',
+      },
+      {
+        title: 'AI 生成配额说明',
+        description: '每封 AI 个性化邮件计为 1 次生成。AI 账户调研助手每次公司调研任务计为 1 个 Credit，与邮件生成配额分开计算。',
+        icon: 'tabler:robot',
+      },
+      {
+        title: '每月发送量上限说明',
+        description: '每月发送量指通过 Aitroop 平台实际发送的邮件数量。通过自有 SMTP 服务器发送的邮件不计入此限制。',
+        icon: 'tabler:send',
+      },
+      {
+        title: '按需加购',
+        description: '所有配额均可单独加购，无需强制升级套餐。邮件 Credit 加购：100 Credits / $8。电话 Credits：10 次查询 / $12。',
+        icon: 'tabler:plus',
+      },
+    ]}
+    classes={{ container: 'max-w-5xl' }}
+  />
+
+  <!-- Steps Widget ****************** -->
+
+  <Steps
+    title="最快 30 分钟，从试用到正式使用"
+    tagline="快速开始"
+    isReversed={true}
+    items={[
+      {
+        title: '选择方案，开始 14 天免费试用',
+        icon: 'tabler:number-1',
+      },
+      {
+        title: '连接你的 CRM 和邮件账户',
+        icon: 'tabler:number-2',
+      },
+      {
+        title: '导入第一批目标潜在客户',
+        icon: 'tabler:number-3',
+      },
+      {
+        title: 'AI 自动富化数据并生成个性化邮件',
+        icon: 'tabler:number-4',
+      },
+      {
+        title: '启动第一条邮件 + LinkedIn 外联序列',
+        icon: 'tabler:number-5',
+      },
+      {
+        title: '查看开信率和回复率，持续优化',
+        icon: 'tabler:number-6',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80',
+      alt: '快速开始流程',
+    }}
+  />
+
+  <!-- FAQs Widget ******************* -->
+
+  <FAQs
+    title="定价常见问题"
+    subtitle="对定价或用量计算有疑问？在这里找到最完整的解答。"
+    columns={1}
+    items={[
+      {
+        title: 'Credits 用完后还能继续使用平台吗？',
+        description:
+          'Credits 用完后，数据富化功能会暂停。但使用现有数据的外联序列和 AI 生成功能仍可正常使用（不消耗 Credits）。你可以随时购买加购包恢复富化功能，或等待下月配额重置。',
+      },
+      {
+        title: '月付和年付的差异有多大？',
+        description:
+          '月付比年付贵 20%。以增长版为例，月付每用户 $299，年付每用户 $249，一年下来每用户节省 $600。年付用户还可灵活提前支取下一季度的 Credits 配额。',
+      },
+      {
+        title: '14 天试用是否包含完整功能？试用期有多少 Credits？',
+        description:
+          '试用期间可体验对应方案的所有功能。试用 Credits 额度为：100 次邮件查询、10 次电话查询、500 封 AI 生成邮件、2,000 封发送量。无需绑定信用卡，试用结束后可导出数据。',
+      },
+      {
+        title: '团队如何计费？Credits 是共享还是各自独立？',
+        description:
+          'Credits 在同一账户下所有用户间共享。例如，3 人团队使用增长版，每月共享 6,000 个邮件 Credits（3 × 2,000）。如需为不同团队成员设置个人用量上限，可在管理后台进行配置。',
+      },
+      {
+        title: '可以在周期中途升级或降级方案吗？',
+        description:
+          '可以随时升级，差额将立即按比例收取。降级将在当前计费周期结束后生效。年付方案降级需联系客户支持。',
+      },
+      {
+        title: '企业版和增长版的主要区别是什么？',
+        description:
+          '除了更高的用量配额，企业版还包含增长版没有的功能：客户健康评分与流失预警、AI 收入预测建模、会议自动摘要与 CRM 自动填写、ABM 账户管理、私有云部署选项，以及专属客户成功经理。',
+      },
+      {
+        title: '支持哪些付款方式？',
+        description:
+          '我们支持主流信用卡（Visa、Mastercard）、支付宝、微信支付，以及企业对公转账（可开具增值税发票）。年付企业客户可申请按季度或半年付款。',
+      },
+    ]}
+  />
+
+  <!-- CallToAction Widget *********** -->
+
+  <CallToAction
+    title="不确定哪个方案最适合你？"
+    subtitle="告诉我们你的团队规模和使用场景，我们帮你找到最具性价比的组合方案。"
+    actions={[
+      {
+        variant: 'primary',
+        text: '预约顾问通话',
+        href: '/zh-CN/contact',
+        icon: 'tabler:messages',
+      },
+      {
+        variant: 'secondary',
+        text: '开始免费试用',
+        href: '/zh-CN/contact',
+      },
+    ]}
+  />
+</Layout>

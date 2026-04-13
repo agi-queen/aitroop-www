@@ -1,0 +1,282 @@
+---
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Content from '~/components/widgets/Content.astro';
+import Features3 from '~/components/widgets/Features3.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Stats from '~/components/widgets/Stats.astro';
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: '解决方案',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="解决方案"
+    title="无论你在增长旅程的哪个阶段，Aitroop 都有答案"
+    subtitle="获客难、跟进累、留客靠感情——这些问题不是规模的问题，而是方法的问题。Aitroop 把 AI 的力量带到每一个增长场景，让你用更少的精力，做出更可预测的成果。"
+    image={{
+      src: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=2070&q=80',
+      alt: 'Aitroop 解决方案',
+    }}
+  />
+
+  <Content
+    isReversed
+    tagline="场景一"
+    title="从零开始找到第一批精准客户"
+    items={[
+      {
+        title: '不再大海捞针，直接找「对的人」',
+        description:
+          'AI 分析你的目标客群特征，自动在数据库中筛选匹配的潜在客户，并补全有效的联系方式。你只需要决定「找哪类人」，剩下的交给系统。',
+        icon: 'tabler:crosshair',
+      },
+      {
+        title: '90 秒了解一个陌生客户',
+        description:
+          'AI Research Agent 自动调研目标对象的业务背景、近期动态和潜在痛点，生成结构化的客户摘要。你在开口说话之前，就已经比对方更了解他自己的需求。',
+        icon: 'tabler:clock',
+      },
+      {
+        title: '第一封信就让对方感觉「这是为我写的」',
+        description:
+          'AI 根据真实的客户背景——近期新闻、业务方向、公开言论——生成有具体切入点的个性化开场白。不是模板，是真实的连结感。',
+        icon: 'tabler:mail-heart',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=2070&q=80',
+      alt: '精准获客',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">精准，是获客效率的乘数</h3>
+      找到一百个普通线索，不如找到十个真正有需求的人。Aitroop 让你把精力放在值得沟通的对象上。
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <Content
+    isAfterContent
+    tagline="场景二"
+    title="规模化触达，不牺牲个性化品质"
+    items={[
+      {
+        title: '一个人，做出整个外联团队的产出',
+        description:
+          '批量生成个性化触达内容，每一封都有真实的切入点。逐条预览确认，一键发送。原本需要一天才能做完的工作，现在一小时搞定。',
+        icon: 'tabler:users',
+      },
+      {
+        title: '设定一次，系统持续跟进',
+        description:
+          '设定跟进节奏和触达渠道，系统自动在对的时间送出对的内容。你不需要每天盯着哪些人该跟进了——有回复的时候，系统会通知你。',
+        icon: 'tabler:repeat',
+      },
+      {
+        title: '邮件确实进主收件箱',
+        description:
+          '写了绝妙的开场白，结果进了垃圾箱，一切白费。Aitroop 的送达率基础设施——域名预热、信誉监控、智能轮转——确保你的心血真的被看见。',
+        icon: 'tabler:mail-check',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1533750349088-cd871a92f312?auto=format&fit=crop&w=2070&q=80',
+      alt: '规模化个性化触达',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">个性化 × 规模化，鱼与熊掌都要</h3>
+      这个矛盾在 AI 时代已经可以化解。你不需要在品质和数量之间做取舍。
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <Content
+    isReversed
+    isAfterContent
+    tagline="场景三"
+    title="把隐形的兴趣转化成可行动的机会"
+    items={[
+      {
+        title: '97% 的访客不留资料就离开',
+        description:
+          'Aitroop 的访客识别技术，让你看见那些悄悄浏览你官网、研究你产品的潜在客户。IP 反查匹配公司信息，结合访问页面和停留时长，识别真正有兴趣的对象。',
+        icon: 'tabler:eye',
+      },
+      {
+        title: '三维意图信号，不靠猜测',
+        description:
+          '官网行为、第三方意图数据、产品使用信号——三个维度的兴趣信号融合成统一的意图评分。高意图对象自动推送到跟进队列，让你在最佳时机出现。',
+        icon: 'tabler:radar',
+      },
+      {
+        title: '抢在竞争对手之前',
+        description:
+          '当一个潜在客户正在研究解决方案的时候，谁先出现谁就有优势。Aitroop 让你做到这件事，而不需要一直守着官网分析后台。',
+        icon: 'tabler:bolt',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1543286386-713bdd548da4?auto=format&fit=crop&w=2070&q=80',
+      alt: '意图识别与转化',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">主动出击，而不是等人上门</h3>
+      增长不靠等待，靠的是在对的时机找到对的人。意图雷达让这件事变得系统化。
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <Content
+    isAfterContent
+    tagline="场景四"
+    title="守住客户，比获得新客户更划算"
+    items={[
+      {
+        title: '在客户开始冷淡之前就察觉',
+        description:
+          'Aitroop 持续追踪客户的使用状况和互动频率，自动计算健康度评分。当信号开始下滑，系统在第一时间通知你，让你有足够的时间采取行动。',
+        icon: 'tabler:heart-rate-monitor',
+      },
+      {
+        title: '个性化的留存和增购触达',
+        description:
+          '根据每个客户的使用深度和旅程阶段，自动触发有针对性的培育内容或升级建议。不是群发通知，而是基于真实行为的个性化互动。',
+        icon: 'tabler:arrow-up-circle',
+      },
+      {
+        title: '把每一个满意的客户变成推荐来源',
+        description:
+          '客户最满意的时候，是推荐你的最好时机。Aitroop 帮你识别这个时机，并自动启动推荐邀请，让你的获客成本持续下降。',
+        icon: 'tabler:users-group',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1573497491765-dccce02b29df?auto=format&fit=crop&w=2070&q=80',
+      alt: '客户留存与增长',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">留住客户，是复利最强的增长引擎</h3>
+      获客是开始，守住客户、让客户带来更多客户，才是可持续增长的真正源头。
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <Content
+    isReversed
+    isAfterContent
+    tagline="场景五"
+    title="让正确的内容在正确的时机出现"
+    items={[
+      {
+        title: '一个话题，五种形式，90 秒完成',
+        description:
+          'AI 根据你的品牌语调，同时生成博客长文、LinkedIn 贴文、外联邮件序列和公众号文章。内容产量提升 5 倍，每月营销来源商机增加 25-35%，同样的人力做出更大的品牌声量。',
+        icon: 'tabler:pencil',
+      },
+      {
+        title: '在 24 小时黄金窗口精准出击',
+        description:
+          '潜在客户刚完成融资、刚换了高管、刚发出招聘广告——这些事件发生后的 24-72 小时是最佳触达窗口。Aitroop 在 5-30 分钟内发出预警，附带推荐切入点，让你第一个出现。',
+        icon: 'tabler:bell',
+      },
+      {
+        title: '让每个访客看到最相关的官网',
+        description:
+          '根据访客的来源公司、行业、广告渠道，动态调整你官网的标题、案例和行动呼吁。目标客群的 Demo 申请率提升 20-40%，无需额外开发，营销反应速度从两周缩到一天。',
+        icon: 'tabler:layout-dashboard',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=2070&q=80',
+      alt: '内容与时机',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">内容 × 时机 × 个性化，三个同时到位</h3>
+      大多数人只能做到其中一个。Aitroop 让三个同时发生，而且不需要更多人手。
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
+    </Fragment>
+  </Content>
+
+  <Features3
+    tagline="核心技能模块"
+    title="掌握这六项 AI 复合能力，让你在增长上无可取代"
+    columns={3}
+    items={[
+      {
+        title: '数据洞察力',
+        description: '读懂客户数据、识别意图信号、量化渠道效果，让每个决策都有依据。',
+        icon: 'tabler:chart-bar',
+      },
+      {
+        title: '精准触达力',
+        description: '找到对的人、说对的话、在对的时机出现，提升每一次沟通的命中率。',
+        icon: 'tabler:target',
+      },
+      {
+        title: '个性化创作力',
+        description: '用 AI 大规模生成有真实切入点的个性化内容，品质不输手写，速度快 50 倍。',
+        icon: 'tabler:pencil',
+      },
+      {
+        title: '自动化执行力',
+        description: '把重复性工作系统化，设定一次规则持续运转，把精力留给需要判断力的事。',
+        icon: 'tabler:settings-automation',
+      },
+      {
+        title: '客户洞察力',
+        description: '理解客户的健康状态、需求变化和流失风险，在最关键的时刻主动出现。',
+        icon: 'tabler:eye',
+      },
+      {
+        title: '增长预测力',
+        description: '把直觉变成数据，用可信的预测支撑增长决策，不再靠感觉行事。',
+        icon: 'tabler:trending-up',
+      },
+    ]}
+    isBeforeContent={true}
+  />
+
+  <Stats
+    stats={[
+      { title: '每日触达量提升', amount: '6x' },
+      { title: '个性化邮件回复率', amount: '8-15%' },
+      { title: '流失预警提前', amount: '90天' },
+      { title: '收入预测误差', amount: '<15%' },
+    ]}
+  />
+
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: '找我们聊聊你的增长挑战',
+        href: '/zh-CN/contact',
+        icon: 'tabler:messages',
+      },
+    ]}
+    title="你面对的增长挑战，Aitroop 大概率有答案"
+    subtitle="每个人的场景不同。告诉我们你现在卡在哪里，我们来展示最有针对性的解决方式。"
+  />
+</Layout>

@@ -5,7 +5,7 @@ import ContactUs from '~/components/widgets/Contact.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 
 const metadata = {
-  title: '聯絡我們',
+  title: 'Contact Us',
 };
 ---
 
@@ -13,89 +13,89 @@ const metadata = {
   <!-- HeroText Widget ******************* -->
 
   <HeroText
-    tagline="聯絡我們"
-    title="讓我們聊聊你的 GTM 挑戰"
-    subtitle="無論你是想預約產品示範、探討企業方案，還是只是想了解更多，我們的顧問都很樂意與你交流。"
+    tagline="Contact Us"
+    title="Let's Talk About Your GTM Challenges"
+    subtitle="Whether you want to book a product demo, explore an enterprise plan, or simply learn more, our consultants are happy to connect with you."
   />
 
   <ContactUs
     id="form"
-    title="預約產品示範或諮詢"
-    subtitle="填寫以下表單，我們的顧問將在 1 個工作日內與你聯繫，安排最適合的時間進行 30 分鐘一對一示範。"
+    title="Book a Product Demo or Consultation"
+    subtitle="Fill out the form below and our consultant will reach out within one business day to schedule a 30-minute one-on-one demo at a time that works for you."
     inputs={[
       {
         type: 'text',
         name: 'name',
-        label: '你的姓名',
-        placeholder: '王小明',
+        label: 'Your Name',
+        placeholder: 'Jane Smith',
       },
       {
         type: 'email',
         name: 'email',
-        label: '工作郵箱',
+        label: 'Work Email',
         placeholder: 'name@company.com',
       },
       {
         type: 'text',
         name: 'company',
-        label: '公司名稱',
-        placeholder: '你的公司名稱',
+        label: 'Company Name',
+        placeholder: 'Your company name',
       },
       {
         type: 'text',
         name: 'role',
-        label: '你的職位',
-        placeholder: '例如：銷售總監、市場負責人、RevOps',
+        label: 'Your Role',
+        placeholder: 'e.g. VP of Sales, Head of Marketing, RevOps',
       },
     ]}
     textarea={{
-      label: '你最想解決的問題是什麼？',
-      placeholder: '例如：SDR 外聯效率低、收入預測不準、客戶資料品質差……簡單描述你的場景，有助於我們為你準備最相關的示範內容。',
+      label: 'What is the biggest problem you want to solve?',
+      placeholder: "e.g. SDR outreach efficiency is low, revenue forecasts are unreliable, prospect data quality is poor... A brief description of your situation helps us prepare the most relevant demo content.",
     }}
     disclaimer={{
       label:
-        '提交此表單，即表示你同意我們根據隱私政策收集和使用你的聯繫資訊，用於回應你的諮詢。我們不會將你的資訊分享給第三方。',
+        "By submitting this form, you agree that we may collect and use your contact information in accordance with our Privacy Policy to respond to your inquiry. We will not share your information with third parties.",
     }}
-    description="通常在 1 個工作日內回覆。如需緊急聯繫，請直接發送郵件至 hello@aitroop.net。"
+    description="We typically respond within one business day. For urgent inquiries, please email us directly at hello@aitroop.net."
   />
 
   <!-- Features2 Widget ************** -->
 
   <Features2
-    title="我們能為你提供什麼"
+    title="What We Can Do for You"
     items={[
       {
-        title: '一對一產品示範',
+        title: 'One-on-One Product Demo',
         description:
-          '我們的顧問會根據你的業務場景（SDR 外聯、市場歸因、RevOps、客戶成功），準備最有針對性的示範內容，不是通用的 PPT 演示。',
+          "Our consultants tailor each demo to your specific business context — whether that's SDR outreach, marketing attribution, RevOps, or customer success. Expect a focused walkthrough, not a generic slide deck.",
         icon: 'tabler:presentation',
       },
       {
-        title: '企業方案諮詢',
+        title: 'Enterprise Plan Consulting',
         description:
-          '如果你的團隊超過 20 人，或有私有化部署、定制整合等需求，我們的企業銷售團隊可以為你設計專屬解決方案和定價。',
+          "If your team is larger than 20 people, or if you have requirements around private deployment or custom integrations, our enterprise sales team can design a dedicated solution and pricing structure for you.",
         icon: 'tabler:building',
       },
       {
-        title: '技術整合支援',
+        title: 'Technical Integration Support',
         description:
-          '需要將 Aitroop 連接到你現有的 CRM、數據系統或內部工具？我們的解決方案工程師可以評估整合可行性並提供技術方案。',
+          "Need to connect Aitroop to your existing CRM, data systems, or internal tools? Our solutions engineers can assess integration feasibility and provide a technical plan.",
         icon: 'tabler:plug',
       },
       {
-        title: '合作夥伴洽談',
+        title: 'Partnership Discussions',
         description:
-          '數據供應商、CRM 廠商、系統整合商——我們積極尋求可以共同為 B2B 客戶創造更大價值的生態合作夥伴。',
+          "Data providers, CRM vendors, systems integrators — we actively seek ecosystem partners who can help create greater value for B2B customers together.",
         icon: 'tabler:users',
       },
       {
-        title: '郵件直接聯繫',
+        title: 'Email Us Directly',
         description: 'hello@aitroop.net',
         icon: 'tabler:mail',
       },
       {
-        title: '微信公眾號',
-        description: '搜索「Aitroop」關注我們，獲取最新 B2B 銷售和 GTM 洞察內容。',
+        title: 'WeChat Official Account',
+        description: 'Search "Aitroop" on WeChat to follow us for the latest B2B sales and GTM insights.',
         icon: 'tabler:brand-wechat',
       },
     ]}

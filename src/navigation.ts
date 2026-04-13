@@ -1,41 +1,47 @@
 import { getPermalink, getBlogPermalink, getAsset } from './utils/permalinks';
 import type { Locale } from './i18n/utils';
 
+function lp(locale: Locale, path: string): string {
+  return locale === 'en' ? path : `/${locale}${path}`;
+}
+
 // ─── Header ──────────────────────────────────────────────────────────────────
 
-const headerLinks: Record<Locale, object[]> = {
-  en: [
-    { text: 'Features', href: getPermalink('/services') },
-    { text: 'Solutions', href: getPermalink('/solutions') },
-    { text: 'Pricing', href: getPermalink('/pricing') },
-    { text: 'Blog', href: getBlogPermalink() },
-    { text: 'About', href: getPermalink('/about') },
-  ],
-  'zh-TW': [
-    { text: '功能特色', href: getPermalink('/services') },
-    { text: '解決方案', href: getPermalink('/solutions') },
-    { text: '定價方案', href: getPermalink('/pricing') },
-    { text: '部落格', href: getBlogPermalink() },
-    { text: '關於我們', href: getPermalink('/about') },
-  ],
-  'zh-CN': [
-    { text: '功能特色', href: getPermalink('/services') },
-    { text: '解决方案', href: getPermalink('/solutions') },
-    { text: '定价方案', href: getPermalink('/pricing') },
-    { text: '博客', href: getBlogPermalink() },
-    { text: '关于我们', href: getPermalink('/about') },
-  ],
-};
+function buildHeaderLinks(locale: Locale) {
+  return {
+    en: [
+      { text: 'Features', href: lp(locale, getPermalink('/services')) },
+      { text: 'Solutions', href: lp(locale, getPermalink('/solutions')) },
+      { text: 'Pricing', href: lp(locale, getPermalink('/pricing')) },
+      { text: 'Blog', href: getBlogPermalink() },
+      { text: 'About', href: lp(locale, getPermalink('/about')) },
+    ],
+    'zh-TW': [
+      { text: '功能特色', href: lp(locale, getPermalink('/services')) },
+      { text: '解決方案', href: lp(locale, getPermalink('/solutions')) },
+      { text: '定價方案', href: lp(locale, getPermalink('/pricing')) },
+      { text: '部落格', href: getBlogPermalink() },
+      { text: '關於我們', href: lp(locale, getPermalink('/about')) },
+    ],
+    'zh-CN': [
+      { text: '功能特色', href: lp(locale, getPermalink('/services')) },
+      { text: '解决方案', href: lp(locale, getPermalink('/solutions')) },
+      { text: '定价方案', href: lp(locale, getPermalink('/pricing')) },
+      { text: '博客', href: getBlogPermalink() },
+      { text: '关于我们', href: lp(locale, getPermalink('/about')) },
+    ],
+  }[locale];
+}
 
 const headerActions: Record<Locale, object[]> = {
-  en: [{ text: 'Book a Demo', href: getPermalink('/contact'), variant: 'primary' }],
-  'zh-TW': [{ text: '預約示範', href: getPermalink('/contact'), variant: 'primary' }],
-  'zh-CN': [{ text: '预约演示', href: getPermalink('/contact'), variant: 'primary' }],
+  en: [{ text: 'Book a Demo', href: lp('en', getPermalink('/contact')), variant: 'primary' }],
+  'zh-TW': [{ text: '預約示範', href: lp('zh-TW', getPermalink('/contact')), variant: 'primary' }],
+  'zh-CN': [{ text: '预约演示', href: lp('zh-CN', getPermalink('/contact')), variant: 'primary' }],
 };
 
 export function getHeaderData(locale: Locale = 'en') {
   return {
-    links: headerLinks[locale] ?? headerLinks['en'],
+    links: buildHeaderLinks(locale) ?? buildHeaderLinks('en'),
     actions: headerActions[locale] ?? headerActions['en'],
   };
 }
@@ -43,6 +49,7 @@ export function getHeaderData(locale: Locale = 'en') {
 // ─── Footer ──────────────────────────────────────────────────────────────────
 
 export function getFooterData(locale: Locale = 'en') {
+  const p = (path: string) => lp(locale, path);
   const t = {
     en: {
       product: 'Product',
@@ -129,8 +136,8 @@ export function getFooterData(locale: Locale = 'en') {
       {
         title: t.product,
         links: [
-          { text: t.features, href: getPermalink('/services') },
-          { text: t.pricing, href: getPermalink('/pricing') },
+          { text: t.features, href: p(getPermalink('/services')) },
+          { text: t.pricing, href: p(getPermalink('/pricing')) },
           { text: t.integrations, href: '#' },
           { text: t.security, href: '#' },
           { text: t.changelog, href: '#' },
@@ -139,10 +146,10 @@ export function getFooterData(locale: Locale = 'en') {
       {
         title: t.solutions,
         links: [
-          { text: t.acquisition, href: getPermalink('/solutions') },
-          { text: t.outreach, href: getPermalink('/solutions') },
-          { text: t.intent, href: getPermalink('/solutions') },
-          { text: t.retention, href: getPermalink('/solutions') },
+          { text: t.acquisition, href: p(getPermalink('/solutions')) },
+          { text: t.outreach, href: p(getPermalink('/solutions')) },
+          { text: t.intent, href: p(getPermalink('/solutions')) },
+          { text: t.retention, href: p(getPermalink('/solutions')) },
         ],
       },
       {
@@ -150,14 +157,14 @@ export function getFooterData(locale: Locale = 'en') {
         links: [
           { text: t.docs, href: '#' },
           { text: t.faq, href: '#' },
-          { text: t.contact, href: getPermalink('/contact') },
+          { text: t.contact, href: p(getPermalink('/contact')) },
           { text: t.status, href: '#' },
         ],
       },
       {
         title: t.company,
         links: [
-          { text: t.about, href: getPermalink('/about') },
+          { text: t.about, href: p(getPermalink('/about')) },
           { text: t.blog, href: getBlogPermalink() },
           { text: t.careers, href: '#' },
           { text: t.press, href: '#' },

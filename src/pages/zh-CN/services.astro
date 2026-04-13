@@ -1,0 +1,364 @@
+---
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Content from '~/components/widgets/Content.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import Features3 from '~/components/widgets/Features3.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Testimonials from '~/components/widgets/Testimonials.astro';
+import Layout from '~/layouts/PageLayout.astro';
+
+const metadata = {
+  title: '功能特色',
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    tagline="功能特色"
+    title="找到、触达、转化、留住——每个环节都用 AI 提速"
+    subtitle="Aitroop 覆盖客户增长的完整旅程。从识别精准客群到守住每一个现有客户，四个核心支柱协同运作，让你一个人能做出过去需要整个团队才能完成的事。"
+    actions={[{ variant: 'primary', text: '预约产品演示', href: '/zh-CN/contact' }]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1740&q=80',
+      alt: 'Aitroop 功能特色',
+    }}
+  />
+
+  <Features2
+    tagline="第一步：找到"
+    title="精准锁定，找到真正值得沟通的人"
+    subtitle="在你开口之前，先确认你找到的是对的人。Aitroop 让目标识别从猜测变成科学。"
+    columns={3}
+    items={[
+      {
+        title: 'ICP 建模与客群分析',
+        description:
+          'AI 分析你现有的高价值客户，提炼出可量化的理想客群特征——行业、规模、技术栈、增长阶段。ICP 匹配的线索成交率高出 25-40%，销售周期缩短 30%。',
+        icon: 'tabler:crosshair',
+      },
+      {
+        title: 'Waterfall 智能数据富化',
+        description:
+          '上传名单后自动补全有效邮箱、手机、LinkedIn、融资记录。Waterfall 串联多个数据源依序尝试，有效联系人覆盖率从 40% 提升到 80% 以上，跳出率从 15% 降到 3% 以下。',
+        icon: 'tabler:database-search',
+      },
+      {
+        title: 'AI 客户研究助手',
+        description:
+          '输入域名，AI 在 90 秒内自动浏览官网、新闻、LinkedIn，回答你预设的问题：主要客群、近期切入点、潜在痛点——结果直接填入外联模板。',
+        icon: 'tabler:robot',
+      },
+      {
+        title: '匿名访客识别',
+        description:
+          '97% 的网站访客不填表就离开。Aitroop 通过 IP 反查识别访客所属公司，追踪访问页面与停留时长，把每个月的隐形访客转化为可跟进的线索。',
+        icon: 'tabler:eye',
+      },
+      {
+        title: '买家意图信号监控',
+        description:
+          '官网行为、第三方意图数据、产品使用记录——三个维度的购买信号融合成统一评分。高意图客户自动推入优先跟进队列，让你在最佳时机出现。',
+        icon: 'tabler:radar',
+      },
+      {
+        title: '企业事件即时监控',
+        description:
+          '融资、高管变动、招聘扩张、竞品动向——系统 5-30 分钟内发出预警，比传统工具快 24-48 小时。信号触发的外联回复率是冷外联的 5-10 倍。',
+        icon: 'tabler:bell',
+      },
+    ]}
+  />
+
+  <Features2
+    tagline="第二步：触达"
+    title="个性化 × 规模化，两个不再是选择题"
+    subtitle="一个人做出整个外联团队的产出，每一封信都让对方感觉是为他专属写的。"
+    columns={3}
+    items={[
+      {
+        title: '个性化外联流水线',
+        description:
+          '名单上传 → 自动富化 → AI 生成个性化首句（基于融资事件、招聘动态、CEO 文章）→ 一键启动序列。原本需要一天的工作，现在一小时完成。回复率提升 3-5 倍。',
+        icon: 'tabler:send',
+      },
+      {
+        title: '多渠道自动化序列',
+        description:
+          '邮件 + LinkedIn 混合序列，设定一次跟进节奏，系统持续运转，有回复自动暂停。多渠道触达比纯邮件回复率高 37%，每个人每月预约量提升 2 倍以上。',
+        icon: 'tabler:list-check',
+      },
+      {
+        title: '邮件送达率基础设施',
+        description:
+          '域名预热、信誉监控、多域名智能轮转——确保你精心撰写的邮件进主收件箱而不是垃圾箱。主收件箱到达率稳定维持在 90% 以上。',
+        icon: 'tabler:mail-check',
+      },
+      {
+        title: 'AI 内容批量生成',
+        description:
+          '输入话题和目标客群，90 秒内同时生成博客、LinkedIn 贴文、邮件序列。每月内容产量提升 5 倍，营销来源的商机线索增加 25-35%。',
+        icon: 'tabler:pencil',
+      },
+      {
+        title: '官网个性化',
+        description:
+          '根据访客来源公司、行业、广告渠道动态调整首页文案和案例展示，不同的访客看到最相关的内容。无需开发，Demo 申请率提升 20-40%。',
+        icon: 'tabler:layout-dashboard',
+      },
+      {
+        title: '营销自动化工作流',
+        description:
+          '可视化旅程编排，基于行为和属性触发邮件、短信、站内消息。动态受众每 15 分钟自动更新，MQL→SQL 转化率提升到 25-30%。',
+        icon: 'tabler:settings-automation',
+      },
+    ]}
+  />
+
+  <Features2
+    tagline="第三步：转化"
+    title="把每一个兴趣信号，变成可预测的成交机会"
+    subtitle="从线索到合约，每个环节都有 AI 帮你识别优先级、加快节奏、提升胜率。"
+    columns={3}
+    items={[
+      {
+        title: '线索评分与优先排序',
+        description:
+          'AI 综合行为、意图、公司属性实时评分，搭配可解释的评分理由。销售每天的优先清单一目了然，SQL 成交率提升 2.7 倍，不再在低质线索上浪费时间。',
+        icon: 'tabler:target',
+      },
+      {
+        title: 'AI 提案自动生成',
+        description:
+          'AE 输入客户名称，AI Research + CRM 数据自动生成 12-15 页个性化提案——公司背景、定制方案、相关案例、定价框架。5 分钟出稿，当天就能发出，比竞争对手快 3 天。',
+        icon: 'tabler:file-description',
+      },
+      {
+        title: 'Pipeline 管理与健康预警',
+        description:
+          'CRM 即时同步，自动标记超过正常推进周期的商机，AI 建议下一步行动。Win Rate 提升 10-15%，销售周期缩短 20%，管理层周会从 4 小时缩到 1.5 小时。',
+        icon: 'tabler:chart-arrows',
+      },
+      {
+        title: '收入预测',
+        description:
+          'AI 分析 Pipeline 流速、历史成交规律、代表偏差，生成乐观/基准/悲观三种情境预测。预测误差从 ±30% 稳定到 ±10-15%，让每一个资源决策都有可信依据。',
+        icon: 'tabler:trending-up',
+      },
+      {
+        title: 'PQL 识别',
+        description:
+          '从大量试用用户中精准识别「正在达到 Aha 时刻」的那批人——功能启用、用量接近上限、邀请队友。AI 触发即时跟进，免费转付费转化率提升 2.3 倍。',
+        icon: 'tabler:user-check',
+      },
+      {
+        title: '销售通话分析与教练',
+        description:
+          'AI 自动转录、评分每一通销售电话，提炼顶尖销售的对话模式，生成个人化成长建议。新人培训周期从 6 个月缩到 3 个月，整体团队通话品质提升 15%。',
+        icon: 'tabler:microphone',
+      },
+    ]}
+  />
+
+  <Features2
+    tagline="第四步：留住"
+    title="守住客户，是成本最低、回报最高的增长策略"
+    subtitle="获客是开始，把现有客户服务好才是复利增长的真正引擎。Aitroop 让你在问题发生之前就采取行动。"
+    columns={3}
+    items={[
+      {
+        title: '客户健康度即时评分',
+        description:
+          '持续追踪产品使用深度、功能采用率、支持工单趋势和互动频率，自动计算健康评分。CSM 每周节省 4-6 小时的手动排查，NRR 平均提升 8-15 个百分点。',
+        icon: 'tabler:heart-rate-monitor',
+      },
+      {
+        title: '流失预警：比客户先知道',
+        description:
+          '健康评分持续下滑时，系统在流失发生前 90 天推送预警，并自动生成个性化挽回策略。提前介入的成功率是事后补救的 3-4 倍，且成本低 80%。',
+        icon: 'tabler:bell-ringing',
+      },
+      {
+        title: '续费与增购自动化',
+        description:
+          '基于客户旅程和使用数据，自动触发个性化的升级建议和续费提醒。不靠人工逐个盯，系统在最佳时机自动启动，CSM 专注在真正需要人工介入的客户上。',
+        icon: 'tabler:arrow-up-circle',
+      },
+      {
+        title: 'Champion 职位变动追踪',
+        description:
+          '你的关键联系人离职是客户流失的最大预警信号之一。Aitroop 自动监控账户内关键人职位变动，第一时间通知并建议关系维护行动。',
+        icon: 'tabler:user-search',
+      },
+      {
+        title: '推荐裂变自动化',
+        description:
+          '在客户 NPS 最高的时机自动触发推荐邀请，追踪推荐链路，把满意的客户转化成你最低成本的获客渠道。',
+        icon: 'tabler:share',
+      },
+      {
+        title: 'CRM 双向同步',
+        description:
+          '深度整合国内外主流 CRM，线索、联系人、商机、健康分数双向即时同步。CRM 填写率从 40% 提升到 85%，数据始终保持一致，不再靠人工复制粘贴。',
+        icon: 'tabler:refresh',
+      },
+    ]}
+  />
+
+  <Content
+    isReversed
+    items={[
+      {
+        title: '会议自动转录 + CRM 自动填写',
+        description:
+          '通话结束后 5 分钟，AI 自动生成结构化摘要、BANT 信息、待办事项，直接同步到 CRM。跟进邮件在黄金 1 小时内发出，不靠记忆，不靠意志力。',
+        icon: 'tabler:notes',
+      },
+      {
+        title: '自然语言查询数据',
+        description:
+          '用中文直接问：「上个月哪个行业的转化率最高？」「本季 Pipeline 缺口多少？」不需要等分析师，不需要写 SQL，30 秒得到答案。',
+        icon: 'tabler:message-question',
+      },
+      {
+        title: '实时 AI 话术辅助',
+        description:
+          '通话中 AI 即时推送相关案例、异议处理建议、竞品对比回答，让每一位销售都能有顶尖销售的表现水准，不只是顶尖那一位。',
+        icon: 'tabler:message-chatbot',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=870&q=80',
+      alt: 'AI 助手',
+    }}
+  >
+    <Fragment slot="content">
+      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">AI 助手：把每天 72% 的行政工作变回销售时间</h3>
+      顶尖销售和普通销售的差距，往往不在能力，而在他们用多少时间真正在做销售。
+    </Fragment>
+  </Content>
+
+  <Features3
+    tagline="为什么选择 Aitroop"
+    title="五个让 Aitroop 与众不同的特色"
+    subtitle="我们不是在做一个「也能用」的增长工具，而是在重新定义个人和团队的 AI 增长能力上限。"
+    columns={2}
+    items={[
+      {
+        title: '中国市场原生，不是汉化版',
+        description:
+          '从数据源到合规设计，Aitroop 为中国市场原生打造。支持本土商业数据库集成、企业微信外联、人民币计费，符合个人信息保护法要求。',
+        icon: 'tabler:flag',
+      },
+      {
+        title: '意图雷达：三维信号融合',
+        description:
+          '官网访问行为 + 第三方意图数据 + 产品使用记录，三个维度融合成统一评分。让你在竞争对手意识到机会之前，已经出现在客户面前。',
+        icon: 'tabler:radar',
+      },
+      {
+        title: 'Waterfall 智能富化引擎',
+        description:
+          '串联多个数据源，依优先级自动尝试，命中即停止。有效邮箱覆盖率稳定 80% 以上，跳出率 3% 以下——单一数据源无法做到。',
+        icon: 'tabler:filter-bolt',
+      },
+      {
+        title: '全链路一体化，零工具切换',
+        description:
+          '从找到目标客户到促成成交、守住续费，所有环节在一个平台完成。节省的不只是工具费用，更是每次切换、搜索、复制粘贴浪费的专注力。',
+        icon: 'tabler:arrows-join',
+      },
+      {
+        title: 'AI 助手懂中文商业语境',
+        description:
+          'AI 生成的外联信件、会议摘要、提案内容理解中国 B2B 的业务惯例与沟通风格，不是套用西方范本的生硬翻译，用起来更自然、更有效。',
+        icon: 'tabler:message-chatbot',
+      },
+      {
+        title: '可预测的增长引擎',
+        description:
+          '不只是外联工具，更是增长运营平台。AI 收入预测误差 < 15%、流失预警提前 90 天、Pipeline 健康实时可见——增长从靠感觉变成有依据。',
+        icon: 'tabler:trending-up',
+      },
+    ]}
+    classes={{ container: 'max-w-5xl' }}
+  />
+
+  <Features3
+    title="整合你现有的每一个工具"
+    subtitle="Aitroop 不是要替换你的工具，而是把它们连接起来，消除协作摩擦。"
+    columns={2}
+    items={[
+      {
+        title: 'CRM 集成',
+        description: '国内外主流 CRM 全面支持——双向即时同步，数据永远一致，国内外平台均可接入。',
+        icon: 'tabler:plug',
+      },
+      {
+        title: '数据供应商',
+        description: '深度整合国内外多个商业数据库——Waterfall 智能策略自动选择最优数据源，一站式覆盖全球联系人数据。',
+        icon: 'tabler:database',
+      },
+      {
+        title: '沟通工具',
+        description: '邮件客户端、企业微信、Slack——通知和工作流直达你的日常协作工具。',
+        icon: 'tabler:message',
+      },
+      {
+        title: '营销平台',
+        description: '广告归因、UTM 管理、官网追踪——从流量到成交，全路径数据打通。',
+        icon: 'tabler:chart-pie',
+      },
+    ]}
+    classes={{ container: 'max-w-5xl' }}
+  />
+
+  <Testimonials
+    title="他们用 Aitroop 改变了业绩轨迹"
+    testimonials={[
+      {
+        testimonial: `以前每天花两三个小时调研客户、写个性化邮件，用了 Aitroop 之后，我只需要审核 AI 生成的内容，每天外联量从 20 人增加到 100 人以上，预约率提升了将近一倍。`,
+        name: '陈建宏',
+        job: '企业软件公司业务拓展',
+        image: {
+          src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=930&q=80',
+          alt: '陈建宏',
+        },
+      },
+      {
+        testimonial: `最让我惊讶的是归因功能。以前老板问「这笔预算带来了多少收入」我只能说大概，现在每个渠道的 ROI 清清楚楚，预算申请容易多了，营销和销售的摩擦也少了。`,
+        name: '林雅婷',
+        job: 'SaaS 公司营销增长负责人',
+        image: {
+          src: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=774&q=80',
+          alt: '林雅婷',
+        },
+      },
+      {
+        testimonial: `收入预测这件事做了五年，误差从没低于 25%。Aitroop 上线三个季度后，我们的预测误差稳定在 12% 以内。这对我们做人员规划和预算分配意义重大。`,
+        name: '王志强',
+        job: '制造业数字化公司增长负责人',
+        image: {
+          src: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=824&q=80',
+          alt: '王志强',
+        },
+      },
+    ]}
+    callToAction={{
+      text: '查看更多用户故事',
+      href: '/zh-CN/contact',
+      icon: 'tabler:chevron-right',
+    }}
+  />
+
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: '预约 30 分钟产品演示',
+        href: '/zh-CN/contact',
+      },
+    ]}
+    title="亲眼看看 Aitroop 如何改变你的增长效率"
+    subtitle="让我们的顾问根据你的业务场景，展示最适合你的工作流方案。"
+  />
+</Layout>

@@ -8,7 +8,7 @@ import Features3 from '~/components/widgets/Features3.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
-  title: '定價方案',
+  title: 'Pricing',
 };
 ---
 
@@ -16,84 +16,84 @@ const metadata = {
   <!-- HeroText Widget ******************* -->
 
   <HeroText
-    tagline="定價方案"
-    title="透明定價，按用量付費"
-    subtitle="資料富化按 Credit 計費，AI 生成和發信量根據方案各有額度。年付享 85 折，所有方案提供 14 天免費試用。"
+    tagline="Pricing"
+    title="Transparent Pricing, Pay for What You Use"
+    subtitle="Data enrichment is billed by Credit. AI generation and email sending volume are included in each plan. Annual billing saves 15%, and all plans include a 14-day free trial."
   />
 
   <!-- Pricing Widget ******************* -->
 
   <Prices
-    title="選擇適合你團隊的方案"
-    subtitle="以下價格為每用戶每月（年付），月付另加 20%"
+    title="Choose the Plan That Fits Your Team"
+    subtitle="Prices shown are per user per month (annual billing). Monthly billing adds 20%."
     prices={[
       {
-        title: '入門版',
-        subtitle: '適合 1-3 人的小型 SDR 或行銷團隊',
+        title: 'Starter',
+        subtitle: 'Ideal for small SDR or marketing teams of 1–3 people',
         price: 99,
-        period: '每用戶 / 每月（年付）',
+        period: 'per user / per month (annual)',
         items: [
-          { description: '每月 500 筆資料富化 Credits（郵箱驗證）' },
-          { description: '每月 50 筆電話號碼查詢 Credits' },
-          { description: '每月 3,000 封 AI 個性化郵件生成' },
-          { description: '每月最多發送 10,000 封郵件' },
-          { description: '最多 3 條活躍外聯序列' },
-          { description: 'LinkedIn 序列（每月 200 則訊息）' },
-          { description: '1 個 CRM 雙向同步' },
-          { description: '基礎線索評分' },
-          { description: '郵件送達率監控' },
+          { description: '500 data enrichment Credits per month (email verification)' },
+          { description: '50 phone number lookup Credits per month' },
+          { description: '3,000 AI-personalized emails generated per month' },
+          { description: 'Up to 10,000 emails sent per month' },
+          { description: 'Up to 3 active outreach sequences' },
+          { description: 'LinkedIn sequences (200 messages per month)' },
+          { description: '1 CRM two-way sync' },
+          { description: 'Basic lead scoring' },
+          { description: 'Email deliverability monitoring' },
         ],
         callToAction: {
-          text: '免費試用 14 天',
+          text: 'Start Free 14-Day Trial',
           href: '/contact',
         },
       },
       {
-        title: '成長版',
-        subtitle: '適合快速擴張的 GTM 團隊',
+        title: 'Growth',
+        subtitle: 'Built for fast-scaling GTM teams',
         price: 249,
-        period: '每用戶 / 每月（年付）',
+        period: 'per user / per month (annual)',
         items: [
-          { description: '每月 2,000 筆資料富化 Credits（郵箱驗證）' },
-          { description: '每月 300 筆電話號碼查詢 Credits' },
-          { description: '每月 20,000 封 AI 個性化郵件生成' },
-          { description: '每月最多發送 100,000 封郵件' },
-          { description: '無限活躍外聯序列' },
-          { description: 'LinkedIn 序列（每月 1,000 則訊息）' },
-          { description: '無限 CRM 雙向同步' },
-          { description: 'AI 客戶研究助手（批量，每月 500 筆）' },
-          { description: '進階線索評分 + 意圖識別' },
-          { description: '官網訪客識別（IP 反查，每月 1,000 筆）' },
-          { description: 'Pipeline 健康度監控' },
-          { description: '多觸點歸因分析' },
+          { description: '2,000 data enrichment Credits per month (email verification)' },
+          { description: '300 phone number lookup Credits per month' },
+          { description: '20,000 AI-personalized emails generated per month' },
+          { description: 'Up to 100,000 emails sent per month' },
+          { description: 'Unlimited active outreach sequences' },
+          { description: 'LinkedIn sequences (1,000 messages per month)' },
+          { description: 'Unlimited CRM two-way sync' },
+          { description: 'AI account research assistant (batch, 500 accounts per month)' },
+          { description: 'Advanced lead scoring + intent detection' },
+          { description: 'Website visitor identification (IP reverse lookup, 1,000 per month)' },
+          { description: 'Pipeline health monitoring' },
+          { description: 'Multi-touch attribution analysis' },
         ],
         callToAction: {
-          text: '免費試用 14 天',
+          text: 'Start Free 14-Day Trial',
           href: '/contact',
         },
         hasRibbon: true,
-        ribbonTitle: '最受歡迎',
+        ribbonTitle: 'Most Popular',
       },
       {
-        title: '企業版',
-        subtitle: '適合大型銷售與行銷組織',
+        title: 'Enterprise',
+        subtitle: 'For large sales and marketing organizations',
         price: 499,
-        period: '每用戶 / 每月起（年付）',
+        period: 'per user / per month starting (annual)',
         items: [
-          { description: '自訂資料富化 Credits 額度（可談無上限）' },
-          { description: '自訂電話查詢 Credits 額度' },
-          { description: '自訂 AI 生成額度（含部落格、提案）' },
-          { description: '自訂每月發信量' },
-          { description: 'AI 助手：會議摘要、CRM 自動回填、Text-to-SQL' },
-          { description: '客戶健康度評分 + 流失預警' },
-          { description: 'AI 收入預測模型（誤差 < 15%）' },
-          { description: '自訂 ICP 建模與 ABM 帳戶管理' },
-          { description: '私有雲 / 本地化部署（可選）' },
-          { description: '專屬客戶成功經理' },
-          { description: '服務等級協議（SLA）保障' },
+          { description: 'Custom data enrichment Credit volume (negotiable, no cap)' },
+          { description: 'Custom phone lookup Credit volume' },
+          { description: 'Custom AI generation quota (including blog posts and proposals)' },
+          { description: 'Custom monthly sending volume' },
+          { description: 'AI assistants: meeting summaries, CRM auto-fill, Text-to-SQL' },
+          { description: 'Customer health scoring + churn early warning' },
+          { description: 'AI revenue forecasting model (error < 15%)' },
+          { description: 'Custom ICP modeling and ABM account management' },
+          { description: 'Private cloud / on-premises deployment (optional)' },
+          { description: 'Dedicated customer success manager' },
+          { description: 'Service Level Agreement (SLA) guarantee' },
         ],
         callToAction: {
-          text: '聯繫銷售顧問',
+          text: 'Talk to Sales',
           href: '/contact',
         },
       },
@@ -103,38 +103,38 @@ const metadata = {
   <!-- Features3 Widget ************** -->
 
   <Features3
-    title="關於 Credits：透明說清楚"
-    subtitle="我們用 Credit 計算資料富化的用量，因為每一筆查詢都需要對接外部資料源，有真實的成本。"
+    title="About Credits: Full Transparency"
+    subtitle="We use Credits to measure data enrichment consumption because every lookup requires connecting to external data sources, which has a real cost."
     columns={2}
     items={[
       {
-        title: '1 Credit = 1 筆郵箱查詢',
-        description: '向資料供應商查詢一個有效郵箱地址消耗 1 Credit。查詢失敗（無命中）不扣 Credit。',
+        title: '1 Credit = 1 Email Lookup',
+        description: 'Querying a data provider for a valid email address consumes 1 Credit. If the query returns no result, no Credit is deducted.',
         icon: 'tabler:mail',
       },
       {
-        title: '電話查詢獨立計費',
-        description: '電話號碼的資料成本遠高於郵箱，因此單獨設額度。入門版每月 50 筆，成長版 300 筆。',
+        title: 'Phone Lookups Are Billed Separately',
+        description: 'Phone number data costs significantly more than email data, so it has its own quota. Starter includes 50 per month; Growth includes 300 per month.',
         icon: 'tabler:phone',
       },
       {
-        title: 'Credits 當月有效，不累積',
-        description: '未使用的 Credits 不跨月累積（年付方案可預支下季 20% 額度）。超出後可按需購買加購包。',
+        title: 'Credits Expire Monthly and Do Not Roll Over',
+        description: 'Unused Credits do not carry over to the next month. Annual plan subscribers may draw up to 20% of the following quarter\'s quota in advance. Additional Credits can be purchased as needed.',
         icon: 'tabler:calendar-time',
       },
       {
-        title: 'AI 生成額度說明',
-        description: '每封 AI 個性化郵件計為 1 次生成。AI 客戶研究（Research Agent）每筆公司調研計為 1 Credit，獨立於郵件生成額度。',
+        title: 'AI Generation Quota Explained',
+        description: 'Each AI-personalized email counts as 1 generation. The AI account research agent counts each company research task as 1 Credit, separate from the email generation quota.',
         icon: 'tabler:robot',
       },
       {
-        title: '發信量上限',
-        description: '每月發信量是指從 Aitroop 平台實際發出的郵件封數。通過你自己的 SMTP 服務器發送的郵件不計入此限制。',
+        title: 'Monthly Sending Volume Cap',
+        description: 'The monthly sending volume refers to emails actually sent through the Aitroop platform. Emails sent through your own SMTP server do not count toward this limit.',
         icon: 'tabler:send',
       },
       {
-        title: '超額加購',
-        description: '所有額度超出後均可單獨加購，不強迫升級方案。郵箱 Credits 加購包：100 Credits / $8，電話 Credits：10 筆 / $12。',
+        title: 'Top-Up Add-Ons',
+        description: 'All quotas can be topped up individually — no forced plan upgrades. Email Credit add-on: 100 Credits / $8. Phone Credits: 10 lookups / $12.',
         icon: 'tabler:plus',
       },
     ]}
@@ -144,82 +144,82 @@ const metadata = {
   <!-- Steps Widget ****************** -->
 
   <Steps
-    title="從試用到正式使用，最快 30 分鐘"
-    tagline="快速啟動"
+    title="From Trial to Active Use in as Little as 30 Minutes"
+    tagline="Quick Start"
     isReversed={true}
     items={[
       {
-        title: '選擇方案，開始 14 天免費試用',
+        title: 'Choose a plan and start your 14-day free trial',
         icon: 'tabler:number-1',
       },
       {
-        title: '連接你的 CRM 和郵件帳戶',
+        title: 'Connect your CRM and email account',
         icon: 'tabler:number-2',
       },
       {
-        title: '導入第一批目標客戶名單',
+        title: 'Import your first batch of target prospects',
         icon: 'tabler:number-3',
       },
       {
-        title: 'AI 自動富化資料 + 生成個性化信件',
+        title: 'AI automatically enriches data and generates personalized emails',
         icon: 'tabler:number-4',
       },
       {
-        title: '啟動第一個郵件 + LinkedIn 外聯序列',
+        title: 'Launch your first email + LinkedIn outreach sequence',
         icon: 'tabler:number-5',
       },
       {
-        title: '查看開信率、回覆率，持續優化',
+        title: 'Review open rates and reply rates, then keep optimizing',
         icon: 'tabler:number-6',
       },
     ]}
     image={{
       src: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=987&q=80',
-      alt: '快速啟動流程',
+      alt: 'Quick Start Process',
     }}
   />
 
   <!-- FAQs Widget ******************* -->
 
   <FAQs
-    title="定價常見問題"
-    subtitle="對我們的定價或用量計算有疑問？這裡有最完整的解答。"
+    title="Pricing FAQs"
+    subtitle="Questions about our pricing or how usage is calculated? Find the most complete answers here."
     columns={1}
     items={[
       {
-        title: 'Credits 用完了怎麼辦？還能繼續用嗎？',
+        title: "What happens when I run out of Credits? Can I still use the platform?",
         description:
-          'Credits 用完後，資料富化功能會暫停，但已有資料的外聯序列和 AI 生成功能可繼續使用（不消耗 Credits）。你可以隨時購買加購包繼續使用，或等下個月重置。',
+          "When Credits run out, the data enrichment feature pauses. However, outreach sequences using existing data and AI generation features continue to work (they do not consume Credits). You can purchase an add-on pack at any time to resume enrichment, or wait for your quota to reset at the start of the next month.",
       },
       {
-        title: '月付和年付的差距有多大？',
+        title: "How significant is the difference between monthly and annual billing?",
         description:
-          '月付費用在年付基礎上加 20%。以成長版為例，月付 $299/用戶，年付 $249/用戶，一年下來每位用戶節省 $600。年付方案同時享有提前預支下季 Credits 額度的彈性。',
+          "Monthly billing is 20% more than annual billing. For the Growth plan, that means $299 per user on monthly billing versus $249 per user on annual billing — a saving of $600 per user over a full year. Annual plan subscribers also have the flexibility to draw ahead from the next quarter's Credits quota.",
       },
       {
-        title: '14 天試用包含完整功能嗎？Credits 有多少？',
+        title: "Does the 14-day trial include full feature access? How many Credits are included?",
         description:
-          '試用期間可體驗對應方案的全部功能。Credits 試用額度：郵箱 100 筆、電話 10 筆、AI 郵件生成 500 封、發信量 2,000 封。無需信用卡，試用結束後資料可匯出。',
+          "During the trial you can experience all features of the corresponding plan. Trial Credit allowances are: 100 email lookups, 10 phone lookups, 500 AI-generated emails, and a sending volume of 2,000 emails. No credit card is required, and your data can be exported when the trial ends.",
       },
       {
-        title: '多人團隊怎麼計費？Credits 是共享還是各自獨立？',
+        title: "How is billing handled for teams? Are Credits shared or individual?",
         description:
-          'Credits 在同一帳戶下所有用戶共享。例如，3 個用戶訂閱成長版，每月共享 6,000 筆郵箱 Credits（3 × 2,000）。如需讓不同成員有獨立的額度控制，可在管理後台設置個人用量上限。',
+          "Credits are shared across all users under the same account. For example, a team of 3 users on the Growth plan shares 6,000 email Credits per month (3 x 2,000). If you need individual usage caps for different team members, you can configure personal limits in the admin dashboard.",
       },
       {
-        title: '可以中途升級或降級方案嗎？',
+        title: "Can I upgrade or downgrade my plan mid-cycle?",
         description:
-          '可以隨時升級，差額按比例即時結算。降級在當前計費週期結束後生效。年付方案降級需聯繫客服處理。',
+          "You can upgrade at any time and the prorated difference will be charged immediately. Downgrades take effect at the end of the current billing cycle. Downgrading an annual plan requires contacting customer support.",
       },
       {
-        title: '企業版和成長版的主要差異是什麼？',
+        title: "What are the main differences between the Enterprise and Growth plans?",
         description:
-          '除了更高的用量額度，企業版還包括成長版沒有的功能：客戶健康度評分與流失預警、AI 收入預測模型、會議自動摘要與 CRM 回填、ABM 帳戶管理，以及私有雲部署選項和專屬客戶成功經理。',
+          "Beyond higher usage quotas, the Enterprise plan includes features not available in Growth: customer health scoring and churn early warning, an AI revenue forecasting model, automated meeting summaries with CRM auto-fill, ABM account management, a private cloud deployment option, and a dedicated customer success manager.",
       },
       {
-        title: '支援哪些支付方式？',
+        title: "What payment methods are supported?",
         description:
-          '支援主流信用卡（Visa、Mastercard）、支付寶、微信支付，以及企業對公轉帳（開增值稅發票）。年付企業客戶可申請季付或半年付。',
+          "We accept major credit cards (Visa, Mastercard), Alipay, WeChat Pay, and corporate bank transfers (with VAT invoice). Annual enterprise customers may apply for quarterly or semi-annual payment schedules.",
       },
     ]}
   />
@@ -227,18 +227,18 @@ const metadata = {
   <!-- CallToAction Widget *********** -->
 
   <CallToAction
-    title="還不確定哪個方案適合你？"
-    subtitle="告訴我們你的團隊規模和使用場景，我們會幫你算出最划算的組合。"
+    title="Not Sure Which Plan Is Right for You?"
+    subtitle="Tell us your team size and use case and we will help you find the most cost-effective combination."
     actions={[
       {
         variant: 'primary',
-        text: '預約顧問諮詢',
+        text: 'Book a Consultant Call',
         href: '/contact',
         icon: 'tabler:messages',
       },
       {
         variant: 'secondary',
-        text: '免費開始試用',
+        text: 'Start Your Free Trial',
         href: '/contact',
       },
     ]}

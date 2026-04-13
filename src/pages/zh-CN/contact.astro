@@ -1,0 +1,103 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import ContactUs from '~/components/widgets/Contact.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+
+const metadata = {
+  title: '联系我们',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- HeroText Widget ******************* -->
+
+  <HeroText
+    tagline="联系我们"
+    title="让我们聊聊你的 GTM 挑战"
+    subtitle="无论你是想预约产品演示、探讨企业方案，还是只是想了解更多，我们的顾问都很乐意与你交流。"
+  />
+
+  <ContactUs
+    id="form"
+    title="预约产品演示或咨询"
+    subtitle="填写以下表单，我们的顾问将在 1 个工作日内与你联系，安排最适合的时间进行 30 分钟一对一演示。"
+    inputs={[
+      {
+        type: 'text',
+        name: 'name',
+        label: '你的姓名',
+        placeholder: '王小明',
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: '工作邮箱',
+        placeholder: 'name@company.com',
+      },
+      {
+        type: 'text',
+        name: 'company',
+        label: '公司名称',
+        placeholder: '你的公司名称',
+      },
+      {
+        type: 'text',
+        name: 'role',
+        label: '你的职位',
+        placeholder: '例如：销售总监、市场负责人、RevOps',
+      },
+    ]}
+    textarea={{
+      label: '你最想解决的问题是什么？',
+      placeholder: '例如：SDR 外联效率低、收入预测不准、客户数据质量差……',
+    }}
+    disclaimer={{
+      label:
+        '提交此表单，即表示你同意我们根据隐私政策收集和使用你的联系信息，用于回应你的咨询。我们不会将你的信息分享给第三方。',
+    }}
+    description="通常在 1 个工作日内回复。如需紧急联系，请直接发送邮件至 hello@aitroop.net。"
+  />
+
+  <!-- Features2 Widget ************** -->
+
+  <Features2
+    title="我们能为你提供什么"
+    items={[
+      {
+        title: '一对一产品演示',
+        description:
+          '我们的顾问会根据你的业务场景（SDR 外联、市场归因、RevOps、客户成功），准备最有针对性的演示内容，不是通用的 PPT。',
+        icon: 'tabler:presentation',
+      },
+      {
+        title: '企业方案咨询',
+        description:
+          '如果你的团队超过 20 人，或有私有化部署、定制集成等需求，我们的企业销售团队可以为你设计专属解决方案和定价。',
+        icon: 'tabler:building',
+      },
+      {
+        title: '技术集成支持',
+        description:
+          '需要将 Aitroop 连接到你现有的 CRM、数据系统或内部工具？我们的解决方案工程师可以评估集成可行性并提供技术方案。',
+        icon: 'tabler:plug',
+      },
+      {
+        title: '合作伙伴洽谈',
+        description:
+          '数据供应商、CRM 厂商、系统集成商——我们积极寻求可以共同为 B2B 客户创造更大价值的生态合作伙伴。',
+        icon: 'tabler:users',
+      },
+      {
+        title: '邮件直接联系',
+        description: 'hello@aitroop.net',
+        icon: 'tabler:mail',
+      },
+      {
+        title: '微信公众号',
+        description: '搜索「Aitroop」关注我们，获取最新 B2B 销售和 GTM 洞察内容。',
+        icon: 'tabler:brand-wechat',
+      },
+    ]}
+  />
+</Layout>
