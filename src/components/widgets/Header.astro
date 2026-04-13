@@ -6,8 +6,8 @@ import ToggleMenu from '~/components/common/ToggleMenu.astro';
 import Button from '~/components/ui/Button.astro';
 import LanguagePicker from '~/components/widgets/LanguagePicker.astro';
 
-import { getHomePermalink } from '~/utils/permalinks';
 import { trimSlash, getAsset } from '~/utils/permalinks';
+import { getLocaleFromPath } from '~/i18n/utils';
 import type { CallToAction } from '~/types';
 
 interface Link {
@@ -46,6 +46,8 @@ const {
 } = Astro.props;
 
 const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
+const currentLocale = getLocaleFromPath(currentPath);
+const homeHref = currentLocale === 'en' ? '/' : `/${currentLocale}`;
 ---
 
 <header
@@ -72,7 +74,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     ]}
   >
     <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between']}>
-      <a class="flex items-center" href={getHomePermalink()}>
+      <a class="flex items-center" href={homeHref}>
         <Logo />
       </a>
       <div class="flex items-center md:hidden">
