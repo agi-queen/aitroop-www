@@ -77,7 +77,8 @@ const homeHref = currentLocale === 'en' ? '/' : `/${currentLocale}`;
       <a class="flex items-center" href={homeHref}>
         <Logo />
       </a>
-      <div class="flex items-center md:hidden">
+      <div class="flex items-center gap-1 md:hidden">
+        <LanguagePicker />
         <ToggleMenu />
       </div>
     </div>
