@@ -4,7 +4,7 @@ updateDate: 2026-04-13T00:00:00Z
 author: Aitroop Team
 title: The Complete B2B Marketing Attribution Guide — Why 90% of Teams Get It Wrong and How to Fix It
 excerpt: B2B marketing attribution is one of the most contested topics between marketing and finance. When the CFO asks which campaigns are actually generating revenue, most marketing teams can't give a confident answer. This guide explains why attribution is so hard in B2B — and how to build a system that actually holds up to scrutiny.
-image: https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=2070&q=80
+image: /illustrations/marketing-analysis_2u5r.svg
 category: Marketing Operations
 tags:
   - Marketing Attribution

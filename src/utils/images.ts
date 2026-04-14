@@ -82,6 +82,9 @@ export const adaptOpenGraphImages = async (
           isUnpicCompatible(resolvedImage)
         ) {
           _image = (await unpicOptimizer(resolvedImage, [defaultWidth], defaultWidth, defaultHeight, 'jpg'))[0];
+        } else if (typeof resolvedImage === 'string' && resolvedImage.startsWith('/') && resolvedImage.endsWith('.svg')) {
+          // SVG files in public/ — serve directly without optimization
+          _image = { src: resolvedImage, width: defaultWidth, height: defaultHeight };
         } else if (resolvedImage) {
           const dimensions =
             typeof resolvedImage !== 'string' && resolvedImage?.width <= defaultWidth

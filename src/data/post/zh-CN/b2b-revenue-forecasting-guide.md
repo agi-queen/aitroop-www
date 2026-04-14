@@ -4,7 +4,7 @@ updateDate: 2026-04-13T00:00:00Z
 author: Aitroop 团队
 title: B2B 收入预测为什么总是不准？RevOps 必读的 Pipeline 管理完全指南
 excerpt: 超过 70% 的 B2B 企业收入预测误差超过 30%。不是你的销售队伍不努力，而是你用错了预测方法。本文拆解预测失准的根本原因，以及如何建立真正可信的 Pipeline 管理体系。
-image: https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2070&q=80
+image: /illustrations/predictive-analytics_6gsu.svg
 category: 收入运营
 tags:
   - RevOps

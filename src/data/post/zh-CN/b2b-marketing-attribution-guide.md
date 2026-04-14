@@ -4,7 +4,7 @@ updateDate: 2026-04-13T00:00:00Z
 author: Aitroop 团队
 title: 营销花了多少钱带来多少收入？B2B 归因分析完全指南
 excerpt: 近 90% 的 B2B 营销团队面临归因困难。老板问「这笔广告预算带来了多少收入」，你却只能说「大概」。本文拆解 B2B 归因的核心挑战，以及如何建立真正可信的 ROI 分析体系。
-image: https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=2070&q=80
+image: /illustrations/marketing-analysis_2u5r.svg
 category: 营销运营
 tags:
   - 营销归因

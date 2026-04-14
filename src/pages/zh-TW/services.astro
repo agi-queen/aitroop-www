@@ -6,6 +6,7 @@ import Features3 from '~/components/widgets/Features3.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Testimonials from '~/components/widgets/Testimonials.astro';
 import Layout from '~/layouts/PageLayout.astro';
+import { generateAvatar } from '~/utils/avatar';
 
 const metadata = {
   title: '功能特色',
@@ -340,19 +341,13 @@ const metadata = {
         testimonial: `最讓我驚訝的是歸因功能。以前老闆問「這筆預算帶來了多少收入」我只能說大概，現在每個渠道的 ROI 清清楚楚，預算申請容易多了，行銷和銷售的摩擦也少了。`,
         name: '林雅婷',
         job: 'SaaS 公司行銷增長負責人',
-        image: {
-          src: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=774&q=80',
-          alt: '林雅婷',
-        },
+        image: generateAvatar('Lin Yating'),
       },
       {
         testimonial: `收入預測這件事做了五年，誤差從沒低於 25%。Aitroop 上線三個季度後，我們的預測誤差穩定在 12% 以內。這對我們做人員規劃和預算分配意義重大。`,
         name: '王志強',
         job: '製造業數位化公司增長負責人',
-        image: {
-          src: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=824&q=80',
-          alt: '王志強',
-        },
+        image: generateAvatar('Wang Zhiqiang'),
       },
     ]}
     callToAction={{

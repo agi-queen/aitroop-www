@@ -4,7 +4,7 @@ updateDate: 2026-04-13T00:00:00Z
 author: Aitroop 团队
 title: 你花钱买的客户名单，70% 是废的：B2B 数据质量完全指南
 excerpt: 购买的联系人数据库有效率平均只有 30-40%。你每发 10 封邮件，7 封的对象根本不存在或已换了联系方式。本文教你如何识别、清洗和维护高质量的 B2B 联系人数据。
-image: https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=2070&q=80
+image: /illustrations/all-the-data_ijgn.svg
 category: 数据管理
 tags:
   - 数据质量

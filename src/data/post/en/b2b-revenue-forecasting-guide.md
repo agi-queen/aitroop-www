@@ -4,7 +4,7 @@ updateDate: 2026-04-13T00:00:00Z
 author: Aitroop Team
 title: Why B2B Revenue Forecasting Is Always Wrong — A Complete Pipeline Management Guide for RevOps
 excerpt: More than 70% of B2B companies have forecast errors exceeding 30%. Inaccurate forecasting isn't just a planning inconvenience — it causes missed hiring windows, wasted marketing budget, and misaligned investor expectations. This guide covers the root causes and how to build a forecasting system that actually works.
-image: https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2070&q=80
+image: /illustrations/predictive-analytics_6gsu.svg
 category: Revenue Operations
 tags:
   - RevOps

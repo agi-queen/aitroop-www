@@ -4,7 +4,7 @@ updateDate: 2026-04-13T00:00:00Z
 author: Aitroop 团队
 title: 客户流失的成本是获客的 7 倍：CSM 必读的流失预防完全指南
 excerpt: 大多数客户在决定不续费之前，早已发出了明确的信号——只是你没有看到。本文拆解客户流失的真实成本、流失的早期信号，以及如何建立系统性的客户健康管理体系。
-image: https://images.unsplash.com/photo-1573497491765-dccce02b29df?auto=format&fit=crop&w=2070&q=80
+image: /illustrations/happy-customer_4h84.svg
 category: 客户成功
 tags:
   - 客户成功

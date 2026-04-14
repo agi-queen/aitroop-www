@@ -4,7 +4,7 @@ updateDate: 2026-04-13T00:00:00Z
 author: Aitroop Team
 title: Retaining a Customer Costs 7x Less Than Acquiring One — The Complete Churn Prevention Guide for CSMs
 excerpt: The cost of customer churn is consistently underestimated. Most B2B companies focus their GTM resources overwhelmingly on new customer acquisition while systematically under-investing in retention — even though the math strongly favors the opposite. This guide shows CSMs how to build a systematic approach to churn prevention before it becomes a crisis.
-image: https://images.unsplash.com/photo-1573497491765-dccce02b29df?auto=format&fit=crop&w=2070&q=80
+image: /illustrations/happy-customer_4h84.svg
 category: Customer Success
 tags:
   - Customer Success

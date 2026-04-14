@@ -4,7 +4,7 @@ updateDate: 2026-04-13T00:00:00Z
 author: Aitroop Team
 title: 70% of the Contact Lists You Paid For Are Worthless — The Complete B2B Data Quality Guide
 excerpt: Purchased contact databases have an average validity rate of just 30–40%. For every 10 emails you send, 7 are going to addresses that don't exist or have long since changed. This guide shows you how to identify, clean, and maintain high-quality B2B contact data.
-image: https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=2070&q=80
+image: /illustrations/all-the-data_ijgn.svg
 category: Data Management
 tags:
   - Data Quality

@@ -4,7 +4,7 @@ updateDate: 2026-04-13T00:00:00Z
 author: Aitroop Team
 title: Why Your Cold Emails Get No Reply — The Complete SDR Guide to Personalized Outreach
 excerpt: You put time into writing the email, but got nothing but silence in return. It's not that your product isn't good enough — it's that your email never made the recipient feel like it was written for them. This guide breaks down the three core elements of personalized outreach from a practitioner's perspective.
-image: https://images.unsplash.com/photo-1596526131083-e8c633064204?auto=format&fit=crop&w=2070&q=80
+image: /illustrations/compose-email_s6kf.svg
 category: Sales Execution
 tags:
   - Cold Email
