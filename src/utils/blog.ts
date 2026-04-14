@@ -5,12 +5,18 @@ import type { Post } from '~/types';
 import { APP_BLOG } from 'astrowind:config';
 import { cleanSlug, trimSlash, BLOG_BASE, POST_PERMALINK_PATTERN, CATEGORY_BASE, TAG_BASE } from './permalinks';
 
-const SUPPORTED_LOCALES = ['en', 'zh-TW', 'zh-CN'];
+// Astro's glob loader lowercases IDs, so directory names like 'zh-CN' become 'zh-cn'
+const LOCALE_FROM_ID: Record<string, string> = {
+  'en': 'en',
+  'zh-tw': 'zh-TW',
+  'zh-cn': 'zh-CN',
+};
 
 const getLocaleFromPostId = (id: string): string => {
   const parts = id.split('/');
-  if (parts.length > 1 && SUPPORTED_LOCALES.includes(parts[0])) {
-    return parts[0];
+  if (parts.length > 1) {
+    const locale = LOCALE_FROM_ID[parts[0]];
+    if (locale) return locale;
   }
   return 'zh-TW';
 };
