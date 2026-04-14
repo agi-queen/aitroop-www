@@ -48,8 +48,9 @@ if (
 ) {
   image = await getImagesOptimized(_image, props, unpicOptimizer);
 } else if (typeof _image === 'string' && _image.startsWith('/') && _image.endsWith('.svg')) {
-  // SVG files in public/ don't need optimization — serve directly
-  image = { src: _image, attributes: { width: props.width as number, height: props.height as number, alt: props.alt ?? '' } };
+  // SVG files in public/ don't need optimization — serve directly, preserving all props
+  const { src: _src, widths: _widths, aspectRatio: _ar, layout: _layout, objectPosition: _op, format: _fmt, sizes: _sizes, ...rest } = props;
+  image = { src: _image, attributes: { ...rest, width: props.width as number, height: props.height as number, alt: props.alt ?? '' } };
 } else if (_image) {
   image = await getImagesOptimized(_image, props, astroAssetsOptimizer);
 }
