@@ -47,6 +47,9 @@ if (
   isUnpicCompatible(_image)
 ) {
   image = await getImagesOptimized(_image, props, unpicOptimizer);
+} else if (typeof _image === 'string' && _image.startsWith('/') && _image.endsWith('.svg')) {
+  // SVG files in public/ don't need optimization — serve directly
+  image = { src: _image, attributes: { width: props.width as number, height: props.height as number, alt: props.alt ?? '' } };
 } else if (_image) {
   image = await getImagesOptimized(_image, props, astroAssetsOptimizer);
 }
