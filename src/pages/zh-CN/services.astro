@@ -6,6 +6,7 @@ import Features3 from '~/components/widgets/Features3.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Testimonials from '~/components/widgets/Testimonials.astro';
 import Layout from '~/layouts/PageLayout.astro';
+import { generateAvatar } from '~/utils/avatar';
 
 const metadata = {
   title: '功能特色',
@@ -313,28 +314,19 @@ const metadata = {
         testimonial: `以前每天花两三个小时调研客户、写个性化邮件，用了 Aitroop 之后，我只需要审核 AI 生成的内容，每天外联量从 20 人增加到 100 人以上，预约率提升了将近一倍。`,
         name: '陈建宏',
         job: '企业软件公司业务拓展',
-        image: {
-          src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=930&q=80',
-          alt: '陈建宏',
-        },
+        image: generateAvatar('Chen Jianhong'),
       },
       {
         testimonial: `最让我惊讶的是归因功能。以前老板问「这笔预算带来了多少收入」我只能说大概，现在每个渠道的 ROI 清清楚楚，预算申请容易多了，营销和销售的摩擦也少了。`,
         name: '林雅婷',
         job: 'SaaS 公司营销增长负责人',
-        image: {
-          src: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=774&q=80',
-          alt: '林雅婷',
-        },
+        image: generateAvatar('Lin Yating'),
       },
       {
         testimonial: `收入预测这件事做了五年，误差从没低于 25%。Aitroop 上线三个季度后，我们的预测误差稳定在 12% 以内。这对我们做人员规划和预算分配意义重大。`,
         name: '王志强',
         job: '制造业数字化公司增长负责人',
-        image: {
-          src: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=824&q=80',
-          alt: '王志强',
-        },
+        image: generateAvatar('Wang Zhiqiang'),
       },
     ]}
     callToAction={{

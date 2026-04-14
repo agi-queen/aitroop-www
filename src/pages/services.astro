@@ -6,6 +6,7 @@ import Features3 from '~/components/widgets/Features3.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Testimonials from '~/components/widgets/Testimonials.astro';
 import Layout from '~/layouts/PageLayout.astro';
+import { generateAvatar } from '~/utils/avatar';
 
 const metadata = {
   title: 'Features',
@@ -331,28 +332,19 @@ const metadata = {
         testimonial: `I used to spend two or three hours every day researching prospects and writing personalized emails. With Aitroop, I just review what the AI generates. My daily outreach volume went from 20 people to over 100, and my meeting booking rate nearly doubled.`,
         name: 'Chen Jianhong',
         job: 'Business Development, Enterprise Software',
-        image: {
-          src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=930&q=80',
-          alt: 'Chen Jianhong',
-        },
+        image: generateAvatar('Chen Jianhong'),
       },
       {
         testimonial: `What surprised me most was the attribution. Before, when leadership asked "how much revenue did this budget generate," I could only give a rough estimate. Now every channel's ROI is crystal clear. Budget approvals are much easier, and the friction between marketing and sales has dropped significantly.`,
         name: 'Lin Yating',
         job: 'Growth Marketing Lead, SaaS Company',
-        image: {
-          src: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?auto=format&fit=crop&w=774&q=80',
-          alt: 'Lin Yating',
-        },
+        image: generateAvatar('Lin Yating'),
       },
       {
         testimonial: `We had been doing revenue forecasting for five years and the error never dropped below 25%. Three quarters after deploying Aitroop, our forecast error has held steady below 12%. That makes a real difference for headcount planning and budget allocation.`,
         name: 'Wang Zhiqiang',
         job: 'Growth Lead, Manufacturing Digitalization Company',
-        image: {
-          src: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=824&q=80',
-          alt: 'Wang Zhiqiang',
-        },
+        image: generateAvatar('Wang Zhiqiang'),
       },
     ]}
     callToAction={{
