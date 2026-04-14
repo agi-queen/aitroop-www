@@ -2,8 +2,18 @@
 import { SITE } from 'astrowind:config';
 ---
 
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="self-center w-8 h-8 shrink-0" aria-hidden="true">
+  <rect width="32" height="32" rx="8" fill="#f0f0f0"/>
+  <line x1="9" y1="14" x2="4" y2="4" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="12" y1="13" x2="8" y2="2" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="15" y1="13" x2="13" y2="4" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="11" cy="18" r="8" fill="#1a1a1a"/>
+  <circle cx="14" cy="16.5" r="3" fill="#fff"/>
+  <circle cx="14.8" cy="16.2" r="1.3" fill="#1a1a1a"/>
+  <polygon points="19,17 32,17.5 31,20 19,19" fill="#cc7200"/>
+</svg>
 <span
   class="self-center ml-2 rtl:ml-0 rtl:mr-2 text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white"
 >
-  🚀 {SITE?.name}
+  {SITE?.name}
 </span>
