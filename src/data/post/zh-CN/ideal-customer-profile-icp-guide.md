@@ -4,7 +4,7 @@ publishDate: 2026-04-15T00:00:00Z
 updateDate: 2026-04-15T00:00:00Z
 author: Aitroop 团队
 excerpt: ICP（理想客户画像）是B2B销售效率的基础——它告诉你该追哪些客户、该放弃哪些客户。本文拆解ICP的建立方法、核心维度，以及如何用AI让ICP动态更新、持续精准。
-image: /illustrations/artificial-intelligence_43qa.svg
+image: /illustrations/target-audience_prun.svg
 category: 企业AI落地
 tags:
   - ICP

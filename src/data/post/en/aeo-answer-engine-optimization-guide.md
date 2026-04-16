@@ -4,7 +4,7 @@ publishDate: 2026-04-15T00:00:00Z
 updateDate: 2026-04-15T00:00:00Z
 author: Aitroop Team
 excerpt: AEO (Answer Engine Optimization) is the practice of getting your brand, products, and content cited in AI search engines like ChatGPT, Perplexity, and Gemini. This guide breaks down the core AEO strategies and how to programmatically monitor your AI search visibility.
-image: /illustrations/artificial-intelligence_43qa.svg
+image: /illustrations/web-search_7oif.svg
 category: Enterprise AI Adoption
 tags:
   - AEO

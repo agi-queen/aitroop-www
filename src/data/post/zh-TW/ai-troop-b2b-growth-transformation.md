@@ -4,7 +4,7 @@ publishDate: 2026-04-15T00:00:00Z
 updateDate: 2026-04-15T00:00:00Z
 author: Aitroop 團隊
 excerpt: 當B2B增長團隊引入AI軍團，外聯覆蓋量提升10倍，客戶調研時間從15分鐘壓縮到90秒，流失預警提前30天觸發。本文用真實場景展示AI軍團落地後的增長變化。
-image: /illustrations/artificial-intelligence_43qa.svg
+image: /illustrations/performance-comparison_qd1q.svg
 category: 企業AI落地
 tags:
   - AI軍團

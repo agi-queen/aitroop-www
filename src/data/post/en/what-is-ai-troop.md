@@ -4,7 +4,7 @@ publishDate: 2026-04-14T00:00:00Z
 updateDate: 2026-04-14T00:00:00Z
 author: Aitroop Team
 excerpt: An AI Troop is an intelligent work system powered by AI Agents that automates the entire GTM process. This guide breaks down the four combat units of an AI Troop, the practical path to enterprise AI adoption, and how to build your own AI efficiency troop with Aitroop.
-image: /illustrations/artificial-intelligence_43qa.svg
+image: /illustrations/heavy-lifting_d753.svg
 category: Enterprise AI Adoption
 tags:
   - AI Troop

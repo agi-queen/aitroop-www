@@ -4,7 +4,7 @@ publishDate: 2026-04-15T00:00:00Z
 updateDate: 2026-04-15T00:00:00Z
 author: Aitroop Team
 excerpt: When B2B growth teams adopt an AI Troop, outreach coverage increases 10x, account research time drops from 15 minutes to 90 seconds, and churn alerts trigger 30 days earlier. Three real-world scenarios showing what changes after AI Troop deployment.
-image: /illustrations/artificial-intelligence_43qa.svg
+image: /illustrations/performance-comparison_qd1q.svg
 category: Enterprise AI Adoption
 tags:
   - AI Troop

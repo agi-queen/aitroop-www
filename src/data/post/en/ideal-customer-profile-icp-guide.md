@@ -4,7 +4,7 @@ publishDate: 2026-04-15T00:00:00Z
 updateDate: 2026-04-15T00:00:00Z
 author: Aitroop Team
 excerpt: An ICP (Ideal Customer Profile) is the foundation of B2B sales efficiency — it tells you which customers to pursue and which to walk away from. This guide breaks down how to build an ICP, its six core dimensions, and how AI can keep it dynamically updated and continuously accurate.
-image: /illustrations/artificial-intelligence_43qa.svg
+image: /illustrations/target-audience_prun.svg
 category: Enterprise AI Adoption
 tags:
   - ICP

@@ -4,7 +4,7 @@ publishDate: 2026-04-16T00:00:00Z
 updateDate: 2026-04-16T00:00:00Z
 author: Aitroop 團隊
 excerpt: 金融業AI提效落地的核心不是買工具，而是搭體系。本文用五層架構拆解AI如何在財務、風控、研究等場景真正落地，以及三道必須跨過的坎。
-image: /illustrations/artificial-intelligence_43qa.svg
+image: /illustrations/business-decisions_7vkl.svg
 category: 企業AI落地
 tags:
   - 金融AI落地

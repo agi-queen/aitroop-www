@@ -4,7 +4,7 @@ publishDate: 2026-04-16T00:00:00Z
 updateDate: 2026-04-16T00:00:00Z
 author: Aitroop Team
 excerpt: The key to successful AI adoption in financial services isn't buying tools — it's building a system. This guide breaks down how AI can truly take hold across finance, risk, and research functions using a five-layer architecture, and the three obstacles every firm must cross.
-image: /illustrations/artificial-intelligence_43qa.svg
+image: /illustrations/business-decisions_7vkl.svg
 category: Enterprise AI Adoption
 tags:
   - Finance AI Adoption
