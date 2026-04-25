@@ -1,7 +1,5 @@
-﻿---
+---
 import { Icon } from 'astro-icon/components';
-import { SITE } from 'astrowind:config';
-import { getHomePermalink } from '~/utils/permalinks';
 
 interface Link {
   text?: string;
@@ -16,102 +14,45 @@ interface Links {
 }
 
 export interface Props {
-  links: Array<Links>;
-  secondaryLinks: Array<Link>;
-  socialLinks: Array<Link>;
+  links?: Array<Links>;
+  secondaryLinks?: Array<Link>;
+  socialLinks?: Array<Link>;
   footNote?: string;
   theme?: string;
 }
 
-const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme = 'light' } = Astro.props;
+const { links = [], socialLinks = [], footNote = '' } = Astro.props;
+
+// Flatten all footer links into a single list for the compact bar
+const allLinks = links.flatMap(({ links }) => links);
 ---
 
-<footer class="relative border-t border-[var(--aw-color-border)] not-prose bg-page">
-  <div class="absolute inset-0 pointer-events-none" aria-hidden="true"></div>
-  <div
-    class="relative max-w-7xl mx-auto px-4 sm:px-6 intersect-once intersect-quarter intersect-no-queue motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
-  >
-    <!-- Main footer grid -->
-    <div class="grid grid-cols-12 gap-4 gap-y-8 sm:gap-8 py-10 md:py-14">
-      <!-- Brand column -->
-      <div class="col-span-12 lg:col-span-4">
-        <div class="mb-3">
-          <a
-            class="inline-block font-bold text-base text-[var(--aw-color-text-heading)] hover:text-primary transition-colors duration-150"
-            href={getHomePermalink()}
-          >
-            {SITE?.name}
-          </a>
-        </div>
-        <div class="text-sm text-[var(--aw-color-text-muted)] flex flex-wrap gap-x-2 gap-y-1">
-          {
-            secondaryLinks.map(({ text, href }, index) => (
-              <>
-                {index !== 0 ? <span class="opacity-30">·</span> : ''}
-                <a
-                  class="text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)] transition-colors duration-150"
-                  href={href}
-                  set:html={text}
-                />
-              </>
-            ))
-          }
-        </div>
-      </div>
-
-      <!-- Link columns -->
-      {
-        links.map(({ title, links }) => (
-          <div class="col-span-6 md:col-span-3 lg:col-span-2">
-            <div class="text-xs font-semibold uppercase tracking-wider text-[var(--aw-color-text-muted)] mb-3">
-              {title}
-            </div>
-            {links && Array.isArray(links) && links.length > 0 && (
-              <ul class="space-y-2">
-                {links.map(({ text, href, ariaLabel }) => (
-                  <li>
-                    <a
-                      class="text-sm text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)] transition-colors duration-150"
-                      href={href}
-                      aria-label={ariaLabel}
-                    >
-                      <Fragment set:html={text} />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        ))
-      }
+<footer class="border-t border-[var(--aw-color-border)] bg-page not-prose">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between gap-4">
+    <!-- Left: copyright -->
+    <div class="text-xs text-[var(--aw-color-text-muted)] shrink-0">
+      <Fragment set:html={footNote} />
     </div>
 
-    <!-- Bottom bar -->
-    <div class="border-t border-[var(--aw-color-border)] md:flex md:items-center md:justify-between py-5">
-      {
-        socialLinks?.length ? (
-          <ul class="flex mb-3 md:order-2 md:mb-0 -ml-1.5 gap-0.5">
-            {socialLinks.map(({ ariaLabel, href, text, icon }) => (
-              <li>
-                <a
-                  class="text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)] hover:bg-[var(--aw-color-bg-subtle)] focus:outline-none rounded-md text-sm p-1.5 inline-flex items-center transition-colors duration-150"
-                  aria-label={ariaLabel}
-                  href={href}
-                >
-                  {icon && <Icon name={icon} class="w-4 h-4" />}
-                  <Fragment set:html={text} />
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          ''
-        )
-      }
-
-      <div class="text-xs text-[var(--aw-color-text-muted)] md:order-1">
-        <Fragment set:html={footNote} />
-      </div>
+    <!-- Right: links + social -->
+    <div class="flex items-center gap-4">
+      {allLinks.map(({ text, href }) => (
+        <a
+          href={href}
+          class="text-xs text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)] transition-colors duration-150 whitespace-nowrap"
+        >
+          <Fragment set:html={text} />
+        </a>
+      ))}
+      {socialLinks.map(({ ariaLabel, href, icon }) => (
+        <a
+          href={href}
+          aria-label={ariaLabel}
+          class="text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)] transition-colors duration-150"
+        >
+          {icon && <Icon name={icon} class="w-3.5 h-3.5" />}
+        </a>
+      ))}
     </div>
   </div>
 </footer>

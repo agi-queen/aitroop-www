@@ -32,12 +32,11 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
-    <Headline
-      subtitle="定期分享 AI 驱动的获客技巧、个性化触达实践和客户留存策略，帮助 B2B 增长团队持续精进。"
-    >
-      博客
-    </Headline>
+  <section class="mx-auto max-w-3xl px-4 sm:px-6 py-12 sm:py-16">
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold tracking-tighter text-[var(--aw-color-text-heading)]">博客</h1>
+      <p class="mt-1 text-sm text-[var(--aw-color-text-muted)]">AI 驱动的获客、触达与留存实践分享。</p>
+    </div>
     <BlogList posts={page.data} />
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} prevText="较新文章" nextText="较旧文章" />
   </section>

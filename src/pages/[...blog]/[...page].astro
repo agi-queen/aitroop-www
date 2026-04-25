@@ -36,17 +36,12 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
-    <Headline
-      subtitle="Practical insights on AI-driven acquisition, personalized outreach, and customer retention — written for B2B growth teams."
-    >
-      Blog
-    </Headline>
+  <section class="mx-auto max-w-3xl px-4 sm:px-6 py-12 sm:py-16">
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold tracking-tighter text-[var(--aw-color-text-heading)]">Blog</h1>
+      <p class="mt-1 text-sm text-[var(--aw-color-text-muted)]">Practical insights on AI-driven acquisition, outreach, and retention.</p>
+    </div>
     <BlogList posts={page.data} />
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
-    <!--
-      <PostTags tags={allCategories} class="mb-2" title="Search by Categories:" isCategory />
-      <PostTags tags={allTags}  title="Search by Tags:" />
-    -->
   </section>
 </Layout>
