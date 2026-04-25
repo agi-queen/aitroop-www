@@ -1,4 +1,4 @@
----
+﻿---
 import { Icon } from 'astro-icon/components';
 import Logo from '~/components/Logo.astro';
 import ToggleTheme from '~/components/common/ToggleTheme.astro';
@@ -52,7 +52,7 @@ const homeHref = currentLocale === 'en' ? '/' : `/${currentLocale}`;
 
 <header
   class:list={[
-    { sticky: isSticky, relative: !isSticky, dark: isDark },
+    { sticky: isSticky, relative: !isSticky },
     'top-0 z-40 flex-none mx-auto w-full border-b border-[var(--aw-color-border)] transition-[opacity] ease-in-out bg-page',
   ]}
   {...isSticky ? { 'data-aw-sticky-header': true } : {}}
@@ -97,17 +97,17 @@ const homeHref = currentLocale === 'en' ? '/' : `/${currentLocale}`;
                 <>
                   <button
                     type="button"
-                    class="hover:text-[var(--aw-color-text-heading)] dark:hover:text-white px-3 py-2 flex items-center whitespace-nowrap rounded-md hover:bg-[var(--aw-color-bg-subtle)] text-[var(--aw-color-text-muted)] transition-colors duration-150"
+                    class="hover:text-[var(--aw-color-text-heading)] px-3 py-2 flex items-center whitespace-nowrap rounded-md hover:bg-[var(--aw-color-bg-subtle)] text-[var(--aw-color-text-muted)] transition-colors duration-150"
                   >
                     {text}{' '}
                     <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden md:inline opacity-60" />
                   </button>
-                  <ul class="dropdown-menu md:backdrop-blur-md dark:md:bg-[var(--aw-color-bg-page)] rounded-lg md:absolute pl-4 md:pl-0 md:hidden font-medium md:bg-[var(--aw-color-bg-page)] md:min-w-[180px] shadow-lg border border-[var(--aw-color-border)]">
+                  <ul class="dropdown-menu md:backdrop-blur-md rounded-lg md:absolute pl-4 md:pl-0 md:hidden font-medium md:bg-[var(--aw-color-bg-page)] md:min-w-[180px] shadow-lg border border-[var(--aw-color-border)]">
                     {links.map(({ text: text2, href: href2 }) => (
                       <li>
                         <a
                           class:list={[
-                            'first:rounded-t-lg last:rounded-b-lg hover:bg-[var(--aw-color-bg-subtle)] text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-text-heading)] dark:hover:text-white py-2 px-4 text-sm block whitespace-no-wrap transition-colors duration-150',
+                            'first:rounded-t-lg last:rounded-b-lg hover:bg-[var(--aw-color-bg-subtle)] text-[var(--aw-color-text-default)] hover:text-[var(--aw-color-text-heading)] py-2 px-4 text-sm block whitespace-no-wrap transition-colors duration-150',
                             { 'text-primary font-semibold': href2 === currentPath },
                           ]}
                           href={href2}
@@ -121,8 +121,8 @@ const homeHref = currentLocale === 'en' ? '/' : `/${currentLocale}`;
               ) : (
                 <a
                   class:list={[
-                    'hover:text-[var(--aw-color-text-heading)] dark:hover:text-white px-3 py-2 flex items-center whitespace-nowrap rounded-md hover:bg-[var(--aw-color-bg-subtle)] transition-colors duration-150 text-[var(--aw-color-text-muted)]',
-                    { 'text-[var(--aw-color-text-heading)] dark:text-white font-semibold': href === currentPath },
+                    'hover:text-[var(--aw-color-text-heading)] px-3 py-2 flex items-center whitespace-nowrap rounded-md hover:bg-[var(--aw-color-bg-subtle)] transition-colors duration-150 text-[var(--aw-color-text-muted)]',
+                    { 'text-[var(--aw-color-text-heading)] font-semibold': href === currentPath },
                   ]}
                   href={href}
                 >

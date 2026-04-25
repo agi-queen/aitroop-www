@@ -1,4 +1,4 @@
----
+﻿---
 import Features2 from '~/components/widgets/Features2.astro';
 import Features3 from '~/components/widgets/Features3.astro';
 import Hero from '~/components/widgets/Hero.astro';
@@ -10,7 +10,7 @@ const metadata = { title: '關於我們' };
 ---
 <Layout metadata={metadata}>
   <Hero tagline="關於 Aitroop" image={{ src: '/illustrations/founding-team_8uhm.svg', width: 1024, height: 768, alt: 'Aitroop 團隊' }}>
-    <Fragment slot="title">我們相信，掌握 AI 技能的人<br /><span class="text-accent dark:text-white">能夠創造出過去無法想像的增長成果</span></Fragment>
+    <Fragment slot="title">我們相信，掌握 AI 技能的人<br /><span class="text-accent">能夠創造出過去無法想像的增長成果</span></Fragment>
     <Fragment slot="subtitle">獲客難、留客靠感情、工具越用越多但效率越來越低——這些問題的根源不是努力不夠，而是方法沒有跟上時代。Aitroop 的使命，是讓每一個人都能掌握 AI 驅動的獲客與留客複合能力，以更少的資源，做出更可持續的增長。</Fragment>
   </Hero>
   <Stats title="我們的影響力" stats={[ { title: '服務客戶', amount: '500+' }, { title: 'AI 生成觸達內容（每月）', amount: '200萬+' }, { title: '用戶平均獲客效率提升', amount: '8x' }, { title: '客戶留存率', amount: '118% NRR' } ]} />

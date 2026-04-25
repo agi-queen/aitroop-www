@@ -24,10 +24,6 @@
            hover:bg-[rgba(0,0,0,0.04)] hover:border-[rgba(0,0,0,0.18)]
            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--aw-color-primary)] focus-visible:ring-offset-1
            disabled:pointer-events-none disabled:opacity-50
-           dark:border-[rgba(255,255,255,0.12)]
-           dark:text-[var(--aw-color-text-default)]
-           dark:hover:bg-[rgba(255,255,255,0.05)]
-           dark:hover:border-[rgba(255,255,255,0.2)]
            cursor-pointer;
   }
 
@@ -35,9 +31,7 @@
   .btn-primary {
     @apply btn
            bg-primary text-white border-primary
-           hover:bg-secondary hover:border-secondary hover:bg-[rgb(61_133_79)]
-           dark:bg-primary dark:border-primary dark:text-white
-           dark:hover:bg-secondary dark:hover:border-secondary;
+           hover:bg-secondary hover:border-secondary hover:bg-[rgb(61_133_79)];
   }
 
   /* ── Secondary: outline ── */
@@ -48,8 +42,7 @@
   /* ── Tertiary: ghost ── */
   .btn-tertiary {
     @apply btn border-transparent shadow-none text-muted
-           hover:bg-[rgba(0,0,0,0.05)] hover:border-transparent
-           dark:hover:bg-[rgba(255,255,255,0.06)] dark:border-transparent;
+           hover:bg-[rgba(0,0,0,0.05)] hover:border-transparent;
   }
 }
 
@@ -57,12 +50,6 @@
 #header.scroll > div:first-child {
   @apply backdrop-blur-md;
   background-color: rgb(255 255 255 / 96%);
-  border-bottom: 1px solid var(--aw-color-border);
-}
-.dark #header.scroll > div:first-child,
-#header.scroll.dark > div:first-child {
-  @apply backdrop-blur-md;
-  background-color: rgb(12 12 14 / 96%);
   border-bottom: 1px solid var(--aw-color-border);
 }
 

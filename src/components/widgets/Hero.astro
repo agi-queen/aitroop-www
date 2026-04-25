@@ -1,4 +1,4 @@
----
+﻿---
 import Image from '~/components/common/Image.astro';
 import Button from '~/components/ui/Button.astro';
 
@@ -31,7 +31,7 @@ const {
         {
           tagline && (
             <p
-              class="text-sm text-primary dark:text-primary font-semibold tracking-wide uppercase mb-4 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+              class="text-sm text-primary font-semibold tracking-wide uppercase mb-4 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
               set:html={tagline}
             />
           )
@@ -39,7 +39,7 @@ const {
         {
           title && (
             <h1
-              class="text-4xl md:text-5xl font-bold leading-[1.1] tracking-tighter mb-4 font-heading text-[var(--aw-color-text-heading)] dark:text-white intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+              class="text-4xl md:text-5xl font-bold leading-[1.1] tracking-tighter mb-4 font-heading text-[var(--aw-color-text-heading)] intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
               set:html={title}
             />
           )
@@ -48,7 +48,7 @@ const {
           {
             subtitle && (
               <p
-                class="text-base text-[var(--aw-color-text-muted)] dark:text-[var(--aw-color-text-muted)] mb-7 leading-relaxed intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
+                class="text-base text-[var(--aw-color-text-muted)] mb-7 leading-relaxed intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
                 set:html={subtitle}
               />
             )

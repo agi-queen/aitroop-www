@@ -1,4 +1,4 @@
-import { getPermalink, getBlogPermalink, getAsset } from './utils/permalinks';
+﻿import { getPermalink, getBlogPermalink, getAsset } from './utils/permalinks';
 import type { Locale } from './i18n/utils';
 
 function lp(locale: Locale, path: string): string {
@@ -46,7 +46,7 @@ export function getFooterData(locale: Locale = 'en') {
       company: 'Company',
       about: 'About',
       blog: 'Blog',
-      footNote: '© 2026 <a class="text-blue-600 underline dark:text-muted" href="https://aitroop.net">Aitroop</a> · All rights reserved.',
+      footNote: '© 2026 <a class="text-blue-600 underline" href="https://aitroop.net">Aitroop</a> · All rights reserved.',
     },
     'zh-TW': {
       product: '產品',
@@ -55,7 +55,7 @@ export function getFooterData(locale: Locale = 'en') {
       company: '公司',
       about: '關於我們',
       blog: '部落格',
-      footNote: '© 2026 <a class="text-blue-600 underline dark:text-muted" href="https://aitroop.net">Aitroop</a> · 保留所有權利。',
+      footNote: '© 2026 <a class="text-blue-600 underline" href="https://aitroop.net">Aitroop</a> · 保留所有權利。',
     },
     'zh-CN': {
       product: '产品',
@@ -64,7 +64,7 @@ export function getFooterData(locale: Locale = 'en') {
       company: '公司',
       about: '关于我们',
       blog: '博客',
-      footNote: '© 2026 <a class="text-blue-600 underline dark:text-muted" href="https://aitroop.net">Aitroop</a> · 保留所有权利。',
+      footNote: '© 2026 <a class="text-blue-600 underline" href="https://aitroop.net">Aitroop</a> · 保留所有权利。',
     },
   }[locale] ?? t['en' as Locale];
 
