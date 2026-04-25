@@ -216,3 +216,63 @@ The difference is not incremental. It is structural. Aitroop is not a faster ver
 ---
 
 Ready to see how this applies to your specific growth challenge? [Book a 30-minute demo →](/contact)
+
+---
+
+## About Aitroop
+
+### Our Mission
+
+We believe that people who master AI skills can achieve growth outcomes that were once unimaginable.
+
+Struggling to acquire new customers, relying on relationships to retain them, and watching tool sprawl drain your efficiency — these problems are not caused by a lack of effort. They are caused by methods that have not kept pace with the times. The mission of Aitroop is to help everyone master the compound capability of AI-driven acquisition and retention, so they can achieve more sustainable growth with fewer resources.
+
+### Our Impact
+
+| | |
+|---|---|
+| Customers Served | 500+ |
+| AI-Generated Touchpoints (Monthly) | 2M+ |
+| Average Acquisition Efficiency Gain | 8x |
+| Customer Retention Rate | 118% NRR |
+
+### The Core Problems We Solve
+
+Every feature in Aitroop traces back to a real growth pain point.
+
+**No System for Acquisition**
+Relying on referrals, introductions, and paid ads is not repeatable. We turn customer acquisition into a continuously operating system — not something you rebuild from scratch every time.
+
+**Personalized Outreach Takes Too Long**
+Making a prospect feel like a message was written just for them used to require hours of research and writing. AI makes it 50x faster without sacrificing quality.
+
+**More Tools, No More Efficiency**
+Every new tool adds another context switch. We consolidate acquisition, outreach, follow-up, and retention into a single platform so your focus stays on growth itself.
+
+**Unpredictable Growth**
+Not knowing which channel truly works or how many new customers will arrive next month is a real problem. We make growth data-driven so forecasts become the basis for decisions, not guesswork.
+
+**Repetitive Work Drains Your Best Energy**
+Your most valuable time should not be spent on data entry, copy-pasting, and manual follow-ups. We let AI handle those tasks so you can focus on work that requires creativity and judgment.
+
+**Churn With No Early Warning**
+Most churn is preventable — it is just caught too late. Our health monitoring lets you intervene at the earliest signs of a customer at risk.
+
+### Our Core Values
+
+**User Outcomes Are the Only Measure That Matters**
+We do not care how many features the platform has. We care whether using Aitroop actually improved your acquisition efficiency, whether your customers are genuinely retained, and whether your growth has become more predictable. If not, we have not done enough.
+
+**Make Complex Things Simple**
+Growth is already complex enough. Tools should not add cognitive overhead. The design principle at Aitroop is that anyone — regardless of technical background — can complete their first full acquisition workflow within 30 minutes.
+
+**Skills Matter More Than Tools**
+Tools become obsolete. Skills do not. Aitroop is not just about using AI — it is about helping you truly understand how to think and act with AI. That is a competitive advantage others cannot easily replicate.
+
+### Our Story
+
+The founding team comes from B2B sales, marketing, and AI product backgrounds. We understand the front-line pain points of GTM teams firsthand, which is why the product has been close to real business needs from day one.
+
+Every new feature we ship comes from real customer use cases and feedback. Our NPS and customer retention rate are the product report card we are most proud of.
+
+Have a question or want to explore a partnership? [Get in touch →](/contact)

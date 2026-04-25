@@ -12,17 +12,14 @@ function buildHeaderLinks(locale: Locale) {
     en: [
       { text: 'Platform', href: lp(locale, getPermalink('/blog/aitroop-platform-complete-guide')) },
       { text: 'Blog', href: lp(locale, getBlogPermalink()) },
-      { text: 'About', href: lp(locale, getPermalink('/about')) },
     ],
     'zh-TW': [
       { text: '平台功能', href: lp(locale, getPermalink('/blog/aitroop-platform-complete-guide')) },
       { text: '部落格', href: lp(locale, getBlogPermalink()) },
-      { text: '關於我們', href: lp(locale, getPermalink('/about')) },
     ],
     'zh-CN': [
       { text: '平台功能', href: lp(locale, getPermalink('/blog/aitroop-platform-complete-guide')) },
       { text: '博客', href: lp(locale, getBlogPermalink()) },
-      { text: '关于我们', href: lp(locale, getPermalink('/about')) },
     ],
   }[locale];
 }
@@ -157,7 +154,7 @@ export function getFooterData(locale: Locale = 'en') {
       {
         title: t.company,
         links: [
-          { text: t.about, href: p(getPermalink('/about')) },
+          { text: t.about, href: p(getPermalink('/blog/aitroop-platform-complete-guide')) },
           { text: t.blog, href: p(getBlogPermalink()) },
           { text: t.careers, href: '#' },
           { text: t.press, href: '#' },
