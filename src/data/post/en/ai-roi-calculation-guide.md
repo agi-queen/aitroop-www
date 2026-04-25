@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to Calculate AI ROI: A Framework That Gets CFO Buy-In"
 publishDate: 2026-04-17T00:00:00Z
 updateDate: 2026-04-17T00:00:00Z
@@ -239,7 +239,7 @@ From "I don't need AI" to "how broadly can we replicate this ROI" — the shift 
 
 **The key: he translated "efficiency improvement" into dollars.** CFOs don't resist value. They resist vague, unquantifiable promises.
 
-If you want to make the same case to your CFO, [reach out to us](/contact) — we can help you build an ROI measurement framework tailored to your specific business context.
+If you want to make the same case to your CFO, [reach out to us](https://app.aitroop.net) — we can help you build an ROI measurement framework tailored to your specific business context.
 
 ---
 
@@ -303,7 +303,7 @@ Second, it is the compass for continuously improving AI application effectivenes
 
 [AI Troop](/blog/what-is-ai-troop)'s four operating units — FIND (Intelligence), ENGAGE (Outreach), CONVERT (Conversion), RETAIN (Retention) — map directly to the main scenarios of the three ROI sources in this article: FIND and ENGAGE drive time savings and productivity multiplication, CONVERT accelerates the funnel, and RETAIN reduces churn. Each unit can be measured for ROI independently, or combined for a composite return calculation.
 
-If you want to start with a customized ROI assessment to understand how AI Troop can create quantifiable returns in your specific business context, [contact us to book a demo](/contact) — we'll work through your data and run the complete ROI model together in 30 minutes.
+If you want to start with a customized ROI assessment to understand how AI Troop can create quantifiable returns in your specific business context, [contact us to Login](https://app.aitroop.net) — we'll work through your data and run the complete ROI model together in 30 minutes.
 
 ---
 

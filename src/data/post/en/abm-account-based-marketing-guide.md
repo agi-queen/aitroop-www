@@ -1,4 +1,4 @@
----
+﻿---
 title: "ABM Complete Guide: B2B Account-Based Marketing from Target Selection to Close (2026)"
 publishDate: 2026-04-16T00:00:00Z
 updateDate: 2026-04-16T00:00:00Z
@@ -211,7 +211,7 @@ To understand how the four modules of AI Troop divide and coordinate to support 
 > **Ready to launch your ABM program?**
 > AITroop's AI-powered system can help you build an ABM execution engine from scratch — from target account selection and intelligence gathering to personalized content generation and multi-channel outreach management, with AI acceleration across the entire funnel.
 >
-> [Contact us for an ABM strategy assessment →](/contact)
+> [Contact us for an ABM strategy assessment →](https://app.aitroop.net)
 
 ---
 
@@ -276,4 +276,4 @@ AI has dramatically lowered the execution barrier for ABM. Intelligence gatherin
 > **Ready to accelerate your ABM execution with AI?**
 > AITroop covers the full ABM workflow: account intelligence (FIND) → multi-channel outreach (ENGAGE) → conversion follow-up (CONVERT) → customer retention (RETAIN).
 >
-> [Book a demo to see how AI Troop supports your ABM program →](/contact)
+> [Login to see how AI Troop supports your ABM program →](https://app.aitroop.net)

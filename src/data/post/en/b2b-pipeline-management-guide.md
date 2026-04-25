@@ -1,4 +1,4 @@
----
+﻿---
 title: "B2B Pipeline Management Guide: Full-Funnel Control from Opportunity to Close"
 publishDate: 2026-04-17T00:00:00Z
 updateDate: 2026-04-17T00:00:00Z
@@ -250,7 +250,7 @@ Small teams can simplify, but they cannot skip the core disciplines: clear stage
 
 **Q5: How much historical data does AI deal scoring require?**
 
-Generally, an AI scoring model needs at least 100–200 historical opportunities with complete lifecycle records (including both Closed Won and Closed Lost) to establish a meaningful scoring baseline. If your team is early-stage and data is sparse, focus first on rigorous manual pipeline cleanup and stage standardization — that alone can meaningfully improve forecast accuracy. Once data reaches sufficient volume, AI models can genuinely add leverage. Feel free to [contact the AITroop team](/contact) — we can help you assess your current data foundation and the right timing for AI adoption.
+Generally, an AI scoring model needs at least 100–200 historical opportunities with complete lifecycle records (including both Closed Won and Closed Lost) to establish a meaningful scoring baseline. If your team is early-stage and data is sparse, focus first on rigorous manual pipeline cleanup and stage standardization — that alone can meaningfully improve forecast accuracy. Once data reaches sufficient volume, AI models can genuinely add leverage. Feel free to [contact the AITroop team](https://app.aitroop.net) — we can help you assess your current data foundation and the right timing for AI adoption.
 
 ---
 
@@ -264,7 +264,7 @@ Healthy pipeline management starts with clear stage definitions, is built on hon
 
 The path is not short — but every step produces visible results: sharper forecasts, a more focused team, and faster closes.
 
-If your team is building or rebuilding its pipeline management system, [we'd welcome a conversation with the AITroop team](/contact) — we've accumulated substantial hands-on experience helping B2B teams use AI to turn pipeline management from gut feel into data.
+If your team is building or rebuilding its pipeline management system, [we'd welcome a conversation with the AITroop team](https://app.aitroop.net) — we've accumulated substantial hands-on experience helping B2B teams use AI to turn pipeline management from gut feel into data.
 
 ---
 

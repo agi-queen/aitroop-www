@@ -1,4 +1,4 @@
----
+﻿---
 title: "How a 5-Person Sales Team Does the Work of 30 with Aitroop"
 publishDate: 2026-04-19T00:00:00Z
 updateDate: 2026-04-19T00:00:00Z
@@ -90,7 +90,7 @@ Five SDRs times 20 targeted accounts equals 100 high-quality starting points eve
 
 Pure research time saved per week: roughly 5 hours per person, 25 hours for the team. Every one of those hours gets redirected into prospect conversations and opportunity advancement.
 
-> **Want to see what FIND can surface for your team? [Request a free Aitroop demo](https://aitroop.net/demo) — we'll run your actual ICP through the system live during the session.**
+> **Want to see what FIND can surface for your team? [Request a free Aitroop demo](https://app.aitroop.net) — we'll run your actual ICP through the system live during the session.**
 
 ---
 
@@ -148,7 +148,7 @@ David sent an email that afternoon offering to prepare an ROI calculation report
 
 Without that stall alert, this one would almost certainly have slipped into silence and died quietly.
 
-> **CONVERT's opportunity scoring and AI proposal generation are now available for enterprise trial. [Contact us](https://aitroop.net/contact) to learn more.**
+> **CONVERT's opportunity scoring and AI proposal generation are now available for enterprise trial. [Contact us](https://app.aitroop.net) to learn more.**
 
 ---
 
@@ -255,4 +255,4 @@ Aitroop's positioning as an [AI GTM platform](/blog/what-is-ai-troop) is built a
 
 A 5-person team doing the work of 30 is not a marketing claim. It's an arithmetic problem about which tasks belong to AI — and SkyTech has already worked out the answer.
 
-> **If your team is facing the same constraints — low lead quality, poor outreach conversion, not enough people — [request a free Aitroop demo](https://aitroop.net/demo) and we'll show you what the four combat units can do using your actual business context.**
+> **If your team is facing the same constraints — low lead quality, poor outreach conversion, not enough people — [request a free Aitroop demo](https://app.aitroop.net) and we'll show you what the four combat units can do using your actual business context.**

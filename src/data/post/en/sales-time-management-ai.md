@@ -1,4 +1,4 @@
----
+﻿---
 publishDate: 2026-04-05T00:00:00Z
 updateDate: 2026-04-13T00:00:00Z
 author: Aitroop Team
@@ -135,4 +135,4 @@ The window to gain an edge here is open. It won't stay open indefinitely.
 
 ---
 
-*Aitroop is an AI-powered GTM platform built for B2B sales teams, automating research, personalization, and CRM capture so reps can spend more time selling. [Book a 30-minute demo to see the difference](/contact).*
+*Aitroop is an AI-powered GTM platform built for B2B sales teams, automating research, personalization, and CRM capture so reps can spend more time selling. [Book a 30-minute demo to see the difference](https://app.aitroop.net).*

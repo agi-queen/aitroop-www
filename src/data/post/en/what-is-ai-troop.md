@@ -1,4 +1,4 @@
----
+﻿---
 title: What Is an AI Troop? The AI Efficiency Engine Every B2B Company Needs in 2026
 publishDate: 2026-04-14T00:00:00Z
 updateDate: 2026-04-14T00:00:00Z
@@ -71,7 +71,7 @@ This is the basic form of an AI Troop.
 
 ---
 
-Want to see how an AI Troop replaces manual outreach? [Book a 30-minute Aitroop demo](/contact) to see it running live.
+Want to see how an AI Troop replaces manual outreach? [Book a 30-minute Aitroop demo](https://app.aitroop.net) to see it running live.
 
 ---
 
@@ -242,4 +242,4 @@ Building an AI Troop doesn't happen overnight, but the first step isn't complica
 
 ---
 
-*Aitroop is an AI GTM platform built for B2B growth teams, helping you integrate sales, marketing, and customer success into a coordinated AI Troop. [Book a free demo](/contact) to see how an AI Troop can operate in your business.*
+*Aitroop is an AI GTM platform built for B2B growth teams, helping you integrate sales, marketing, and customer success into a coordinated AI Troop. [Book a free demo](https://app.aitroop.net) to see how an AI Troop can operate in your business.*

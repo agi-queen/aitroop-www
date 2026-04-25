@@ -1,4 +1,4 @@
----
+﻿---
 title: "1 Person, 10× the Coverage: How AI Troops Are Redefining B2B Growth Efficiency"
 publishDate: 2026-04-15T00:00:00Z
 updateDate: 2026-04-15T00:00:00Z
@@ -62,7 +62,7 @@ Three months later, Sarah's team was handling the volume that would have require
 
 ---
 
-If you'd like to see a concrete coverage model for your team, [book a 30-minute Aitroop demo](/contact). We'll build a custom efficiency estimate based on your ICP and current team size.
+If you'd like to see a concrete coverage model for your team, [book a 30-minute Aitroop demo](https://app.aitroop.net). We'll build a custom efficiency estimate based on your ICP and current team size.
 
 ---
 
@@ -133,7 +133,7 @@ A practical reference framework:
 
 **For 10–30 person mature sales teams**: the primary gains are in forecast quality, churn prevention, and output per rep, with direct contributions to NRR and ARR growth.
 
-[Talk to us for 30 minutes](/contact) to get a custom ROI model built on your actual data.
+[Talk to us for 30 minutes](https://app.aitroop.net) to get a custom ROI model built on your actual data.
 
 ---
 
@@ -189,4 +189,4 @@ None of them hired more people. None of them rebuilt their tool stack. They let 
 
 ---
 
-*Aitroop is an AI GTM platform built for B2B growth teams, covering Intelligence, Engagement, Conversion, and Retention in one platform. Over 500 companies are using Aitroop to build their AI Troop. [Book a free demo](/contact) — 30 minutes to see exactly what an AI Troop can do for your team.*
+*Aitroop is an AI GTM platform built for B2B growth teams, covering Intelligence, Engagement, Conversion, and Retention in one platform. Over 500 companies are using Aitroop to build their AI Troop. [Book a free demo](https://app.aitroop.net) — 30 minutes to see exactly what an AI Troop can do for your team.*

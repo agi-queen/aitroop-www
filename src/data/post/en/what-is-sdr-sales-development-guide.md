@@ -1,4 +1,4 @@
----
+﻿---
 title: "What Is an SDR? The Complete Sales Development Representative Guide: Roles, Metrics, and AI Efficiency"
 publishDate: 2026-04-16T00:00:00Z
 updateDate: 2026-04-16T00:00:00Z
@@ -221,7 +221,7 @@ Human SDRs still own:
 
 Want to learn about AITroop's AI SDR solution? [See how AI Troop works](/blog/what-is-ai-troop)
 
-If your SDR team is hitting efficiency walls, [contact us to learn how AI SDR can rebuild your pipeline](/contact).
+If your SDR team is hitting efficiency walls, [contact us to learn how AI SDR can rebuild your pipeline](https://app.aitroop.net).
 
 For time management and AI collaboration for SDRs: [Sales Time Management in the AI Era](/blog/sales-time-management-ai)
 
@@ -261,4 +261,4 @@ Now AI is rewriting the ceiling for this role. AI isn't replacing SDRs — it's 
 
 **If your SDR team is struggling with efficiency bottlenecks, or you're thinking about how to cover more target accounts with fewer people —**
 
-[Contact AITroop to learn how AI Troop can rebuild your SDR efficiency](/contact)
+[Contact AITroop to learn how AI Troop can rebuild your SDR efficiency](https://app.aitroop.net)

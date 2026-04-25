@@ -1,4 +1,4 @@
----
+﻿---
 title: "What Is a GTM Strategy? The Complete B2B Go-to-Market Guide (2026)"
 publishDate: 2026-04-16T00:00:00Z
 updateDate: 2026-04-16T00:00:00Z
@@ -213,7 +213,7 @@ GTM execution has always faced a core tension: personalization takes time, but s
 - **Customer health monitoring**: Combine 20+ signals (login frequency, feature depth, support tickets) for real-time churn alerts
 - **Competitive intelligence**: Monitor competitor pricing changes, new features, and customer reviews — weekly auto-digest
 
-This is exactly what AITroop does. AITroop is an AI GTM platform built for B2B teams, helping sales, marketing, and customer success teams use AI agents to automate repetitive work while maintaining personalized customer experiences. [Book a demo →](/contact)
+This is exactly what AITroop does. AITroop is an AI GTM platform built for B2B teams, helping sales, marketing, and customer success teams use AI agents to automate repetitive work while maintaining personalized customer experiences. [Login →](https://app.aitroop.net)
 
 ---
 
@@ -247,8 +247,8 @@ The biggest misconception about GTM strategy is treating it as a one-time planni
 
 The early-mover advantage isn't a better AI tool. It's 12–18 months of iteration that can't be shortcut.
 
-If you want AI to help your team execute GTM 3x faster — from lead discovery to personalized outreach to customer health monitoring — [contact the AITroop team →](/contact)
+If you want AI to help your team execute GTM 3x faster — from lead discovery to personalized outreach to customer health monitoring — [contact the AITroop team →](https://app.aitroop.net)
 
 ---
 
-*Aitroop is an AI GTM platform built for B2B growth teams. The [AI Troop](/blog/what-is-ai-troop) system covers Intelligence, Engagement, Conversion, and Retention across the full funnel. If you're mapping your GTM strategy, [book a free demo](/contact) and we'll help you prioritize the right levers.*
+*Aitroop is an AI GTM platform built for B2B growth teams. The [AI Troop](/blog/what-is-ai-troop) system covers Intelligence, Engagement, Conversion, and Retention across the full funnel. If you're mapping your GTM strategy, [book a free demo](https://app.aitroop.net) and we'll help you prioritize the right levers.*

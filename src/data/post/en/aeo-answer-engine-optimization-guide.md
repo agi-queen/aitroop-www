@@ -1,4 +1,4 @@
----
+﻿---
 title: "What Is AEO? The Complete Answer Engine Optimization Guide (With AI Search Monitoring)"
 publishDate: 2026-04-15T00:00:00Z
 updateDate: 2026-04-15T00:00:00Z
@@ -71,7 +71,7 @@ These three are not mutually exclusive. Good SEO underpins both GEO and AEO — 
 
 ---
 
-If you're working on Aitroop's AI search visibility, [book a strategy demo](/contact) and we can analyze your current AI citation landscape together.
+If you're working on Aitroop's AI search visibility, [book a strategy demo](https://app.aitroop.net) and we can analyze your current AI citation landscape together.
 
 ---
 
@@ -354,4 +354,4 @@ The role of [AI Troops](/blog/what-is-ai-troop) in the GTM stack is expanding �
 
 ---
 
-*Aitroop is an AI GTM platform built for B2B growth teams, helping you integrate sales, marketing, and customer success into a coordinated AI Troop. [Book a free demo](/contact) to see how Aitroop fits into your growth system.*
+*Aitroop is an AI GTM platform built for B2B growth teams, helping you integrate sales, marketing, and customer success into a coordinated AI Troop. [Book a free demo](https://app.aitroop.net) to see how Aitroop fits into your growth system.*

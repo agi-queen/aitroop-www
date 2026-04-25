@@ -1,4 +1,4 @@
----
+﻿---
 title: "LinkedIn B2B Outreach Guide: From Connection Request to Booked Meeting"
 publishDate: 2026-04-17T00:00:00Z
 updateDate: 2026-04-17T00:00:00Z
@@ -239,7 +239,7 @@ This architecture solves the central tension in scaling LinkedIn outreach: **the
 
 For more on contact data quality, see our [B2B Contact Data Quality Guide](/blog/b2b-contact-data-quality-guide). If you're in an SDR role, the [Complete SDR Guide](/blog/what-is-sdr-sales-development-guide) covers more practical detail on LinkedIn's place in the sales process.
 
-If you'd like to see how AI Troop can help your team scale LinkedIn outreach, [contact us](/contact) to schedule a 15-minute demo.
+If you'd like to see how AI Troop can help your team scale LinkedIn outreach, [contact us](https://app.aitroop.net) to schedule a 15-minute demo.
 
 ---
 
@@ -285,7 +285,7 @@ The competitive edge in 2026 isn't about sending more messages. It's about **say
 
 ---
 
-Want your team to achieve a systematic breakthrough in LinkedIn outreach? [Contact the AI Troop team](/contact)—we can help you design a complete AI GTM workflow from data to outreach to conversion.
+Want your team to achieve a systematic breakthrough in LinkedIn outreach? [Contact the AI Troop team](https://app.aitroop.net)—we can help you design a complete AI GTM workflow from data to outreach to conversion.
 
 *Further reading:*
 - [Complete B2B Outreach Cadence Guide](/blog/b2b-outreach-cadence-guide)

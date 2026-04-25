@@ -1,4 +1,4 @@
----
+﻿---
 publishDate: 2026-04-03T00:00:00Z
 updateDate: 2026-04-13T00:00:00Z
 author: Aitroop Team
@@ -42,7 +42,7 @@ Standard attribution assigns credit based on the journey of a single contact (us
 
 ### Cross-Device and Cross-Channel Fragmentation
 
-A B2B buyer might first hear about your company in a podcast ad while commuting, read a blog post on their laptop during lunch, see a retargeting ad on their phone, receive a cold email, and finally book a demo after a colleague mentioned the product in a meeting.
+A B2B buyer might first hear about your company in a podcast ad while commuting, read a blog post on their laptop during lunch, see a retargeting ad on their phone, receive a cold email, and finally Login after a colleague mentioned the product in a meeting.
 
 Each of these touchpoints occurs on a different device, in a different channel, with different identity signals. Connecting them into a coherent journey — attributing credit across them coherently — requires identity resolution infrastructure that most marketing teams don't have.
 

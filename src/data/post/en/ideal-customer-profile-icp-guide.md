@@ -1,4 +1,4 @@
----
+﻿---
 title: "The Complete Ideal Customer Profile (ICP) Guide: Finding the Customers Worth Chasing"
 publishDate: 2026-04-15T00:00:00Z
 updateDate: 2026-04-15T00:00:00Z
@@ -144,7 +144,7 @@ Knowing this map is what lets you design a tailored outreach strategy for each r
 
 ---
 
-Want to see how AI can automatically analyze your historical closed-won data and surface your ICP? [Book an Aitroop demo](/contact) — we can produce your ICP draft in 30 minutes.
+Want to see how AI can automatically analyze your historical closed-won data and surface your ICP? [Book an Aitroop demo](https://app.aitroop.net) — we can produce your ICP draft in 30 minutes.
 
 ---
 
@@ -292,4 +292,4 @@ If you haven't built your ICP yet, today is the best time to start.
 
 ---
 
-*Aitroop is an AI GTM platform built for B2B growth teams, with built-in AI-driven ICP modeling that automatically extracts your ideal customer profile from historical data and updates target priorities in real time. [Book a free demo](/contact) to see how AI helps you find the customers most worth pursuing.*
+*Aitroop is an AI GTM platform built for B2B growth teams, with built-in AI-driven ICP modeling that automatically extracts your ideal customer profile from historical data and updates target priorities in real time. [Book a free demo](https://app.aitroop.net) to see how AI helps you find the customers most worth pursuing.*

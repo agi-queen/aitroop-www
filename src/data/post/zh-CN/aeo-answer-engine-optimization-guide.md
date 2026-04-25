@@ -1,4 +1,4 @@
----
+﻿---
 title: AEO是什么？Answer Engine Optimization完整指南（含AI搜索监测实战）
 publishDate: 2026-04-15T00:00:00Z
 updateDate: 2026-04-15T00:00:00Z
@@ -71,7 +71,7 @@ metadata:
 
 ---
 
-如果你正在优化AITroop的AI搜索可见度，[预约一次策略演示](/contact)，我们可以一起分析你的AI引用现状和改进路径。
+如果你正在优化AITroop的AI搜索可见度，[预约一次策略演示](https://app.aitroop.net)，我们可以一起分析你的AI引用现状和改进路径。
 
 ---
 
@@ -354,4 +354,4 @@ SEO用了20年成为数字营销的标配。AEO刚刚开始，现在入场的人
 
 ---
 
-*Aitroop 是专为 B2B 增长团队打造的 AI GTM 平台，帮助你把销售、市场、客户成功整合成一支协同运转的 AI 军团。[预约免费演示](/contact)，看看 Aitroop 如何在你的增长体系中落地。*
+*Aitroop 是专为 B2B 增长团队打造的 AI GTM 平台，帮助你把销售、市场、客户成功整合成一支协同运转的 AI 军团。[预约免费演示](https://app.aitroop.net)，看看 Aitroop 如何在你的增长体系中落地。*

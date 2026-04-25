@@ -1,4 +1,4 @@
----
+﻿---
 title: "AI Troop vs Traditional CRM: Why More B2B Sales Teams Are Making the Switch"
 publishDate: 2026-04-23T00:00:00Z
 updateDate: 2026-04-23T00:00:00Z
@@ -81,7 +81,7 @@ To go deeper on what an AI GTM platform is and how it differs from traditional s
 
 ---
 
-> **Want to see AI Troop in action?** Book a 30-minute product demo and we'll run through a live scenario using your actual business context. [Book a Demo →](https://aitroop.net/contact)
+> **Want to see AI Troop in action?** Login and we'll run through a live scenario using your actual business context. [Login →](https://app.aitroop.net)
 
 ---
 
@@ -203,7 +203,7 @@ During the early transition period, plan for 3 to 4 weeks of parallel operations
 
 ---
 
-> **Have specific questions about migration?** Our implementation team can build a custom migration plan for you, assess your existing CRM data, and map your current workflows. [Contact the AI Troop Team →](https://aitroop.net/contact)
+> **Have specific questions about migration?** Our implementation team can build a custom migration plan for you, assess your existing CRM data, and map your current workflows. [Contact the AI Troop Team →](https://app.aitroop.net)
 
 ---
 
@@ -259,7 +259,7 @@ If your team has invested heavily in customizing your current CRM — with deep 
 
 ---
 
-> **Not sure if AI Troop is right for your team?** We offer a free GTM diagnostic to assess your current tool stack's efficiency bottlenecks and estimate the value of switching. [Book a Free Diagnostic →](https://aitroop.net/contact)
+> **Not sure if AI Troop is right for your team?** We offer a free GTM diagnostic to assess your current tool stack's efficiency bottlenecks and estimate the value of switching. [Book a Free Diagnostic →](https://app.aitroop.net)
 
 ---
 

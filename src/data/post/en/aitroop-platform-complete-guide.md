@@ -1,4 +1,4 @@
----
+﻿---
 title: "Aitroop Complete Platform Guide: Features, Capabilities & Use Cases"
 publishDate: 2026-04-25T08:00:00Z
 updateDate: 2026-04-25T08:00:00Z
@@ -215,7 +215,7 @@ The difference is not incremental. It is structural. Aitroop is not a faster ver
 
 ---
 
-Ready to see how this applies to your specific growth challenge? [Book a 30-minute demo →](/contact)
+Ready to see how this applies to your specific growth challenge? [Book a 30-minute demo →](https://app.aitroop.net)
 
 ---
 
@@ -275,4 +275,4 @@ The founding team comes from B2B sales, marketing, and AI product backgrounds. W
 
 Every new feature we ship comes from real customer use cases and feedback. Our NPS and customer retention rate are the product report card we are most proud of.
 
-Have a question or want to explore a partnership? [Get in touch →](/contact)
+Have a question or want to explore a partnership? [Get in touch →](https://app.aitroop.net)

@@ -22,9 +22,9 @@ function buildHeaderLinks(locale: Locale) {
 }
 
 const headerActions: Record<Locale, object[]> = {
-  en: [{ text: 'Book a Demo', href: lp('en', getPermalink('/contact')), variant: 'primary' }],
-  'zh-TW': [{ text: '預約示範', href: lp('zh-TW', getPermalink('/contact')), variant: 'primary' }],
-  'zh-CN': [{ text: '预约演示', href: lp('zh-CN', getPermalink('/contact')), variant: 'primary' }],
+  en: [{ text: 'Login', href: 'https://app.aitroop.net', variant: 'primary' }],
+  'zh-TW': [{ text: '登入', href: 'https://app.aitroop.net', variant: 'primary' }],
+  'zh-CN': [{ text: '登录', href: 'https://app.aitroop.net', variant: 'primary' }],
 };
 
 export function getHeaderData(locale: Locale = 'en') {

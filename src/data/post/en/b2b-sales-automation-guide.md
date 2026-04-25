@@ -1,4 +1,4 @@
----
+﻿---
 title: "B2B Sales Automation Complete Guide: How AI Gives Your SDRs 5x Productivity"
 publishDate: 2026-04-19T00:00:00Z
 updateDate: 2026-04-19T00:00:00Z
@@ -93,7 +93,7 @@ Sixty days later: reply rate rose from 4.2% to 16.1%, monthly SQL output grew fr
 
 ---
 
-> **Want to see how AI Troop can give your team 5× productivity?** [Book a 30-minute product demo](https://aitroop.net/demo) and our GTM experts will give you specific recommendations based on your current business situation.
+> **Want to see how AI Troop can give your team 5× productivity?** [Login](https://app.aitroop.net) and our GTM experts will give you specific recommendations based on your current business situation.
 
 ---
 
@@ -212,7 +212,7 @@ A five-step email sequence was then run against those 680 high-quality leads. Re
 
 ---
 
-> **Ready to start your B2B sales automation journey?** AI Troop's GTM expert team has helped more than 200 B2B companies implement end-to-end solutions from strategy to tooling. [Book a free consultation](https://aitroop.net/contact) — we'll respond within 24 hours.
+> **Ready to start your B2B sales automation journey?** AI Troop's GTM expert team has helped more than 200 B2B companies implement end-to-end solutions from strategy to tooling. [Book a free consultation](https://app.aitroop.net) — we'll respond within 24 hours.
 
 ---
 

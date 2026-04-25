@@ -1,4 +1,4 @@
----
+﻿---
 title: "The Complete AARRR Guide: Five Funnel Stages That Drive B2B SaaS Growth"
 publishDate: 2026-04-14T00:00:00Z
 updateDate: 2026-04-14T00:00:00Z
@@ -69,7 +69,7 @@ B2B AARRR has several critical differences:
 
 ---
 
-To see how an AI system can cover the full AARRR chain, [book a 30-minute Aitroop demo](/contact) and see how an AI Troop operates in real business contexts.
+To see how an AI system can cover the full AARRR chain, [book a 30-minute Aitroop demo](https://app.aitroop.net) and see how an AI Troop operates in real business contexts.
 
 ---
 
@@ -329,4 +329,4 @@ When you simultaneously use an AI Troop to automate data collection and executio
 
 ---
 
-*Aitroop is an AI GTM platform built for B2B growth teams, helping you deploy an AI Troop at every AARRR stage to improve execution efficiency. [Book a free demo](/contact) to see how an AI Troop can operate inside your growth funnel.*
+*Aitroop is an AI GTM platform built for B2B growth teams, helping you deploy an AI Troop at every AARRR stage to improve execution efficiency. [Book a free demo](https://app.aitroop.net) to see how an AI Troop can operate inside your growth funnel.*

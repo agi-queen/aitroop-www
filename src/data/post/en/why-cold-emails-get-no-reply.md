@@ -1,4 +1,4 @@
----
+﻿---
 publishDate: 2026-04-01T00:00:00Z
 updateDate: 2026-04-13T00:00:00Z
 author: Aitroop Team
@@ -164,4 +164,4 @@ This efficiency revolution is just getting started.
 
 ---
 
-*Aitroop is an AI-powered GTM platform built for B2B sales teams, helping SDRs achieve personalized outreach at scale. To learn how we can help you 5x your outreach efficiency, [book a 30-minute demo](/contact).*
+*Aitroop is an AI-powered GTM platform built for B2B sales teams, helping SDRs achieve personalized outreach at scale. To learn how we can help you 5x your outreach efficiency, [book a 30-minute demo](https://app.aitroop.net).*

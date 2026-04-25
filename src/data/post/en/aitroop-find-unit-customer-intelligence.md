@@ -1,4 +1,4 @@
----
+﻿---
 title: "How to Build a B2B Target Customer Radar in 7 Days with Aitroop's FIND Unit"
 publishDate: 2026-04-19T00:00:00Z
 updateDate: 2026-04-19T00:00:00Z
@@ -214,7 +214,7 @@ Your target customer radar is now live.
 
 ---
 
-> **Want to see the FIND unit in action against your own target market?** [Book a demo](https://aitroop.net/demo) and we'll run a live scan and enrichment using your real ICP criteria.
+> **Want to see the FIND unit in action against your own target market?** [Login](https://app.aitroop.net) and we'll run a live scan and enrichment using your real ICP criteria.
 
 ---
 
@@ -248,7 +248,7 @@ What these two cases share is the core logic behind [Enterprise AI ROI](/blog/ai
 
 ---
 
-> **How many hours does your team spend on prospect research each week?** If that number is above 20, the FIND unit may be the highest-ROI efficiency investment you make this year. [Book a demo to see how much you could save](https://aitroop.net/demo).
+> **How many hours does your team spend on prospect research each week?** If that number is above 20, the FIND unit may be the highest-ROI efficiency investment you make this year. [Login to see how much you could save](https://app.aitroop.net).
 
 ---
 
@@ -264,4 +264,4 @@ That is the fundamental shift from "finding people" to "intelligence-led selling
 
 ---
 
-> **Ready to build your target customer radar?** [Contact the Aitroop team](https://aitroop.net/contact) — we offer a free ICP diagnostic and FIND unit configuration consultation to help you launch your first customer intelligence system within 7 days.
+> **Ready to build your target customer radar?** [Contact the Aitroop team](https://app.aitroop.net) — we offer a free ICP diagnostic and FIND unit configuration consultation to help you launch your first customer intelligence system within 7 days.

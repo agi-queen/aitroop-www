@@ -1,4 +1,4 @@
----
+﻿---
 title: "The 3 Stages of Enterprise AI Adoption: From Tool Purchases to AI Troop Operations"
 publishDate: 2026-04-19T00:00:00Z
 updateDate: 2026-04-19T00:00:00Z
@@ -241,7 +241,7 @@ Have your results?
 
 If you are in stage one or stage two, there is no need to panic — that is where most companies genuinely are, and recognizing your position is itself the start of progress. More importantly, advancing from your current stage to AI Troop operations does not require rebuilding everything from scratch.
 
-**Want to understand exactly what steps are needed to move from your current stage to AI Troop operations?** [Book a product demo](https://aitroop.net/demo) and we will map out a concrete, actionable path based on where you are starting from.
+**Want to understand exactly what steps are needed to move from your current stage to AI Troop operations?** [Book a product demo](https://app.aitroop.net) and we will map out a concrete, actionable path based on where you are starting from.
 
 ---
 

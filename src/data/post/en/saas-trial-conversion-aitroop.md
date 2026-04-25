@@ -1,4 +1,4 @@
----
+﻿---
 title: "How SaaS Companies Use AI Troop to Lift Trial-to-Paid Conversion by 40%"
 publishDate: 2026-04-23T00:00:00Z
 updateDate: 2026-04-23T00:00:00Z
@@ -304,7 +304,7 @@ After bringing in AI Troop, they defined three key activation signals: the user 
 
 ---
 
-> **Want to see how AI Troop can build a custom conversion path for your trial flow? [Book a 30-minute product demo](https://aitroop.net/demo) and we'll walk through specific recommendations based on your current conversion data.**
+> **Want to see how AI Troop can build a custom conversion path for your trial flow? [Login](https://app.aitroop.net) and we'll walk through specific recommendations based on your current conversion data.**
 
 ---
 
@@ -350,7 +350,7 @@ The more meaningful shift was structural: they achieved this doubled conversion 
 
 ---
 
-> **Where is your trial conversion rate getting stuck? [Book an AI Troop product demo](https://aitroop.net/demo) and receive a conversion path diagnostic report tailored to your product.**
+> **Where is your trial conversion rate getting stuck? [Book an AI Troop product demo](https://app.aitroop.net) and receive a conversion path diagnostic report tailored to your product.**
 
 ---
 
@@ -370,7 +370,7 @@ The complete [B2B Pipeline Management Guide](/blog/b2b-pipeline-management-guide
 
 ---
 
-> **Ready to systematically lift your trial conversion rate? [Book an AI Troop demo now](https://aitroop.net/demo) — in 30 minutes we'll show you how AI Troop builds a custom conversion path for your specific product.**
+> **Ready to systematically lift your trial conversion rate? [Book an AI Troop demo now](https://app.aitroop.net) — in 30 minutes we'll show you how AI Troop builds a custom conversion path for your specific product.**
 
 ---
 

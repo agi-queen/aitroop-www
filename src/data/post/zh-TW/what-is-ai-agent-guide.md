@@ -1,4 +1,4 @@
----
+﻿---
 title: AI Agent是什麼？智慧代理完整指南：從原理到B2B實戰應用
 publishDate: 2026-04-16T00:00:00Z
 updateDate: 2026-04-16T00:00:00Z
@@ -226,7 +226,7 @@ Agent的決策過程有時難以完全追溯。對於需要審計合規的場景
 
 AITroop的AI軍團平台針對B2B GTM場景深度整合了銷售、行銷和客戶成功工具鏈，減少了企業從零開始搭建整合的成本。
 
-> 想了解AI軍團如何適配你的GTM工作流 → [聯絡我們](/contact)
+> 想了解AI軍團如何適配你的GTM工作流 → [聯絡我們](https://app.aitroop.net)
 
 ### 維度三：人工干預機制
 
@@ -270,7 +270,7 @@ AI Agent不是一個遙遠的技術概念，它已經在真實的企業裡改變
 
 AI軍團（AITroop）是專為B2B GTM場景打造的Multi-Agent平台，幫助銷售、行銷和客戶成功團隊用AI Agent規模化執行成長策略。
 
-> **準備好讓AI Agent加入你的團隊了嗎？** → [與AITroop專家交流](/contact)
+> **準備好讓AI Agent加入你的團隊了嗎？** → [與AITroop專家交流](https://app.aitroop.net)
 
 ---
 
