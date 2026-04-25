@@ -51,8 +51,8 @@ const { post } = Astro.props;
       <div class="mt-6 border-t border-[var(--aw-color-border)]" />
     </header>
 
-    <!-- Content -->
-    <div class="mx-auto px-4 sm:px-6 max-w-3xl prose prose-sm sm:prose-base prose-headings:font-bold prose-headings:tracking-tighter prose-headings:font-heading prose-a:text-primary prose-img:rounded-md mt-8 prose-headings:scroll-mt-[80px] prose-li:my-0">
+    <!-- Content (first h1 hidden — title already rendered in header above) -->
+    <div class="mx-auto px-4 sm:px-6 max-w-3xl prose prose-sm sm:prose-base prose-headings:font-bold prose-headings:tracking-tighter prose-headings:font-heading prose-a:text-primary prose-img:rounded-md mt-8 prose-headings:scroll-mt-[80px] prose-li:my-0 [&>h1:first-child]:hidden">
       <slot />
     </div>
 
