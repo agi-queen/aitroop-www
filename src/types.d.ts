@@ -38,6 +38,8 @@ export interface Post {
 
   /**  */
   draft?: boolean;
+  /**  */
+  featured?: boolean;
 
   /**  */
   Content?: AstroComponentFactory;

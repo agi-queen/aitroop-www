@@ -10,20 +10,17 @@ function lp(locale: Locale, path: string): string {
 function buildHeaderLinks(locale: Locale) {
   return {
     en: [
-      { text: 'Features', href: lp(locale, getPermalink('/services')) },
-      { text: 'Solutions', href: lp(locale, getPermalink('/solutions')) },
+      { text: 'Platform', href: lp(locale, getPermalink('/blog/aitroop-platform-complete-guide')) },
       { text: 'Blog', href: lp(locale, getBlogPermalink()) },
       { text: 'About', href: lp(locale, getPermalink('/about')) },
     ],
     'zh-TW': [
-      { text: '功能特色', href: lp(locale, getPermalink('/services')) },
-      { text: '解決方案', href: lp(locale, getPermalink('/solutions')) },
+      { text: '平台功能', href: lp(locale, getPermalink('/blog/aitroop-platform-complete-guide')) },
       { text: '部落格', href: lp(locale, getBlogPermalink()) },
       { text: '關於我們', href: lp(locale, getPermalink('/about')) },
     ],
     'zh-CN': [
-      { text: '功能特色', href: lp(locale, getPermalink('/services')) },
-      { text: '解决方案', href: lp(locale, getPermalink('/solutions')) },
+      { text: '平台功能', href: lp(locale, getPermalink('/blog/aitroop-platform-complete-guide')) },
       { text: '博客', href: lp(locale, getBlogPermalink()) },
       { text: '关于我们', href: lp(locale, getPermalink('/about')) },
     ],
@@ -133,7 +130,7 @@ export function getFooterData(locale: Locale = 'en') {
       {
         title: t.product,
         links: [
-          { text: t.features, href: p(getPermalink('/services')) },
+          { text: t.features, href: p(getPermalink('/blog/aitroop-platform-complete-guide')) },
           { text: t.integrations, href: '#' },
           { text: t.security, href: '#' },
           { text: t.changelog, href: '#' },
