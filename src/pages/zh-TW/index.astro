@@ -1,197 +1,45 @@
-﻿---
+---
 import Layout from '~/layouts/PageLayout.astro';
 
-import Hero from '~/components/widgets/Hero.astro';
-import Features from '~/components/widgets/Features.astro';
-import Steps from '~/components/widgets/Steps.astro';
-import Content from '~/components/widgets/Content.astro';
-import Stats from '~/components/widgets/Stats.astro';
-import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
-
 const metadata = {
-  title: 'Aitroop — AI 驅動的獲客與留客平台',
+  title: 'Aitroop — AI 驅動的 B2B 成長平台',
   ignoreTitleTemplate: true,
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero -->
+  <main class="min-h-[calc(100vh-56px)] flex flex-col items-center justify-center px-4 text-center">
+    <div class="max-w-2xl mx-auto flex flex-col items-center gap-8">
 
-  <Hero
-    actions={[
-      {
-        variant: 'primary',
-        text: '登入',
-        href: 'https://app.aitroop.net',
-        icon: 'tabler:calendar',
-      },
-      { text: '瞭解更多', href: '#features' },
-    ]}
-    image={{
-      src: '/illustrations/teamwork_zplp.svg', width: 1024, height: 768,
-      alt: 'Aitroop — 獲客與留客平台',
-    }}
-  >
-    <Fragment slot="title">
-      讓你同時掌握<span class="text-accent">獲客與留客</span>的 AI 複合能力
-    </Fragment>
+      <span class="inline-flex items-center gap-1.5 text-xs font-medium text-primary bg-[rgba(82,153,97,0.08)] border border-[rgba(82,153,97,0.2)] px-3 py-1 rounded-full">
+        <span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
+        AI 驅動的 B2B 成長
+      </span>
 
-    <Fragment slot="subtitle">
-      Aitroop 把資料洞察、個性化觸達、客戶培育和增長分析整合在一個平台，
-      讓一個人做出過去整個團隊的業績。
-    </Fragment>
-  </Hero>
+      <h1 class="text-5xl md:text-6xl font-bold tracking-tighter text-[var(--aw-color-text-heading)] leading-[1.08]">
+        精準獲客。<br />持續留存。
+      </h1>
 
-  <!-- Stats -->
+      <p class="text-lg text-[var(--aw-color-text-muted)] max-w-md leading-relaxed">
+        AI軍團為你的團隊提供 AI 原生的精準觸達、客戶洞察與留存工具——讓一個人創造整個團隊的成果。
+      </p>
 
-  <Stats
-    stats={[
-      { title: '觸達效率提升', amount: '10x' },
-      { title: '有效聯繫方式覆蓋率', amount: '80%+' },
-      { title: '郵件主收件箱到達率', amount: '90%+' },
-      { title: '平均節省調研時間', amount: '25hr/週' },
-    ]}
-  />
+      <div class="flex items-center gap-3">
+        <a
+          href="https://app.aitroop.net"
+          class="inline-flex items-center gap-2 h-10 px-5 rounded-[6px] bg-primary text-white text-sm font-semibold hover:bg-[rgb(61_133_79)] transition-colors duration-150"
+        >
+          登入 Aitroop
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a
+          href="/zh-TW/blog"
+          class="inline-flex items-center h-10 px-5 rounded-[6px] text-sm font-medium text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)] hover:bg-[rgba(0,0,0,0.04)] transition-colors duration-150"
+        >
+          閱讀部落格
+        </a>
+      </div>
 
-  <!-- Features -->
-
-  <Features
-    id="features"
-    tagline="平台能力"
-    title="從找到客戶到守住客戶，每個環節都有 AI 加持"
-    subtitle="獲客和留客從來不是兩件獨立的事。Aitroop 把整個客戶生命週期整合在一個平台裡，讓你的每一個動作都更精準、更高效。"
-    items={[
-      {
-        title: '精準客戶洞察',
-        description:
-          'AI 自動調研目標客戶的業務背景、近期動態和潛在需求，讓你的每一次觸達都有真實的切入點。',
-        icon: 'tabler:search',
-      },
-      {
-        title: '個性化規模化觸達',
-        description:
-          'AI 根據每個客戶的真實背景生成量身定製的溝通內容，一個人可以做到過去整個外聯團隊的觸達量。',
-        icon: 'tabler:mail',
-      },
-      {
-        title: '智能資料富化',
-        description:
-          'Waterfall 智能富化引擎串聯多個數據源，從名字和公司名就能找到真實可用的聯繫方式，覆蓋率達 80% 以上。',
-        icon: 'tabler:database',
-      },
-      {
-        title: '多渠道自動化跟進',
-        description:
-          '郵件和 LinkedIn 混合序列，智能判斷最佳跟進時機，讓你不再因為「忘記跟進」而錯失機會。',
-        icon: 'tabler:route',
-      },
-      {
-        title: '意圖雷達',
-        description:
-          '官網訪客識別、行為信號追蹤、意圖評分——讓你把精力放在最有可能成交的人身上。',
-        icon: 'tabler:radar',
-      },
-      {
-        title: '客戶健康度與留存',
-        description:
-          '持續追蹤客戶健康度，在流失信號出現的第一時間介入，把流失率降下去，把續費率提上來。',
-        icon: 'tabler:heart-rate-monitor',
-      },
-    ]}
-  />
-
-  <!-- Steps -->
-
-  <Steps
-    title="三步建立你的 AI 獲客引擎"
-    items={[
-      {
-        title: '第一步：<span class="font-medium">定義你的目標客群</span>',
-        description:
-          'AI 分析你現有的優質客戶，自動提煉理想客戶畫像，幫你找到更多「對的人」。系統自動補全可用的聯繫方式。',
-        icon: 'tabler:upload',
-      },
-      {
-        title: '第二步：<span class="font-medium">AI 生成個性化觸達內容</span>',
-        description:
-          'AI 根據每個對象的真實背景——近期動態、業務方向、潛在痛點——生成有切入點的個性化內容。批量預覽，確認後一鍵發送。',
-        icon: 'tabler:wand',
-      },
-      {
-        title: '第三步：<span class="font-medium">自動跟進，持續優化</span>',
-        description:
-          '設定跟進節奏，系統自動運轉。即時查看哪些人回覆、哪些人在看你的官網。AI 持續學習幫你不斷迭代策略。',
-        icon: 'tabler:rocket',
-      },
-      {
-        title: '持續複利，業績增長',
-        icon: 'tabler:check',
-      },
-    ]}
-    image={{
-      src: '/illustrations/data-at-work_3tbf.svg', width: 1024, height: 768,
-      alt: '三步啟動 AI 獲客引擎',
-    }}
-  />
-
-  <!-- Content / Differentiators -->
-
-  <Content
-    isReversed
-    tagline="Aitroop 的差異"
-    title="不只是工具，而是你的獲客與留客作業系統"
-    items={[
-      {
-        title: '一個平台，整合全流程',
-        description:
-          '資料洞察、個性化觸達、自動化跟進、效果追蹤、客戶健康度——全部在一個工作台完成，不需要在工具之間反覆切換。',
-        icon: 'tabler:layout-dashboard',
-      },
-      {
-        title: '意圖雷達：三維信號融合',
-        description:
-          '官網訪客行為、第三方意圖數據、產品內使用追蹤——三個維度的信號融合成統一的意圖評分，讓你在最佳時機觸達最有可能成交的人。',
-        icon: 'tabler:radar',
-      },
-    ]}
-    image={{
-      src: '/illustrations/success-factors_i417.svg', width: 1024, height: 768,
-      alt: 'Aitroop 差異化特色',
-    }}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50"></div>
-    </Fragment>
-  </Content>
-
-  <!-- Blog -->
-
-  <BlogLatestPosts
-    title="獲客與留客的實戰洞察"
-    information="我們定期分享獲客技巧、AI 應用實踐和客戶增長策略，幫助你持續精進複合能力。"
-  />
-
-  <!-- CTA -->
-
-  <CallToAction
-    actions={[
-      {
-        variant: 'primary',
-        text: '登入',
-        href: 'https://app.aitroop.net',
-        icon: 'tabler:calendar',
-      },
-    ]}
-  >
-    <Fragment slot="title">
-      準備好讓 AI 成為<br class="block sm:hidden" /><span class="sm:whitespace-nowrap"
-        >你的獲客超能力了嗎？</span
-      >
-    </Fragment>
-
-    <Fragment slot="subtitle">
-      掌握 AI 獲客技能的人，正在以一人之力創造過去整個團隊的成果。<br class="hidden md:inline" />你的下一步，從這裡開始。
-    </Fragment>
-  </CallToAction>
+    </div>
+  </main>
 </Layout>
