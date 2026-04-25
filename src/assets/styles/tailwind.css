@@ -3,76 +3,67 @@
 @tailwind utilities;
 
 @layer utilities {
-  .bg-page {
-    background-color: var(--aw-color-bg-page);
-  }
-  .bg-subtle {
-    background-color: var(--aw-color-bg-subtle);
-  }
-  .bg-dark {
-    background-color: var(--aw-color-bg-page-dark);
-  }
-  .bg-light {
-    background-color: var(--aw-color-bg-page);
-  }
-  .text-page {
-    color: var(--aw-color-text-default);
-  }
-  .text-muted {
-    color: var(--aw-color-text-muted);
-  }
-  .border-base {
-    border-color: var(--aw-color-border);
-  }
+  .bg-page   { background-color: var(--aw-color-bg-page); }
+  .bg-subtle { background-color: var(--aw-color-bg-subtle); }
+  .bg-dark   { background-color: var(--aw-color-bg-page-dark); }
+  .bg-light  { background-color: var(--aw-color-bg-page); }
+  .text-page { color: var(--aw-color-text-default); }
+  .text-muted { color: var(--aw-color-text-muted); }
 }
 
 @layer components {
-  /* ── Peerlist-style base button: rounded-lg, compact, 14px ── */
+  /* ── Base button — matches aitroop-system buttonVariants ── */
   .btn {
-    @apply inline-flex items-center justify-center rounded-lg border border-[var(--aw-color-border)] bg-transparent
-           font-medium text-center text-sm text-page leading-none
-           transition-colors duration-150 ease-out
-           py-2 px-4
-           hover:bg-[var(--aw-color-bg-subtle)]
-           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-1
-           dark:text-[var(--aw-color-text-default)] dark:border-[var(--aw-color-border)] dark:hover:bg-[var(--aw-color-bg-subtle)]
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap
+           rounded-[6px]
+           border border-[rgba(0,0,0,0.12)]
+           bg-transparent
+           font-medium text-sm text-page leading-none
+           h-9 px-4
+           transition-colors duration-150
+           hover:bg-[rgba(0,0,0,0.04)] hover:border-[rgba(0,0,0,0.18)]
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-1
+           disabled:pointer-events-none disabled:opacity-50
+           dark:border-[rgba(255,255,255,0.12)]
+           dark:text-[var(--aw-color-text-default)]
+           dark:hover:bg-[rgba(255,255,255,0.05)]
+           dark:hover:border-[rgba(255,255,255,0.2)]
            cursor-pointer;
   }
 
-  /* ── Primary: solid green — Peerlist CTA style ── */
+  /* ── Primary: solid green ── */
   .btn-primary {
-    @apply btn bg-primary text-white border-primary
-           hover:bg-secondary hover:border-secondary
+    @apply btn
+           bg-primary text-white border-primary
+           hover:bg-secondary hover:border-secondary hover:bg-[rgb(61_133_79)]
            dark:bg-primary dark:border-primary dark:text-white
            dark:hover:bg-secondary dark:hover:border-secondary;
   }
 
-  /* ── Secondary: outline — Peerlist ghost button ── */
+  /* ── Secondary: outline ── */
   .btn-secondary {
     @apply btn;
   }
 
-  /* ── Tertiary: borderless text button ── */
+  /* ── Tertiary: ghost ── */
   .btn-tertiary {
     @apply btn border-transparent shadow-none text-muted
-           hover:text-[var(--aw-color-text-default)] hover:bg-transparent
-           dark:text-[var(--aw-color-text-muted)] dark:hover:text-[var(--aw-color-text-default)];
+           hover:bg-[rgba(0,0,0,0.05)] hover:border-transparent
+           dark:hover:bg-[rgba(255,255,255,0.06)] dark:border-transparent;
   }
 }
 
-/* ── Sticky header scroll state — Peerlist style ── */
+/* ── Sticky header scroll ── */
 #header.scroll > div:first-child {
   @apply backdrop-blur-md;
-  background-color: rgb(255 255 255 / 95%);
+  background-color: rgb(255 255 255 / 96%);
   border-bottom: 1px solid var(--aw-color-border);
-  box-shadow: 0 1px 0 0 var(--aw-color-border);
 }
 .dark #header.scroll > div:first-child,
 #header.scroll.dark > div:first-child {
   @apply backdrop-blur-md;
-  background-color: rgb(17 17 19 / 95%);
+  background-color: rgb(12 12 14 / 96%);
   border-bottom: 1px solid var(--aw-color-border);
-  box-shadow: none;
 }
 
 #header.expanded nav {
@@ -86,24 +77,17 @@
   border-top: 1px solid var(--aw-color-border);
 }
 
-/* ── Dropdown nav ── */
+/* ── Dropdown ── */
 .dropdown:focus .dropdown-menu,
 .dropdown:focus-within .dropdown-menu,
 .dropdown:hover .dropdown-menu {
   display: block;
 }
 
-[astro-icon].icon-light > * {
-  stroke-width: 1.2;
-}
+[astro-icon].icon-light > * { stroke-width: 1.2; }
+[astro-icon].icon-bold > *  { stroke-width: 2.4; }
 
-[astro-icon].icon-bold > * {
-  stroke-width: 2.4;
-}
-
-[data-aw-toggle-menu] path {
-  @apply transition;
-}
+[data-aw-toggle-menu] path { @apply transition; }
 [data-aw-toggle-menu].expanded g > path:first-child {
   @apply -rotate-45 translate-y-[15px] translate-x-[-3px];
 }
@@ -111,7 +95,4 @@
   @apply rotate-45 translate-y-[-8px] translate-x-[14px];
 }
 
-/* To deprecated */
-.dd *:first-child {
-  margin-top: 0;
-}
+.dd *:first-child { margin-top: 0; }
