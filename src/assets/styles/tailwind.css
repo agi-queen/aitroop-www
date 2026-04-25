@@ -62,13 +62,15 @@
 
 /* ── Sticky header scroll state — Peerlist style ── */
 #header.scroll > div:first-child {
-  @apply bg-page/95 backdrop-blur-md;
+  @apply backdrop-blur-md;
+  background-color: rgb(255 255 255 / 95%);
   border-bottom: 1px solid var(--aw-color-border);
   box-shadow: 0 1px 0 0 var(--aw-color-border);
 }
 .dark #header.scroll > div:first-child,
 #header.scroll.dark > div:first-child {
-  @apply bg-page/95 backdrop-blur-md;
+  @apply backdrop-blur-md;
+  background-color: rgb(17 17 19 / 95%);
   border-bottom: 1px solid var(--aw-color-border);
   box-shadow: none;
 }
