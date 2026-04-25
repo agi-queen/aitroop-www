@@ -24,6 +24,18 @@ const {
   twitter = {},
 } = Astro.props;
 
+// Hreflang alternates for multilingual SEO
+const currentPath = Astro.url.pathname;
+const basePath = currentPath.replace(/^\/(zh-TW|zh-CN)(\/|$)/, '/') || '/';
+const siteOrigin = (SITE.site || '').replace(/\/$/, '');
+const langPath = basePath === '/' ? '' : basePath;
+const languageAlternates = [
+  { hrefLang: 'x-default', href: `${siteOrigin}${basePath}` },
+  { hrefLang: 'en', href: `${siteOrigin}${basePath}` },
+  { hrefLang: 'zh-TW', href: `${siteOrigin}/zh-TW${langPath}` },
+  { hrefLang: 'zh-CN', href: `${siteOrigin}/zh-CN${langPath}` },
+];
+
 const seoProps: AstroSeoProps = merge(
   {
     title: '',
@@ -65,4 +77,4 @@ const seoProps: AstroSeoProps = merge(
 );
 ---
 
-<AstroSeo {...{ ...seoProps, openGraph: await adaptOpenGraphImages(seoProps?.openGraph, Astro.site) }} />
+<AstroSeo {...{ ...seoProps, openGraph: await adaptOpenGraphImages(seoProps?.openGraph, Astro.site), languageAlternates }} />

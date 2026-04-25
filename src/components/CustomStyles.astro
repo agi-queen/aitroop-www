@@ -25,21 +25,21 @@ import '@fontsource-variable/inter';
     --aw-font-serif: 'Inter Variable';
     --aw-font-heading: 'Inter Variable';
 
-    /* Primary: indigo-blue #3D46FB · Secondary: emerald green #1db954 · Accent: forest green #2b674b */
-    --aw-color-primary: rgb(61 70 251);
-    --aw-color-secondary: rgb(29 185 84);
-    --aw-color-accent: rgb(43 103 75);
+    /* AITroop brand greens, Peerlist-aligned neutral palette */
+    --aw-color-primary: rgb(82 153 97);      /* #529961 brand green */
+    --aw-color-secondary: rgb(61 133 79);    /* #3d854f darker green */
+    --aw-color-accent: rgb(45 110 63);       /* #2d6e3f forest green */
 
-    --aw-color-text-heading: rgb(15 23 42);
-    --aw-color-text-default: rgb(30 41 59);
-    --aw-color-text-muted: rgb(30 41 59 / 64%);
-    --aw-color-bg-page: rgb(255 255 255);
+    --aw-color-text-heading: rgb(10 10 12);  /* neutral near-black */
+    --aw-color-text-default: rgb(28 32 36);  /* neutral dark gray */
+    --aw-color-text-muted: rgb(28 32 36 / 58%);
+    --aw-color-bg-page: rgb(255 255 255);    /* pure white */
 
-    --aw-color-bg-page-dark: rgb(3 6 32);
+    --aw-color-bg-page-dark: rgb(12 14 16);  /* neutral dark */
 
     ::selection {
-      background-color: rgb(61 70 251 / 15%);
-      color: rgb(15 23 42);
+      background-color: rgb(82 153 97 / 18%);
+      color: rgb(10 10 12);
     }
   }
 
@@ -48,25 +48,25 @@ import '@fontsource-variable/inter';
     --aw-font-serif: 'Inter Variable';
     --aw-font-heading: 'Inter Variable';
 
-    --aw-color-primary: rgb(99 102 241);
-    --aw-color-secondary: rgb(52 211 153);
-    --aw-color-accent: rgb(34 197 94);
+    --aw-color-primary: rgb(107 186 117);    /* #6bba75 light green */
+    --aw-color-secondary: rgb(82 153 97);    /* #529961 */
+    --aw-color-accent: rgb(127 186 104);     /* #7fba68 */
 
-    --aw-color-text-heading: rgb(248 250 252);
-    --aw-color-text-default: rgb(226 232 240);
-    --aw-color-text-muted: rgb(226 232 240 / 66%);
-    --aw-color-bg-page: rgb(3 6 32);
+    --aw-color-text-heading: rgb(245 246 247);
+    --aw-color-text-default: rgb(210 215 220);
+    --aw-color-text-muted: rgb(210 215 220 / 60%);
+    --aw-color-bg-page: rgb(12 14 16);
 
     ::selection {
-      background-color: rgb(99 102 241 / 30%);
-      color: rgb(248 250 252);
+      background-color: rgb(107 186 117 / 28%);
+      color: rgb(245 246 247);
     }
   }
 
   /* ── Blog content: blockquote → styled callout box ── */
   .prose blockquote {
-    border-left: 4px solid rgb(61 70 251);
-    background-color: rgb(61 70 251 / 6%);
+    border-left: 4px solid rgb(82 153 97);
+    background-color: rgb(82 153 97 / 7%);
     border-radius: 0 0.5rem 0.5rem 0;
     padding: 0.875rem 1.25rem;
     font-style: normal;
@@ -76,23 +76,23 @@ import '@fontsource-variable/inter';
     margin-bottom: 0.25rem;
   }
   .dark .prose blockquote {
-    border-left-color: rgb(99 102 241);
-    background-color: rgb(99 102 241 / 12%);
+    border-left-color: rgb(107 186 117);
+    background-color: rgb(107 186 117 / 10%);
   }
 
   /* ── Blog content: tables with green header row ── */
   .prose thead {
-    background-color: rgb(43 103 75);
+    background-color: rgb(45 110 63);
   }
   .prose thead th {
     color: #ffffff !important;
     font-weight: 600;
   }
   .prose tbody tr:nth-child(even) {
-    background-color: rgb(29 185 84 / 6%);
+    background-color: rgb(82 153 97 / 6%);
   }
   .dark .prose tbody tr:nth-child(even) {
-    background-color: rgb(52 211 153 / 8%);
+    background-color: rgb(107 186 117 / 8%);
   }
   .prose table {
     border-radius: 0.5rem;
@@ -101,9 +101,9 @@ import '@fontsource-variable/inter';
 
   /* ── Blog content: hr separator ── */
   .prose hr {
-    border-color: rgb(61 70 251 / 20%);
+    border-color: rgb(82 153 97 / 20%);
   }
   .dark .prose hr {
-    border-color: rgb(99 102 241 / 30%);
+    border-color: rgb(107 186 117 / 25%);
   }
 </style>

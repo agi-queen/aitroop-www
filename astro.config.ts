@@ -36,7 +36,13 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false,
     }),
-    sitemap(),
+    sitemap({
+      filter: (page) => {
+        const path = new URL(page).pathname;
+        // Exclude Astrowind template demo pages — thin content, not real product pages
+        return !path.startsWith('/homes/') && !path.startsWith('/landing/');
+      },
+    }),
     mdx(),
     icon({
       include: {

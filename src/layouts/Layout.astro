@@ -25,6 +25,14 @@ export interface Props {
 const { metadata = {}, lang: langProp } = Astro.props;
 const { language, textDirection } = I18N;
 const lang = langProp || language;
+
+// Hreflang: compute alternate URLs for all 3 locales
+const site = 'https://aitroop.net';
+const pathname = Astro.url.pathname;
+const cleanPath = pathname.replace(/^\/(zh-TW|zh-CN)(\/|$)/, '/').replace(/\/$/, '') || '/';
+const hreflangEn = `${site}${cleanPath === '/' ? '' : cleanPath}`;
+const hreflangZhCN = `${site}/zh-CN${cleanPath === '/' ? '' : cleanPath}`;
+const hreflangZhTW = `${site}/zh-TW${cleanPath === '/' ? '' : cleanPath}`;
 ---
 
 <!doctype html>
@@ -50,6 +58,11 @@ const lang = langProp || language;
     <CustomStyles />
     <ApplyColorMode />
     <Metadata {...metadata} />
+    <!-- hreflang: tell Google which language version serves which audience -->
+    <link rel="alternate" hreflang="en" href={hreflangEn} />
+    <link rel="alternate" hreflang="zh-CN" href={hreflangZhCN} />
+    <link rel="alternate" hreflang="zh-TW" href={hreflangZhTW} />
+    <link rel="alternate" hreflang="x-default" href={hreflangEn} />
     <SiteVerification />
     <Analytics />
 
