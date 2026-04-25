@@ -1,4 +1,4 @@
----
+﻿---
 publishDate: 2026-04-05T00:00:00Z
 updateDate: 2026-04-13T00:00:00Z
 author: Aitroop 团队
@@ -141,4 +141,4 @@ AI 不会取代销售——但懂得用 AI 的销售会取代不懂得用 AI 的
 
 ---
 
-*Aitroop 帮助 B2B 销售团队用 AI 自动化客户调研、个性化外联和 CRM 更新，让销售代表把时间花在真正重要的事上。[了解 Aitroop 如何提升你的团队效率](/services)。*
+*Aitroop 帮助 B2B 销售团队用 AI 自动化客户调研、个性化外联和 CRM 更新，让销售代表把时间花在真正重要的事上。[了解 Aitroop 如何提升你的团队效率](https://app.aitroop.net)。*

@@ -256,4 +256,4 @@ HARNESS執行框架就是解決這個問題的。它是AI的「韁繩 + 規則 +
 
 ---
 
-*Aitroop 是專為 B2B 增長團隊打造的 AI GTM 平台，[AI軍團](/zh-TW/blog/what-is-ai-troop)體系覆蓋情報、觸達、轉化、留存全鏈路。如果你正在規劃企業AI落地路徑，[預約免費演示](https://app.aitroop.net)，我們可以一起梳理適合你們機構的優先級和路線圖。*
+*Aitroop 是專為 B2B 增長團隊打造的 AI GTM 平台，[AI軍團](/zh-TW/what-is-ai-troop)體系覆蓋情報、觸達、轉化、留存全鏈路。如果你正在規劃企業AI落地路徑，[預約免費演示](https://app.aitroop.net)，我們可以一起梳理適合你們機構的優先級和路線圖。*

@@ -1,4 +1,4 @@
----
+﻿---
 publishDate: 2026-04-03T00:00:00Z
 updateDate: 2026-04-13T00:00:00Z
 author: Aitroop 团队
@@ -185,4 +185,4 @@ B2B 的情况完全不同：
 
 ---
 
-*Aitroop 的多触点归因分析和广告闭环 ROI 功能，帮助营销团队把广告投放到客户成交的完整路径数据化。[了解 Aitroop 如何帮你说清楚每一块营销预算的价值](/services)。*
+*Aitroop 的多触点归因分析和广告闭环 ROI 功能，帮助营销团队把广告投放到客户成交的完整路径数据化。[了解 Aitroop 如何帮你说清楚每一块营销预算的价值](https://app.aitroop.net)。*

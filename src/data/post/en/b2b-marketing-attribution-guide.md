@@ -200,4 +200,4 @@ That's the difference between a marketing budget conversation that starts with "
 
 ---
 
-*Aitroop's GTM intelligence platform connects marketing attribution data to pipeline and revenue outcomes, giving RevOps and marketing teams the closed-loop visibility they need to make confident investment decisions. [Learn how Aitroop supports marketing attribution](/services).*
+*Aitroop's GTM intelligence platform connects marketing attribution data to pipeline and revenue outcomes, giving RevOps and marketing teams the closed-loop visibility they need to make confident investment decisions. [Learn how Aitroop supports marketing attribution](https://app.aitroop.net).*

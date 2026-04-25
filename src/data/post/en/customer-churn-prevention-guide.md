@@ -1,4 +1,4 @@
----
+﻿---
 publishDate: 2026-04-06T00:00:00Z
 updateDate: 2026-04-13T00:00:00Z
 author: Aitroop Team
@@ -225,4 +225,4 @@ Start with the signals. Build the score. Define the playbooks. Automate the trig
 
 ---
 
-*Aitroop's GTM intelligence platform gives CS teams the health score visibility, early warning signals, and automated workflows they need to prevent churn before it happens. [Learn how Aitroop supports Customer Success teams](/services).*
+*Aitroop's GTM intelligence platform gives CS teams the health score visibility, early warning signals, and automated workflows they need to prevent churn before it happens. [Learn how Aitroop supports Customer Success teams](https://app.aitroop.net).*

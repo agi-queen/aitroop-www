@@ -1,4 +1,4 @@
----
+﻿---
 publishDate: 2026-04-08T00:00:00Z
 updateDate: 2026-04-13T00:00:00Z
 author: Aitroop Team
@@ -158,4 +158,4 @@ Invest in data quality as infrastructure, not as an afterthought. It's the prere
 
 ---
 
-*Aitroop's Waterfall intelligent enrichment engine connects multiple data sources to push valid contact coverage above 80%. [Learn how Aitroop solves your data quality challenges](/services).*
+*Aitroop's Waterfall intelligent enrichment engine connects multiple data sources to push valid contact coverage above 80%. [Learn how Aitroop solves your data quality challenges](https://app.aitroop.net).*

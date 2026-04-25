@@ -1,4 +1,4 @@
----
+﻿---
 publishDate: 2026-04-10T00:00:00Z
 updateDate: 2026-04-13T00:00:00Z
 author: Aitroop Team
@@ -183,4 +183,4 @@ Forecasting is not the end goal. Predictable, sustainable revenue growth is the 
 
 ---
 
-*Aitroop's GTM intelligence platform connects pipeline data, marketing attribution, and AI prediction models to give revenue teams the forecast accuracy they need to make confident decisions. [Learn more about how Aitroop supports RevOps teams](/services).*
+*Aitroop's GTM intelligence platform connects pipeline data, marketing attribution, and AI prediction models to give revenue teams the forecast accuracy they need to make confident decisions. [Learn more about how Aitroop supports RevOps teams](https://app.aitroop.net).*

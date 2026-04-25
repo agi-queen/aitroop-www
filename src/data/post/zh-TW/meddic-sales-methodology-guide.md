@@ -1,4 +1,4 @@
----
+﻿---
 title: MEDDIC銷售方法論完整指南：複雜B2B大單的成交框架
 publishDate: 2026-04-19T00:00:00Z
 updateDate: 2026-04-19T00:00:00Z
@@ -114,7 +114,7 @@ Economic Buyer是有權批准預算、有權終止專案的那個人。在大多
 - 他們會主動幫你安排與Economic Buyer的會面嗎？
 - 他們的個人利益與你的方案成功有沒有綁定？
 
-**CTA：** [了解AI軍團如何幫助B2B銷售團隊構建智能Pipeline](/zh-TW/blog/what-is-ai-troop)。
+**CTA：** [了解AI軍團如何幫助B2B銷售團隊構建智能Pipeline](/zh-TW/what-is-ai-troop)。
 
 ---
 
@@ -146,7 +146,7 @@ Economic Buyer是有權批准預算、有權終止專案的那個人。在大多
 
 **第四步：** MEDDIC完成度>75%：全力投入資源。25-75%：持續推進。<25%：設置下一步行動或移出Forecast。
 
-了解如何把MEDDIC與[B2B Pipeline管理](/zh-TW/blog/b2b-pipeline-management-guide)體系整合。
+了解如何把MEDDIC與[B2B Pipeline管理](/zh-TW/b2b-pipeline-management-guide)體系整合。
 
 ---
 
@@ -158,7 +158,7 @@ AI正在把資訊收集時間從3-4小時壓縮到45分鐘。
 
 **Metrics層面：** AI自動生成基於資料的ROI草案。
 
-**Economic Buyer層面：** AI快速分析LinkedIn和企業官網，識別決策層結構。[了解ICP理想客戶畫像](/zh-TW/blog/ideal-customer-profile-icp-guide)如何與AI結合。
+**Economic Buyer層面：** AI快速分析LinkedIn和企業官網，識別決策層結構。[了解ICP理想客戶畫像](/zh-TW/ideal-customer-profile-icp-guide)如何與AI結合。
 
 **Decision Criteria層面：** AI分析過去採購案例，推斷核心決策標準。
 
@@ -166,9 +166,9 @@ AI正在把資訊收集時間從3-4小時壓縮到45分鐘。
 
 **Champion識別層面：** AI分析社群媒體互動，識別變革推動者。
 
-**CTA：** [AI軍團（AITroop）](/zh-TW/blog/what-is-ai-troop)可以自動完成MEDDIC資訊的預填充。
+**CTA：** [AI軍團（AITroop）](/zh-TW/what-is-ai-troop)可以自動完成MEDDIC資訊的預填充。
 
-如果你正在構建[GTM策略](/zh-TW/blog/gtm-strategy-guide)，MEDDIC是讓你的[SDR團隊](/zh-TW/blog/what-is-sdr-sales-development-guide)和AE高效協作的關鍵紐帶。
+如果你正在構建[GTM策略](/zh-TW/gtm-strategy-guide)，MEDDIC是讓你的[SDR團隊](/zh-TW/what-is-sdr-sales-development-guide)和AE高效協作的關鍵紐帶。
 
 ---
 
@@ -182,9 +182,9 @@ AI正在把資訊收集時間從3-4小時壓縮到45分鐘。
 
 **誤區4：用Metrics說服錯誤的人** — ROI模型必須針對Economic Buyer的關切。
 
-**誤區5：忽視Champion離職風險** — 主動培養2-3個潛在Champion，結合[ABM帳戶型行銷](/zh-TW/blog/abm-account-based-marketing-guide)建立多層次關係網絡。
+**誤區5：忽視Champion離職風險** — 主動培養2-3個潛在Champion，結合[ABM帳戶型行銷](/zh-TW/abm-account-based-marketing-guide)建立多層次關係網絡。
 
-**CTA：** [AI軍團的GTM AI平台](/zh-TW/blog/what-is-ai-troop)可以幫你把MEDDIC體系落地到日常工作流中。
+**CTA：** [AI軍團的GTM AI平台](/zh-TW/what-is-ai-troop)可以幫你把MEDDIC體系落地到日常工作流中。
 
 ---
 
