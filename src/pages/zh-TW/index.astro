@@ -8,38 +8,76 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <main class="min-h-[calc(100vh-56px)] flex flex-col items-center justify-center px-4 text-center">
-    <div class="max-w-2xl mx-auto flex flex-col items-center gap-8">
+  <main class="relative min-h-[calc(100vh-56px)] flex flex-col items-center justify-center px-4 overflow-hidden">
 
-      <span class="inline-flex items-center gap-1.5 text-xs font-medium text-primary bg-[rgba(82,153,97,0.08)] border border-[rgba(82,153,97,0.2)] px-3 py-1 rounded-full">
-        <span class="w-1.5 h-1.5 rounded-full bg-primary inline-block"></span>
-        AI 驅動的 B2B 成長
-      </span>
+    <div
+      class="absolute inset-0 -z-10"
+      style="background-image: radial-gradient(circle, rgba(0,0,0,0.055) 1px, transparent 1px); background-size: 24px 24px;"
+      aria-hidden="true"
+    ></div>
 
-      <h1 class="text-5xl md:text-6xl font-bold tracking-tighter text-[var(--aw-color-text-heading)] leading-[1.08]">
-        精準獲客。<br />持續留存。
+    <div
+      class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full"
+      style="background: radial-gradient(ellipse at center, rgba(82,153,97,0.10) 0%, transparent 70%);"
+      aria-hidden="true"
+    ></div>
+
+    <div class="max-w-2xl mx-auto flex flex-col items-center gap-6 text-center">
+
+      <div class="inline-flex items-center gap-1.5 text-xs font-medium text-primary bg-[rgba(82,153,97,0.08)] border border-[rgba(82,153,97,0.22)] px-3 py-1.5 rounded-full shadow-sm">
+        <span class="relative flex h-1.5 w-1.5">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60"></span>
+          <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+        </span>
+        AI 驅動的 B2B 成長平台
+      </div>
+
+      <h1 class="text-[3.25rem] md:text-[4.25rem] font-bold tracking-[-0.03em] text-[var(--aw-color-text-heading)] leading-[1.1] mt-2">
+        精準獲客。<br />
+        <span class="text-primary">持續留存。</span>
       </h1>
 
-      <p class="text-lg text-[var(--aw-color-text-muted)] max-w-md leading-relaxed">
-        AI軍團為你的團隊提供 AI 原生的精準觸達、客戶洞察與留存工具——讓一個人創造整個團隊的成果。
+      <p class="text-[1rem] md:text-[1.0625rem] text-[var(--aw-color-text-muted)] max-w-[420px] leading-[1.7] -mt-1">
+        AI 原生的精準觸達、客戶洞察與留存工具——讓一個人創造整個團隊的成果。
       </p>
 
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-3 mt-2">
         <a
           href="https://app.aitroop.net"
-          class="inline-flex items-center gap-2 h-10 px-5 rounded-[6px] bg-primary text-white text-sm font-semibold hover:bg-[rgb(61_133_79)] transition-colors duration-150"
+          class="inline-flex items-center gap-2 h-10 px-5 rounded-[7px] bg-primary text-white text-sm font-semibold shadow-[0_1px_3px_rgba(82,153,97,0.4),0_0_0_1px_rgba(82,153,97,0.2)] hover:bg-[rgb(61,133,79)] hover:shadow-[0_2px_6px_rgba(82,153,97,0.45)] transition-all duration-150"
         >
           登入 Aitroop
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
         <a
           href="/zh-TW/blog"
-          class="inline-flex items-center h-10 px-5 rounded-[6px] text-sm font-medium text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)] hover:bg-[rgba(0,0,0,0.04)] transition-colors duration-150"
+          class="inline-flex items-center h-10 px-5 rounded-[7px] text-sm font-medium text-[var(--aw-color-text-muted)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.2)] hover:text-[var(--aw-color-text-default)] hover:bg-[rgba(0,0,0,0.02)] transition-all duration-150"
         >
           閱讀部落格
         </a>
       </div>
 
+      <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-3 text-xs text-[var(--aw-color-text-muted)]">
+        {[
+          ['🔍', '客戶情報'],
+          ['✉️', '個性化觸達'],
+          ['📡', '意圖信號'],
+          ['💚', '客戶留存'],
+        ].map(([icon, label]) => (
+          <span class="inline-flex items-center gap-1.5">
+            <span class="text-[11px]">{icon}</span>
+            {label}
+          </span>
+        ))}
+      </div>
+
     </div>
+
+    <div
+      class="absolute bottom-0 left-0 right-0 h-24 -z-10"
+      style="background: linear-gradient(to top, rgba(255,255,255,1) 0%, transparent 100%);"
+      aria-hidden="true"
+    ></div>
+
   </main>
 </Layout>
