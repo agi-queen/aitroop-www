@@ -22,7 +22,7 @@
            h-9 px-4
            transition-colors duration-150
            hover:bg-[rgba(0,0,0,0.04)] hover:border-[rgba(0,0,0,0.18)]
-           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-1
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--aw-color-primary)] focus-visible:ring-offset-1
            disabled:pointer-events-none disabled:opacity-50
            dark:border-[rgba(255,255,255,0.12)]
            dark:text-[var(--aw-color-text-default)]
