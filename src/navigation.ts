@@ -7,18 +7,8 @@ function lp(locale: Locale, path: string): string {
 
 // ─── Header ──────────────────────────────────────────────────────────────────
 
-function buildHeaderLinks(locale: Locale) {
-  return {
-    en: [
-      { text: 'Blog', href: lp(locale, getBlogPermalink()) },
-    ],
-    'zh-TW': [
-      { text: '部落格', href: lp(locale, getBlogPermalink()) },
-    ],
-    'zh-CN': [
-      { text: '博客', href: lp(locale, getBlogPermalink()) },
-    ],
-  }[locale];
+function buildHeaderLinks(_locale: Locale) {
+  return [];
 }
 
 const headerActions: Record<Locale, object[]> = {
