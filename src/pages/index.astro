@@ -1,4 +1,4 @@
-﻿---
+---
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
@@ -13,42 +13,44 @@ const metadata = {
     <!-- Dot grid background -->
     <div
       class="absolute inset-0 -z-10"
-      style="background-image: radial-gradient(circle, rgba(0,0,0,0.055) 1px, transparent 1px); background-size: 24px 24px;"
+      style="background-image: radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px); background-size: 24px 24px;"
       aria-hidden="true"
     ></div>
 
-    <!-- Soft green glow behind headline -->
+    <!-- Soft green glow -->
     <div
-      class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full"
-      style="background: radial-gradient(ellipse at center, rgba(82,153,97,0.10) 0%, transparent 70%);"
+      class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full"
+      style="background: radial-gradient(ellipse at center, rgba(82,153,97,0.09) 0%, transparent 65%);"
       aria-hidden="true"
     ></div>
 
-    <div class="max-w-2xl mx-auto flex flex-col items-center gap-6 text-center">
+    <div class="max-w-[640px] mx-auto flex flex-col items-center gap-5 text-center">
 
       <!-- Badge -->
-      <div class="inline-flex items-center gap-1.5 text-xs font-medium text-primary bg-[rgba(82,153,97,0.08)] border border-[rgba(82,153,97,0.22)] px-3 py-1.5 rounded-full shadow-sm">
+      <div class="inline-flex items-center gap-1.5 text-xs font-medium text-primary bg-[rgba(82,153,97,0.08)] border border-[rgba(82,153,97,0.20)] px-3 py-1.5 rounded-full">
         <span class="relative flex h-1.5 w-1.5">
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60"></span>
           <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
         </span>
-        AI-Powered Growth Platform
+        AI Agent Platform for Growth
       </div>
 
       <!-- Headline -->
-      <h1 class="text-[3.25rem] md:text-[4.25rem] font-bold tracking-[-0.03em] text-[var(--aw-color-text-heading)] leading-[1.05] mt-2">
+      <h1 class="text-[2.75rem] md:text-[3.75rem] font-bold tracking-[-0.03em] text-[var(--aw-color-text-heading)] leading-[1.08] -mt-1">
         Acquire smarter.<br />
         Convert faster.<br />
         <span class="text-primary">Retain longer.</span>
       </h1>
 
       <!-- Subtitle -->
-      <p class="text-[1rem] md:text-[1.0625rem] text-[var(--aw-color-text-muted)] max-w-[540px] leading-[1.8] -mt-1">
-        Aitroop fields an army of specialized AI agents — each with a precise mission across your growth pipeline. Prospect agents surface high-intent leads before competitors. Outreach agents craft and deliver personalized messages at scale, in seconds. Intelligence agents decode buying signals from thousands of data points in real time. Retention agents detect churn risk and step in before customers walk away. One platform, one operator — the full firepower of an entire growth team.
+      <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] max-w-[460px] leading-[1.75] -mt-1">
+        An army of AI agents, each built for a mission —<br class="hidden md:block" />
+        prospect, engage, convert, retain.<br />
+        One platform. One operator. An entire team's output.
       </p>
 
       <!-- Actions -->
-      <div class="flex items-center gap-3 mt-2">
+      <div class="flex items-center gap-3 mt-1">
         <a
           href="https://app.aitroop.net"
           class="inline-flex items-center gap-2 h-10 px-5 rounded-[7px] bg-primary text-white text-sm font-semibold shadow-[0_1px_3px_rgba(82,153,97,0.4),0_0_0_1px_rgba(82,153,97,0.2)] hover:bg-[rgb(61,133,79)] hover:shadow-[0_2px_6px_rgba(82,153,97,0.45)] transition-all duration-150"
@@ -64,24 +66,24 @@ const metadata = {
         </a>
       </div>
 
-      <!-- Feature pills -->
-      <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-3 text-xs text-[var(--aw-color-text-muted)]">
+      <!-- Stats -->
+      <div class="grid grid-cols-4 gap-px mt-3 w-full max-w-[440px] rounded-xl border border-[var(--aw-color-border)] overflow-hidden bg-[var(--aw-color-border)]">
         {[
-          ['🔍', 'Prospect Intelligence'],
-          ['✉️', 'Personalized Outreach'],
-          ['📡', 'Intent Signals'],
-          ['💚', 'Customer Retention'],
-        ].map(([icon, label]) => (
-          <span class="inline-flex items-center gap-1.5">
-            <span class="text-[11px]">{icon}</span>
-            {label}
-          </span>
+          ['6×', 'Outreach Capacity'],
+          ['90d', 'Churn Warning'],
+          ['80%+', 'Data Coverage'],
+          ['15%', 'Reply Rate'],
+        ].map(([metric, label]) => (
+          <div class="flex flex-col items-center gap-0.5 py-3 bg-[var(--aw-color-bg-page)]">
+            <span class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] tabular-nums">{metric}</span>
+            <span class="text-[0.65rem] text-[var(--aw-color-text-muted)] leading-tight px-1">{label}</span>
+          </div>
         ))}
       </div>
 
     </div>
 
-    <!-- Bottom fade to blend with footer -->
+    <!-- Bottom fade -->
     <div
       class="absolute bottom-0 left-0 right-0 h-24 -z-10"
       style="background: linear-gradient(to top, rgba(255,255,255,1) 0%, transparent 100%);"

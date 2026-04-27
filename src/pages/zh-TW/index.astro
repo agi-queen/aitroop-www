@@ -1,4 +1,4 @@
-﻿---
+---
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
@@ -12,37 +12,39 @@ const metadata = {
 
     <div
       class="absolute inset-0 -z-10"
-      style="background-image: radial-gradient(circle, rgba(0,0,0,0.055) 1px, transparent 1px); background-size: 24px 24px;"
+      style="background-image: radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px); background-size: 24px 24px;"
       aria-hidden="true"
     ></div>
 
     <div
-      class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full"
-      style="background: radial-gradient(ellipse at center, rgba(82,153,97,0.10) 0%, transparent 70%);"
+      class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full"
+      style="background: radial-gradient(ellipse at center, rgba(82,153,97,0.09) 0%, transparent 65%);"
       aria-hidden="true"
     ></div>
 
-    <div class="max-w-2xl mx-auto flex flex-col items-center gap-6 text-center">
+    <div class="max-w-[640px] mx-auto flex flex-col items-center gap-5 text-center">
 
-      <div class="inline-flex items-center gap-1.5 text-xs font-medium text-primary bg-[rgba(82,153,97,0.08)] border border-[rgba(82,153,97,0.22)] px-3 py-1.5 rounded-full shadow-sm">
+      <div class="inline-flex items-center gap-1.5 text-xs font-medium text-primary bg-[rgba(82,153,97,0.08)] border border-[rgba(82,153,97,0.20)] px-3 py-1.5 rounded-full">
         <span class="relative flex h-1.5 w-1.5">
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60"></span>
           <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
         </span>
-        AI 驅動的成長平台
+        AI 智能體成長平台
       </div>
 
-      <h1 class="text-[3.25rem] md:text-[4.25rem] font-bold tracking-[-0.03em] text-[var(--aw-color-text-heading)] leading-[1.1] mt-2">
+      <h1 class="text-[2.75rem] md:text-[3.75rem] font-bold tracking-[-0.02em] text-[var(--aw-color-text-heading)] leading-[1.12] -mt-1">
         精準獲客。<br />
         快速轉化。<br />
         <span class="text-primary">持續留存。</span>
       </h1>
 
-      <p class="text-[1rem] md:text-[1.0625rem] text-[var(--aw-color-text-muted)] max-w-[540px] leading-[1.8] -mt-1">
-        Aitroop 為你組建一支 AI 智能體軍團，分工協作，覆蓋成長全鏈路。情報智能體精準挖掘高意向線索；觸達智能體批量生成個性化外發，秒級響應；意圖信號智能體即時解讀買家行為數據；留存智能體在流失信號出現前主動預警、自動介入。一個平台，一個操盤手，釋放整支成長團隊的戰鬥力。
+      <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] max-w-[400px] leading-[1.8] -mt-1">
+        一支 AI 智能體軍團，分工明確，覆蓋成長全鏈路——<br />
+        情報、觸達、轉化、留存，一網打盡。<br />
+        一個平台，一個操盤手，整支團隊的戰鬥力。
       </p>
 
-      <div class="flex items-center gap-3 mt-2">
+      <div class="flex items-center gap-3 mt-1">
         <a
           href="https://app.aitroop.net"
           class="inline-flex items-center gap-2 h-10 px-5 rounded-[7px] bg-primary text-white text-sm font-semibold shadow-[0_1px_3px_rgba(82,153,97,0.4),0_0_0_1px_rgba(82,153,97,0.2)] hover:bg-[rgb(61,133,79)] hover:shadow-[0_2px_6px_rgba(82,153,97,0.45)] transition-all duration-150"
@@ -58,17 +60,18 @@ const metadata = {
         </a>
       </div>
 
-      <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-3 text-xs text-[var(--aw-color-text-muted)]">
+      <!-- 核心數據 -->
+      <div class="grid grid-cols-4 gap-px mt-3 w-full max-w-[440px] rounded-xl border border-[var(--aw-color-border)] overflow-hidden bg-[var(--aw-color-border)]">
         {[
-          ['🔍', '客戶情報'],
-          ['✉️', '個性化觸達'],
-          ['📡', '意圖信號'],
-          ['💚', '客戶留存'],
-        ].map(([icon, label]) => (
-          <span class="inline-flex items-center gap-1.5">
-            <span class="text-[11px]">{icon}</span>
-            {label}
-          </span>
+          ['6×', '外發量提升'],
+          ['90天', '流失預警'],
+          ['80%+', '數據覆蓋'],
+          ['15%', '回覆率'],
+        ].map(([metric, label]) => (
+          <div class="flex flex-col items-center gap-0.5 py-3 bg-[var(--aw-color-bg-page)]">
+            <span class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] tabular-nums">{metric}</span>
+            <span class="text-[0.65rem] text-[var(--aw-color-text-muted)] leading-tight px-1">{label}</span>
+          </div>
         ))}
       </div>
 
