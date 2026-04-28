@@ -1,2 +1,4 @@
 User-agent: *
 Disallow: /illustrations/_index.json
+
+Sitemap: https://aitroop.net/sitemap-index.xml
