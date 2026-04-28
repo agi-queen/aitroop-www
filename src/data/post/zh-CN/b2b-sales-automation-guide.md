@@ -4,7 +4,7 @@ publishDate: 2026-04-19T00:00:00Z
 updateDate: 2026-04-19T00:00:00Z
 author: Aitroop 团队
 excerpt: B2B销售自动化正在重新定义销售团队的工作方式。本文从定义出发，系统讲解哪些环节可以自动化、如何选型、AI如何升级传统自动化工具，以及如何衡量真实ROI，帮助销售和市场团队在90天内看到可量化的效率提升。
-category: 企业AI落地
+category: Enterprise AI Adoption
 tags: [AI GTM]
 image: /illustrations/multitasking_i2bv.svg
 ---

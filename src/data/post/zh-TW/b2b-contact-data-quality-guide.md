@@ -5,7 +5,7 @@ author: Aitroop 團隊
 title: 你花錢買的客戶名單，70% 是廢的：B2B 資料品質完全指南
 excerpt: 購買的聯繫人資料庫有效率平均只有 30-40%。你每發 10 封郵件，7 封的對象根本不存在或已換了聯繫方式。本文教你如何識別、清洗和維護高品質的 B2B 聯繫人資料。
 image: /illustrations/all-the-data_ijgn.svg
-category: 資料管理
+category: Data Management
 
   - 資料品質
   - 資料富化

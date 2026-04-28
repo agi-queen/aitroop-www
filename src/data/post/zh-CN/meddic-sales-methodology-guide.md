@@ -4,7 +4,7 @@ publishDate: 2026-04-19T00:00:00Z
 updateDate: 2026-04-19T00:00:00Z
 author: Aitroop 团队
 excerpt: MEDDIC是一套专为复杂B2B大单设计的销售资格认定框架，由Metrics、Economic Buyer、Decision Criteria、Decision Process、Identify Pain、Champion六个维度构成。本文拆解MEDDIC每个要素的实操问题、常见误区，以及AI如何加速信息收集，帮助销售团队把赢单率提升30%以上。
-category: 企业AI落地
+category: Enterprise AI Adoption
 tags: [MEDDIC, AI GTM]
 image: /illustrations/decide_g91m.svg
 ---

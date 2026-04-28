@@ -5,7 +5,7 @@ updateDate: 2026-04-16T00:00:00Z
 author: Aitroop 團隊
 image: /illustrations/marketing-analysis_2u5r.svg
 excerpt: ABM（Account-Based Marketing，帳戶型行銷）是B2B企業用精準狙擊取代廣撒網的行銷方法論。本文拆解ABM三種模式、五步執行框架、核心度量指標，以及AI如何讓普通團隊也能跑出高ROI的ABM，附真實案例與常見誤區。
-category: 企業AI落地
+category: Enterprise AI Adoption
 tags: [ABM, Account-Based Marketing, AI GTM]
 ---
 

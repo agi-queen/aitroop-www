@@ -5,7 +5,7 @@ author: Aitroop 團隊
 title: 銷售代表 65% 的時間不是在做銷售——用 AI 奪回你真正的工作時間
 excerpt: 研究顯示，B2B 銷售代表只有 28-35% 的時間真正用在銷售上。剩下的時間去哪了？更重要的是，如何拿回來？
 image: /illustrations/work-time_1ogn.svg
-category: 銷售效率
+category: Sales Productivity
 
   - 銷售效率
   - AI 工具

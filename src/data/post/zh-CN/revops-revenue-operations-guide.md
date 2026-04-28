@@ -5,7 +5,7 @@ updateDate: 2026-04-16T00:00:00Z
 author: Aitroop 团队
 image: /illustrations/revenue-analysis_fjh2.svg
 excerpt: "RevOps（收入运营）正在颠覆传统B2B GTM组织的运作方式。本文详解RevOps的核心职责、关键指标、三阶段落地路线图，以及AI如何将收入预测误差从30%压缩到12%。"
-category: 企业AI落地
+category: Enterprise AI Adoption
 
   - RevOps
   - 收入运营

@@ -5,7 +5,7 @@ updateDate: 2026-04-14T00:00:00Z
 author: Aitroop 團隊
 excerpt: AARRR模型是衡量B2B SaaS增長的五階段漏斗框架，涵蓋獲客、激活、留存、推薦和收入。本文拆解每個階段的核心指標、常見失誤，以及如何用AI軍團在每個環節提升效率。
 image: /illustrations/visual-data_1eya.svg
-category: 企業AI落地
+category: Enterprise AI Adoption
 
   - AARRR模型
   - B2B增長

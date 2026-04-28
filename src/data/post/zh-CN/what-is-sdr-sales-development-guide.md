@@ -4,7 +4,7 @@ publishDate: 2026-04-16T00:00:00Z
 updateDate: 2026-04-16T00:00:00Z
 author: Aitroop 团队
 excerpt: SDR（Sales Development Representative，销售开发代表）是B2B销售团队的前锋，负责开发新线索、完成初步资格认定，把合格商机移交给AE。本文拆解SDR的职责、核心指标，以及AI如何让SDR效率提升10倍。
-category: 企业AI落地
+category: Enterprise AI Adoption
 tags: [SDR, BDR, AI GTM]
 image: /illustrations/message-sent_iyz6.svg
 metadata:

@@ -5,7 +5,7 @@ updateDate: 2026-04-17T00:00:00Z
 author: Aitroop 团队
 excerpt: LinkedIn是B2B外联成功率最高的渠道之一，但大多数人用错了。本文拆解LinkedIn外联的完整策略：个人主页优化、连接请求文案、消息序列设计，以及AI如何让LinkedIn外联规模化。
 image: /illustrations/social-media_25ev.svg
-category: 企业AI落地
+category: Enterprise AI Adoption
 tags: [AI GTM]
 ---
 

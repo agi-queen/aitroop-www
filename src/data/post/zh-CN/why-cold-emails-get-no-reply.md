@@ -5,7 +5,7 @@ author: Aitroop 团队
 title: 为什么你的冷邮件没人回？SDR 必看的个性化外联完整指南
 excerpt: 你花了时间写信，却换来一片沉默。不是你的产品不好，而是你的邮件根本没有让对方觉得「这封信是为我写的」。本文从实战角度拆解个性化外联的三个核心要素。
 image: /illustrations/compose-email_s6kf.svg
-category: 销售实战
+category: Sales Execution
 
   - 冷邮件
   - SDR

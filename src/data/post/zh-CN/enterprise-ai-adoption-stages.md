@@ -5,7 +5,7 @@ updateDate: 2026-04-19T00:00:00Z
 author: Aitroop 团队
 excerpt: 90%的企业AI落地卡在第一或第二阶段——买了工具，跑了自动化，但没有真正的AI决策系统。本文拆解三个阶段的特征、自测信号，以及如何进入第三阶段的AI军团作战模式。
 image: /illustrations/going-upwards_0y3z.svg
-category: 企业AI落地
+category: Enterprise AI Adoption
 tags: [AI GTM, Aitroop]
 meta_title: 企业AI落地3个阶段：从工具期到AI军团作战
 meta_description: 企业AI落地三阶段诊断：单点工具期、流程自动化期、AI军团作战期。附自测清单，看清你的企业卡在哪里，以及如何用Aitroop升级到第三阶段。

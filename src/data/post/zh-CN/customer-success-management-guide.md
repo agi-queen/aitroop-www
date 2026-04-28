@@ -4,7 +4,7 @@ publishDate: 2026-04-19T00:00:00Z
 updateDate: 2026-04-19T00:00:00Z
 author: Aitroop 团队
 excerpt: 客户成功管理（CS）是B2B SaaS企业降低流失率、提升NRR的核心体系。本文拆解CS核心指标、客户旅程地图、健康度评分搭建方法，以及AI如何帮助CS团队提效，助力增购和扩张收入。
-category: 企业AI落地
+category: Enterprise AI Adoption
 tags: [CS, NRR, AI GTM]
 image: /illustrations/user-feedback_5fp8.svg
 ---

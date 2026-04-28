@@ -5,7 +5,7 @@ updateDate: 2026-04-19T00:00:00Z
 author: Aitroop 团队
 excerpt: 一家5人B2B SaaS团队，如何用Aitroop的四大作战单元——FIND、ENGAGE、CONVERT、RETAIN——实现原本需要30人团队才能完成的获客和转化工作？本文拆解完整实战路径。
 image: /illustrations/founding-team_8uhm.svg
-category: 企业AI落地
+category: Enterprise AI Adoption
 tags: [Aitroop, AI GTM]
 meta_title: 5人团队用AI军团完成30人工作量的实战方法
 meta_description: 拆解Aitroop四大作战单元（FIND/ENGAGE/CONVERT/RETAIN）如何帮5人B2B销售团队实现10倍效率提升，附完整实施路径和效率对比数据。

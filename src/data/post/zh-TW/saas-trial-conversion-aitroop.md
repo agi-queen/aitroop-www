@@ -5,7 +5,7 @@ updateDate: 2026-04-23T00:00:00Z
 author: Aitroop 團隊
 excerpt: SaaS試用轉換率低，根源不是產品，是跟進慢、不個人化、時機錯。本文拆解AI軍團如何在註冊後72小時內自動識別高意向使用者並觸發個人化序列，把行業平均2-5%的轉換率提升到8-15%。
 image: /illustrations/money-received_eg1c.svg
-category: 企業AI落地
+category: Enterprise AI Adoption
 
 ---
 

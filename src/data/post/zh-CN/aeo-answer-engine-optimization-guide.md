@@ -5,7 +5,7 @@ updateDate: 2026-04-15T00:00:00Z
 author: Aitroop 团队
 excerpt: AEO（Answer Engine Optimization）是让你的品牌出现在ChatGPT、Perplexity、Gemini等AI搜索引擎答案中的优化策略。本文拆解AEO核心方法，以及如何用API批量监测你的AI搜索可见度。
 image: /illustrations/web-search_7oif.svg
-category: 企业AI落地
+category: Enterprise AI Adoption
 
   - AEO
   - AI搜索优化

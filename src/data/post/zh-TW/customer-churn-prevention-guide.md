@@ -5,7 +5,7 @@ author: Aitroop 團隊
 title: 客戶流失的成本是獲客的 7 倍：CSM 必讀的流失預防完全指南
 excerpt: 大多數客戶在決定不續費之前，早已發出了明確的信號——只是你沒有看到。本文拆解客戶流失的真實成本、流失的早期信號，以及如何建立系統性的客戶健康管理體系。
 image: /illustrations/happy-customer_4h84.svg
-category: 客戶成功
+category: Customer Success
 
   - 客戶成功
   - 流失預防

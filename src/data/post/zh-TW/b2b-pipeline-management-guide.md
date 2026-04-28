@@ -5,7 +5,7 @@ updateDate: 2026-04-17T00:00:00Z
 author: "Aitroop 團隊"
 excerpt: "Pipeline管理是B2B銷售的命脈——它決定了你能看見多遠、預測多準、贏單多快。本文拆解Pipeline的階段設計、健康指標、常見漏洞，以及AI如何讓商機管理從感覺變成數據。"
 image: /illustrations/predictive-analytics_6gsu.svg
-category: 企業AI落地
+category: Enterprise AI Adoption
 tags: [AI GTM]
 ---
 
