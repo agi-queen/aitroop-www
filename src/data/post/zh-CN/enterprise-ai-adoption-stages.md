@@ -9,8 +9,6 @@ category: 企业AI落地
 tags: [AI GTM, Aitroop]
 meta_title: 企业AI落地3个阶段：从工具期到AI军团作战
 meta_description: 企业AI落地三阶段诊断：单点工具期、流程自动化期、AI军团作战期。附自测清单，看清你的企业卡在哪里，以及如何用Aitroop升级到第三阶段。
-metadata:
-  canonical: https://aitroop.net/zh-CN/blog/enterprise-ai-adoption-stages
 ---
 
 # 企业AI落地的3个阶段：从买工具到AI军团作战

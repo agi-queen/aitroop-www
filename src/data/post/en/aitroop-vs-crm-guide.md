@@ -7,8 +7,6 @@ excerpt: "Traditional CRM is a system of record. AI Troop is a system of action.
 image: /illustrations/image-comparison_ieuw.svg
 category: Enterprise AI
 tags: [AI GTM Platform, AI Troop, CRM, B2B Sales Tools, Sales Efficiency]
-metadata:
-  canonical: https://aitroop.net/blog/aitroop-vs-crm-guide
 ---
 
 # AI Troop vs Traditional CRM: Why More B2B Sales Teams Are Making the Switch

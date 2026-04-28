@@ -12,8 +12,6 @@ tags:
   - AI Agent
   - Finance AI
   - AI GTM
-metadata:
-  canonical: https://aitroop.net/blog/ai-finance-enterprise-adoption-guide
 ---
 
 # The Financial Industry AI Efficiency Guide: A Complete Path from Awareness to Action

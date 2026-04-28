@@ -7,8 +7,6 @@ excerpt: "The biggest time sink in B2B sales is finding the right prospects. Ait
 image: /illustrations/ai-research-assistant_cxx0.svg
 category: Enterprise AI
 tags: [AI Troop, Customer Intelligence, FIND Unit, B2B Prospecting, Aitroop]
-metadata:
-  canonical: https://aitroop.net/blog/aitroop-find-unit-customer-intelligence
 ---
 
 # How to Build a B2B Target Customer Radar in 7 Days with Aitroop's FIND Unit

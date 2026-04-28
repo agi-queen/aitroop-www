@@ -10,8 +10,6 @@ tags:
   - Sales Productivity
   - AI Tools
   - RevOps
-metadata:
-  canonical: https://aitroop.net/blog/sales-time-management-ai
 ---
 
 If you asked sales leadership how their reps spend the workday, most would say: prospecting, calling, running demos, closing deals. That's the job, right?

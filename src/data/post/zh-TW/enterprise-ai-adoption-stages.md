@@ -7,8 +7,6 @@ excerpt: 90%的企業AI落地卡在第一或第二階段——買了工具，跑
 image: /illustrations/going-upwards_0y3z.svg
 category: 企業AI落地
 tags: [AI GTM, Aitroop]
-metadata:
-  canonical: https://aitroop.net/zh-TW/blog/enterprise-ai-adoption-stages
 ---
 
 # 企業AI落地的3個階段：從買工具到AI軍團作戰

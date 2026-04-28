@@ -7,8 +7,6 @@ image: /illustrations/revenue-analysis_fjh2.svg
 excerpt: "RevOps（收入營運）正在顛覆傳統B2B GTM組織的運作方式。本文詳解RevOps的核心職責、關鍵指標、三階段落地路線圖，以及AI如何將收入預測誤差從30%壓縮到12%。"
 category: 企業AI落地
 tags: [RevOps, Revenue Operations, AI GTM]
-metadata:
-  canonical: https://aitroop.net/zh-TW/blog/revops-revenue-operations-guide
 ---
 
 # RevOps 收入營運完全指南：打破資料孤島，讓B2B收入成長回歸可預測

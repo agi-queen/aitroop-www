@@ -7,8 +7,6 @@ excerpt: LinkedIn是B2B外联成功率最高的渠道之一，但大多数人用
 image: /illustrations/social-media_25ev.svg
 category: 企业AI落地
 tags: [AI GTM]
-metadata:
-  canonical: https://aitroop.net/zh-CN/blog/linkedin-b2b-outreach-guide
 ---
 
 # LinkedIn B2B外联完整指南：从连接请求到预约会议的实战策略

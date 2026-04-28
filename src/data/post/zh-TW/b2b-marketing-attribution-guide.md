@@ -10,8 +10,6 @@ category: 行銷運營
   - 行銷歸因
   - RevOps
   - 行銷 ROI
-metadata:
-  canonical: https://aitroop.net/zh-TW/blog/b2b-marketing-attribution-guide
 ---
 
 每個季度的行銷預算審查會，幾乎都有這樣一個時刻：

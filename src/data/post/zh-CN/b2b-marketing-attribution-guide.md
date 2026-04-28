@@ -10,8 +10,6 @@ category: 营销运营
   - 营销归因
   - RevOps
   - 营销 ROI
-metadata:
-  canonical: https://aitroop.net/zh-CN/blog/b2b-marketing-attribution-guide
 ---
 
 每个季度的营销预算审查会，几乎都有这样一个时刻：

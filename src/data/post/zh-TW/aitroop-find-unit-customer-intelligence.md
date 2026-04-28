@@ -7,8 +7,6 @@ excerpt: B2B銷售最大的時間黑洞是找客戶。Aitroop的FIND單元透過
 image: /illustrations/ai-research-assistant_cxx0.svg
 category: 企業AI落地
 tags: [Aitroop]
-metadata:
-  canonical: https://aitroop.net/zh-TW/blog/aitroop-find-unit-customer-intelligence
 ---
 
 # 用AI軍團FIND單元做精準客戶情報：7天建立目標客戶雷達

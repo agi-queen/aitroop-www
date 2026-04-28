@@ -12,8 +12,6 @@ category: 企業AI落地
   - SaaS增長
   - 用戶留存
   - AI GTM
-metadata:
-  canonical: https://aitroop.net/zh-TW/blog/aarrr-model-b2b-saas-growth
 ---
 
 # AARRR模型完整指南：B2B SaaS增長的五個關鍵漏斗

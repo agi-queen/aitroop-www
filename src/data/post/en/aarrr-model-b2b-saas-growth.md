@@ -12,8 +12,6 @@ tags:
   - SaaS Growth
   - User Retention
   - AI GTM
-metadata:
-  canonical: https://aitroop.net/blog/aarrr-model-b2b-saas-growth
 ---
 
 # The Complete AARRR Guide: Five Funnel Stages That Drive B2B SaaS Growth

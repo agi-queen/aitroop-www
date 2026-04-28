@@ -7,8 +7,6 @@ excerpt: "A 5-person B2B SaaS team used Aitroop's four combat units — FIND, EN
 image: /illustrations/founding-team_8uhm.svg
 category: Enterprise AI
 tags: [Aitroop, AI Troop, Sales Efficiency, AI GTM, Enterprise AI Adoption]
-metadata:
-  canonical: https://aitroop.net/blog/small-team-ai-troop-efficiency
 ---
 
 # How a 5-Person Sales Team Does the Work of 30 with Aitroop

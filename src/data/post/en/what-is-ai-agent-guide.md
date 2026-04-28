@@ -7,8 +7,6 @@ excerpt: An AI Agent is an AI system that autonomously perceives its environment
 image: /illustrations/cli-coding-agent_jtq1.svg
 category: Enterprise AI Adoption
 tags: [AI Agent, Multi-Agent, Enterprise AI, AI Automation, AI GTM]
-metadata:
-  canonical: https://aitroop.net/blog/what-is-ai-agent-guide
 ---
 
 # What Is an AI Agent? The Complete Guide: From Principles to B2B Applications

@@ -7,8 +7,6 @@ excerpt: "Enterprise AI ROI isn't guesswork—it's a formula. This guide deliver
 image: /illustrations/investment-data_frxx.svg
 category: "Enterprise AI"
 tags: [AI ROI, Enterprise AI, AI Productivity, AI Adoption, AI Troop]
-metadata:
-  canonical: https://aitroop.net/blog/ai-roi-calculation-guide
 ---
 
 # How to Calculate AI ROI: A Framework That Gets CFO Buy-In

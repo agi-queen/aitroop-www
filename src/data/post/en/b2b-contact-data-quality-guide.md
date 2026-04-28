@@ -10,8 +10,6 @@ tags:
   - Data Quality
   - Data Enrichment
   - SDR
-metadata:
-  canonical: https://aitroop.net/blog/b2b-contact-data-quality-guide
 ---
 
 Last month you purchased a list of 2,000 target prospects. Your SDR team spent the entire week working through it, sending emails one by one.

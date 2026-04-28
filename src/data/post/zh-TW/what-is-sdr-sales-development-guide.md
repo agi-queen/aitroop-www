@@ -7,8 +7,6 @@ excerpt: SDR（Sales Development Representative，銷售開發代表）是B2B銷
 image: /illustrations/message-sent_iyz6.svg
 category: 企業AI落地
 tags: [SDR, BDR, AI GTM]
-metadata:
-  canonical: https://aitroop.net/zh-TW/blog/what-is-sdr-sales-development-guide
 ---
 
 # SDR是什麼？銷售開發代表完整指南：職責、指標與AI提效

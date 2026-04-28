@@ -10,8 +10,6 @@ tags:
   - Cold Email
   - SDR
   - Personalized Outreach
-metadata:
-  canonical: https://aitroop.net/blog/why-cold-emails-get-no-reply
 ---
 
 How many outreach emails did you send last month? What was your reply rate?

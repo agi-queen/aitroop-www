@@ -12,8 +12,6 @@ category: 企业AI落地
   - AI Agent
   - 财务AI
   - AI落地
-metadata:
-  canonical: https://aitroop.net/zh-CN/blog/ai-finance-enterprise-adoption-guide
 ---
 
 # 金融行业AI提效落地指南：从感知到行动的完整路径

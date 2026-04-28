@@ -10,8 +10,6 @@ category: 資料管理
   - 資料品質
   - 資料富化
   - SDR
-metadata:
-  canonical: https://aitroop.net/zh-TW/blog/b2b-contact-data-quality-guide
 ---
 
 你上個月買了一份 2,000 人的目標客戶名單。你的 SDR 花了整週時間按照名單逐一發信。

@@ -10,8 +10,6 @@ category: 客户成功
   - 客户成功
   - 流失预防
   - 客户健康度
-metadata:
-  canonical: https://aitroop.net/zh-CN/blog/customer-churn-prevention-guide
 ---
 
 你的销售团队上个月辛苦拿下了一个大客户。庆功宴还没散，客户成功团队已经接手，开始了漫长的 Onboarding 流程。

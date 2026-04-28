@@ -12,8 +12,6 @@ category: 企業AI落地
   - B2B增長
   - 銷售自動化
   - AI GTM
-metadata:
-  canonical: https://aitroop.net/zh-TW/blog/ai-troop-b2b-growth-transformation
 ---
 
 # 1個人，10個人的覆蓋：AI軍團如何重新定義B2B增長效率

@@ -7,8 +7,6 @@ excerpt: An SDR (Sales Development Representative) is the frontline role in B2B 
 image: /illustrations/message-sent_iyz6.svg
 category: Enterprise AI Adoption
 tags: [SDR, Sales Development Representative, BDR, B2B Sales, AI GTM]
-metadata:
-  canonical: https://aitroop.net/blog/what-is-sdr-sales-development-guide
 ---
 
 # What Is an SDR? The Complete Sales Development Representative Guide: Roles, Metrics, and AI Efficiency

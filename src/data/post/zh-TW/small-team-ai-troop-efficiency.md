@@ -7,8 +7,6 @@ excerpt: 一家5人B2B SaaS團隊，如何用Aitroop的四大作戰單元——F
 image: /illustrations/founding-team_8uhm.svg
 category: 企業AI落地
 tags: [Aitroop, AI GTM]
-metadata:
-  canonical: https://aitroop.net/zh-TW/blog/small-team-ai-troop-efficiency
 ---
 
 # 5人銷售團隊如何用Aitroop完成30人的工作量

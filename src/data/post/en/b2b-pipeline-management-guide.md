@@ -7,8 +7,6 @@ excerpt: "Pipeline management is the backbone of B2B sales—it determines how f
 image: /illustrations/predictive-analytics_6gsu.svg
 category: Enterprise AI
 tags: [Pipeline Management, B2B Sales, Deal Management, Sales Funnel, AI GTM]
-metadata:
-  canonical: https://aitroop.net/blog/b2b-pipeline-management-guide
 ---
 
 # B2B Pipeline Management Guide: Full-Funnel Control from Opportunity to Close

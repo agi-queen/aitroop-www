@@ -7,8 +7,6 @@ excerpt: A GTM strategy (Go-to-Market Strategy) is the complete action blueprint
 image: /illustrations/route-planning_2psv.svg
 category: Enterprise AI Adoption
 tags: [GTM Strategy, Go-to-Market, B2B Growth, Product Launch, AI GTM]
-metadata:
-  canonical: https://aitroop.net/blog/gtm-strategy-guide
 ---
 
 # What Is a GTM Strategy? The Complete B2B Go-to-Market Guide (2026)

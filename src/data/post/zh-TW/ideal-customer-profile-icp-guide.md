@@ -12,8 +12,6 @@ category: 企業AI落地
   - B2B銷售
   - 客戶定位
   - AI GTM
-metadata:
-  canonical: https://aitroop.net/zh-TW/blog/ideal-customer-profile-icp-guide
 ---
 
 # Ideal Customer Profile（ICP）完整指南：找到最值得追的客戶

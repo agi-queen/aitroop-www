@@ -10,8 +10,6 @@ category: 收入运营
   - RevOps
   - Pipeline 管理
   - 收入预测
-metadata:
-  canonical: https://aitroop.net/zh-CN/blog/b2b-revenue-forecasting-guide
 ---
 
 每个季末，同样的场景在无数家 B2B 公司上演：

@@ -12,8 +12,6 @@ tags:
   - B2B Growth
   - Sales Automation
   - AI GTM
-metadata:
-  canonical: https://aitroop.net/blog/ai-troop-b2b-growth-transformation
 ---
 
 # 1 Person, 10× the Coverage: How AI Troops Are Redefining B2B Growth Efficiency

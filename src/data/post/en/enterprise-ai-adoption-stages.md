@@ -7,8 +7,6 @@ excerpt: "90% of enterprise AI initiatives stall at stage one or two — buying 
 image: /illustrations/going-upwards_0y3z.svg
 category: Enterprise AI
 tags: [Enterprise AI Adoption, AI Troop, AI GTM, Sales Automation, Aitroop]
-metadata:
-  canonical: https://aitroop.net/blog/enterprise-ai-adoption-stages
 ---
 
 # The 3 Stages of Enterprise AI Adoption: From Tool Purchases to AI Troop Operations

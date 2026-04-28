@@ -12,8 +12,6 @@ category: 企業AI落地
   - AI落地
   - AI GTM
   - Aitroop
-metadata:
-  canonical: https://aitroop.net/zh-TW/blog/what-is-ai-troop
 ---
 
 # AI軍團是什麼？2026年每家企業都需要的AI提效引擎

@@ -9,8 +9,6 @@ category: 企业AI落地
 tags: [Aitroop]
 meta_title: AI军团FIND单元：7天建立B2B精准客户情报雷达
 meta_description: 拆解Aitroop FIND单元的5大核心能力：ICP匹配、意图信号识别、多源数据富化。附7天实施路径，帮B2B销售团队每周节省25小时客户研究时间。
-metadata:
-  canonical: https://aitroop.net/zh-CN/blog/aitroop-find-unit-customer-intelligence
 ---
 
 # 用AI军团FIND单元做精准客户情报：7天建立目标客户雷达

@@ -7,8 +7,6 @@ excerpt: "B2B sales automation is redefining how sales teams work. This guide co
 image: /illustrations/multitasking_i2bv.svg
 category: Enterprise AI
 tags: [B2B Sales Automation, Sales Efficiency, AI GTM, Sales Tools, AI Troop]
-metadata:
-  canonical: https://aitroop.net/blog/b2b-sales-automation-guide
 ---
 
 # B2B Sales Automation Complete Guide: How AI Gives Your SDRs 5x Productivity

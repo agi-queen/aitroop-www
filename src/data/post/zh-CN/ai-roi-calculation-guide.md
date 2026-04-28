@@ -7,8 +7,6 @@ excerpt: 企业AI投入的ROI不是玄学，是可以量化的。本文提供一
 image: /illustrations/investment-data_frxx.svg
 category: 企业AI落地
 tags: [AI ROI]
-metadata:
-  canonical: https://aitroop.net/zh-CN/blog/ai-roi-calculation-guide
 ---
 
 # 企业AI提效ROI怎么算？一套让CFO点头的计算框架

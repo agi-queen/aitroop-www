@@ -10,8 +10,6 @@ tags:
   - Marketing Attribution
   - RevOps
   - Marketing ROI
-metadata:
-  canonical: https://aitroop.net/blog/b2b-marketing-attribution-guide
 ---
 
 Budget season arrives. The CFO asks a simple question: "Which of our marketing programs are actually generating revenue?"

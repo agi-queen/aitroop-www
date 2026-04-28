@@ -12,8 +12,6 @@ tags:
   - Answer Engine Optimization
   - AI Visibility
   - B2B Growth
-metadata:
-  canonical: https://aitroop.net/blog/aeo-answer-engine-optimization-guide
 ---
 
 # What Is AEO? The Complete Answer Engine Optimization Guide (With AI Search Monitoring)

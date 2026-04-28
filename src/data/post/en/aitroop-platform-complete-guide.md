@@ -8,8 +8,6 @@ excerpt: "A complete walkthrough of everything Aitroop can do — from the four-
 image: /illustrations/real-time-analytics_50za.svg
 category: Platform Guide
 tags: [Aitroop, Platform, Features, Solutions, B2B Growth, AI Sales, Customer Retention]
-metadata:
-  canonical: https://aitroop.net/blog/aitroop-platform-complete-guide
 ---
 
 Aitroop is built around one premise: the biggest constraint in B2B growth is not budget or headcount — it is the fraction of time your team actually spends on high-value work. Every hour spent manually researching prospects, copy-pasting data between tools, or chasing follow-ups is an hour not spent building relationships and closing deals.

@@ -10,8 +10,6 @@ tags:
   - Customer Success
   - Churn Prevention
   - Customer Health Score
-metadata:
-  canonical: https://aitroop.net/blog/customer-churn-prevention-guide
 ---
 
 Your sales team just closed a major enterprise deal. The contract is signed, the champagne is popped, the commission is booked. Everyone moves on to the next target.

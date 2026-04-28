@@ -10,8 +10,6 @@ tags:
   - RevOps
   - Pipeline Management
   - Revenue Forecasting
-metadata:
-  canonical: https://aitroop.net/blog/b2b-revenue-forecasting-guide
 ---
 
 Every quarter, sales leaders sit down to present their revenue forecast. And every quarter, the number they present diverges — often significantly — from the number that actually closes.

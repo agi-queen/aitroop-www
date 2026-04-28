@@ -12,8 +12,6 @@ category: 企业AI落地
   - Answer Engine Optimization
   - AI可见度
   - B2B增长
-metadata:
-  canonical: https://aitroop.net/zh-CN/blog/aeo-answer-engine-optimization-guide
 ---
 
 # AEO是什么？Answer Engine Optimization完整指南（含AI搜索监测实战）

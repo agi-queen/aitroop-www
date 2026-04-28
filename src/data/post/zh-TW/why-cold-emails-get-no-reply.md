@@ -10,8 +10,6 @@ category: 銷售實戰
   - 冷郵件
   - SDR
   - 個性化外聯
-metadata:
-  canonical: https://aitroop.net/zh-TW/blog/why-cold-emails-get-no-reply
 ---
 
 你上個月發了多少封開發信？回覆率是多少？

@@ -7,8 +7,6 @@ excerpt: "MEDDIC is a qualification framework designed for complex B2B enterpris
 image: /illustrations/decide_g91m.svg
 category: Enterprise AI
 tags: [MEDDIC, Sales Methodology, B2B Sales, Enterprise Sales, AI GTM]
-metadata:
-  canonical: https://aitroop.net/blog/meddic-sales-methodology-guide
 ---
 
 # MEDDIC Sales Methodology Complete Guide: The Closing Framework for Complex B2B Enterprise Deals

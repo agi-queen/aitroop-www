@@ -12,8 +12,6 @@ tags:
   - B2B Sales
   - Customer Targeting
   - AI GTM
-metadata:
-  canonical: https://aitroop.net/blog/ideal-customer-profile-icp-guide
 ---
 
 # The Complete Ideal Customer Profile (ICP) Guide: Finding the Customers Worth Chasing

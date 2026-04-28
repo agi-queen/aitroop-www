@@ -7,8 +7,6 @@ excerpt: "Low SaaS trial conversion isn't a product problem — it's a follow-up
 image: /illustrations/money-received_eg1c.svg
 category: Enterprise AI
 tags: [SaaS Trial Conversion, PLG Growth, AI Troop, Product-Led Growth, Conversion Optimization]
-metadata:
-  canonical: https://aitroop.net/blog/saas-trial-conversion-aitroop
 ---
 
 # How SaaS Companies Use AI Troop to Lift Trial-to-Paid Conversion by 40%

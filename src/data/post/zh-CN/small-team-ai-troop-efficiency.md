@@ -9,8 +9,6 @@ category: 企业AI落地
 tags: [Aitroop, AI GTM]
 meta_title: 5人团队用AI军团完成30人工作量的实战方法
 meta_description: 拆解Aitroop四大作战单元（FIND/ENGAGE/CONVERT/RETAIN）如何帮5人B2B销售团队实现10倍效率提升，附完整实施路径和效率对比数据。
-metadata:
-  canonical: https://aitroop.net/zh-CN/blog/small-team-ai-troop-efficiency
 ---
 
 # 5人销售团队如何用Aitroop完成30人的工作量

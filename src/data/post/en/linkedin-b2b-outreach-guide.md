@@ -7,8 +7,6 @@ excerpt: "LinkedIn is one of the highest-converting B2B outreach channels—but 
 image: /illustrations/social-media_25ev.svg
 category: "Enterprise AI"
 tags: [LinkedIn Outreach, B2B Outreach, LinkedIn Marketing, Sales Outreach, AI GTM]
-metadata:
-  canonical: https://aitroop.net/blog/linkedin-b2b-outreach-guide
 ---
 
 # LinkedIn B2B Outreach Guide: From Connection Request to Booked Meeting

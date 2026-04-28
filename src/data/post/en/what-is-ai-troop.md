@@ -12,8 +12,6 @@ tags:
   - AI GTM
   - Sales Automation
   - Aitroop
-metadata:
-  canonical: https://aitroop.net/blog/what-is-ai-troop
 ---
 
 # What Is an AI Troop? The AI Efficiency Engine Every B2B Company Needs in 2026

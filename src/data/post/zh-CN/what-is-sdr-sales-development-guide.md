@@ -8,7 +8,6 @@ category: 企业AI落地
 tags: [SDR, BDR, AI GTM]
 image: /illustrations/message-sent_iyz6.svg
 metadata:
-  canonical: https://aitroop.net/zh-CN/blog/what-is-sdr-sales-development-guide
   meta_title: SDR是什么？销售开发代表职责、指标与AI提效指南
   meta_description: SDR（销售开发代表）是B2B销售团队前锋，负责线索开发与初步资格认定。本文拆解SDR职责、核心指标、效率陷阱，以及AI如何让SDR效率提升5倍。
 ---

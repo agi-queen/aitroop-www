@@ -7,8 +7,6 @@ excerpt: 傳統CRM是記錄系統，AI軍團是行動系統。本文對比兩者
 image: /illustrations/image-comparison_ieuw.svg
 category: 企業AI落地
 tags: [CRM]
-metadata:
-  canonical: https://aitroop.net/zh-TW/blog/aitroop-vs-crm-guide
 ---
 
 # AI軍團 vs 傳統CRM：為什麼越來越多B2B銷售團隊在切換
