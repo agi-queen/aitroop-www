@@ -6,7 +6,7 @@ author: Aitroop 團隊
 excerpt: 金融業AI提效落地的核心不是買工具，而是搭體系。本文用五層架構拆解AI如何在財務、風控、研究等場景真正落地，以及三道必須跨過的坎。
 image: /illustrations/business-decisions_7vkl.svg
 category: 企業AI落地
-tags:
+
   - 金融AI落地
   - 企業AI提效
   - AI Agent

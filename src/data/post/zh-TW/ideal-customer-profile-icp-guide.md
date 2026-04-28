@@ -6,7 +6,7 @@ author: Aitroop 團隊
 excerpt: ICP（理想客戶畫像）是B2B銷售效率的基礎——它告訴你該追哪些客戶、該放棄哪些客戶。本文拆解ICP的建立方法、核心維度，以及如何用AI讓ICP動態更新、持續精準。
 image: /illustrations/target-audience_prun.svg
 category: 企業AI落地
-tags:
+
   - ICP
   - 理想客戶畫像
   - B2B銷售

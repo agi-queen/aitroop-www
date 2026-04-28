@@ -6,7 +6,7 @@ title: 行銷花了多少錢帶來多少收入？B2B 歸因分析完全指南
 excerpt: 近 90% 的 B2B 行銷團隊面臨歸因困難。老闆問「這筆廣告預算帶來了多少收入」，你卻只能說「大概」。本文拆解 B2B 歸因的核心挑戰，以及如何建立真正可信的 ROI 分析體系。
 image: /illustrations/marketing-analysis_2u5r.svg
 category: 行銷運營
-tags:
+
   - 行銷歸因
   - RevOps
   - 行銷 ROI

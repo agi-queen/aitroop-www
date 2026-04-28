@@ -6,7 +6,7 @@ author: Aitroop 团队
 excerpt: 当B2B增长团队引入AI军团，外联覆盖量提升10倍，客户调研时间从15分钟压缩到90秒，流失预警提前30天触发。本文用真实场景展示AI军团落地后的增长变化。
 image: /illustrations/performance-comparison_qd1q.svg
 category: 企业AI落地
-tags:
+
   - AI军团
   - 企业AI提效
   - B2B增长

@@ -6,7 +6,7 @@ author: Aitroop 团队
 excerpt: AI军团是以AI Agent为核心、自动化执行GTM全流程的智能工作体系。本文拆解AI军团的四大作战单元、企业AI落地的实战路径，以及如何用Aitroop组建你的AI提效军团。
 image: /illustrations/heavy-lifting_d753.svg
 category: 企业AI落地
-tags:
+
   - AI军团
   - 企业AI提效
   - AI落地
