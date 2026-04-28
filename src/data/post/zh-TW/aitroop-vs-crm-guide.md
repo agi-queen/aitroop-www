@@ -6,7 +6,7 @@ author: Aitroop 團隊
 excerpt: 傳統CRM是記錄系統，AI軍團是行動系統。本文對比兩者核心差異，解析什麼樣的B2B團隊適合切換，以及切換後實際使用體驗是什麼樣子。
 image: /illustrations/image-comparison_ieuw.svg
 category: 企業AI落地
-tags: [AI GTM平台, AI軍團, CRM, B2B銷售工具, 銷售效率]
+tags: [CRM]
 metadata:
   canonical: https://aitroop.net/zh-TW/blog/aitroop-vs-crm-guide
 ---

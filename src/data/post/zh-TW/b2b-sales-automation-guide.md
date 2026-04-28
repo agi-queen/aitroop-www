@@ -6,7 +6,7 @@ author: Aitroop 團隊
 excerpt: B2B銷售自動化正在重新定義銷售團隊的工作方式。本文從定義出發，系統講解哪些環節可以自動化、如何選型、AI如何升級傳統自動化工具，以及如何衡量真實ROI，幫助銷售和行銷團隊在90天內看到可量化的效率提升。
 image: /illustrations/multitasking_i2bv.svg
 category: 企業AI落地
-tags: [B2B銷售自動化, 銷售效率, AI GTM, 銷售工具, AI軍團]
+tags: [AI GTM]
 metadata:
   canonical: https://aitroop.net/zh-TW/blog/b2b-sales-automation-guide
 ---

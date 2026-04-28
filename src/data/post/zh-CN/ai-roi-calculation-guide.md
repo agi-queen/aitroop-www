@@ -6,7 +6,7 @@ author: Aitroop 团队
 excerpt: 企业AI投入的ROI不是玄学，是可以量化的。本文提供一套完整的AI提效ROI计算框架：从时间成本节省、效率倍增到收入增长，手把手算清楚AI投入的回报。
 image: /illustrations/investment-data_frxx.svg
 category: 企业AI落地
-tags: [AI ROI, 企业AI提效, AI投资回报, AI落地, AI军团]
+tags: [AI ROI]
 metadata:
   canonical: https://aitroop.net/zh-CN/blog/ai-roi-calculation-guide
 ---

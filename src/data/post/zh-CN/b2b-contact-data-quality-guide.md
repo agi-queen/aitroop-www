@@ -11,7 +11,7 @@ tags:
   - 数据富化
   - SDR
 metadata:
-  canonical: https://aitroop.net/blog/b2b-contact-data-quality-guide
+  canonical: https://aitroop.net/zh-CN/blog/b2b-contact-data-quality-guide
 ---
 
 你上个月买了一份 2,000 人的目标客户名单。你的 SDR 花了整周时间按照名单逐一发信。

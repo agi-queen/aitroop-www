@@ -7,7 +7,7 @@ featured: true
 excerpt: "全面拆解 Aitroop 的平台能力——从「找到-触达-转化-留存」四大支柱与 24 项核心功能，到五个真实增长场景。一个平台，覆盖完整业务生命周期，告别工具碎片化。"
 image: /illustrations/real-time-analytics_50za.svg
 category: 平台指南
-tags: [Aitroop, 平台功能, 解决方案, B2B增长, AI销售, 客户留存]
+tags: [Aitroop]
 metadata:
   canonical: https://aitroop.net/zh-CN/blog/aitroop-platform-complete-guide
 ---

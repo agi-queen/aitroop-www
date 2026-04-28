@@ -11,7 +11,7 @@ tags:
   - RevOps
   - 行銷 ROI
 metadata:
-  canonical: https://aitroop.net/blog/b2b-marketing-attribution-guide
+  canonical: https://aitroop.net/zh-TW/blog/b2b-marketing-attribution-guide
 ---
 
 每個季度的行銷預算審查會，幾乎都有這樣一個時刻：

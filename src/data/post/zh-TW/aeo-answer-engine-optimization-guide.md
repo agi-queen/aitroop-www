@@ -13,7 +13,7 @@ tags:
   - AI可見度
   - B2B增長
 metadata:
-  canonical: https://aitroop.net/blog/aeo-answer-engine-optimization-guide
+  canonical: https://aitroop.net/zh-TW/blog/aeo-answer-engine-optimization-guide
 ---
 
 # AEO是什麼？Answer Engine Optimization完整指南（含AI搜尋監測實戰）

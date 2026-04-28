@@ -6,11 +6,11 @@ author: Aitroop 团队
 excerpt: B2B销售最大的时间黑洞是找客户。Aitroop的FIND单元通过ICP智能匹配、意图信号识别和多源数据富化，帮你在7天内建立一套自动运转的目标客户雷达，每周节省25小时研究时间。
 image: /illustrations/ai-research-assistant_cxx0.svg
 category: 企业AI落地
-tags: [AI军团, 客户情报, FIND单元, B2B精准获客, Aitroop]
+tags: [Aitroop]
 meta_title: AI军团FIND单元：7天建立B2B精准客户情报雷达
 meta_description: 拆解Aitroop FIND单元的5大核心能力：ICP匹配、意图信号识别、多源数据富化。附7天实施路径，帮B2B销售团队每周节省25小时客户研究时间。
 metadata:
-  canonical: https://aitroop.net/blog/aitroop-find-unit-customer-intelligence
+  canonical: https://aitroop.net/zh-CN/blog/aitroop-find-unit-customer-intelligence
 ---
 
 # 用AI军团FIND单元做精准客户情报：7天建立目标客户雷达

@@ -6,9 +6,9 @@ author: Aitroop 團隊
 excerpt: AI Agent（AI智慧代理）是能夠自主感知環境、規劃任務、調用工具並持續執行的AI系統。本文拆解AI Agent的核心能力、Multi-Agent協作原理，以及在B2B場景的實戰應用。
 image: /illustrations/cli-coding-agent_jtq1.svg
 category: 企業AI落地
-tags: [AI Agent, AI智慧代理, Multi-Agent, 企業AI, AI GTM]
+tags: [AI Agent, Multi-Agent, AI GTM]
 metadata:
-  canonical: https://aitroop.net/blog/what-is-ai-agent-guide
+  canonical: https://aitroop.net/zh-TW/blog/what-is-ai-agent-guide
 ---
 
 # AI Agent是什麼？智慧代理完整指南：從原理到B2B實戰應用

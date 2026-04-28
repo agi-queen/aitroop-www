@@ -6,11 +6,11 @@ author: Aitroop 团队
 excerpt: 传统CRM是记录系统，AI军团是行动系统。本文对比两者核心差异，解析什么样的B2B团队适合切换，以及切换后实际使用体验是什么样子。
 image: /illustrations/image-comparison_ieuw.svg
 category: 企业AI落地
-tags: [AI GTM平台, AI军团, CRM, B2B销售工具, 销售效率]
+tags: [CRM]
 meta_title: AI军团 vs 传统CRM：B2B销售团队切换指南
 meta_description: 传统CRM只记录数据，AI军团主动帮你找客户、写外联、跟进Pipeline。对比核心差异、适用场景和迁移成本，看哪个更适合你的B2B团队。
 metadata:
-  canonical: https://aitroop.net/blog/aitroop-vs-crm-guide
+  canonical: https://aitroop.net/zh-CN/blog/aitroop-vs-crm-guide
 ---
 
 # AI军团 vs 传统CRM：为什么越来越多B2B销售团队在切换

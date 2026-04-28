@@ -11,7 +11,7 @@ tags:
   - 流失預防
   - 客戶健康度
 metadata:
-  canonical: https://aitroop.net/blog/customer-churn-prevention-guide
+  canonical: https://aitroop.net/zh-TW/blog/customer-churn-prevention-guide
 ---
 
 你的銷售團隊上個月辛苦拿下了一個大客戶。慶功宴還沒散，客戶成功團隊已經接手，開始了漫長的 Onboarding 流程。

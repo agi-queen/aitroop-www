@@ -6,9 +6,9 @@ author: Aitroop 團隊
 excerpt: GTM策略（Go-to-Market Strategy）是企業將產品推向市場的系統性行動計畫，涵蓋目標客戶定位、價值主張、銷售管道和定價模型。本文用3200字拆解B2B GTM的核心框架、三種主流模式、執行步驟、常見失敗原因，以及AI如何將GTM執行效率提升3倍。
 image: /illustrations/route-planning_2psv.svg
 category: 企業AI落地
-tags: [GTM策略, Go-to-Market, B2B成長, 產品上市, AI GTM]
+tags: [Go-to-Market, AI GTM]
 metadata:
-  canonical: https://aitroop.net/blog/gtm-strategy-guide
+  canonical: https://aitroop.net/zh-TW/blog/gtm-strategy-guide
 ---
 
 # GTM策略是什麼？B2B企業完整的Go-to-Market指南（2026版）

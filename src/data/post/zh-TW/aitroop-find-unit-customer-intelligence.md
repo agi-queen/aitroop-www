@@ -6,7 +6,7 @@ author: Aitroop 團隊
 excerpt: B2B銷售最大的時間黑洞是找客戶。Aitroop的FIND單元透過ICP智慧匹配、意圖訊號識別和多源資料豐富化，幫你在7天內建立一套自動運轉的目標客戶雷達，每週節省25小時研究時間。
 image: /illustrations/ai-research-assistant_cxx0.svg
 category: 企業AI落地
-tags: [AI軍團, 客戶情報, FIND單元, B2B精準獲客, Aitroop]
+tags: [Aitroop]
 metadata:
   canonical: https://aitroop.net/zh-TW/blog/aitroop-find-unit-customer-intelligence
 ---

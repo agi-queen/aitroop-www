@@ -16,7 +16,7 @@ tags:
   - AI GTM
   - 企业AI提效
 metadata:
-  canonical: https://aitroop.net/blog/revops-revenue-operations-guide
+  canonical: https://aitroop.net/zh-CN/blog/revops-revenue-operations-guide
 ---
 
 # RevOps 收入运营完全指南：打破数据孤岛，让B2B收入增长回归可预测

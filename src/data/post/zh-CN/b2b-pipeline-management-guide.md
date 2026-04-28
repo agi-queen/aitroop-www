@@ -6,7 +6,7 @@ author: Aitroop 团队
 excerpt: "Pipeline管理是B2B销售的命脉——它决定了你能看见多远、预测多准、赢单多快。本文拆解Pipeline的阶段设计、健康指标、常见漏洞，以及AI如何让商机管理从感觉变成数据。"
 image: /illustrations/predictive-analytics_6gsu.svg
 category: 企业AI落地
-tags: [Pipeline管理, B2B销售, 商机管理, 销售漏斗, AI GTM]
+tags: [AI GTM]
 metadata:
   canonical: https://aitroop.net/zh-CN/blog/b2b-pipeline-management-guide
 ---

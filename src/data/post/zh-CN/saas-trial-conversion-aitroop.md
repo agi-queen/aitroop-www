@@ -6,11 +6,11 @@ author: Aitroop 团队
 excerpt: SaaS试用转化率低，根源不是产品，是跟进慢、不个性化、时机错。本文拆解AI军团如何在注册后72小时内自动识别高意向用户并触发个性化序列，把行业平均2-5%的转化率提升到8-15%。
 image: /illustrations/money-received_eg1c.svg
 category: 企业AI落地
-tags: [SaaS试用转付费, PLG增长, AI军团, 产品驱动增长, 转化率优化]
+tags:
 meta_title: SaaS试用转付费率提升40%：AI军团完整打法
 meta_description: 试用转化率低不是产品问题，是跟进问题。AI军团在注册后72小时内自动识别高意向用户、触发个性化序列，帮SaaS团队把转化率从2-5%提升到8-15%。
 metadata:
-  canonical: https://aitroop.net/blog/saas-trial-conversion-aitroop
+  canonical: https://aitroop.net/zh-CN/blog/saas-trial-conversion-aitroop
 ---
 
 # SaaS公司如何用AI军团把试用转付费率提升40%

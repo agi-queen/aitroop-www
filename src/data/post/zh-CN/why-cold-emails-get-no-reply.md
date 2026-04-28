@@ -11,7 +11,7 @@ tags:
   - SDR
   - 个性化外联
 metadata:
-  canonical: https://aitroop.net/blog/why-cold-emails-get-no-reply
+  canonical: https://aitroop.net/zh-CN/blog/why-cold-emails-get-no-reply
 ---
 
 你上个月发了多少封开发信？回复率是多少？

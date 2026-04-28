@@ -6,7 +6,7 @@ author: Aitroop 團隊
 excerpt: 90%的企業AI落地卡在第一或第二階段——買了工具，跑了自動化，但沒有真正的AI決策系統。本文拆解三個階段的特徵、自測訊號，以及如何進入第三階段的AI軍團作戰模式。
 image: /illustrations/going-upwards_0y3z.svg
 category: 企業AI落地
-tags: [企業AI落地, AI軍團, AI GTM, 銷售自動化, Aitroop]
+tags: [AI GTM, Aitroop]
 metadata:
   canonical: https://aitroop.net/zh-TW/blog/enterprise-ai-adoption-stages
 ---

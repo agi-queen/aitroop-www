@@ -13,7 +13,7 @@ tags:
   - 客戶定位
   - AI GTM
 metadata:
-  canonical: https://aitroop.net/blog/ideal-customer-profile-icp-guide
+  canonical: https://aitroop.net/zh-TW/blog/ideal-customer-profile-icp-guide
 ---
 
 # Ideal Customer Profile（ICP）完整指南：找到最值得追的客戶

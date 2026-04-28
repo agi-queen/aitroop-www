@@ -13,7 +13,7 @@ tags:
   - 財務AI
   - AI落地
 metadata:
-  canonical: https://aitroop.net/blog/ai-finance-enterprise-adoption-guide
+  canonical: https://aitroop.net/zh-TW/blog/ai-finance-enterprise-adoption-guide
 ---
 
 # 金融業AI提效落地指南：從感知到行動的完整路徑

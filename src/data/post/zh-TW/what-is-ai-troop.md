@@ -13,7 +13,7 @@ tags:
   - AI GTM
   - Aitroop
 metadata:
-  canonical: https://aitroop.net/blog/what-is-ai-troop
+  canonical: https://aitroop.net/zh-TW/blog/what-is-ai-troop
 ---
 
 # AI軍團是什麼？2026年每家企業都需要的AI提效引擎

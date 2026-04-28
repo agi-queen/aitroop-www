@@ -13,7 +13,7 @@ tags:
   - 销售自动化
   - AI GTM
 metadata:
-  canonical: https://aitroop.net/blog/ai-troop-b2b-growth-transformation
+  canonical: https://aitroop.net/zh-CN/blog/ai-troop-b2b-growth-transformation
 ---
 
 # 1个人，10个人的覆盖：AI军团如何重新定义B2B增长效率

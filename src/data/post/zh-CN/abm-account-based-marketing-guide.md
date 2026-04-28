@@ -6,9 +6,9 @@ author: Aitroop 团队
 image: /illustrations/marketing-analysis_2u5r.svg
 excerpt: ABM（Account-Based Marketing，账户型营销）是B2B企业用精准狙击取代广撒网的营销方法论。本文用3000字拆解ABM的三种模式、五步执行框架、核心度量指标，以及AI如何让普通团队也能跑出高ROI的ABM，附真实案例与常见误区。
 category: 企业AI落地
-tags: [ABM, 账户型营销, Account-Based Marketing, B2B精准营销, 目标账户营销, ABM策略, AI GTM]
+tags: [ABM, Account-Based Marketing, AI GTM]
 metadata:
-  canonical: https://aitroop.net/blog/abm-account-based-marketing-guide
+  canonical: https://aitroop.net/zh-CN/blog/abm-account-based-marketing-guide
 ---
 
 # ABM账户型营销完整指南：B2B精准营销从选账户到成交（2026版）

@@ -1,3 +1,9 @@
+[[redirects]]
+  from = "https://www.aitroop.net/*"
+  to = "https://aitroop.net/:splat"
+  status = 301
+  force = true
+
 [build]
   publish = "dist"
   command = "npm run build"

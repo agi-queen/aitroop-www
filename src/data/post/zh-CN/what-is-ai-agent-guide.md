@@ -5,10 +5,10 @@ updateDate: 2026-04-16T00:00:00Z
 author: Aitroop 团队
 excerpt: AI Agent（AI智能体）是能够自主感知环境、规划任务、调用工具并持续执行的AI系统。本文拆解AI Agent的核心能力、Multi-Agent协作原理，以及在B2B场景的实战应用。
 category: 企业AI落地
-tags: [AI Agent, AI智能体, Multi-Agent, 企业AI, AI GTM]
+tags: [AI Agent, Multi-Agent, AI GTM]
 image: /illustrations/cli-coding-agent_jtq1.svg
 metadata:
-  canonical: https://aitroop.net/blog/what-is-ai-agent-guide
+  canonical: https://aitroop.net/zh-CN/blog/what-is-ai-agent-guide
 ---
 
 # AI Agent是什么？智能体完整指南：从原理到B2B实战应用

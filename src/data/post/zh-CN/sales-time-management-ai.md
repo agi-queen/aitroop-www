@@ -11,7 +11,7 @@ tags:
   - AI 工具
   - RevOps
 metadata:
-  canonical: https://aitroop.net/blog/sales-time-management-ai
+  canonical: https://aitroop.net/zh-CN/blog/sales-time-management-ai
 ---
 
 如果你问一个销售代表「你每天最费时的工作是什么」，十个人里有九个不会说「拜访客户」或「推进商机」。
