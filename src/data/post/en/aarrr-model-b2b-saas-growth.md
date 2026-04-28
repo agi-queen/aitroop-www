@@ -96,13 +96,13 @@ Lead numbers look good, but 80% don't fit the ICP. Sales time gets diluted by lo
 
 **Mistake 3: Outreach is spray-and-pray, not precision**
 
-Mass emails with no personalization yield sub-1% reply rates. [Good cold email requires intelligence to make the recipient feel the message was written just for them](/why-cold-emails-get-no-reply).
+Mass emails with no personalization yield sub-1% reply rates. [Good cold email requires intelligence to make the recipient feel the message was written just for them](/blog/why-cold-emails-get-no-reply).
 
 ### How an AI Troop Improves Acquisition
 
-The intelligence unit automatically researches target accounts. [Data enrichment ensures contact coverage above 80%](/b2b-contact-data-quality-guide). The outreach unit generates personalized messaging from that intelligence. Work that used to take an SDR 15 minutes of manual research now happens in 90 seconds, scaling outreach volume by 5×.
+The intelligence unit automatically researches target accounts. [Data enrichment ensures contact coverage above 80%](/blog/b2b-contact-data-quality-guide). The outreach unit generates personalized messaging from that intelligence. Work that used to take an SDR 15 minutes of manual research now happens in 90 seconds, scaling outreach volume by 5×.
 
-[Attribution models](/b2b-marketing-attribution-guide) track which touchpoint actually generated each lead, and which channels bring customers with higher LTV — not just the last click.
+[Attribution models](/blog/b2b-marketing-attribution-guide) track which touchpoint actually generated each lead, and which channels bring customers with higher LTV — not just the last click.
 
 ## Stage 2: Activation
 
@@ -147,7 +147,7 @@ Users sign up for a trial, there's no onboarding flow, they click around aimless
 - **Build an activation score** tracking key behavior completion in the first 7/14 days
 - **Sales-assisted onboarding**: For high-value accounts, customer success proactively steps in after the demo to ensure a clear next step
 
-[Sales time optimization](/sales-time-management-ai) means concentrating sales time on the highest-quality leads most likely to activate — not spreading it evenly across every lead in the funnel.
+[Sales time optimization](/blog/sales-time-management-ai) means concentrating sales time on the highest-quality leads most likely to activate — not spreading it evenly across every lead in the funnel.
 
 ## Stage 3: Retention
 
@@ -180,7 +180,7 @@ Most churn doesn't happen suddenly — there are clear early signals:
 - Negative sentiment appears in support tickets
 - Primary contact changes roles or leaves
 
-[Identifying these signals 30–90 days in advance and intervening before churn actually happens](/customer-churn-prevention-guide) is one of the most important jobs of a customer success team. An AI retention unit can automatically monitor each customer's health score and trigger retention sequences when early warning signals appear.
+[Identifying these signals 30–90 days in advance and intervening before churn actually happens](/blog/customer-churn-prevention-guide) is one of the most important jobs of a customer success team. An AI retention unit can automatically monitor each customer's health score and trigger retention sequences when early warning signals appear.
 
 ## Stage 4: Referral
 
@@ -240,7 +240,7 @@ In B2B SaaS, the revenue stage isn't just about "closing" — it's about **expan
 
 Most B2B revenue forecasting works like this: the sales director asks each AE "what can you close this quarter," the AEs give a number, add them up, call it the forecast. Error rates routinely exceed 30%.
 
-The fundamental problem is **relying on subjective judgment instead of data**. [Pipeline-stage data, historical conversion rates, and AI signals can reduce forecast error to within 15%](/b2b-revenue-forecasting-guide), letting leadership actually rely on forecasts for resource allocation.
+The fundamental problem is **relying on subjective judgment instead of data**. [Pipeline-stage data, historical conversion rates, and AI signals can reduce forecast error to within 15%](/blog/b2b-revenue-forecasting-guide), letting leadership actually rely on forecasts for resource allocation.
 
 ### Three Expansion Revenue Strategies
 
@@ -287,7 +287,7 @@ The challenge of AARRR isn't just understanding it — it's **continuously colle
 | Referral | Milestone-triggered referral requests, automated NPS follow-up |
 | Revenue | Usage-data-driven upsell identification, AI-powered revenue forecasting |
 
-The [AI Troop's](/what-is-ai-troop) four operating units — Intelligence, Outreach, Conversion, and Retention — cover the most critical execution points in the AARRR funnel, letting one GTM member manage what used to require four or five people.
+The [AI Troop's](/blog/what-is-ai-troop) four operating units — Intelligence, Outreach, Conversion, and Retention — cover the most critical execution points in the AARRR funnel, letting one GTM member manage what used to require four or five people.
 
 ---
 

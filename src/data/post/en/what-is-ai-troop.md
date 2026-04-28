@@ -41,7 +41,7 @@ It wasn't until he discovered the concept of an "AI Troop" that he realized: **t
 
 ### The Efficiency Gap Is Widening
 
-Research consistently shows that B2B sales reps spend only 28–35% of their time actually selling. [The other 65% gets swallowed by CRM data entry, prospect research, email writing, and administrative tasks](/sales-time-management-ai).
+Research consistently shows that B2B sales reps spend only 28–35% of their time actually selling. [The other 65% gets swallowed by CRM data entry, prospect research, email writing, and administrative tasks](/blog/sales-time-management-ai).
 
 When your competitors start using an AI Troop to automate that 65%, the efficiency gap opens fast. Teams still doing things manually are generating less output with the same headcount.
 
@@ -84,7 +84,7 @@ Before any outreach begins, the Intelligence Unit has already completed a full b
 **Core capabilities:**
 - **ICP Modeling**: Analyzes your historical closed-won customers to distill the ideal customer profile
 - **AI Account Research**: Delivers a complete company summary in 90 seconds — recent funding, hiring trends, product launches, executive changes
-- **Waterfall Data Enrichment**: Chains multiple data sources to push valid contact coverage above 80% ([why data quality determines outreach results](/b2b-contact-data-quality-guide))
+- **Waterfall Data Enrichment**: Chains multiple data sources to push valid contact coverage above 80% ([why data quality determines outreach results](/blog/b2b-contact-data-quality-guide))
 - **Intent Signal Monitoring**: Identifies website visitors, third-party intent data, and product usage behavior to surface in-market prospects
 
 **Efficiency value**: A task that takes an SDR 15–20 minutes per account is completed in seconds — at higher accuracy.
@@ -95,7 +95,7 @@ With intelligence in hand, the Engagement Unit turns it into precise, personaliz
 
 **Core capabilities:**
 - **AI Personalized Email Generation**: Automatically generates account-specific opening lines and email body based on intelligence gathered
-- **Multi-Channel Automated Sequences**: Intelligent email + LinkedIn follow-up sequences that adjust timing and content based on prospect behavior ([complete cold email personalization guide](/why-cold-emails-get-no-reply))
+- **Multi-Channel Automated Sequences**: Intelligent email + LinkedIn follow-up sequences that adjust timing and content based on prospect behavior ([complete cold email personalization guide](/blog/why-cold-emails-get-no-reply))
 - **Deliverability Infrastructure**: Domain warmup, sending rotation, and reputation monitoring to ensure 90%+ inbox placement
 - **AI Content Batch Generation**: Generate full sequence copy in one pass — humans review and refine
 
@@ -109,7 +109,7 @@ With pipeline building, the Conversion Unit helps you identify which deals deser
 - **AI Opportunity Scoring**: Real-time health scores based on behavioral signals, intent data, and company characteristics
 - **Stall Alerts**: Automatically detects opportunities overdue for progression and triggers action prompts before they go dark
 - **AI Proposal Generation**: Generates 12–15 page personalized proposals in 5 minutes, including account research, pain point analysis, and solution design
-- **Revenue Forecasting**: AI models reduce forecast error to within 15% ([why revenue forecasts are always wrong](/b2b-revenue-forecasting-guide))
+- **Revenue Forecasting**: AI models reduce forecast error to within 15% ([why revenue forecasts are always wrong](/blog/b2b-revenue-forecasting-guide))
 
 **Efficiency value**: Sales reps focus time on the "most worth pursuing" opportunities rather than spreading effort equally.
 
@@ -119,7 +119,7 @@ Closing the deal isn't the finish line. The Retention Unit ensures customers con
 
 **Core capabilities:**
 - **Customer Health Scoring**: Combines product usage data, support tickets, and relationship interactions into a real-time health score per account
-- **Churn Alerts**: Identifies high-risk accounts 30–90 days in advance, automatically triggering retention sequences ([complete customer churn prevention guide](/customer-churn-prevention-guide))
+- **Churn Alerts**: Identifies high-risk accounts 30–90 days in advance, automatically triggering retention sequences ([complete customer churn prevention guide](/blog/customer-churn-prevention-guide))
 - **Renewal and Expansion Automation**: Triggers renewal conversations based on usage patterns, and sends referral invitations when NPS is at its peak
 - **Key Contact Change Tracking**: Immediately alerts when a primary contact leaves, helping you build new relationships before the relationship breaks
 
