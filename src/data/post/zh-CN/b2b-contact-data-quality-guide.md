@@ -7,9 +7,6 @@ excerpt: 购买的联系人数据库有效率平均只有 30-40%。你每发 10 
 image: /illustrations/all-the-data_ijgn.svg
 category: Data Management
 
-  - 数据质量
-  - 数据富化
-  - SDR
 ---
 
 你上个月买了一份 2,000 人的目标客户名单。你的 SDR 花了整周时间按照名单逐一发信。

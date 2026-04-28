@@ -7,11 +7,6 @@ excerpt: 金融業AI提效落地的核心不是買工具，而是搭體系。本
 image: /illustrations/business-decisions_7vkl.svg
 category: Enterprise AI Adoption
 
-  - 金融AI落地
-  - 企業AI提效
-  - AI Agent
-  - 財務AI
-  - AI落地
 ---
 
 # 金融業AI提效落地指南：從感知到行動的完整路徑

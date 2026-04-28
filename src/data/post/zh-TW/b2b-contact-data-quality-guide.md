@@ -7,9 +7,6 @@ excerpt: 購買的聯繫人資料庫有效率平均只有 30-40%。你每發 10 
 image: /illustrations/all-the-data_ijgn.svg
 category: Data Management
 
-  - 資料品質
-  - 資料富化
-  - SDR
 ---
 
 你上個月買了一份 2,000 人的目標客戶名單。你的 SDR 花了整週時間按照名單逐一發信。

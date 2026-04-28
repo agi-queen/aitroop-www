@@ -7,9 +7,6 @@ excerpt: 超過 70% 的 B2B 企業收入預測誤差超過 30%。不是你的銷
 image: /illustrations/predictive-analytics_6gsu.svg
 category: Revenue Operations
 
-  - RevOps
-  - Pipeline 管理
-  - 收入預測
 ---
 
 每個季末，同樣的場景在無數家 B2B 公司上演：
