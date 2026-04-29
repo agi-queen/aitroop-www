@@ -63,14 +63,14 @@ export function getFooterData(locale: Locale = 'en') {
       {
         title: t.product,
         links: [
-          { text: t.platform, href: p(getPermalink('/aitroop-platform-complete-guide')) },
+          { text: t.platform, href: p(getPermalink('/blog/aitroop-platform-complete-guide')) },
           { text: t.contact, href: p(getPermalink('/contact')) },
         ],
       },
       {
         title: t.company,
         links: [
-          { text: t.about, href: p(getPermalink('/aitroop-platform-complete-guide')) },
+          { text: t.about, href: p(getPermalink('/blog/aitroop-platform-complete-guide')) },
           { text: t.blog, href: p(getBlogPermalink()) },
         ],
       },
