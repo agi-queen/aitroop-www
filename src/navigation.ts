@@ -76,8 +76,8 @@ export function getFooterData(locale: Locale = 'en') {
       },
     ],
     secondaryLinks: locale === 'en' ? [
-      { text: 'App Privacy Policy', href: getPermalink('/app-privacy') },
-      { text: 'App Terms of Service', href: getPermalink('/app-terms') },
+      { text: 'Privacy', href: getPermalink('/app-privacy') },
+      { text: 'Terms', href: getPermalink('/app-terms') },
     ] : [],
     socialLinks: [
       { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') },
