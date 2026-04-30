@@ -21,10 +21,10 @@ export interface Props {
   theme?: string;
 }
 
-const { links = [], socialLinks = [], footNote = '' } = Astro.props;
+const { links = [], secondaryLinks = [], socialLinks = [], footNote = '' } = Astro.props;
 
 // Flatten all footer links into a single list for the compact bar
-const allLinks = links.flatMap(({ links }) => links);
+const allLinks = [...links.flatMap(({ links }) => links), ...secondaryLinks];
 ---
 
 <footer class="border-t border-[var(--aw-color-border)] bg-page not-prose">
