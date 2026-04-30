@@ -75,10 +75,10 @@ export function getFooterData(locale: Locale = 'en') {
         ],
       },
     ],
-    secondaryLinks: locale === 'en' ? [
+    secondaryLinks: [
       { text: 'Privacy', href: getPermalink('/app-privacy') },
       { text: 'Terms', href: getPermalink('/app-terms') },
-    ] : [],
+    ],
     socialLinks: [
       { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') },
     ],
