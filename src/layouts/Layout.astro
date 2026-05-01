@@ -48,8 +48,8 @@ const hreflangZhTW = `${site}/zh-TW${cleanPath === '/' ? '' : cleanPath}`;
           var cur = path.startsWith('/zh-TW') ? 'zh-TW' : path.startsWith('/zh-CN') ? 'zh-CN' : 'en';
           if (pref === cur) return;
           var clean = path.replace(/^\/(zh-TW|zh-CN)(\/|$)/, '/') || '/';
-          // Policy pages only exist in English — never redirect them
-          var noRedirect = ['/app-privacy', '/app-terms', '/privacy', '/terms'];
+          // These pages only exist in English — never redirect them
+          var noRedirect = ['/privacy', '/terms'];
           if (noRedirect.indexOf(clean) !== -1) return;
           var target = pref === 'en' ? clean : '/' + pref + (clean === '/' ? '' : clean);
           window.location.replace(target);
