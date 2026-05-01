@@ -24,6 +24,13 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
 export default defineConfig({
   output: 'static',
 
+  redirects: {
+    '/zh-TW/app-privacy': '/app-privacy',
+    '/zh-TW/app-terms': '/app-terms',
+    '/zh-CN/app-privacy': '/app-privacy',
+    '/zh-CN/app-terms': '/app-terms',
+  },
+
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'zh-TW', 'zh-CN'],
