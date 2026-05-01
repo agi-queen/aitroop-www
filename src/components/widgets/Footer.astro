@@ -23,36 +23,66 @@ export interface Props {
 
 const { links = [], secondaryLinks = [], socialLinks = [], footNote = '' } = Astro.props;
 
-// Flatten all footer links into a single list for the compact bar
-const allLinks = [...links.flatMap(({ links }) => links), ...secondaryLinks];
+const navLinks = links.flatMap(({ links }) => links);
+const policyLinks = secondaryLinks;
 ---
 
 <footer class="border-t border-[var(--aw-color-border)] bg-page not-prose">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between gap-4">
-    <!-- Left: copyright -->
-    <div class="text-xs text-[var(--aw-color-text-muted)] shrink-0">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-0 sm:h-11 flex flex-col-reverse sm:flex-row sm:items-center justify-between gap-3">
+
+    <!-- Copyright -->
+    <div class="text-xs text-[var(--aw-color-text-muted)] leading-relaxed shrink-0">
       <Fragment set:html={footNote} />
     </div>
 
-    <!-- Right: links + social -->
-    <div class="flex items-center gap-4">
-      {allLinks.map(({ text, href }) => (
-        <a
-          href={href}
-          class="text-xs text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)] transition-colors duration-150 whitespace-nowrap"
-        >
-          <Fragment set:html={text} />
-        </a>
+    <!-- Links & social -->
+    <div class="flex flex-wrap items-center gap-x-1 gap-y-1.5">
+
+      <!-- Nav links -->
+      {navLinks.map(({ text, href }, i) => (
+        <Fragment>
+          {i > 0 && <span class="text-[var(--aw-color-border)] select-none px-0.5" aria-hidden="true">·</span>}
+          <a
+            href={href}
+            class="text-xs text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)] transition-colors duration-150"
+          >
+            <Fragment set:html={text} />
+          </a>
+        </Fragment>
       ))}
+
+      <!-- Separator between nav and policy groups -->
+      {navLinks.length > 0 && policyLinks.length > 0 && (
+        <span class="mx-1 self-stretch w-px bg-[var(--aw-color-border)] hidden sm:block" aria-hidden="true" />
+      )}
+
+      <!-- Policy links -->
+      {policyLinks.map(({ text, href }, i) => (
+        <Fragment>
+          {i > 0 && <span class="text-[var(--aw-color-border)] select-none px-0.5" aria-hidden="true">·</span>}
+          <a
+            href={href}
+            class="text-xs text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)] transition-colors duration-150"
+          >
+            <Fragment set:html={text} />
+          </a>
+        </Fragment>
+      ))}
+
+      <!-- Social icons -->
+      {socialLinks.length > 0 && (
+        <span class="mx-1 self-stretch w-px bg-[var(--aw-color-border)] hidden sm:block" aria-hidden="true" />
+      )}
       {socialLinks.map(({ ariaLabel, href, icon }) => (
         <a
           href={href}
           aria-label={ariaLabel}
-          class="text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)] transition-colors duration-150"
+          class="ml-0.5 text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)] transition-colors duration-150"
         >
           {icon && <Icon name={icon} class="w-3.5 h-3.5" />}
         </a>
       ))}
+
     </div>
   </div>
 </footer>
