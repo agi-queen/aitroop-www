@@ -20,16 +20,15 @@ const metadata = {
     <svg class="absolute inset-0 w-full h-full pointer-events-none -z-10" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
       <defs>
         <filter id="f-aurora" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="65" result="blur"/>
-          <feColorMatrix in="blur" type="saturate" values="1.8"/>
+          <feGaussianBlur in="SourceGraphic" stdDeviation="65"/>
         </filter>
         <filter id="f-aurora-sm" x="-60%" y="-60%" width="220%" height="220%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="40"/>
         </filter>
       </defs>
-      <ellipse class="aurora-a" cx="18%" cy="32%" rx="340" ry="270" fill="rgba(82,153,97,0.22)" filter="url(#f-aurora)"/>
-      <ellipse class="aurora-b" cx="83%" cy="68%" rx="300" ry="240" fill="rgba(55,115,72,0.18)" filter="url(#f-aurora)"/>
-      <ellipse class="aurora-c" cx="52%" cy="48%" rx="220" ry="170" fill="rgba(110,190,130,0.12)" filter="url(#f-aurora-sm)"/>
+      <ellipse class="aurora-a" cx="18%" cy="32%" rx="340" ry="270" fill="rgba(82,153,97,0.11)" filter="url(#f-aurora)"/>
+      <ellipse class="aurora-b" cx="83%" cy="68%" rx="300" ry="240" fill="rgba(55,115,72,0.08)" filter="url(#f-aurora)"/>
+      <ellipse class="aurora-c" cx="52%" cy="48%" rx="220" ry="170" fill="rgba(110,190,130,0.06)" filter="url(#f-aurora-sm)"/>
     </svg>
 
     <div class="pgrid-wrap absolute inset-x-[-20%] bottom-0 h-[58%] pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
@@ -197,7 +196,7 @@ const metadata = {
   @keyframes aurora-c { 0%,100%{transform:translate(0,0) scale(1);opacity:.8;} 50%{transform:translate(3%,4%) scale(1.25);opacity:1;} }
 
   .pgrid-wrap { mask-image:linear-gradient(to top,rgba(0,0,0,0.55) 0%,transparent 100%); -webkit-mask-image:linear-gradient(to top,rgba(0,0,0,0.55) 0%,transparent 100%); }
-  .pgrid-inner { background-image:linear-gradient(rgba(82,153,97,0.22) 1px,transparent 1px),linear-gradient(90deg,rgba(82,153,97,0.22) 1px,transparent 1px); background-size:64px 64px; transform:perspective(460px) rotateX(58deg); transform-origin:50% 0%; animation:grid-scroll 7s linear infinite; }
+  .pgrid-inner { background-image:linear-gradient(rgba(82,153,97,0.10) 1px,transparent 1px),linear-gradient(90deg,rgba(82,153,97,0.10) 1px,transparent 1px); background-size:64px 64px; transform:perspective(460px) rotateX(58deg); transform-origin:50% 0%; animation:grid-scroll 7s linear infinite; }
   @keyframes grid-scroll { from{background-position:0 0;} to{background-position:0 64px;} }
 
   @keyframes text-shimmer { 0%{background-position:-200% center;} 100%{background-position:200% center;} }

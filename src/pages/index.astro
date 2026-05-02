@@ -33,8 +33,7 @@ const metadata = {
     >
       <defs>
         <filter id="f-aurora" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="65" result="blur"/>
-          <feColorMatrix in="blur" type="saturate" values="1.8"/>
+          <feGaussianBlur in="SourceGraphic" stdDeviation="65"/>
         </filter>
         <filter id="f-aurora-sm" x="-60%" y="-60%" width="220%" height="220%">
           <feGaussianBlur in="SourceGraphic" stdDeviation="40"/>
@@ -42,13 +41,13 @@ const metadata = {
       </defs>
       <!-- blob A — top-left -->
       <ellipse class="aurora-a" cx="18%" cy="32%" rx="340" ry="270"
-        fill="rgba(82,153,97,0.22)" filter="url(#f-aurora)"/>
+        fill="rgba(82,153,97,0.11)" filter="url(#f-aurora)"/>
       <!-- blob B — bottom-right -->
       <ellipse class="aurora-b" cx="83%" cy="68%" rx="300" ry="240"
-        fill="rgba(55,115,72,0.18)" filter="url(#f-aurora)"/>
+        fill="rgba(55,115,72,0.08)" filter="url(#f-aurora)"/>
       <!-- blob C — center accent -->
       <ellipse class="aurora-c" cx="52%" cy="48%" rx="220" ry="170"
-        fill="rgba(110,190,130,0.12)" filter="url(#f-aurora-sm)"/>
+        fill="rgba(110,190,130,0.06)" filter="url(#f-aurora-sm)"/>
     </svg>
 
     <!-- Perspective grid floor — Vercel-style infinite approaching grid -->
@@ -329,8 +328,8 @@ const metadata = {
   }
   .pgrid-inner {
     background-image:
-      linear-gradient(rgba(82,153,97,0.22) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(82,153,97,0.22) 1px, transparent 1px);
+      linear-gradient(rgba(82,153,97,0.10) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(82,153,97,0.10) 1px, transparent 1px);
     background-size: 64px 64px;
     transform: perspective(460px) rotateX(58deg);
     transform-origin: 50% 0%;
