@@ -1,5 +1,11 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import Stats from '~/components/widgets/Stats.astro';
+import Testimonials from '~/components/widgets/Testimonials.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
 
 const metadata = {
   title: 'Aitroop — AI-Powered Growth Platform',
@@ -8,6 +14,10 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════════════ -->
   <main class="relative min-h-[calc(100vh-56px)] flex flex-col items-center justify-center px-4 overflow-hidden">
 
     <!-- Dot grid background -->
@@ -17,10 +27,24 @@ const metadata = {
       aria-hidden="true"
     ></div>
 
-    <!-- Soft green glow -->
+    <!-- Breathing green glow -->
     <div
-      class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full"
-      style="background: radial-gradient(ellipse at center, rgba(82,153,97,0.09) 0%, transparent 65%);"
+      class="absolute -z-10 hero-glow"
+      style="width:700px;height:500px;top:50%;left:50%;margin-left:-350px;margin-top:-250px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(82,153,97,0.11) 0%,transparent 65%);"
+      aria-hidden="true"
+    ></div>
+
+    <!-- Decorative ring — slow spin -->
+    <div
+      class="absolute -z-10 hero-ring"
+      style="width:460px;height:460px;top:50%;left:50%;margin-left:-230px;margin-top:-230px;border-radius:50%;border:1px solid rgba(82,153,97,0.08);"
+      aria-hidden="true"
+    ></div>
+
+    <!-- Decorative ring — counter spin -->
+    <div
+      class="absolute -z-10 hero-ring-rev"
+      style="width:640px;height:640px;top:50%;left:50%;margin-left:-320px;margin-top:-320px;border-radius:50%;border:1px solid rgba(82,153,97,0.05);"
       aria-hidden="true"
     ></div>
 
@@ -36,12 +60,12 @@ const metadata = {
       </div>
 
       <!-- Headline -->
-      <h1 class="text-[1.5rem] md:text-[1.875rem] font-bold tracking-[-0.02em] text-[var(--aw-color-text-heading)] leading-[1.2]">
+      <h1 class="text-[2rem] md:text-[2.625rem] font-bold tracking-[-0.02em] text-[var(--aw-color-text-heading)] leading-[1.2] -mt-1">
         Acquire smarter. Convert faster. <span class="text-primary">Retain longer.</span>
       </h1>
 
       <!-- Subtitle -->
-      <p class="text-[0.875rem] md:text-[0.9375rem] text-[var(--aw-color-text-muted)] max-w-[480px] leading-[1.7]">
+      <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] max-w-[480px] leading-[1.8] -mt-1">
         An army of AI agents — prospect, engage, convert, retain — each with a precise mission across your growth pipeline. One platform, one operator, an entire team's output.
       </p>
 
@@ -62,7 +86,7 @@ const metadata = {
         </a>
       </div>
 
-      <!-- Stats -->
+      <!-- Stats mini grid -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-px mt-3 w-full max-w-[440px] rounded-xl border border-[var(--aw-color-border)] overflow-hidden bg-[var(--aw-color-border)]">
         {[
           ['6×', 'Outreach Capacity'],
@@ -85,6 +109,215 @@ const metadata = {
       style="background: linear-gradient(to top, rgba(255,255,255,1) 0%, transparent 100%);"
       aria-hidden="true"
     ></div>
-
   </main>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SOCIAL PROOF TICKER
+  ═══════════════════════════════════════════════════════ -->
+  <div class="border-y border-[var(--aw-color-border)] py-5 overflow-hidden" style="background:rgba(82,153,97,0.02);">
+    <p class="text-center text-[0.65rem] uppercase tracking-[0.15em] text-[var(--aw-color-text-muted)] mb-4 font-medium">
+      Powering growth teams across industries
+    </p>
+    <div class="relative flex overflow-hidden">
+      <ul class="flex shrink-0 gap-14 pr-14 marquee-track list-none m-0 p-0">
+        {['B2B SaaS', 'E-commerce', 'Fintech', 'MarTech', 'Sales Teams', 'Growth Agencies', 'D2C Brands', 'Enterprise GTM', 'PLG Companies', 'Startups'].map(name => (
+          <li class="text-sm font-medium text-[var(--aw-color-text-muted)] opacity-50 hover:opacity-90 transition-opacity cursor-default select-none whitespace-nowrap">{name}</li>
+        ))}
+      </ul>
+      <ul class="flex shrink-0 gap-14 pr-14 marquee-track list-none m-0 p-0" aria-hidden="true">
+        {['B2B SaaS', 'E-commerce', 'Fintech', 'MarTech', 'Sales Teams', 'Growth Agencies', 'D2C Brands', 'Enterprise GTM', 'PLG Companies', 'Startups'].map(name => (
+          <li class="text-sm font-medium text-[var(--aw-color-text-muted)] opacity-50 whitespace-nowrap select-none">{name}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       AI AGENTS — FEATURE GRID
+  ═══════════════════════════════════════════════════════ -->
+  <Features2
+    id="agents"
+    tagline="The AI Growth Squad"
+    title="Six specialists. One unified platform."
+    subtitle="Each agent is purpose-built for a specific stage of your growth pipeline — working 24/7 so your team can focus on what only humans can do."
+    columns={3}
+    items={[
+      {
+        title: 'Prospect Agent',
+        description:
+          'Scans millions of signals to surface high-fit leads — company stage, hiring activity, tech stack, and intent data combined into a precision target list.',
+        icon: 'tabler:radar',
+      },
+      {
+        title: 'Outreach Agent',
+        description:
+          'Writes and sends hyper-personalized cold emails and LinkedIn messages. No templates — every message is contextually crafted for each recipient.',
+        icon: 'tabler:mail-forward',
+      },
+      {
+        title: 'Engage Agent',
+        description:
+          "Follows up intelligently across channels, adjusting tone and timing based on each prospect's engagement signals and conversation history.",
+        icon: 'tabler:messages',
+      },
+      {
+        title: 'Convert Agent',
+        description:
+          'Surfaces deal-winning insights for your reps at the right moment — objection handling, social proof, competitive intel, and next best actions.',
+        icon: 'tabler:target',
+      },
+      {
+        title: 'Retain Agent',
+        description:
+          "Monitors usage patterns and health scores continuously. Flags at-risk accounts 90 days before churn materializes so you can act while there's still time.",
+        icon: 'tabler:shield-check',
+      },
+      {
+        title: 'Insights Agent',
+        description:
+          'Synthesizes your entire pipeline into clear, actionable recommendations. Know exactly where to focus next — and why — without digging through dashboards.',
+        icon: 'tabler:chart-line',
+      },
+    ]}
+  />
+
+  <!-- ═══════════════════════════════════════════════════════
+       HOW IT WORKS
+  ═══════════════════════════════════════════════════════ -->
+  <Steps
+    id="how-it-works"
+    tagline="Simple by design"
+    title="Up and running in minutes."
+    subtitle="No six-month onboarding. No army of consultants. Aitroop is built to deploy fast and compound results over time."
+    items={[
+      {
+        title: 'Connect your stack',
+        description:
+          'Link your CRM, email provider, and LinkedIn in under 10 minutes. Native integrations with HubSpot, Salesforce, Apollo, Outreach, and more.',
+        icon: 'tabler:plug-connected',
+      },
+      {
+        title: 'Deploy your agents',
+        description:
+          'Select which agents match your growth priorities and configure their parameters. No code required — the setup wizard handles the rest.',
+        icon: 'tabler:robot',
+      },
+      {
+        title: 'Agents go to work',
+        description:
+          'Automated prospecting, personalized outreach, and intelligent follow-ups run continuously — nights, weekends, time zones, always on.',
+        icon: 'tabler:rocket',
+      },
+      {
+        title: 'Measure and scale',
+        description:
+          "The Insights Agent surfaces what's working and what's not. Amplify winning campaigns and cut what isn't — with a single click.",
+        icon: 'tabler:trending-up',
+      },
+    ]}
+  />
+
+  <!-- ═══════════════════════════════════════════════════════
+       STATS
+  ═══════════════════════════════════════════════════════ -->
+  <Stats
+    tagline="Real results"
+    title="Numbers that move the needle."
+    subtitle="Aggregated across growth teams running Aitroop agents in production."
+    stats={[
+      { amount: '6×', title: 'Outreach capacity increase' },
+      { amount: '90d', title: 'Average churn early warning' },
+      { amount: '80%+', title: 'Contact data coverage' },
+      { amount: '15%', title: 'Average reply rate' },
+    ]}
+  />
+
+  <!-- ═══════════════════════════════════════════════════════
+       TESTIMONIALS
+  ═══════════════════════════════════════════════════════ -->
+  <Testimonials
+    tagline="What teams are saying"
+    title="Growth teams love Aitroop."
+    subtitle="From SDR-heavy outbound to lean PLG motions — Aitroop adapts to how you grow."
+    testimonials={[
+      {
+        testimonial:
+          'We scaled from 200 to 1,400 outreach sequences per month without adding headcount. The Outreach Agent writes better cold emails than most SDRs, honestly.',
+        name: 'Lena Torres',
+        job: 'Head of Growth · Patrly',
+      },
+      {
+        testimonial:
+          'The 90-day churn alert is genuinely impressive. We saved three enterprise accounts last quarter because Aitroop flagged them first — before they reached out to cancel.',
+        name: 'David Kwan',
+        job: 'VP of Sales · Clearflo',
+      },
+      {
+        testimonial:
+          "We used to stitch together five different tools for this workflow. Now it's one platform. Our GTM velocity doubled in 60 days and our ops overhead actually went down.",
+        name: 'Priya Nair',
+        job: 'CMO · Storyvault',
+      },
+    ]}
+  />
+
+  <!-- ═══════════════════════════════════════════════════════
+       BLOG
+  ═══════════════════════════════════════════════════════ -->
+  <BlogLatestPosts
+    title="Latest from the blog"
+    information="Frameworks, tactics, and deep-dives for growth operators who want to stay ahead of the curve."
+    count={3}
+  />
+
+  <!-- ═══════════════════════════════════════════════════════
+       FINAL CTA
+  ═══════════════════════════════════════════════════════ -->
+  <CallToAction
+    title="Your growth team is ready."
+    subtitle="Deploy your first AI agent in minutes. See the pipeline move."
+    actions={[
+      { text: 'Get started', href: 'https://app.aitroop.net', variant: 'primary' },
+      { text: 'Talk to us', href: '/contact', variant: 'secondary' },
+    ]}
+  />
+
 </Layout>
+
+<style>
+  /* ── Marquee ───────────────────────────────────────────── */
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-100%); }
+  }
+  .marquee-track {
+    animation: marquee 32s linear infinite;
+  }
+
+  /* ── Hero glow breathe ─────────────────────────────────── */
+  @keyframes glow-breathe {
+    0%, 100% { opacity: 0.75; transform: scale(1); }
+    50%       { opacity: 1;   transform: scale(1.18); }
+  }
+  .hero-glow {
+    animation: glow-breathe 7s ease-in-out infinite;
+    transform-origin: center center;
+  }
+
+  /* ── Hero decorative rings ─────────────────────────────── */
+  @keyframes ring-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes ring-spin-rev {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(-360deg); }
+  }
+  .hero-ring     { animation: ring-spin     28s linear infinite; transform-origin: center center; }
+  .hero-ring-rev { animation: ring-spin-rev 40s linear infinite; transform-origin: center center; }
+
+  /* ── Respect reduced-motion preference ─────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track, .hero-glow, .hero-ring, .hero-ring-rev { animation: none; }
+  }
+</style>

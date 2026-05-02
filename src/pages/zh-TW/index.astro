@@ -1,5 +1,11 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import Features2 from '~/components/widgets/Features2.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import Stats from '~/components/widgets/Stats.astro';
+import Testimonials from '~/components/widgets/Testimonials.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
 
 const metadata = {
   title: 'Aitroop — AI 驅動的成長平台',
@@ -8,22 +14,43 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
+
+  <!-- ═══════════════════════════════════════════════════════
+       首屏 Hero
+  ═══════════════════════════════════════════════════════ -->
   <main class="relative min-h-[calc(100vh-56px)] flex flex-col items-center justify-center px-4 overflow-hidden">
 
+    <!-- 點陣背景 -->
     <div
       class="absolute inset-0 -z-10"
       style="background-image: radial-gradient(circle, rgba(0,0,0,0.05) 1px, transparent 1px); background-size: 24px 24px;"
       aria-hidden="true"
     ></div>
 
+    <!-- 呼吸綠光 -->
     <div
-      class="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full"
-      style="background: radial-gradient(ellipse at center, rgba(82,153,97,0.09) 0%, transparent 65%);"
+      class="absolute -z-10 hero-glow"
+      style="width:700px;height:500px;top:50%;left:50%;margin-left:-350px;margin-top:-250px;border-radius:50%;background:radial-gradient(ellipse at center,rgba(82,153,97,0.11) 0%,transparent 65%);"
+      aria-hidden="true"
+    ></div>
+
+    <!-- 裝飾環 — 順時針 -->
+    <div
+      class="absolute -z-10 hero-ring"
+      style="width:460px;height:460px;top:50%;left:50%;margin-left:-230px;margin-top:-230px;border-radius:50%;border:1px solid rgba(82,153,97,0.08);"
+      aria-hidden="true"
+    ></div>
+
+    <!-- 裝飾環 — 逆時針 -->
+    <div
+      class="absolute -z-10 hero-ring-rev"
+      style="width:640px;height:640px;top:50%;left:50%;margin-left:-320px;margin-top:-320px;border-radius:50%;border:1px solid rgba(82,153,97,0.05);"
       aria-hidden="true"
     ></div>
 
     <div class="max-w-[640px] mx-auto flex flex-col items-center gap-4 text-center">
 
+      <!-- 標籤 -->
       <div class="inline-flex items-center gap-1.5 text-xs font-medium text-primary bg-[rgba(82,153,97,0.08)] border border-[rgba(82,153,97,0.20)] px-3 py-1.5 rounded-full">
         <span class="relative flex h-1.5 w-1.5">
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60"></span>
@@ -32,14 +59,17 @@ const metadata = {
         AI 智能體成長平台
       </div>
 
+      <!-- 主標題 -->
       <h1 class="text-[2rem] md:text-[2.625rem] font-bold tracking-[-0.02em] text-[var(--aw-color-text-heading)] leading-[1.2] -mt-1">
         精準獲客。快速轉化。<span class="text-primary">持續留存。</span>
       </h1>
 
+      <!-- 副標題 -->
       <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] max-w-[420px] leading-[1.8] -mt-1">
         一支 AI 智能體軍團，各司其職，覆蓋完整成長鏈路。情報、觸達、轉化、留存，一個平台全搞定。一個操盤手，整支團隊的戰鬥力。
       </p>
 
+      <!-- 操作按鈕 -->
       <div class="flex flex-wrap items-center justify-center gap-3 mt-1">
         <a
           href="https://app.aitroop.net"
@@ -73,11 +103,221 @@ const metadata = {
 
     </div>
 
+    <!-- 底部漸隱 -->
     <div
       class="absolute bottom-0 left-0 right-0 h-24 -z-10"
       style="background: linear-gradient(to top, rgba(255,255,255,1) 0%, transparent 100%);"
       aria-hidden="true"
     ></div>
-
   </main>
+
+  <!-- ═══════════════════════════════════════════════════════
+       產業滾動標籤
+  ═══════════════════════════════════════════════════════ -->
+  <div class="border-y border-[var(--aw-color-border)] py-5 overflow-hidden" style="background:rgba(82,153,97,0.02);">
+    <p class="text-center text-[0.65rem] uppercase tracking-[0.15em] text-[var(--aw-color-text-muted)] mb-4 font-medium">
+      服務各產業成長團隊
+    </p>
+    <div class="relative flex overflow-hidden">
+      <ul class="flex shrink-0 gap-14 pr-14 marquee-track list-none m-0 p-0">
+        {['B2B SaaS', '電商', '金融科技', '行銷技術', '業務團隊', '成長代理商', 'D2C 品牌', '企業 GTM', 'PLG 產品', '新創公司'].map(name => (
+          <li class="text-sm font-medium text-[var(--aw-color-text-muted)] opacity-50 hover:opacity-90 transition-opacity cursor-default select-none whitespace-nowrap">{name}</li>
+        ))}
+      </ul>
+      <ul class="flex shrink-0 gap-14 pr-14 marquee-track list-none m-0 p-0" aria-hidden="true">
+        {['B2B SaaS', '電商', '金融科技', '行銷技術', '業務團隊', '成長代理商', 'D2C 品牌', '企業 GTM', 'PLG 產品', '新創公司'].map(name => (
+          <li class="text-sm font-medium text-[var(--aw-color-text-muted)] opacity-50 whitespace-nowrap select-none">{name}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       六大智能體
+  ═══════════════════════════════════════════════════════ -->
+  <Features2
+    id="agents"
+    tagline="AI 成長軍團"
+    title="六位專家，一個統一平台。"
+    subtitle="每個智能體專為成長鏈路中的特定階段打造，全天候運轉，讓你的團隊專注於只有人類才能做的事。"
+    columns={3}
+    items={[
+      {
+        title: '探查智能體',
+        description:
+          '掃描海量訊號，精準浮現高匹配度線索——融合公司階段、招募動態、技術棧與意圖數據，構建精準目標名單。',
+        icon: 'tabler:radar',
+      },
+      {
+        title: '觸達智能體',
+        description:
+          '撰寫並發送高度個性化的冷郵件和 LinkedIn 訊息。無模板——每條訊息都針對每位收件人量身定制。',
+        icon: 'tabler:mail-forward',
+      },
+      {
+        title: '跟進智能體',
+        description:
+          '跨渠道智能跟進，根據每位潛客的互動訊號和對話歷史動態調整語氣與時機。',
+        icon: 'tabler:messages',
+      },
+      {
+        title: '轉化智能體',
+        description:
+          '在最關鍵的時刻為業務代表提供成交洞察——異議處理、社群證明、競品情報和下一步行動建議。',
+        icon: 'tabler:target',
+      },
+      {
+        title: '留存智能體',
+        description:
+          '持續監控使用模式和健康分，提前 90 天預警流失風險帳戶，讓你在還來得及時採取行動。',
+        icon: 'tabler:shield-check',
+      },
+      {
+        title: '洞察智能體',
+        description:
+          '將整條銷售管道提煉為清晰可執行的建議。明確告訴你下一步應聚焦在哪裡，以及為什麼——無需翻遍儀表板。',
+        icon: 'tabler:chart-line',
+      },
+    ]}
+  />
+
+  <!-- ═══════════════════════════════════════════════════════
+       使用流程
+  ═══════════════════════════════════════════════════════ -->
+  <Steps
+    id="how-it-works"
+    tagline="極簡設計"
+    title="幾分鐘內啟動運轉。"
+    subtitle="無需半年漫長部署，無需外部顧問團隊。Aitroop 追求快速落地，隨時間持續複利成長。"
+    items={[
+      {
+        title: '接入你的工具棧',
+        description:
+          '10 分鐘內完成 CRM、郵件服務和 LinkedIn 的連接。原生支援 HubSpot、Salesforce、Apollo、Outreach 等主流工具。',
+        icon: 'tabler:plug-connected',
+      },
+      {
+        title: '部署你的智能體',
+        description:
+          '根據成長優先級選擇對應的智能體，配置好參數即可。無需撰寫任何程式碼，安裝精靈自動完成剩餘操作。',
+        icon: 'tabler:robot',
+      },
+      {
+        title: '智能體開始工作',
+        description:
+          '自動化的線索挖掘、個性化觸達和智能跟進持續運轉——夜間、週末、跨時區，永不停歇。',
+        icon: 'tabler:rocket',
+      },
+      {
+        title: '衡量與規模化',
+        description:
+          '洞察智能體呈現哪些在奏效、哪些不行。一鍵放大效果好的行銷活動，砍掉無效投入。',
+        icon: 'tabler:trending-up',
+      },
+    ]}
+  />
+
+  <!-- ═══════════════════════════════════════════════════════
+       核心數據
+  ═══════════════════════════════════════════════════════ -->
+  <Stats
+    tagline="真實成果"
+    title="驅動成長的數字。"
+    subtitle="來自在生產環境中運行 Aitroop 智能體的成長團隊的匯總數據。"
+    stats={[
+      { amount: '6×', title: '外發容量提升' },
+      { amount: '90天', title: '平均流失預警週期' },
+      { amount: '80%+', title: '聯絡人數據覆蓋率' },
+      { amount: '15%', title: '平均回覆率' },
+    ]}
+  />
+
+  <!-- ═══════════════════════════════════════════════════════
+       用戶評價
+  ═══════════════════════════════════════════════════════ -->
+  <Testimonials
+    tagline="團隊的聲音"
+    title="成長團隊都愛用 Aitroop。"
+    subtitle="無論是重度 SDR 外呼團隊，還是精簡 PLG 模型——Aitroop 適配你的成長方式。"
+    testimonials={[
+      {
+        testimonial:
+          '我們的外發序列從每月 200 條擴展到 1400 條，人員沒有增加。觸達智能體寫的冷郵件，說實話，比我們大多數 SDR 寫得還好。',
+        name: '林曉晴',
+        job: '成長負責人 · Patrly',
+      },
+      {
+        testimonial:
+          '90 天流失預警真的很厲害。上個季度我們靠 Aitroop 的預警保住了三個企業大客戶——比他們主動提出取消還早。',
+        name: '陳志遠',
+        job: '業務副總裁 · Clearflo',
+      },
+      {
+        testimonial:
+          '以前我們要把五個工具拼在一起完成這個流程。現在一個平台搞定。60 天內 GTM 速度翻倍，營運開銷反而下降了。',
+        name: '王嘉怡',
+        job: '行銷長 · Storyvault',
+      },
+    ]}
+  />
+
+  <!-- ═══════════════════════════════════════════════════════
+       最新部落格
+  ═══════════════════════════════════════════════════════ -->
+  <BlogLatestPosts
+    title="最新部落格文章"
+    information="為想要保持領先優勢的成長運營者提供的框架、戰術與深度解析。"
+    count={3}
+  />
+
+  <!-- ═══════════════════════════════════════════════════════
+       行動召喚
+  ═══════════════════════════════════════════════════════ -->
+  <CallToAction
+    title="你的成長團隊，已準備就緒。"
+    subtitle="幾分鐘內部署你的第一個 AI 智能體，看著銷售管道動起來。"
+    actions={[
+      { text: '立即開始', href: 'https://app.aitroop.net', variant: 'primary' },
+      { text: '聯絡我們', href: '/zh-TW/contact', variant: 'secondary' },
+    ]}
+  />
+
 </Layout>
+
+<style>
+  /* ── 橫向滾動 ─────────────────────────────────────────── */
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-100%); }
+  }
+  .marquee-track {
+    animation: marquee 32s linear infinite;
+  }
+
+  /* ── 呼吸綠光 ─────────────────────────────────────────── */
+  @keyframes glow-breathe {
+    0%, 100% { opacity: 0.75; transform: scale(1); }
+    50%       { opacity: 1;   transform: scale(1.18); }
+  }
+  .hero-glow {
+    animation: glow-breathe 7s ease-in-out infinite;
+    transform-origin: center center;
+  }
+
+  /* ── 裝飾環旋轉 ───────────────────────────────────────── */
+  @keyframes ring-spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+  @keyframes ring-spin-rev {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(-360deg); }
+  }
+  .hero-ring     { animation: ring-spin     28s linear infinite; transform-origin: center center; }
+  .hero-ring-rev { animation: ring-spin-rev 40s linear infinite; transform-origin: center center; }
+
+  /* ── 尊重減弱動效偏好 ─────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track, .hero-glow, .hero-ring, .hero-ring-rev { animation: none; }
+  }
+</style>
