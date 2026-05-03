@@ -44,58 +44,65 @@ const faqs = [
   <!-- ═══════════════════════════════════════════════════════
        HERO
   ═══════════════════════════════════════════════════════ -->
-  <section id="hero" class="relative overflow-hidden text-center px-4 pt-20 pb-16 md:pt-28 md:pb-24">
-    <div class="absolute inset-0 -z-10 pointer-events-none"
-      style="background:radial-gradient(ellipse 75% 50% at 50% -5%,rgba(82,153,97,0.09) 0%,transparent 65%);"
-      aria-hidden="true"></div>
-    <div class="absolute inset-0 -z-10 pointer-events-none"
-      style="background-image:radial-gradient(circle,rgba(0,0,0,0.032) 1px,transparent 1px);background-size:32px 32px;mask-image:radial-gradient(ellipse 80% 55% at 50% 0%,black 25%,transparent 80%);"
-      aria-hidden="true"></div>
+  <section id="hero" class="px-6 md:px-10 lg:px-16 pt-14 pb-16 md:pt-20 md:pb-20">
+    <div class="mx-auto max-w-6xl">
+      <div class="max-w-[660px]">
 
-    <div class="mx-auto max-w-4xl">
-      <div class="inline-flex items-center gap-1.5 text-[0.75rem] font-semibold text-primary bg-primary/[0.07] border border-primary/20 px-3.5 py-1.5 rounded-full mb-7">
-        <span class="relative flex h-1.5 w-1.5">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60"></span>
-          <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
-        </span>
-        AI 智能體成長平台
-      </div>
+        <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] mb-4 font-normal">AI 成長平台：</p>
 
-      <h1 class="text-[2.75rem] sm:text-5xl md:text-[3.75rem] lg:text-[4.25rem] font-bold tracking-[-0.03em] leading-[1.1] text-[var(--aw-color-text-heading)]">
-        精準獲客。快速轉化。<br>
-        <span class="text-primary">持續留存。</span>
-      </h1>
+        <h1 class="text-[2.625rem] sm:text-[3.25rem] md:text-[3.75rem] lg:text-[4rem] font-black tracking-[-0.03em] leading-[1.05] text-[var(--aw-color-text-heading)] mb-5">
+          更多客戶。<br>更少成本。
+        </h1>
 
-      <p class="mt-6 text-[1.0625rem] md:text-xl text-[var(--aw-color-text-muted)] max-w-2xl mx-auto leading-relaxed">
-        一支 AI 智能體軍團，各司其職，覆蓋完整成長鏈路。情報、觸達、轉化、留存，一個平台全搞定。<br class="hidden md:block">一個操盤手，整支團隊的戰鬥力。
-      </p>
+        <p class="text-[1.1rem] md:text-[1.1875rem] leading-[1.75] text-[var(--aw-color-text-default)] mb-7">
+          想像一下你最強的成長團隊，無限複製。<br>
+          更<span class="kw-purple">智能</span>、更<span class="kw-orange">高效</span>、更<span class="kw-green">持久</span>地運轉。<br>
+          把繁瑣的事情交給 AI——<br>
+          你只需專注於成交。
+        </p>
 
-      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <a href="https://app.aitroop.net"
-          class="inline-flex items-center gap-2 h-11 px-6 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
-          免費開始使用
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-        <a href="#how-it-works"
-          class="inline-flex items-center gap-2 h-11 px-6 rounded-lg text-sm font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.022)] transition-all duration-150">
-          了解運作方式
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
-        </a>
-      </div>
+        <ul class="space-y-2.5 mb-9 text-[0.9375rem] text-[var(--aw-color-text-default)]">
+          <li class="flex items-start gap-2.5">
+            <svg class="mt-[3px] shrink-0 text-[var(--aw-color-text-muted)]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            部署 AI 智能體，接管真實的線索挖掘與外發觸達
+          </li>
+          <li class="flex items-start gap-2.5">
+            <svg class="mt-[3px] shrink-0 text-[var(--aw-color-text-muted)]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            自動化跟進與互動——無需培訓 SDR
+          </li>
+          <li class="flex items-start gap-2.5">
+            <svg class="mt-[3px] shrink-0 text-[var(--aw-color-text-muted)]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            <span>無縫接入你已有的工具 —
+              <span class="inline-flex flex-wrap gap-1 ml-0.5">
+                {['HubSpot','Salesforce','LinkedIn','Apollo','Outreach'].map(t => (
+                  <span class="tool-badge">{t}</span>
+                ))}
+              </span>
+            </span>
+          </li>
+          <li class="flex items-start gap-2.5">
+            <svg class="mt-[3px] shrink-0 text-[var(--aw-color-text-muted)]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            提前 90 天預測客戶流失風險
+          </li>
+        </ul>
 
-      <div class="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[0.8125rem] text-[var(--aw-color-text-muted)]">
-        <div class="flex items-center gap-1.5">
-          <div class="flex gap-0.5">
-            {Array(5).fill(0).map(() => (
-              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="#529961" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            ))}
+        <div class="flex flex-wrap items-center gap-4">
+          <a href="https://app.aitroop.net"
+            class="inline-flex items-center h-12 px-7 rounded-full bg-[#111] text-white text-[0.9375rem] font-semibold hover:bg-[#222] transition-colors duration-150">
+            啟動你的 AI 成長團隊
+          </a>
+          <div class="flex items-center gap-2.5">
+            <div class="flex -space-x-2">
+              {[['#7c3aed','L'],['#f97316','D'],['#529961','P'],['#0ea5e9','A'],['#e11d48','M']].map(([bg, letter]) => (
+                <span class="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-white text-[0.625rem] font-bold" style={`background:${bg};`}>{letter}</span>
+              ))}
+            </div>
+            <div class="text-[0.8125rem] text-[var(--aw-color-text-muted)] leading-snug">
+              已有<br><strong class="text-[var(--aw-color-text-heading)] font-semibold">200+</strong> 團隊在用
+            </div>
           </div>
-          <span><strong class="text-[var(--aw-color-text-heading)] font-semibold">200+</strong> 個成長團隊正在使用</span>
         </div>
-        <span class="h-3.5 w-px bg-[var(--aw-color-border)] hidden sm:block" aria-hidden="true"></span>
-        <span>無需信用卡</span>
-        <span class="h-3.5 w-px bg-[var(--aw-color-border)] hidden sm:block" aria-hidden="true"></span>
-        <span><strong class="text-[var(--aw-color-text-heading)] font-semibold">10 分鐘</strong>內上線運行</span>
+
       </div>
     </div>
   </section>
@@ -249,6 +256,11 @@ const faqs = [
   .section-label { font-size:.65rem; text-transform:uppercase; letter-spacing:.18em; font-weight:700; color:var(--aw-color-primary,#529961); margin-bottom:.5rem; opacity:.85; }
   .section-title { font-size:clamp(1.625rem,4vw,2.25rem); font-weight:700; letter-spacing:-.025em; line-height:1.2; color:var(--aw-color-text-heading); margin-bottom:.75rem; }
   .section-sub { font-size:.9375rem; color:var(--aw-color-text-muted); max-width:520px; margin:0 auto; line-height:1.75; }
+
+  .kw-purple { color:#7c3aed; text-decoration:underline; text-decoration-color:#7c3aed; text-underline-offset:3px; font-style:italic; }
+  .kw-orange  { color:#ea6c00; text-decoration:underline; text-decoration-color:#ea6c00; text-underline-offset:3px; font-style:italic; }
+  .kw-green   { color:#529961; text-decoration:underline; text-decoration-color:#529961; text-underline-offset:3px; font-style:italic; }
+  .tool-badge { display:inline-block; font-size:.6875rem; font-weight:500; color:var(--aw-color-text-muted); border:1px solid var(--aw-color-border); border-radius:4px; padding:1px 5px; line-height:1.5; }
 
   @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-100%);} }
   .marquee-track { animation:marquee 34s linear infinite; }
