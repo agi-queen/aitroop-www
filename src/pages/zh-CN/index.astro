@@ -44,63 +44,63 @@ const faqs = [
   <!-- ═══════════════════════════════════════════════════════
        HERO
   ═══════════════════════════════════════════════════════ -->
-  <section id="hero" class="px-6 md:px-10 lg:px-16 pt-14 pb-16 md:pt-20 md:pb-20">
+  <section id="hero" class="relative px-6 md:px-10 lg:px-16 pt-14 pb-16 md:pt-20 md:pb-24 overflow-hidden">
+    <div class="absolute top-0 left-0 w-[520px] h-[420px] pointer-events-none -z-10"
+      style="background:radial-gradient(ellipse at 20% 30%,rgba(82,153,97,0.10) 0%,transparent 65%);"
+      aria-hidden="true"></div>
+
     <div class="mx-auto max-w-6xl">
-      <div class="max-w-[660px]">
+      <div class="max-w-[680px]">
 
-        <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] mb-4 font-normal">AI 增长平台：</p>
+        <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] mb-5 font-normal tracking-wide">AI 增长平台：</p>
 
-        <h1 class="text-[2.625rem] sm:text-[3.25rem] md:text-[3.75rem] lg:text-[4rem] font-black tracking-[-0.03em] leading-[1.05] text-[var(--aw-color-text-heading)] mb-5">
+        <h1 class="text-[2.625rem] sm:text-[3.25rem] md:text-[3.75rem] lg:text-[4rem] font-black tracking-[-0.03em] leading-[1.06] text-[var(--aw-color-text-heading)] mb-5">
           更多客户。<br>更少成本。
         </h1>
 
-        <p class="text-[1.1rem] md:text-[1.1875rem] leading-[1.75] text-[var(--aw-color-text-default)] mb-7">
-          想象一下你最强的增长团队，无限复制。<br>
-          更<span class="kw-purple">智能</span>、更<span class="kw-orange">高效</span>、更<span class="kw-green">持久</span>地运转。<br>
-          把繁琐的事情交给 AI——<br>
-          你只需专注于成交。
+        <p class="text-[1.075rem] md:text-[1.15rem] leading-[1.8] text-[var(--aw-color-text-muted)] mb-7 max-w-[560px]">
+          一支 AI 智能体军团覆盖完整增长链路——从第一封外发邮件到长期留存。
+          一个平台。一个操盘手。<span class="text-primary font-medium">整支团队的战斗力。</span>
         </p>
 
-        <ul class="space-y-2.5 mb-9 text-[0.9375rem] text-[var(--aw-color-text-default)]">
+        <ul class="space-y-3 mb-9 text-[0.9375rem] text-[var(--aw-color-text-default)]">
           <li class="flex items-start gap-2.5">
-            <svg class="mt-[3px] shrink-0 text-[var(--aw-color-text-muted)]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-            部署 AI 智能体，接管真实的线索挖掘与外发触达
+            <svg class="mt-[4px] shrink-0 text-primary" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            <span>部署 AI 智能体，接管真实的线索挖掘与外发触达</span>
           </li>
           <li class="flex items-start gap-2.5">
-            <svg class="mt-[3px] shrink-0 text-[var(--aw-color-text-muted)]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-            自动化跟进与互动——无需培训 SDR
+            <svg class="mt-[4px] shrink-0 text-primary" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            <span>自动化跟进与互动——无需培训 SDR</span>
           </li>
           <li class="flex items-start gap-2.5">
-            <svg class="mt-[3px] shrink-0 text-[var(--aw-color-text-muted)]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-            <span>无缝接入你已有的工具 —
-              <span class="inline-flex flex-wrap gap-1 ml-0.5">
-                {['HubSpot','Salesforce','LinkedIn','Apollo','Outreach'].map(t => (
-                  <span class="tool-badge">{t}</span>
-                ))}
-              </span>
-            </span>
+            <svg class="mt-[4px] shrink-0 text-primary" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            <span>无缝接入你已有的工具 — <span class="inline-flex flex-wrap gap-1 ml-0.5">{['HubSpot','Salesforce','LinkedIn','Apollo','Outreach'].map(t => <span class="tool-badge">{t}</span>)}</span></span>
           </li>
           <li class="flex items-start gap-2.5">
-            <svg class="mt-[3px] shrink-0 text-[var(--aw-color-text-muted)]" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-            提前 90 天预测客户流失风险
+            <svg class="mt-[4px] shrink-0 text-primary" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+            <span>提前 90 天预测客户流失风险</span>
           </li>
         </ul>
 
-        <div class="flex flex-wrap items-center gap-4">
+        <div class="flex flex-wrap items-center gap-3">
           <a href="https://app.aitroop.net"
-            class="inline-flex items-center h-12 px-7 rounded-full bg-[#111] text-white text-[0.9375rem] font-semibold hover:bg-[#222] transition-colors duration-150">
+            class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
             启动你的 AI 增长团队
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
-          <div class="flex items-center gap-2.5">
-            <div class="flex -space-x-2">
-              {[['#7c3aed','L'],['#f97316','D'],['#529961','P'],['#0ea5e9','A'],['#e11d48','M']].map(([bg, letter]) => (
-                <span class="w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-white text-[0.625rem] font-bold" style={`background:${bg};`}>{letter}</span>
-              ))}
-            </div>
-            <div class="text-[0.8125rem] text-[var(--aw-color-text-muted)] leading-snug">
-              已有<br><strong class="text-[var(--aw-color-text-heading)] font-semibold">200+</strong> 团队在用
-            </div>
+          <a href="#how-it-works"
+            class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.025)] transition-all duration-150">
+            了解运作方式
+          </a>
+        </div>
+
+        <div class="mt-7 flex items-center gap-3 text-[0.8125rem] text-[var(--aw-color-text-muted)]">
+          <div class="flex -space-x-2">
+            {[['#529961','L'],['#3b82f6','D'],['#8b5cf6','P'],['#f59e0b','A'],['#ec4899','M']].map(([bg, letter]) => (
+              <span class="w-7 h-7 rounded-full border-2 border-white flex items-center justify-center text-white text-[0.5625rem] font-bold" style={`background:${bg};`}>{letter}</span>
+            ))}
           </div>
+          <span>已有 <strong class="text-[var(--aw-color-text-heading)]">200+</strong> 增长团队在使用 · 无需信用卡</span>
         </div>
 
       </div>
@@ -257,9 +257,6 @@ const faqs = [
   .section-title { font-size:clamp(1.625rem,4vw,2.25rem); font-weight:700; letter-spacing:-.025em; line-height:1.2; color:var(--aw-color-text-heading); margin-bottom:.75rem; }
   .section-sub { font-size:.9375rem; color:var(--aw-color-text-muted); max-width:520px; margin:0 auto; line-height:1.75; }
 
-  .kw-purple { color:#7c3aed; text-decoration:underline; text-decoration-color:#7c3aed; text-underline-offset:3px; font-style:italic; }
-  .kw-orange  { color:#ea6c00; text-decoration:underline; text-decoration-color:#ea6c00; text-underline-offset:3px; font-style:italic; }
-  .kw-green   { color:#529961; text-decoration:underline; text-decoration-color:#529961; text-underline-offset:3px; font-style:italic; }
   .tool-badge { display:inline-block; font-size:.6875rem; font-weight:500; color:var(--aw-color-text-muted); border:1px solid var(--aw-color-border); border-radius:4px; padding:1px 5px; line-height:1.5; }
 
   @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-100%);} }
