@@ -1,7 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import Features2 from '~/components/widgets/Features2.astro';
-import Steps from '~/components/widgets/Steps.astro';
+import { Icon } from 'astro-icon/components';
 import Testimonials from '~/components/widgets/Testimonials.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
@@ -9,37 +8,52 @@ const metadata = {
   title: 'Aitroop — AI 驅動的成長平台',
   ignoreTitleTemplate: true,
 };
+
+const agents = [
+  { icon: 'tabler:radar-2',       title: '探查智能體',  desc: '掃描海量訊號，精準浮現高匹配度線索——融合公司階段、招募動態、技術棧與意圖數據，構建精準目標名單。' },
+  { icon: 'tabler:mail-forward',  title: '觸達智能體',  desc: '撰寫並發送高度個性化的冷郵件和 LinkedIn 訊息。無模板——每條訊息都針對每位收件人量身定制。' },
+  { icon: 'tabler:messages',      title: '跟進智能體',  desc: '跨渠道智能跟進，根據每位潛客的互動訊號和對話歷史動態調整語氣與時機。' },
+  { icon: 'tabler:target',        title: '轉化智能體',  desc: '在最關鍵的時刻為業務代表提供成交洞察——異議處理、社群證明、競品情報和下一步行動建議。' },
+  { icon: 'tabler:shield-check',  title: '留存智能體',  desc: '持續監控使用模式和健康分，提前 90 天預警流失風險帳戶，讓你在還來得及時採取行動。' },
+  { icon: 'tabler:chart-line',    title: '洞察智能體',  desc: '將整條銷售管道提煉為清晰可執行的建議。明確告訴你下一步應聚焦在哪裡，以及為什麼——無需翻遍儀表板。' },
+];
+
+const steps = [
+  { n: '01', title: '接入你的工具棧',   desc: '10 分鐘內完成 CRM、郵件服務和 LinkedIn 的連接。原生支援 HubSpot、Salesforce、Apollo、Outreach 等主流工具。' },
+  { n: '02', title: '部署你的智能體',   desc: '根據成長優先級選擇對應的智能體，配置好參數即可。無需撰寫任何程式碼，安裝精靈自動完成剩餘操作。' },
+  { n: '03', title: '智能體開始工作',   desc: '自動化的線索挖掘、個性化觸達和智能跟進持續運轉——夜間、週末、跨時區，永不停歇。' },
+  { n: '04', title: '衡量與規模化',     desc: '洞察智能體呈現哪些在奏效、哪些不行。一鍵放大效果好的行銷活動，砍掉無效投入。' },
+];
+
+const faqs = [
+  { q: 'Aitroop 與其他銷售自動化工具有什麼不同？',
+    a: '大多數工具只自動化漏斗的某一個環節。Aitroop 覆蓋完整的成長鏈路——從線索挖掘和觸達，到轉化和流失預防——透過專為各階段打造的 AI 智能體協同作戰。' },
+  { q: '我需要技術背景才能使用 Aitroop 嗎？',
+    a: '不需要。Aitroop 專為成長和銷售營運人員設計，而非工程師。安裝精靈會引導你完成工具連接和智能體配置，全程只需幾分鐘。' },
+  { q: '智能體如何大規模實現個性化觸達？',
+    a: '每個潛客都會被單獨研究，使用即時訊號——公司動態、招募資訊、技術棧、LinkedIn 動態。觸達智能體整合這些資訊，撰寫出像認真做過功課的人寫的訊息。' },
+  { q: 'Aitroop 支援哪些 CRM 和工具整合？',
+    a: 'Aitroop 原生整合 HubSpot、Salesforce、Apollo、Outreach、LinkedIn Sales Navigator 和主流郵件服務商。企業版支援定製整合方案。' },
+  { q: '流失預測是如何運作的？',
+    a: '留存智能體即時監控產品使用模式、互動訊號和帳戶健康度。它會標記出現早期流失跡象的帳戶——通常比實際流失早 90 天以上——讓你的團隊能夠主動介入。' },
+];
 ---
 
 <Layout metadata={metadata}>
 
-  <main id="hero-section" class="relative min-h-[calc(100vh-56px)] flex flex-col items-center justify-center px-4 overflow-hidden">
+  <!-- ═══════════════════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════════════════ -->
+  <section id="hero" class="relative overflow-hidden text-center px-4 pt-20 pb-16 md:pt-28 md:pb-24">
+    <div class="absolute inset-0 -z-10 pointer-events-none"
+      style="background:radial-gradient(ellipse 75% 50% at 50% -5%,rgba(82,153,97,0.09) 0%,transparent 65%);"
+      aria-hidden="true"></div>
+    <div class="absolute inset-0 -z-10 pointer-events-none"
+      style="background-image:radial-gradient(circle,rgba(0,0,0,0.032) 1px,transparent 1px);background-size:32px 32px;mask-image:radial-gradient(ellipse 80% 55% at 50% 0%,black 25%,transparent 80%);"
+      aria-hidden="true"></div>
 
-    <div class="absolute inset-0 -z-20" style="background-image:radial-gradient(circle,rgba(0,0,0,0.045) 1px,transparent 1px);background-size:28px 28px;" aria-hidden="true"></div>
-
-    <svg class="absolute inset-0 w-full h-full pointer-events-none -z-10" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <filter id="f-aurora" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="65"/>
-        </filter>
-        <filter id="f-aurora-sm" x="-60%" y="-60%" width="220%" height="220%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="40"/>
-        </filter>
-      </defs>
-      <ellipse class="aurora-a" cx="18%" cy="32%" rx="340" ry="270" fill="rgba(82,153,97,0.11)" filter="url(#f-aurora)"/>
-      <ellipse class="aurora-b" cx="83%" cy="68%" rx="300" ry="240" fill="rgba(55,115,72,0.08)" filter="url(#f-aurora)"/>
-      <ellipse class="aurora-c" cx="52%" cy="48%" rx="220" ry="170" fill="rgba(110,190,130,0.06)" filter="url(#f-aurora-sm)"/>
-    </svg>
-
-    <div class="pgrid-wrap absolute inset-x-[-20%] bottom-0 h-[58%] pointer-events-none -z-10 overflow-hidden" aria-hidden="true">
-      <div class="pgrid-inner w-full h-full"></div>
-    </div>
-
-    <div id="hero-spot" class="absolute inset-0 pointer-events-none" style="z-index:1;" aria-hidden="true"></div>
-
-    <div class="relative z-10 max-w-[640px] mx-auto flex flex-col items-center gap-4 text-center">
-
-      <div class="inline-flex items-center gap-1.5 text-xs font-medium text-primary bg-[rgba(82,153,97,0.08)] border border-[rgba(82,153,97,0.22)] px-3 py-1.5 rounded-full">
+    <div class="mx-auto max-w-4xl">
+      <div class="inline-flex items-center gap-1.5 text-[0.75rem] font-semibold text-primary bg-primary/[0.07] border border-primary/20 px-3.5 py-1.5 rounded-full mb-7">
         <span class="relative flex h-1.5 w-1.5">
           <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60"></span>
           <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
@@ -47,111 +61,132 @@ const metadata = {
         AI 智能體成長平台
       </div>
 
-      <h1 class="text-[2rem] md:text-[2.75rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] leading-[1.15] -mt-1">
-        精準獲客。快速轉化。<span class="hero-shimmer">持續留存。</span>
+      <h1 class="text-[2.75rem] sm:text-5xl md:text-[3.75rem] lg:text-[4.25rem] font-bold tracking-[-0.03em] leading-[1.1] text-[var(--aw-color-text-heading)]">
+        精準獲客。快速轉化。<br>
+        <span class="text-primary">持續留存。</span>
       </h1>
 
-      <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] max-w-[420px] leading-[1.8] -mt-1">
-        一支 AI 智能體軍團，各司其職，覆蓋完整成長鏈路。情報、觸達、轉化、留存，一個平台全搞定。一個操盤手，整支團隊的戰鬥力。
+      <p class="mt-6 text-[1.0625rem] md:text-xl text-[var(--aw-color-text-muted)] max-w-2xl mx-auto leading-relaxed">
+        一支 AI 智能體軍團，各司其職，覆蓋完整成長鏈路。情報、觸達、轉化、留存，一個平台全搞定。<br class="hidden md:block">一個操盤手，整支團隊的戰鬥力。
       </p>
 
-      <div class="flex flex-wrap items-center justify-center gap-3 mt-1">
-        <a href="https://app.aitroop.net" class="inline-flex items-center gap-2 h-10 px-5 rounded-[7px] bg-primary text-white text-sm font-semibold shadow-[0_1px_3px_rgba(82,153,97,0.45),0_0_0_1px_rgba(82,153,97,0.22)] hover:bg-[rgb(61,133,79)] hover:shadow-[0_2px_8px_rgba(82,153,97,0.5)] transition-all duration-150">
-          登入 Aitroop
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <a href="https://app.aitroop.net"
+          class="inline-flex items-center gap-2 h-11 px-6 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
+          免費開始使用
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
-        <a href="/zh-TW/blog" class="inline-flex items-center h-10 px-5 rounded-[7px] text-sm font-medium text-[var(--aw-color-text-muted)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.2)] hover:text-[var(--aw-color-text-default)] hover:bg-[rgba(0,0,0,0.025)] transition-all duration-150">
-          閱讀部落格
+        <a href="#how-it-works"
+          class="inline-flex items-center gap-2 h-11 px-6 rounded-lg text-sm font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.022)] transition-all duration-150">
+          了解運作方式
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
         </a>
       </div>
 
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-px mt-3 w-full max-w-[440px] rounded-xl border border-[var(--aw-color-border)] overflow-hidden bg-[var(--aw-color-border)]">
-        {[
-          ['6×', '外發量提升'],
-          ['90天', '流失預警'],
-          ['80%+', '數據覆蓋'],
-          ['15%', '回覆率'],
-        ].map(([metric, label]) => (
-          <div class="flex flex-col items-center gap-0.5 py-3 bg-[var(--aw-color-bg-page)]">
-            <span class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] tabular-nums">{metric}</span>
-            <span class="text-[0.65rem] text-[var(--aw-color-text-muted)] leading-tight px-1">{label}</span>
+      <div class="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[0.8125rem] text-[var(--aw-color-text-muted)]">
+        <div class="flex items-center gap-1.5">
+          <div class="flex gap-0.5">
+            {Array(5).fill(0).map(() => (
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="#529961" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            ))}
           </div>
-        ))}
+          <span><strong class="text-[var(--aw-color-text-heading)] font-semibold">200+</strong> 個成長團隊正在使用</span>
+        </div>
+        <span class="h-3.5 w-px bg-[var(--aw-color-border)] hidden sm:block" aria-hidden="true"></span>
+        <span>無需信用卡</span>
+        <span class="h-3.5 w-px bg-[var(--aw-color-border)] hidden sm:block" aria-hidden="true"></span>
+        <span><strong class="text-[var(--aw-color-text-heading)] font-semibold">10 分鐘</strong>內上線運行</span>
       </div>
     </div>
+  </section>
 
-    <div class="absolute bottom-0 inset-x-0 h-28 pointer-events-none -z-10" style="background:linear-gradient(to top,rgba(255,255,255,1) 0%,transparent 100%);" aria-hidden="true"></div>
-  </main>
-
-  <!-- 產業滾動標籤 -->
-  <div class="border-y border-[var(--aw-color-border)] py-5 overflow-hidden" style="background:rgba(82,153,97,0.018);">
-    <p class="text-center text-[0.6rem] uppercase tracking-[0.18em] text-[var(--aw-color-text-muted)] mb-4 font-semibold opacity-60">服務各產業成長團隊</p>
+  <!-- 行業滾動標籤 -->
+  <div class="border-y border-[var(--aw-color-border)] py-5 overflow-hidden">
+    <p class="text-center text-[0.6rem] uppercase tracking-[0.18em] text-[var(--aw-color-text-muted)] mb-4 font-semibold opacity-50">服務各行業成長團隊</p>
     <div class="relative flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-      <ul class="flex shrink-0 gap-14 pr-14 marquee-track list-none m-0 p-0">
-        {['B2B SaaS', '電商', '金融科技', '行銷技術', '業務團隊', '成長代理商', 'D2C 品牌', '企業 GTM', 'PLG 產品', '新創公司'].map(n => (
-          <li class="text-[0.8125rem] font-medium text-[var(--aw-color-text-muted)] opacity-45 hover:opacity-80 transition-opacity cursor-default select-none whitespace-nowrap">{n}</li>
+      <ul class="flex shrink-0 gap-12 pr-12 marquee-track list-none m-0 p-0">
+        {['B2B SaaS','電商','金融科技','行銷技術','銷售團隊','成長代理','D2C 品牌','企業 GTM','PLG 產品','新創公司'].map(n => (
+          <li class="text-[0.8125rem] font-medium text-[var(--aw-color-text-muted)] opacity-40 hover:opacity-70 transition-opacity cursor-default select-none whitespace-nowrap">{n}</li>
         ))}
       </ul>
-      <ul class="flex shrink-0 gap-14 pr-14 marquee-track list-none m-0 p-0" aria-hidden="true">
-        {['B2B SaaS', '電商', '金融科技', '行銷技術', '業務團隊', '成長代理商', 'D2C 品牌', '企業 GTM', 'PLG 產品', '新創公司'].map(n => (
-          <li class="text-[0.8125rem] font-medium text-[var(--aw-color-text-muted)] opacity-45 whitespace-nowrap select-none">{n}</li>
+      <ul class="flex shrink-0 gap-12 pr-12 marquee-track list-none m-0 p-0" aria-hidden="true">
+        {['B2B SaaS','電商','金融科技','行銷技術','銷售團隊','成長代理','D2C 品牌','企業 GTM','PLG 產品','新創公司'].map(n => (
+          <li class="text-[0.8125rem] font-medium text-[var(--aw-color-text-muted)] opacity-40 whitespace-nowrap select-none">{n}</li>
         ))}
       </ul>
     </div>
   </div>
 
   <!-- 六大智能體 -->
-  <Features2
-    id="agents"
-    tagline="AI 成長軍團"
-    title="六位專家，一個統一平台。"
-    subtitle="每個智能體專為成長鏈路中的特定階段打造，全天候運轉，讓你的團隊專注於只有人類才能做的事。"
-    columns={3}
-    items={[
-      { title: '探查智能體', description: '掃描海量訊號，精準浮現高匹配度線索——融合公司階段、招募動態、技術棧與意圖數據，構建精準目標名單。', icon: 'tabler:radar' },
-      { title: '觸達智能體', description: '撰寫並發送高度個性化的冷郵件和 LinkedIn 訊息。無模板——每條訊息都針對每位收件人量身定制。', icon: 'tabler:mail-forward' },
-      { title: '跟進智能體', description: '跨渠道智能跟進，根據每位潛客的互動訊號和對話歷史動態調整語氣與時機。', icon: 'tabler:messages' },
-      { title: '轉化智能體', description: '在最關鍵的時刻為業務代表提供成交洞察——異議處理、社群證明、競品情報和下一步行動建議。', icon: 'tabler:target' },
-      { title: '留存智能體', description: '持續監控使用模式和健康分，提前 90 天預警流失風險帳戶，讓你在還來得及時採取行動。', icon: 'tabler:shield-check' },
-      { title: '洞察智能體', description: '將整條銷售管道提煉為清晰可執行的建議。明確告訴你下一步應聚焦在哪裡，以及為什麼——無需翻遍儀表板。', icon: 'tabler:chart-line' },
-    ]}
-  />
+  <section id="agents" class="py-20 md:py-28 px-4">
+    <div class="mx-auto max-w-5xl">
+      <div class="text-center mb-14">
+        <p class="section-label">AI 成長軍團</p>
+        <h2 class="section-title">六位專家，一個統一平台。</h2>
+        <p class="section-sub">每個智能體專為成長鏈路中的特定階段打造，全天候運轉，讓你的團隊專注於只有人類才能做的事。</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {agents.map((agent) => (
+          <div class="group p-7 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] transition-all duration-200 hover:border-primary/25 hover:shadow-[0_8px_30px_rgba(82,153,97,0.09)] hover:-translate-y-1">
+            <div class="mb-4 w-10 h-10 rounded-xl bg-primary/[0.08] flex items-center justify-center text-primary">
+              <Icon name={agent.icon} class="w-5 h-5" />
+            </div>
+            <h3 class="text-[0.9375rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">{agent.title}</h3>
+            <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-relaxed">{agent.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <!-- 使用流程 -->
-  <Steps
-    id="how-it-works"
-    tagline="極簡設計"
-    title="幾分鐘內啟動運轉。"
-    subtitle="無需半年漫長部署，無需外部顧問團隊。Aitroop 追求快速落地，隨時間持續複利成長。"
-    items={[
-      { title: '接入你的工具棧', description: '10 分鐘內完成 CRM、郵件服務和 LinkedIn 的連接。原生支援 HubSpot、Salesforce、Apollo、Outreach 等主流工具。', icon: 'tabler:plug-connected' },
-      { title: '部署你的智能體', description: '根據成長優先級選擇對應的智能體，配置好參數即可。無需撰寫任何程式碼，安裝精靈自動完成剩餘操作。', icon: 'tabler:robot' },
-      { title: '智能體開始工作', description: '自動化的線索挖掘、個性化觸達和智能跟進持續運轉——夜間、週末、跨時區，永不停歇。', icon: 'tabler:rocket' },
-      { title: '衡量與規模化', description: '洞察智能體呈現哪些在奏效、哪些不行。一鍵放大效果好的行銷活動，砍掉無效投入。', icon: 'tabler:trending-up' },
-    ]}
-  />
+  <section id="how-it-works" class="py-20 md:py-28 px-4 bg-[rgba(0,0,0,0.015)] border-y border-[var(--aw-color-border)]">
+    <div class="mx-auto max-w-5xl">
+      <div class="text-center mb-14">
+        <p class="section-label">極簡設計</p>
+        <h2 class="section-title">幾分鐘內啟動運轉。</h2>
+        <p class="section-sub">無需半年漫長部署，無需外部顧問團隊。Aitroop 追求快速落地，隨時間持續複利成長。</p>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-8 relative">
+        <div class="hidden md:block absolute top-[1.375rem] left-[calc(12.5%+1.375rem)] right-[calc(12.5%+1.375rem)] h-px bg-[var(--aw-color-border)]" aria-hidden="true"></div>
+
+        {steps.map((step) => (
+          <div class="flex flex-col items-center text-center">
+            <div class="relative mb-5 w-11 h-11 rounded-full border-2 border-primary/20 bg-[var(--aw-color-bg-page)] flex items-center justify-center z-10">
+              <span class="text-[0.6875rem] font-bold text-primary tracking-wider">{step.n}</span>
+            </div>
+            <h3 class="text-[0.9375rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">{step.title}</h3>
+            <p class="text-[0.8125rem] text-[var(--aw-color-text-muted)] leading-relaxed">{step.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <!-- 數據指標 -->
-  <section id="stats-section" class="relative border-y border-[var(--aw-color-border)] overflow-hidden">
-    <div class="absolute inset-0 -z-10" style="background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(82,153,97,0.05) 0%,transparent 70%);" aria-hidden="true"></div>
-    <div class="relative mx-auto max-w-5xl px-4 md:px-6 py-14 md:py-20 intersect-once intersect-quarter intersect-no-queue motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade">
-      <div class="text-center mb-12">
-        <p class="text-[0.65rem] uppercase tracking-[0.18em] font-semibold text-primary mb-2 opacity-80">真實成果</p>
-        <h2 class="text-3xl md:text-4xl font-bold tracking-tight text-[var(--aw-color-text-heading)]">驅動成長的數字。</h2>
-        <p class="text-[var(--aw-color-text-muted)] mt-3 max-w-md mx-auto text-sm md:text-[0.9375rem]">來自在生產環境中運行 Aitroop 智能體的成長團隊的匯總數據。</p>
+  <section id="stats-section" class="py-20 md:py-28 px-4">
+    <div class="mx-auto max-w-5xl">
+      <div class="text-center mb-14">
+        <p class="section-label">真實成果</p>
+        <h2 class="section-title">驅動成長的數字。</h2>
+        <p class="section-sub">來自在生產環境中運行 Aitroop 智能體的成長團隊的匯總數據。</p>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6">
         {[
           { target: 6,  suffix: '×',   label: '外發容量提升' },
           { target: 90, suffix: '天',  label: '平均流失預警週期' },
           { target: 80, suffix: '%+',  label: '聯絡人數據覆蓋率' },
           { target: 15, suffix: '%',   label: '平均回覆率' },
         ].map(({ target, suffix, label }, i) => (
-          <div class="stat-card text-center p-6 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] transition-all duration-300 hover:border-[rgba(82,153,97,0.3)] hover:shadow-[0_6px_28px_rgba(82,153,97,0.1)] hover:-translate-y-1.5" style={`--i:${i};`}>
-            <div class="text-4xl md:text-5xl font-bold text-primary tabular-nums mb-1 leading-none">
-              <span class="stat-num" data-target={target}>0</span><span class="stat-suffix">{suffix}</span>
+          <div class="stat-card text-center" style={`--i:${i};`}>
+            <div class="text-[2.75rem] md:text-5xl font-bold text-primary tabular-nums leading-none">
+              <span class="stat-num" data-target={target}>0</span>{suffix}
             </div>
-            <p class="text-xs text-[var(--aw-color-text-muted)] leading-snug mt-2">{label}</p>
+            <div class="mt-2 w-8 h-0.5 bg-primary/30 mx-auto rounded-full"></div>
+            <p class="mt-3 text-[0.8125rem] text-[var(--aw-color-text-muted)]">{label}</p>
           </div>
         ))}
       </div>
@@ -166,10 +201,36 @@ const metadata = {
     subtitle="無論是重度 SDR 外呼團隊，還是精簡 PLG 模型——Aitroop 適配你的成長方式。"
     testimonials={[
       { testimonial: '我們的外發序列從每月 200 條擴展到 1400 條，人員沒有增加。觸達智能體寫的冷郵件，說實話，比我們大多數 SDR 寫得還好。', name: '林曉晴', job: '成長負責人 · Patrly' },
-      { testimonial: '90 天流失預警真的很厲害。上個季度我們靠 Aitroop 的預警保住了三個企業大客戶——比他們主動提出取消還早。', name: '陳志遠', job: '業務副總裁 · Clearflo' },
-      { testimonial: '以前我們要把五個工具拼在一起完成這個流程。現在一個平台搞定。60 天內 GTM 速度翻倍，營運開銷反而下降了。', name: '王嘉怡', job: '行銷長 · Storyvault' },
+      { testimonial: '90 天流失預警真的很厲害。上個季度我們靠 Aitroop 的預警保住了三個企業大客戶——比他們主動提出取消還早。', name: '陳志遠', job: '銷售副總裁 · Clearflo' },
+      { testimonial: '以前我們要把五個工具拼在一起完成這個流程。現在一個平台搞定。60 天內 GTM 速度翻倍，運營開銷反而下降了。', name: '王嘉怡', job: '首席行銷官 · Storyvault' },
     ]}
   />
+
+  <!-- 常見問題 -->
+  <section id="faq" class="py-20 md:py-28 px-4 bg-[rgba(0,0,0,0.015)] border-t border-[var(--aw-color-border)]">
+    <div class="mx-auto max-w-2xl">
+      <div class="text-center mb-12">
+        <p class="section-label">有疑問？</p>
+        <h2 class="section-title">常見問題解答。</h2>
+      </div>
+
+      <div class="space-y-3">
+        {faqs.map((faq) => (
+          <details class="faq-item rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] overflow-hidden">
+            <summary class="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer select-none list-none font-medium text-[0.9375rem] text-[var(--aw-color-text-heading)]">
+              {faq.q}
+              <span class="faq-icon shrink-0 w-5 h-5 rounded-full border border-[var(--aw-color-border)] flex items-center justify-center text-[var(--aw-color-text-muted)]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path class="faq-plus-v" d="M12 5v14"/></svg>
+              </span>
+            </summary>
+            <div class="px-6 pb-5 text-[0.875rem] text-[var(--aw-color-text-muted)] leading-relaxed border-t border-[var(--aw-color-border)] pt-4">
+              {faq.a}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
 
   <!-- 行動召喚 -->
   <CallToAction
@@ -185,79 +246,34 @@ const metadata = {
 </Layout>
 
 <style>
+  .section-label { font-size:.65rem; text-transform:uppercase; letter-spacing:.18em; font-weight:700; color:var(--aw-color-primary,#529961); margin-bottom:.5rem; opacity:.85; }
+  .section-title { font-size:clamp(1.625rem,4vw,2.25rem); font-weight:700; letter-spacing:-.025em; line-height:1.2; color:var(--aw-color-text-heading); margin-bottom:.75rem; }
+  .section-sub { font-size:.9375rem; color:var(--aw-color-text-muted); max-width:520px; margin:0 auto; line-height:1.75; }
+
   @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-100%);} }
   .marquee-track { animation:marquee 34s linear infinite; }
 
-  .aurora-a{animation:aurora-a 18s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}
-  .aurora-b{animation:aurora-b 22s ease-in-out infinite reverse;transform-box:fill-box;transform-origin:center;}
-  .aurora-c{animation:aurora-c 14s ease-in-out infinite;transform-box:fill-box;transform-origin:center;}
-  @keyframes aurora-a{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(4%,-6%) scale(1.12);}66%{transform:translate(-3%,5%) scale(0.93);}}
-  @keyframes aurora-b{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(-5%,-8%) scale(1.18);}}
-  @keyframes aurora-c{0%,100%{transform:translate(0,0) scale(1);opacity:.8;}50%{transform:translate(3%,4%) scale(1.25);opacity:1;}}
+  details.faq-item[open] summary { color:#529961; }
+  details.faq-item[open] .faq-plus-v { display:none; }
+  details.faq-item summary::-webkit-details-marker { display:none; }
 
-  .pgrid-wrap{mask-image:linear-gradient(to top,rgba(0,0,0,0.55) 0%,transparent 100%);-webkit-mask-image:linear-gradient(to top,rgba(0,0,0,0.55) 0%,transparent 100%);}
-  .pgrid-inner{background-image:linear-gradient(rgba(82,153,97,0.10) 1px,transparent 1px),linear-gradient(90deg,rgba(82,153,97,0.10) 1px,transparent 1px);background-size:64px 64px;transform:perspective(460px) rotateX(58deg);transform-origin:50% 0%;animation:grid-scroll 7s linear infinite;}
-  @keyframes grid-scroll{from{background-position:0 0;}to{background-position:0 64px;}}
+  .stat-card { opacity:0; transform:translateY(10px); transition:opacity .5s ease,transform .5s ease; }
+  .stat-card.visible { opacity:1; transform:translateY(0); }
 
-  @keyframes text-shimmer{0%{background-position:-200% center;}100%{background-position:200% center;}}
-  .hero-shimmer{background:linear-gradient(90deg,#3a7d4a 0%,#529961 28%,#8de0a0 52%,#529961 72%,#3a7d4a 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:text-shimmer 4.5s linear infinite;}
-
-  #agents .rounded-lg{position:relative;overflow:hidden;will-change:transform;transition:box-shadow .25s ease,border-color .25s ease;}
-  #agents .rounded-lg::after{content:'';position:absolute;inset:0;background:linear-gradient(108deg,transparent 18%,rgba(255,255,255,0.11) 50%,transparent 82%);transform:translateX(-160%);pointer-events:none;}
-  #agents .rounded-lg:hover::after{animation:card-shine .55s ease forwards;}
-  #agents .rounded-lg:hover{box-shadow:0 16px 48px rgba(82,153,97,0.14),0 3px 10px rgba(82,153,97,0.07);border-color:rgba(82,153,97,0.25) !important;}
-  @keyframes card-shine{to{transform:translateX(160%);}}
-
-  .stat-card{opacity:0;filter:blur(6px);transform:translateY(12px) scale(0.97);transition:opacity .55s ease,filter .55s ease,transform .55s ease;}
-  .stat-card.visible{opacity:1;filter:blur(0);transform:translateY(0) scale(1);}
-
-  #cta-section .rounded-md{animation:cta-breathe 3.5s ease-in-out infinite;}
-  @keyframes cta-breathe{0%,100%{box-shadow:0 0 0 1px rgba(82,153,97,0.18),0 8px 32px rgba(82,153,97,0.07);}50%{box-shadow:0 0 0 1px rgba(82,153,97,0.45),0 0 56px rgba(82,153,97,0.16),0 8px 32px rgba(82,153,97,0.1);}}
-
-  #testimonials .grid>div:nth-child(1){animation-delay:0ms !important;}
-  #testimonials .grid>div:nth-child(2){animation-delay:130ms !important;}
-  #testimonials .grid>div:nth-child(3){animation-delay:260ms !important;}
-
-  @media(prefers-reduced-motion:reduce){
-    .marquee-track,.aurora-a,.aurora-b,.aurora-c,.pgrid-inner,.hero-shimmer,#cta-section .rounded-md{animation:none !important;}
-    .hero-shimmer{-webkit-text-fill-color:#529961;color:#529961;}
-    .stat-card{opacity:1;filter:none;transform:none;}
+  @media (prefers-reduced-motion:reduce) {
+    .marquee-track { animation:none !important; }
+    .stat-card { opacity:1; transform:none; }
   }
 </style>
 
 <script>
-  const spot = document.getElementById('hero-spot');
-  const heroSection = document.getElementById('hero-section');
-  if (spot && heroSection) {
-    heroSection.addEventListener('mousemove', (e: MouseEvent) => {
-      const r = heroSection.getBoundingClientRect();
-      spot.style.background = `radial-gradient(680px circle at ${e.clientX-r.left}px ${e.clientY-r.top}px,rgba(82,153,97,0.065),transparent 48%)`;
-    });
-    heroSection.addEventListener('mouseleave', () => { spot.style.background = ''; });
-  }
-
-  document.querySelectorAll<HTMLElement>('#agents .rounded-lg').forEach((card) => {
-    card.addEventListener('mousemove', (e: MouseEvent) => {
-      card.style.transition = 'box-shadow .25s ease,border-color .25s ease';
-      const r = card.getBoundingClientRect();
-      const rx = (0.5-(e.clientY-r.top)/r.height)*16;
-      const ry = ((e.clientX-r.left)/r.width-0.5)*16;
-      card.style.transform = `perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(10px)`;
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transition = 'transform .5s cubic-bezier(.03,.98,.52,.99),box-shadow .25s ease,border-color .25s ease';
-      card.style.transform = '';
-    });
-  });
-
   const statsSection = document.getElementById('stats-section');
   if (statsSection) {
     const io = new IntersectionObserver((entries) => {
       if (!entries[0].isIntersecting) return;
       io.disconnect();
       statsSection.querySelectorAll<HTMLElement>('.stat-card').forEach((card, i) => {
-        const delay = i * 110;
-        setTimeout(() => card.classList.add('visible'), delay);
+        setTimeout(() => card.classList.add('visible'), i * 120);
         const numEl = card.querySelector<HTMLElement>('.stat-num');
         if (!numEl) return;
         const target = parseInt(numEl.dataset.target ?? '0', 10);
@@ -265,14 +281,14 @@ const metadata = {
         let start: number | null = null;
         const tick = (ts: number) => {
           if (!start) start = ts;
-          const e = ts - start;
-          if (e < 700) { numEl.textContent = DIGITS[Math.floor(Math.random()*10)]; requestAnimationFrame(tick); }
-          else if (e < 1400) { const t=(e-700)/700; numEl.textContent=String(Math.round((1-Math.pow(1-t,3))*target)); requestAnimationFrame(tick); }
+          const elapsed = ts - start;
+          if (elapsed < 600) { numEl.textContent = DIGITS[Math.floor(Math.random()*10)]; requestAnimationFrame(tick); }
+          else if (elapsed < 1200) { const t=(elapsed-600)/600; numEl.textContent=String(Math.round((1-Math.pow(1-t,3))*target)); requestAnimationFrame(tick); }
           else numEl.textContent = String(target);
         };
-        setTimeout(() => requestAnimationFrame(tick), delay+200);
+        setTimeout(() => requestAnimationFrame(tick), i * 120 + 150);
       });
-    }, { threshold: 0.35 });
+    }, { threshold: 0.3 });
     io.observe(statsSection);
   }
 </script>
