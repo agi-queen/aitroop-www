@@ -14,9 +14,10 @@ export default {
         muted:     'var(--aw-color-text-muted)',
       },
       fontFamily: {
-        sans:    ['var(--aw-font-sans, ui-sans-serif)',    ...defaultTheme.fontFamily.sans],
-        serif:   ['var(--aw-font-serif, ui-serif)',        ...defaultTheme.fontFamily.serif],
-        heading: ['var(--aw-font-heading, ui-sans-serif)', ...defaultTheme.fontFamily.sans],
+        sans:    ['var(--aw-font-sans, ui-monospace)',    ...defaultTheme.fontFamily.mono],
+        serif:   ['var(--aw-font-serif, ui-monospace)',   ...defaultTheme.fontFamily.mono],
+        heading: ['var(--aw-font-heading, ui-monospace)', ...defaultTheme.fontFamily.mono],
+        mono:    ['var(--aw-font-sans, ui-monospace)',    ...defaultTheme.fontFamily.mono],
       },
 
       /* ── Type scale: 14px base — matches aitroop-system ── */
