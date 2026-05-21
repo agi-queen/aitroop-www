@@ -1,50 +1,39 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
-import Testimonials from '~/components/widgets/Testimonials.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
-  title: 'Aitroop — AI 驅動的成長平台',
+  title: 'Aitroop — AI Agent 平台',
   ignoreTitleTemplate: true,
 };
 
-const agents = [
-  { icon: 'tabler:radar-2',       title: '探查智能體',  desc: '掃描海量訊號，精準浮現高匹配度線索——融合公司階段、招募動態、技術棧與意圖數據，構建精準目標名單。' },
-  { icon: 'tabler:mail-forward',  title: '觸達智能體',  desc: '撰寫並發送高度個性化的冷郵件和 LinkedIn 訊息。無模板——每條訊息都針對每位收件人量身定制。' },
-  { icon: 'tabler:messages',      title: '跟進智能體',  desc: '跨渠道智能跟進，根據每位潛客的互動訊號和對話歷史動態調整語氣與時機。' },
-  { icon: 'tabler:target',        title: '轉化智能體',  desc: '在最關鍵的時刻為業務代表提供成交洞察——異議處理、社群證明、競品情報和下一步行動建議。' },
-  { icon: 'tabler:shield-check',  title: '留存智能體',  desc: '持續監控使用模式和健康分，提前 90 天預警流失風險帳戶，讓你在還來得及時採取行動。' },
-  { icon: 'tabler:chart-line',    title: '洞察智能體',  desc: '將整條銷售管道提煉為清晰可執行的建議。明確告訴你下一步應聚焦在哪裡，以及為什麼——無需翻遍儀表板。' },
+const features = [
+  { icon: 'tabler:message-circle',   title: '對話',   desc: '在隔離沙箱中與 Claude 進行互動。探索、實驗，完整工具存取，自由迭代。' },
+  { icon: 'tabler:stack-2',          title: 'App',    desc: '將任意 Claude 工作流封裝為一鍵工具。填寫表單即可取得結果，無需編寫程式碼。' },
+  { icon: 'tabler:puzzle',           title: '技能',   desc: '150+ 內建能力——線索生成、CRM 同步、網頁抓取、SEO 分析、內容生成等。' },
+  { icon: 'tabler:plug-connected',   title: '整合',   desc: 'OAuth 連結 Salesforce、HubSpot、GitHub、Google Drive、Notion 等 20+ 平台。' },
+  { icon: 'tabler:calendar-clock',   title: '排程',   desc: '將任意 App 設定為定時任務，每天、每週或每小時自動執行，結果自動送達。' },
 ];
 
 const steps = [
-  { n: '01', title: '接入你的工具棧',   desc: '10 分鐘內完成 CRM、郵件服務和 LinkedIn 的連接。原生支援 HubSpot、Salesforce、Apollo、Outreach 等主流工具。' },
-  { n: '02', title: '部署你的智能體',   desc: '根據成長優先級選擇對應的智能體，配置好參數即可。無需撰寫任何程式碼，安裝精靈自動完成剩餘操作。' },
-  { n: '03', title: '智能體開始工作',   desc: '自動化的線索挖掘、個性化觸達和智能跟進持續運轉——夜間、週末、跨時區，永不停歇。' },
-  { n: '04', title: '衡量與規模化',     desc: '洞察智能體呈現哪些在奏效、哪些不行。一鍵放大效果好的行銷活動，砍掉無效投入。' },
+  { n: '01', title: '對話探索',      desc: '啟動 Claude 工作階段，使用內建技能和已連結的工具，找到最有效的方法。' },
+  { n: '02', title: '封裝為 App',    desc: '將工作流儲存為參數化 App，定義輸入、階段和預期輸出，幾分鐘內完成。' },
+  { n: '03', title: '執行與自動化', desc: '隨需執行或定時排程，每次執行均有完整的產出記錄。' },
 ];
 
-const faqs = [
-  { q: 'Aitroop 與其他銷售自動化工具有什麼不同？',
-    a: '大多數工具只自動化漏斗的某一個環節。Aitroop 覆蓋完整的成長鏈路——從線索挖掘和觸達，到轉化和流失預防——透過專為各階段打造的 AI 智能體協同作戰。' },
-  { q: '我需要技術背景才能使用 Aitroop 嗎？',
-    a: '不需要。Aitroop 專為成長和銷售營運人員設計，而非工程師。安裝精靈會引導你完成工具連接和智能體配置，全程只需幾分鐘。' },
-  { q: '智能體如何大規模實現個性化觸達？',
-    a: '每個潛客都會被單獨研究，使用即時訊號——公司動態、招募資訊、技術棧、LinkedIn 動態。觸達智能體整合這些資訊，撰寫出像認真做過功課的人寫的訊息。' },
-  { q: 'Aitroop 支援哪些 CRM 和工具整合？',
-    a: 'Aitroop 原生整合 HubSpot、Salesforce、Apollo、Outreach、LinkedIn Sales Navigator 和主流郵件服務商。企業版支援定製整合方案。' },
-  { q: '流失預測是如何運作的？',
-    a: '留存智能體即時監控產品使用模式、互動訊號和帳戶健康度。它會標記出現早期流失跡象的帳戶——通常比實際流失早 90 天以上——讓你的團隊能夠主動介入。' },
+const gtmApps = [
+  { icon: 'tabler:radar-2',      title: '潛客挖掘', desc: '透過公司訊號、招聘動態、技術棧和意圖資料發掘高品質潛客。' },
+  { icon: 'tabler:mail-forward', title: '外部觸達', desc: '大規模生成並發送個人化冷郵件和 LinkedIn 訊息。' },
+  { icon: 'tabler:shield-check', title: '客戶留存', desc: '持續監控帳戶健康分，在客戶流失前提前預警。' },
+  { icon: 'tabler:chart-line',   title: '洞察分析', desc: '將管道資料轉化為清晰建議，明確下一步聚焦方向。' },
 ];
 ---
 
 <Layout metadata={metadata}>
 
-  <!-- ═══════════════════════════════════════════════════════
-       HERO
-  ═══════════════════════════════════════════════════════ -->
-  <section id="hero" class="relative px-6 md:px-10 lg:px-16 pt-10 pb-10 md:pt-12 md:pb-14 overflow-hidden">
+  <!-- 主視覺 -->
+  <section class="relative px-6 md:px-10 lg:px-16 pt-10 pb-10 md:pt-12 md:pb-14 overflow-hidden">
     <div class="absolute top-0 left-0 w-[520px] h-[420px] pointer-events-none -z-10"
       style="background:radial-gradient(ellipse at 20% 30%,rgba(82,153,97,0.10) 0%,transparent 65%);"
       aria-hidden="true"></div>
@@ -52,40 +41,23 @@ const faqs = [
     <div class="mx-auto max-w-6xl">
       <div class="max-w-[680px]">
 
-        <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] mb-3 font-normal tracking-wide">AI 成長平台：</p>
-
-        <h1 class="text-[2rem] sm:text-[2.375rem] md:text-[2.75rem] lg:text-[3rem] font-black tracking-[-0.03em] leading-[1.1] text-[var(--aw-color-text-heading)] mb-3">
-          更多客戶。更少成本。
-        </h1>
-
-        <p class="text-[1rem] md:text-[1.075rem] leading-[1.75] text-[var(--aw-color-text-muted)] mb-5 max-w-[560px]">
-          一支 AI 智能體軍團覆蓋完整成長鏈路——從第一封外發郵件到長期留存。
-          一個平台。一個操盤手。<span class="text-primary font-medium">整支團隊的戰鬥力。</span>
+        <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] mb-3 font-normal tracking-wide">
+          AI Agent 平台
         </p>
 
-        <ul class="space-y-2 mb-6 text-[0.9375rem] text-[var(--aw-color-text-default)]">
-          <li class="flex items-start gap-2.5">
-            <svg class="mt-[4px] shrink-0 text-primary" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-            <span>部署 AI 智能體，接管真實的線索挖掘與外發觸達</span>
-          </li>
-          <li class="flex items-start gap-2.5">
-            <svg class="mt-[4px] shrink-0 text-primary" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-            <span>自動化跟進與互動——無需培訓 SDR</span>
-          </li>
-          <li class="flex items-start gap-2.5">
-            <svg class="mt-[4px] shrink-0 text-primary" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-            <span>無縫接入你已有的工具 — <span class="inline-flex flex-wrap gap-1 ml-0.5">{['HubSpot','Salesforce','LinkedIn','Apollo','Outreach'].map(t => <span class="tool-badge">{t}</span>)}</span></span>
-          </li>
-          <li class="flex items-start gap-2.5">
-            <svg class="mt-[4px] shrink-0 text-primary" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-            <span>提前 90 天預測客戶流失風險</span>
-          </li>
-        </ul>
+        <h1 class="text-[2rem] sm:text-[2.375rem] md:text-[2.75rem] lg:text-[3rem] font-black tracking-[-0.03em] leading-[1.1] text-[var(--aw-color-text-heading)] mb-4">
+          為任意工作流<br/>建構 AI Agent。
+        </h1>
+
+        <p class="text-[1rem] md:text-[1.075rem] leading-[1.75] text-[var(--aw-color-text-muted)] mb-6 max-w-[540px]">
+          將 Claude 對話轉化為可重複使用的 App——內建 150+ 技能、原生整合和自動排程。
+          <span class="text-primary font-medium">任意工作流，無需程式碼。</span>
+        </p>
 
         <div class="flex flex-wrap items-center gap-3">
           <a href="https://app.aitroop.net"
             class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
-            啟動你的 AI 成長團隊
+            開始建構
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
           <a href="#how-it-works"
@@ -94,70 +66,42 @@ const faqs = [
           </a>
         </div>
 
-        <div class="mt-5 flex items-center gap-3 text-[0.8125rem] text-[var(--aw-color-text-muted)]">
-          <div class="flex -space-x-2">
-            {[['#529961','L'],['#3b82f6','D'],['#8b5cf6','P'],['#f59e0b','A'],['#ec4899','M']].map(([bg, letter]) => (
-              <span class="w-7 h-7 rounded-full border-2 border-white flex items-center justify-center text-white text-[0.5625rem] font-bold" style={`background:${bg};`}>{letter}</span>
-            ))}
-          </div>
-          <span>已有 <strong class="text-[var(--aw-color-text-heading)]">200+</strong> 成長團隊在使用 · 無需信用卡</span>
-        </div>
-
       </div>
     </div>
   </section>
 
-  <!-- 行業滾動標籤 -->
-  <div class="border-y border-[var(--aw-color-border)] py-5 overflow-hidden">
-    <p class="text-center text-[0.6rem] uppercase tracking-[0.18em] text-[var(--aw-color-text-muted)] mb-4 font-semibold opacity-50">服務各行業成長團隊</p>
-    <div class="relative flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-      <ul class="flex shrink-0 gap-12 pr-12 marquee-track list-none m-0 p-0">
-        {['B2B SaaS','電商','金融科技','行銷技術','銷售團隊','成長代理','D2C 品牌','企業 GTM','PLG 產品','新創公司'].map(n => (
-          <li class="text-[0.8125rem] font-medium text-[var(--aw-color-text-muted)] opacity-40 hover:opacity-70 transition-opacity cursor-default select-none whitespace-nowrap">{n}</li>
-        ))}
-      </ul>
-      <ul class="flex shrink-0 gap-12 pr-12 marquee-track list-none m-0 p-0" aria-hidden="true">
-        {['B2B SaaS','電商','金融科技','行銷技術','銷售團隊','成長代理','D2C 品牌','企業 GTM','PLG 產品','新創公司'].map(n => (
-          <li class="text-[0.8125rem] font-medium text-[var(--aw-color-text-muted)] opacity-40 whitespace-nowrap select-none">{n}</li>
-        ))}
-      </ul>
-    </div>
-  </div>
-
-  <!-- 六大智能體 -->
-  <section id="agents" class="py-20 md:py-28 px-4">
+  <!-- 核心能力 -->
+  <section class="py-16 md:py-24 px-4 border-t border-[var(--aw-color-border)]">
     <div class="mx-auto max-w-5xl">
-      <div class="text-center mb-14">
-        <p class="section-label">AI 成長軍團</p>
-        <h2 class="section-title">六位專家，一個統一平台。</h2>
-        <p class="section-sub">每個智能體專為成長鏈路中的特定階段打造，全天候運轉，讓你的團隊專注於只有人類才能做的事。</p>
+      <div class="text-center mb-12">
+        <h2 class="section-title">建構 AI Agent 所需的一切。</h2>
+        <p class="section-sub">五大核心能力，開箱即可協同運作。</p>
       </div>
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {agents.map((agent) => (
-          <div class="group p-7 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] transition-all duration-200 hover:border-primary/25 hover:shadow-[0_8px_30px_rgba(82,153,97,0.09)] hover:-translate-y-1">
+        {features.map((f) => (
+          <div class="p-6 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-primary/25 hover:shadow-[0_8px_30px_rgba(82,153,97,0.09)] hover:-translate-y-1 transition-all duration-200">
             <div class="mb-4 w-10 h-10 rounded-xl bg-primary/[0.08] flex items-center justify-center text-primary">
-              <Icon name={agent.icon} class="w-5 h-5" />
+              <Icon name={f.icon} class="w-5 h-5" />
             </div>
-            <h3 class="text-[0.9375rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">{agent.title}</h3>
-            <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-relaxed">{agent.desc}</p>
+            <h3 class="text-[0.9375rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">{f.title}</h3>
+            <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-relaxed">{f.desc}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- 使用流程 -->
-  <section id="how-it-works" class="py-20 md:py-28 px-4 bg-[rgba(0,0,0,0.015)] border-y border-[var(--aw-color-border)]">
+  <!-- 運作方式 -->
+  <section id="how-it-works" class="py-16 md:py-24 px-4 bg-[rgba(0,0,0,0.015)] border-y border-[var(--aw-color-border)]">
     <div class="mx-auto max-w-5xl">
-      <div class="text-center mb-14">
-        <p class="section-label">極簡設計</p>
-        <h2 class="section-title">幾分鐘內啟動運轉。</h2>
-        <p class="section-sub">無需半年漫長部署，無需外部顧問團隊。Aitroop 追求快速落地，隨時間持續複利成長。</p>
+      <div class="text-center mb-12">
+        <p class="section-label">設計簡潔</p>
+        <h2 class="section-title">從對話到自動化工作流，只需幾分鐘。</h2>
       </div>
 
-      <div class="grid md:grid-cols-4 gap-8 relative">
-        <div class="hidden md:block absolute top-[1.375rem] left-[calc(12.5%+1.375rem)] right-[calc(12.5%+1.375rem)] h-px bg-[var(--aw-color-border)]" aria-hidden="true"></div>
+      <div class="grid md:grid-cols-3 gap-8 relative">
+        <div class="hidden md:block absolute top-[1.375rem] left-[calc(16.67%+1.375rem)] right-[calc(16.67%+1.375rem)] h-px bg-[var(--aw-color-border)]" aria-hidden="true"></div>
 
         {steps.map((step) => (
           <div class="flex flex-col items-center text-center">
@@ -172,132 +116,65 @@ const faqs = [
     </div>
   </section>
 
-  <!-- 數據指標 -->
-  <section id="stats-section" class="py-20 md:py-28 px-4">
+  <!-- 首個落地場景：GTM -->
+  <section class="py-16 md:py-24 px-4">
     <div class="mx-auto max-w-5xl">
-      <div class="text-center mb-14">
-        <p class="section-label">真實成果</p>
-        <h2 class="section-title">驅動成長的數字。</h2>
-        <p class="section-sub">來自在生產環境中運行 Aitroop 智能體的成長團隊的匯總數據。</p>
+      <div class="text-center mb-12">
+        <p class="section-label">首個落地場景</p>
+        <h2 class="section-title">從 B2B 成長開始。</h2>
+        <p class="section-sub">我們的 GTM 套件預載了潛客挖掘、外部觸達、客戶留存和洞察分析 App，開箱即用。</p>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-6">
-        {[
-          { target: 6,  suffix: '×',   label: '外發容量提升' },
-          { target: 90, suffix: '天',  label: '平均流失預警週期' },
-          { target: 80, suffix: '%+',  label: '聯絡人數據覆蓋率' },
-          { target: 15, suffix: '%',   label: '平均回覆率' },
-        ].map(({ target, suffix, label }, i) => (
-          <div class="stat-card text-center" style={`--i:${i};`}>
-            <div class="text-[2.75rem] md:text-5xl font-bold text-primary tabular-nums leading-none">
-              <span class="stat-num" data-target={target}>0</span>{suffix}
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {gtmApps.map((app) => (
+          <div class="p-6 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]">
+            <div class="mb-3 w-9 h-9 rounded-lg bg-primary/[0.08] flex items-center justify-center text-primary">
+              <Icon name={app.icon} class="w-4 h-4" />
             </div>
-            <div class="mt-2 w-8 h-0.5 bg-primary/30 mx-auto rounded-full"></div>
-            <p class="mt-3 text-[0.8125rem] text-[var(--aw-color-text-muted)]">{label}</p>
+            <h3 class="text-[0.875rem] font-semibold text-[var(--aw-color-text-heading)] mb-1.5">{app.title}</h3>
+            <p class="text-[0.8125rem] text-[var(--aw-color-text-muted)] leading-relaxed">{app.desc}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- 用戶評價 -->
-  <Testimonials
-    id="testimonials"
-    tagline="團隊的聲音"
-    title="成長團隊都愛用 Aitroop。"
-    subtitle="無論是重度 SDR 外呼團隊，還是精簡 PLG 模型——Aitroop 適配你的成長方式。"
-    testimonials={[
-      { testimonial: '我們的外發序列從每月 200 條擴展到 1400 條，人員沒有增加。觸達智能體寫的冷郵件，說實話，比我們大多數 SDR 寫得還好。', name: '林曉晴', job: '成長負責人 · Patrly' },
-      { testimonial: '90 天流失預警真的很厲害。上個季度我們靠 Aitroop 的預警保住了三個企業大客戶——比他們主動提出取消還早。', name: '陳志遠', job: '銷售副總裁 · Clearflo' },
-      { testimonial: '以前我們要把五個工具拼在一起完成這個流程。現在一個平台搞定。60 天內 GTM 速度翻倍，運營開銷反而下降了。', name: '王嘉怡', job: '首席行銷官 · Storyvault' },
-    ]}
-  />
-
-  <!-- 常見問題 -->
-  <section id="faq" class="py-20 md:py-28 px-4 bg-[rgba(0,0,0,0.015)] border-t border-[var(--aw-color-border)]">
-    <div class="mx-auto max-w-2xl">
-      <div class="text-center mb-12">
-        <p class="section-label">有疑問？</p>
-        <h2 class="section-title">常見問題解答。</h2>
-      </div>
-
-      <div class="space-y-3">
-        {faqs.map((faq) => (
-          <details class="faq-item rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] overflow-hidden">
-            <summary class="flex items-center justify-between gap-4 px-6 py-4 cursor-pointer select-none list-none font-medium text-[0.9375rem] text-[var(--aw-color-text-heading)]">
-              {faq.q}
-              <span class="faq-icon shrink-0 w-5 h-5 rounded-full border border-[var(--aw-color-border)] flex items-center justify-center text-[var(--aw-color-text-muted)]">
-                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path class="faq-plus-v" d="M12 5v14"/></svg>
-              </span>
-            </summary>
-            <div class="px-6 pb-5 text-[0.875rem] text-[var(--aw-color-text-muted)] leading-relaxed border-t border-[var(--aw-color-border)] pt-4">
-              {faq.a}
-            </div>
-          </details>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- 行動召喚 -->
+  <!-- CTA -->
   <CallToAction
     id="cta-section"
-    title="你的成長團隊，已準備就緒。"
-    subtitle="幾分鐘內部署你的第一個 AI 智能體，看著銷售管道動起來。"
+    title="開始建構你的第一個 Agent。"
+    subtitle="連結你的工具，選擇一個技能，幾分鐘內發布你的第一個 App。"
     actions={[
-      { text: '立即開始', href: 'https://app.aitroop.net', variant: 'primary' },
-      { text: '聯絡我們', href: '/zh-TW/contact', variant: 'secondary' },
+      { text: '免費開始', href: 'https://app.aitroop.net', variant: 'primary' },
+      { text: '聯絡我們', href: '/contact', variant: 'secondary' },
     ]}
   />
 
 </Layout>
 
 <style>
-  .section-label { font-size:.65rem; text-transform:uppercase; letter-spacing:.18em; font-weight:700; color:var(--aw-color-primary,#529961); margin-bottom:.5rem; opacity:.85; }
-  .section-title { font-size:clamp(1.625rem,4vw,2.25rem); font-weight:700; letter-spacing:-.025em; line-height:1.2; color:var(--aw-color-text-heading); margin-bottom:.75rem; }
-  .section-sub { font-size:.9375rem; color:var(--aw-color-text-muted); max-width:520px; margin:0 auto; line-height:1.75; }
-
-  .tool-badge { display:inline-block; font-size:.6875rem; font-weight:500; color:var(--aw-color-text-muted); border:1px solid var(--aw-color-border); border-radius:4px; padding:1px 5px; line-height:1.5; }
-
-  @keyframes marquee { from{transform:translateX(0);} to{transform:translateX(-100%);} }
-  .marquee-track { animation:marquee 34s linear infinite; }
-
-  details.faq-item[open] summary { color:#529961; }
-  details.faq-item[open] .faq-plus-v { display:none; }
-  details.faq-item summary::-webkit-details-marker { display:none; }
-
-  .stat-card { opacity:0; transform:translateY(10px); transition:opacity .5s ease,transform .5s ease; }
-  .stat-card.visible { opacity:1; transform:translateY(0); }
-
-  @media (prefers-reduced-motion:reduce) {
-    .marquee-track { animation:none !important; }
-    .stat-card { opacity:1; transform:none; }
+  .section-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 700;
+    color: var(--aw-color-primary, #529961);
+    margin-bottom: 0.5rem;
+    opacity: 0.85;
+  }
+  .section-title {
+    font-size: clamp(1.625rem, 4vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    color: var(--aw-color-text-heading);
+    margin-bottom: 0.75rem;
+  }
+  .section-sub {
+    font-size: 0.9375rem;
+    color: var(--aw-color-text-muted);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.75;
   }
 </style>
-
-<script>
-  const statsSection = document.getElementById('stats-section');
-  if (statsSection) {
-    const io = new IntersectionObserver((entries) => {
-      if (!entries[0].isIntersecting) return;
-      io.disconnect();
-      statsSection.querySelectorAll<HTMLElement>('.stat-card').forEach((card, i) => {
-        setTimeout(() => card.classList.add('visible'), i * 120);
-        const numEl = card.querySelector<HTMLElement>('.stat-num');
-        if (!numEl) return;
-        const target = parseInt(numEl.dataset.target ?? '0', 10);
-        const DIGITS = '0123456789';
-        let start: number | null = null;
-        const tick = (ts: number) => {
-          if (!start) start = ts;
-          const elapsed = ts - start;
-          if (elapsed < 600) { numEl.textContent = DIGITS[Math.floor(Math.random()*10)]; requestAnimationFrame(tick); }
-          else if (elapsed < 1200) { const t=(elapsed-600)/600; numEl.textContent=String(Math.round((1-Math.pow(1-t,3))*target)); requestAnimationFrame(tick); }
-          else numEl.textContent = String(target);
-        };
-        setTimeout(() => requestAnimationFrame(tick), i * 120 + 150);
-      });
-    }, { threshold: 0.3 });
-    io.observe(statsSection);
-  }
-</script>
