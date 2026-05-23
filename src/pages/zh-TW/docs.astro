@@ -1,0 +1,52 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+const metadata = {
+  title: '文件 — Aitroop',
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="min-h-[calc(100vh-200px)] flex items-center justify-center py-16 md:py-24">
+    <div class="mx-auto max-w-2xl px-6 md:px-10 text-center">
+
+      <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] text-primary mb-7">
+        <Icon name="tabler:book-2" class="w-6 h-6" />
+      </div>
+
+      <p class="text-[0.6875rem] font-mono uppercase tracking-[0.2em] text-[var(--aw-color-text-muted)] mb-3">DOCUMENTATION</p>
+
+      <h1 class="text-[2rem] md:text-[2.75rem] font-black tracking-[-0.03em] leading-[1.1] text-[var(--aw-color-text-heading)] mb-4">
+        文件即將上線。
+      </h1>
+
+      <p class="text-[1rem] text-[var(--aw-color-text-muted)] leading-[1.7] max-w-[480px] mx-auto mb-9">
+        我們正在撰寫文件。在此之前，最快了解 Aitroop 的方法是打開對話直接問 Claude。
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-3 mb-12">
+        <a href="https://app.aitroop.net"
+           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
+          打開 App
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="/zh-TW/blog/aitroop-platform-complete-guide"
+           class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.025)] transition-all duration-150">
+          閱讀平台指南
+        </a>
+      </div>
+
+      <div class="inline-block text-left p-4 rounded-lg bg-[var(--aw-color-bg-subtle)] border border-[var(--aw-color-border)]">
+        <code class="text-[0.75rem] font-mono text-[var(--aw-color-text-muted)] leading-[1.7] block">
+          <span class="text-primary">$</span> aitroop docs --status<br/>
+          <span class="opacity-60">→ getting-started</span>  <span class="text-primary">drafting</span><br/>
+          <span class="opacity-60">→ concepts</span>         <span class="text-primary">drafting</span><br/>
+          <span class="opacity-60">→ skills-reference</span> <span class="text-[var(--aw-color-text-muted)]">planned</span><br/>
+          <span class="opacity-60">→ api-reference</span>    <span class="text-[var(--aw-color-text-muted)]">planned</span>
+        </code>
+      </div>
+
+    </div>
+  </section>
+</Layout>

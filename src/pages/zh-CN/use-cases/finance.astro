@@ -1,0 +1,226 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+const metadata = {
+  title: '财务案例 — Aitroop',
+};
+
+const apps = [
+  {
+    icon: 'tabler:calendar-check',
+    name: '月结清单 Month-end checklist',
+    description: '按顺序跑完整个月结：总账核对、计提分录、内部往来匹配、签字确认。每一步都留下审计痕迹。',
+    inputs: ['结算期间', '法人主体', '负责人分配'],
+    outputs: ['月结清单 (markdown)', '对账报告 (csv)'],
+    skills: ['gl-reconcile', 'accrual-calc', 'intercompany-match'],
+    connects: ['quickbooks', 'xero', 'netsuite'],
+  },
+  {
+    icon: 'tabler:receipt-tax',
+    name: '应收账龄 AR aging',
+    description: '应收账款按账龄分桶，标记风险敞口，自动生成对账与催款邮件草稿——一气呵成。',
+    inputs: ['基准日期', '账龄分桶', '风险阈值'],
+    outputs: ['账龄报告 (csv)', '催款邮件草稿 (markdown)'],
+    skills: ['ar-bucket', 'risk-score', 'email-writer'],
+    connects: ['quickbooks', 'stripe', 'gmail'],
+  },
+  {
+    icon: 'tabler:scan-eye',
+    name: '费用稽核 Expense audit',
+    description: '扫描费用报销，识别政策违规、重复提交与异常项。Agent 解释每个例外的理由，供人工复核。',
+    inputs: ['期间', '政策文档', '阈值规则'],
+    outputs: ['例外清单 (csv)', '稽核摘要 (markdown)'],
+    skills: ['expense-classify', 'policy-match', 'anomaly-detect'],
+    connects: ['expensify', 'concur', 'google-drive'],
+  },
+  {
+    icon: 'tabler:chart-arcs',
+    name: '差异分析 Variance analysis',
+    description: '对比实际与预算，归因每个差异背后的主驱动因素，生成可直接放进董事会材料的叙事说明。',
+    inputs: ['期间', '部门筛选', '差异阈值'],
+    outputs: ['差异明细 (csv)', '执行层叙事 (markdown)'],
+    skills: ['variance-calc', 'driver-attribute', 'narrative-writer'],
+    connects: ['netsuite', 'quickbooks', 'sheets'],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <section class="border-b border-[var(--aw-color-border)] py-16 md:py-20">
+    <div class="mx-auto max-w-6xl px-6 md:px-10">
+      <nav class="text-[0.75rem] font-mono text-[var(--aw-color-text-muted)] mb-6">
+        <a href="/zh-CN/use-cases" class="hover:text-[var(--aw-color-text-default)] transition-colors">案例</a>
+        <span class="mx-2 opacity-50">/</span>
+        <span class="text-[var(--aw-color-text-default)]">财务</span>
+      </nav>
+
+      <p class="section-label">财务团队 · CFO</p>
+      <h1 class="text-[2.25rem] md:text-[3.25rem] font-black tracking-[-0.03em] leading-[1.05] text-[var(--aw-color-text-heading)] mb-5 max-w-[820px]">
+        更快地把账关掉。
+      </h1>
+      <p class="text-[1rem] md:text-[1.0625rem] text-[var(--aw-color-text-muted)] leading-[1.7] max-w-[640px] mb-8">
+        四个预置 App 覆盖月结与日常财务运营的常见环节。让团队少花时间在表格上，多花时间在驱动决策的分析上。
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3">
+        <a href="https://app.aitroop.net"
+           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
+          安装财务套件
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="/zh-CN/contact"
+           class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.025)] transition-all duration-150">
+          联系顾问
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-[var(--aw-color-border)] py-12 md:py-14">
+    <div class="mx-auto max-w-6xl px-6 md:px-10">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
+        <div>
+          <p class="text-[2rem] md:text-[2.5rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] mb-1">↓ 60%</p>
+          <p class="text-[0.75rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)]">月结周期</p>
+        </div>
+        <div>
+          <p class="text-[2rem] md:text-[2.5rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] mb-1">100%</p>
+          <p class="text-[0.75rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)]">审计可追溯</p>
+        </div>
+        <div>
+          <p class="text-[2rem] md:text-[2.5rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] mb-1">7</p>
+          <p class="text-[0.75rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)]">产物格式</p>
+        </div>
+        <div>
+          <p class="text-[2rem] md:text-[2.5rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] mb-1">∞</p>
+          <p class="text-[0.75rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)]">同形态复跑</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-24">
+    <div class="mx-auto max-w-6xl px-6 md:px-10">
+      <div class="mb-12">
+        <p class="section-label">包含的 APP</p>
+        <h2 class="text-[1.75rem] md:text-[2rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)]">财务周期里的四个 App。</h2>
+      </div>
+
+      <div class="space-y-4">
+        {apps.map((app) => (
+          <div class="group p-6 md:p-8 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-primary/25 transition-colors">
+            <div class="grid md:grid-cols-[1fr_320px] gap-6 md:gap-10">
+              <div>
+                <div class="flex items-center gap-3 mb-3">
+                  <div class="w-10 h-10 rounded-lg bg-primary/[0.08] flex items-center justify-center text-primary">
+                    <Icon name={app.icon} class="w-5 h-5" />
+                  </div>
+                  <h3 class="text-[1.25rem] font-semibold text-[var(--aw-color-text-heading)]">{app.name}</h3>
+                </div>
+                <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-5">{app.description}</p>
+
+                <div class="flex flex-wrap gap-x-6 gap-y-3 text-[0.8125rem]">
+                  <div>
+                    <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-1">Skills</span>
+                    <div class="flex flex-wrap gap-1.5">
+                      {app.skills.map((s) => (
+                        <span class="font-mono text-[0.6875rem] px-2 py-0.5 rounded-md bg-[var(--aw-color-bg-subtle)] text-[var(--aw-color-text-default)]">{s}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-1">Connects</span>
+                    <div class="flex flex-wrap gap-1.5">
+                      {app.connects.map((c) => (
+                        <span class="font-mono text-[0.6875rem] px-2 py-0.5 rounded-md bg-primary/[0.08] text-primary">{c}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="md:border-l md:border-[var(--aw-color-border)] md:pl-8">
+                <div class="mb-4">
+                  <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-2">输入</span>
+                  <ul class="space-y-1">
+                    {app.inputs.map((i) => (
+                      <li class="text-[0.8125rem] text-[var(--aw-color-text-default)] flex items-center gap-2">
+                        <span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>
+                        {i}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-2">产物</span>
+                  <ul class="space-y-1">
+                    {app.outputs.map((o) => (
+                      <li class="text-[0.8125rem] text-[var(--aw-color-text-default)] flex items-center gap-2">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" class="text-primary/70 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+                        {o}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[rgba(0,0,0,0.015)] border-y border-[var(--aw-color-border)] py-16 md:py-24">
+    <div class="mx-auto max-w-5xl px-6 md:px-10">
+      <p class="section-label">为什么财务负责人选 AITROOP</p>
+      <div class="grid md:grid-cols-3 gap-8 mt-6">
+        <div>
+          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">默认可审计</h3>
+          <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.7]">每次执行都产出结构化产物与完整执行日志。可复现、可比较、可申辩——半年之后依然成立。</p>
+        </div>
+        <div>
+          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">数据归你所有</h3>
+          <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.7]">每个用户在独立沙箱中运行。OAuth 权限限定 Agent 能看到什么。我们不会用你的财务数据训练模型。</p>
+        </div>
+        <div>
+          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">每个周期同形态</h3>
+          <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.7]">App 每次输出结构一致，对下游消费者可预期、对董事会可审计。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-20">
+    <div class="mx-auto max-w-3xl px-6 md:px-10 text-center">
+      <h2 class="text-[1.75rem] md:text-[2.25rem] font-bold tracking-[-0.025em] leading-[1.15] text-[var(--aw-color-text-heading)] mb-4">
+        从财务套件开始。
+      </h2>
+      <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-7">
+        免费安装。连接你的核算系统，一次会话内跑完首个月结 App。
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <a href="https://app.aitroop.net"
+           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
+          安装财务套件
+        </a>
+        <a href="/zh-CN/use-cases/gtm"
+           class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] transition-all">
+          看 GTM 套件 →
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .section-label {
+    font-size: 0.6875rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--aw-color-primary, #529961);
+    margin-bottom: 0.875rem;
+  }
+</style>

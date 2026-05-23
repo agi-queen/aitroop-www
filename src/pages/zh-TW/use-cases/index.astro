@@ -1,0 +1,113 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import { Icon } from 'astro-icon/components';
+
+const metadata = {
+  title: '案例 — Aitroop',
+};
+
+const cases = [
+  {
+    slug: '/zh-TW/use-cases/gtm',
+    eyebrow: 'B2B 成長',
+    title: 'GTM',
+    tagline: '讓管道自動運轉。',
+    desc: '線索挖掘、外部觸達、客戶留存、管道洞察。為不想擴編又想持續放大產出的營收團隊預置的 App 套件。',
+    apps: [
+      { icon: 'tabler:radar-2',      name: '線索挖掘', hint: '線索富化 + ICP 評分' },
+      { icon: 'tabler:mail-forward', name: '外部觸達', hint: '個性化冷郵件草稿' },
+      { icon: 'tabler:shield-check', name: '客戶留存', hint: '帳戶健康度監控' },
+      { icon: 'tabler:chart-line',   name: '管道洞察', hint: '預測 + 聚焦建議' },
+    ],
+  },
+  {
+    slug: '/zh-TW/use-cases/finance',
+    eyebrow: '財務團隊 · CFO',
+    title: '財務 Finance',
+    tagline: '更快地把帳關掉。',
+    desc: '月結、應收帳款分析、費用合規、預算差異分析——讓財務團隊少花時間在試算表上，多花時間在驅動決策的分析上。',
+    apps: [
+      { icon: 'tabler:calendar-check', name: '月結清單',     hint: '自動化對帳步驟' },
+      { icon: 'tabler:receipt-tax',    name: '應收帳齡',     hint: '帳齡分桶 + 風險標記' },
+      { icon: 'tabler:scan-eye',       name: '費用稽核',     hint: '違規與異常識別' },
+      { icon: 'tabler:chart-arcs',     name: '差異分析',     hint: '預算 vs 實際敘事' },
+    ],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <section class="border-b border-[var(--aw-color-border)] py-16 md:py-20">
+    <div class="mx-auto max-w-6xl px-6 md:px-10">
+      <p class="section-label">案例</p>
+      <h1 class="text-[2.25rem] md:text-[3rem] font-black tracking-[-0.03em] leading-[1.08] text-[var(--aw-color-text-heading)] mb-5 max-w-[760px]">
+        團隊真實在做的工作，<br/>都有預置 App 套件。
+      </h1>
+      <p class="text-[1rem] md:text-[1.0625rem] text-[var(--aw-color-text-muted)] leading-[1.7] max-w-[640px]">
+        每個套件是策劃好的一組 App、技能與整合，開箱即用。直接使用，或 fork 後客製成你團隊的流程。
+      </p>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-24">
+    <div class="mx-auto max-w-6xl px-6 md:px-10">
+      <div class="grid md:grid-cols-2 gap-5">
+        {cases.map((c) => (
+          <a href={c.slug} class="group relative block p-7 md:p-9 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-primary/40 hover:shadow-[0_16px_50px_rgba(82,153,97,0.10)] transition-all duration-200">
+            <p class="text-[0.6875rem] font-mono uppercase tracking-[0.18em] text-[var(--aw-color-text-muted)] mb-3">{c.eyebrow}</p>
+            <h2 class="text-[2rem] md:text-[2.5rem] font-bold tracking-[-0.03em] text-[var(--aw-color-text-heading)] mb-2 group-hover:text-primary transition-colors">{c.title}</h2>
+            <p class="text-[1.0625rem] font-medium text-[var(--aw-color-text-default)] mb-3">{c.tagline}</p>
+            <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-6">{c.desc}</p>
+
+            <div class="grid grid-cols-2 gap-2 mb-6">
+              {c.apps.map((app) => (
+                <div class="p-3 rounded-lg border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-subtle)]/50">
+                  <div class="flex items-center gap-2 mb-1">
+                    <Icon name={app.icon} class="w-3.5 h-3.5 text-primary" />
+                    <span class="text-[0.8125rem] font-semibold text-[var(--aw-color-text-default)]">{app.name}</span>
+                  </div>
+                  <p class="text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)] leading-[1.5]">{app.hint}</p>
+                </div>
+              ))}
+            </div>
+
+            <div class="inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-primary">
+              查看案例
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <div class="mt-8 p-7 md:p-9 rounded-2xl border border-dashed border-[var(--aw-color-border)] bg-[var(--aw-color-bg-subtle)]/30">
+        <div class="flex flex-col md:flex-row md:items-center gap-5 md:gap-8">
+          <div class="flex-1">
+            <p class="text-[0.6875rem] font-mono uppercase tracking-[0.18em] text-[var(--aw-color-text-muted)] mb-2">CUSTOM</p>
+            <h3 class="text-[1.25rem] font-semibold text-[var(--aw-color-text-heading)] mb-1.5">沒看到你的場景？</h3>
+            <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.65]">
+              Aitroop 不是某個垂直工具——它是把任意 AI 輔助工作流固化成可重複使用 App 的平台。聊聊你團隊的具體場景。
+            </p>
+          </div>
+          <div class="shrink-0">
+            <a href="/zh-TW/contact"
+               class="inline-flex items-center h-10 px-5 rounded-full text-[0.875rem] font-semibold text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-[rgba(0,0,0,0.22)] transition-all">
+              聯絡我們
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .section-label {
+    font-size: 0.6875rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    color: var(--aw-color-primary, #529961);
+    margin-bottom: 0.875rem;
+  }
+</style>

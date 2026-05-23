@@ -7,8 +7,21 @@ function lp(locale: Locale, path: string): string {
 
 // ─── Header ──────────────────────────────────────────────────────────────────
 
-function buildHeaderLinks(_locale: Locale) {
-  return [];
+const headerLabels: Record<Locale, { home: string; useCases: string; blog: string; docs: string }> = {
+  en:      { home: 'Home',  useCases: 'Use cases', blog: 'Blog', docs: 'Docs' },
+  'zh-CN': { home: '主页',  useCases: '案例',      blog: '博客', docs: '文档' },
+  'zh-TW': { home: '首頁',  useCases: '案例',      blog: '部落格', docs: '文件' },
+};
+
+function buildHeaderLinks(locale: Locale) {
+  const t = headerLabels[locale] ?? headerLabels.en;
+  const p = (path: string) => lp(locale, path);
+  return [
+    { text: t.home,     href: p('/') },
+    { text: t.useCases, href: p('/use-cases') },
+    { text: t.blog,     href: p(getBlogPermalink()) },
+    { text: t.docs,     href: p('/docs') },
+  ];
 }
 
 const headerActions: Record<Locale, object[]> = {

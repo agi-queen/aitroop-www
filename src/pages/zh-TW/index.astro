@@ -1,180 +1,364 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
-import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
-  title: 'Aitroop — AI Agent 平台',
+  title: 'Aitroop — 把 Claude 對話固化成 App',
   ignoreTitleTemplate: true,
 };
 
-const features = [
-  { icon: 'tabler:message-circle',   title: '對話',   desc: '在隔離沙箱中與 Claude 進行互動。探索、實驗，完整工具存取，自由迭代。' },
-  { icon: 'tabler:stack-2',          title: 'App',    desc: '將任意 Claude 工作流封裝為一鍵工具。填寫表單即可取得結果，無需編寫程式碼。' },
-  { icon: 'tabler:puzzle',           title: '技能',   desc: '150+ 內建能力——線索生成、CRM 同步、網頁抓取、SEO 分析、內容生成等。' },
-  { icon: 'tabler:plug-connected',   title: '整合',   desc: 'OAuth 連結 Salesforce、HubSpot、GitHub、Google Drive、Notion 等 20+ 平台。' },
-  { icon: 'tabler:calendar-clock',   title: '排程',   desc: '將任意 App 設定為定時任務，每天、每週或每小時自動執行，結果自動送達。' },
+const pieces = [
+  {
+    icon: 'tabler:puzzle',
+    label: '150+ 技能',
+    title: '技能 Skills',
+    desc: '可重複使用的能力模組：線索挖掘、網頁抓取、SEO 稽核、github-mcp、calendar-mcp 等。一鍵安裝。',
+    items: ['github-mcp', 'lead-finder', 'web-scrape', 'seo-audit', 'gmail-search', '更多'],
+  },
+  {
+    icon: 'tabler:plug-connected',
+    label: '20+ 整合',
+    title: '整合 Connects',
+    desc: 'OAuth 連線到你已在使用的系統。Agent 透過你授權的帳戶讀寫資料。',
+    items: ['google-drive', 'gmail', 'github', 'salesforce', 'hubspot', 'notion'],
+  },
+  {
+    icon: 'tabler:calendar-clock',
+    label: 'cron 驅動',
+    title: '排程 Schedules',
+    desc: '把任意 App 設為定時任務。日報、小時輪詢、週度匯總——結果自動送達。',
+    items: ['daily', 'hourly', 'weekly', '自訂 cron', '事件觸發', '手動'],
+  },
+  {
+    icon: 'tabler:files',
+    label: '7 種格式',
+    title: '產物 Artifacts',
+    desc: '一等公民的產出物，可預覽、編輯、下載，並作為下一階段的輸入繼續流轉。',
+    items: ['markdown', 'code', 'html', 'json', 'csv', 'image', 'file'],
+  },
 ];
 
-const steps = [
-  { n: '01', title: '對話探索',      desc: '啟動 Claude 工作階段，使用內建技能和已連結的工具，找到最有效的方法。' },
-  { n: '02', title: '封裝為 App',    desc: '將工作流儲存為參數化 App，定義輸入、階段和預期輸出，幾分鐘內完成。' },
-  { n: '03', title: '執行與自動化', desc: '隨需執行或定時排程，每次執行均有完整的產出記錄。' },
+const anatomy = [
+  { n: '01', title: 'AppInput',  desc: '基於 Schema 的表單：text、daterange、select、file、connect_file——按需宣告，自動渲染。' },
+  { n: '02', title: 'Stage',     desc: '一次獨立的 Claude Code 會話，帶明確目標。大多數 App 只需一個；多 Stage 時產物自動向後流轉。' },
+  { n: '03', title: 'Artifact',  desc: '最終交付物。可渲染預覽、匯出，也能回到 Chat 繼續編輯或餵給下一個 Stage。' },
 ];
 
-const gtmApps = [
-  { icon: 'tabler:radar-2',      title: '潛客挖掘', desc: '透過公司訊號、招聘動態、技術棧和意圖資料發掘高品質潛客。' },
-  { icon: 'tabler:mail-forward', title: '外部觸達', desc: '大規模生成並發送個人化冷郵件和 LinkedIn 訊息。' },
-  { icon: 'tabler:shield-check', title: '客戶留存', desc: '持續監控帳戶健康分，在客戶流失前提前預警。' },
-  { icon: 'tabler:chart-line',   title: '洞察分析', desc: '將管道資料轉化為清晰建議，明確下一步聚焦方向。' },
+const cases = [
+  {
+    slug: '/zh-TW/use-cases/gtm',
+    eyebrow: 'B2B 成長',
+    title: 'GTM',
+    desc: '線索挖掘、外部觸達、客戶留存、管道洞察——Agent 驅動的成長能力套件。',
+    examples: ['線索富化', '冷郵件草稿', '帳戶健康監控', '管道洞察'],
+  },
+  {
+    slug: '/zh-TW/use-cases/finance',
+    eyebrow: '財務團隊',
+    title: '財務 Finance',
+    desc: '月結、應收帳款、費用合規、預算差異分析——面向財務團隊與 CFO。',
+    examples: ['月結清單', '應收帳齡報告', '費用稽核', '差異分析敘事'],
+  },
 ];
 ---
 
 <Layout metadata={metadata}>
 
-  <!-- 主視覺 -->
-  <section class="relative px-6 md:px-10 lg:px-16 pt-10 pb-10 md:pt-12 md:pb-14 overflow-hidden">
-    <div class="absolute top-0 left-0 w-[520px] h-[420px] pointer-events-none -z-10"
-      style="background:radial-gradient(ellipse at 20% 30%,rgba(82,153,97,0.10) 0%,transparent 65%);"
-      aria-hidden="true"></div>
+  <section class="relative overflow-hidden">
+    <div aria-hidden="true" class="absolute inset-0 -z-10 opacity-[0.4]"
+         style="background-image:linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 30%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 30%,transparent 80%);"></div>
 
-    <div class="mx-auto max-w-6xl">
-      <div class="max-w-[680px]">
+    <div class="mx-auto max-w-6xl px-6 md:px-10 pt-16 md:pt-24 pb-12 md:pb-16">
+      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] mb-6">
+        <span class="relative flex h-1.5 w-1.5">
+          <span class="absolute inline-flex h-full w-full rounded-full bg-primary opacity-60 animate-ping"></span>
+          <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+        </span>
+        <span class="text-[0.6875rem] tracking-[0.18em] uppercase font-mono text-[var(--aw-color-text-muted)]">AI Agent 平台</span>
+      </div>
 
-        <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] mb-3 font-normal tracking-wide">
-          AI Agent 平台
+      <h1 class="text-[2.25rem] sm:text-[2.75rem] md:text-[3.5rem] lg:text-[4rem] font-black tracking-[-0.035em] leading-[1.02] text-[var(--aw-color-text-heading)] mb-5 max-w-[920px]">
+        把 Claude 對話<br/>
+        <span class="text-primary">固化成 App。</span>
+      </h1>
+
+      <p class="text-[1.0625rem] md:text-[1.125rem] leading-[1.7] text-[var(--aw-color-text-muted)] max-w-[640px] mb-8">
+        在 Chat 裡探索出有效方法後，儲存為帶表單與定時任務的 <span class="font-mono text-[var(--aw-color-text-default)]">App</span>。
+        團隊拿到的是可重複使用的 AI 工作流——無需編碼，也無需複製貼上長 Prompt。
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3 mb-10">
+        <a href="https://app.aitroop.net"
+           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
+          免費開始
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="/zh-TW/use-cases"
+           class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.025)] transition-all duration-150">
+          查看案例
+        </a>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.75rem] font-mono text-[var(--aw-color-text-muted)] tracking-tight">
+        <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>多租戶</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>OAuth 整合</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>150+ 內建技能</span>
+        <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>E2B 沙箱隔離</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="relative border-t border-[var(--aw-color-border)] py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-6 md:px-10">
+      <div class="mb-14 max-w-[640px]">
+        <p class="section-label">核心理念</p>
+        <h2 class="section-title">兩種模式。一個平台。</h2>
+        <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] leading-[1.75]">
+          大多數團隊用 AI 時反覆輸入同一段長 Prompt。我們換個思路：在 Chat 裡自由探索，把跑通的方案
+          <span class="text-[var(--aw-color-text-default)] font-medium">固化</span>為參數化 App。
         </p>
+      </div>
 
-        <h1 class="text-[2rem] sm:text-[2.375rem] md:text-[2.75rem] lg:text-[3rem] font-black tracking-[-0.03em] leading-[1.1] text-[var(--aw-color-text-heading)] mb-4">
-          為任意工作流<br/>建構 AI Agent。
-        </h1>
+      <div class="grid md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-4 items-stretch">
 
-        <p class="text-[1rem] md:text-[1.075rem] leading-[1.75] text-[var(--aw-color-text-muted)] mb-6 max-w-[540px]">
-          將 Claude 對話轉化為可重複使用的 App——內建 150+ 技能、原生整合和自動排程。
-          <span class="text-primary font-medium">任意工作流，無需程式碼。</span>
-        </p>
-
-        <div class="flex flex-wrap items-center gap-3">
-          <a href="https://app.aitroop.net"
-            class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
-            開始建構
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </a>
-          <a href="#how-it-works"
-            class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.025)] transition-all duration-150">
-            了解運作方式
-          </a>
+        <div class="group relative rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] overflow-hidden">
+          <div class="flex items-center justify-between px-4 py-2.5 border-b border-[var(--aw-color-border)] bg-[var(--aw-color-bg-subtle)]">
+            <div class="flex items-center gap-2">
+              <div class="flex gap-1.5">
+                <span class="w-2.5 h-2.5 rounded-full bg-[rgba(0,0,0,0.08)]"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-[rgba(0,0,0,0.08)]"></span>
+                <span class="w-2.5 h-2.5 rounded-full bg-[rgba(0,0,0,0.08)]"></span>
+              </div>
+              <span class="ml-2 text-[0.6875rem] font-mono uppercase tracking-[0.15em] text-[var(--aw-color-text-muted)]">Mode 1 · Chat</span>
+            </div>
+            <span class="text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)]">探索</span>
+          </div>
+          <div class="p-5 md:p-6 space-y-3 text-[0.875rem] leading-[1.65]">
+            <div class="text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)] uppercase tracking-[0.12em]">你</div>
+            <p class="text-[var(--aw-color-text-default)]">
+              拉取 <span class="font-mono">shop-frontend</span> 倉庫 2025-05-01 到 05-07 的提交，按倉庫分組、忽略 merge 提交，整理成中文日報。
+            </p>
+            <div class="text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)] uppercase tracking-[0.12em] pt-2">Claude</div>
+            <div class="space-y-2">
+              <div class="h-2 rounded-full bg-[rgba(0,0,0,0.06)] w-full"></div>
+              <div class="h-2 rounded-full bg-[rgba(0,0,0,0.06)] w-[88%]"></div>
+              <div class="h-2 rounded-full bg-[rgba(0,0,0,0.06)] w-[72%]"></div>
+              <div class="h-2 rounded-full bg-[rgba(0,0,0,0.06)] w-[94%]"></div>
+            </div>
+            <div class="pt-3 mt-3 border-t border-dashed border-[var(--aw-color-border)]">
+              <button class="text-[0.75rem] font-mono text-primary inline-flex items-center gap-1.5 hover:underline">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+                存為 App
+              </button>
+            </div>
+          </div>
         </div>
 
+        <div class="hidden md:flex flex-col items-center justify-center px-3 self-center">
+          <div class="text-[0.625rem] font-mono uppercase tracking-[0.2em] text-[var(--aw-color-text-muted)] mb-2">crystallize</div>
+          <svg width="48" height="32" viewBox="0 0 48 32" fill="none" class="text-primary">
+            <path d="M2 16 H42 M34 8 l8 8 -8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="flex md:hidden items-center justify-center">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-primary rotate-90">
+            <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div class="group relative rounded-2xl border-2 border-primary/30 bg-[var(--aw-color-bg-page)] overflow-hidden shadow-[0_12px_40px_rgba(82,153,97,0.10)]">
+          <div class="flex items-center justify-between px-4 py-2.5 border-b border-primary/20 bg-primary/[0.04]">
+            <div class="flex items-center gap-2">
+              <div class="w-5 h-5 rounded-md bg-primary/15 flex items-center justify-center text-primary">
+                <Icon name="tabler:report" class="w-3 h-3" />
+              </div>
+              <span class="ml-1 text-[0.8125rem] font-semibold text-[var(--aw-color-text-default)]">工作日報</span>
+              <span class="text-[0.6875rem] font-mono uppercase tracking-[0.15em] text-primary/80">Mode 2 · App</span>
+            </div>
+            <span class="text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)]">v3 · public</span>
+          </div>
+          <div class="p-5 md:p-6 space-y-4 text-[0.8125rem]">
+            <div>
+              <label class="block text-[0.75rem] font-medium text-[var(--aw-color-text-muted)] mb-1.5">日期範圍</label>
+              <div class="flex gap-2">
+                <div class="flex-1 h-8 px-3 rounded-md border border-[var(--aw-color-border)] flex items-center font-mono text-[0.75rem] text-[var(--aw-color-text-default)]">2025-05-01</div>
+                <div class="flex items-center text-[var(--aw-color-text-muted)]">→</div>
+                <div class="flex-1 h-8 px-3 rounded-md border border-[var(--aw-color-border)] flex items-center font-mono text-[0.75rem] text-[var(--aw-color-text-default)]">2025-05-07</div>
+              </div>
+            </div>
+            <div>
+              <label class="block text-[0.75rem] font-medium text-[var(--aw-color-text-muted)] mb-1.5">程式碼倉庫</label>
+              <div class="h-8 px-3 rounded-md border border-[var(--aw-color-border)] flex items-center justify-between">
+                <span class="font-mono text-[0.75rem] text-[var(--aw-color-text-default)]">shop-frontend</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-[var(--aw-color-text-muted)]"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+            </div>
+            <div>
+              <label class="block text-[0.75rem] font-medium text-[var(--aw-color-text-muted)] mb-1.5">輸出語言</label>
+              <div class="h-8 px-3 rounded-md border border-[var(--aw-color-border)] flex items-center justify-between">
+                <span class="text-[0.75rem] text-[var(--aw-color-text-default)]">中文</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-[var(--aw-color-text-muted)]"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+            </div>
+            <button class="w-full h-9 rounded-md bg-primary text-white text-[0.8125rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors inline-flex items-center justify-center gap-1.5">
+              <Icon name="tabler:player-play-filled" class="w-3 h-3" />
+              執行
+            </button>
+          </div>
+        </div>
       </div>
+
+      <p class="mt-10 text-[0.875rem] md:text-[0.9375rem] text-[var(--aw-color-text-muted)] max-w-[640px] leading-[1.7]">
+        儲存之後，所有團隊成員只需要填表單、點 <span class="font-mono">執行</span>。
+        再設個定時任務，日報每週一早上自動出現在你的信箱。
+      </p>
     </div>
   </section>
 
-  <!-- 核心能力 -->
-  <section class="py-16 md:py-24 px-4 border-t border-[var(--aw-color-border)]">
-    <div class="mx-auto max-w-5xl">
-      <div class="text-center mb-12">
-        <h2 class="section-title">建構 AI Agent 所需的一切。</h2>
-        <p class="section-sub">五大核心能力，開箱即可協同運作。</p>
+  <section class="bg-[rgba(0,0,0,0.015)] border-y border-[var(--aw-color-border)] py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-6 md:px-10">
+      <div class="mb-14 max-w-[640px]">
+        <p class="section-label">開箱即用</p>
+        <h2 class="section-title">Agent 需要的一切，都在這裡。</h2>
+        <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] leading-[1.75]">
+          不需要組裝整合，也不需要寫膠水程式碼。挑選技能、授權系統、設定排程——上線發佈。
+        </p>
       </div>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {features.map((f) => (
-          <div class="p-6 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-primary/25 hover:shadow-[0_8px_30px_rgba(82,153,97,0.09)] hover:-translate-y-1 transition-all duration-200">
-            <div class="mb-4 w-10 h-10 rounded-xl bg-primary/[0.08] flex items-center justify-center text-primary">
-              <Icon name={f.icon} class="w-5 h-5" />
+      <div class="grid sm:grid-cols-2 gap-4">
+        {pieces.map((p) => (
+          <div class="group relative p-6 md:p-7 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-primary/30 hover:shadow-[0_8px_30px_rgba(82,153,97,0.09)] transition-all duration-200">
+            <div class="flex items-start justify-between mb-4">
+              <div class="w-9 h-9 rounded-lg bg-primary/[0.08] flex items-center justify-center text-primary">
+                <Icon name={p.icon} class="w-4 h-4" />
+              </div>
+              <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] px-2 py-0.5 rounded-full border border-[var(--aw-color-border)]">{p.label}</span>
             </div>
-            <h3 class="text-[0.9375rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">{f.title}</h3>
-            <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-relaxed">{f.desc}</p>
+            <h3 class="text-[1.0625rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">{p.title}</h3>
+            <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.65] mb-4">{p.desc}</p>
+            <div class="flex flex-wrap gap-1.5">
+              {p.items.map((item) => (
+                <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-[var(--aw-color-bg-subtle)] text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)]">{item}</span>
+              ))}
+            </div>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- 運作方式 -->
-  <section id="how-it-works" class="py-16 md:py-24 px-4 bg-[rgba(0,0,0,0.015)] border-y border-[var(--aw-color-border)]">
-    <div class="mx-auto max-w-5xl">
-      <div class="text-center mb-12">
-        <p class="section-label">設計簡潔</p>
-        <h2 class="section-title">從對話到自動化工作流，只需幾分鐘。</h2>
+  <section class="py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-6 md:px-10">
+      <div class="mb-14 max-w-[640px]">
+        <p class="section-label">App 的解剖</p>
+        <h2 class="section-title">一個 App，三塊拼圖。</h2>
+        <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] leading-[1.75]">
+          整個平台的核心只有三個原語。簡單可推理，靈活可組合。
+        </p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-8 relative">
-        <div class="hidden md:block absolute top-[1.375rem] left-[calc(16.67%+1.375rem)] right-[calc(16.67%+1.375rem)] h-px bg-[var(--aw-color-border)]" aria-hidden="true"></div>
+      <div class="relative">
+        <div aria-hidden="true" class="hidden md:block absolute left-[20px] top-[24px] bottom-[24px] w-px bg-[var(--aw-color-border)]"></div>
 
-        {steps.map((step) => (
-          <div class="flex flex-col items-center text-center">
-            <div class="relative mb-5 w-11 h-11 rounded-full border-2 border-primary/20 bg-[var(--aw-color-bg-page)] flex items-center justify-center z-10">
-              <span class="text-[0.6875rem] font-bold text-primary tracking-wider">{step.n}</span>
+        <div class="space-y-8 md:space-y-10">
+          {anatomy.map((a) => (
+            <div class="flex gap-5 md:gap-8 items-start">
+              <div class="shrink-0 relative">
+                <div class="w-10 h-10 rounded-full border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] flex items-center justify-center font-mono text-[0.75rem] font-semibold text-primary">
+                  {a.n}
+                </div>
+              </div>
+              <div class="flex-1 pt-1">
+                <h3 class="text-[1.125rem] font-semibold text-[var(--aw-color-text-heading)] mb-1.5 font-mono">{a.title}</h3>
+                <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] max-w-[620px]">{a.desc}</p>
+              </div>
             </div>
-            <h3 class="text-[0.9375rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">{step.title}</h3>
-            <p class="text-[0.8125rem] text-[var(--aw-color-text-muted)] leading-relaxed">{step.desc}</p>
-          </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="mt-14 p-5 rounded-xl bg-[var(--aw-color-bg-subtle)] border border-[var(--aw-color-border)] inline-block">
+        <code class="text-[0.8125rem] md:text-[0.875rem] font-mono text-[var(--aw-color-text-default)] leading-relaxed">
+          <span class="text-primary">App</span> = <span class="text-primary">AppInput</span>[] + <span class="text-primary">Stage</span>[] + <span class="text-primary">Artifact</span>[]
+        </code>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[rgba(0,0,0,0.015)] border-y border-[var(--aw-color-border)] py-20 md:py-28">
+    <div class="mx-auto max-w-6xl px-6 md:px-10">
+      <div class="mb-14 max-w-[640px]">
+        <p class="section-label">案例</p>
+        <h2 class="section-title">為團隊真實要做的事而設計。</h2>
+        <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] leading-[1.75]">
+          我們提供預置 App 套件，覆蓋各團隊的常見工作流。開箱即用，或 fork 後改造為你自己的流程。
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-5">
+        {cases.map((c) => (
+          <a href={c.slug} class="group relative block p-7 md:p-8 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-primary/40 hover:shadow-[0_12px_40px_rgba(82,153,97,0.10)] transition-all duration-200">
+            <p class="text-[0.6875rem] font-mono uppercase tracking-[0.18em] text-[var(--aw-color-text-muted)] mb-3">{c.eyebrow}</p>
+            <h3 class="text-[1.75rem] md:text-[2rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] mb-2.5 group-hover:text-primary transition-colors">{c.title}</h3>
+            <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-6">{c.desc}</p>
+            <div class="space-y-1.5 mb-6">
+              {c.examples.map((ex) => (
+                <div class="flex items-center gap-2 text-[0.8125rem] text-[var(--aw-color-text-default)]">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" class="text-primary/70 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span class="font-mono text-[0.75rem]">{ex}</span>
+                </div>
+              ))}
+            </div>
+            <div class="inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-primary">
+              查看案例詳情
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </div>
+          </a>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- 首個落地場景：GTM -->
-  <section class="py-16 md:py-24 px-4">
-    <div class="mx-auto max-w-5xl">
-      <div class="text-center mb-12">
-        <p class="section-label">首個落地場景</p>
-        <h2 class="section-title">從 B2B 成長開始。</h2>
-        <p class="section-sub">我們的 GTM 套件預載了潛客挖掘、外部觸達、客戶留存和洞察分析 App，開箱即用。</p>
-      </div>
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {gtmApps.map((app) => (
-          <div class="p-6 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]">
-            <div class="mb-3 w-9 h-9 rounded-lg bg-primary/[0.08] flex items-center justify-center text-primary">
-              <Icon name={app.icon} class="w-4 h-4" />
-            </div>
-            <h3 class="text-[0.875rem] font-semibold text-[var(--aw-color-text-heading)] mb-1.5">{app.title}</h3>
-            <p class="text-[0.8125rem] text-[var(--aw-color-text-muted)] leading-relaxed">{app.desc}</p>
-          </div>
-        ))}
+  <section class="py-20 md:py-28">
+    <div class="mx-auto max-w-3xl px-6 md:px-10 text-center">
+      <h2 class="text-[1.875rem] md:text-[2.5rem] font-bold tracking-[-0.025em] leading-[1.15] text-[var(--aw-color-text-heading)] mb-4">
+        午餐前發佈你的<br/>第一個 App。
+      </h2>
+      <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-8 max-w-[480px] mx-auto">
+        打開對話，跑通一次，點擊<span class="font-mono"> 存為 App </span>——就是整個流程。
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <a href="https://app.aitroop.net"
+           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
+          免費開始
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a href="/zh-TW/contact"
+           class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.025)] transition-all duration-150">
+          聯絡我們
+        </a>
       </div>
     </div>
   </section>
-
-  <!-- CTA -->
-  <CallToAction
-    id="cta-section"
-    title="開始建構你的第一個 Agent。"
-    subtitle="連結你的工具，選擇一個技能，幾分鐘內發布你的第一個 App。"
-    actions={[
-      { text: '免費開始', href: 'https://app.aitroop.net', variant: 'primary' },
-      { text: '聯絡我們', href: '/contact', variant: 'secondary' },
-    ]}
-  />
 
 </Layout>
 
 <style>
   .section-label {
-    font-size: 0.65rem;
+    font-size: 0.6875rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--aw-color-primary, #529961);
-    margin-bottom: 0.5rem;
-    opacity: 0.85;
+    margin-bottom: 0.875rem;
   }
   .section-title {
-    font-size: clamp(1.625rem, 4vw, 2.25rem);
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 1.2;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
     color: var(--aw-color-text-heading);
-    margin-bottom: 0.75rem;
-  }
-  .section-sub {
-    font-size: 0.9375rem;
-    color: var(--aw-color-text-muted);
-    max-width: 520px;
-    margin: 0 auto;
-    line-height: 1.75;
+    margin-bottom: 1rem;
   }
 </style>
