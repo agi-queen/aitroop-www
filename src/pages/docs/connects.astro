@@ -1,122 +1,220 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
-
-const metadata = {
-  title: 'Connects — Aitroop Docs',
-};
-
-const connects = [
-  { name: 'google-drive', scope: 'Read & write files, list folders.',                    use: 'Picking a Drive document as App input, saving Artifacts back to Drive.' },
-  { name: 'gmail',        scope: 'Search threads, read messages, send mail.',            use: 'Searching past correspondence, drafting and sending outreach.' },
-  { name: 'github',       scope: 'Read repos & PRs, optionally write issues/comments.',  use: 'Engineering reports, PR summaries, issue triage.' },
-  { name: 'salesforce',   scope: 'Read & write objects (leads, accounts, opportunities).',use: 'Lead enrichment, pipeline insights, deal hygiene.' },
-  { name: 'hubspot',      scope: 'Read & write contacts, companies, deals, notes.',      use: 'Marketing ops, sequence drafts, CRM cleanup.' },
-  { name: 'notion',       scope: 'Read pages & databases, write to designated pages.',   use: 'Picking a Notion page as input, publishing reports to Notion.' },
-  { name: 'slack',        scope: 'Post messages, search channels, fetch threads.',       use: 'Delivering scheduled Artifacts to a channel, summarizing thread activity.' },
-  { name: 'linear',       scope: 'Read & write issues, projects, cycles.',               use: 'Sprint reports, issue triage, weekly status updates.' },
-];
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={{ title: 'Connects — Aitroop Docs' }}>
   <DocsShell current="connects">
     <h1>Connects</h1>
     <p class="lead">
-      Connects are OAuth integrations into the systems you already use. They let the agent read and write
-      through your authorized account — no shared API keys, no exported CSVs, no copy-paste between tools.
+      A Connect is an OAuth integration between Aitroop and an account you have on another service —
+      Gmail, Drive, GitHub, a CRM, and so on. Connects are how the agent reads and writes to your tools
+      <em>through your own account</em>, without you sharing passwords or API keys.
     </p>
 
-    <h2>How connects work</h2>
-    <p>
-      You authorize a Connect once. From that point on, any chat or App in your workspace that needs that
-      system can use it. Authorization happens at the workspace level, so authorizing
-      <code>google-drive</code> once makes Drive available to every App in your workspace — but every
-      run still acts as <em>you</em>: with your permissions, against your data.
-    </p>
-    <p>
-      The OAuth flow uses the standard provider screens. We never see your password. The tokens are stored
-      encrypted; you can revoke any Connect at any time from the Connects settings page.
-    </p>
+    <h2>How Connects work operationally</h2>
+    <ol>
+      <li>You authorize a Connect once per provider, via that provider's OAuth flow.</li>
+      <li>Aitroop receives an access token and stores it encrypted at rest.</li>
+      <li>From that point on, any App or Chat that needs that provider uses your token transparently.</li>
+      <li>The token is scoped to whatever permissions you granted in the OAuth flow.</li>
+      <li>You can revoke any Connect any time; future calls fail until re-authorized.</li>
+    </ol>
 
-    <h2>Authorizing a connect</h2>
-    <p>
-      Two paths:
-    </p>
+    <h3>Why OAuth?</h3>
+    <p>Three reasons OAuth is the standard rather than API keys:</p>
     <ul>
-      <li><strong>Proactive.</strong> Go to <strong>Settings → Connects</strong>, find the one you want, click <strong>Authorize</strong>. The provider's OAuth screen opens; you approve; you're done.</li>
-      <li><strong>Just-in-time.</strong> Open a chat and ask the agent to do something that needs the Connect. The agent pauses and prompts you to authorize. After authorizing, the same chat continues from where it left off.</li>
+      <li><strong>Permissions are scoped.</strong> You can grant read-only when you only need reads.</li>
+      <li><strong>Tokens are revocable.</strong> Revoke via Aitroop or via the provider's account settings.</li>
+      <li><strong>You can audit.</strong> Both Aitroop and the provider log each call.</li>
     </ul>
 
-    <h2>Common connects</h2>
-    <p>The most-used Connects today:</p>
-    <div class="not-prose mt-3 mb-2" style="max-width:720px;">
-      <div class="rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] overflow-hidden">
-        <div class="grid grid-cols-[140px_1fr_1fr] text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] px-4 py-2.5 bg-[var(--aw-color-bg-subtle)] border-b border-[var(--aw-color-border)]">
-          <div>Connect</div>
-          <div>Scopes requested</div>
-          <div>Typical use</div>
-        </div>
-        {connects.map((c) => (
-          <div class="grid grid-cols-[140px_1fr_1fr] gap-3 px-4 py-3 text-[0.8125rem] border-b border-[var(--aw-color-border)] last:border-b-0">
-            <div><code class="text-primary font-mono">{c.name}</code></div>
-            <div class="text-[var(--aw-color-text-default)] leading-[1.6]">{c.scope}</div>
-            <div class="text-[var(--aw-color-text-muted)] leading-[1.6]">{c.use}</div>
-          </div>
-        ))}
-      </div>
+    <h2>Authorizing a Connect</h2>
+    <p>Two paths, depending on what triggered the need:</p>
+
+    <h3>Path A: Proactively, from Settings</h3>
+    <ol>
+      <li>Open <strong>Settings → Connects</strong> (sidebar or top-right menu).</li>
+      <li>You see two sections: <strong>Authorized</strong> (active Connects) and <strong>Available</strong>
+        (providers you can authorize).</li>
+      <li>Find the provider you want under Available — Google, GitHub, your CRM, etc.</li>
+      <li>Click <strong>Authorize</strong>.</li>
+      <li>A popup opens with the provider's OAuth screen. Review the scopes Aitroop is requesting.</li>
+      <li>Click <strong>Approve</strong> (or whatever the provider calls it).</li>
+      <li>You're returned to Aitroop. The Connect now appears under Authorized with status "Active".</li>
+    </ol>
+
+    <h3>Path B: Just-in-time, during a run</h3>
+    <p>
+      You run an App (or use a Chat) that needs a Connect you haven't authorized. The run pauses and shows:
+    </p>
+    <div class="code-block" style="font-size:0.8125rem;line-height:1.7;">
+🔒 This App needs Google Drive access to read your files.<br/>
+<br/>
+&nbsp;&nbsp;[ Authorize Google Drive ] &nbsp; [ Cancel run ]
+    </div>
+    <ol>
+      <li>Click <strong>Authorize Google Drive</strong>.</li>
+      <li>OAuth popup opens. Review scopes. Approve.</li>
+      <li>You're returned to the chat or run. It resumes from where it paused.</li>
+    </ol>
+
+    <h2>Browsing available Connects</h2>
+    <p>
+      Open <strong>Settings → Connects → Available</strong>. The page lists providers Aitroop currently
+      supports with their categories (productivity, communication, CRM, dev tools, etc.). The exact catalog
+      evolves; check the settings page for what's available right now.
+    </p>
+    <p>You can also ask the agent in chat:</p>
+    <div class="code-block">
+&gt; what Connects can I authorize?<br/>
+&gt; is there a Connect for Salesforce?
     </div>
 
-    <h2>Read vs write access</h2>
+    <h2>Reading vs writing — scope selection</h2>
     <p>
-      Each Connect distinguishes read scopes from write scopes. When you authorize a Connect, the OAuth
-      screen lists exactly what's being requested. You can authorize read-only at first and add write
-      scopes later from the same Connect's settings page — the first App that needs write access will
-      prompt you to extend the scope.
+      Most providers offer separate read and write OAuth scopes. When you authorize, the provider's
+      screen shows what's being requested.
     </p>
+    <ul>
+      <li><strong>Authorize read-only</strong> if the App only reads data — for example, a "weekly inbox summary" App.</li>
+      <li><strong>Add write scopes later</strong> only when you want the App to write — for example, "send the summary as a reply".</li>
+    </ul>
+    <p>You can re-authorize an existing Connect to add scopes without revoking and re-authorizing from scratch.</p>
+
+    <h3>Operational example: incremental scope expansion</h3>
+    <ol>
+      <li>You authorize <strong>Gmail (read-only)</strong> for a triage App.</li>
+      <li>Months later you decide the App should also draft replies for you.</li>
+      <li>Open <strong>Settings → Connects → Gmail → Manage scopes</strong>.</li>
+      <li>Toggle on <code>gmail.compose</code>.</li>
+      <li>Go through OAuth re-prompt. Approve.</li>
+      <li>Apps that previously had read-only Gmail can now compose.</li>
+    </ol>
+
+    <h2>Declaring Connects on an App</h2>
     <p>
-      This is how you keep Connect access minimal. <code>web-scrape</code> + <code>gmail-search</code> with
-      read-only Gmail is enough to draft a reply; it can't accidentally send anything. Add the
-      <code>gmail.send</code> scope later, only when you actually want sends.
+      Each App declares the Connect provider keys it needs in <code>resources.connects</code>:
+    </p>
+    <div class="code-block">
+"resources": {`{`}<br/>
+&nbsp;&nbsp;"skills": ["web-search"],<br/>
+&nbsp;&nbsp;"connects": ["google", "github"]<br/>
+{`}`}
+    </div>
+
+    <p>
+      The provider keys are short identifiers like <code>google</code>, <code>github</code>,
+      <code>hubspot</code>, <code>notion</code>, <code>slack</code>. When you build an App
+      conversationally, the App Builder adds the right keys automatically based on what the App needs.
     </p>
 
-    <h2>Per-user vs shared connects</h2>
+    <h2>Per-user vs shared Connects</h2>
+    <p>Two operational models depending on the provider and your workspace's configuration:</p>
+
+    <h3>Per-user Connects (default for personal data)</h3>
     <p>
-      Most Connects are <strong>per-user</strong>: each teammate authorizes their own account, and Apps
-      that need that Connect act as whoever is running them. This is what you want for things like Gmail
-      and Calendar — the App reads <em>your</em> mail, not your colleague's.
+      Each user authorizes their own account. When a teammate runs a shared App, it uses
+      <em>their</em> tokens — not yours.
     </p>
     <p>
-      A few systems (typically CRMs like Salesforce and HubSpot) work better as <strong>shared</strong>
-      Connects: one workspace-level authorization, and Apps act on the shared account. This is configured
-      per Connect by a workspace admin. Look for the <strong>Workspace Connect</strong> label on the
-      Connect's settings page.
+      Example: a shared "Daily inbox triage" App reads your Gmail when you run it, your colleague's when
+      they run it. Each user authorizes Gmail separately.
     </p>
 
-    <h2>Revoking access</h2>
+    <h3>Shared workspace Connects (for shared accounts)</h3>
     <p>
-      <strong>Settings → Connects → Revoke</strong> immediately disconnects the integration and deletes
-      the stored tokens. Any App scheduled to use that Connect will fail on its next run until you
-      re-authorize — which is the safe default.
+      A workspace admin authorizes once on behalf of the team. All Apps in the workspace use the shared
+      authorization. Useful for systems like a shared Salesforce instance, where everyone should act as
+      the same Aitroop service account.
     </p>
     <p>
-      You can also revoke from the provider side (e.g., Google's third-party app permissions page).
-      Either method works; the next attempt by an App will detect the revocation.
+      Configured per Connect by a workspace admin. Look for the <strong>Workspace Connect</strong> label
+      on the Connect's settings page.
+    </p>
+
+    <h2>Revoking a Connect</h2>
+
+    <h3>From Aitroop</h3>
+    <ol>
+      <li>Open <strong>Settings → Connects → Authorized</strong>.</li>
+      <li>Find the Connect to revoke.</li>
+      <li>Click <strong>Revoke</strong>.</li>
+      <li>Confirm the prompt.</li>
+      <li>The encrypted token is deleted. Status changes to "Revoked".</li>
+      <li>Apps that need this Connect will prompt for re-authorization on next run.</li>
+    </ol>
+
+    <h3>From the provider's side</h3>
+    <p>
+      You can also revoke from the provider's account settings (e.g., Google's "third-party app access"
+      page). The next time an App tries to use the token, the API call fails — Aitroop detects this and
+      prompts for re-authorization.
     </p>
 
     <h2>Connect-aware AppInputs</h2>
     <p>
-      The <code>connect_file</code> AppInput type lets users pick a file from one of their authorized
-      Connects when running an App. The picker shows Drive folders, Notion pages, or whatever the
-      authorized Connect supports — and what the user picks gets passed to the agent as a file reference.
+      The <code>file</code> AppInput type can be configured to pick a file from one of your authorized
+      Connects (Drive, Notion, etc.) instead of requiring a fresh upload.
     </p>
     <p>
-      Use this when the input is naturally "a document the user already has somewhere", rather than
-      something they need to download and re-upload.
+      This is set in the App design — the App Builder picks it automatically when the App's task makes
+      it natural ("summarize a Notion page I'll point at"). The user running the App sees a file picker
+      showing their cloud storage, picks a document, and the agent reads it via the Connect.
+    </p>
+
+    <h2>Confirmation for write actions</h2>
+    <p>
+      When an App or Chat is about to write through a Connect (send mail, create a record, modify a file),
+      the behavior depends on the context:
+    </p>
+    <ul>
+      <li><strong>In Chat:</strong> the agent shows what it's about to do and waits for explicit approval. You can approve, modify, or cancel.</li>
+      <li><strong>In an App run (manual):</strong> approved at App-creation time. Writes happen without per-call confirmation.</li>
+      <li><strong>In a scheduled run:</strong> approved at Schedule-creation time. Writes happen automatically.</li>
+    </ul>
+    <p>
+      Write capability never widens silently. Bumping an App from "drafts emails" to "sends emails"
+      requires explicit approval and a new App version.
+    </p>
+
+    <h2>Security model</h2>
+    <ul>
+      <li><strong>Tokens stored encrypted at rest.</strong> Storage uses workspace-level encryption keys.</li>
+      <li><strong>Tokens never leave the platform.</strong> The agent uses tokens via internal service calls; raw tokens are never passed to a language model or exposed in chat transcripts.</li>
+      <li><strong>Sandboxed execution.</strong> Each run executes in an isolated E2B sandbox. Tokens are injected per-run; the sandbox is destroyed after.</li>
+      <li><strong>Audit trail.</strong> Every Connect call is logged with the App, run, and user that triggered it. Available under <strong>Settings → Connects → Audit log</strong>.</li>
+      <li><strong>Revocation propagation.</strong> Revoking a Connect immediately invalidates the stored token. In-flight runs may complete their current call but won't be able to make new ones.</li>
+    </ul>
+
+    <h2>Troubleshooting</h2>
+
+    <h3>"Authorization succeeded but the App still fails."</h3>
+    <p>
+      Two common causes:
+    </p>
+    <ul>
+      <li>You authorized with the wrong account (a personal account when the App expected a work account). Switch accounts in the OAuth provider's settings and re-authorize.</li>
+      <li>The App needs more scopes than you initially granted. Open the Connect's settings page and add missing scopes.</li>
+    </ul>
+
+    <h3>"Token expired" errors on scheduled runs</h3>
+    <p>
+      Some providers (notably long-lived OAuth tokens that rotate) require periodic re-authorization. Open
+      the Connect's settings page; if status is "Re-auth required", click <strong>Re-authorize</strong>
+      and complete OAuth again. Scheduled runs resume automatically.
+    </p>
+
+    <h3>"I revoked from the provider's side. How do I clean up Aitroop's state?"</h3>
+    <p>
+      Open <strong>Settings → Connects</strong>. The Connect will show as "Revoked" (the platform detects
+      this on the next attempted call). Click <strong>Remove</strong> to delete the stored token reference
+      entirely, or <strong>Re-authorize</strong> to restore the Connect.
     </p>
 
     <div class="next-up">
       <span class="label">Next</span>
-      <a href="/docs/schedules">Schedules — running Apps on a cron</a>
+      <a href="/docs/schedules">Schedules — running Apps on cron</a>
     </div>
   </DocsShell>
 </Layout>

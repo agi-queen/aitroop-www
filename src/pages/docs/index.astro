@@ -1,7 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
-import { Icon } from 'astro-icon/components';
 
 const metadata = {
   title: 'Docs — Aitroop',
@@ -10,239 +9,105 @@ const metadata = {
 
 <Layout metadata={metadata}>
   <DocsShell current="index">
-    <h1>Welcome to Aitroop</h1>
+    <h1>Aitroop documentation</h1>
     <p class="lead">
-      This is the documentation for people who've never used Aitroop before. It assumes you don't know
-      what an "AI agent" is in practice, you've never written code, and the word "cron" means nothing to you.
-      You'll be running your first App by the end of the next page.
+      Aitroop is an AI agent platform. You build <strong>Apps</strong> — saved workflows with a form,
+      a goal, and a defined output — by talking to the agent in chat. Apps run on demand or on a
+      schedule, and produce typed artifacts you can share, download, or chain.
     </p>
 
-    <!-- ── WHAT IS AITROOP? ────────────────────────────────────── -->
-    <h2>What is Aitroop, in one paragraph</h2>
+    <h2>The one-paragraph version</h2>
     <p>
-      You've probably used ChatGPT, Claude, or Gemini. You ask the AI to do something, it does it, you
-      get a result, you close the tab. The next time you need the same thing, you have to type the whole
-      request again — or hunt for the old conversation. Multiply that by every person on your team and
-      you have a real productivity problem.
-    </p>
-    <p>
-      <strong>Aitroop fixes that.</strong> You explore in chat like normal. When you find a useful
-      conversation — say, "summarize this week's GitHub activity into a Monday morning report" —
-      you click <strong>Save as App</strong>. Aitroop turns your chat into a one-click button with a
-      form. Anyone on your team can press the button, fill in the form (which week, which repo), and get
-      the same kind of report. Set it on a schedule and the report arrives in your inbox every Monday
-      morning without anyone touching it.
+      Open a chat. Say <em>"Create an app that…"</em>. The agent asks 1–5 clarifying questions, designs
+      the App (form fields, stages, output format, required Skills and Connects), saves it via the API,
+      and gives you the App ID. You then run the App from your library — fill the form, click Run, get
+      a typed Artifact. Or attach a Schedule and it runs automatically.
     </p>
 
     <div class="callout">
-      <strong>The one-sentence version.</strong> Aitroop is "Save the prompt as a button" — explore in chat,
-      save what works as a reusable App with a form and a schedule.
+      <strong>Apps are built conversationally, not by clicking through menus.</strong> If you've used
+      ChatGPT, you already know how to use Aitroop — you just add the phrase "as an app" at the end of your
+      request when you want to keep it.
     </div>
 
-    <!-- ── IS IT FOR ME? ──────────────────────────────────────── -->
-    <h2>Is Aitroop right for what you're doing?</h2>
-    <p>Aitroop is a great fit if you can answer "yes" to at least one of these:</p>
-    <div class="not-prose grid sm:grid-cols-2 gap-3 my-4" style="max-width:720px;">
-      <div class="p-4 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]">
-        <p class="text-[0.875rem] font-semibold text-[var(--aw-color-text-default)] m-0 mb-1">Repetition</p>
-        <p class="text-[0.8125rem] text-[var(--aw-color-text-muted)] leading-[1.55] m-0">Do you keep retyping the same kind of AI prompt with small variations? Weekly reports, lead research, document summaries, expense reviews?</p>
-      </div>
-      <div class="p-4 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]">
-        <p class="text-[0.875rem] font-semibold text-[var(--aw-color-text-default)] m-0 mb-1">Team sharing</p>
-        <p class="text-[0.8125rem] text-[var(--aw-color-text-muted)] leading-[1.55] m-0">Do you need other people to run the same AI workflow you figured out — without them learning prompting?</p>
-      </div>
-      <div class="p-4 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]">
-        <p class="text-[0.875rem] font-semibold text-[var(--aw-color-text-default)] m-0 mb-1">Automation</p>
-        <p class="text-[0.8125rem] text-[var(--aw-color-text-muted)] leading-[1.55] m-0">Do you want the AI to do something automatically — daily, weekly, when a customer signs up — without you starting it?</p>
-      </div>
-      <div class="p-4 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]">
-        <p class="text-[0.875rem] font-semibold text-[var(--aw-color-text-default)] m-0 mb-1">Integration</p>
-        <p class="text-[0.8125rem] text-[var(--aw-color-text-muted)] leading-[1.55] m-0">Do you want the AI to read from / write to tools you already use — Gmail, Drive, GitHub, Salesforce, Notion?</p>
-      </div>
-    </div>
-
-    <p>
-      If you're only ever using AI for one-off questions (rewrite this email, what's the capital of Peru),
-      <em>plain ChatGPT is fine</em>. You don't need Aitroop. The platform earns its keep when you're
-      doing the same kind of AI-assisted work repeatedly.
-    </p>
-
-    <!-- ── HOW IT WORKS ──────────────────────────────────────── -->
-    <h2>How it actually works — the three-step picture</h2>
-    <p>
-      Every workflow in Aitroop, no matter how fancy, follows the same three steps. If you remember
-      nothing else from these docs, remember this:
-    </p>
-
-    <div class="not-prose my-6" style="max-width:720px;">
-      <div class="grid sm:grid-cols-3 gap-3">
-        <div class="p-5 rounded-xl border-2 border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] relative">
-          <div class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary/[0.1] text-primary font-mono text-[0.75rem] font-bold mb-3">1</div>
-          <h3 class="text-[0.9375rem] font-semibold text-[var(--aw-color-text-heading)] mb-1.5 m-0">Chat</h3>
-          <p class="text-[0.8125rem] text-[var(--aw-color-text-muted)] leading-[1.55] m-0">
-            You talk to the AI like you would in ChatGPT. Try different phrasings. Iterate until the
-            result is what you want.
-          </p>
-        </div>
-        <div class="p-5 rounded-xl border-2 border-primary/30 bg-primary/[0.02] relative">
-          <div class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary/[0.15] text-primary font-mono text-[0.75rem] font-bold mb-3">2</div>
-          <h3 class="text-[0.9375rem] font-semibold text-[var(--aw-color-text-heading)] mb-1.5 m-0">Save as App</h3>
-          <p class="text-[0.8125rem] text-[var(--aw-color-text-muted)] leading-[1.55] m-0">
-            Click one button. Aitroop turns the conversation into a form — the variable parts become
-            fields anyone can fill in.
-          </p>
-        </div>
-        <div class="p-5 rounded-xl border-2 border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] relative">
-          <div class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary/[0.1] text-primary font-mono text-[0.75rem] font-bold mb-3">3</div>
-          <h3 class="text-[0.9375rem] font-semibold text-[var(--aw-color-text-heading)] mb-1.5 m-0">Run & schedule</h3>
-          <p class="text-[0.8125rem] text-[var(--aw-color-text-muted)] leading-[1.55] m-0">
-            Your team runs the App by filling the form. Set a schedule and it runs automatically —
-            daily, weekly, hourly.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- ── A TINY EXAMPLE ─────────────────────────────────────── -->
-    <h2>A tiny example, end to end</h2>
-    <p>Let's make this concrete. Suppose you're an engineering manager and every Monday you write a "what happened last week" report.</p>
-
-    <h3 style="margin-top:1.5rem;">Before Aitroop</h3>
-    <p style="margin-bottom:0.5rem;">Every Monday morning, you:</p>
-    <ol>
-      <li>Open GitHub.</li>
-      <li>Click through last week's commits in three different repos.</li>
-      <li>Copy interesting ones into a Google Doc.</li>
-      <li>Write three paragraphs summarizing them.</li>
-      <li>Email it to the team.</li>
-    </ol>
-    <p>Total time: roughly 45 minutes, every week.</p>
-
-    <h3>With Aitroop, the first time</h3>
-    <ol>
-      <li>You open a chat and type: "Pull last week's commits from <code>shop-frontend</code>, <code>shop-backend</code>, and <code>shop-mobile</code>. Group by repo. Skip merge commits. Summarize in three paragraphs."</li>
-      <li>The agent does it. You read the output. You ask for tweaks: "Make the tone more casual. Skip Dependabot."</li>
-      <li>When the report is just right, you click <strong>Save as App</strong>. Aitroop notices that "last week's commits" and the three repo names are the variable parts, so it turns them into a form. You name the App <code>Weekly engineering report</code> and save.</li>
-    </ol>
-    <p>Total time: about 15 minutes — the first time only.</p>
-
-    <h3>Every Monday after that</h3>
-    <ol>
-      <li>The App runs automatically at 9:00 AM (you set a schedule).</li>
-      <li>The report lands in your email inbox at 9:01 AM.</li>
-      <li>You skim it, edit a sentence if you want, and forward.</li>
-    </ol>
-    <p>Total time: 2 minutes per week, forever.</p>
-
-    <div class="callout">
-      <strong>That's the whole product.</strong> You're going to do this with reports, lead lists, expense
-      audits, contract reviews, inbox triage, customer health checks — anything you do repeatedly with AI.
-    </div>
-
-    <!-- ── HOW DOES THIS COMPARE? ─────────────────────────────── -->
-    <h2>How is this different from things I already know?</h2>
-
-    <h3>"Isn't this just ChatGPT?"</h3>
-    <p>
-      ChatGPT is great at the <strong>conversation</strong> part. Aitroop has that too, but it adds the
-      "save the conversation as a reusable button" part — and the form, the scheduling, the team sharing,
-      the integration with your existing tools. ChatGPT can't run on a cron, can't read from your Salesforce,
-      can't be filled in by a teammate without them re-doing all your prompt work.
-    </p>
-
-    <h3>"Isn't this just Zapier?"</h3>
-    <p>
-      Zapier is great at the <strong>"when X happens, do Y"</strong> part — chains of fixed steps. Aitroop
-      is great at the <strong>"figure out what to do"</strong> part — the AI reads the situation and
-      decides. You'd use Zapier when the steps are mechanical and always the same. You'd use Aitroop when
-      the steps require judgment, summarization, or research — which is most of the interesting work.
-    </p>
-
-    <h3>"Isn't this just a spreadsheet with formulas?"</h3>
-    <p>
-      A spreadsheet can do arithmetic, lookups, and pivots. Aitroop can read your inbox, score leads,
-      summarize a 50-page PDF, draft personalized emails, audit expenses for policy violations, and
-      explain why a deal is stalling. They overlap zero.
-    </p>
-
-    <!-- ── KEY TERMS ──────────────────────────────────────────── -->
-    <h2>Three words you'll see a lot — defined right now</h2>
-    <p>
-      Aitroop has a few terms it uses everywhere. Knowing them in advance makes the rest of the docs much
-      easier:
-    </p>
-    <div class="not-prose space-y-3 my-4" style="max-width:720px;">
-      <div class="p-4 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]">
-        <p class="text-[0.6875rem] font-mono uppercase tracking-[0.15em] text-primary mb-1 m-0">App</p>
-        <p class="text-[0.875rem] text-[var(--aw-color-text-default)] leading-[1.6] m-0">
-          A saved AI workflow. It has a form (so people can fill in different inputs each time) and a
-          fixed goal (so the result is consistent). Anything in your Aitroop "library" is an App.
-        </p>
-      </div>
-      <div class="p-4 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]">
-        <p class="text-[0.6875rem] font-mono uppercase tracking-[0.15em] text-primary mb-1 m-0">Skill</p>
-        <p class="text-[0.875rem] text-[var(--aw-color-text-default)] leading-[1.6] m-0">
-          A capability the AI can use — like "search Gmail", "scrape a website", "read a PDF",
-          "look up a company on LinkedIn". You install Skills once; the AI uses them when needed.
-        </p>
-      </div>
-      <div class="p-4 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]">
-        <p class="text-[0.6875rem] font-mono uppercase tracking-[0.15em] text-primary mb-1 m-0">Connect</p>
-        <p class="text-[0.875rem] text-[var(--aw-color-text-default)] leading-[1.6] m-0">
-          A link between Aitroop and an account you have somewhere else — your Gmail, your Google Drive,
-          your GitHub, your Salesforce. The AI reads and writes through Connects.
-        </p>
-      </div>
-    </div>
-    <p>
-      There are a few more terms (Stage, Artifact, AppInput) you'll meet on the
-      <a href="/docs/concepts">Core concepts</a> page. They're easier to understand once you've built
-      one App, so don't worry about them yet.
-    </p>
-
-    <!-- ── HOW TO READ THE DOCS ───────────────────────────────── -->
-    <h2>How to actually use this documentation</h2>
-    <p>If you're starting fresh, read the pages in this order:</p>
+    <h2>Where to start</h2>
     <ol>
       <li>
-        <strong><a href="/docs/quickstart">Quickstart</a></strong> — about 15 minutes.
-        You'll sign up, build a real App, run it, and (optionally) schedule it. This is the most important page.
+        <strong><a href="/docs/quickstart">Quickstart</a></strong> — 15 minutes, end-to-end. Sign in,
+        build an App by talking to the agent, run it, schedule it. <strong>Read this first.</strong>
       </li>
       <li>
-        <strong><a href="/docs/concepts">Core concepts</a></strong> — about 10 minutes.
-        Now that you've used the platform, the terminology will make sense. This page gives you the mental
-        model that holds everything else together.
+        <strong><a href="/docs/concepts">Core concepts</a></strong> — the App JSON schema, all 11 AppInput
+        types, the 3 stage types, the <code>{`{{field_id}}`}</code> template syntax. Reference companion to the Quickstart.
       </li>
       <li>
         <strong><a href="/docs/chat">Chat mode</a></strong> and <strong><a href="/docs/apps">Apps</a></strong> —
-        deeper looks at the two main surfaces.
+        the two surfaces in detail.
       </li>
       <li>
-        <strong>Skills, Connects, Schedules, Artifacts</strong> — reference pages. Read when you need them,
-        not before.
+        <strong><a href="/docs/skills">Skills</a></strong>, <strong><a href="/docs/connects">Connects</a></strong>,
+        <strong><a href="/docs/schedules">Schedules</a></strong>, <strong><a href="/docs/artifacts">Artifacts</a></strong> —
+        deep dives. Read when you need the depth.
       </li>
     </ol>
 
-    <div class="callout">
-      <strong>Don't read these docs front-to-back.</strong> The fastest way to learn Aitroop is to build
-      one real App. Start with the <a href="/docs/quickstart">Quickstart</a>, get something working, and
-      come back to the other pages when you have a specific question.
+    <h2>What an App looks like</h2>
+    <p>A real (slightly simplified) App definition:</p>
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"name":     "Company Brief",<br/>
+&nbsp;&nbsp;"icon":     "🏢",<br/>
+&nbsp;&nbsp;"input_schema": [<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{`{`} "id": "company_name", "type": "text", "required": true {`}`},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{`{`} "id": "tone", "type": "select",<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"options": [{`{`} "label": "Executive", "value": "exec" {`}`}, ...] {`}`}<br/>
+&nbsp;&nbsp;],<br/>
+&nbsp;&nbsp;"stages": [<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{`{`} "id": "research", "stage_type": "agent",<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"goal": "Research <span style="color:var(--aw-color-primary)">{`{{company_name}}`}</span> and write a brief<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in a <span style="color:var(--aw-color-primary)">{`{{tone}}`}</span> tone...",<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"artifact_defs": [<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{`{`} "id": "brief", "format": "markdown" {`}`}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;] {`}`}<br/>
+&nbsp;&nbsp;],<br/>
+&nbsp;&nbsp;"resources": {`{`} "skills": ["web-search"], "connects": [] {`}`}<br/>
+{`}`}
     </div>
+    <p>
+      You don't write this. The agent does. But knowing the shape makes the Quickstart easier to follow —
+      you'll see the agent constructing exactly this kind of object as you describe what you want.
+    </p>
 
-    <!-- ── HELP ─────────────────────────────────────────────── -->
+    <h2>Three things you can do in Aitroop</h2>
+
+    <h3>1. Build an App from a chat</h3>
+    <p>
+      Say <em>"Create an app that…"</em>. The agent activates the App Builder skill, asks clarifying questions,
+      designs the JSON, validates it, and saves via <code>POST /api/apps</code>. You get an App in your library.
+    </p>
+
+    <h3>2. Run an App</h3>
+    <p>
+      Click the App in your library. Fill the form. Click <strong>Run</strong>. The platform spins up a fresh
+      isolated sandbox, runs each stage in order, and produces the declared artifacts. You preview, download,
+      or chain them to other Apps.
+    </p>
+
+    <h3>3. Schedule an App</h3>
+    <p>
+      From the App page, attach a Schedule: a cron expression, pre-filled inputs, and a delivery target
+      (email, Slack, Drive, webhook). The App runs automatically on the cron and the artifact gets delivered.
+    </p>
+
     <h2>If you get stuck</h2>
     <p>
-      The fastest way to figure something out in Aitroop is to ask the agent itself. Open a chat and
-      type "How do I…?" — the agent knows the platform and can walk you through whichever feature you're
-      confused about.
-    </p>
-    <p>
-      If you're stuck on something the agent can't help with, <a href="/contact">talk to us</a>.
+      The agent itself is the fastest help. Open a chat and ask "How do I…?" — it has the App Builder skill
+      loaded and knows every part of the platform. Or <a href="/contact">talk to us</a>.
     </p>
 
     <div class="next-up">
       <span class="label">Start here</span>
-      <a href="/docs/quickstart">Quickstart — build your first App in 15 minutes</a>
+      <a href="/docs/quickstart">Quickstart — build your first App in 15 min</a>
     </div>
   </DocsShell>
 </Layout>

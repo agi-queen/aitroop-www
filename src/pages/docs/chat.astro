@@ -1,128 +1,327 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
-
-const metadata = {
-  title: 'Chat mode — Aitroop Docs',
-};
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={{ title: 'Chat mode — Aitroop Docs' }}>
   <DocsShell current="chat">
     <h1>Chat mode</h1>
     <p class="lead">
-      Chat is where you figure out what works. It's open-ended, disposable on purpose, and intentionally
-      cheaper than building an App. Use it for exploration; save the version that works.
+      Chat is how you talk to the agent — to explore, to build Apps, to edit existing Apps, to debug
+      failed runs, to ask questions about the platform. This page covers the operational details: the
+      interface, the workflows, what the agent has access to, and how to get good results out of it.
     </p>
 
-    <h2>When to use chat</h2>
+    <h2>What chat is for</h2>
+    <p>Four operational uses, all in the same surface:</p>
+
+    <h3>1. Explore</h3>
+    <p>
+      Try a task before committing to an App. The agent runs in a fresh sandbox; nothing persists
+      unless you save. Best for: "I'm not sure if this is even possible", "let me try a few phrasings",
+      "I need a one-time answer".
+    </p>
+
+    <h3>2. Build Apps</h3>
+    <p>
+      Use a trigger phrase ("create an app that…") to activate the App Builder skill. The agent walks
+      you through the design conversationally and saves the App via the API. Best for: turning a working
+      chat into a reusable workflow.
+    </p>
+
+    <h3>3. Edit existing Apps</h3>
+    <p>
+      Ask the agent to modify an existing App ("update Company Brief to also include hiring data").
+      The App Builder fetches the App, modifies it, re-saves as a new version. Best for: incremental
+      improvements without learning the App's editor UI.
+    </p>
+
+    <h3>4. Debug failed runs</h3>
+    <p>
+      Open a failed run from the App's history. Click <strong>Debug in chat</strong> — a chat opens with
+      the run's context: inputs, partial artifacts, the agent's reasoning trace, the error. Now you can
+      ask the agent what went wrong and how to fix it. Best for: "this used to work, why doesn't it now".
+    </p>
+
+    <h2>Opening a chat</h2>
+    <ol>
+      <li>From any page, click <strong>+ New Chat</strong> in the sidebar.</li>
+      <li>A blank chat opens. Message input at the bottom, conversation area above, breadcrumb at top.</li>
+      <li>The chat runs in an isolated E2B sandbox using the <code>claude-code</code> template — the agent
+        has full read/write access to a temp filesystem and can execute code, but nothing touches your
+        machine or other chats.</li>
+    </ol>
+
+    <h3>Layout of the chat surface</h3>
+    <div class="code-block" style="font-size:0.75rem;line-height:1.7;padding:1rem 1.25rem;">
+<span style="color:var(--aw-color-text-muted)">┌──────────────────────────────────────────────────────────────┐</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>📁 My workspace  /  Chat • 12 May<span style="color:var(--aw-color-text-muted)">       </span><strong>Save as App ▾</strong><span style="color:var(--aw-color-text-muted)">    │</span><br/>
+<span style="color:var(--aw-color-text-muted)">├──────────────────────────────────────────────────────────────┤</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span> <strong>You</strong>                                                          <span style="color:var(--aw-color-text-muted)">│</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>Summarize last week's commits in shop-frontend.<span style="color:var(--aw-color-text-muted)">              │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span>                                                              <span style="color:var(--aw-color-text-muted)">│</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span> <strong>🤖 Agent</strong>&nbsp;<span style="color:var(--aw-color-text-muted)">[github] · 1.4s</span>                              <span style="color:var(--aw-color-text-muted)">│</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span> I'll pull commits via GitHub. One moment.<span style="color:var(--aw-color-text-muted)">                    │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span> <span style="color:var(--aw-color-text-muted)">→ github.list_commits(repo=shop-frontend, since=...)</span><span style="color:var(--aw-color-text-muted)">          │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span> <span style="color:var(--aw-color-text-muted)">← 47 commits returned</span>                                        <span style="color:var(--aw-color-text-muted)">│</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span> &lt;writes summary as markdown&gt;                                <span style="color:var(--aw-color-text-muted)">│</span><br/>
+<span style="color:var(--aw-color-text-muted)">├──────────────────────────────────────────────────────────────┤</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>📎 <span style="color:var(--aw-color-text-muted)">Skills: 12 active · Connects: 4 auth</span>                       <span style="color:var(--aw-color-text-muted)">│</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>Type your reply…                                  <strong>[↵ Send]</strong><span style="color:var(--aw-color-text-muted)"> │</span><br/>
+<span style="color:var(--aw-color-text-muted)">└──────────────────────────────────────────────────────────────┘</span>
+    </div>
+
     <ul>
-      <li><strong>You don't know the right phrasing yet.</strong> The task is clear in your head but you haven't found the prompt that makes the agent produce the output you want.</li>
-      <li><strong>One-off work.</strong> You're never going to do this exact task again. Don't bother saving — just chat, get the result, move on.</li>
-      <li><strong>Editing an existing Artifact.</strong> An App produced something; you want to make small adjustments without re-running the whole App. Open it in chat, ask for the changes, export.</li>
-      <li><strong>Debugging an App.</strong> If a saved App isn't producing what you expect, switch back to chat with the same context and figure out what changed.</li>
+      <li><strong>Breadcrumb (top)</strong> — workspace name / chat name.</li>
+      <li><strong>Save as App ▾ (top-right)</strong> — drop-down with "Save as App" and "Save into existing App". Grayed out until the conversation is saveable.</li>
+      <li><strong>Conversation thread (center)</strong> — alternating user and agent turns. Tool calls (Skill invocations, Connect calls) appear inline with input + output.</li>
+      <li><strong>Status bar (above input)</strong> — count of active Skills and authorized Connects.</li>
+      <li><strong>Attach (📎)</strong> — open a file picker or drag files into the conversation.</li>
+      <li><strong>Send (↵)</strong> — Enter or click.</li>
     </ul>
 
-    <h2>The interface</h2>
-    <p>
-      A chat has three regions: the conversation thread (left), the Artifact preview pane (right),
-      and the toolbar above.
-    </p>
-
-    <h3>Conversation thread</h3>
-    <p>
-      Standard back-and-forth with the agent. Every turn from the agent that produces a deliverable
-      shows up as an Artifact attached to that turn — you can keep iterating, and old Artifacts stay
-      reachable in the scrollback.
-    </p>
-
-    <h3>Artifact preview pane</h3>
-    <p>
-      The latest Artifact lives here, rendered in full. If it's markdown, you see the rendered document.
-      If it's a CSV, you see a table. If it's HTML, you see the page. Click the version drop-down to step
-      back through earlier Artifacts in the same conversation.
-    </p>
-
-    <h3>Toolbar</h3>
-    <p>The actions you'll use most:</p>
+    <h2>What the agent has access to</h2>
+    <p>Inside every chat the agent has:</p>
     <ul>
-      <li><strong>Skills</strong> — open the picker to enable or disable Skills for this chat.</li>
-      <li><strong>Connects</strong> — see which integrations are authorized and currently in scope.</li>
-      <li><strong>Attach</strong> — drop a file directly into the conversation (CSV, PDF, image, code).</li>
-      <li><strong>Save as App</strong> — crystallize the current conversation into a reusable App. See <a href="/docs/apps">Apps</a> for the saved-App lifecycle.</li>
+      <li><strong>Sandbox runtime.</strong> An E2B sandbox using the <code>claude-code</code> template.
+        Can execute Python, Node, install packages, read/write a temp filesystem, make HTTP requests.</li>
+      <li><strong>Web access.</strong> Search, fetch URLs, render pages, screenshot.</li>
+      <li><strong>Installed Skills.</strong> Every Skill in your workspace is available. The
+        <code>aitroop-app-create</code> skill is built in.</li>
+      <li><strong>Authorized Connects.</strong> Every OAuth integration you've authorized. Tokens are
+        injected as env vars (or via internal service calls) at run start.</li>
+      <li><strong>Conversation context.</strong> Previous turns, attached files, and any artifact you've
+        opened in the chat.</li>
     </ul>
 
-    <h2>Writing good chat messages</h2>
+    <h2>Writing a useful first message</h2>
     <p>
-      The quality of the agent's first response is heavily shaped by the quality of your first message.
-      A useful template covers four parts:
+      The quality of the first message shapes the rest of the conversation. A useful template:
     </p>
+
     <div class="code-block">
 <span style="color:var(--aw-color-text-muted)"># Task</span><br/>
 What you want the agent to do, in one or two sentences.<br/>
 <br/>
 <span style="color:var(--aw-color-text-muted)"># Inputs</span><br/>
-The specific data points: dates, names, IDs, file references.<br/>
+Specific data points — dates, names, IDs, file references.<br/>
 <br/>
 <span style="color:var(--aw-color-text-muted)"># Output</span><br/>
-The shape of the answer: markdown / csv / table / etc., and how to structure it.<br/>
+What the result should look like — format, length, structure.<br/>
 <br/>
 <span style="color:var(--aw-color-text-muted)"># Constraints</span><br/>
-What to include, what to skip, language, length.
+What to include, what to skip, language, tone.
     </div>
+
     <p>
-      You don't have to use this template every time. But when something isn't working, adding the
-      missing section is usually the fix.
+      You don't need this template every time. But when the agent's output is missing something, the
+      missing piece is usually one of these four — add it and try again.
     </p>
 
-    <h2>How the agent uses Skills and Connects</h2>
-    <p>
-      Skills are tools the agent can call. Connects are accounts the agent can read and write through.
-      In Chat, both are always available — the agent decides when to invoke them based on the task.
-    </p>
-    <p>
-      You can see what the agent is doing in real time: tool calls appear inline in the conversation
-      with their inputs and results. If the agent tries to use a Connect you haven't authorized, it
-      will pause and ask you to authorize first. Authorize once and the Connect is available for every
-      future chat and App.
-    </p>
+    <h3>Example: a well-formed first message</h3>
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted)"># Task</span><br/>
+Summarize this week's customer support tickets.<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Inputs</span><br/>
+Tickets in HubSpot, status=open, last 7 days.<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Output</span><br/>
+One-page Markdown brief with:<br/>
+- Top 3 themes (one bullet each)<br/>
+- Escalations (with ticket IDs)<br/>
+- Sentiment trend vs prior week<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Constraints</span><br/>
+Skip tickets marked as spam.<br/>
+Executive tone, no jargon.
+    </div>
 
     <h2>Attaching files</h2>
+    <ol>
+      <li>Drag a file from your machine into the chat, or click the 📎 attach button.</li>
+      <li>The file uploads and appears as a chip above the input.</li>
+      <li>The agent gets read access to the file inside its sandbox — it can parse, transform, summarize.</li>
+      <li>The attachment lives for the chat. It doesn't follow you to other chats.</li>
+    </ol>
+
+    <h3>Supported file types</h3>
+    <ul>
+      <li><strong>Text:</strong> <code>.txt</code>, <code>.md</code>, <code>.csv</code>, <code>.json</code>, <code>.xml</code>, <code>.yaml</code>.</li>
+      <li><strong>Documents:</strong> <code>.pdf</code>, <code>.docx</code>, <code>.xlsx</code>, <code>.pptx</code>.</li>
+      <li><strong>Images:</strong> <code>.png</code>, <code>.jpg</code>, <code>.gif</code>, <code>.webp</code>, <code>.svg</code>.</li>
+      <li><strong>Code:</strong> any source file. The agent identifies the language and renders accordingly.</li>
+      <li><strong>Archives:</strong> <code>.zip</code>, <code>.tar.gz</code> — the agent can list contents and extract.</li>
+    </ul>
+
+    <h3>Tips for files</h3>
+    <ul>
+      <li><strong>Mention the file in your prompt.</strong> "Extract the key dates from the attached contract." The agent doesn't always proactively look at attachments.</li>
+      <li><strong>For App inputs, don't attach in chat.</strong> Use a <code>file</code> AppInput instead, so users upload fresh each run.</li>
+      <li><strong>Large CSVs:</strong> the agent reads them in chunks; works well up to ~100MB.</li>
+    </ul>
+
+    <h2>How the agent uses Skills</h2>
     <p>
-      Drag a file into the chat (or use the Attach button) and the agent treats it as context.
-      Supported types include CSV, PDF, images, code files, and most text formats. The agent can
-      parse a CSV row by row, extract text from a PDF, OCR an image, and reason over code.
-    </p>
-    <p>
-      Files attached in chat are available throughout the conversation. If you save the chat as an App,
-      the attachment can become a <code>file</code> AppInput so the App expects a fresh upload each run.
+      You don't invoke Skills by name. The agent decides when to call them based on the task. When it does,
+      you see the call inline:
     </p>
 
-    <h2>Sandbox and isolation</h2>
+    <div class="code-block" style="line-height:1.7;font-size:0.8125rem;">
+<strong>🤖 Agent</strong>&nbsp;<span style="color:var(--aw-color-text-muted)">[web-search] · 2.1s</span><br/>
+Let me search the web for recent news.<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">→ web-search(query="Stripe funding 2025", limit=10)</span><br/>
+<span style="color:var(--aw-color-text-muted)">← 10 results: ["Stripe raises Series H...", ...]</span><br/>
+<br/>
+&lt;agent continues with results in context&gt;
+    </div>
+
+    <h3>The most important built-in Skill: App Builder</h3>
     <p>
-      Every chat runs in its own isolated sandbox. The agent can execute code, install packages, and
-      write to a temp filesystem — none of which touches your machine, your data, or anyone else's chat.
-      The sandbox is torn down when the chat ends.
+      The <code>aitroop-app-create</code> skill activates automatically when your message contains a
+      trigger phrase:
     </p>
+    <ul>
+      <li>"Create an app that…"</li>
+      <li>"Build me a workflow for…"</li>
+      <li>"I want an app to…"</li>
+      <li>"Make an automation that…"</li>
+      <li>"Update my app…"</li>
+    </ul>
     <p>
-      If you save the chat as an App, each run of the App also runs in a fresh sandbox. Two people running
-      the same App at the same time never see each other's state.
+      Trigger phrases work regardless of capitalization or surrounding text. "I'd like an app to summarize
+      emails" triggers it just as well as "Create an app that summarizes emails".
     </p>
 
-    <h2>When to stop chatting and save</h2>
+    <h3>Checking which Skills are active</h3>
     <p>
-      A simple rule: if you've gotten the output you wanted at least once, and you'll need this output
-      again with different inputs, save it. Don't keep iterating in chat. Don't re-do the conversation
-      next week. Click <strong>Save as App</strong> and parameterize the parts that change.
+      Look at the status bar above the input — it shows a count ("Skills: 12 active"). Click for a list.
+      Or ask the agent directly:
     </p>
+    <div class="code-block">
+&gt; what Skills do I have available?
+    </div>
+
+    <h2>How the agent uses Connects</h2>
     <p>
-      The chat doesn't go away when you save — you can keep iterating after, and re-save the App to
-      pick up new changes.
+      Connects work invisibly. The agent uses your authorized OAuth tokens to read or write to external
+      systems. You don't have to mention the Connect by name.
     </p>
+
+    <h3>First-time authorization</h3>
+    <ol>
+      <li>The agent decides it needs a Connect you haven't authorized (e.g., the user asks for "my unread Gmail").</li>
+      <li>The agent pauses and shows an authorization prompt:
+        <div class="code-block" style="font-size:0.8125rem;">
+🔒 This chat needs Gmail access to read your inbox.<br/>
+&nbsp;&nbsp;[ Authorize Gmail ] &nbsp; [ Skip ]
+        </div>
+      </li>
+      <li>Click <strong>Authorize Gmail</strong>. A popup opens with Google's OAuth screen.</li>
+      <li>Approve the scopes the platform is requesting.</li>
+      <li>You're returned to the chat. The agent resumes from where it paused.</li>
+    </ol>
+
+    <h3>Subsequent runs</h3>
+    <p>
+      After the first authorization, future chats and runs use the Connect transparently — no prompts.
+      Revoke at any time from <strong>Settings → Connects</strong>.
+    </p>
+
+    <h3>Confirmation for writes</h3>
+    <p>
+      For write-capable Connect actions (sending email, creating CRM records, modifying files), the agent
+      shows you what it's about to do and waits for explicit approval:
+    </p>
+    <div class="code-block" style="font-size:0.8125rem;line-height:1.7;">
+<strong>🤖 Agent</strong> About to send this email via Gmail:<br/>
+&nbsp;&nbsp;To:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jane@example.com<br/>
+&nbsp;&nbsp;Subject: Following up on yesterday's call<br/>
+&nbsp;&nbsp;Body:&nbsp;&nbsp;&nbsp;&nbsp;Hi Jane, thanks for the time yesterday...<br/>
+<br/>
+&nbsp;&nbsp;[ Send ] &nbsp; [ Edit first ] &nbsp; [ Cancel ]
+    </div>
+
+    <h2>Iterating on output</h2>
+    <p>The standard rhythm in a productive chat:</p>
+    <ol>
+      <li>The agent produces something — text, a draft, a structured output.</li>
+      <li>You read it.</li>
+      <li>You tell it what to change — specifically.</li>
+      <li>The agent produces a new version.</li>
+      <li>Repeat until satisfied.</li>
+    </ol>
+
+    <h3>Better feedback patterns</h3>
+    <table>
+      <thead><tr><th>Vague</th><th>Better</th></tr></thead>
+      <tbody>
+        <tr><td>"Make it better."</td><td>"Cut by 30%. Make the tone less formal. Skip the disclaimer."</td></tr>
+        <tr><td>"Different format."</td><td>"Switch from prose to a numbered list with one sentence per item."</td></tr>
+        <tr><td>"Not quite right."</td><td>"The 'Strengths' section should be 3 paragraphs, not bullets. The 'Risks' section can stay as bullets."</td></tr>
+        <tr><td>"Too much."</td><td>"Keep only the top 3 themes. Drop everything else."</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Saving a chat as an App</h2>
+    <p>
+      Two paths to convert a productive chat into a saved workflow:
+    </p>
+
+    <h3>Path A: Use the trigger phrase mid-conversation</h3>
+    <p>
+      At any point in a chat, say:
+    </p>
+    <div class="code-block">
+&gt; save this as an app
+    </div>
+    <p>
+      The App Builder activates, looks at the conversation so far, and proposes an AppDef. From here it's
+      the same review-and-confirm flow as building from scratch.
+    </p>
+
+    <h3>Path B: Use the Save as App button</h3>
+    <ol>
+      <li>Click <strong>Save as App ▾</strong> in the top-right.</li>
+      <li>Pick <strong>Save as App</strong> for a new App, or <strong>Save into existing App</strong> to merge into one you already have.</li>
+      <li>The App Builder activates and proposes a design based on the chat.</li>
+      <li>Review, confirm, save.</li>
+    </ol>
+
+    <h2>Sandbox details</h2>
+    <p>Every chat runs in an isolated E2B sandbox with the <code>claude-code</code> template:</p>
+    <ul>
+      <li><strong>Fresh filesystem per chat.</strong> Created when the chat opens; destroyed when it ends or after a long idle.</li>
+      <li><strong>Package install allowed.</strong> The agent installs whatever it needs for the task (Python packages, npm modules, system tools).</li>
+      <li><strong>Network access allowed.</strong> Web search, API calls, fetching files.</li>
+      <li><strong>Connects injected per-run.</strong> Your OAuth tokens are made available to the agent without being exposed in the conversation.</li>
+      <li><strong>No cross-chat state.</strong> Two chats never share files or context.</li>
+    </ul>
+
+    <h2>Chat history and search</h2>
+    <ul>
+      <li>All chats live under <strong>Sidebar → Chats</strong>.</li>
+      <li>Click any chat to reopen — you can continue the conversation any time.</li>
+      <li>Use search (top of the chat list) to find a chat by content.</li>
+      <li>Pin chats you reference often.</li>
+      <li>Archive chats you're done with — they stay searchable but don't clutter the list.</li>
+    </ul>
+
+    <h2>When chat isn't the right surface</h2>
+    <p>Build an App instead of using repeated chats when:</p>
+    <ul>
+      <li>You've found a working version of the task.</li>
+      <li>You'd want to run the same kind of work again, with different inputs.</li>
+      <li>You'd want a teammate to run it without learning your prompt.</li>
+      <li>You want it to run automatically on a schedule.</li>
+    </ul>
+
+    <p>For one-offs, exploration, debugging, and casual questions — stay in chat.</p>
 
     <div class="next-up">
       <span class="label">Next</span>
-      <a href="/docs/apps">Apps — the saved-App lifecycle</a>
+      <a href="/docs/apps">Apps — building and running</a>
     </div>
   </DocsShell>
 </Layout>

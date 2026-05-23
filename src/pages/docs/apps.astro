@@ -1,161 +1,410 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
-
-const metadata = {
-  title: 'Apps — Aitroop Docs',
-};
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={{ title: 'Apps — Aitroop Docs' }}>
   <DocsShell current="apps">
     <h1>Apps</h1>
     <p class="lead">
-      An App is a chat that has been crystallized into a reusable workflow. A form replaces the
-      free-form prompt; the goal stays fixed; every run produces the same shape of result.
+      Operational guide to creating, running, editing, versioning, and sharing Apps. Companion to
+      <a href="/docs/concepts">Core concepts</a> (which covers the schema in detail) and the
+      <a href="/docs/quickstart">Quickstart</a> (which walks one example end-to-end).
     </p>
 
-    <h2>Anatomy</h2>
-    <p>An App has three parts. You already know them from <a href="/docs/concepts">Core concepts</a>:</p>
-    <ul>
-      <li><strong>AppInput[]</strong> — the form fields that vary between runs.</li>
-      <li><strong>Stage[]</strong> — one or more agent sessions, each with a fixed goal.</li>
-      <li><strong>Artifact[]</strong> — the deliverable each Stage produces.</li>
-    </ul>
-
-    <h2>Creating an App</h2>
-    <p>There are two ways:</p>
-
-    <h3>From a chat (recommended)</h3>
+    <h2>Creating an App — the 4-phase flow</h2>
     <p>
-      Open a chat, do the work, click <strong>Save as App</strong>. The platform proposes inputs based
-      on what varied in the conversation, freezes the goal, and gives you a draft App to review.
-    </p>
-    <p>
-      This is the right path the vast majority of the time. The agent has already seen what you actually
-      want; the saved App inherits that context.
+      You create Apps by talking to the agent. The built-in <code>aitroop-app-create</code> skill
+      (the App Builder) follows a structured 4-phase process every time. Understanding the phases
+      helps you guide the conversation and know what to expect.
     </p>
 
-    <h3>From a template</h3>
+    <h3>Phase 0 — Understand intent</h3>
     <p>
-      The use case packs ship pre-built Apps you can install with one click. From the App library,
-      click <strong>Add → From template</strong>, pick the App, and it appears in your library.
-      You can fork and edit any template.
+      When your message contains a trigger phrase, the App Builder activates and asks 1–5 clarifying
+      questions:
     </p>
-
-    <h2>The App editor</h2>
-    <p>When you save a chat or open an existing App for editing, the editor has four tabs:</p>
-
-    <h3>Inputs</h3>
-    <p>
-      The form. Add, remove, and reorder AppInput fields. Each input has a type, a label, an optional
-      help string, and optional defaults. Mark inputs as required when the App can't run without them.
-    </p>
-    <p>
-      Common patterns:
-    </p>
-    <ul>
-      <li>A <code>daterange</code> input for time-windowed reports.</li>
-      <li>A <code>select</code> input for output language or output format.</li>
-      <li>A <code>connect_file</code> input when the user should pick from their Drive or Notion.</li>
-      <li>A <code>file</code> input for one-off uploads (a CSV of leads, a PDF to summarize).</li>
-    </ul>
-
-    <h3>Stages</h3>
-    <p>
-      The agent's instructions. For single-stage Apps, this is just the goal of the conversation.
-      For multi-stage Apps, this is where you wire the output of Stage 1 into the input of Stage 2.
-    </p>
-    <p>
-      Each Stage also declares which Skills and which Connects it needs. Restricting Skills per Stage
-      keeps the agent focused — and makes the App's behavior predictable across runs.
-    </p>
-
-    <h3>Output</h3>
-    <p>
-      What the App produces. Pick an Artifact type and, optionally, a schema or layout. The agent will
-      conform its final output to this shape — or fail loudly if it can't, which is what you want.
-    </p>
-
-    <h3>Settings</h3>
-    <p>
-      Name, icon, description, and visibility:
-    </p>
-    <ul>
-      <li><strong>Private</strong> — only you can see and run it.</li>
-      <li><strong>Team</strong> — visible to everyone in your workspace.</li>
-      <li><strong>Public (workspace)</strong> — visible and runnable by anyone in your workspace, including viewers who don't have edit rights.</li>
-    </ul>
-
-    <h2>Running an App</h2>
-    <p>
-      Click <strong>Run</strong>. Fill in the form. The agent executes each Stage in order, and the
-      final Artifact appears in the preview pane. Every run is logged: who ran it, with what inputs,
-      what it produced, and any errors.
-    </p>
-    <p>
-      Runs are isolated. Two teammates running the same App at the same time never interfere with each
-      other. Each run gets its own sandbox and its own Artifact history.
-    </p>
-
-    <h2>Versioning</h2>
-    <p>
-      Every <strong>Save</strong> on an App creates a new version. The App page shows the version
-      history and a diff between any two versions. Scheduled runs always use the latest version
-      unless you pin a specific version on the schedule.
-    </p>
-    <p>
-      Older versions don't disappear — you can revert at any time, or compare what an App looked like
-      last month with what it looks like today.
-    </p>
-
-    <h2>Sharing and access</h2>
-    <p>
-      Workspace-visible Apps appear in your teammates' App library. Anyone with view access can run
-      the App and see its results. Edit access is separately granted — running an App and modifying
-      it are different permissions.
-    </p>
-    <p>
-      If you fork someone else's App, you get a copy with your own version history. Changes you make
-      to your fork don't propagate back to the original.
-    </p>
-
-    <h2>Multi-stage Apps</h2>
-    <p>
-      Most Apps need exactly one Stage. Use multi-stage when the natural shape of the work is a
-      pipeline — each step produces something the next step consumes.
-    </p>
-    <p>Example: a Lead Outreach App with three stages.</p>
     <ol>
-      <li><strong>Stage 1 — Find.</strong> Input is an ICP description. Output is a list of companies (CSV).</li>
-      <li><strong>Stage 2 — Enrich.</strong> Input is Stage 1's CSV. Output is the same list with verified emails, recent news, and a personalization hook (CSV).</li>
-      <li><strong>Stage 3 — Draft.</strong> Input is Stage 2's CSV. Output is one outreach email per row (markdown).</li>
+      <li><strong>What should the app do?</strong> One-sentence goal.</li>
+      <li><strong>What inputs does it need?</strong> Free text, files, dates, selections?</li>
+      <li><strong>What should it produce?</strong> Report, code file, spreadsheet, structured data?</li>
+      <li><strong>How many steps / stages?</strong> Single agent call, or multi-stage pipeline?</li>
+      <li><strong>Any specific tools or integrations needed?</strong> Web search, file processing, OAuth?</li>
     </ol>
-    <p>
-      Each Stage is independently re-runnable. If Stage 3's drafts aren't good, you can re-run just
-      Stage 3 with a different prompt — without re-finding and re-enriching the leads.
-    </p>
 
     <div class="callout">
-      <strong>Heuristic.</strong> If a single conversation in chat naturally has a "ok now do step 2 with that"
-      moment, the saved App probably wants to be multi-stage. If the chat is one continuous thought, one
-      Stage is enough.
+      <strong>Skip the questions by being specific.</strong> If your initial message answers all five
+      already, the App Builder jumps straight to Phase 1. Most experienced users write a paragraph that
+      covers task + inputs + outputs + tools in one go.
     </div>
 
+    <h3>Phase 1 — Design the App</h3>
+    <p>
+      The App Builder constructs the full AppDef JSON. It picks:
+    </p>
+    <ul>
+      <li><strong>Name</strong> — based on what the App does. Title-cased.</li>
+      <li><strong>Icon</strong> — a single emoji that fits the use case.</li>
+      <li><strong>Tags</strong> — searchable keywords.</li>
+      <li><strong>Inputs</strong> — picks the right type for each variable. <code>text</code> for short identifiers, <code>textarea</code> for long content, <code>select</code> for fixed options, <code>daterange</code> for time windows, <code>file</code> for uploads.</li>
+      <li><strong>Stages</strong> — single by default. Splits into multiple stages only when the work naturally has separable steps.</li>
+      <li><strong>Artifacts</strong> — picks <code>markdown</code> for prose, <code>csv</code> for tabular, <code>json</code> for structured, <code>html</code> for rendered pages, <code>image</code> for visuals, <code>code</code> for source files.</li>
+      <li><strong>Resources</strong> — adds Skills and Connects the App needs.</li>
+      <li><strong>Timeouts</strong> — default 3 min, bumps to 5–10 min for heavy research.</li>
+    </ul>
+
+    <h3>Phase 2 — Validate</h3>
+    <p>Before saving, the App Builder runs internal checks:</p>
+    <ul>
+      <li>Every <code>id</code> in inputs, stages, and artifacts is unique.</li>
+      <li>Every <code>{`{{field_id}}`}</code> reference in stage goals matches a real input.</li>
+      <li>Inter-stage references (Stage 2 reading Stage 1's artifact) are correctly wired.</li>
+      <li>At least one stage produces an artifact if the App should have visible output.</li>
+      <li><code>required: true</code> is only on inputs that genuinely block the run.</li>
+      <li>Goals are specific enough — vague goals get rewritten.</li>
+    </ul>
+    <p>
+      If validation fails, the App Builder fixes the issue itself rather than asking you. You'll only
+      see Phase 3 if validation passes.
+    </p>
+
+    <h3>Phase 3 — Create or update via API</h3>
+    <p>
+      The App Builder calls the platform's REST API:
+    </p>
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted)"># New App</span><br/>
+POST https://app.aitroop.net/api/apps<br/>
+Authorization: Bearer &lt;AT_USER_TOKEN&gt;<br/>
+Content-Type: application/json<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Existing App</span><br/>
+PUT https://app.aitroop.net/api/apps/&lt;appId&gt;<br/>
+Authorization: Bearer &lt;AT_USER_TOKEN&gt;<br/>
+Content-Type: application/json
+    </div>
+    <p>
+      The body is the full AppDef JSON. The platform persists it, assigns a version number, and returns
+      the App ID. You don't see this happen — it's behind the scenes.
+    </p>
+
+    <h3>Phase 4 — Present to user</h3>
+    <p>The App Builder reports back with:</p>
+    <ul>
+      <li>App name and what it does.</li>
+      <li>List of inputs with types.</li>
+      <li>List of stages with descriptions.</li>
+      <li>What artifacts it produces.</li>
+      <li>App ID — so you can find it.</li>
+      <li>An offer to refine.</li>
+    </ul>
+
+    <p>At this point the App is live, runnable, and in your library.</p>
+
+    <h2>Example: three Apps at three complexity levels</h2>
+
+    <h3>Simple — one input, one stage</h3>
+    <div class="code-block" style="line-height:1.7;">
+<strong>You:</strong> Create an app that explains a technical term<br/>
+in plain English for a non-technical audience. Input is<br/>
+the term. Output is a 200-word explanation.<br/>
+<br/>
+<strong>Agent:</strong> &lt;designs the App, no clarifying questions<br/>
+needed since you gave inputs+output+length up front&gt;<br/>
+<br/>
+&nbsp;App: Plain English Explainer 📖<br/>
+&nbsp;Input:&nbsp; term <span style="color:var(--aw-color-text-muted)">(text, required)</span><br/>
+&nbsp;Stage:&nbsp; Explain <span style="color:var(--aw-color-primary)">{`{{term}}`}</span> in ~200 words for a<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;non-technical audience...<br/>
+&nbsp;Output: explanation.md <span style="color:var(--aw-color-text-muted)">(markdown)</span>
+    </div>
+
+    <h3>Medium — multiple inputs, one stage, requires a Connect</h3>
+    <div class="code-block" style="line-height:1.7;">
+<strong>You:</strong> Create an app that summarizes my unread Gmail<br/>
+from the last N days into a priority-ranked list.<br/>
+<br/>
+<strong>Agent:</strong> Two questions:<br/>
+&nbsp;1. Default for N (number of days)?<br/>
+&nbsp;2. How many emails should the summary cover?<br/>
+<br/>
+<strong>You:</strong> Default N=3. Top 20 emails.<br/>
+<br/>
+<strong>Agent:</strong> &lt;designs the App&gt;<br/>
+<br/>
+&nbsp;App: Email Triage 📧<br/>
+&nbsp;Inputs:<br/>
+&nbsp;&nbsp;&nbsp;days_back <span style="color:var(--aw-color-text-muted)">(number, default 3)</span><br/>
+&nbsp;&nbsp;&nbsp;max_emails <span style="color:var(--aw-color-text-muted)">(number, default 20)</span><br/>
+&nbsp;Stage: Read the last <span style="color:var(--aw-color-primary)">{`{{days_back}}`}</span> days of unread Gmail.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rank top <span style="color:var(--aw-color-primary)">{`{{max_emails}}`}</span> by urgency...<br/>
+&nbsp;Output: triage.md <span style="color:var(--aw-color-text-muted)">(markdown)</span><br/>
+&nbsp;Resources: skills=[], connects=[<strong>google</strong>]
+    </div>
+
+    <p>
+      Notice <code>google</code> in <code>connects</code>. The first time you run this App, you'll be
+      prompted to authorize Gmail access. After that, it runs without prompting.
+    </p>
+
+    <h3>Complex — multi-stage with a human review step</h3>
+    <div class="code-block" style="line-height:1.7;">
+<strong>You:</strong> Create an outreach pipeline. Stage 1: find<br/>
+companies matching an ICP description. Stage 2: enrich<br/>
+each with public info. Stage 3: I review and remove<br/>
+rows. Stage 4: draft personalized emails for survivors.<br/>
+<br/>
+<strong>Agent:</strong> &lt;asks 3 questions, you answer&gt;<br/>
+<br/>
+&nbsp;App: Outreach Pipeline 🎯<br/>
+&nbsp;Inputs:<br/>
+&nbsp;&nbsp;&nbsp;icp <span style="color:var(--aw-color-text-muted)">(textarea, required)</span><br/>
+&nbsp;&nbsp;&nbsp;target_count <span style="color:var(--aw-color-text-muted)">(number, default 30)</span><br/>
+&nbsp;Stages:<br/>
+&nbsp;&nbsp;&nbsp;<strong>1. find</strong> <span style="color:var(--aw-color-text-muted)">(agent)</span> → leads.csv<br/>
+&nbsp;&nbsp;&nbsp;<strong>2. enrich</strong> <span style="color:var(--aw-color-text-muted)">(agent)</span> → enriched.csv<br/>
+&nbsp;&nbsp;&nbsp;<strong>3. review</strong> <span style="color:var(--aw-color-text-muted)">(human, paused until you approve)</span><br/>
+&nbsp;&nbsp;&nbsp;<strong>4. draft</strong> <span style="color:var(--aw-color-text-muted)">(agent)</span> → drafts.md<br/>
+&nbsp;Resources: skills=[web-search], connects=[]
+    </div>
+
+    <p>
+      When you run this App, the platform executes stages 1 and 2 automatically. Stage 3 pauses and shows
+      <code>enriched.csv</code> in a review pane — you remove rows you don't want, then click
+      <strong>Approve and continue</strong>. Stage 4 runs with the approved subset.
+    </p>
+
+    <!-- ── RUNNING ─────────────────────────────────────────── -->
+    <h2>Running an App</h2>
+
+    <h3>From the App library</h3>
+    <ol>
+      <li>Click <strong>Apps</strong> in the sidebar.</li>
+      <li>Click the App you want to run.</li>
+      <li>The App page opens, with the form on the left and a placeholder for output on the right.</li>
+      <li>Fill required fields (marked with a red asterisk).</li>
+      <li>Optional fields show placeholders or pre-filled defaults.</li>
+      <li>Click <strong>Run</strong> (large button at the bottom of the form).</li>
+    </ol>
+
+    <h3>What you see during the run</h3>
+    <p>The page splits and the right pane fills with:</p>
+    <ul>
+      <li><strong>Stage indicator</strong> at top — "Stage 1 of 3: research_and_write".</li>
+      <li><strong>Reasoning trace</strong> — the agent's plan, tool calls (web searches, Skill invocations), partial outputs.</li>
+      <li><strong>Live artifact preview</strong> — as the agent writes the artifact, you see it appear in real time.</li>
+      <li><strong>Run controls</strong> — a <strong>Cancel</strong> button is available while the run is in progress.</li>
+    </ul>
+
+    <h3>What happens after the run completes</h3>
+    <p>The artifacts are saved to the run's history. From the artifact preview:</p>
+    <ul>
+      <li><strong>Download</strong> — pick a format (the artifact's native format, or PDF/DOCX for renderables).</li>
+      <li><strong>Copy</strong> — copy raw content to clipboard.</li>
+      <li><strong>Edit in chat</strong> — opens a new chat scoped to this artifact for quick tweaks.</li>
+      <li><strong>Share</strong> — generates a link to the artifact (visibility depends on App settings).</li>
+    </ul>
+
+    <h3>Inputs that haven't changed</h3>
+    <p>
+      The next time you visit the App page, the form pre-fills with the last inputs you used. Click the
+      reset icon (🔄 next to a field) to clear it back to the default.
+    </p>
+
+    <h3>Re-running with the same inputs</h3>
+    <p>
+      On any past run, click <strong>Re-run</strong>. This duplicates the run with identical inputs.
+      Useful for: refreshing time-sensitive data (e.g., a "latest news" App), confirming consistency,
+      A/B-testing prompt changes between versions.
+    </p>
+
+    <!-- ── EDITING ─────────────────────────────────────────── -->
+    <h2>Editing an App</h2>
+
+    <h3>Conversational edit (recommended for non-trivial changes)</h3>
+    <ol>
+      <li>On the App page, click <strong>Edit in chat</strong> (sometimes labeled "Chat with this App").</li>
+      <li>A chat opens with the App's design loaded as context.</li>
+      <li>Tell the agent what to change in natural language. Examples:
+        <ul>
+          <li><em>"Add a select for output language with English / Chinese / Spanish."</em></li>
+          <li><em>"Split the stage into 'research' and 'write'. Pass the research notes as context to the write stage."</em></li>
+          <li><em>"Change the timeout to 10 minutes."</em></li>
+          <li><em>"Remove the company_url input."</em></li>
+        </ul>
+      </li>
+      <li>The agent shows you a diff: what changed, what stayed the same.</li>
+      <li>Approve. The agent calls <code>PUT /api/apps/{`{id}`}</code>. New version saved.</li>
+    </ol>
+
+    <h3>Direct field edit (for quick changes)</h3>
+    <ol>
+      <li>On the App page, click <strong>Edit</strong>.</li>
+      <li>The editor opens with all fields visible: name, icon, tags, inputs, stages, artifacts, resources.</li>
+      <li>Change any field directly:
+        <ul>
+          <li>Click an input's type dropdown to swap text → textarea.</li>
+          <li>Click an option to rename it.</li>
+          <li>Type into the goal field to edit the agent's instruction.</li>
+          <li>Drag inputs to reorder them.</li>
+        </ul>
+      </li>
+      <li>Click <strong>Save</strong>. New version saved.</li>
+    </ol>
+
+    <h3>Editing the goal — common patterns</h3>
+    <p>The stage goal is where most of the App's behavior lives. Common edits:</p>
+    <ul>
+      <li><strong>Add structure</strong> — "Output as: Section A (one paragraph) / Section B (bullet list)…"</li>
+      <li><strong>Add constraints</strong> — "Maximum 500 words." "Use only sources from the last 12 months."</li>
+      <li><strong>Add personalization hooks</strong> — "Match the tone of the audience in <code>{`{{tone}}`}</code>."</li>
+      <li><strong>Improve specificity</strong> — replace vague verbs ("review") with concrete ones ("score 1–10 with rationale").</li>
+    </ul>
+
+    <!-- ── VERSIONING ───────────────────────────────────────── -->
+    <h2>Versioning</h2>
+    <p>
+      Every save creates a new version. Versions are numbered (v1, v2, v3…). The App page has a
+      <strong>Versions</strong> tab listing all of them.
+    </p>
+
+    <h3>From the Versions tab you can</h3>
+    <ul>
+      <li><strong>See history</strong> — when each version was saved, who saved it, the change summary.</li>
+      <li><strong>View a version's full AppDef</strong> — click any version to see its full configuration.</li>
+      <li><strong>Compare two versions</strong> — pick two and see a side-by-side diff.</li>
+      <li><strong>Roll back</strong> — promote any older version to "current" with one click. The current behavior reverts; the version you rolled back from is preserved in history.</li>
+    </ul>
+
+    <h3>Schedules and versioning</h3>
+    <p>
+      Schedules use the <em>current</em> version of the App by default. So if you fix a bug in the App on
+      Sunday, Monday's scheduled run uses the fix.
+    </p>
+    <p>
+      For stability (a customer-facing report that should not change unexpectedly), pin a Schedule to a
+      specific version. Pinned Schedules ignore future App edits.
+    </p>
+
+    <!-- ── SHARING ─────────────────────────────────────────── -->
+    <h2>Sharing and access</h2>
+    <p>Three visibility levels per App:</p>
+    <ul>
+      <li><strong>Private</strong> — only you can see and run it. Default.</li>
+      <li><strong>Team</strong> — visible to everyone in your workspace. Best for shared internal Apps.</li>
+      <li><strong>Public link</strong> — anyone with the link can run it (depending on plan). Inputs and outputs are still sandboxed per run.</li>
+    </ul>
+
+    <h3>Per-user Connects under team Apps</h3>
+    <p>
+      When a teammate runs a Team App, the run uses <em>their</em> Connects, not yours. A shared
+      "Daily inbox triage" App reads your Gmail when you run it, your colleague's when they run it. Each
+      user authorizes their own Connects.
+    </p>
+
+    <h3>Forking</h3>
+    <p>
+      Anyone with view access to a Team App can <strong>fork</strong> it — creates a private copy with
+      its own version history. Useful for "I want this app but with my modifications" without affecting
+      the shared version.
+    </p>
+
+    <!-- ── MULTI-STAGE ──────────────────────────────────────── -->
+    <h2>Multi-stage Apps in detail</h2>
+
+    <h3>When to use multiple stages</h3>
+    <p>Reach for multi-stage when:</p>
+    <ul>
+      <li>The work naturally breaks into "do X, then with the result of X do Y".</li>
+      <li>You want to re-run just the last step without re-running the expensive earlier steps.</li>
+      <li>You need a human approval checkpoint in the middle.</li>
+      <li>One step needs deterministic transformation (a <code>script</code> stage between two <code>agent</code> stages).</li>
+    </ul>
+
+    <h3>How stages share data</h3>
+    <p>
+      Each stage's artifact is automatically available to the next stage. Refer to it in the next stage's
+      goal with the template syntax:
+    </p>
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted)"># Stage 2 goal referencing Stage 1's artifact</span><br/>
+Take the CSV produced by Stage 1 (<span style="color:var(--aw-color-primary)">{`{{ stages.find.leads }}`}</span>)<br/>
+and enrich each row with the company's funding history.<br/>
+Output the same CSV with three new columns:<br/>
+total_funding, last_round, last_round_date.
+    </div>
+
+    <h3>The 3 stage types in practice</h3>
+
+    <h4 style="margin-top:1rem;"><code>agent</code> — the default</h4>
+    <p>
+      The agent reads the inputs (and any prior artifacts), uses installed Skills and authorized Connects,
+      and produces the declared artifacts. Best for: reasoning, summarization, drafting, research.
+    </p>
+
+    <h4><code>script</code> — deterministic transformations</h4>
+    <p>
+      A Python or Node script that runs in the sandbox without invoking a language model. Best for:
+      filtering CSVs, deduplication, format conversion, exact arithmetic. Fast and predictable.
+    </p>
+
+    <h4><code>human</code> — pause for review</h4>
+    <p>
+      The run pauses. The platform shows the goal text and any prior artifacts to the user. The user
+      modifies, approves, or rejects. The next stage runs with the human's output. Best for: approval
+      checkpoints, "pick the best N", "fix anything that looks wrong before sending".
+    </p>
+
+    <h3>Operational example — re-running just the last stage</h3>
+    <p>
+      Suppose your 3-stage App ran successfully but the final stage's draft is off. To avoid re-doing
+      stages 1 and 2:
+    </p>
+    <ol>
+      <li>Open the run from the App's <strong>Runs</strong> tab.</li>
+      <li>Click <strong>Re-run from stage…</strong></li>
+      <li>Pick <strong>Stage 3</strong>.</li>
+      <li>Stages 1 and 2's artifacts are reused. Stage 3 runs again with whatever you fixed.</li>
+    </ol>
+
+    <!-- ── DEBUG ─────────────────────────────────────────── -->
     <h2>When an App fails</h2>
-    <p>
-      A failed run still produces a record: the inputs it was given, the agent's reasoning trace,
-      and the error. Click into the run from the App's history. The fastest fix is usually to
-      open the failed run as a chat (the <strong>Debug in chat</strong> action) and continue
-      iterating from there.
-    </p>
-    <p>
-      Once you've found the fix, save it back to the App. Future runs pick up the new version.
-    </p>
+    <p>Common failure modes and how to diagnose them:</p>
+    <table>
+      <thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td>Timeout</td><td>Stage exceeded <code>timeout_ms</code></td><td>Bump timeout, or split into two stages</td></tr>
+        <tr><td>"Connect not authorized"</td><td>Required Connect was revoked</td><td>Re-authorize in Settings → Connects</td></tr>
+        <tr><td>"Required input missing"</td><td>The form was submitted with a blank required field</td><td>Mark less aggressively as required, or fix form</td></tr>
+        <tr><td>Vague or generic output</td><td>Goal not specific enough</td><td>Edit goal — add structure, constraints, examples</td></tr>
+        <tr><td>Wrong format</td><td>Stage goal asked for one format, declared another</td><td>Align goal and <code>artifact_defs.format</code></td></tr>
+      </tbody>
+    </table>
+
+    <h3>The "Debug in chat" workflow</h3>
+    <ol>
+      <li>Open the failed run.</li>
+      <li>Click <strong>Debug in chat</strong>.</li>
+      <li>A new chat opens with the run's full context: inputs, partial artifacts, agent's reasoning trace, error.</li>
+      <li>Talk to the agent: <em>"Why did this fail? What should I change?"</em></li>
+      <li>The agent diagnoses, suggests a fix, and (often) directly edits the App to apply it.</li>
+      <li>Re-run.</li>
+    </ol>
+
+    <h2>Common mistakes to avoid</h2>
+    <ul>
+      <li><strong>Vague goals.</strong> "Do research" → too vague. Name the sources, the depth, the output structure.</li>
+      <li><strong>Missing artifacts.</strong> A stage with no <code>artifact_defs</code> produces nothing visible.</li>
+      <li><strong>Too many required inputs.</strong> Default everything you can. Long forms get abandoned.</li>
+      <li><strong>Undersized timeout.</strong> Heavy research needs 5–10 min (<code>timeout_ms: 600000</code>).</li>
+      <li><strong>Wrong input type.</strong> <code>textarea</code> for long text, not <code>text</code>. <code>select</code> for fixed options.</li>
+      <li><strong>Over-decomposing.</strong> If a single conversation feels like one thought, one stage is enough. Don't pre-split.</li>
+      <li><strong>Goal too short.</strong> A two-line goal often underperforms a 10-line goal with structure and constraints.</li>
+    </ul>
 
     <div class="next-up">
       <span class="label">Next</span>
-      <a href="/docs/skills">Skills — capability modules</a>
+      <a href="/docs/skills">Skills — what the agent can call</a>
     </div>
   </DocsShell>
 </Layout>
