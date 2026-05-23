@@ -3,7 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
 
 const metadata = {
-  title: 'Aitroop — Save Claude conversations as apps',
+  title: 'Aitroop — Save AI agent conversations as apps',
   ignoreTitleTemplate: true,
 };
 
@@ -41,7 +41,7 @@ const pieces = [
 
 const anatomy = [
   { n: '01', title: 'AppInput',  desc: 'A schema-driven form. text, daterange, select, file, connect_file — pick what you need, render automatically.' },
-  { n: '02', title: 'Stage',     desc: 'A self-contained Claude Code session with a goal. Most Apps need one. Multi-stage Apps chain artifacts forward.' },
+  { n: '02', title: 'Stage',     desc: 'A self-contained AI agent session with a goal. Most Apps need one. Multi-stage Apps chain artifacts forward.' },
   { n: '03', title: 'Artifact',  desc: 'The deliverable. Rendered, previewed, exported. Re-edit in Chat or chain into the next Stage.' },
 ];
 
@@ -82,7 +82,7 @@ const cases = [
       </div>
 
       <h1 class="text-[2.25rem] sm:text-[2.75rem] md:text-[3.5rem] lg:text-[4rem] font-black tracking-[-0.035em] leading-[1.02] text-[var(--aw-color-text-heading)] mb-5 max-w-[920px]">
-        Save Claude conversations<br/>
+        Save agent conversations<br/>
         <span class="text-primary">as apps.</span>
       </h1>
 
@@ -144,7 +144,7 @@ const cases = [
             <p class="text-[var(--aw-color-text-default)]">
               Pull commits from 2025-05-01 to 05-07 in <span class="font-mono">shop-frontend</span>, summarize as a daily report in Chinese. Group by repo, include PR titles. Skip merges.
             </p>
-            <div class="text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)] uppercase tracking-[0.12em] pt-2">Claude</div>
+            <div class="text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)] uppercase tracking-[0.12em] pt-2">Agent</div>
             <div class="space-y-2">
               <div class="h-2 rounded-full bg-[rgba(0,0,0,0.06)] w-full"></div>
               <div class="h-2 rounded-full bg-[rgba(0,0,0,0.06)] w-[88%]"></div>

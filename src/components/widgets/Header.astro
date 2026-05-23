@@ -11,6 +11,7 @@ import type { CallToAction } from '~/types';
 interface MenuLink {
   text?: string;
   href?: string;
+  desc?: string;
   links?: Array<MenuLink>;
 }
 
@@ -56,19 +57,50 @@ const homeHref = currentLocale === 'en' ? '/' : `/${currentLocale}`;
     <div class="hidden md:flex items-center gap-1">
       {links.length > 0 && (
         <nav class="flex items-center mr-2">
-          {links.map(({ text, href }) => (
-            <a
-              href={href}
-              class:list={[
-                'px-3 py-1.5 text-sm rounded-md transition-colors duration-150',
-                href === currentPath
-                  ? 'text-[var(--aw-color-text-default)] font-medium'
-                  : 'text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)] hover:bg-[var(--aw-color-bg-subtle)]',
-              ]}
-            >
-              {text}
-            </a>
-          ))}
+          {links.map((link) => {
+            const hasChildren = Array.isArray(link.links) && link.links.length > 0;
+            const isActive =
+              link.href === currentPath ||
+              (hasChildren && link.links!.some((c) => c.href === currentPath || (c.href && currentPath.startsWith(c.href + '/'))));
+            const linkClasses = [
+              'px-3 py-1.5 text-sm rounded-md transition-colors duration-150 inline-flex items-center gap-1',
+              isActive
+                ? 'text-[var(--aw-color-text-default)] font-medium'
+                : 'text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)] hover:bg-[var(--aw-color-bg-subtle)]',
+            ];
+            return hasChildren ? (
+              <div class="relative group">
+                <a href={link.href} class:list={linkClasses}>
+                  {link.text}
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-60 group-hover:rotate-180 transition-transform duration-150"><polyline points="6 9 12 15 18 9"/></svg>
+                </a>
+                <div class="absolute left-0 top-full pt-2 z-50 invisible opacity-0 -translate-y-1 pointer-events-none group-hover:visible group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto group-focus-within:visible group-focus-within:opacity-100 group-focus-within:translate-y-0 group-focus-within:pointer-events-auto transition-all duration-150">
+                  <div class="rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] shadow-[0_12px_40px_rgba(0,0,0,0.08)] p-1.5 min-w-[260px]">
+                    {link.links!.map((sub) => (
+                      <a
+                        href={sub.href}
+                        class:list={[
+                          'block px-3 py-2 rounded-lg transition-colors duration-150',
+                          sub.href === currentPath
+                            ? 'bg-[var(--aw-color-bg-subtle)]'
+                            : 'hover:bg-[var(--aw-color-bg-subtle)]',
+                        ]}
+                      >
+                        <div class="text-[0.8125rem] font-semibold text-[var(--aw-color-text-heading)]">{sub.text}</div>
+                        {sub.desc && (
+                          <div class="text-[0.75rem] text-[var(--aw-color-text-muted)] mt-0.5 leading-snug">{sub.desc}</div>
+                        )}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <a href={link.href} class:list={linkClasses}>
+                {link.text}
+              </a>
+            );
+          })}
         </nav>
       )}
       <LanguagePicker />
@@ -97,14 +129,31 @@ const homeHref = currentLocale === 'en' ? '/' : `/${currentLocale}`;
       class="hidden md:hidden px-4 pb-3 border-t border-[var(--aw-color-border)] bg-page"
       aria-label="Mobile navigation"
     >
-      {links.map(({ text, href }) => (
-        <a
-          href={href}
-          class="block py-2 text-sm text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)]"
-        >
-          {text}
-        </a>
-      ))}
+      {links.map((link) => {
+        const hasChildren = Array.isArray(link.links) && link.links.length > 0;
+        return (
+          <div>
+            <a
+              href={link.href}
+              class="block py-2 text-sm text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)]"
+            >
+              {link.text}
+            </a>
+            {hasChildren && (
+              <div class="pl-3 pb-1 border-l border-[var(--aw-color-border)] ml-1">
+                {link.links!.map((sub) => (
+                  <a
+                    href={sub.href}
+                    class="block py-1.5 text-[0.8125rem] text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)]"
+                  >
+                    {sub.text}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
       <div class="pt-2 border-t border-[var(--aw-color-border)] mt-2">
         {actions.map((btnProps) => (
           <Button {...btnProps} class="w-full h-9 text-sm font-semibold mb-1" />

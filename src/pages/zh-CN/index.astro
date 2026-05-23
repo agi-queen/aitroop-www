@@ -3,7 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
 
 const metadata = {
-  title: 'Aitroop — 把 Claude 对话固化成 App',
+  title: 'Aitroop — 把 AI Agent 对话固化成 App',
   ignoreTitleTemplate: true,
 };
 
@@ -40,7 +40,7 @@ const pieces = [
 
 const anatomy = [
   { n: '01', title: 'AppInput',  desc: '基于 Schema 的表单：text、daterange、select、file、connect_file——按需声明，自动渲染。' },
-  { n: '02', title: 'Stage',     desc: '一次独立的 Claude Code 会话，带明确目标。大多数 App 仅需一个；多 Stage 时产物自动向后流转。' },
+  { n: '02', title: 'Stage',     desc: '一次独立的 AI Agent 会话，带明确目标。大多数 App 仅需一个；多 Stage 时产物自动向后流转。' },
   { n: '03', title: 'Artifact',  desc: '最终交付物。可渲染预览、导出，也能回到 Chat 继续编辑或喂给下一个 Stage。' },
 ];
 
@@ -79,7 +79,7 @@ const cases = [
       </div>
 
       <h1 class="text-[2.25rem] sm:text-[2.75rem] md:text-[3.5rem] lg:text-[4rem] font-black tracking-[-0.035em] leading-[1.02] text-[var(--aw-color-text-heading)] mb-5 max-w-[920px]">
-        把 Claude 对话<br/>
+        把 Agent 对话<br/>
         <span class="text-primary">固化成 App。</span>
       </h1>
 
@@ -140,7 +140,7 @@ const cases = [
             <p class="text-[var(--aw-color-text-default)]">
               拉取 <span class="font-mono">shop-frontend</span> 仓库 2025-05-01 到 05-07 的提交，按仓库分组、忽略 merge 提交，整理成中文日报。
             </p>
-            <div class="text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)] uppercase tracking-[0.12em] pt-2">Claude</div>
+            <div class="text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)] uppercase tracking-[0.12em] pt-2">Agent</div>
             <div class="space-y-2">
               <div class="h-2 rounded-full bg-[rgba(0,0,0,0.06)] w-full"></div>
               <div class="h-2 rounded-full bg-[rgba(0,0,0,0.06)] w-[88%]"></div>
