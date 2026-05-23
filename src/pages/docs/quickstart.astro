@@ -1,129 +1,226 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
-
-const metadata = {
-  title: 'Quickstart — Aitroop Docs',
-};
 ---
 
-<Layout metadata={metadata}>
+<Layout metadata={{ title: 'Quickstart — Aitroop Docs' }}>
   <DocsShell current="quickstart">
     <h1>Quickstart</h1>
     <p class="lead">
-      Build your first App in about five minutes. We'll go from an empty chat to a parameterized,
-      shareable workflow that your whole team can run.
+      In about 15 minutes you'll have a working App on your account. We'll build it the way Aitroop is meant to be
+      used — by talking to the agent, not by clicking through menus. You don't need to know how to code.
     </p>
+
+    <h2>Before you start</h2>
+    <ul>
+      <li>An account at <a href="https://app.aitroop.net">app.aitroop.net</a> (free to sign up).</li>
+      <li>About 15 minutes.</li>
+      <li>One real task you'd like to do repeatedly with AI. We'll use <strong>"research a company and write a one-page brief"</strong> as the example.</li>
+    </ul>
+
+    <h2>Step 1 — Sign in and open a chat</h2>
+    <ol>
+      <li>Go to <a href="https://app.aitroop.net">app.aitroop.net</a> and sign up or log in.</li>
+      <li>On the workspace home, click <strong>+ New Chat</strong> (top-left or sidebar).</li>
+      <li>A blank chat opens. Message box at the bottom, conversation area above.</li>
+    </ol>
 
     <div class="callout">
-      <strong>What you'll need.</strong> An Aitroop account (sign up at <a href="https://app.aitroop.net">app.aitroop.net</a>),
-      and one realistic task you'd like the agent to do — something repetitive enough that turning it into an App actually pays off.
-      Example tasks: weekly engineering report, daily lead enrichment, monthly AR aging review.
+      <strong>What you're looking at.</strong> This is the agent's workspace. It runs in an isolated sandbox per chat,
+      and has access to every Skill installed in your workspace plus every Connect (OAuth integration) you've authorized.
     </div>
 
-    <h2>1. Open a chat</h2>
+    <h2>Step 2 — Ask the agent to build an App</h2>
     <p>
-      From the dashboard, click <strong>New chat</strong>. This drops you into a Chat with the agent — the
-      exploration surface. Anything you type here runs in a fresh sandbox, with the agent able to use any
-      Skills you've installed and any Connects you've authorized.
-    </p>
-    <p>
-      Treat the chat as a draft. You're not committing to anything yet. Try one phrasing of the task,
-      look at the result, refine, try again. This is where you find what actually works.
+      Aitroop has a built-in skill called <code>aitroop-app-create</code> (the <strong>App Builder</strong>). It activates
+      when you ask the agent to create, build, or update an App. Type this into the chat:
     </p>
 
-    <h2>2. Ask the agent to do the real job</h2>
-    <p>
-      Be concrete. The more specific the first message, the better the first result. A useful template:
-    </p>
     <div class="code-block">
-<span style="color:var(--aw-color-text-muted)"># Task</span><br/>
-Pull all commits from <span style="color:var(--aw-color-primary)">shop-frontend</span> between <span style="color:var(--aw-color-primary)">2026-05-01</span> and <span style="color:var(--aw-color-primary)">2026-05-07</span>.<br/>
+Create an app that researches a company and writes a one-page brief.<br/>
 <br/>
-<span style="color:var(--aw-color-text-muted)"># Output</span><br/>
-A markdown daily report, grouped by author. Include PR titles. Skip merge commits.<br/>
-<br/>
-<span style="color:var(--aw-color-text-muted)"># Constraints</span><br/>
-- Language: Chinese<br/>
-- Keep it under one page per day
+The user gives me a company name and website.<br/>
+The output should be a Markdown report covering:<br/>
+- Business model<br/>
+- Key products<br/>
+- Target customers<br/>
+- Recent news (last 12 months)<br/>
+- Strengths and weaknesses
     </div>
+
+    <p>Press <strong>Enter</strong>. The agent loads the App Builder skill and starts designing.</p>
+
+    <h2>Step 3 — Answer the agent's clarifying questions</h2>
     <p>
-      The agent will use the <code>github</code> Connect (assuming you've authorized it) and the
-      <code>git-log</code> skill, then write the report as a markdown <strong>Artifact</strong>.
-      Preview it in the right pane.
+      The App Builder asks 1–5 short questions to nail down the design. It'll look something like this:
     </p>
 
-    <h2>3. Iterate until it's right</h2>
+    <div class="code-block" style="line-height:1.7;">
+<strong>Agent:</strong> A few quick questions to design this right:<br/>
+<br/>
+&nbsp;1. Should the company URL be required, or can users skip it<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;and let me find it from the name?<br/>
+&nbsp;2. Length preference — one paragraph per section, or longer?<br/>
+&nbsp;3. Output language — English by default, or configurable?<br/>
+&nbsp;4. Want me to add a "competitors" section?<br/>
+<br/>
+<strong>You:</strong> URL optional. ~3 paragraphs per section.<br/>
+English only. Yes, add competitors.
+    </div>
+
     <p>
-      Most of the value of Chat mode is here. Reply to the agent the same way you'd reply to a teammate:
+      Answer briefly. The agent uses your answers to choose the right AppInput types, write the prompt,
+      and pick the artifact format.
+    </p>
+
+    <h2>Step 4 — Review the App design</h2>
+    <p>
+      The agent presents the full design before saving. It will look something like this:
+    </p>
+
+    <div class="code-block" style="font-size:0.8125rem;line-height:1.7;">
+<strong style="color:var(--aw-color-primary)">App: Company Brief</strong><br/>
+<span style="color:var(--aw-color-text-muted)">icon: 🏢 · tags: [research, briefing]</span><br/>
+<br/>
+<strong>Inputs</strong>:<br/>
+&nbsp;&nbsp;company_name <span style="color:var(--aw-color-text-muted)">(text, required)</span><br/>
+&nbsp;&nbsp;company_url&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">(text, optional)</span><br/>
+&nbsp;&nbsp;include_competitors <span style="color:var(--aw-color-text-muted)">(boolean, default: true)</span><br/>
+<br/>
+<strong>Stage 1 — research_and_write</strong> <span style="color:var(--aw-color-text-muted)">(agent stage)</span><br/>
+&nbsp;&nbsp;Goal: Research <span style="color:var(--aw-color-primary)">{`{{company_name}}`}</span> (<span style="color:var(--aw-color-primary)">{`{{company_url}}`}</span>)<br/>
+&nbsp;&nbsp;and write a one-page brief covering business model, key<br/>
+&nbsp;&nbsp;products, target customers, recent news, and strengths/<br/>
+&nbsp;&nbsp;weaknesses. <span style="color:var(--aw-color-primary)">{`{{#if include_competitors}}`}</span>Include a<br/>
+&nbsp;&nbsp;competitors section.<span style="color:var(--aw-color-primary)">{`{{/if}}`}</span><br/>
+<br/>
+<strong>Artifact</strong>: company_brief (markdown)<br/>
+<br/>
+<strong>Resources</strong>: skills=[web-search], connects=[]
+    </div>
+
+    <p>
+      Two things to notice. First, the goal references inputs with <code>{`{{field_id}}`}</code> — that's how
+      the agent's instruction gets filled in at run time. Second, the agent picked <code>web-search</code> as the
+      Skill it needs.
+    </p>
+
+    <p>
+      Reply to confirm or ask for changes:
+    </p>
+
+    <ul>
+      <li>"Looks good, save it." → agent calls the API and saves the App.</li>
+      <li>"Change company_url to required." → agent revises and re-shows the design.</li>
+      <li>"Add a second stage that drafts an outreach email." → agent extends to two stages.</li>
+    </ul>
+
+    <h2>Step 5 — The agent saves the App</h2>
+    <p>
+      Once you confirm, the agent calls <code>POST /api/apps</code> behind the scenes. You'll see something like:
+    </p>
+
+    <div class="code-block" style="line-height:1.7;">
+<strong>Agent:</strong> Saved. ✅<br/>
+<br/>
+App: <strong>Company Brief</strong><br/>
+ID: app_8f4c2e<br/>
+Status: ready to run<br/>
+<br/>
+Find it in your <strong>App library</strong> (sidebar). Want me<br/>
+to test-run it on a sample company right now?
+    </div>
+
+    <h2>Step 6 — Run your App</h2>
+    <ol>
+      <li>Click <strong>Apps</strong> in the sidebar. You should see <strong>Company Brief</strong> at the top of the list.</li>
+      <li>Click the App. The form opens with the three fields you defined.</li>
+      <li>Fill in a real company (e.g., <code>company_name = "Stripe"</code>), leave the URL blank, leave competitors on.</li>
+      <li>Click <strong>Run</strong>.</li>
+    </ol>
+
+    <p>
+      The agent runs the stage. You'll see its plan, web searches, and the brief being written in real time.
+      30–90 seconds later, the <strong>company_brief</strong> artifact appears in the right pane —
+      previewable, copy-able, and downloadable as <code>.md</code> or PDF.
+    </p>
+
+    <h2>Step 7 — Iterate by editing the App</h2>
+    <p>
+      Don't like something about the output? Two ways to fix it:
     </p>
     <ul>
-      <li>"Skip dependabot commits."</li>
-      <li>"Group by repository, not author."</li>
-      <li>"Add a section at the top with the top 3 themes of the week."</li>
+      <li>
+        <strong>Quick edit.</strong> Click <strong>Edit in chat</strong> on the App page. A new chat opens
+        with the App's design loaded. Tell the agent what to change ("make the brief shorter", "add a section on hiring"),
+        confirm, save. The next run picks up the new version.
+      </li>
+      <li>
+        <strong>Direct edit.</strong> On the App page, click <strong>Edit</strong>. You see the form (inputs),
+        the stage goal, and the artifact spec. Change any field, save.
+      </li>
     </ul>
+
     <p>
-      Every reply produces a new Artifact. Once one of them is the version you want to keep running every week,
-      you're ready to save.
+      Either way, every save creates a new version. Old versions stay in the App's history — you can roll back any time.
     </p>
 
-    <h2>4. Click "Save as App"</h2>
+    <h2>Step 8 (optional) — Schedule it</h2>
+    <ol>
+      <li>On the App page, click <strong>Schedules → New schedule</strong>.</li>
+      <li>Pick a cron — say <strong>"Every Monday at 9 AM"</strong>.</li>
+      <li>Pre-fill the inputs (e.g., always research the same competitor).</li>
+      <li>Pick a delivery target — email, Slack, Notion, or a webhook.</li>
+      <li>Save.</li>
+    </ol>
+    <p>The brief now runs and gets delivered every Monday, no clicks required.</p>
+
+    <h2>What you actually did</h2>
     <p>
-      Above the chat, there's a <strong>Save as App</strong> button. Clicking it does two things:
+      You used Aitroop's main operational loop:
     </p>
     <ol>
-      <li>
-        The agent re-reads the conversation and identifies the parts that should become <strong>parameters</strong> —
-        the repository name, the date range, the output language. Anything that could reasonably change next time
-        is offered as an input.
-      </li>
-      <li>
-        The agent freezes the goal of the conversation into a reusable <strong>Stage</strong>. The exploration
-        is over; the workflow is now stable.
-      </li>
+      <li>Told the agent what you wanted (in natural language).</li>
+      <li>Answered a few clarifying questions.</li>
+      <li>Confirmed the design.</li>
+      <li>Got a working App you can run, share, and schedule.</li>
     </ol>
-    <p>
-      You'll see a draft App with a form (inputs) and a description (the stage's goal). Review the inputs:
-      remove anything that should be hard-coded, add anything the agent missed.
-    </p>
 
     <div class="callout">
-      <strong>Inputs in your draft App come from the chat.</strong> If the agent picked <code>shop-frontend</code> as a fixed
-      string instead of a <code>repo</code> input, just edit the App and add it. You don't have to get the chat
-      perfect — you just have to be able to recognize "this part should change next time" when you see the draft.
+      <strong>This loop scales.</strong> Whether it's a one-input briefing App or a five-stage outreach pipeline,
+      the way you build it is the same conversation with the agent. The agent handles the JSON, the API
+      calls, the validation — you just describe the work.
     </div>
 
-    <h2>5. Name it, save it, run it</h2>
+    <h2>Common confusions</h2>
+
+    <h3>"The agent didn't ask any questions, it just built the App."</h3>
+    <p>That happens when your initial description was specific enough. Skip to step 4 (review) — the design is shown
+    the same way, you confirm or revise.</p>
+
+    <h3>"My App needs to read from Gmail / Drive / GitHub — what now?"</h3>
     <p>
-      Give the App a name (<code>Weekly engineering report</code>), an optional icon, and a visibility setting
-      (Private, Team, or Public within your workspace). Click <strong>Save</strong>.
-    </p>
-    <p>
-      The App now lives in your library. Click <strong>Run</strong>, fill in the form, and the agent
-      executes the saved workflow — same result, every time, with whatever inputs you give it.
+      Those are <strong>Connects</strong> (OAuth integrations). When you tell the agent the App needs Gmail data,
+      it will add the <code>google</code> Connect to <code>resources</code>. The first time you run the App, you'll
+      be prompted to authorize Gmail. Authorize once, runs forever. See <a href="/docs/connects">Connects</a> for details.
     </p>
 
-    <h2>6. (Optional) Put it on a schedule</h2>
+    <h3>"The form fields aren't quite right."</h3>
     <p>
-      From the App page, click <strong>Schedules → New schedule</strong>. Pick a cron expression
-      (<code>0 9 * * MON</code> for Mondays at 9 AM), choose where the Artifact should be delivered
-      (email, Slack, Drive, a webhook), and save.
-    </p>
-    <p>
-      That's it. Every Monday morning, your inbox has last week's engineering report. You wrote one chat;
-      the platform turned it into a system.
+      Tell the agent. "Change <code>company_name</code> to be a multiline text instead." "Add a select dropdown for tone."
+      The agent updates the design and re-saves. You don't have to write JSON.
     </p>
 
-    <h2>What you just built</h2>
+    <h3>"How is this different from just chatting with ChatGPT?"</h3>
     <p>
-      An App with one Stage, a handful of AppInputs, and a markdown Artifact — running on a weekly cron.
-      That's the entire loop. Multi-stage Apps, more Skills, more Connects, more output formats are all
-      variations on the same pattern.
+      ChatGPT doesn't have <strong>persistent Apps</strong>, <strong>shared forms</strong>, or <strong>schedules</strong>.
+      Every conversation starts blank. Aitroop saves the working version as an App and makes it runnable by anyone, anytime,
+      with their own data — through tools you authorize.
     </p>
 
     <div class="next-up">
       <span class="label">Next</span>
-      <a href="/docs/concepts">Core concepts — Chat, App, AppInput, Stage, Artifact</a>
+      <a href="/docs/concepts">Core concepts — the App schema in detail</a>
     </div>
   </DocsShell>
 </Layout>
