@@ -1,0 +1,110 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+
+const metadata = {
+  title: 'Skills — Aitroop Docs',
+};
+
+const skills = [
+  { name: 'github-mcp',     desc: 'Read repos, list commits, fetch PRs, open issues — all GitHub operations the agent might need.' },
+  { name: 'lead-finder',    desc: 'Find people matching an ICP across LinkedIn, Crunchbase, and company sites. Returns name, role, company, contact.' },
+  { name: 'web-scrape',     desc: 'Fetch and parse any public web page. Handles JS-rendered content, returns clean text or structured data.' },
+  { name: 'seo-audit',      desc: 'Run an SEO audit on a URL — meta tags, page speed, structured data, broken links, ranking opportunities.' },
+  { name: 'gmail-search',   desc: 'Search your Gmail (requires Gmail Connect). Returns matching threads with subjects, senders, dates, snippets.' },
+  { name: 'calendar-mcp',   desc: 'Query and create calendar events. Find conflicts, schedule meetings, summarize the week ahead.' },
+  { name: 'crm-sync',       desc: 'Read and write Salesforce / HubSpot records. Used by Apps that update CRM state based on agent reasoning.' },
+  { name: 'csv-tools',      desc: 'Slice, filter, group, and aggregate CSV files. The agent can do most of this directly, but csv-tools is faster and deterministic on large files.' },
+  { name: 'pdf-extract',    desc: 'Pull text, tables, and metadata out of a PDF — including scanned PDFs via OCR.' },
+  { name: 'image-gen',      desc: 'Generate images from text prompts. Useful for slide decks, marketing assets, social media drafts.' },
+];
+---
+
+<Layout metadata={metadata}>
+  <DocsShell current="skills">
+    <h1>Skills</h1>
+    <p class="lead">
+      Skills are reusable capability modules the agent can call. They're how the agent does things beyond
+      "just talk to me" — fetch pages, search emails, extract PDFs, query CRMs, generate images.
+    </p>
+
+    <h2>How skills work</h2>
+    <p>
+      You install a Skill once. From that moment on, every Chat and every App in your workspace can use it.
+      You don't have to mention the Skill by name in your prompt — the agent decides which Skills to call
+      based on the task.
+    </p>
+    <p>
+      Skills are just tools. When the agent calls one, you see the call inline in the conversation: the
+      tool name, the arguments, and the result. If anything looks wrong, you can call it out and the
+      agent will adjust.
+    </p>
+
+    <h2>Installing a skill</h2>
+    <p>
+      From the dashboard, open <strong>Skills → Library</strong>. Browse, search, or filter by category.
+      Click <strong>Install</strong> on any Skill to add it to your workspace.
+    </p>
+    <p>
+      Some Skills require a Connect. For example, <code>gmail-search</code> needs the Gmail Connect to be
+      authorized. The Skill page tells you what's needed; the install flow walks you through any missing
+      authorizations.
+    </p>
+
+    <h2>A sample of available skills</h2>
+    <p>
+      The library has 150+ Skills today and is growing. A representative slice:
+    </p>
+    <div class="not-prose mt-3 mb-2" style="max-width:720px;">
+      <div class="rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] divide-y divide-[var(--aw-color-border)]">
+        {skills.map((s) => (
+          <div class="p-4 flex flex-col sm:flex-row gap-3 sm:items-start">
+            <div class="shrink-0 sm:w-44">
+              <code class="text-[0.8125rem] font-mono text-primary">{s.name}</code>
+            </div>
+            <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.6] m-0">{s.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <h2>Scoping skills per stage</h2>
+    <p>
+      In Chat, all installed Skills are available. In a saved App, each Stage declares which Skills it
+      can use. Restricting the Skill set on a Stage has two upsides:
+    </p>
+    <ul>
+      <li><strong>Predictability.</strong> The agent can only do things you've explicitly allowed. The behavior of the App stays stable as it's re-run by different teammates.</li>
+      <li><strong>Speed.</strong> Fewer tools means less reasoning about which tool to use. Stages that need only one or two Skills run noticeably faster.</li>
+    </ul>
+    <p>
+      Set this in the App editor under <strong>Stages → Skills</strong>. By default, an App inherits the
+      Skill set that was active in the original chat.
+    </p>
+
+    <h2>Permissions and side effects</h2>
+    <p>
+      Some Skills only read (<code>gmail-search</code>, <code>web-scrape</code>). Others can write
+      (<code>crm-sync</code>, <code>calendar-mcp</code> when creating events). Write-capable Skills
+      are clearly marked in the library. The first time an App is set up to use a write-capable
+      Skill, the platform asks you to confirm.
+    </p>
+    <p>
+      Scheduled runs of an App will not silently start writing if you didn't authorize writes when you
+      built it. You will be asked explicitly.
+    </p>
+
+    <h2>Building your own skill</h2>
+    <p>
+      Custom Skills are on the roadmap and available in early access — get in touch via
+      <a href="/contact">contact</a> if you want to define a Skill for your own internal tools.
+      For now, the library covers the common cases, and most teams find they don't need custom Skills
+      until they're well into production use.
+    </p>
+
+    <div class="next-up">
+      <span class="label">Next</span>
+      <a href="/docs/connects">Connects — OAuth integrations</a>
+    </div>
+  </DocsShell>
+</Layout>

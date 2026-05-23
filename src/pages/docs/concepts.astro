@@ -1,0 +1,139 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+
+const metadata = {
+  title: 'Core concepts — Aitroop Docs',
+};
+---
+
+<Layout metadata={metadata}>
+  <DocsShell current="concepts">
+    <h1>Core concepts</h1>
+    <p class="lead">
+      The whole platform comes down to two modes and three primitives. Once you have this mental model,
+      everything else in the docs is just elaboration.
+    </p>
+
+    <h2>The two modes</h2>
+    <p>
+      Aitroop has exactly two surfaces for working with the agent. The distinction matters because they
+      serve different jobs.
+    </p>
+
+    <h3>Chat — for exploration</h3>
+    <p>
+      An open-ended conversation with the agent. You don't know yet exactly what you want, or you do but
+      you haven't figured out the right phrasing. Try things. Throw away results. Try again. Chat is cheap
+      and disposable on purpose.
+    </p>
+
+    <h3>App — for repetition</h3>
+    <p>
+      A frozen, parameterized version of a working chat. The exploration is done; this is the version that
+      runs the same way every time. You give it a form, optional schedules, and access controls. Your whole
+      team uses it without rewriting the prompt.
+    </p>
+
+    <div class="callout">
+      <strong>The shortest possible summary.</strong> Chat is for finding what works. App is for running it on repeat.
+      Every App in your library started life as a chat.
+    </div>
+
+    <h2>The formula</h2>
+    <p>An App, broken down to its parts:</p>
+    <div class="code-block" style="text-align:center;font-size:0.9375rem;padding:1.25rem;">
+      <strong style="color:var(--aw-color-primary)">App</strong> = <strong style="color:var(--aw-color-primary)">AppInput</strong>[] + <strong style="color:var(--aw-color-primary)">Stage</strong>[] + <strong style="color:var(--aw-color-primary)">Artifact</strong>[]
+    </div>
+    <p>
+      Three primitives. Most Apps use one of each. Some use several of each. The mental model holds either way.
+    </p>
+
+    <h2>AppInput — the form</h2>
+    <p>
+      A schema-driven form field. The shape of an AppInput tells the platform how to render it and how to
+      validate it. The set of AppInputs is what makes an App reusable: same workflow, different inputs.
+    </p>
+    <p>Built-in AppInput types:</p>
+    <ul>
+      <li><code>text</code> — single-line or multi-line free-form text.</li>
+      <li><code>daterange</code> — start date and end date with a picker.</li>
+      <li><code>select</code> — single or multi-select from a list of options.</li>
+      <li><code>file</code> — direct file upload from the user's machine.</li>
+      <li><code>connect_file</code> — pick a file from one of your authorized Connects (a Drive document, a Notion page, etc.).</li>
+    </ul>
+    <p>
+      When you click <strong>Save as App</strong> on a chat, the agent proposes a starting set of AppInputs
+      based on what varied in your conversation. You can add, remove, or reorder them before saving.
+    </p>
+
+    <h2>Stage — the agent session</h2>
+    <p>
+      A Stage is one self-contained agent session with one goal. The Stage owns the prompt, the agent's
+      reasoning, the tools it can call (Skills and Connects), and the format of the final output.
+    </p>
+    <p>
+      Most Apps need exactly one Stage. The agent reads the AppInputs, does the work, produces the
+      Artifact, and you're done.
+    </p>
+    <p>
+      <strong>Multi-stage Apps</strong> exist for workflows where the natural output of one job is the input
+      of the next. Stage 1 produces a list of companies; Stage 2 enriches each one; Stage 3 writes the
+      outreach drafts. Each stage gets the previous stage's artifacts as its starting context. The platform
+      handles the wiring.
+    </p>
+
+    <h2>Artifact — the deliverable</h2>
+    <p>
+      The output you actually care about. Artifacts are first-class: they have a type, they can be
+      previewed in the UI, they can be edited, they can be downloaded, and they can be fed into the next
+      Stage of a multi-stage App.
+    </p>
+    <p>Built-in Artifact types:</p>
+    <ul>
+      <li><code>markdown</code> — reports, summaries, documents.</li>
+      <li><code>code</code> — scripts and source files, syntax-highlighted.</li>
+      <li><code>html</code> — rendered web pages, dashboards, slide decks.</li>
+      <li><code>json</code> — structured data with schema preview.</li>
+      <li><code>csv</code> — tabular data; rendered as a table.</li>
+      <li><code>image</code> — diagrams, charts, generated images.</li>
+      <li><code>file</code> — anything else (PDF, ZIP, binary).</li>
+    </ul>
+    <p>
+      See <a href="/docs/artifacts">Artifact formats</a> for the full reference on each type.
+    </p>
+
+    <h2>The supporting pieces</h2>
+    <p>
+      The two modes and three primitives are the model. Three more pieces make the model useful in practice:
+    </p>
+    <ul>
+      <li>
+        <strong><a href="/docs/skills">Skills</a></strong> — reusable capability modules the agent can call.
+        Things like <code>web-scrape</code>, <code>lead-finder</code>, <code>seo-audit</code>, <code>github-mcp</code>.
+        Install once; available in every chat and every App from then on.
+      </li>
+      <li>
+        <strong><a href="/docs/connects">Connects</a></strong> — OAuth integrations into the systems you already
+        use. Gmail, Drive, GitHub, Salesforce, HubSpot, Notion. The agent reads and writes through your authorized account.
+      </li>
+      <li>
+        <strong><a href="/docs/schedules">Schedules</a></strong> — cron expressions that run any App
+        automatically. Daily reports, hourly polling, weekly digests. Results delivered to wherever you want them.
+      </li>
+    </ul>
+
+    <h2>The whole loop</h2>
+    <p>
+      Putting it all together: you authorize the <em>Connects</em> you need. You install the <em>Skills</em> that
+      match your work. You open a <em>Chat</em>, ask the agent to do a real task, and iterate until the
+      <em>Artifact</em> looks right. You click Save; the platform turns the conversation into an <em>App</em>
+      with <em>AppInputs</em> and one or more <em>Stages</em>. You add a <em>Schedule</em>. Now the work runs itself.
+    </p>
+
+    <div class="next-up">
+      <span class="label">Next</span>
+      <a href="/docs/chat">Chat mode in depth</a>
+    </div>
+  </DocsShell>
+</Layout>

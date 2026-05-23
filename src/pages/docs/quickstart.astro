@@ -1,0 +1,129 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+
+const metadata = {
+  title: 'Quickstart — Aitroop Docs',
+};
+---
+
+<Layout metadata={metadata}>
+  <DocsShell current="quickstart">
+    <h1>Quickstart</h1>
+    <p class="lead">
+      Build your first App in about five minutes. We'll go from an empty chat to a parameterized,
+      shareable workflow that your whole team can run.
+    </p>
+
+    <div class="callout">
+      <strong>What you'll need.</strong> An Aitroop account (sign up at <a href="https://app.aitroop.net">app.aitroop.net</a>),
+      and one realistic task you'd like the agent to do — something repetitive enough that turning it into an App actually pays off.
+      Example tasks: weekly engineering report, daily lead enrichment, monthly AR aging review.
+    </div>
+
+    <h2>1. Open a chat</h2>
+    <p>
+      From the dashboard, click <strong>New chat</strong>. This drops you into a Chat with the agent — the
+      exploration surface. Anything you type here runs in a fresh sandbox, with the agent able to use any
+      Skills you've installed and any Connects you've authorized.
+    </p>
+    <p>
+      Treat the chat as a draft. You're not committing to anything yet. Try one phrasing of the task,
+      look at the result, refine, try again. This is where you find what actually works.
+    </p>
+
+    <h2>2. Ask the agent to do the real job</h2>
+    <p>
+      Be concrete. The more specific the first message, the better the first result. A useful template:
+    </p>
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted)"># Task</span><br/>
+Pull all commits from <span style="color:var(--aw-color-primary)">shop-frontend</span> between <span style="color:var(--aw-color-primary)">2026-05-01</span> and <span style="color:var(--aw-color-primary)">2026-05-07</span>.<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Output</span><br/>
+A markdown daily report, grouped by author. Include PR titles. Skip merge commits.<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Constraints</span><br/>
+- Language: Chinese<br/>
+- Keep it under one page per day
+    </div>
+    <p>
+      The agent will use the <code>github</code> Connect (assuming you've authorized it) and the
+      <code>git-log</code> skill, then write the report as a markdown <strong>Artifact</strong>.
+      Preview it in the right pane.
+    </p>
+
+    <h2>3. Iterate until it's right</h2>
+    <p>
+      Most of the value of Chat mode is here. Reply to the agent the same way you'd reply to a teammate:
+    </p>
+    <ul>
+      <li>"Skip dependabot commits."</li>
+      <li>"Group by repository, not author."</li>
+      <li>"Add a section at the top with the top 3 themes of the week."</li>
+    </ul>
+    <p>
+      Every reply produces a new Artifact. Once one of them is the version you want to keep running every week,
+      you're ready to save.
+    </p>
+
+    <h2>4. Click "Save as App"</h2>
+    <p>
+      Above the chat, there's a <strong>Save as App</strong> button. Clicking it does two things:
+    </p>
+    <ol>
+      <li>
+        The agent re-reads the conversation and identifies the parts that should become <strong>parameters</strong> —
+        the repository name, the date range, the output language. Anything that could reasonably change next time
+        is offered as an input.
+      </li>
+      <li>
+        The agent freezes the goal of the conversation into a reusable <strong>Stage</strong>. The exploration
+        is over; the workflow is now stable.
+      </li>
+    </ol>
+    <p>
+      You'll see a draft App with a form (inputs) and a description (the stage's goal). Review the inputs:
+      remove anything that should be hard-coded, add anything the agent missed.
+    </p>
+
+    <div class="callout">
+      <strong>Inputs in your draft App come from the chat.</strong> If the agent picked <code>shop-frontend</code> as a fixed
+      string instead of a <code>repo</code> input, just edit the App and add it. You don't have to get the chat
+      perfect — you just have to be able to recognize "this part should change next time" when you see the draft.
+    </div>
+
+    <h2>5. Name it, save it, run it</h2>
+    <p>
+      Give the App a name (<code>Weekly engineering report</code>), an optional icon, and a visibility setting
+      (Private, Team, or Public within your workspace). Click <strong>Save</strong>.
+    </p>
+    <p>
+      The App now lives in your library. Click <strong>Run</strong>, fill in the form, and the agent
+      executes the saved workflow — same result, every time, with whatever inputs you give it.
+    </p>
+
+    <h2>6. (Optional) Put it on a schedule</h2>
+    <p>
+      From the App page, click <strong>Schedules → New schedule</strong>. Pick a cron expression
+      (<code>0 9 * * MON</code> for Mondays at 9 AM), choose where the Artifact should be delivered
+      (email, Slack, Drive, a webhook), and save.
+    </p>
+    <p>
+      That's it. Every Monday morning, your inbox has last week's engineering report. You wrote one chat;
+      the platform turned it into a system.
+    </p>
+
+    <h2>What you just built</h2>
+    <p>
+      An App with one Stage, a handful of AppInputs, and a markdown Artifact — running on a weekly cron.
+      That's the entire loop. Multi-stage Apps, more Skills, more Connects, more output formats are all
+      variations on the same pattern.
+    </p>
+
+    <div class="next-up">
+      <span class="label">Next</span>
+      <a href="/docs/concepts">Core concepts — Chat, App, AppInput, Stage, Artifact</a>
+    </div>
+  </DocsShell>
+</Layout>

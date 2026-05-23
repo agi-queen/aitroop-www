@@ -1,0 +1,117 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+
+const metadata = {
+  title: 'Docs — Aitroop',
+};
+
+const cards = [
+  {
+    title: 'Quickstart',
+    href: '/docs/quickstart',
+    desc: 'Build your first App in five minutes — from an empty chat to a parameterized, shareable workflow.',
+    eyebrow: 'Start here',
+  },
+  {
+    title: 'Core concepts',
+    href: '/docs/concepts',
+    desc: 'The mental model: Chat vs App, and the three primitives every App is made of (AppInput, Stage, Artifact).',
+    eyebrow: 'Mental model',
+  },
+  {
+    title: 'Chat mode',
+    href: '/docs/chat',
+    desc: 'How to explore freely with the agent, attach files, use Skills and Connects, and decide when to save.',
+    eyebrow: 'Explore',
+  },
+  {
+    title: 'Apps',
+    href: '/docs/apps',
+    desc: 'Turn a working chat into a reusable App: inputs, stages, versions, sharing, and team access.',
+    eyebrow: 'Crystallize',
+  },
+  {
+    title: 'Skills',
+    href: '/docs/skills',
+    desc: 'Reusable capability modules the agent can call. Install them with one click and they appear in every chat.',
+    eyebrow: '150+ available',
+  },
+  {
+    title: 'Connects',
+    href: '/docs/connects',
+    desc: 'OAuth integrations into Gmail, Drive, GitHub, Salesforce, HubSpot, Notion, and more. Read and write through your own accounts.',
+    eyebrow: 'OAuth',
+  },
+  {
+    title: 'Schedules',
+    href: '/docs/schedules',
+    desc: 'Run any App on a cron. Daily reports, hourly polling, weekly digests — results land where you want them.',
+    eyebrow: 'Cron',
+  },
+  {
+    title: 'Artifact formats',
+    href: '/docs/artifacts',
+    desc: 'The seven first-class output types: markdown, code, html, json, csv, image, file. Preview, edit, download, chain.',
+    eyebrow: 'Reference',
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <DocsShell current="index">
+    <h1>Aitroop docs</h1>
+    <p class="lead">
+      Aitroop is an AI agent platform built around one loop: <strong>explore in chat, save what works as an App,
+      run it on a schedule.</strong> These docs cover the platform end-to-end — from your first conversation
+      to multi-stage Apps running on cron.
+    </p>
+
+    <div class="callout">
+      <strong>New here?</strong> Start with the <a href="/docs/quickstart">Quickstart</a> — it walks you through a real App
+      from scratch in about five minutes. If you'd rather understand the model first, jump to
+      <a href="/docs/concepts">Core concepts</a>.
+    </div>
+
+    <h2>Browse by topic</h2>
+    <div class="not-prose grid sm:grid-cols-2 gap-3 mt-4 mb-2" style="max-width:720px;">
+      {cards.map((c) => (
+        <a
+          href={c.href}
+          class="group block p-5 rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-primary/40 hover:shadow-[0_6px_24px_rgba(82,153,97,0.08)] transition-all duration-150 no-underline"
+          style="text-decoration:none;"
+        >
+          <p class="text-[0.6875rem] font-mono uppercase tracking-[0.15em] text-[var(--aw-color-text-muted)] mb-2">
+            {c.eyebrow}
+          </p>
+          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-1.5 group-hover:text-primary transition-colors">
+            {c.title}
+          </h3>
+          <p class="text-[0.8125rem] text-[var(--aw-color-text-muted)] leading-[1.6] m-0">
+            {c.desc}
+          </p>
+        </a>
+      ))}
+    </div>
+
+    <h2>The one-paragraph version</h2>
+    <p>
+      You open a chat with the agent, like any AI tool. You ask it to do a real job — pull last week's commits,
+      score these leads, audit these expenses. When something works, you click <strong>Save as App</strong>.
+      The agent extracts the variable parts of the conversation into a form, packages the goal as a reusable workflow,
+      and now every teammate can run the same thing by filling in the form. Set it on a schedule and the output
+      shows up in your inbox automatically.
+    </p>
+
+    <h2>If you're stuck</h2>
+    <p>
+      The docs are still growing. If something is unclear, the fastest path is to open a chat and ask the agent
+      directly — it knows the platform. Or <a href="/contact">talk to us</a>.
+    </p>
+
+    <div class="next-up">
+      <span class="label">Next</span>
+      <a href="/docs/quickstart">Quickstart — your first App in 5 minutes</a>
+    </div>
+  </DocsShell>
+</Layout>

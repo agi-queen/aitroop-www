@@ -1,0 +1,128 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+
+const metadata = {
+  title: 'Chat mode — Aitroop Docs',
+};
+---
+
+<Layout metadata={metadata}>
+  <DocsShell current="chat">
+    <h1>Chat mode</h1>
+    <p class="lead">
+      Chat is where you figure out what works. It's open-ended, disposable on purpose, and intentionally
+      cheaper than building an App. Use it for exploration; save the version that works.
+    </p>
+
+    <h2>When to use chat</h2>
+    <ul>
+      <li><strong>You don't know the right phrasing yet.</strong> The task is clear in your head but you haven't found the prompt that makes the agent produce the output you want.</li>
+      <li><strong>One-off work.</strong> You're never going to do this exact task again. Don't bother saving — just chat, get the result, move on.</li>
+      <li><strong>Editing an existing Artifact.</strong> An App produced something; you want to make small adjustments without re-running the whole App. Open it in chat, ask for the changes, export.</li>
+      <li><strong>Debugging an App.</strong> If a saved App isn't producing what you expect, switch back to chat with the same context and figure out what changed.</li>
+    </ul>
+
+    <h2>The interface</h2>
+    <p>
+      A chat has three regions: the conversation thread (left), the Artifact preview pane (right),
+      and the toolbar above.
+    </p>
+
+    <h3>Conversation thread</h3>
+    <p>
+      Standard back-and-forth with the agent. Every turn from the agent that produces a deliverable
+      shows up as an Artifact attached to that turn — you can keep iterating, and old Artifacts stay
+      reachable in the scrollback.
+    </p>
+
+    <h3>Artifact preview pane</h3>
+    <p>
+      The latest Artifact lives here, rendered in full. If it's markdown, you see the rendered document.
+      If it's a CSV, you see a table. If it's HTML, you see the page. Click the version drop-down to step
+      back through earlier Artifacts in the same conversation.
+    </p>
+
+    <h3>Toolbar</h3>
+    <p>The actions you'll use most:</p>
+    <ul>
+      <li><strong>Skills</strong> — open the picker to enable or disable Skills for this chat.</li>
+      <li><strong>Connects</strong> — see which integrations are authorized and currently in scope.</li>
+      <li><strong>Attach</strong> — drop a file directly into the conversation (CSV, PDF, image, code).</li>
+      <li><strong>Save as App</strong> — crystallize the current conversation into a reusable App. See <a href="/docs/apps">Apps</a> for the saved-App lifecycle.</li>
+    </ul>
+
+    <h2>Writing good chat messages</h2>
+    <p>
+      The quality of the agent's first response is heavily shaped by the quality of your first message.
+      A useful template covers four parts:
+    </p>
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted)"># Task</span><br/>
+What you want the agent to do, in one or two sentences.<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Inputs</span><br/>
+The specific data points: dates, names, IDs, file references.<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Output</span><br/>
+The shape of the answer: markdown / csv / table / etc., and how to structure it.<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Constraints</span><br/>
+What to include, what to skip, language, length.
+    </div>
+    <p>
+      You don't have to use this template every time. But when something isn't working, adding the
+      missing section is usually the fix.
+    </p>
+
+    <h2>How the agent uses Skills and Connects</h2>
+    <p>
+      Skills are tools the agent can call. Connects are accounts the agent can read and write through.
+      In Chat, both are always available — the agent decides when to invoke them based on the task.
+    </p>
+    <p>
+      You can see what the agent is doing in real time: tool calls appear inline in the conversation
+      with their inputs and results. If the agent tries to use a Connect you haven't authorized, it
+      will pause and ask you to authorize first. Authorize once and the Connect is available for every
+      future chat and App.
+    </p>
+
+    <h2>Attaching files</h2>
+    <p>
+      Drag a file into the chat (or use the Attach button) and the agent treats it as context.
+      Supported types include CSV, PDF, images, code files, and most text formats. The agent can
+      parse a CSV row by row, extract text from a PDF, OCR an image, and reason over code.
+    </p>
+    <p>
+      Files attached in chat are available throughout the conversation. If you save the chat as an App,
+      the attachment can become a <code>file</code> AppInput so the App expects a fresh upload each run.
+    </p>
+
+    <h2>Sandbox and isolation</h2>
+    <p>
+      Every chat runs in its own isolated sandbox. The agent can execute code, install packages, and
+      write to a temp filesystem — none of which touches your machine, your data, or anyone else's chat.
+      The sandbox is torn down when the chat ends.
+    </p>
+    <p>
+      If you save the chat as an App, each run of the App also runs in a fresh sandbox. Two people running
+      the same App at the same time never see each other's state.
+    </p>
+
+    <h2>When to stop chatting and save</h2>
+    <p>
+      A simple rule: if you've gotten the output you wanted at least once, and you'll need this output
+      again with different inputs, save it. Don't keep iterating in chat. Don't re-do the conversation
+      next week. Click <strong>Save as App</strong> and parameterize the parts that change.
+    </p>
+    <p>
+      The chat doesn't go away when you save — you can keep iterating after, and re-save the App to
+      pick up new changes.
+    </p>
+
+    <div class="next-up">
+      <span class="label">Next</span>
+      <a href="/docs/apps">Apps — the saved-App lifecycle</a>
+    </div>
+  </DocsShell>
+</Layout>

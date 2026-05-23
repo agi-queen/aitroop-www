@@ -1,0 +1,161 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+
+const metadata = {
+  title: 'Apps — Aitroop Docs',
+};
+---
+
+<Layout metadata={metadata}>
+  <DocsShell current="apps">
+    <h1>Apps</h1>
+    <p class="lead">
+      An App is a chat that has been crystallized into a reusable workflow. A form replaces the
+      free-form prompt; the goal stays fixed; every run produces the same shape of result.
+    </p>
+
+    <h2>Anatomy</h2>
+    <p>An App has three parts. You already know them from <a href="/docs/concepts">Core concepts</a>:</p>
+    <ul>
+      <li><strong>AppInput[]</strong> — the form fields that vary between runs.</li>
+      <li><strong>Stage[]</strong> — one or more agent sessions, each with a fixed goal.</li>
+      <li><strong>Artifact[]</strong> — the deliverable each Stage produces.</li>
+    </ul>
+
+    <h2>Creating an App</h2>
+    <p>There are two ways:</p>
+
+    <h3>From a chat (recommended)</h3>
+    <p>
+      Open a chat, do the work, click <strong>Save as App</strong>. The platform proposes inputs based
+      on what varied in the conversation, freezes the goal, and gives you a draft App to review.
+    </p>
+    <p>
+      This is the right path the vast majority of the time. The agent has already seen what you actually
+      want; the saved App inherits that context.
+    </p>
+
+    <h3>From a template</h3>
+    <p>
+      The use case packs ship pre-built Apps you can install with one click. From the App library,
+      click <strong>Add → From template</strong>, pick the App, and it appears in your library.
+      You can fork and edit any template.
+    </p>
+
+    <h2>The App editor</h2>
+    <p>When you save a chat or open an existing App for editing, the editor has four tabs:</p>
+
+    <h3>Inputs</h3>
+    <p>
+      The form. Add, remove, and reorder AppInput fields. Each input has a type, a label, an optional
+      help string, and optional defaults. Mark inputs as required when the App can't run without them.
+    </p>
+    <p>
+      Common patterns:
+    </p>
+    <ul>
+      <li>A <code>daterange</code> input for time-windowed reports.</li>
+      <li>A <code>select</code> input for output language or output format.</li>
+      <li>A <code>connect_file</code> input when the user should pick from their Drive or Notion.</li>
+      <li>A <code>file</code> input for one-off uploads (a CSV of leads, a PDF to summarize).</li>
+    </ul>
+
+    <h3>Stages</h3>
+    <p>
+      The agent's instructions. For single-stage Apps, this is just the goal of the conversation.
+      For multi-stage Apps, this is where you wire the output of Stage 1 into the input of Stage 2.
+    </p>
+    <p>
+      Each Stage also declares which Skills and which Connects it needs. Restricting Skills per Stage
+      keeps the agent focused — and makes the App's behavior predictable across runs.
+    </p>
+
+    <h3>Output</h3>
+    <p>
+      What the App produces. Pick an Artifact type and, optionally, a schema or layout. The agent will
+      conform its final output to this shape — or fail loudly if it can't, which is what you want.
+    </p>
+
+    <h3>Settings</h3>
+    <p>
+      Name, icon, description, and visibility:
+    </p>
+    <ul>
+      <li><strong>Private</strong> — only you can see and run it.</li>
+      <li><strong>Team</strong> — visible to everyone in your workspace.</li>
+      <li><strong>Public (workspace)</strong> — visible and runnable by anyone in your workspace, including viewers who don't have edit rights.</li>
+    </ul>
+
+    <h2>Running an App</h2>
+    <p>
+      Click <strong>Run</strong>. Fill in the form. The agent executes each Stage in order, and the
+      final Artifact appears in the preview pane. Every run is logged: who ran it, with what inputs,
+      what it produced, and any errors.
+    </p>
+    <p>
+      Runs are isolated. Two teammates running the same App at the same time never interfere with each
+      other. Each run gets its own sandbox and its own Artifact history.
+    </p>
+
+    <h2>Versioning</h2>
+    <p>
+      Every <strong>Save</strong> on an App creates a new version. The App page shows the version
+      history and a diff between any two versions. Scheduled runs always use the latest version
+      unless you pin a specific version on the schedule.
+    </p>
+    <p>
+      Older versions don't disappear — you can revert at any time, or compare what an App looked like
+      last month with what it looks like today.
+    </p>
+
+    <h2>Sharing and access</h2>
+    <p>
+      Workspace-visible Apps appear in your teammates' App library. Anyone with view access can run
+      the App and see its results. Edit access is separately granted — running an App and modifying
+      it are different permissions.
+    </p>
+    <p>
+      If you fork someone else's App, you get a copy with your own version history. Changes you make
+      to your fork don't propagate back to the original.
+    </p>
+
+    <h2>Multi-stage Apps</h2>
+    <p>
+      Most Apps need exactly one Stage. Use multi-stage when the natural shape of the work is a
+      pipeline — each step produces something the next step consumes.
+    </p>
+    <p>Example: a Lead Outreach App with three stages.</p>
+    <ol>
+      <li><strong>Stage 1 — Find.</strong> Input is an ICP description. Output is a list of companies (CSV).</li>
+      <li><strong>Stage 2 — Enrich.</strong> Input is Stage 1's CSV. Output is the same list with verified emails, recent news, and a personalization hook (CSV).</li>
+      <li><strong>Stage 3 — Draft.</strong> Input is Stage 2's CSV. Output is one outreach email per row (markdown).</li>
+    </ol>
+    <p>
+      Each Stage is independently re-runnable. If Stage 3's drafts aren't good, you can re-run just
+      Stage 3 with a different prompt — without re-finding and re-enriching the leads.
+    </p>
+
+    <div class="callout">
+      <strong>Heuristic.</strong> If a single conversation in chat naturally has a "ok now do step 2 with that"
+      moment, the saved App probably wants to be multi-stage. If the chat is one continuous thought, one
+      Stage is enough.
+    </div>
+
+    <h2>When an App fails</h2>
+    <p>
+      A failed run still produces a record: the inputs it was given, the agent's reasoning trace,
+      and the error. Click into the run from the App's history. The fastest fix is usually to
+      open the failed run as a chat (the <strong>Debug in chat</strong> action) and continue
+      iterating from there.
+    </p>
+    <p>
+      Once you've found the fix, save it back to the App. Future runs pick up the new version.
+    </p>
+
+    <div class="next-up">
+      <span class="label">Next</span>
+      <a href="/docs/skills">Skills — capability modules</a>
+    </div>
+  </DocsShell>
+</Layout>

@@ -1,0 +1,122 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+
+const metadata = {
+  title: 'Connects — Aitroop Docs',
+};
+
+const connects = [
+  { name: 'google-drive', scope: 'Read & write files, list folders.',                    use: 'Picking a Drive document as App input, saving Artifacts back to Drive.' },
+  { name: 'gmail',        scope: 'Search threads, read messages, send mail.',            use: 'Searching past correspondence, drafting and sending outreach.' },
+  { name: 'github',       scope: 'Read repos & PRs, optionally write issues/comments.',  use: 'Engineering reports, PR summaries, issue triage.' },
+  { name: 'salesforce',   scope: 'Read & write objects (leads, accounts, opportunities).',use: 'Lead enrichment, pipeline insights, deal hygiene.' },
+  { name: 'hubspot',      scope: 'Read & write contacts, companies, deals, notes.',      use: 'Marketing ops, sequence drafts, CRM cleanup.' },
+  { name: 'notion',       scope: 'Read pages & databases, write to designated pages.',   use: 'Picking a Notion page as input, publishing reports to Notion.' },
+  { name: 'slack',        scope: 'Post messages, search channels, fetch threads.',       use: 'Delivering scheduled Artifacts to a channel, summarizing thread activity.' },
+  { name: 'linear',       scope: 'Read & write issues, projects, cycles.',               use: 'Sprint reports, issue triage, weekly status updates.' },
+];
+---
+
+<Layout metadata={metadata}>
+  <DocsShell current="connects">
+    <h1>Connects</h1>
+    <p class="lead">
+      Connects are OAuth integrations into the systems you already use. They let the agent read and write
+      through your authorized account — no shared API keys, no exported CSVs, no copy-paste between tools.
+    </p>
+
+    <h2>How connects work</h2>
+    <p>
+      You authorize a Connect once. From that point on, any chat or App in your workspace that needs that
+      system can use it. Authorization happens at the workspace level, so authorizing
+      <code>google-drive</code> once makes Drive available to every App in your workspace — but every
+      run still acts as <em>you</em>: with your permissions, against your data.
+    </p>
+    <p>
+      The OAuth flow uses the standard provider screens. We never see your password. The tokens are stored
+      encrypted; you can revoke any Connect at any time from the Connects settings page.
+    </p>
+
+    <h2>Authorizing a connect</h2>
+    <p>
+      Two paths:
+    </p>
+    <ul>
+      <li><strong>Proactive.</strong> Go to <strong>Settings → Connects</strong>, find the one you want, click <strong>Authorize</strong>. The provider's OAuth screen opens; you approve; you're done.</li>
+      <li><strong>Just-in-time.</strong> Open a chat and ask the agent to do something that needs the Connect. The agent pauses and prompts you to authorize. After authorizing, the same chat continues from where it left off.</li>
+    </ul>
+
+    <h2>Common connects</h2>
+    <p>The most-used Connects today:</p>
+    <div class="not-prose mt-3 mb-2" style="max-width:720px;">
+      <div class="rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] overflow-hidden">
+        <div class="grid grid-cols-[140px_1fr_1fr] text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] px-4 py-2.5 bg-[var(--aw-color-bg-subtle)] border-b border-[var(--aw-color-border)]">
+          <div>Connect</div>
+          <div>Scopes requested</div>
+          <div>Typical use</div>
+        </div>
+        {connects.map((c) => (
+          <div class="grid grid-cols-[140px_1fr_1fr] gap-3 px-4 py-3 text-[0.8125rem] border-b border-[var(--aw-color-border)] last:border-b-0">
+            <div><code class="text-primary font-mono">{c.name}</code></div>
+            <div class="text-[var(--aw-color-text-default)] leading-[1.6]">{c.scope}</div>
+            <div class="text-[var(--aw-color-text-muted)] leading-[1.6]">{c.use}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <h2>Read vs write access</h2>
+    <p>
+      Each Connect distinguishes read scopes from write scopes. When you authorize a Connect, the OAuth
+      screen lists exactly what's being requested. You can authorize read-only at first and add write
+      scopes later from the same Connect's settings page — the first App that needs write access will
+      prompt you to extend the scope.
+    </p>
+    <p>
+      This is how you keep Connect access minimal. <code>web-scrape</code> + <code>gmail-search</code> with
+      read-only Gmail is enough to draft a reply; it can't accidentally send anything. Add the
+      <code>gmail.send</code> scope later, only when you actually want sends.
+    </p>
+
+    <h2>Per-user vs shared connects</h2>
+    <p>
+      Most Connects are <strong>per-user</strong>: each teammate authorizes their own account, and Apps
+      that need that Connect act as whoever is running them. This is what you want for things like Gmail
+      and Calendar — the App reads <em>your</em> mail, not your colleague's.
+    </p>
+    <p>
+      A few systems (typically CRMs like Salesforce and HubSpot) work better as <strong>shared</strong>
+      Connects: one workspace-level authorization, and Apps act on the shared account. This is configured
+      per Connect by a workspace admin. Look for the <strong>Workspace Connect</strong> label on the
+      Connect's settings page.
+    </p>
+
+    <h2>Revoking access</h2>
+    <p>
+      <strong>Settings → Connects → Revoke</strong> immediately disconnects the integration and deletes
+      the stored tokens. Any App scheduled to use that Connect will fail on its next run until you
+      re-authorize — which is the safe default.
+    </p>
+    <p>
+      You can also revoke from the provider side (e.g., Google's third-party app permissions page).
+      Either method works; the next attempt by an App will detect the revocation.
+    </p>
+
+    <h2>Connect-aware AppInputs</h2>
+    <p>
+      The <code>connect_file</code> AppInput type lets users pick a file from one of their authorized
+      Connects when running an App. The picker shows Drive folders, Notion pages, or whatever the
+      authorized Connect supports — and what the user picks gets passed to the agent as a file reference.
+    </p>
+    <p>
+      Use this when the input is naturally "a document the user already has somewhere", rather than
+      something they need to download and re-upload.
+    </p>
+
+    <div class="next-up">
+      <span class="label">Next</span>
+      <a href="/docs/schedules">Schedules — running Apps on a cron</a>
+    </div>
+  </DocsShell>
+</Layout>

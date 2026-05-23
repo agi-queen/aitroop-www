@@ -1,0 +1,128 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+
+const metadata = {
+  title: 'Schedules — Aitroop Docs',
+};
+---
+
+<Layout metadata={metadata}>
+  <DocsShell current="schedules">
+    <h1>Schedules</h1>
+    <p class="lead">
+      A Schedule runs an App automatically on a cron expression. This is what turns "I built a useful App"
+      into "the report shows up in my inbox every Monday morning without me thinking about it."
+    </p>
+
+    <h2>Creating a schedule</h2>
+    <p>
+      On any App page, click <strong>Schedules → New schedule</strong>. You'll be asked for three things:
+    </p>
+    <ol>
+      <li><strong>When to run.</strong> A cron expression or a preset (Hourly, Daily, Weekly, Monthly).</li>
+      <li><strong>What inputs to use.</strong> A fixed set of AppInput values that will be passed in on every run. You can also use dynamic placeholders for time-relative inputs (see below).</li>
+      <li><strong>Where to deliver the result.</strong> One or more delivery destinations: email, Slack channel, Drive folder, Notion page, or a webhook.</li>
+    </ol>
+    <p>
+      Save and the schedule is live. The next run shows up in the schedule's history page.
+    </p>
+
+    <h2>Cron presets</h2>
+    <p>You don't need to write cron expressions for the common cases:</p>
+    <ul>
+      <li><strong>Hourly</strong> — runs at the top of every hour.</li>
+      <li><strong>Daily at 9 AM</strong> — runs once per day in your workspace's time zone.</li>
+      <li><strong>Weekly on Monday</strong> — runs every Monday at 9 AM.</li>
+      <li><strong>Monthly on the 1st</strong> — runs on the first day of each month.</li>
+      <li><strong>Custom cron</strong> — when none of the above fits.</li>
+    </ul>
+
+    <h2>Cron syntax cheatsheet</h2>
+    <p>
+      Aitroop uses standard 5-field cron syntax: <code>minute hour day-of-month month day-of-week</code>.
+      A few examples:
+    </p>
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted)"># Every weekday at 8:30 AM</span><br/>
+30 8 * * MON-FRI<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Every 15 minutes</span><br/>
+*/15 * * * *<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># First and 15th of every month at noon</span><br/>
+0 12 1,15 * *<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Every Monday at 9 AM</span><br/>
+0 9 * * MON
+    </div>
+    <p>
+      All times use your workspace's configured time zone. Set this in <strong>Settings → Workspace → Time zone</strong>
+      before relying on schedules; default is UTC.
+    </p>
+
+    <h2>Dynamic inputs</h2>
+    <p>
+      Most scheduled Apps need <em>relative</em> inputs that shift each run — "last week's commits", "yesterday's
+      tickets", "this month's expenses". Use placeholder values in the schedule's input form:
+    </p>
+    <ul>
+      <li><code>{`{{today}}`}</code> — the date the schedule runs.</li>
+      <li><code>{`{{yesterday}}`}</code> — one day before today.</li>
+      <li><code>{`{{last_week_start}}`}</code> / <code>{`{{last_week_end}}`}</code> — Monday and Sunday of the previous calendar week.</li>
+      <li><code>{`{{this_month_start}}`}</code> / <code>{`{{this_month_end}}`}</code> — first and last day of the current month.</li>
+      <li><code>{`{{last_month_start}}`}</code> / <code>{`{{last_month_end}}`}</code> — first and last day of the previous month.</li>
+    </ul>
+    <p>
+      Use these in a <code>daterange</code> AppInput to make the report self-shifting. A weekly engineering
+      report scheduled with <code>{`{{last_week_start}}`}</code> to <code>{`{{last_week_end}}`}</code> always
+      covers the right window without you touching it.
+    </p>
+
+    <h2>Delivery destinations</h2>
+    <p>The result of a scheduled run can be delivered to one or more places at once:</p>
+    <ul>
+      <li><strong>Email</strong> — send the Artifact to a list of addresses. Markdown gets rendered inline; CSVs and files attach.</li>
+      <li><strong>Slack</strong> — post into a channel. Long markdown is split intelligently; CSVs become uploaded files.</li>
+      <li><strong>Drive</strong> — save into a designated folder, with a timestamp in the filename.</li>
+      <li><strong>Notion</strong> — append to a designated page or database.</li>
+      <li><strong>Webhook</strong> — POST the Artifact (with metadata) to a URL of your choice.</li>
+    </ul>
+    <p>
+      The Artifact also always lives on the App's run history, regardless of where you deliver it.
+      Nothing is lost — you can always go back and view past runs in the UI.
+    </p>
+
+    <h2>When a scheduled run fails</h2>
+    <p>
+      Failed runs are kept in the schedule's history with the full reasoning trace and error. By default,
+      a failed run sends an alert to the schedule's owner — you don't have to monitor the schedule yourself.
+    </p>
+    <p>
+      Common failure modes:
+    </p>
+    <ul>
+      <li><strong>A Connect token expired.</strong> Re-authorize the Connect; the schedule resumes on its next run.</li>
+      <li><strong>Inputs reference data that's no longer available.</strong> Adjust the App's logic or update the schedule's inputs.</li>
+      <li><strong>The agent legitimately couldn't complete the task.</strong> Open the failed run as a chat (<strong>Debug in chat</strong>), figure out the issue, save the App, and the next scheduled run picks up the fix.</li>
+    </ul>
+
+    <h2>Pausing and editing</h2>
+    <p>
+      Toggle a schedule off without deleting it. Edit any field — cron, inputs, delivery — and the next
+      run uses the new values. Schedules are versioned alongside the App: pin a schedule to a specific App
+      version if you want it to stay stable while you continue editing the App.
+    </p>
+
+    <div class="callout">
+      <strong>Cost-aware scheduling.</strong> A 15-minute schedule is 4× the cost of an hourly one. Before
+      cranking up the frequency, ask whether anything actually changes that often. Most "real-time" alerting
+      needs are well-served by checking once an hour.
+    </div>
+
+    <div class="next-up">
+      <span class="label">Next</span>
+      <a href="/docs/artifacts">Artifact formats — the seven output types</a>
+    </div>
+  </DocsShell>
+</Layout>
