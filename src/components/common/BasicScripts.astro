@@ -3,6 +3,7 @@ import { UI } from 'astrowind:config';
 ---
 
 <script is:inline>
+  (function () {
   if (window.basic_script) {
     return;
   }
@@ -125,6 +126,7 @@ import { UI } from 'astrowind:config';
     onLoad();
     onPageShow();
   });
+  })();
 </script>
 
 <script is:inline>

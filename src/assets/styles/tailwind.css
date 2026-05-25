@@ -53,13 +53,14 @@
   border-bottom: 1px solid var(--aw-color-border);
 }
 
-#header.expanded nav {
+#header.expanded #mobile-nav {
   position: fixed;
   top: 56px;
   left: 0;
   right: 0;
   bottom: 0 !important;
   padding: 0 8px;
+  overflow-y: auto;
   background-color: var(--aw-color-bg-page);
   border-top: 1px solid var(--aw-color-border);
 }
