@@ -70,7 +70,7 @@ const cases = [
   <!-- ══════════════════════════════════════════════════════════════════
        HERO — two columns + aurora background + live product demo
        ══════════════════════════════════════════════════════════════════ -->
-  <section class="relative isolate overflow-hidden">
+  <section class="hero-section relative isolate overflow-hidden">
     <!-- Aurora: two soft drifting radial gradients, brand-tinted -->
     <div aria-hidden="true" class="aurora">
       <div class="aurora-a"></div>
@@ -78,8 +78,10 @@ const cases = [
     </div>
     <!-- Tight dot grid with radial mask -->
     <div aria-hidden="true" class="grid-bg"></div>
+    <!-- Bottom fade: smooth handoff into the next section -->
+    <div aria-hidden="true" class="hero-fade"></div>
 
-    <div class="mx-auto max-w-6xl px-6 md:px-10 pt-20 md:pt-28 lg:pt-32 pb-24 md:pb-32">
+    <div class="mx-auto max-w-6xl px-6 md:px-10 pt-24 md:pt-32 lg:pt-36 pb-24 md:pb-32">
       <div class="grid lg:grid-cols-[1.05fr_1fr] gap-12 lg:gap-14 items-center">
 
         <!-- ── Copy ── -->
@@ -216,7 +218,7 @@ const cases = [
   <!-- ══════════════════════════════════════════════════════════════════
        USE CASES
        ══════════════════════════════════════════════════════════════════ -->
-  <section class="border-y border-[var(--aw-color-border)] py-24 md:py-32">
+  <section class="border-t border-[var(--aw-color-border)] py-24 md:py-32">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
       <header class="section-intro">
         <p class="section-label">USE CASES</p>
@@ -286,10 +288,14 @@ const cases = [
     --p-rgb: 82, 153, 97;            /* primary, decomposed for rgba() */
   }
 
-  /* ── Surface bands ── */
+  /* ── Surface bands — a hint of warmth, not a slab ── */
   .band-subtle {
+    position: relative;
     background:
-      linear-gradient(180deg, rgba(0, 0, 0, 0.012), rgba(0, 0, 0, 0.022) 50%, rgba(0, 0, 0, 0.012));
+      linear-gradient(180deg,
+        rgba(82, 153, 97, 0.030) 0%,
+        rgba(82, 153, 97, 0.015) 50%,
+        rgba(82, 153, 97, 0.030) 100%);
   }
 
   /* ── Shared section intro block ── */
@@ -301,7 +307,9 @@ const cases = [
     .section-intro { margin-bottom: 4rem; }   /* 64px */
   }
   .section-label {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 0.6875rem;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     text-transform: uppercase;
@@ -310,6 +318,14 @@ const cases = [
     color: var(--aw-color-primary);
     margin-bottom: 0.875rem;       /* 14px */
     line-height: 1;
+  }
+  .section-label::before {
+    content: '';
+    width: 18px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+    display: inline-block;
   }
   .section-title {
     font-size: clamp(1.875rem, 3.6vw, 2.5rem);
@@ -343,12 +359,15 @@ const cases = [
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.3125rem 0.6875rem;   /* 5px 11px */
+    padding: 0.3125rem 0.75rem 0.3125rem 0.6875rem;
     border-radius: 9999px;
-    border: 1px solid var(--aw-color-border);
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset;
+    border: 1px solid rgba(82, 153, 97, 0.22);
+    background: rgba(255, 255, 255, 0.78);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+            backdrop-filter: saturate(180%) blur(10px);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.7) inset,
+      0 4px 14px -6px rgba(82, 153, 97, 0.18);
     margin-bottom: 1.5rem;
   }
   .hero-eyebrow > span:last-child {
@@ -389,12 +408,18 @@ const cases = [
   .strike-pop::after {
     content: '';
     position: absolute;
-    left: -2px;
-    right: -2px;
-    bottom: 0.08em;
-    height: 0.34em;
-    background: rgba(82, 153, 97, 0.16);
-    border-radius: 3px;
+    left: -4px;
+    right: -4px;
+    bottom: 0.05em;
+    height: 0.36em;
+    background: linear-gradient(
+      105deg,
+      rgba(82, 153, 97, 0.10) 0%,
+      rgba(82, 153, 97, 0.22) 50%,
+      rgba(82, 153, 97, 0.10) 100%
+    );
+    border-radius: 4px;
+    transform: skewX(-3deg);
     z-index: -1;
   }
 
@@ -410,9 +435,10 @@ const cases = [
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.375rem 1.25rem;
+    gap: 0.5rem 1.25rem;
     margin: 0;
-    padding: 0;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--aw-color-border);
     list-style: none;
   }
   .trust-strip li {
@@ -421,8 +447,8 @@ const cases = [
     font-size: 0.75rem;
     color: var(--aw-color-text-muted);
     line-height: 1.3;
-    letter-spacing: -0.01em;
-    padding-left: 0.75rem;
+    letter-spacing: 0;
+    padding-left: 0.875rem;
   }
   .trust-strip li::before {
     content: '';
@@ -430,35 +456,52 @@ const cases = [
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 4px;
-    height: 4px;
+    width: 5px;
+    height: 5px;
     border-radius: 9999px;
-    background: rgba(82, 153, 97, 0.55);
+    background: rgba(82, 153, 97, 0.6);
+    box-shadow: 0 0 0 3px rgba(82, 153, 97, 0.08);
   }
 
-  /* ── Aurora background ── */
+  /* ── Aurora background — bounded inside section, no header bleed ── */
+  .hero-section { isolation: isolate; }
   .aurora {
     position: absolute;
-    inset: -20% -10% auto -10%;
-    height: 120%;
+    inset: 0 -8% auto -8%;
+    height: 100%;
     z-index: -2;
     pointer-events: none;
+    overflow: hidden;
   }
   .aurora-a, .aurora-b {
     position: absolute;
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.9;
+    filter: blur(90px);
+    opacity: 0.85;
   }
   .aurora-a {
-    top: -10%; left: 5%;
-    width: 55%; height: 70%;
+    top: 6%; left: 6%;
+    width: 52%; height: 60%;
     background: radial-gradient(circle, rgba(82, 153, 97, 0.22), transparent 65%);
   }
   .aurora-b {
-    top: 10%; right: -10%;
-    width: 50%; height: 60%;
-    background: radial-gradient(circle, rgba(82, 153, 97, 0.14), transparent 65%);
+    top: 18%; right: -6%;
+    width: 48%; height: 56%;
+    background: radial-gradient(circle, rgba(82, 153, 97, 0.13), transparent 65%);
+  }
+  /* Bottom fade: dissolves hero into the next section */
+  .hero-fade {
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 140px;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.5) 40%,
+      var(--aw-color-bg-page) 100%
+    );
   }
   @media (prefers-reduced-motion: no-preference) {
     .aurora-a { animation: aurora-drift-a 28s ease-in-out infinite; }
@@ -476,14 +519,14 @@ const cases = [
   .grid-bg {
     position: absolute;
     inset: 0;
-    z-index: -1;
-    opacity: 0.32;
+    z-index: -2;
+    opacity: 0.28;
     background-image:
-      linear-gradient(rgba(0, 0, 0, 0.045) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
-    background-size: 48px 48px;
-    -webkit-mask-image: radial-gradient(ellipse 72% 56% at 50% 0%, #000 30%, transparent 78%);
-            mask-image: radial-gradient(ellipse 72% 56% at 50% 0%, #000 30%, transparent 78%);
+      linear-gradient(rgba(0, 0, 0, 0.042) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.042) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(ellipse 66% 52% at 50% 18%, #000 35%, transparent 78%);
+            mask-image: radial-gradient(ellipse 66% 52% at 50% 18%, #000 35%, transparent 78%);
   }
 
   /* ════════════════════════════════════════════════════════════════
@@ -563,20 +606,21 @@ const cases = [
     border: 1px solid var(--aw-color-border);
     background: var(--aw-color-bg-page);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      0 1px 0 rgba(0, 0, 0, 0.015);
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      0 1px 2px rgba(15, 30, 18, 0.025),
+      0 8px 20px -16px rgba(15, 30, 18, 0.08);
     transition:
-      border-color 200ms ease,
-      box-shadow 250ms ease,
-      transform 200ms ease;
+      border-color 220ms ease,
+      box-shadow 280ms ease,
+      transform 220ms ease;
   }
   .piece-card:hover {
-    border-color: rgba(82, 153, 97, 0.35);
-    transform: translateY(-2px);
+    border-color: rgba(82, 153, 97, 0.4);
+    transform: translateY(-3px);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      0 12px 32px -16px rgba(82, 153, 97, 0.28),
-      0 4px 12px -6px rgba(0, 0, 0, 0.06);
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      0 16px 36px -18px rgba(82, 153, 97, 0.32),
+      0 6px 16px -8px rgba(15, 30, 18, 0.08);
   }
   .piece-card:hover .piece-icon {
     background: rgba(82, 153, 97, 0.16);
@@ -680,9 +724,18 @@ const cases = [
     border: 1px solid var(--aw-color-border);
     border-radius: 14px;
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      0 1px 0 rgba(0, 0, 0, 0.015);
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      0 1px 2px rgba(15, 30, 18, 0.025),
+      0 8px 20px -16px rgba(15, 30, 18, 0.08);
     z-index: 1;
+    transition: box-shadow 280ms ease, transform 220ms ease;
+  }
+  .anatomy-card:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      0 14px 32px -18px rgba(82, 153, 97, 0.28),
+      0 4px 12px -6px rgba(15, 30, 18, 0.06);
   }
   .anatomy-num {
     width: 56px;
@@ -733,8 +786,9 @@ const cases = [
     background: var(--aw-color-bg-page);
     border: 1px solid var(--aw-color-border);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      0 1px 2px rgba(0, 0, 0, 0.02);
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      0 2px 6px rgba(15, 30, 18, 0.04),
+      0 12px 28px -18px rgba(82, 153, 97, 0.18);
   }
   .anatomy-formula code {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
@@ -755,8 +809,9 @@ const cases = [
     border-radius: 14px;
     background: var(--aw-color-bg-page);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      0 1px 0 rgba(0, 0, 0, 0.015);
+      inset 0 1px 0 rgba(255, 255, 255, 0.7),
+      0 1px 2px rgba(15, 30, 18, 0.03),
+      0 10px 28px -20px rgba(15, 30, 18, 0.10);
     transition:
       border-color 220ms ease,
       box-shadow 280ms ease,
@@ -874,11 +929,25 @@ const cases = [
   }
   .cta-glow {
     position: absolute;
-    inset: auto 0 -20% 0;
-    height: 70%;
+    inset: auto 0 -25% 0;
+    height: 80%;
     z-index: -1;
     background:
-      radial-gradient(ellipse 55% 65% at 50% 100%, rgba(82, 153, 97, 0.16), transparent 70%);
+      radial-gradient(ellipse 60% 70% at 50% 100%, rgba(82, 153, 97, 0.20), transparent 72%);
+    pointer-events: none;
+  }
+  /* Soft top divider before CTA — a polished handoff from use-cases */
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(to right,
+      transparent 0%,
+      rgba(82, 153, 97, 0.16) 30%,
+      rgba(82, 153, 97, 0.28) 50%,
+      rgba(82, 153, 97, 0.16) 70%,
+      transparent 100%);
     pointer-events: none;
   }
 </style>

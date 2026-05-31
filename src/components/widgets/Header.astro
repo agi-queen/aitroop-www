@@ -42,7 +42,7 @@ const homeHref = currentLocale === 'en' ? '/' : `/${currentLocale}`;
 <header
   class:list={[
     { sticky: isSticky, relative: !isSticky },
-    'top-0 z-40 w-full bg-page border-b border-[var(--aw-color-border)] transition-[opacity] ease-in-out',
+    'aw-header top-0 z-40 w-full transition-[background-color,box-shadow,border-color] duration-200 ease-out',
   ]}
   {...isSticky ? { 'data-aw-sticky-header': true } : {}}
   {...id ? { id } : {}}
@@ -126,7 +126,7 @@ const homeHref = currentLocale === 'en' ? '/' : `/${currentLocale}`;
   {links.length > 0 && (
     <nav
       id="mobile-nav"
-      class="hidden md:hidden px-4 pb-3 border-t border-[var(--aw-color-border)] bg-page"
+      class="hidden md:hidden px-4 pb-3 border-t border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]"
       aria-label="Mobile navigation"
     >
       {links.map((link) => {
@@ -162,3 +162,26 @@ const homeHref = currentLocale === 'en' ? '/' : `/${currentLocale}`;
     </nav>
   )}
 </header>
+
+<style>
+  /* Glass + scroll-aware sticky header.
+     Resting: translucent + soft border.
+     Scrolled: stronger backdrop + hairline shadow lifts header above hero aurora. */
+  .aw-header {
+    background-color: rgb(255 255 255 / 0.72);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+            backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  }
+  .aw-header[data-aw-sticky-header].scroll {
+    background-color: rgb(255 255 255 / 0.86);
+    border-bottom-color: var(--aw-color-border);
+    box-shadow:
+      0 1px 0 rgba(0, 0, 0, 0.02),
+      0 6px 18px -10px rgba(0, 0, 0, 0.08);
+  }
+  /* Reduce-motion: skip the transition shimmer */
+  @media (prefers-reduced-motion: reduce) {
+    .aw-header { transition: none !important; }
+  }
+</style>
