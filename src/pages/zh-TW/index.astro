@@ -121,16 +121,16 @@ const lifecycleSteps = [
     </div>
     <div aria-hidden="true" class="grid-bg"></div>
 
-    <div class="mx-auto max-w-6xl px-6 md:px-10 pt-16 md:pt-24 lg:pt-28 pb-20 md:pb-28">
-      <div class="grid lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-16 items-center">
+    <div class="mx-auto max-w-6xl px-6 md:px-10 pt-20 md:pt-28 lg:pt-32 pb-24 md:pb-32">
+      <div class="grid lg:grid-cols-[1.05fr_1fr] gap-12 lg:gap-14 items-center">
 
         <div class="hero-copy">
-          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]/80 backdrop-blur-sm mb-6 shadow-[0_1px_0_rgba(255,255,255,0.6)_inset]">
+          <div class="hero-eyebrow">
             <span class="relative flex h-1.5 w-1.5">
               <span class="absolute inline-flex h-full w-full rounded-full bg-primary opacity-60 animate-ping"></span>
               <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
             </span>
-            <span class="text-[0.6875rem] tracking-[0.18em] uppercase font-mono text-[var(--aw-color-text-muted)]">AI Agent 平台</span>
+            <span>AI Agent 平台</span>
           </div>
 
           <h1 class="hero-h1">
@@ -143,24 +143,22 @@ const lifecycleSteps = [
             團隊拿到的是可重複使用的 AI 工作流——無需撰寫程式碼，也無需複製貼上長 Prompt。
           </p>
 
-          <div class="flex flex-wrap items-center gap-3 mb-8">
-            <a href="https://app.aitroop.net"
-               class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-[0_6px_20px_-6px_rgba(82,153,97,0.5)]">
+          <div class="hero-cta">
+            <a href="https://app.aitroop.net" class="btn-pill btn-pill-primary">
               免費開始
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </a>
-            <a href="/zh-TW/use-cases"
-               class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.025)] transition-all duration-150">
+            <a href="/zh-TW/use-cases" class="btn-pill btn-pill-ghost">
               查看案例
             </a>
           </div>
 
-          <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.75rem] font-mono text-[var(--aw-color-text-muted)] tracking-tight">
-            <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>多租戶</span>
-            <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>OAuth 整合</span>
-            <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>150+ 內建技能</span>
-            <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>E2B 沙箱隔離</span>
-          </div>
+          <ul class="trust-strip">
+            <li>多租戶</li>
+            <li>OAuth 整合</li>
+            <li>150+ 內建技能</li>
+            <li>E2B 沙箱隔離</li>
+          </ul>
         </div>
 
         <div class="hero-demo">
@@ -171,13 +169,11 @@ const lifecycleSteps = [
   </section>
 
   <!-- ══════════════════════════ WORKFLOW ══════════════════════ -->
-  <section class="relative border-t border-[var(--aw-color-border)] bg-[rgba(0,0,0,0.015)]">
-    <div class="mx-auto max-w-5xl px-6 md:px-10 py-14 md:py-20">
-      <div class="text-center mb-10 md:mb-12">
+  <section class="band-subtle border-t border-[var(--aw-color-border)]">
+    <div class="mx-auto max-w-6xl px-6 md:px-10 py-16 md:py-24">
+      <div class="text-center mb-12 md:mb-14 mx-auto max-w-[640px]">
         <p class="section-label inline-block">完整閉環</p>
-        <h2 class="text-[1.5rem] md:text-[1.875rem] font-bold tracking-[-0.02em] text-[var(--aw-color-text-heading)]">
-          一次對話，跑上一千遍。
-        </h2>
+        <h2 class="section-title section-title--mid">一次對話，跑上一千遍。</h2>
       </div>
       <WorkflowLifecycle steps={lifecycleSteps} loopHint="並且會自動循環——定時、隨需、Webhook 觸發" />
     </div>
@@ -186,28 +182,28 @@ const lifecycleSteps = [
   <!-- ══════════════════════════ BUILT-IN ══════════════════════ -->
   <section class="border-y border-[var(--aw-color-border)] py-24 md:py-32">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <div class="mb-14 md:mb-16 max-w-[640px]">
+      <header class="section-intro">
         <p class="section-label">開箱即用</p>
         <h2 class="section-title">Agent 需要的一切，都在這裡。</h2>
-        <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] leading-[1.75]">
+        <p class="section-lede">
           不需要組裝整合，也不需要寫膠水程式碼。挑選技能、授權系統、設定排程——發佈上線。
         </p>
-      </div>
+      </header>
 
-      <div class="grid sm:grid-cols-2 gap-4">
-        {pieces.map((p) => (
-          <div class="piece-card intersect intersect-once motion-safe:opacity-0 motion-safe:translate-y-3 motion-safe:[&:not([no-intersect])]:opacity-100 motion-safe:[&:not([no-intersect])]:translate-y-0 motion-safe:transition-all motion-safe:duration-700">
-            <div class="flex items-start justify-between mb-4">
+      <div class="grid sm:grid-cols-2 gap-5">
+        {pieces.map((p, i) => (
+          <div class="piece-card intersect intersect-once motion-safe:opacity-0 motion-safe:translate-y-3 motion-safe:[&:not([no-intersect])]:opacity-100 motion-safe:[&:not([no-intersect])]:translate-y-0 motion-safe:transition-all motion-safe:duration-700" style={`transition-delay:${i * 90}ms`}>
+            <div class="flex items-start justify-between mb-5">
               <div class="piece-icon">
-                <Icon name={p.icon} class="w-4 h-4" />
+                <Icon name={p.icon} class="w-[18px] h-[18px]" />
               </div>
-              <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] px-2 py-0.5 rounded-full border border-[var(--aw-color-border)]">{p.label}</span>
+              <span class="piece-badge">{p.label}</span>
             </div>
-            <h3 class="text-[1.0625rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">{p.title}</h3>
-            <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.65] mb-4">{p.desc}</p>
-            <div class="flex flex-wrap gap-1.5">
+            <h3 class="piece-title">{p.title}</h3>
+            <p class="piece-desc">{p.desc}</p>
+            <div class="piece-tags">
               {p.items.map((item) => (
-                <span class="inline-flex items-center px-2 py-0.5 rounded-md bg-[var(--aw-color-bg-subtle)] text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)]">{item}</span>
+                <span class="piece-tag">{item}</span>
               ))}
             </div>
           </div>
@@ -217,21 +213,21 @@ const lifecycleSteps = [
   </section>
 
   <!-- ══════════════════════════ ANATOMY ══════════════════════ -->
-  <section class="py-24 md:py-32 bg-[rgba(0,0,0,0.015)]">
+  <section class="band-subtle py-24 md:py-32">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <div class="mb-14 md:mb-16 max-w-[640px]">
+      <header class="section-intro">
         <p class="section-label">App 的解剖</p>
         <h2 class="section-title">一個 App，三塊拼圖。</h2>
-        <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] leading-[1.75]">
+        <p class="section-lede">
           整個平台的核心只有三個原語。簡單可推理，靈活可組合。
         </p>
-      </div>
+      </header>
 
       <div class="anatomy">
         <div aria-hidden="true" class="anatomy-rail"></div>
         <div class="grid md:grid-cols-3 gap-6 md:gap-8 relative">
-          {anatomy.map((a) => (
-            <div class="anatomy-card intersect intersect-once motion-safe:opacity-0 motion-safe:translate-y-3 motion-safe:[&:not([no-intersect])]:opacity-100 motion-safe:[&:not([no-intersect])]:translate-y-0 motion-safe:transition-all motion-safe:duration-700">
+          {anatomy.map((a, i) => (
+            <div class="anatomy-card intersect intersect-once motion-safe:opacity-0 motion-safe:translate-y-3 motion-safe:[&:not([no-intersect])]:opacity-100 motion-safe:[&:not([no-intersect])]:translate-y-0 motion-safe:transition-all motion-safe:duration-700" style={`transition-delay:${i * 110}ms`}>
               <div class="anatomy-num">{a.n}</div>
               <h3 class="anatomy-title">{a.title}</h3>
               <p class="anatomy-desc">{a.desc}</p>
@@ -240,10 +236,12 @@ const lifecycleSteps = [
         </div>
       </div>
 
-      <div class="mt-14 md:mt-16 p-5 rounded-xl bg-[var(--aw-color-bg-page)] border border-[var(--aw-color-border)] inline-block shadow-[0_1px_0_rgba(255,255,255,0.6)_inset]">
-        <code class="text-[0.8125rem] md:text-[0.875rem] font-mono text-[var(--aw-color-text-default)] leading-relaxed">
-          <span class="text-primary">App</span> = <span class="text-primary">AppInput</span>[] + <span class="text-primary">Stage</span>[] + <span class="text-primary">Artifact</span>[]
-        </code>
+      <div class="anatomy-formula-wrap">
+        <div class="anatomy-formula">
+          <code>
+            <span class="text-primary">App</span> = <span class="text-primary">AppInput</span>[] + <span class="text-primary">Stage</span>[] + <span class="text-primary">Artifact</span>[]
+          </code>
+        </div>
       </div>
     </div>
   </section>
@@ -251,32 +249,32 @@ const lifecycleSteps = [
   <!-- ══════════════════════════ USE CASES ════════════════════ -->
   <section class="border-y border-[var(--aw-color-border)] py-24 md:py-32">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <div class="mb-14 md:mb-16 max-w-[640px]">
+      <header class="section-intro">
         <p class="section-label">案例</p>
         <h2 class="section-title">為團隊真實要做的事而設計。</h2>
-        <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] leading-[1.75]">
+        <p class="section-lede">
           我們提供預置 App 包，覆蓋各團隊的常見工作流。開箱即用，或 fork 後改造為你自己的流程。
         </p>
-      </div>
+      </header>
 
       <div class="grid md:grid-cols-2 gap-5">
-        {cases.map((c) => (
-          <a href={c.slug} class="case-card intersect intersect-once motion-safe:opacity-0 motion-safe:translate-y-3 motion-safe:[&:not([no-intersect])]:opacity-100 motion-safe:[&:not([no-intersect])]:translate-y-0 motion-safe:transition-all motion-safe:duration-700">
-            <p class="text-[0.6875rem] font-mono uppercase tracking-[0.18em] text-[var(--aw-color-text-muted)] mb-3">{c.eyebrow}</p>
-            <h3 class="text-[1.75rem] md:text-[2rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] mb-2.5 group-hover:text-primary transition-colors">{c.title}</h3>
-            <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-6">{c.desc}</p>
-            <div class="space-y-1.5 mb-6">
+        {cases.map((c, i) => (
+          <a href={c.slug} class="case-card group intersect intersect-once motion-safe:opacity-0 motion-safe:translate-y-3 motion-safe:[&:not([no-intersect])]:opacity-100 motion-safe:[&:not([no-intersect])]:translate-y-0 motion-safe:transition-all motion-safe:duration-700" style={`transition-delay:${i * 120}ms`}>
+            <p class="case-eyebrow">{c.eyebrow}</p>
+            <h3 class="case-title">{c.title}</h3>
+            <p class="case-desc">{c.desc}</p>
+            <ul class="case-list">
               {c.examples.map((ex) => (
-                <div class="flex items-center gap-2 text-[0.8125rem] text-[var(--aw-color-text-default)]">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" class="text-primary/70 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-                  <span class="font-mono text-[0.75rem]">{ex}</span>
-                </div>
+                <li>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span>{ex}</span>
+                </li>
               ))}
-            </div>
-            <div class="inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-primary">
+            </ul>
+            <span class="case-cta">
               查看案例詳情
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </div>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </span>
           </a>
         ))}
       </div>
@@ -284,23 +282,21 @@ const lifecycleSteps = [
   </section>
 
   <!-- ══════════════════════════ CTA ══════════════════════════ -->
-  <section class="relative isolate overflow-hidden py-24 md:py-32">
+  <section class="cta-section relative isolate overflow-hidden">
     <div aria-hidden="true" class="cta-glow"></div>
     <div class="mx-auto max-w-3xl px-6 md:px-10 text-center relative">
-      <h2 class="text-[1.875rem] md:text-[2.5rem] font-bold tracking-[-0.025em] leading-[1.15] text-[var(--aw-color-text-heading)] mb-4">
+      <h2 class="cta-h2">
         午餐前發佈你的<br/>第一個 App。
       </h2>
-      <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-8 max-w-[480px] mx-auto">
+      <p class="cta-lede">
         打開對話，跑通一次，點擊<span class="font-mono"> 存為 App </span>——就是整個流程。
       </p>
-      <div class="flex flex-wrap items-center justify-center gap-3">
-        <a href="https://app.aitroop.net"
-           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-[0_6px_20px_-6px_rgba(82,153,97,0.5)]">
+      <div class="cta-actions">
+        <a href="https://app.aitroop.net" class="btn-pill btn-pill-primary">
           免費開始
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
-        <a href="/zh-TW/contact"
-           class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.025)] transition-all duration-150">
+        <a href="/zh-TW/contact" class="btn-pill btn-pill-ghost">
           聯絡我們
         </a>
       </div>
@@ -310,37 +306,86 @@ const lifecycleSteps = [
 </Layout>
 
 <style>
+  /* ════════════════════════════════════════════════════════════════
+     DESIGN TOKENS (local to homepage)
+     ════════════════════════════════════════════════════════════════ */
+  .band-subtle {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.012), rgba(0, 0, 0, 0.022) 50%, rgba(0, 0, 0, 0.012));
+  }
+
+  .section-intro { max-width: 640px; margin-bottom: 3rem; }
+  @media (min-width: 768px) { .section-intro { margin-bottom: 4rem; } }
   .section-label {
+    display: inline-block;
     font-size: 0.6875rem;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    font-weight: 600;
-    color: var(--aw-color-primary, #529961);
+    font-weight: 700;
+    color: var(--aw-color-primary);
     margin-bottom: 0.875rem;
+    line-height: 1;
   }
   .section-title {
-    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-size: clamp(1.875rem, 3.6vw, 2.5rem);
     font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
+    letter-spacing: -0.032em;
+    line-height: 1.08;
     color: var(--aw-color-text-heading);
-    margin-bottom: 1rem;
+    margin: 0 0 0.875rem;
+    text-wrap: balance;
+  }
+  .section-title--mid {
+    font-size: clamp(1.625rem, 3vw, 2rem);
+    letter-spacing: -0.028em;
+    margin-bottom: 0;
+  }
+  .section-lede {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--aw-color-text-muted);
+    text-wrap: pretty;
+    margin: 0;
+  }
+  @media (min-width: 768px) { .section-lede { font-size: 1.0625rem; } }
+
+  /* ── HERO ── */
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3125rem 0.6875rem;
+    border-radius: 9999px;
+    border: 1px solid var(--aw-color-border);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset;
+    margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow > span:last-child {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--aw-color-text-muted);
+    line-height: 1;
   }
   .hero-h1 {
-    font-size: clamp(2.5rem, 5.5vw, 4.25rem);
-    font-weight: 900;
-    letter-spacing: -0.035em;
+    font-size: clamp(2.5rem, 5.2vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
     line-height: 1.05;
     color: var(--aw-color-text-heading);
-    margin-bottom: 1.4rem;
+    margin: 0 0 1.5rem;
+    text-wrap: balance;
   }
   .hero-sub {
     font-size: 1.0625rem;
     line-height: 1.75;
     color: var(--aw-color-text-muted);
-    max-width: 540px;
-    margin-bottom: 2rem;
+    max-width: 520px;
+    margin: 0 0 2rem;
+    text-wrap: pretty;
   }
   @media (min-width: 768px) { .hero-sub { font-size: 1.125rem; } }
 
@@ -349,11 +394,48 @@ const lifecycleSteps = [
     content: '';
     position: absolute;
     left: -4px; right: -4px;
-    bottom: 0.06em;
+    bottom: 0.08em;
     height: 0.36em;
     background: rgba(82, 153, 97, 0.18);
     border-radius: 3px;
     z-index: -1;
+  }
+
+  .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .trust-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .trust-strip li {
+    position: relative;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    color: var(--aw-color-text-muted);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    padding-left: 0.75rem;
+  }
+  .trust-strip li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px; height: 4px;
+    border-radius: 9999px;
+    background: rgba(82, 153, 97, 0.55);
   }
 
   .aurora {
@@ -396,52 +478,181 @@ const lifecycleSteps = [
     position: absolute;
     inset: 0;
     z-index: -1;
-    opacity: 0.35;
+    opacity: 0.32;
     background-image:
       linear-gradient(rgba(0, 0, 0, 0.045) 1px, transparent 1px),
       linear-gradient(90deg, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
-    background-size: 44px 44px;
-    -webkit-mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, #000 30%, transparent 78%);
-    mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, #000 30%, transparent 78%);
+    background-size: 48px 48px;
+    -webkit-mask-image: radial-gradient(ellipse 72% 56% at 50% 0%, #000 30%, transparent 78%);
+            mask-image: radial-gradient(ellipse 72% 56% at 50% 0%, #000 30%, transparent 78%);
   }
 
+  /* ── BUTTONS ── */
+  .btn-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2.75rem;
+    padding: 0 1.375rem;
+    border-radius: 9999px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    line-height: 1;
+    white-space: nowrap;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      box-shadow 200ms ease,
+      transform 160ms ease;
+    will-change: transform;
+  }
+  .btn-pill:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--aw-color-bg-page),
+      0 0 0 4px rgba(82, 153, 97, 0.55);
+  }
+  .btn-pill-primary {
+    background: var(--aw-color-primary);
+    color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      0 1px 2px rgba(45, 110, 63, 0.25),
+      0 8px 20px -8px rgba(82, 153, 97, 0.55);
+  }
+  .btn-pill-primary:hover {
+    background: rgb(61, 133, 79);
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      0 2px 4px rgba(45, 110, 63, 0.28),
+      0 14px 28px -10px rgba(82, 153, 97, 0.6);
+  }
+  .btn-pill-primary:active {
+    transform: translateY(0);
+    box-shadow:
+      inset 0 1px 1px rgba(0, 0, 0, 0.08),
+      0 1px 2px rgba(45, 110, 63, 0.25);
+  }
+  .btn-pill-ghost {
+    background: rgba(255, 255, 255, 0.6);
+    color: var(--aw-color-text-default);
+    border: 1px solid var(--aw-color-border);
+    backdrop-filter: blur(6px);
+  }
+  .btn-pill-ghost:hover {
+    border-color: rgba(0, 0, 0, 0.22);
+    background: rgba(0, 0, 0, 0.03);
+    transform: translateY(-1px);
+  }
+  .btn-pill-ghost:active { transform: translateY(0); }
+
+  /* ── PIECES ── */
   .piece-card {
     position: relative;
-    padding: 1.5rem 1.75rem;
-    border-radius: 16px;
+    padding: 1.625rem;
+    border-radius: 14px;
     border: 1px solid var(--aw-color-border);
     background: var(--aw-color-bg-page);
-    transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 1px 0 rgba(0, 0, 0, 0.015);
+    transition:
+      border-color 200ms ease,
+      box-shadow 250ms ease,
+      transform 200ms ease;
   }
   .piece-card:hover {
     border-color: rgba(82, 153, 97, 0.35);
-    box-shadow: 0 8px 30px rgba(82, 153, 97, 0.09);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 12px 32px -16px rgba(82, 153, 97, 0.28),
+      0 4px 12px -6px rgba(0, 0, 0, 0.06);
   }
   .piece-card:hover .piece-icon {
     background: rgba(82, 153, 97, 0.16);
-    transform: scale(1.04);
+    transform: scale(1.05);
   }
   .piece-icon {
-    width: 36px; height: 36px;
+    width: 40px; height: 40px;
     border-radius: 10px;
     background: rgba(82, 153, 97, 0.08);
     color: var(--aw-color-primary);
-    display: flex; align-items: center; justify-content: center;
+    display: inline-flex; align-items: center; justify-content: center;
     transition: background 200ms ease, transform 200ms ease;
   }
+  .piece-badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--aw-color-text-muted);
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    border: 1px solid var(--aw-color-border);
+    background: var(--aw-color-bg-page);
+    line-height: 1;
+    height: 22px;
+  }
+  .piece-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--aw-color-text-heading);
+    margin: 0 0 0.5rem;
+  }
+  .piece-desc {
+    font-size: 0.9375rem;
+    color: var(--aw-color-text-muted);
+    line-height: 1.65;
+    margin: 0 0 1.125rem;
+    text-wrap: pretty;
+  }
+  .piece-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+  .piece-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.1875rem 0.5rem;
+    border-radius: 6px;
+    background: var(--aw-color-bg-subtle);
+    border: 1px solid transparent;
+    color: var(--aw-color-text-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+  }
+  .piece-card:hover .piece-tag {
+    background: rgba(82, 153, 97, 0.06);
+    border-color: rgba(82, 153, 97, 0.12);
+    color: var(--aw-color-text-default);
+  }
 
+  /* ── ANATOMY ── */
   .anatomy { position: relative; }
   .anatomy-rail {
     display: none;
     position: absolute;
-    top: 28px; left: 8%; right: 8%;
+    top: 20px;
+    left: 16.6667%; right: 16.6667%;
     height: 1px;
     background: linear-gradient(to right,
-      transparent,
-      var(--aw-color-border) 10%,
-      var(--aw-color-border) 90%,
-      transparent
+      transparent 0%,
+      rgba(82, 153, 97, 0.10) 8%,
+      var(--aw-color-border) 50%,
+      rgba(82, 153, 97, 0.10) 92%,
+      transparent 100%
     );
     z-index: 0;
   }
@@ -451,50 +662,185 @@ const lifecycleSteps = [
     padding: 1.5rem 1.75rem 1.75rem;
     background: var(--aw-color-bg-page);
     border: 1px solid var(--aw-color-border);
-    border-radius: 16px;
+    border-radius: 14px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 1px 0 rgba(0, 0, 0, 0.015);
     z-index: 1;
   }
   .anatomy-num {
     width: 56px; height: 56px;
-    margin: -2.25rem 0 1.25rem;
+    margin: -2rem 0 1.25rem;
     border-radius: 9999px;
     background: var(--aw-color-bg-page);
     border: 1px solid var(--aw-color-border);
-    display: flex; align-items: center; justify-content: center;
+    display: inline-flex; align-items: center; justify-content: center;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.875rem; font-weight: 700;
+    font-size: 0.9375rem; font-weight: 700;
     color: var(--aw-color-primary);
-    box-shadow: 0 4px 14px -6px rgba(82, 153, 97, 0.25);
+    letter-spacing: 0.02em;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.8),
+      0 6px 16px -8px rgba(82, 153, 97, 0.3),
+      0 1px 2px rgba(0, 0, 0, 0.04);
   }
   .anatomy-title {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 1.125rem; font-weight: 600;
+    font-size: 1.0625rem;
+    font-weight: 600;
     color: var(--aw-color-text-heading);
-    margin-bottom: 0.6rem;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.5rem;
   }
-  .anatomy-desc { font-size: 0.9375rem; color: var(--aw-color-text-muted); line-height: 1.7; }
-
-  .case-card {
-    display: block; position: relative;
-    padding: 1.75rem 2rem;
-    border: 1px solid var(--aw-color-border);
-    border-radius: 16px;
+  .anatomy-desc {
+    font-size: 0.9375rem;
+    color: var(--aw-color-text-muted);
+    line-height: 1.7;
+    margin: 0;
+    text-wrap: pretty;
+  }
+  .anatomy-formula-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 3.5rem;
+  }
+  @media (min-width: 768px) { .anatomy-formula-wrap { margin-top: 4rem; } }
+  .anatomy-formula {
+    padding: 0.875rem 1.25rem;
+    border-radius: 12px;
     background: var(--aw-color-bg-page);
-    transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+    border: 1px solid var(--aw-color-border);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 1px 2px rgba(0, 0, 0, 0.02);
   }
+  .anatomy-formula code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.875rem;
+    color: var(--aw-color-text-default);
+    line-height: 1.6;
+    letter-spacing: -0.005em;
+  }
+
+  /* ── USE CASES ── */
+  .case-card {
+    display: block;
+    position: relative;
+    padding: 1.75rem 1.875rem 1.875rem;
+    border: 1px solid var(--aw-color-border);
+    border-radius: 14px;
+    background: var(--aw-color-bg-page);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 1px 0 rgba(0, 0, 0, 0.015);
+    transition:
+      border-color 220ms ease,
+      box-shadow 280ms ease,
+      transform 220ms ease;
+  }
+  @media (min-width: 768px) { .case-card { padding: 2rem 2.25rem 2.125rem; } }
   .case-card:hover {
     border-color: rgba(82, 153, 97, 0.45);
-    box-shadow: 0 12px 40px rgba(82, 153, 97, 0.10);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 18px 44px -20px rgba(82, 153, 97, 0.28),
+      0 6px 16px -8px rgba(0, 0, 0, 0.06);
   }
-  @media (min-width: 768px) { .case-card { padding: 2rem 2.25rem; } }
+  .case-eyebrow {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--aw-color-text-muted);
+    margin: 0 0 0.75rem;
+    line-height: 1;
+  }
+  .case-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    letter-spacing: -0.028em;
+    line-height: 1.1;
+    color: var(--aw-color-text-heading);
+    margin: 0 0 0.625rem;
+    transition: color 200ms ease;
+  }
+  @media (min-width: 768px) { .case-title { font-size: 2.125rem; } }
+  .case-card:hover .case-title { color: var(--aw-color-primary); }
+  .case-desc {
+    font-size: 0.9375rem;
+    color: var(--aw-color-text-muted);
+    line-height: 1.7;
+    margin: 0 0 1.5rem;
+    text-wrap: pretty;
+  }
+  .case-list {
+    list-style: none;
+    margin: 0 0 1.625rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+  }
+  .case-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--aw-color-text-default);
+  }
+  .case-list svg {
+    color: rgba(82, 153, 97, 0.75);
+    flex-shrink: 0;
+  }
+  .case-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--aw-color-primary);
+    letter-spacing: -0.005em;
+  }
+  .case-card:hover .case-cta svg { transform: translateX(2px); }
+  .case-cta svg { transition: transform 200ms ease; }
 
+  /* ── CTA ── */
+  .cta-section { padding: 6rem 0 7rem; }
+  @media (min-width: 768px) { .cta-section { padding: 8rem 0 9rem; } }
+  .cta-h2 {
+    font-size: clamp(2.125rem, 4.5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    color: var(--aw-color-text-heading);
+    margin: 0 0 1rem;
+    text-wrap: balance;
+  }
+  .cta-lede {
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--aw-color-text-muted);
+    margin: 0 auto 2rem;
+    max-width: 440px;
+    text-wrap: pretty;
+  }
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+  }
   .cta-glow {
     position: absolute;
     inset: auto 0 -20% 0;
     height: 70%;
     z-index: -1;
-    background: radial-gradient(ellipse 50% 60% at 50% 100%, rgba(82, 153, 97, 0.14), transparent 70%);
+    background:
+      radial-gradient(ellipse 55% 65% at 50% 100%, rgba(82, 153, 97, 0.16), transparent 70%);
     pointer-events: none;
   }
 </style>
