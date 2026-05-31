@@ -1,0 +1,296 @@
+---
+// Animated brand mark — assembles the favicon from 3 discrete shapes:
+//   • rounded warm-off-white tile
+//   • brand-green pill (rotates to -38°)
+//   • lime crest pill (rotates to 75°, multiply-blended)
+//
+// Both pills are rotated around their own geometric centers in the
+// original SVG, so CSS transform-origin: center works exactly.
+
+interface Props {
+  size?: number | string;
+  class?: string;
+  label?: string;
+  /** Replay the assemble animation on hover */
+  replayOnHover?: boolean;
+  /** Subtle floating motion after assembly */
+  idle?: boolean;
+  /** Wait until the element scrolls into view before assembling */
+  intersect?: boolean;
+  /** Delay before assembly starts, in ms */
+  delay?: number;
+}
+
+const {
+  size = 96,
+  class: className = '',
+  label = 'Aitroop',
+  replayOnHover = true,
+  idle = true,
+  intersect = true,
+  delay = 0,
+} = Astro.props;
+
+const sizeStyle = typeof size === 'number' ? `${size}px` : size;
+const wrapperClasses = [
+  'logo-assemble',
+  className,
+  replayOnHover && 'has-replay',
+  idle && 'has-idle',
+  intersect && 'intersect intersect-once intersect-no-queue',
+]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<div
+  class={wrapperClasses}
+  role="img"
+  aria-label={label}
+  style={`--la-size:${sizeStyle};--la-delay:${delay}ms;`}
+>
+  <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <!-- Soft halo behind the mark — fades in last -->
+    <circle class="la-halo" cx="16" cy="16" r="15" fill="rgba(82,153,97,0.18)" />
+
+    <!-- Tile / background -->
+    <rect class="la-tile" width="32" height="32" rx="7.5" fill="#F5F4EF" />
+
+    <!-- Brand-green body pill — rotates around (13,18) = its own center -->
+    <rect class="la-pill la-pill-1" x="1" y="13" width="24" height="10" rx="5" fill="#529961" />
+
+    <!-- Lime crest pill — rotates around (20,10.5) = its own center -->
+    <rect
+      class="la-pill la-pill-2"
+      x="11"
+      y="6"
+      width="18"
+      height="9"
+      rx="4.5"
+      fill="#86EFAC"
+      style="mix-blend-mode: multiply"
+    />
+
+    <!-- Spark — small flash that pops on assembly completion -->
+    <circle class="la-spark" cx="26" cy="6" r="1.2" fill="#86EFAC" />
+  </svg>
+</div>
+
+<style>
+  .logo-assemble {
+    display: inline-block;
+    width: var(--la-size, 96px);
+    height: var(--la-size, 96px);
+    line-height: 0;
+    /* Slight cushion so rotating shapes don't get clipped during assembly */
+    overflow: visible;
+  }
+  .logo-assemble svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    display: block;
+  }
+
+  /* Each shape rotates around its own center */
+  .la-tile,
+  .la-pill,
+  .la-halo,
+  .la-spark {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  /* ── Initial (pre-assemble) state ─────────────────────────────── */
+  .la-halo {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  .la-tile {
+    opacity: 0;
+    transform: scale(0.55) rotate(-12deg);
+  }
+  .la-pill-1 {
+    opacity: 0;
+    transform: translate(-42%, 56%) rotate(-220deg);
+  }
+  .la-pill-2 {
+    opacity: 0;
+    transform: translate(58%, -46%) rotate(260deg);
+  }
+  .la-spark {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  /* ── Assemble keyframes ───────────────────────────────────────── */
+  @keyframes la-halo-in {
+    0%   { opacity: 0; transform: scale(0.4); }
+    60%  { opacity: 0; transform: scale(0.4); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes la-tile-in {
+    0%   { opacity: 0; transform: scale(0.55) rotate(-12deg); }
+    60%  { opacity: 1; transform: scale(1.04) rotate(2deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  }
+  @keyframes la-pill-1-in {
+    0%   { opacity: 0; transform: translate(-42%, 56%) rotate(-220deg); }
+    35%  { opacity: 1; }
+    70%  { opacity: 1; transform: translate(0, 0) rotate(-30deg); }
+    100% { opacity: 1; transform: translate(0, 0) rotate(-38deg); }
+  }
+  @keyframes la-pill-2-in {
+    0%   { opacity: 0; transform: translate(58%, -46%) rotate(260deg); }
+    40%  { opacity: 1; }
+    75%  { opacity: 1; transform: translate(0, 0) rotate(82deg); }
+    100% { opacity: 1; transform: translate(0, 0) rotate(75deg); }
+  }
+  @keyframes la-spark-pop {
+    0%   { opacity: 0; transform: scale(0); }
+    70%  { opacity: 0; transform: scale(0); }
+    82%  { opacity: 1; transform: scale(2.4); }
+    100% { opacity: 0; transform: scale(0.6); }
+  }
+
+  /* ── Idle keyframes (subtle, plays forever after assembly) ────── */
+  @keyframes la-idle-tile {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-1.5%) rotate(0.6deg); }
+  }
+  @keyframes la-idle-pill-1 {
+    0%, 100% { transform: translate(0, 0) rotate(-38deg); }
+    50%      { transform: translate(0, -1%) rotate(-36.3deg); }
+  }
+  @keyframes la-idle-pill-2 {
+    0%, 100% { transform: translate(0, 0) rotate(75deg); }
+    50%      { transform: translate(0, 0.6%) rotate(76.5deg); }
+  }
+  @keyframes la-idle-halo {
+    0%, 100% { opacity: 0.85; transform: scale(1); }
+    50%      { opacity: 1;    transform: scale(1.04); }
+  }
+
+  /* ── Trigger animations ───────────────────────────────────────── */
+  /* Pattern matches the existing intersect-once usage elsewhere:
+       motion-safe:[&:not([no-intersect])]:opacity-100
+     When intersect=false, animations fire immediately on mount.       */
+
+  /* When intersection is not requested, run immediately */
+  .logo-assemble:not(.intersect) .la-halo,
+  .logo-assemble:not(.intersect) .la-tile,
+  .logo-assemble:not(.intersect) .la-pill-1,
+  .logo-assemble:not(.intersect) .la-pill-2,
+  .logo-assemble:not(.intersect) .la-spark,
+  /* When intersected (no-intersect attribute removed by the directive), run */
+  .logo-assemble.intersect:not([no-intersect]) .la-halo,
+  .logo-assemble.intersect:not([no-intersect]) .la-tile,
+  .logo-assemble.intersect:not([no-intersect]) .la-pill-1,
+  .logo-assemble.intersect:not([no-intersect]) .la-pill-2,
+  .logo-assemble.intersect:not([no-intersect]) .la-spark {
+    animation-delay: var(--la-delay, 0ms);
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.22, 0.85, 0.32, 1.05);
+  }
+
+  .logo-assemble:not(.intersect) .la-halo,
+  .logo-assemble.intersect:not([no-intersect]) .la-halo {
+    animation-name: la-halo-in;
+    animation-duration: 1100ms;
+  }
+  .logo-assemble:not(.intersect) .la-tile,
+  .logo-assemble.intersect:not([no-intersect]) .la-tile {
+    animation-name: la-tile-in;
+    animation-duration: 720ms;
+  }
+  .logo-assemble:not(.intersect) .la-pill-1,
+  .logo-assemble.intersect:not([no-intersect]) .la-pill-1 {
+    animation-name: la-pill-1-in;
+    animation-duration: 1050ms;
+    animation-delay: calc(var(--la-delay, 0ms) + 120ms);
+  }
+  .logo-assemble:not(.intersect) .la-pill-2,
+  .logo-assemble.intersect:not([no-intersect]) .la-pill-2 {
+    animation-name: la-pill-2-in;
+    animation-duration: 1050ms;
+    animation-delay: calc(var(--la-delay, 0ms) + 240ms);
+  }
+  .logo-assemble:not(.intersect) .la-spark,
+  .logo-assemble.intersect:not([no-intersect]) .la-spark {
+    animation-name: la-spark-pop;
+    animation-duration: 1400ms;
+    animation-delay: calc(var(--la-delay, 0ms) + 200ms);
+    animation-timing-function: ease-out;
+  }
+
+  /* ── Idle loop, layered on after assembly ─────────────────────── */
+  .logo-assemble.has-idle.intersect:not([no-intersect]) .la-tile,
+  .logo-assemble.has-idle:not(.intersect) .la-tile {
+    animation:
+      la-tile-in 720ms cubic-bezier(0.22, 0.85, 0.32, 1.05) both var(--la-delay, 0ms),
+      la-idle-tile 6s ease-in-out infinite calc(var(--la-delay, 0ms) + 1100ms);
+  }
+  .logo-assemble.has-idle.intersect:not([no-intersect]) .la-pill-1,
+  .logo-assemble.has-idle:not(.intersect) .la-pill-1 {
+    animation:
+      la-pill-1-in 1050ms cubic-bezier(0.22, 0.85, 0.32, 1.05) both calc(var(--la-delay, 0ms) + 120ms),
+      la-idle-pill-1 6s ease-in-out infinite calc(var(--la-delay, 0ms) + 1300ms);
+  }
+  .logo-assemble.has-idle.intersect:not([no-intersect]) .la-pill-2,
+  .logo-assemble.has-idle:not(.intersect) .la-pill-2 {
+    animation:
+      la-pill-2-in 1050ms cubic-bezier(0.22, 0.85, 0.32, 1.05) both calc(var(--la-delay, 0ms) + 240ms),
+      la-idle-pill-2 6s ease-in-out infinite calc(var(--la-delay, 0ms) + 1400ms);
+  }
+  .logo-assemble.has-idle.intersect:not([no-intersect]) .la-halo,
+  .logo-assemble.has-idle:not(.intersect) .la-halo {
+    animation:
+      la-halo-in 1100ms cubic-bezier(0.22, 0.85, 0.32, 1.05) both var(--la-delay, 0ms),
+      la-idle-halo 6s ease-in-out infinite calc(var(--la-delay, 0ms) + 1500ms);
+  }
+
+  /* ── Replay on hover (re-runs the assemble animations) ────────── */
+  .logo-assemble.has-replay {
+    cursor: pointer;
+  }
+  .logo-assemble.has-replay:hover .la-tile {
+    animation: la-tile-in 720ms cubic-bezier(0.22, 0.85, 0.32, 1.05) both;
+  }
+  .logo-assemble.has-replay:hover .la-pill-1 {
+    animation: la-pill-1-in 1050ms cubic-bezier(0.22, 0.85, 0.32, 1.05) 120ms both;
+  }
+  .logo-assemble.has-replay:hover .la-pill-2 {
+    animation: la-pill-2-in 1050ms cubic-bezier(0.22, 0.85, 0.32, 1.05) 240ms both;
+  }
+  .logo-assemble.has-replay:hover .la-halo {
+    animation: la-halo-in 1100ms cubic-bezier(0.22, 0.85, 0.32, 1.05) both;
+  }
+  .logo-assemble.has-replay:hover .la-spark {
+    animation: la-spark-pop 1400ms ease-out 200ms both;
+  }
+
+  /* ── Accessibility: skip animation if user prefers reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    .logo-assemble .la-halo,
+    .logo-assemble .la-tile,
+    .logo-assemble .la-pill-1,
+    .logo-assemble .la-pill-2,
+    .logo-assemble .la-spark,
+    .logo-assemble.has-idle .la-halo,
+    .logo-assemble.has-idle .la-tile,
+    .logo-assemble.has-idle .la-pill-1,
+    .logo-assemble.has-idle .la-pill-2,
+    .logo-assemble.has-replay:hover .la-halo,
+    .logo-assemble.has-replay:hover .la-tile,
+    .logo-assemble.has-replay:hover .la-pill-1,
+    .logo-assemble.has-replay:hover .la-pill-2,
+    .logo-assemble.has-replay:hover .la-spark {
+      animation: none !important;
+      opacity: 1;
+      transform: none;
+    }
+    .la-pill-1 { transform: rotate(-38deg) !important; }
+    .la-pill-2 { transform: rotate(75deg)  !important; }
+    .la-spark  { opacity: 0 !important; }
+  }
+</style>
