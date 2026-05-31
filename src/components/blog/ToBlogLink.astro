@@ -2,23 +2,52 @@
 import { Icon } from 'astro-icon/components';
 import { getBlogPermalink } from '~/utils/permalinks';
 import { I18N } from 'astrowind:config';
-import Button from '~/components/ui/Button.astro';
 
 const { textDirection } = I18N;
 
 const locale = Astro.currentLocale ?? 'en';
 const blogHref = locale !== 'en' ? `/${locale}${getBlogPermalink()}` : getBlogPermalink();
 const backLabel = locale === 'zh-TW' ? '返回部落格' : locale === 'zh-CN' ? '返回博客' : 'Back to Blog';
+const isRtl = textDirection === 'rtl';
 ---
 
-<div class="mx-auto px-6 sm:px-6 max-w-3xl pt-8 md:pt-4 pb-12 md:pb-20">
-  <Button variant="tertiary" class="px-3 md:px-3" href={blogHref}>
-    {
-      textDirection === 'rtl' ? (
-        <Icon name="tabler:chevron-right" class="w-5 h-5 mr-1 -ml-1.5 rtl:-mr-1.5 rtl:ml-1" />
-      ) : (
-        <Icon name="tabler:chevron-left" class="w-5 h-5 mr-1 -ml-1.5 rtl:-mr-1.5 rtl:ml-1" />
-      )
-    } {backLabel}
-  </Button>
+<div class="mx-auto px-4 sm:px-6 max-w-3xl pt-2 pb-12 md:pb-16">
+  <a href={blogHref} class="back-link">
+    {isRtl ? (
+      <Icon name="tabler:arrow-right" class="w-4 h-4" />
+    ) : (
+      <Icon name="tabler:arrow-left" class="w-4 h-4 back-arrow" />
+    )}
+    <span>{backLabel}</span>
+  </a>
 </div>
+
+<style>
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.25rem;
+    padding: 0 0.875rem;
+    border-radius: 9999px;
+    border: 1px solid var(--aw-color-border);
+    background: var(--aw-color-bg-page);
+    color: var(--aw-color-text-muted);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    line-height: 1;
+    transition: border-color 160ms ease, color 160ms ease, background 160ms ease, transform 160ms ease;
+  }
+  .back-link:hover {
+    border-color: rgba(82, 153, 97, 0.45);
+    color: var(--aw-color-primary);
+    background: rgba(82, 153, 97, 0.04);
+  }
+  .back-link:hover .back-arrow {
+    transform: translateX(-2px);
+  }
+  .back-arrow {
+    transition: transform 200ms ease;
+  }
+</style>

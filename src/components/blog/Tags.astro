@@ -1,4 +1,4 @@
-﻿---
+---
 import { getPermalink } from '~/utils/permalinks';
 
 import { APP_BLOG } from 'astrowind:config';
@@ -11,33 +11,51 @@ export interface Props {
   isCategory?: boolean;
 }
 
-const { tags, class: className = 'text-sm', title = undefined, isCategory = false } = Astro.props;
+const { tags, class: className = '', title = undefined, isCategory = false } = Astro.props;
 ---
 
 {
-  tags && Array.isArray(tags) && (
-    <>
+  tags && Array.isArray(tags) && tags.length > 0 && (
+    <div class={`flex flex-wrap items-center gap-2 ${className}`}>
       {title !== undefined && (
-        <span class="align-super font-normal underline underline-offset-4 decoration-2">
+        <span class="text-[0.6875rem] font-mono font-semibold uppercase tracking-[0.18em] text-[var(--aw-color-text-muted)] mr-1">
           {title}
         </span>
       )}
-      <ul class={className}>
-        {tags.map((tag) => (
-          <li class="bg-gray-100 inline-block mr-2 rtl:mr-0 rtl:ml-2 mb-2 py-0.5 px-2 lowercase font-medium">
-            {!APP_BLOG?.tag?.isEnabled ? (
-              tag.title
-            ) : (
-              <a
-                href={getPermalink(tag.slug, isCategory ? 'category' : 'tag')}
-                class="text-muted hover:text-primary"
-              >
-                {tag.title}
-              </a>
-            )}
-          </li>
-        ))}
-      </ul>
-    </>
+      {tags.map((tag) =>
+        !APP_BLOG?.tag?.isEnabled ? (
+          <span class="post-tag">{tag.title}</span>
+        ) : (
+          <a
+            href={getPermalink(tag.slug, isCategory ? 'category' : 'tag')}
+            class="post-tag post-tag--link"
+          >
+            {tag.title}
+          </a>
+        )
+      )}
+    </div>
   )
 }
+
+<style>
+  .post-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    background: var(--aw-color-bg-subtle);
+    border: 1px solid var(--aw-color-border);
+    color: var(--aw-color-text-muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+  }
+  .post-tag--link:hover {
+    background: rgba(82, 153, 97, 0.08);
+    border-color: rgba(82, 153, 97, 0.32);
+    color: var(--aw-color-primary);
+  }
+</style>

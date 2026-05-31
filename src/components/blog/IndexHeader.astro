@@ -1,0 +1,65 @@
+---
+export interface Props {
+  eyebrow: string;
+  title: string;
+  lede?: string;
+}
+
+const { eyebrow, title, lede } = Astro.props;
+---
+
+<header class="blog-index-header">
+  <p class="blog-index-label">{eyebrow}</p>
+  <h1 class="blog-index-title">{title}</h1>
+  {lede && <p class="blog-index-lede">{lede}</p>}
+</header>
+
+<style>
+  .blog-index-header {
+    margin-bottom: 2.5rem;
+  }
+  @media (min-width: 640px) {
+    .blog-index-header { margin-bottom: 3rem; }
+  }
+  .blog-index-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 700;
+    color: var(--aw-color-primary);
+    margin: 0 0 0.875rem;
+    line-height: 1;
+  }
+  .blog-index-label::before {
+    content: '';
+    width: 18px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+    display: inline-block;
+  }
+  .blog-index-title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 800;
+    letter-spacing: -0.032em;
+    line-height: 1.08;
+    color: var(--aw-color-text-heading);
+    margin: 0 0 0.75rem;
+    text-wrap: balance;
+  }
+  .blog-index-lede {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--aw-color-text-muted);
+    text-wrap: pretty;
+    margin: 0;
+    max-width: 560px;
+  }
+  @media (min-width: 768px) {
+    .blog-index-lede { font-size: 1.0625rem; }
+  }
+</style>

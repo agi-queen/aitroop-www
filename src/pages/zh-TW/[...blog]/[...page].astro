@@ -3,7 +3,7 @@ import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
 
 import Layout from '~/layouts/PageLayout.astro';
 import BlogList from '~/components/blog/List.astro';
-import Headline from '~/components/blog/Headline.astro';
+import IndexHeader from '~/components/blog/IndexHeader.astro';
 import Pagination from '~/components/blog/Pagination.astro';
 
 import { blogListRobots, getStaticPathsBlogList } from '~/utils/blog';
@@ -32,11 +32,12 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="mx-auto max-w-3xl px-4 sm:px-6 py-12 sm:py-16">
-    <div class="mb-8">
-      <h1 class="text-2xl font-bold tracking-tighter text-[var(--aw-color-text-heading)]">部落格</h1>
-      <p class="mt-1 text-sm text-[var(--aw-color-text-muted)]">AI 驅動的獲客、觸達與留存實踐分享。</p>
-    </div>
+  <section class="mx-auto max-w-3xl px-4 sm:px-6 pt-16 sm:pt-20 pb-16 sm:pb-20">
+    <IndexHeader
+      eyebrow="JOURNAL"
+      title="部落格"
+      lede="AI 驅動的獲客、觸達與留存實踐分享 — 來自 Aitroop 團隊。"
+    />
     <BlogList posts={page.data} />
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} prevText="較新文章" nextText="較舊文章" />
   </section>

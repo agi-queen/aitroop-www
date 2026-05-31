@@ -3,9 +3,8 @@ import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
 
 import Layout from '~/layouts/PageLayout.astro';
 import BlogList from '~/components/blog/List.astro';
-import Headline from '~/components/blog/Headline.astro';
+import IndexHeader from '~/components/blog/IndexHeader.astro';
 import Pagination from '~/components/blog/Pagination.astro';
-// import PostTags from "~/components/blog/Tags.astro";
 
 import { blogListRobots, getStaticPathsBlogList } from '~/utils/blog';
 
@@ -20,9 +19,6 @@ type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 const { page } = Astro.props as Props;
 const currentPage = page.currentPage ?? 1;
 
-// const allCategories = await findCategories();
-// const allTags = await findTags();
-
 const metadata = {
   title: `Blog${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
   robots: {
@@ -36,11 +32,12 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="mx-auto max-w-3xl px-4 sm:px-6 py-12 sm:py-16">
-    <div class="mb-8">
-      <h1 class="text-2xl font-bold tracking-tighter text-[var(--aw-color-text-heading)]">Blog</h1>
-      <p class="mt-1 text-sm text-[var(--aw-color-text-muted)]">Practical insights on AI-driven acquisition, outreach, and retention.</p>
-    </div>
+  <section class="mx-auto max-w-3xl px-4 sm:px-6 pt-16 sm:pt-20 pb-16 sm:pb-20">
+    <IndexHeader
+      eyebrow="JOURNAL"
+      title="Blog"
+      lede="Practical insights on AI-driven acquisition, outreach, and retention — from the Aitroop team."
+    />
     <BlogList posts={page.data} />
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
   </section>
