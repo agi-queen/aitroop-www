@@ -1,128 +1,50 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import { Icon } from 'astro-icon/components';
 import ChatToAppDemo from '~/components/widgets/ChatToAppDemo.astro';
-import WorkflowLifecycle from '~/components/widgets/WorkflowLifecycle.astro';
 
 const metadata = {
   title: 'Aitroop — Save AI agent conversations as apps',
   ignoreTitleTemplate: true,
 };
 
-// Built-in pieces — concrete, not generic
-const pieces = [
-  {
-    icon: 'tabler:puzzle',
-    label: '150+ skills',
-    title: 'Skills',
-    desc: 'Reusable capability modules — lead-gen, web-scrape, SEO audit, github-mcp, calendar-mcp, and more. Install with one click.',
-    items: ['github-mcp', 'lead-finder', 'web-scrape', 'seo-audit', 'gmail-search', '+ many more'],
-  },
-  {
-    icon: 'tabler:plug-connected',
-    label: '20+ connects',
-    title: 'Connects',
-    desc: 'OAuth integrations to the systems you already use. Agents read and write through your authorized accounts.',
-    items: ['google-drive', 'gmail', 'github', 'salesforce', 'hubspot', 'notion'],
-  },
-  {
-    icon: 'tabler:calendar-clock',
-    label: 'cron-driven',
-    title: 'Schedules',
-    desc: 'Run any App on a cron. Daily summaries, hourly polling, weekly digests — results delivered automatically.',
-    items: ['daily', 'hourly', 'weekly', 'custom cron', 'on-event', 'manual'],
-  },
-  {
-    icon: 'tabler:files',
-    label: '7 formats',
-    title: 'Artifacts',
-    desc: 'First-class outputs that you can preview, edit, download, and chain into the next stage of the workflow.',
-    items: ['markdown', 'code', 'html', 'json', 'csv', 'image', 'file'],
-  },
+const anatomy = [
+  { n: '01', title: 'AppInput',  desc: 'A schema-driven form.' },
+  { n: '02', title: 'Stage',     desc: 'An agent session with a goal.' },
+  { n: '03', title: 'Artifact',  desc: 'The deliverable, ready to chain.' },
 ];
 
-const anatomy = [
-  { n: '01', title: 'AppInput',  desc: 'A schema-driven form. text, daterange, select, file, connect_file — pick what you need, render automatically.' },
-  { n: '02', title: 'Stage',     desc: 'A self-contained AI agent session with a goal. Most Apps need one. Multi-stage Apps chain artifacts forward.' },
-  { n: '03', title: 'Artifact',  desc: 'The deliverable. Rendered, previewed, exported. Re-edit in Chat or chain into the next Stage.' },
+const stats = [
+  { value: '150+', label: 'Skills' },
+  { value: '20+',  label: 'Connects' },
+  { value: 'cron', label: 'Schedules' },
+  { value: '7',    label: 'Artifact formats' },
 ];
 
 const cases = [
-  {
-    slug: '/use-cases/gtm',
-    eyebrow: 'B2B Growth',
-    title: 'GTM',
-    desc: 'Prospecting, outreach, retention, and pipeline insights — agent-driven from day one.',
-    examples: ['Lead enrichment', 'Cold outreach drafts', 'Account health monitor', 'Pipeline insights'],
-  },
-  {
-    slug: '/use-cases/finance',
-    eyebrow: 'Finance teams',
-    title: 'Finance',
-    desc: 'Month-end close, AR/AP analysis, expense compliance, budget vs actual — for finance teams and CFOs.',
-    examples: ['Month-end checklist', 'AR aging report', 'Expense audit', 'Variance analysis'],
-  },
+  { slug: '/use-cases/gtm',     title: 'GTM',     desc: 'Prospecting, outreach, pipeline.' },
+  { slug: '/use-cases/finance', title: 'Finance', desc: 'Close, audit, variance, reporting.' },
 ];
 ---
 
 <Layout metadata={metadata}>
 
-  <!-- ══════════════════════════════════════════════════════════════════
-       HERO — two columns + aurora background + live product demo
-       ══════════════════════════════════════════════════════════════════ -->
-  <section class="hero-section relative isolate overflow-hidden">
-    <!-- Aurora: two soft drifting radial gradients, brand-tinted -->
-    <div aria-hidden="true" class="aurora">
-      <div class="aurora-a"></div>
-      <div class="aurora-b"></div>
-    </div>
-    <!-- Tight dot grid with radial mask -->
-    <div aria-hidden="true" class="grid-bg"></div>
-    <!-- Bottom fade: smooth handoff into the next section -->
-    <div aria-hidden="true" class="hero-fade"></div>
-
-    <div class="mx-auto max-w-6xl px-6 md:px-10 pt-24 md:pt-32 lg:pt-36 pb-24 md:pb-32">
-      <div class="grid lg:grid-cols-[1.05fr_1fr] gap-12 lg:gap-14 items-center">
-
-        <!-- ── Copy ── -->
+  <!-- HERO ─────────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
         <div class="hero-copy">
-          <div class="hero-eyebrow">
-            <span class="relative flex h-1.5 w-1.5">
-              <span class="absolute inline-flex h-full w-full rounded-full bg-primary opacity-60 animate-ping"></span>
-              <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
-            </span>
-            <span>AI Agent Platform</span>
-          </div>
-
-          <h1 class="hero-h1">
-            Save agent<br/>
-            <span class="strike-pop">conversations</span><br/>
-            <span class="text-primary">as apps.</span>
+          <p class="eyebrow">AI Agent Platform</p>
+          <h1 class="display">
+            Save agent conversations <span class="text-primary">as apps.</span>
           </h1>
-
-          <p class="hero-sub">
-            Find what works in a chat. Save it as a one-click <span class="font-mono text-[var(--aw-color-text-default)]">App</span> with a form, a goal, and scheduled runs. Your team gets repeatable AI workflows — no code, no prompt copy-pasting.
+          <p class="lede">
+            Find what works in a chat. Save it as a one-click App with a form, a goal, and a schedule.
           </p>
-
-          <div class="hero-cta">
-            <a href="https://app.aitroop.net" class="btn-pill btn-pill-primary">
-              Start free
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </a>
-            <a href="/use-cases" class="btn-pill btn-pill-ghost">
-              See use cases
-            </a>
+          <div class="actions">
+            <a href="https://app.aitroop.net" class="btn btn-primary">Start free</a>
+            <a href="/use-cases" class="btn btn-ghost">See use cases</a>
           </div>
-
-          <ul class="trust-strip">
-            <li>Multi-tenant</li>
-            <li>OAuth integrations</li>
-            <li>150+ built-in skills</li>
-            <li>Isolated E2B sandboxes</li>
-          </ul>
         </div>
-
-        <!-- ── Live demo ── -->
         <div class="hero-demo">
           <ChatToAppDemo />
         </div>
@@ -130,148 +52,65 @@ const cases = [
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════════════════
-       WORKFLOW — full lifecycle strip, animates once on scroll-in
-       ══════════════════════════════════════════════════════════════════ -->
-  <section class="band-subtle border-t border-[var(--aw-color-border)]">
-    <div class="mx-auto max-w-6xl px-6 md:px-10 py-16 md:py-24">
-      <div class="text-center mb-12 md:mb-14 mx-auto max-w-[640px]">
-        <p class="section-label inline-block">THE LOOP</p>
-        <h2 class="section-title section-title--mid">One chat. Then a thousand runs.</h2>
-      </div>
-      <WorkflowLifecycle />
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════════════
-       BUILT-IN PIECES
-       ══════════════════════════════════════════════════════════════════ -->
-  <section class="border-y border-[var(--aw-color-border)] py-24 md:py-32">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <header class="section-intro">
-        <p class="section-label">BUILT-IN</p>
-        <h2 class="section-title">Everything an agent needs.</h2>
-        <p class="section-lede">
-          You don't assemble integrations or write glue code. Pick the skills you want, authorize the systems you use, set a schedule. Ship.
-        </p>
+  <!-- ANATOMY ──────────────────────────────────────────────────────── -->
+  <section class="block">
+    <div class="container">
+      <header class="block-head">
+        <p class="eyebrow">Anatomy</p>
+        <h2 class="h2">An App, in three pieces.</h2>
       </header>
 
-      <div class="grid sm:grid-cols-2 gap-5">
-        {pieces.map((p, i) => (
-          <div class="piece-card intersect intersect-once motion-safe:opacity-0 motion-safe:translate-y-3 motion-safe:[&:not([no-intersect])]:opacity-100 motion-safe:[&:not([no-intersect])]:translate-y-0 motion-safe:transition-all motion-safe:duration-700" style={`transition-delay:${i * 90}ms`}>
-            <div class="flex items-start justify-between mb-5">
-              <div class="piece-icon">
-                <Icon name={p.icon} class="w-[18px] h-[18px]" />
-              </div>
-              <span class="piece-badge">{p.label}</span>
-            </div>
-            <h3 class="piece-title">{p.title}</h3>
-            <p class="piece-desc">{p.desc}</p>
-            <div class="piece-tags">
-              {p.items.map((item) => (
-                <span class="piece-tag">{item}</span>
-              ))}
-            </div>
+      <div class="anatomy">
+        {anatomy.map((a) => (
+          <article class="piece">
+            <span class="piece-num">{a.n}</span>
+            <h3 class="piece-title">{a.title}</h3>
+            <p class="piece-desc">{a.desc}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="stats" role="list">
+        {stats.map((s) => (
+          <div class="stat" role="listitem">
+            <span class="stat-value">{s.value}</span>
+            <span class="stat-label">{s.label}</span>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════════════════
-       ANATOMY — 3-column on desktop with connecting rail
-       ══════════════════════════════════════════════════════════════════ -->
-  <section class="band-subtle py-24 md:py-32">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <header class="section-intro">
-        <p class="section-label">ANATOMY</p>
-        <h2 class="section-title">An App, in three pieces.</h2>
-        <p class="section-lede">
-          The whole platform comes down to three primitives. Simple to reason about, easy to compose.
-        </p>
+  <!-- USE CASES ────────────────────────────────────────────────────── -->
+  <section class="block">
+    <div class="container">
+      <header class="block-head">
+        <p class="eyebrow">Use cases</p>
+        <h2 class="h2">Built for what you actually do.</h2>
       </header>
 
-      <div class="anatomy">
-        <!-- horizontal rail on desktop, aligned to circle centers -->
-        <div aria-hidden="true" class="anatomy-rail"></div>
-        <div class="grid md:grid-cols-3 gap-6 md:gap-8 relative">
-          {anatomy.map((a, i) => (
-            <div class="anatomy-card intersect intersect-once motion-safe:opacity-0 motion-safe:translate-y-3 motion-safe:[&:not([no-intersect])]:opacity-100 motion-safe:[&:not([no-intersect])]:translate-y-0 motion-safe:transition-all motion-safe:duration-700" style={`transition-delay:${i * 110}ms`}>
-              <div class="anatomy-num">{a.n}</div>
-              <h3 class="anatomy-title">{a.title}</h3>
-              <p class="anatomy-desc">{a.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div class="anatomy-formula-wrap">
-        <div class="anatomy-formula">
-          <code>
-            <span class="text-primary">App</span> = <span class="text-primary">AppInput</span>[] + <span class="text-primary">Stage</span>[] + <span class="text-primary">Artifact</span>[]
-          </code>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════════════════════════════
-       USE CASES
-       ══════════════════════════════════════════════════════════════════ -->
-  <section class="border-t border-[var(--aw-color-border)] py-24 md:py-32">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <header class="section-intro">
-        <p class="section-label">USE CASES</p>
-        <h2 class="section-title">Built for what you actually do.</h2>
-        <p class="section-lede">
-          We ship pre-built App packs for common team workflows. Use as-is or fork to fit your process.
-        </p>
-      </header>
-
-      <div class="grid md:grid-cols-2 gap-5">
-        {cases.map((c, i) => (
-          <a href={c.slug} class="case-card group intersect intersect-once motion-safe:opacity-0 motion-safe:translate-y-3 motion-safe:[&:not([no-intersect])]:opacity-100 motion-safe:[&:not([no-intersect])]:translate-y-0 motion-safe:transition-all motion-safe:duration-700" style={`transition-delay:${i * 120}ms`}>
-            <p class="case-eyebrow">{c.eyebrow}</p>
-            <h3 class="case-title">{c.title}</h3>
-            <p class="case-desc">{c.desc}</p>
-            <ul class="case-list">
-              {c.examples.map((ex) => (
-                <li>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  <span>{ex}</span>
-                </li>
-              ))}
-            </ul>
-            <span class="case-cta">
-              Explore use case
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </span>
-          </a>
+      <ul class="cases">
+        {cases.map((c) => (
+          <li>
+            <a href={c.slug}>
+              <span class="case-title">{c.title}</span>
+              <span class="case-desc">{c.desc}</span>
+              <span class="case-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════════════════════
-       CTA
-       ══════════════════════════════════════════════════════════════════ -->
-  <section class="cta-section relative isolate overflow-hidden">
-    <div aria-hidden="true" class="cta-glow"></div>
-    <div class="mx-auto max-w-3xl px-6 md:px-10 text-center relative">
-      <h2 class="cta-h2">
-        Ship your first App<br/>before lunch.
-      </h2>
-      <p class="cta-lede">
-        Open a chat, get something working, click <span class="font-mono">Save as App</span>. That's the whole loop.
-      </p>
-      <div class="cta-actions">
-        <a href="https://app.aitroop.net" class="btn-pill btn-pill-primary">
-          Start free
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-        <a href="/contact" class="btn-pill btn-pill-ghost">
-          Talk to us
-        </a>
+  <!-- CTA ──────────────────────────────────────────────────────────── -->
+  <section class="cta">
+    <div class="container container-narrow">
+      <h2 class="cta-h2">Ship your first App before lunch.</h2>
+      <p class="lede">Open a chat. Click <code>Save as App</code>. That's the loop.</p>
+      <div class="actions actions-center">
+        <a href="https://app.aitroop.net" class="btn btn-primary">Start free</a>
+        <a href="/contact" class="btn btn-ghost">Talk to us</a>
       </div>
     </div>
   </section>
@@ -280,266 +119,113 @@ const cases = [
 
 <style>
   /* ════════════════════════════════════════════════════════════════
-     DESIGN TOKENS (local to homepage)
-     Built on the global --aw-color-* CSS variables. All measurements
-     snap to a 4/8 px rhythm and the global 14px base.
+     LAYOUT PRIMITIVES — predictable rhythm, no decoration
      ════════════════════════════════════════════════════════════════ */
-  :where(.hero-eyebrow, .section-intro, .piece-card, .case-card, .anatomy-card) {
-    --p-rgb: 82, 153, 97;            /* primary, decomposed for rgba() */
-  }
-
-  /* ── Surface bands — a hint of warmth, not a slab ── */
-  .band-subtle {
-    position: relative;
-    background:
-      linear-gradient(180deg,
-        rgba(82, 153, 97, 0.030) 0%,
-        rgba(82, 153, 97, 0.015) 50%,
-        rgba(82, 153, 97, 0.030) 100%);
-  }
-
-  /* ── Shared section intro block ── */
-  .section-intro {
-    max-width: 640px;
-    margin-bottom: 3rem;          /* 48px */
+  .container {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
   }
   @media (min-width: 768px) {
-    .section-intro { margin-bottom: 4rem; }   /* 64px */
+    .container { padding: 0 2.5rem; }
   }
-  .section-label {
+  .container-narrow {
+    max-width: 36rem;
+    text-align: center;
+  }
+  .block {
+    padding: 6rem 0;
+    border-top: 1px solid var(--aw-color-border);
+  }
+  @media (min-width: 768px) {
+    .block { padding: 8rem 0; }
+  }
+  .block-head {
+    margin-bottom: 4rem;
+  }
+  @media (min-width: 768px) {
+    .block-head { margin-bottom: 5rem; }
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     TYPOGRAPHY
+     ════════════════════════════════════════════════════════════════ */
+  .eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.6875rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    gap: 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.18em;
-    font-weight: 700;
+    letter-spacing: 0.14em;
     color: var(--aw-color-primary);
-    margin-bottom: 0.875rem;       /* 14px */
+    margin: 0 0 1.125rem;
     line-height: 1;
   }
-  .section-label::before {
+  .eyebrow::before {
     content: '';
-    width: 18px;
+    width: 1.25rem;
     height: 1px;
     background: currentColor;
     opacity: 0.5;
-    display: inline-block;
-  }
-  .section-title {
-    font-size: clamp(1.875rem, 3.6vw, 2.5rem);
-    font-weight: 800;
-    letter-spacing: -0.032em;
-    line-height: 1.08;
-    color: var(--aw-color-text-heading);
-    margin: 0 0 0.875rem;
-    text-wrap: balance;
-  }
-  .section-title--mid {
-    font-size: clamp(1.625rem, 3vw, 2rem);
-    letter-spacing: -0.028em;
-    margin-bottom: 0;
-  }
-  .section-lede {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: var(--aw-color-text-muted);
-    text-wrap: pretty;
-    margin: 0;
-  }
-  @media (min-width: 768px) {
-    .section-lede { font-size: 1.0625rem; }
   }
 
-  /* ════════════════════════════════════════════════════════════════
-     HERO
-     ════════════════════════════════════════════════════════════════ */
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.3125rem 0.75rem 0.3125rem 0.6875rem;
-    border-radius: 9999px;
-    border: 1px solid rgba(82, 153, 97, 0.22);
-    background: rgba(255, 255, 255, 0.78);
-    -webkit-backdrop-filter: saturate(180%) blur(10px);
-            backdrop-filter: saturate(180%) blur(10px);
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.7) inset,
-      0 4px 14px -6px rgba(82, 153, 97, 0.18);
-    margin-bottom: 1.5rem;
-  }
-  .hero-eyebrow > span:last-child {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.6875rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--aw-color-text-muted);
-    line-height: 1;
-  }
-
-  .hero-h1 {
-    font-size: clamp(2.5rem, 5.2vw, 4rem);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1.0;
+  .display {
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
     color: var(--aw-color-text-heading);
     margin: 0 0 1.5rem;
     text-wrap: balance;
+    max-width: 14ch;
   }
-  .hero-sub {
+  .h2 {
+    font-size: clamp(1.875rem, 3.4vw, 2.375rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    color: var(--aw-color-text-heading);
+    margin: 0;
+    text-wrap: balance;
+    max-width: 28ch;
+  }
+  .lede {
     font-size: 1.0625rem;
-    line-height: 1.7;
+    line-height: 1.6;
     color: var(--aw-color-text-muted);
-    max-width: 520px;
+    max-width: 40ch;
     margin: 0 0 2rem;
     text-wrap: pretty;
   }
-  @media (min-width: 768px) {
-    .hero-sub { font-size: 1.125rem; }
-  }
+  .container-narrow .lede { margin: 0 auto 2rem; }
 
-  /* Stroke highlight on "conversations" */
-  .strike-pop {
-    position: relative;
-    display: inline-block;
-  }
-  .strike-pop::after {
-    content: '';
-    position: absolute;
-    left: -4px;
-    right: -4px;
-    bottom: 0.05em;
-    height: 0.36em;
-    background: linear-gradient(
-      105deg,
-      rgba(82, 153, 97, 0.10) 0%,
-      rgba(82, 153, 97, 0.22) 50%,
-      rgba(82, 153, 97, 0.10) 100%
-    );
-    border-radius: 4px;
-    transform: skewX(-3deg);
-    z-index: -1;
-  }
-
-  .hero-cta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 2rem;
-  }
-
-  .trust-strip {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.5rem 1.25rem;
-    margin: 0;
-    padding-top: 1rem;
-    border-top: 1px dashed var(--aw-color-border);
-    list-style: none;
-  }
-  .trust-strip li {
-    position: relative;
+  code {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
-    color: var(--aw-color-text-muted);
-    line-height: 1.3;
-    letter-spacing: 0;
-    padding-left: 0.875rem;
-  }
-  .trust-strip li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 5px;
-    height: 5px;
-    border-radius: 9999px;
-    background: rgba(82, 153, 97, 0.6);
-    box-shadow: 0 0 0 3px rgba(82, 153, 97, 0.08);
-  }
-
-  /* ── Aurora background — bounded inside section, no header bleed ── */
-  .hero-section { isolation: isolate; }
-  .aurora {
-    position: absolute;
-    inset: 0 -8% auto -8%;
-    height: 100%;
-    z-index: -2;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .aurora-a, .aurora-b {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(90px);
-    opacity: 0.85;
-  }
-  .aurora-a {
-    top: 6%; left: 6%;
-    width: 52%; height: 60%;
-    background: radial-gradient(circle, rgba(82, 153, 97, 0.22), transparent 65%);
-  }
-  .aurora-b {
-    top: 18%; right: -6%;
-    width: 48%; height: 56%;
-    background: radial-gradient(circle, rgba(82, 153, 97, 0.13), transparent 65%);
-  }
-  /* Bottom fade: dissolves hero into the next section */
-  .hero-fade {
-    position: absolute;
-    inset: auto 0 0 0;
-    height: 140px;
-    z-index: -1;
-    pointer-events: none;
-    background: linear-gradient(
-      to bottom,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.5) 40%,
-      var(--aw-color-bg-page) 100%
-    );
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .aurora-a { animation: aurora-drift-a 28s ease-in-out infinite; }
-    .aurora-b { animation: aurora-drift-b 36s ease-in-out infinite; }
-  }
-  @keyframes aurora-drift-a {
-    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-    50%      { transform: translate3d(2%, 3%, 0) scale(1.08); }
-  }
-  @keyframes aurora-drift-b {
-    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-    50%      { transform: translate3d(-2%, -2%, 0) scale(1.06); }
-  }
-
-  .grid-bg {
-    position: absolute;
-    inset: 0;
-    z-index: -2;
-    opacity: 0.28;
-    background-image:
-      linear-gradient(rgba(0, 0, 0, 0.042) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.042) 1px, transparent 1px);
-    background-size: 56px 56px;
-    -webkit-mask-image: radial-gradient(ellipse 66% 52% at 50% 18%, #000 35%, transparent 78%);
-            mask-image: radial-gradient(ellipse 66% 52% at 50% 18%, #000 35%, transparent 78%);
+    font-size: 0.875em;
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    background: var(--aw-color-bg-subtle);
+    color: var(--aw-color-text-default);
   }
 
   /* ════════════════════════════════════════════════════════════════
-     BUTTONS — pill, two variants, layered shadow
+     BUTTONS — real buttons, two variants, restrained
      ════════════════════════════════════════════════════════════════ */
-  .btn-pill {
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+  }
+  .actions-center { justify-content: center; }
+
+  .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    height: 2.75rem;             /* 44px — accessible tap target */
-    padding: 0 1.375rem;          /* 22px */
-    border-radius: 9999px;
+    height: 2.75rem;
+    padding: 0 1.375rem;
+    border-radius: 0.5rem;
     font-size: 0.9375rem;
     font-weight: 600;
     letter-spacing: -0.005em;
@@ -548,406 +234,210 @@ const cases = [
     transition:
       background-color 160ms ease,
       border-color 160ms ease,
-      box-shadow 200ms ease,
-      transform 160ms ease;
-    will-change: transform;
+      color 160ms ease;
   }
-  .btn-pill:focus-visible {
-    outline: none;
-    box-shadow:
-      0 0 0 2px var(--aw-color-bg-page),
-      0 0 0 4px rgba(82, 153, 97, 0.55);
+  .btn:focus-visible {
+    outline: 2px solid var(--aw-color-primary);
+    outline-offset: 2px;
   }
-
-  .btn-pill-primary {
+  .btn-primary {
     background: var(--aw-color-primary);
     color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.04);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      0 1px 2px rgba(45, 110, 63, 0.25),
-      0 8px 20px -8px rgba(82, 153, 97, 0.55);
+      inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+      0 1px 2px rgba(15, 30, 18, 0.06);
   }
-  .btn-pill-primary:hover {
-    background: rgb(61, 133, 79);
-    transform: translateY(-1px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.22),
-      0 2px 4px rgba(45, 110, 63, 0.28),
-      0 14px 28px -10px rgba(82, 153, 97, 0.6);
-  }
-  .btn-pill-primary:active {
-    transform: translateY(0);
+  .btn-primary:hover { background: rgb(67, 138, 84); }
+  .btn-primary:active {
     box-shadow:
       inset 0 1px 1px rgba(0, 0, 0, 0.08),
-      0 1px 2px rgba(45, 110, 63, 0.25);
+      0 0 0 1px rgba(0, 0, 0, 0.04);
   }
-
-  .btn-pill-ghost {
-    background: rgba(255, 255, 255, 0.6);
+  .btn-ghost {
     color: var(--aw-color-text-default);
     border: 1px solid var(--aw-color-border);
-    backdrop-filter: blur(6px);
+    background: var(--aw-color-bg-page);
   }
-  .btn-pill-ghost:hover {
-    border-color: rgba(0, 0, 0, 0.22);
-    background: rgba(0, 0, 0, 0.03);
-    transform: translateY(-1px);
+  .btn-ghost:hover {
+    border-color: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.02);
   }
-  .btn-pill-ghost:active { transform: translateY(0); }
 
   /* ════════════════════════════════════════════════════════════════
-     BUILT-IN piece cards
+     HERO
      ════════════════════════════════════════════════════════════════ */
-  .piece-card {
-    position: relative;
-    padding: 1.625rem;            /* 26px uniform */
-    border-radius: 14px;
-    border: 1px solid var(--aw-color-border);
-    background: var(--aw-color-bg-page);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.7),
-      0 1px 2px rgba(15, 30, 18, 0.025),
-      0 8px 20px -16px rgba(15, 30, 18, 0.08);
-    transition:
-      border-color 220ms ease,
-      box-shadow 280ms ease,
-      transform 220ms ease;
+  .hero {
+    padding: 6rem 0 5rem;
   }
-  .piece-card:hover {
-    border-color: rgba(82, 153, 97, 0.4);
-    transform: translateY(-3px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.7),
-      0 16px 36px -18px rgba(82, 153, 97, 0.32),
-      0 6px 16px -8px rgba(15, 30, 18, 0.08);
+  @media (min-width: 768px) {
+    .hero { padding: 8rem 0 7rem; }
   }
-  .piece-card:hover .piece-icon {
-    background: rgba(82, 153, 97, 0.16);
-    transform: scale(1.05);
-  }
-  .piece-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    background: rgba(82, 153, 97, 0.08);
-    color: var(--aw-color-primary);
-    display: inline-flex;
+  .hero-grid {
+    display: grid;
+    gap: 3rem;
     align-items: center;
-    justify-content: center;
-    transition: background 200ms ease, transform 200ms ease;
   }
-  .piece-badge {
-    display: inline-flex;
-    align-items: center;
+  @media (min-width: 1024px) {
+    .hero-grid {
+      grid-template-columns: 1.1fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     ANATOMY — three pieces with hairline top border each
+     ════════════════════════════════════════════════════════════════ */
+  .anatomy {
+    display: grid;
+    gap: 2rem;
+    margin-bottom: 4.5rem;
+  }
+  @media (min-width: 768px) {
+    .anatomy {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+      margin-bottom: 6rem;
+    }
+  }
+  .piece {
+    border-top: 1px solid var(--aw-color-text-heading);
+    padding-top: 1.25rem;
+  }
+  .piece-num {
+    display: block;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--aw-color-text-muted);
-    padding: 0.25rem 0.625rem;
-    border-radius: 9999px;
-    border: 1px solid var(--aw-color-border);
-    background: var(--aw-color-bg-page);
-    line-height: 1;
-    height: 22px;
+    color: var(--aw-color-primary);
+    letter-spacing: 0.06em;
+    margin-bottom: 0.875rem;
+    font-variant-numeric: tabular-nums;
   }
   .piece-title {
     font-size: 1.125rem;
     font-weight: 600;
-    letter-spacing: -0.015em;
     color: var(--aw-color-text-heading);
-    margin: 0 0 0.5rem;
-  }
-  .piece-desc {
-    font-size: 0.9375rem;
-    color: var(--aw-color-text-muted);
-    line-height: 1.65;
-    margin: 0 0 1.125rem;
-    text-wrap: pretty;
-  }
-  .piece-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.375rem;
-  }
-  .piece-tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.1875rem 0.5rem;
-    border-radius: 6px;
-    background: var(--aw-color-bg-subtle);
-    border: 1px solid transparent;
-    color: var(--aw-color-text-muted);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.6875rem;
-    line-height: 1.4;
-    transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
-  }
-  .piece-card:hover .piece-tag {
-    background: rgba(82, 153, 97, 0.06);
-    border-color: rgba(82, 153, 97, 0.12);
-    color: var(--aw-color-text-default);
-  }
-
-  /* ════════════════════════════════════════════════════════════════
-     ANATOMY — rail aligned to circle centers
-     Math: card padding-top 24px, .anatomy-num margin-top -32px (lifts
-     circle above card), 56px circle → circle center sits at
-     24 + (-32) + 28 = 20px from card-top = 20px from grid-top.
-     ════════════════════════════════════════════════════════════════ */
-  .anatomy { position: relative; }
-  .anatomy-rail {
-    display: none;
-    position: absolute;
-    top: 20px;                    /* aligned to circle center, see above */
-    left: 16.6667%;               /* center of first column (1/6 = 16.67%) */
-    right: 16.6667%;              /* center of last column */
-    height: 1px;
-    background: linear-gradient(to right,
-      transparent 0%,
-      rgba(82, 153, 97, 0.10) 8%,
-      var(--aw-color-border) 50%,
-      rgba(82, 153, 97, 0.10) 92%,
-      transparent 100%
-    );
-    z-index: 0;
-  }
-  @media (min-width: 768px) {
-    .anatomy-rail { display: block; }
-  }
-  .anatomy-card {
-    position: relative;
-    padding: 1.5rem 1.75rem 1.75rem;
-    background: var(--aw-color-bg-page);
-    border: 1px solid var(--aw-color-border);
-    border-radius: 14px;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.7),
-      0 1px 2px rgba(15, 30, 18, 0.025),
-      0 8px 20px -16px rgba(15, 30, 18, 0.08);
-    z-index: 1;
-    transition: box-shadow 280ms ease, transform 220ms ease;
-  }
-  .anatomy-card:hover {
-    transform: translateY(-2px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.7),
-      0 14px 32px -18px rgba(82, 153, 97, 0.28),
-      0 4px 12px -6px rgba(15, 30, 18, 0.06);
-  }
-  .anatomy-num {
-    width: 56px;
-    height: 56px;
-    margin: -2rem 0 1.25rem;      /* -32px to lift above card */
-    border-radius: 9999px;
-    background: var(--aw-color-bg-page);
-    border: 1px solid var(--aw-color-border);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.9375rem;
-    font-weight: 700;
-    color: var(--aw-color-primary);
-    letter-spacing: 0.02em;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.8),
-      0 6px 16px -8px rgba(82, 153, 97, 0.3),
-      0 1px 2px rgba(0, 0, 0, 0.04);
-  }
-  .anatomy-title {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 1.0625rem;
-    font-weight: 600;
-    color: var(--aw-color-text-heading);
-    letter-spacing: -0.01em;
-    margin: 0 0 0.5rem;
-  }
-  .anatomy-desc {
-    font-size: 0.9375rem;
-    color: var(--aw-color-text-muted);
-    line-height: 1.7;
-    margin: 0;
-    text-wrap: pretty;
-  }
-  .anatomy-formula-wrap {
-    display: flex;
-    justify-content: center;
-    margin-top: 3.5rem;
-  }
-  @media (min-width: 768px) {
-    .anatomy-formula-wrap { margin-top: 4rem; }
-  }
-  .anatomy-formula {
-    padding: 0.875rem 1.25rem;
-    border-radius: 12px;
-    background: var(--aw-color-bg-page);
-    border: 1px solid var(--aw-color-border);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.7),
-      0 2px 6px rgba(15, 30, 18, 0.04),
-      0 12px 28px -18px rgba(82, 153, 97, 0.18);
-  }
-  .anatomy-formula code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.875rem;
-    color: var(--aw-color-text-default);
-    line-height: 1.6;
+    margin: 0 0 0.375rem;
     letter-spacing: -0.005em;
   }
+  .piece-desc {
+    margin: 0;
+    color: var(--aw-color-text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
 
   /* ════════════════════════════════════════════════════════════════
-     USE CASE cards
+     STATS — table-like row with hairline dividers
      ════════════════════════════════════════════════════════════════ */
-  .case-card {
-    display: block;
-    position: relative;
-    padding: 1.75rem 1.875rem 1.875rem;
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--aw-color-border);
     border: 1px solid var(--aw-color-border);
-    border-radius: 14px;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .stats { grid-template-columns: repeat(4, 1fr); }
+  }
+  .stat {
     background: var(--aw-color-bg-page);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.7),
-      0 1px 2px rgba(15, 30, 18, 0.03),
-      0 10px 28px -20px rgba(15, 30, 18, 0.10);
-    transition:
-      border-color 220ms ease,
-      box-shadow 280ms ease,
-      transform 220ms ease;
-  }
-  @media (min-width: 768px) {
-    .case-card { padding: 2rem 2.25rem 2.125rem; }
-  }
-  .case-card:hover {
-    border-color: rgba(82, 153, 97, 0.45);
-    transform: translateY(-2px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      0 18px 44px -20px rgba(82, 153, 97, 0.28),
-      0 6px 16px -8px rgba(0, 0, 0, 0.06);
-  }
-  .case-eyebrow {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--aw-color-text-muted);
-    margin: 0 0 0.75rem;
-    line-height: 1;
-  }
-  .case-title {
-    font-size: 1.75rem;
-    font-weight: 800;
-    letter-spacing: -0.028em;
-    line-height: 1.1;
-    color: var(--aw-color-text-heading);
-    margin: 0 0 0.625rem;
-    transition: color 200ms ease;
-  }
-  @media (min-width: 768px) {
-    .case-title { font-size: 2.125rem; }
-  }
-  .case-card:hover .case-title { color: var(--aw-color-primary); }
-  .case-desc {
-    font-size: 0.9375rem;
-    color: var(--aw-color-text-muted);
-    line-height: 1.7;
-    margin: 0 0 1.5rem;
-    text-wrap: pretty;
-  }
-  .case-list {
-    list-style: none;
-    margin: 0 0 1.625rem;
-    padding: 0;
+    padding: 1.125rem 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 0.375rem;
   }
-  .case-list li {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  .stat-value {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
-    line-height: 1.5;
-    color: var(--aw-color-text-default);
-  }
-  .case-list svg {
-    color: rgba(82, 153, 97, 0.75);
-    flex-shrink: 0;
-  }
-  .case-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    font-size: 0.8125rem;
+    font-size: 1rem;
     font-weight: 600;
-    color: var(--aw-color-primary);
-    letter-spacing: -0.005em;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.01em;
+    line-height: 1;
   }
-  .case-card:hover .case-cta svg {
-    transform: translateX(2px);
-  }
-  .case-cta svg {
-    transition: transform 200ms ease;
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--aw-color-text-muted);
+    letter-spacing: 0.02em;
+    line-height: 1.2;
   }
 
   /* ════════════════════════════════════════════════════════════════
-     CTA — the climax of the page
+     USE CASES — editorial row list
      ════════════════════════════════════════════════════════════════ */
-  .cta-section {
-    padding: 6rem 0 7rem;
+  .cases {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .cases li { border-top: 1px solid var(--aw-color-border); }
+  .cases li:last-child { border-bottom: 1px solid var(--aw-color-border); }
+  .cases a {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "title arrow"
+      "desc  arrow";
+    column-gap: 1rem;
+    row-gap: 0.5rem;
+    padding: 1.75rem 0;
+    align-items: center;
   }
   @media (min-width: 768px) {
-    .cta-section { padding: 8rem 0 9rem; }
+    .cases a {
+      grid-template-columns: 12rem 1fr auto;
+      grid-template-areas: "title desc arrow";
+      column-gap: 2.5rem;
+      padding: 2.25rem 0;
+    }
+  }
+  .case-title {
+    grid-area: title;
+    font-size: 1.625rem;
+    font-weight: 700;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    transition: color 200ms ease;
+  }
+  .case-desc {
+    grid-area: desc;
+    color: var(--aw-color-text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+  .case-arrow {
+    grid-area: arrow;
+    color: var(--aw-color-text-muted);
+    font-size: 1.125rem;
+    line-height: 1;
+    transition: transform 200ms ease, color 200ms ease;
+  }
+  .cases a:hover .case-title { color: var(--aw-color-primary); }
+  .cases a:hover .case-arrow {
+    color: var(--aw-color-primary);
+    transform: translateX(4px);
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     CTA
+     ════════════════════════════════════════════════════════════════ */
+  .cta {
+    padding: 6rem 0;
+    border-top: 1px solid var(--aw-color-border);
+  }
+  @media (min-width: 768px) {
+    .cta { padding: 8rem 0; }
   }
   .cta-h2 {
-    font-size: clamp(2.125rem, 4.5vw, 3rem);
-    font-weight: 800;
-    letter-spacing: -0.035em;
-    line-height: 1.08;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
     color: var(--aw-color-text-heading);
     margin: 0 0 1rem;
     text-wrap: balance;
-  }
-  .cta-lede {
-    font-size: 1.0625rem;
-    line-height: 1.65;
-    color: var(--aw-color-text-muted);
-    margin: 0 auto 2rem;
-    max-width: 440px;
-    text-wrap: pretty;
-  }
-  .cta-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-  }
-  .cta-glow {
-    position: absolute;
-    inset: auto 0 -25% 0;
-    height: 80%;
-    z-index: -1;
-    background:
-      radial-gradient(ellipse 60% 70% at 50% 100%, rgba(82, 153, 97, 0.20), transparent 72%);
-    pointer-events: none;
-  }
-  /* Soft top divider before CTA — a polished handoff from use-cases */
-  .cta-section::before {
-    content: '';
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 1px;
-    background: linear-gradient(to right,
-      transparent 0%,
-      rgba(82, 153, 97, 0.16) 30%,
-      rgba(82, 153, 97, 0.28) 50%,
-      rgba(82, 153, 97, 0.16) 70%,
-      transparent 100%);
-    pointer-events: none;
   }
 </style>
