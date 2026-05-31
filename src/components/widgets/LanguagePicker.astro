@@ -1,45 +1,136 @@
-﻿---
+---
 import { getLocaleFromPath, getLocalePath, locales, localeLabels } from '~/i18n/utils';
 
 const currentPath = Astro.url.pathname;
 const currentLocale = getLocaleFromPath(currentPath);
 ---
 
-<div class="flex items-center gap-0.5 text-sm font-medium">
-  {
-    locales.map((locale, i) => (
-      <>
-        {i > 0 && <span class="text-muted opacity-40 select-none">|</span>}
-        <a
-          href={getLocalePath(currentPath, locale)}
-          data-lang-pick={locale}
-          class:list={[
-            'px-1.5 py-0.5 rounded transition-colors',
-            locale === currentLocale
-              ? 'text-default font-semibold'
-              : 'text-muted hover:text-default'
-          ]}
-          aria-current={locale === currentLocale ? 'true' : undefined}
-        >
-          {localeLabels[locale]}
-        </a>
-      </>
-    ))
-  }
+<div class="relative" data-lang-picker>
+  <button
+    type="button"
+    class="flex items-center gap-1 px-2 py-1.5 rounded-md text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)] hover:bg-[var(--aw-color-bg-subtle)] transition-colors duration-150"
+    aria-haspopup="menu"
+    aria-expanded="false"
+    aria-label="Change language"
+    data-lang-trigger
+  >
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M2 12h20" />
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+    </svg>
+    <span class="text-xs font-medium tabular-nums">{localeLabels[currentLocale].short}</span>
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="opacity-60 transition-transform duration-150" data-lang-chevron aria-hidden="true">
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  </button>
+
+  <div
+    class="absolute right-0 top-full pt-2 z-50 invisible opacity-0 -translate-y-1 pointer-events-none transition-all duration-150"
+    data-lang-menu
+    role="menu"
+  >
+    <div class="rounded-xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] shadow-[0_12px_40px_rgba(0,0,0,0.08)] p-1 min-w-[200px]">
+      {
+        locales.map((locale) => {
+          const isCurrent = locale === currentLocale;
+          return (
+            <a
+              href={getLocalePath(currentPath, locale)}
+              data-lang-pick={locale}
+              role="menuitem"
+              aria-current={isCurrent ? 'true' : undefined}
+              class:list={[
+                'flex items-center justify-between gap-3 px-3 py-2 rounded-lg transition-colors duration-150',
+                isCurrent ? 'bg-[var(--aw-color-bg-subtle)]' : 'hover:bg-[var(--aw-color-bg-subtle)]',
+              ]}
+            >
+              <span class="flex items-center gap-2">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class:list={['text-[var(--aw-color-text-default)]', isCurrent ? 'opacity-100' : 'opacity-0']}
+                  aria-hidden="true"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span
+                  class:list={[
+                    'text-[0.8125rem]',
+                    isCurrent
+                      ? 'font-semibold text-[var(--aw-color-text-heading)]'
+                      : 'text-[var(--aw-color-text-default)]',
+                  ]}
+                >
+                  {localeLabels[locale].native}
+                </span>
+              </span>
+              <span class="text-[0.6875rem] font-medium tabular-nums text-[var(--aw-color-text-muted)] opacity-70">
+                {localeLabels[locale].short}
+              </span>
+            </a>
+          );
+        })
+      }
+    </div>
+  </div>
 </div>
 
 <script>
-  // Save language preference when user manually picks a language
   function initLangPicker() {
-    document.querySelectorAll('[data-lang-pick]').forEach((el) => {
-      el.addEventListener('click', function (this: HTMLElement) {
-        const lang = this.dataset.langPick;
-        if (lang) localStorage.setItem('lang-pref', lang);
+    document.querySelectorAll<HTMLElement>('[data-lang-picker]').forEach((picker) => {
+      const trigger = picker.querySelector<HTMLButtonElement>('[data-lang-trigger]');
+      const menu = picker.querySelector<HTMLElement>('[data-lang-menu]');
+      const chevron = picker.querySelector<SVGElement>('[data-lang-chevron]');
+      if (!trigger || !menu) return;
+
+      const open = () => {
+        menu.classList.remove('invisible', 'opacity-0', '-translate-y-1', 'pointer-events-none');
+        menu.classList.add('opacity-100', 'translate-y-0');
+        trigger.setAttribute('aria-expanded', 'true');
+        chevron?.classList.add('rotate-180');
+      };
+
+      const close = () => {
+        menu.classList.add('invisible', 'opacity-0', '-translate-y-1', 'pointer-events-none');
+        menu.classList.remove('opacity-100', 'translate-y-0');
+        trigger.setAttribute('aria-expanded', 'false');
+        chevron?.classList.remove('rotate-180');
+      };
+
+      const toggle = () => {
+        if (trigger.getAttribute('aria-expanded') === 'true') close();
+        else open();
+      };
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggle();
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!picker.contains(e.target as Node)) close();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') close();
+      });
+
+      picker.querySelectorAll<HTMLAnchorElement>('[data-lang-pick]').forEach((el) => {
+        el.addEventListener('click', () => {
+          const lang = el.dataset.langPick;
+          if (lang) localStorage.setItem('lang-pref', lang);
+        });
       });
     });
   }
 
-  // Run on initial load and after View Transitions
   initLangPicker();
   document.addEventListener('astro:page-load', initLangPicker);
 </script>

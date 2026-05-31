@@ -15,8 +15,8 @@ export function getLocalePath(pathname: string, targetLocale: Locale): string {
   return `/${targetLocale}${clean === '/' ? '' : clean}`;
 }
 
-export const localeLabels: Record<Locale, string> = {
-  en: 'EN',
-  'zh-TW': '繁中',
-  'zh-CN': '简中',
+export const localeLabels: Record<Locale, { native: string; short: string }> = {
+  en: { native: 'English', short: 'EN' },
+  'zh-TW': { native: '繁體中文', short: 'TW' },
+  'zh-CN': { native: '简体中文', short: 'CN' },
 };
