@@ -7,10 +7,18 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
   <DocsShell current="skills">
     <h1>Skills</h1>
     <p class="lead">
-      A Skill is a capability module the agent can call. It's how the agent does things beyond reasoning:
-      search the web, process PDFs, query CRMs, generate images, scrape sites, build other Apps. Skills
-      are the agent's toolkit; Apps are the workflows that use them.
+      Think of Skills as the agent's toolbox. Reasoning gets the agent halfway there; Skills get it the
+      rest of the way — they're what let the agent search the web, parse a PDF, query a CRM, generate an
+      image, scrape a site, or build another App. The agent decides when to reach for one based on the
+      task; you decide which ones are in the toolbox at all.
     </p>
+
+    <div class="callout">
+      <strong>Skill vs Connect.</strong> They're often confused. A <strong>Skill</strong> is the
+      capability (the verb — <em>"search the web"</em>, <em>"send a Slack message"</em>). A
+      <strong>Connect</strong> is the OAuth credential the capability needs to act as <em>you</em> on an
+      external service. A web-search Skill needs no Connect; a Slack-post Skill needs a Slack Connect.
+    </div>
 
     <h2>How Skills work operationally</h2>
     <ol>
@@ -201,34 +209,115 @@ news, or any data that requires looking at public web pages.<br/>
 
     <h2>Building your own Skill</h2>
     <p>
-      Custom <code>SKILL.md</code>-based Skills (without MCP) are in early access. The format is a single
-      markdown file with frontmatter (name, description, category) plus content that instructs the agent
-      how to use the capability — including any embedded scripts or API call patterns.
+      Custom Skills are stored in two places, depending on origin:
+    </p>
+    <ul>
+      <li><code>app_user_skills_custom</code> — a Skill you authored or imported into your workspace. Versioned, with an S3 prefix where the Skill's files live.</li>
+      <li><code>app_user_skills_enabled</code> — which built-in or installed Skills are <em>active</em> for you (since a workspace may have more available than you've actually turned on).</li>
+    </ul>
+
+    <h3>The shape of a custom Skill</h3>
+    <p>
+      A Skill is a directory with at minimum a <code>SKILL.md</code> at the root. The frontmatter declares
+      identity, the body instructs the agent. Additional files (scripts, references, prompts) live
+      alongside and can be loaded by the agent on demand.
     </p>
 
+    <div class="code-block" style="line-height:1.7;">
+my-skill/<br/>
+&nbsp;├─ SKILL.md<br/>
+&nbsp;├─ prompts/<br/>
+&nbsp;│&nbsp;&nbsp;&nbsp;└─ phase1.md<br/>
+&nbsp;├─ scripts/<br/>
+&nbsp;│&nbsp;&nbsp;&nbsp;└─ extract.py<br/>
+&nbsp;└─ references/<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ api-spec.json
+    </div>
+
+    <h3>Publishing a new version</h3>
     <p>
-      Get in touch via <a href="/contact">contact</a> if you'd like to define a Skill for your team's internal tools.
+      After editing your Skill, call <code>POST /api/user-skills/:name/publish</code> — it bumps the
+      version, uploads the new artifact bundle to S3, and rolls forward any Apps that don't pin a version.
     </p>
 
-    <h2>Common Skill questions</h2>
+    <div class="code-block">
+curl -X POST https://app.aitroop.net/api/user-skills/my-skill/publish \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;-H "Content-Type: application/json" \<br/>
+&nbsp;&nbsp;-d '{`{`} "notes": "Added error handling for empty PDFs" {`}`}'
+    </div>
 
-    <h3>"Why didn't the agent use a Skill I have installed?"</h3>
     <p>
-      The agent decides based on the task. If it picked a different approach (e.g., reasoning from
-      context instead of calling a Skill), tell it: <em>"use the &lt;skill-name&gt; skill for this."</em>
+      Pin an App to a specific Skill version if you want stability across upgrades. Otherwise the App
+      always uses the latest published version on each run.
     </p>
 
-    <h3>"Can the agent use multiple Skills in one task?"</h3>
+    <h2>FAQ &amp; troubleshooting</h2>
+
+    <p class="faq-q">Why didn't the agent use a Skill I have installed?</p>
     <p>
-      Yes. A typical research task might call <code>web-search</code> several times, then
-      <code>pdf-extract</code> on a downloaded report, then return a summary. You'll see each call
-      inline in the conversation.
+      <strong>Likely cause:</strong> the agent decided a different approach fits the task — usually
+      reasoning from context instead of calling the tool.
+    </p>
+    <p>
+      <strong>Fix:</strong> tell it explicitly. <em>"Use the <code>web-search</code> Skill for this."</em>
+      Or, for App stages, list the Skill in <code>stage.skills</code> so it's the only choice for that
+      stage.
     </p>
 
-    <h3>"How do I share a custom Skill with my workspace?"</h3>
+    <p class="faq-q">Can the agent use multiple Skills in one task?</p>
     <p>
-      Custom Skills installed at the workspace level (vs. per-user) are visible to everyone. Workspace
-      admins can install workspace-wide; individual users can install per-user.
+      Yes, and it usually does. A typical research task calls <code>web-search</code> several times, then
+      <code>pdf-extract</code> on a downloaded report, then writes the summary. You see each call inline
+      in the conversation with its arguments and result.
+    </p>
+
+    <p class="faq-q">My MCP server boot failed.</p>
+    <p>
+      <strong>Possible causes:</strong>
+    </p>
+    <ul>
+      <li>The command isn't on the sandbox's <code>PATH</code> (for command-launched MCP servers).</li>
+      <li>The HTTP endpoint is unreachable from the sandbox (for HTTP-transport MCP).</li>
+      <li>Auth headers wrong or missing.</li>
+      <li>The server crashed during the initial <code>tools/list</code> handshake — check its logs.</li>
+    </ul>
+    <p>
+      <strong>Debug commands:</strong>
+    </p>
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted)"># List configured MCP servers and their status</span><br/>
+GET /api/mcp/servers<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Ping a specific server</span><br/>
+POST /api/mcp/servers/:key/ping
+    </div>
+
+    <p class="faq-q">A Skill returned an empty result.</p>
+    <p>
+      Most often: the agent's arguments to the Skill didn't match what the data actually looks like. Open
+      the call in the run log and inspect the arguments. Tighten the stage goal with a more specific
+      description of what to query.
+    </p>
+
+    <p class="faq-q">Skill timed out.</p>
+    <p>
+      The underlying API was slow. The agent retries once automatically; if both attempts fail, the
+      stage fails. Increase <code>timeout_ms</code> on the stage, or wrap the Skill call in a more
+      tolerant prompt: <em>"if the call times out, proceed with the data you already have."</em>
+    </p>
+
+    <p class="faq-q">How do I share a custom Skill with my whole workspace?</p>
+    <p>
+      Workspace admins can install Skills at the workspace level — visible to and usable by every member.
+      Per-user Skills install only for you. The Skill's settings page has the visibility toggle.
+    </p>
+
+    <p class="faq-q">Can I write a Skill in something other than markdown?</p>
+    <p>
+      The <code>SKILL.md</code> is required (it's how the agent learns when/how to use the Skill). But the
+      body can reference scripts, datasets, or schemas in any format. The agent loads the referenced files
+      on demand at runtime, into the same sandbox where it's executing.
     </p>
 
     <div class="next-up">

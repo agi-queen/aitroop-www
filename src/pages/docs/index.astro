@@ -9,50 +9,124 @@ const metadata = {
 
 <Layout metadata={metadata}>
   <DocsShell current="index">
-    <h1>Aitroop documentation</h1>
+    <h1>Welcome to Aitroop</h1>
     <p class="lead">
-      Aitroop is an AI agent platform. You build <strong>Apps</strong> — saved workflows with a form,
-      a goal, and a defined output — by talking to the agent in chat. Apps run on demand or on a
-      schedule, and produce typed artifacts you can share, download, or chain.
-    </p>
-
-    <h2>The one-paragraph version</h2>
-    <p>
-      Open a chat. Say <em>"Create an app that…"</em>. The agent asks 1–5 clarifying questions, designs
-      the App (form fields, stages, output format, required Skills and Connects), saves it via the API,
-      and gives you the App ID. You then run the App from your library — fill the form, click Run, get
-      a typed Artifact. Or attach a Schedule and it runs automatically.
+      Think of Aitroop as a teammate with their own computer. You describe the work; they design the
+      workflow, run it in a sandboxed environment, return typed outputs you can read, share, or chain
+      into the next step. You don't write code — you have a conversation, and the conversation becomes
+      a saved <strong>App</strong> you can run again, schedule, hand to a colleague, or call from an API.
     </p>
 
     <div class="callout">
-      <strong>Apps are built conversationally, not by clicking through menus.</strong> If you've used
-      ChatGPT, you already know how to use Aitroop — you just add the phrase "as an app" at the end of your
-      request when you want to keep it.
+      <strong>Reading order.</strong> If you have 15 minutes, jump straight to the
+      <a href="/docs/quickstart">Quickstart</a> — it walks you end-to-end, with screenshots and exact
+      messages to type. Come back here when you want the conceptual map.
     </div>
 
-    <h2>Where to start</h2>
-    <ol>
-      <li>
-        <strong><a href="/docs/quickstart">Quickstart</a></strong> — 15 minutes, end-to-end. Sign in,
-        build an App by talking to the agent, run it, schedule it. <strong>Read this first.</strong>
-      </li>
-      <li>
-        <strong><a href="/docs/concepts">Core concepts</a></strong> — the App JSON schema, all 11 AppInput
-        types, the 3 stage types, the <code>{`{{field_id}}`}</code> template syntax. Reference companion to the Quickstart.
-      </li>
-      <li>
-        <strong><a href="/docs/chat">Chat mode</a></strong> and <strong><a href="/docs/apps">Apps</a></strong> —
-        the two surfaces in detail.
-      </li>
-      <li>
-        <strong><a href="/docs/skills">Skills</a></strong>, <strong><a href="/docs/connects">Connects</a></strong>,
-        <strong><a href="/docs/schedules">Schedules</a></strong>, <strong><a href="/docs/artifacts">Artifacts</a></strong> —
-        deep dives. Read when you need the depth.
-      </li>
-    </ol>
+    <h2>Unlike traditional chatbots</h2>
+    <p>
+      Most AI tools are a single chat box. You type, it replies, you move on. The next morning your
+      teammate asks for the same thing and re-types the prompt from scratch — losing your tweaks, your
+      context, your refinements. Aitroop works differently:
+    </p>
 
-    <h2>What an App looks like</h2>
-    <p>A real (slightly simplified) App definition:</p>
+    <table>
+      <thead><tr><th>What you'd do in a chatbot</th><th>What you do in Aitroop</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Re-type your "company briefing" prompt every Monday.</td>
+          <td>Save the prompt as a one-form <strong>App</strong>. Click Run. Or schedule it for 9 AM Monday.</td>
+        </tr>
+        <tr>
+          <td>Copy the model's output, paste it into Notion, format it, send it via email.</td>
+          <td>Declare the output as a typed <strong>Artifact</strong>. Aitroop delivers it formatted, to email/Slack/Drive.</td>
+        </tr>
+        <tr>
+          <td>Worry about whether the agent will read your Gmail correctly.</td>
+          <td>Authorize a <strong>Connect</strong> once. The agent uses your scoped OAuth token transparently.</td>
+        </tr>
+        <tr>
+          <td>Hope the model doesn't make stuff up about your private data.</td>
+          <td>Every run executes in an isolated <strong>Sandbox</strong> with file access, network, and the right tools.</td>
+        </tr>
+        <tr>
+          <td>Hand-coordinate "research, then human review, then draft email" across three threads.</td>
+          <td>Define a 3-stage App: <em>agent → human → agent</em>. The platform handles the pause-and-resume.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>The one-paragraph version</h2>
+    <p>
+      Open a chat. Say <em>"Create an app that…"</em>. The agent activates its App Builder skill, asks
+      1–5 clarifying questions, designs the workflow (form fields, stages, output format, required Skills
+      and Connects), validates everything, saves it via <code>POST /api/apps</code>, and tells you the App
+      ID. You then run the App from your library — fill the form, click Run, get a typed Artifact. Or
+      attach a Schedule and it runs automatically every Monday at 9.
+    </p>
+
+    <h2>What you can actually do with this</h2>
+    <p>Three concrete scenarios, each runnable today:</p>
+
+    <h3>📰 Weekly intelligence briefing</h3>
+    <p>
+      Build a "Competitor Weekly" App that takes a list of company names. Every Monday at 9 AM,
+      it searches the web for last week's news on each, writes a 2-page Markdown brief with sections per
+      company, and emails it to your team's distribution list. You touched the prompt once; the platform
+      runs it 52 times a year.
+    </p>
+
+    <h3>📧 Inbox triage</h3>
+    <p>
+      Connect Gmail (read-only) once. Build a "Daily Triage" App that reads the last 24 hours of unread
+      mail, ranks the top 20 by urgency with a one-line summary each, and posts it to a Slack channel
+      every morning at 8. Authorize Gmail-compose later when you want it to draft replies for you.
+    </p>
+
+    <h3>🗂 Multi-stage outreach pipeline</h3>
+    <p>
+      A 4-stage App: <em>(1)</em> find companies matching an ICP description, <em>(2)</em> enrich each
+      with funding history, <em>(3)</em> <strong>pause</strong> for you to remove rows you don't want,
+      <em>(4)</em> draft personalized cold emails for the survivors. The human pause is built into the
+      App — the run waits indefinitely until you approve, then resumes from stage 4.
+    </p>
+
+    <h2>Where to start</h2>
+
+    <div class="step-grid">
+      <span class="step-num">1</span>
+      <div class="step-body">
+        <strong><a href="/docs/quickstart">Quickstart</a> — 15 minutes, end-to-end</strong>
+        Sign in, build a Company Brief App by chatting with the agent, run it on Stripe and Notion,
+        schedule it. <strong>Read this first.</strong>
+      </div>
+
+      <span class="step-num">2</span>
+      <div class="step-body">
+        <strong><a href="/docs/concepts">Core concepts</a> — the schema in detail</strong>
+        The App JSON document. All 12 input types. The 3 stage types. The
+        <code>{`{{field_id}}`}</code> template syntax. Reference companion to the Quickstart.
+      </div>
+
+      <span class="step-num">3</span>
+      <div class="step-body">
+        <strong><a href="/docs/chat">Chat</a> and <a href="/docs/apps">Apps</a> — the two surfaces</strong>
+        Chat is the cockpit. Apps are the saved workflows. Most of your time lives in these two pages.
+      </div>
+
+      <span class="step-num">4</span>
+      <div class="step-body">
+        <strong>Deep dives, when you need them</strong>
+        <a href="/docs/skills">Skills</a> · <a href="/docs/connects">Connects</a> ·
+        <a href="/docs/executions">Executions</a> · <a href="/docs/schedules">Schedules</a> ·
+        <a href="/docs/sandbox">Sandbox</a> · <a href="/docs/artifacts">Artifacts</a>.
+      </div>
+    </div>
+
+    <h2>What an App looks like under the hood</h2>
+    <p>
+      You don't write this — the agent does — but seeing the shape makes everything else click:
+    </p>
     <div class="code-block" style="line-height:1.7;">
 {`{`}<br/>
 &nbsp;&nbsp;"name":     "Company Brief",<br/>
@@ -66,6 +140,7 @@ const metadata = {
 &nbsp;&nbsp;&nbsp;&nbsp;{`{`} "id": "research", "stage_type": "agent",<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"goal": "Research <span style="color:var(--aw-color-primary)">{`{{company_name}}`}</span> and write a brief<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in a <span style="color:var(--aw-color-primary)">{`{{tone}}`}</span> tone...",<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"timeout_ms": 600000,<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"artifact_defs": [<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{`{`} "id": "brief", "format": "markdown" {`}`}<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;] {`}`}<br/>
@@ -73,37 +148,97 @@ const metadata = {
 &nbsp;&nbsp;"resources": {`{`} "skills": ["web-search"], "connects": [] {`}`}<br/>
 {`}`}
     </div>
+
+    <h2>The four primitives</h2>
     <p>
-      You don't write this. The agent does. But knowing the shape makes the Quickstart easier to follow —
-      you'll see the agent constructing exactly this kind of object as you describe what you want.
+      Master these four and the platform is small enough to hold in your head:
     </p>
 
-    <h2>Three things you can do in Aitroop</h2>
+    <table>
+      <thead><tr><th>Primitive</th><th>One-line definition</th><th>Lives where</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>App</strong> <span class="pill green">recipe</span></td>
+          <td>A JSON document describing a runnable workflow.</td>
+          <td><code>app_def</code> table · <strong>Sidebar → Apps</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Execution</strong> <span class="pill blue">run</span></td>
+          <td>One trip through the App. Status, stage logs, artifacts.</td>
+          <td><code>app_execution</code> · App's <strong>Runs</strong> tab</td>
+        </tr>
+        <tr>
+          <td><strong>Artifact</strong> <span class="pill amber">output</span></td>
+          <td>Typed deliverable a stage produces. Markdown, CSV, code, image, file.</td>
+          <td><code>app_artifact</code> · stored in S3</td>
+        </tr>
+        <tr>
+          <td><strong>Connect</strong> <span class="pill" style="background:rgba(120,120,200,0.1);color:#4f46e5;border-color:rgba(120,120,200,0.3);">credential</span></td>
+          <td>An OAuth bridge to your account on another service.</td>
+          <td><code>app_user_connect</code> · <strong>Settings → Connects</strong></td>
+        </tr>
+      </tbody>
+    </table>
 
-    <h3>1. Build an App from a chat</h3>
+    <h2>Two surfaces, one platform</h2>
     <p>
-      Say <em>"Create an app that…"</em>. The agent activates the App Builder skill, asks clarifying questions,
-      designs the JSON, validates it, and saves via <code>POST /api/apps</code>. You get an App in your library.
+      Almost everything you do is in one of two surfaces — and the right surface depends on the
+      <em>repeat</em> question:
     </p>
 
-    <h3>2. Run an App</h3>
+    <table>
+      <thead><tr><th>Surface</th><th>Use when</th><th>Persistence</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong><a href="/docs/chat">Chat</a></strong></td>
+          <td>You're exploring. One-shot tasks. Casual questions. Debugging a failed run.</td>
+          <td>Conversation history. Sandbox is destroyed on idle.</td>
+        </tr>
+        <tr>
+          <td><strong><a href="/docs/apps">App</a></strong></td>
+          <td>You'd want to run this task again. A teammate should be able to do it without your prompt know-how. You want it scheduled.</td>
+          <td>Forever. Versioned. Auditable. Runnable from API.</td>
+        </tr>
+      </tbody>
+    </table>
+
     <p>
-      Click the App in your library. Fill the form. Click <strong>Run</strong>. The platform spins up a fresh
-      isolated sandbox, runs each stage in order, and produces the declared artifacts. You preview, download,
-      or chain them to other Apps.
+      A productive chat almost always wants to become an App. The transition is one button:
+      <strong>Save as App</strong>, or just say <em>"save this as an app"</em>.
     </p>
 
-    <h3>3. Schedule an App</h3>
+    <h2>How Aitroop differs from a Notebook / Workflow tool</h2>
     <p>
-      From the App page, attach a Schedule: a cron expression, pre-filled inputs, and a delivery target
-      (email, Slack, Drive, webhook). The App runs automatically on the cron and the artifact gets delivered.
+      It's tempting to compare Aitroop to Zapier, n8n, or Jupyter. The closest analogy is none of those:
+    </p>
+
+    <table>
+      <thead><tr><th>Tool</th><th>Building unit</th><th>How a "step" is configured</th></tr></thead>
+      <tbody>
+        <tr><td>Zapier / n8n</td><td>Nodes wired in a graph</td><td>Click through forms per node</td></tr>
+        <tr><td>Jupyter / Notebooks</td><td>Code cells</td><td>You write Python / R</td></tr>
+        <tr><td>ChatGPT / Claude.ai</td><td>Conversation thread</td><td>Re-prompt every time</td></tr>
+        <tr><td><strong>Aitroop</strong></td><td>An <strong>App</strong> with stages</td><td>You describe the stage in English; the agent runs it inside a real sandbox</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      The key word is <em>real</em>. An Aitroop stage isn't a prompt template — it's an agent that
+      reasons, calls Skills, hits Connects, executes code, retries on failure, and produces a typed
+      artifact. The stage's English prompt is the spec; the agent's behavior is the implementation.
     </p>
 
     <h2>If you get stuck</h2>
     <p>
-      The agent itself is the fastest help. Open a chat and ask "How do I…?" — it has the App Builder skill
-      loaded and knows every part of the platform. Or <a href="/contact">talk to us</a>.
+      The agent itself is the fastest help. Open a chat and ask <em>"How do I…?"</em> — it has the App
+      Builder skill loaded and knows every part of the platform. For specifics:
     </p>
+    <ul>
+      <li><strong>Your first App fails</strong> — open the failed run, click <strong>Debug in chat</strong>. See <a href="/docs/executions">Executions</a>.</li>
+      <li><strong>Connect won't authorize</strong> — usually a scope issue or wrong account. See <a href="/docs/connects">Connects</a>.</li>
+      <li><strong>Schedule isn't firing</strong> — workspace time zone or paused schedule. See <a href="/docs/schedules">Schedules</a>.</li>
+      <li><strong>Anything else</strong> — <a href="/contact">talk to us</a>.</li>
+    </ul>
 
     <div class="next-up">
       <span class="label">Start here</span>

@@ -7,10 +7,19 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
   <DocsShell current="chat">
     <h1>Chat mode</h1>
     <p class="lead">
-      Chat is how you talk to the agent — to explore, to build Apps, to edit existing Apps, to debug
-      failed runs, to ask questions about the platform. This page covers the operational details: the
-      interface, the workflows, what the agent has access to, and how to get good results out of it.
+      Chat is the cockpit. Think of it as the agent's desk — open a chat and the agent gets a fresh
+      sandbox, full web access, every Skill you've installed, every Connect you've authorized, and a
+      blank canvas to work on. You use chat to explore (one-shot tasks), to build Apps (turn a
+      conversation into a saved workflow), to edit existing Apps, and to debug failed runs. Everything
+      else in this section is operational detail.
     </p>
+
+    <div class="callout">
+      <strong>When chat vs an App?</strong> Chat for <em>one-time work, exploration, debugging</em>. An
+      App for <em>"I'll want to run this again, possibly on a schedule, possibly with different inputs,
+      possibly handed to a teammate."</em> The transition is one click (<strong>Save as App</strong>) or
+      one phrase (<em>"save this as an app"</em>).
+    </div>
 
     <h2>What chat is for</h2>
     <p>Four operational uses, all in the same surface:</p>
@@ -318,6 +327,91 @@ Let me search the web for recent news.<br/>
     </ul>
 
     <p>For one-offs, exploration, debugging, and casual questions — stay in chat.</p>
+
+    <h2>Built-in agent tools</h2>
+    <p>
+      Beyond your installed Skills and Connects, the agent has five always-available tools exposed via the
+      built-in MCP server (<code>mcp__aitroop__*</code>):
+    </p>
+
+    <table>
+      <thead><tr><th>Tool</th><th>What it does</th><th>When the agent reaches for it</th></tr></thead>
+      <tbody>
+        <tr><td><code>ask_question</code></td><td>Pause and ask you a clarifying question.</td><td>When information is missing and guessing would waste work.</td></tr>
+        <tr><td><code>get_task</code></td><td>Look up details on a task (for tasks generated inside a chat).</td><td>Long sessions with structured to-do.</td></tr>
+        <tr><td><code>update_task</code></td><td>Mark a task complete / in progress / blocked.</td><td>Same.</td></tr>
+        <tr><td><code>get_asset_content</code></td><td>Re-read an artifact already produced in this chat.</td><td>"Now expand on section 3 of the brief you wrote."</td></tr>
+        <tr><td><code>generate_image</code></td><td>Text-to-image via Gemini (if the host is configured with a key).</td><td>"Draw a diagram of this workflow."</td></tr>
+      </tbody>
+    </table>
+
+    <h2>FAQ &amp; troubleshooting</h2>
+
+    <p class="faq-q">The agent isn't using a Skill / Connect I expect.</p>
+    <p>
+      <strong>Likely cause:</strong> the agent picked a different approach. Often it's reasoning from
+      context when you wanted it to call out to a tool.
+    </p>
+    <p>
+      <strong>Fix:</strong> tell it explicitly. <em>"Use the <code>web-search</code> Skill for this."</em>
+      Or check the status bar above the input — if it says "Skills: 12 active" but the Skill you wanted
+      isn't there, install it from <strong>Sidebar → Skills</strong> first.
+    </p>
+
+    <p class="faq-q">I uploaded a file but the agent isn't looking at it.</p>
+    <p>
+      Files attached via 📎 sit in the sandbox but the agent doesn't proactively read them unless your
+      prompt mentions them. Add: <em>"Use the attached <code>contract.pdf</code> as input"</em>.
+    </p>
+
+    <p class="faq-q">My chat is taking forever to respond.</p>
+    <p>
+      Three common causes:
+    </p>
+    <ul>
+      <li><strong>Cold sandbox.</strong> First message of the chat: +1–2 s for sandbox provision.</li>
+      <li><strong>Heavy tool call.</strong> A research task with 10 web searches takes 30–90 s. Watch the
+        run log — you'll see each call as it happens.</li>
+      <li><strong>Context overflow.</strong> Very long chats (50+ turns) slow down. The status bar shows
+        context usage; consider starting a new chat with the artifact you care about as the seed.</li>
+    </ul>
+
+    <p class="faq-q">How do I share a chat with a teammate?</p>
+    <p>
+      Open the chat, click the share icon at the top-right, get a public URL. The chat becomes read-only
+      at that URL — your teammate can read but not send messages or trigger new agent turns. Revoke any
+      time from <strong>Settings → Shares</strong>.
+    </p>
+
+    <p class="faq-q">Can I run the same chat twice with different inputs?</p>
+    <p>
+      Not directly — chats are stateful conversations, not parametric workflows. If you want re-runs with
+      different inputs, that's the entire point of an App. Type <em>"save this as an app"</em> and the
+      App Builder converts the conversation into one.
+    </p>
+
+    <p class="faq-q">The agent kept asking me clarifying questions. How do I shortcut?</p>
+    <p>
+      Front-load the answers. A useful template at the top of your first message:
+    </p>
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted"># Task</span><br/>
+&lt;what to do&gt;<br/>
+<span style="color:var(--aw-color-text-muted)"># Inputs</span><br/>
+&lt;exact data points&gt;<br/>
+<span style="color:var(--aw-color-text-muted)"># Output</span><br/>
+&lt;format, length, structure&gt;<br/>
+<span style="color:var(--aw-color-text-muted)"># Constraints</span><br/>
+&lt;what to include / skip&gt;
+    </div>
+
+    <p class="faq-q">What happens to my chat after I close the tab?</p>
+    <p>
+      The conversation history is persisted permanently (until you delete it). The <em>sandbox</em> for the
+      chat enters idle mode after 5 minutes and is destroyed shortly after. The next time you open the
+      chat, a fresh sandbox is provisioned. Files attached earlier are re-uploaded automatically; the
+      agent's reasoning carries over via the conversation history.
+    </p>
 
     <div class="next-up">
       <span class="label">Next</span>

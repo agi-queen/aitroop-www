@@ -11,171 +11,417 @@ const metadata = {
   <DocsShell current="artifacts">
     <h1>Artifact formats</h1>
     <p class="lead">
-      Every Stage in an App produces an Artifact. Artifacts are first-class outputs: typed, previewable,
-      editable, downloadable, and chainable into the next Stage. The platform supports seven types.
+      An <strong>Artifact</strong> is the deliverable a stage produces — and it's a first-class citizen,
+      not just a chat reply that scrolls away. Artifacts are typed, previewable, downloadable, editable,
+      shareable via public link, and chainable into the next stage. The platform supports seven formats.
+      The format you pick shapes how the agent writes, how the preview renders, and how downstream
+      stages can consume it.
     </p>
 
-    <h2>Picking the right type</h2>
+    <div class="callout">
+      <strong>Why typing the output matters.</strong> "Write me a summary" and "write me a summary as
+      Markdown with a frontmatter block listing 5 key facts as a YAML array" produce wildly different
+      results. The format declaration teaches the agent what success looks like. It also enables the
+      preview pane to do the right thing — render Markdown, lint JSON against a schema, syntax-highlight
+      code, validate CSV columns.
+    </div>
+
+    <h2>How the agent produces an artifact</h2>
     <p>
-      The type is set on the Stage in the App editor. The agent will conform its output to that type
-      or fail loudly if it can't — which is what you want. A few rules of thumb:
+      When a stage declares an <code>artifact_def</code>, the agent finishes its turn by emitting an XML
+      block in its output:
     </p>
+
+    <div class="code-block" style="line-height:1.7;">
+&lt;artifact id="company_brief" format="markdown" title="Stripe — Company Brief"&gt;<br/>
+&nbsp;&nbsp;# Stripe — Company Brief<br/>
+<br/>
+&nbsp;&nbsp;## Business model<br/>
+&nbsp;&nbsp;Stripe runs payment infrastructure as a service...<br/>
+&lt;/artifact&gt;
+    </div>
+
+    <p>
+      The platform extracts this block, stores the content in S3 / R2 under the artifact's
+      <code>s3_key</code>, and exposes it to the next stage as <code>{`{{stages.<stageId>.<artifactId>}}`}</code>.
+      The agent doesn't write the storage step — it just emits the block.
+    </p>
+
+    <h2>Picking the right format</h2>
+
+    <table>
+      <thead><tr><th>Output is…</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td>A document a human reads</td><td><code>markdown</code></td></tr>
+        <tr><td>Data another machine consumes</td><td><code>json</code> or <code>csv</code></td></tr>
+        <tr><td>A page or dashboard</td><td><code>html</code></td></tr>
+        <tr><td>Source code (one file or a tree)</td><td><code>code</code></td></tr>
+        <tr><td>A picture or diagram</td><td><code>image</code></td></tr>
+        <tr><td>Anything else (PDF, ZIP, audio, video)</td><td><code>file</code></td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      You set the format on the stage's <code>artifact_defs</code> entry. The agent will conform its
+      output to that type or fail loudly if it can't — which is what you want.
+    </p>
+
+    <h2>markdown <span class="pill green">most common</span></h2>
+    <p>
+      Reports, summaries, briefs, documentation, drafts. The default for prose. Roughly 60% of artifacts
+      in production are <code>markdown</code>.
+    </p>
+
+    <h3>Preview</h3>
+    <p>
+      Rendered with standard CommonMark + GFM extensions: tables, task lists, code fences with syntax
+      highlighting. Math (KaTeX) and Mermaid diagrams render inline. Click any heading for a stable
+      anchor link.
+    </p>
+
+    <h3>Export</h3>
     <ul>
-      <li>If the output is a <em>document a human reads</em> — <code>markdown</code>.</li>
-      <li>If the output is <em>data another machine consumes</em> — <code>json</code> or <code>csv</code>.</li>
-      <li>If the output is a <em>page or dashboard</em> — <code>html</code>.</li>
-      <li>If the output is <em>source code</em> — <code>code</code>.</li>
-      <li>If the output is <em>a picture or diagram</em> — <code>image</code>.</li>
-      <li>If none of the above fit — <code>file</code>.</li>
+      <li><code>.md</code> — raw markdown source.</li>
+      <li><strong>PDF</strong> — server-rendered with the workspace's brand stylesheet.</li>
+      <li><strong>DOCX</strong> — Pandoc conversion; styles map to Word headings.</li>
     </ul>
 
-    <h2>markdown</h2>
+    <h3>Chaining</h3>
     <p>
-      Reports, summaries, briefs, documentation. The most common Artifact type.
-    </p>
-    <p>
-      <strong>Preview.</strong> Rendered with standard CommonMark + GFM extensions (tables, task lists,
-      code fences with syntax highlighting). Math and Mermaid diagrams are supported inline.
-    </p>
-    <p>
-      <strong>Export.</strong> Download as <code>.md</code> for raw markdown, or as PDF / DOCX for the
-      rendered version.
-    </p>
-    <p>
-      <strong>When to chain.</strong> Feed a markdown Artifact into another Stage when the next step is
-      summarization, translation, or restructuring the same content into a different shape.
+      Feed a markdown artifact into the next stage when the next step is summarization, translation, or
+      restructuring the same content. The receiving stage can read the markdown verbatim or extract
+      sections using prompt instructions.
     </p>
 
-    <h2>code</h2>
+    <h2>code <span class="pill blue">single or tree</span></h2>
     <p>
-      Source files in any language. Used by Apps that generate scripts, configuration, migrations, tests.
-    </p>
-    <p>
-      <strong>Preview.</strong> Syntax-highlighted view, with the language detected from the file
-      extension (or specified on the Stage).
-    </p>
-    <p>
-      <strong>Export.</strong> Download as the appropriate file extension, or copy to clipboard.
-    </p>
-    <p>
-      <strong>Multi-file output.</strong> A single <code>code</code> Artifact can hold a tree of files —
-      useful when the App generates a small project rather than a single file. The preview shows a file
-      tree on the left and the selected file on the right.
+      Source files in any language. Used by Apps that generate scripts, configuration, migrations, tests,
+      or whole project skeletons.
     </p>
 
-    <h2>html</h2>
+    <h3>Preview</h3>
+    <p>
+      Syntax-highlighted view. The language is detected from the file extension or specified on the
+      stage's <code>artifact_def.language</code>. Line numbers, copy button, fold blocks.
+    </p>
+
+    <h3>Multi-file output</h3>
+    <p>
+      A single <code>code</code> artifact can hold a tree of files — useful when the App generates a
+      small project rather than a single file:
+    </p>
+
+    <div class="code-block" style="line-height:1.7;">
+&lt;artifact id="project" format="code"&gt;<br/>
+&lt;file path="src/main.ts"&gt;<br/>
+import {`{ greet }`} from './greet';<br/>
+console.log(greet('world'));<br/>
+&lt;/file&gt;<br/>
+&lt;file path="src/greet.ts"&gt;<br/>
+export const greet = (name: string) =&gt; `Hello, ${`{name}`}!`;<br/>
+&lt;/file&gt;<br/>
+&lt;file path="package.json"&gt;<br/>
+{`{ "name": "demo", "version": "0.0.1" }`}<br/>
+&lt;/file&gt;<br/>
+&lt;/artifact&gt;
+    </div>
+
+    <p>
+      The preview shows the file tree on the left, selected file on the right. Download as a single file
+      or as a ZIP of the whole tree.
+    </p>
+
+    <h2>html <span class="pill amber">self-contained pages</span></h2>
     <p>
       Standalone web pages, dashboards, slide decks, branded reports. Rendered fully in the preview pane.
     </p>
+
+    <h3>Preview</h3>
     <p>
-      <strong>Preview.</strong> An iframe with the HTML rendered as-is, scripts allowed. The sandbox is
-      tight: no access to the parent page or to your Connects.
-    </p>
-    <p>
-      <strong>Export.</strong> Download as <code>.html</code>, or as PDF (rendered).
-    </p>
-    <p>
-      <strong>When this is the right type.</strong> Whenever you want a self-contained visual output that
-      a human can open in a browser without any tooling.
+      An iframe with the HTML rendered as-is, scripts allowed. The sandbox is strict: no access to the
+      parent page, no access to your Connects, no cookies, no localStorage carry-over. Safe to share via
+      public link.
     </p>
 
-    <h2>json</h2>
+    <h3>Export</h3>
+    <ul>
+      <li><code>.html</code> — single self-contained file.</li>
+      <li><strong>PDF</strong> — server-side print to PDF.</li>
+      <li><strong>PNG/JPEG screenshot</strong> — full-page or above-the-fold.</li>
+    </ul>
+
+    <h3>When this is the right type</h3>
     <p>
-      Structured data. Used when the output is going to be consumed by another system rather than read by a human.
-    </p>
-    <p>
-      <strong>Preview.</strong> A collapsible tree view with type information. If the Stage declares a
-      schema, the preview validates against it and shows any drift.
-    </p>
-    <p>
-      <strong>Export.</strong> Download as <code>.json</code>, or POST it to a webhook delivery destination.
-    </p>
-    <p>
-      <strong>When to chain.</strong> Multi-stage Apps almost always use <code>json</code> between Stages —
-      the next Stage can read individual fields rather than reparsing free text.
+      Whenever you want a self-contained visual output that a human can open in a browser without any
+      tooling. Common for: customer-facing reports, dashboard snapshots, weekly digests with charts,
+      conference deck export.
     </p>
 
-    <h2>csv</h2>
+    <h2>json <span class="pill" style="background:rgba(120,120,200,0.1);color:#4f46e5;border-color:rgba(120,120,200,0.3);">machine-to-machine</span></h2>
     <p>
-      Tabular data. The bread-and-butter format for lead lists, account snapshots, financial line items.
-    </p>
-    <p>
-      <strong>Preview.</strong> A spreadsheet-style table with sortable columns and inline filtering.
-    </p>
-    <p>
-      <strong>Export.</strong> Download as <code>.csv</code> or <code>.xlsx</code>.
-    </p>
-    <p>
-      <strong>Schema enforcement.</strong> If the Stage declares column names and types, the agent's
-      output is validated row-by-row. Rows that don't match are flagged in the preview with their reason.
+      Structured data. Used when the output is going to be consumed by another system rather than read by
+      a human — or when the next stage in the App wants to read specific fields rather than re-parsing
+      free text.
     </p>
 
-    <h2>image</h2>
+    <h3>Preview</h3>
+    <p>
+      A collapsible tree view with type information. If the stage declares a schema in
+      <code>artifact_def.schema</code>, the preview validates and shows any drift inline.
+    </p>
+
+    <h3>Schema declaration</h3>
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"id": "extracted",<br/>
+&nbsp;&nbsp;"format": "json",<br/>
+&nbsp;&nbsp;"schema": {`{`}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;"type": "object",<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;"properties": {`{`}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company":      {`{ "type": "string" }`},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"founded_year": {`{ "type": "number" }`},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"employees":    {`{ "type": "number" }`}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{`}`},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;"required": ["company"]<br/>
+&nbsp;&nbsp;{`}`}<br/>
+{`}`}
+    </div>
+
+    <p>
+      The schema gives the agent guardrails — it knows what shape to produce — and the preview gets a
+      validator for free.
+    </p>
+
+    <h3>Chaining</h3>
+    <p>
+      Multi-stage Apps almost always use <code>json</code> between stages — the next stage can read
+      individual fields rather than re-parsing free text.
+    </p>
+
+    <h2>csv <span class="pill amber">tabular</span></h2>
+    <p>
+      Tabular data. The bread-and-butter format for lead lists, account snapshots, financial line items,
+      survey responses.
+    </p>
+
+    <h3>Preview</h3>
+    <p>
+      A spreadsheet-style table with sortable columns, inline column filters, and a count of rows. Wide
+      tables get horizontal scroll; tall ones get virtual scrolling.
+    </p>
+
+    <h3>Export</h3>
+    <ul>
+      <li><code>.csv</code> — RFC 4180 format with header row.</li>
+      <li><code>.xlsx</code> — Excel file. Types are preserved when possible.</li>
+      <li><strong>Push to Google Sheets</strong> — if Drive Connect is authorized.</li>
+    </ul>
+
+    <h3>Schema enforcement</h3>
+    <p>
+      If the stage declares column names and types, the agent's output is validated row-by-row. Rows
+      that don't match are flagged in the preview with their reason. You can fix-in-place: edit the row,
+      save, the run gets the corrected version when chained downstream.
+    </p>
+
+    <h2>image <span class="pill green">visual</span></h2>
     <p>
       Generated or rendered images. Diagrams, charts, marketing assets, mockups.
     </p>
+
+    <h3>Preview</h3>
     <p>
-      <strong>Preview.</strong> Full-size image with zoom and pan. Supports PNG, JPEG, SVG, and WebP.
-    </p>
-    <p>
-      <strong>Export.</strong> Download in the source format. Re-render at different resolutions for
-      raster outputs.
-    </p>
-    <p>
-      <strong>How it's produced.</strong> Either by the <code>image-gen</code> Skill (text-to-image) or
-      by code in the agent's sandbox (Matplotlib charts, Graphviz diagrams, etc.).
+      Full-size image with zoom and pan. Supports PNG, JPEG, SVG, and WebP.
     </p>
 
-    <h2>file</h2>
+    <h3>How it's produced</h3>
+    <p>Either:</p>
+    <ul>
+      <li><strong>By the <code>generate_image</code> tool</strong> (text-to-image via the configured provider — typically Gemini's image API if the host has a key).</li>
+      <li><strong>By code in the agent's sandbox</strong> — Matplotlib charts, Graphviz diagrams, Pillow compositions, Playwright screenshots.</li>
+    </ul>
+
+    <h3>Export</h3>
+    <ul>
+      <li>Download in the source format.</li>
+      <li>Re-render at different resolutions for raster outputs.</li>
+      <li>For SVG: download as PNG / PDF rasterizations as well.</li>
+    </ul>
+
+    <h2>file <span class="pill red">escape hatch</span></h2>
     <p>
-      The escape hatch. Anything that doesn't fit one of the other types — PDFs, ZIPs, audio, video, binary formats.
+      Anything that doesn't fit one of the other formats — PDFs, ZIPs, audio, video, binary formats. If
+      you can't decide what type to use, <code>file</code> is the safe default.
     </p>
+
+    <h3>Preview</h3>
+    <p>Type-aware:</p>
+    <ul>
+      <li><strong>PDF</strong> — renders inline with a built-in viewer.</li>
+      <li><strong>Audio</strong> — HTML5 player with waveform.</li>
+      <li><strong>Video</strong> — HTML5 player with scrub.</li>
+      <li><strong>ZIP</strong> — file listing; click any entry to preview it as its own artifact.</li>
+      <li><strong>Unknown</strong> — shows metadata (size, MIME) and a download button.</li>
+    </ul>
+
+    <h3>Export</h3>
     <p>
-      <strong>Preview.</strong> Type-aware: PDFs render inline, audio gets a player, ZIPs show a file
-      listing. Unknown types show metadata and a download button.
-    </p>
-    <p>
-      <strong>Export.</strong> Direct download. Files keep their original name and MIME type when
-      delivered to email, Slack, or Drive.
+      Direct download. Files keep their original name and MIME type when delivered to email, Slack, or
+      Drive. The MIME type is stored alongside the artifact in <code>app_artifact.mime_type</code>.
     </p>
 
     <h2>Chaining artifacts between stages</h2>
     <p>
-      Each Stage's Artifact is automatically available to the next Stage as a named reference. The
-      receiving Stage's prompt can reference it directly:
+      Each stage's artifact is automatically available to the next stage as a named reference. The
+      receiving stage's goal references it directly:
     </p>
+
     <div class="code-block">
-<span style="color:var(--aw-color-text-muted)"># Stage 2 prompt</span><br/>
-Take the CSV from Stage 1 (<span style="color:var(--aw-color-primary)">{`{{ stage1.artifact }}`}</span>) and<br/>
+<span style="color:var(--aw-color-text-muted)"># Stage 2 goal referencing Stage 1's artifact</span><br/>
+Take the CSV from Stage 1 (<span style="color:var(--aw-color-primary)">{`{{ stages.find.leads }}`}</span>) and<br/>
 enrich each row with the company's funding history.<br/>
 Output the same CSV with three new columns:<br/>
 total_funding, last_round, last_round_date.
     </div>
+
     <p>
-      The variable <code>{`{{ stage1.artifact }}`}</code> resolves to the previous Stage's output, in
-      whatever format it was. The agent figures out how to read it based on the type.
+      The variable resolves to the previous stage's output, in whatever format it was. The agent figures
+      out how to read it based on the type — for CSV, it reads as a table; for JSON, as a structured
+      object; for markdown, as a document. You don't need to add any parsing logic.
+    </p>
+
+    <h2>Sharing artifacts publicly</h2>
+    <p>
+      Each artifact can be shared via a public link without exposing the rest of your workspace:
+    </p>
+
+    <div class="step-grid">
+      <span class="step-num">1</span>
+      <div class="step-body">
+        <strong>Open the artifact and click Share.</strong>
+        A token-gated URL is generated: <code>https://app.aitroop.net/s/{`<token>`}</code>.
+      </div>
+
+      <span class="step-num">2</span>
+      <div class="step-body">
+        <strong>Configure access.</strong>
+        Read-only or read+download. Optional expiry timestamp. Optional password gate. Optional unlock
+        prompt ("ask for email before unlocking").
+      </div>
+
+      <span class="step-num">3</span>
+      <div class="step-body">
+        <strong>Revoke any time.</strong>
+        Open <strong>Settings → Shares</strong> and toggle off, or call
+        <code>DELETE /api/shares/:id</code>.
+      </div>
+    </div>
+
+    <p>
+      Shares are persisted in the <code>share</code> table; raw downloads come back through
+      <code>GET /s/:token/raw</code> (no auth) or <code>GET /s/:token/dl</code> (forces attachment headers).
     </p>
 
     <h2>Versioning and history</h2>
     <p>
-      Every Artifact is versioned. Each run of an App produces a new version; in Chat, every reply that
-      produces an Artifact is a new version. You can step back through history in the preview pane and
+      Every artifact is versioned. Each run of an App produces a new version; in chat, every reply that
+      produces an artifact is a new version. You can step back through history in the preview pane and
       restore any previous version as the current one.
     </p>
+
     <p>
       Artifacts are retained for the lifetime of the App (or the chat). Deleting an App archives its
-      artifacts; archives are recoverable for 30 days.
+      artifacts; archives are recoverable for 30 days. Past that they're permanently deleted from S3.
     </p>
 
     <h2>Editing an artifact</h2>
     <p>
-      Click <strong>Edit</strong> on any Artifact and you get a chat with the agent scoped to that single
-      Artifact. Ask for changes — "make the table wider", "add a row for Q4", "rephrase the second
-      paragraph to be less formal". Save back to the same Artifact or branch into a new version.
+      Click <strong>Edit</strong> on any artifact and you get a chat scoped to that single artifact. Ask
+      for changes — <em>"make the table wider"</em>, <em>"add a row for Q4"</em>, <em>"rephrase the second
+      paragraph to be less formal"</em>. Save back to the same artifact or branch into a new version.
     </p>
+
     <p>
-      Edits don't change the App. If you want the change to apply to future runs, open the App in the
-      editor and update the Stage's prompt.
+      Edits to an artifact don't change the App. If you want the change to apply to future runs, open the
+      App in the editor and update the stage's goal. The "Edit in chat" surface is also a useful debug
+      tool — the chat opens with the artifact and the original goal in context.
+    </p>
+
+    <h2>FAQ &amp; troubleshooting</h2>
+
+    <p class="faq-q">The agent produced output but my run shows "0 artifacts".</p>
+    <p>
+      <strong>Most likely:</strong> the agent didn't wrap the output in an <code>&lt;artifact&gt;</code>
+      block. The platform only persists what's inside that block. Two fixes:
+    </p>
+    <ul>
+      <li>Tighten the stage goal: <em>"Save the report as the <code>company_brief</code> artifact in markdown format."</em></li>
+      <li>Check the stage's <code>artifact_defs</code> — the IDs in the goal must match exactly.</li>
+    </ul>
+
+    <p class="faq-q">My JSON artifact has trailing commas / comments and won't parse.</p>
+    <p>
+      The agent occasionally emits "JSON5" by accident. The preview will flag this. Fix the goal:
+      <em>"Output strict RFC 8259 JSON — no comments, no trailing commas."</em> For repeated cases,
+      attach a <code>schema</code> to the artifact_def so the agent gets stricter constraints.
+    </p>
+
+    <p class="faq-q">CSV artifact has the wrong columns.</p>
+    <p>
+      Declare the column schema in the artifact_def:
+    </p>
+    <div class="code-block">
+{`{`}<br/>
+&nbsp;&nbsp;"id": "leads",<br/>
+&nbsp;&nbsp;"format": "csv",<br/>
+&nbsp;&nbsp;"schema": {`{`}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;"columns": [<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{`{ "name": "company", "type": "string", "required": true }`},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{`{ "name": "url",     "type": "string" }`},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{`{ "name": "size",    "type": "number" }`}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;]<br/>
+&nbsp;&nbsp;{`}`}<br/>
+{`}`}
+    </div>
+    <p>
+      The agent reads the schema as part of its instructions; mismatched rows fail validation and the
+      preview marks them.
+    </p>
+
+    <p class="faq-q">I want one stage to produce multiple artifacts.</p>
+    <p>
+      List multiple entries in <code>artifact_defs</code>:
+    </p>
+    <div class="code-block">
+"artifact_defs": [<br/>
+&nbsp;&nbsp;{`{ "id": "brief", "format": "markdown" }`},<br/>
+&nbsp;&nbsp;{`{ "id": "data",  "format": "json" }`}<br/>
+]
+    </div>
+    <p>
+      The agent will emit two <code>&lt;artifact&gt;</code> blocks. Both get stored, both are previewable
+      separately, both are referenceable downstream by ID.
+    </p>
+
+    <p class="faq-q">Can I attach an artifact as input to a new run?</p>
+    <p>
+      Yes — most file-input fields accept either an upload or a reference to an existing artifact. In the
+      form, click the artifact picker icon next to the file field; pick the artifact. The new run reads
+      it directly from S3 — no re-download / re-upload.
+    </p>
+
+    <p class="faq-q">How big can an artifact be?</p>
+    <p>
+      Soft limit 100 MB per artifact, hard limit 1 GB. For larger payloads, use <code>file</code> format
+      and split into a ZIP. Artifacts &gt; 50 MB are stored on slower storage tiers; previews disable
+      inline rendering above 25 MB.
+    </p>
+
+    <p class="faq-q">My artifact's preview is fine but downloads are corrupted.</p>
+    <p>
+      Almost always a MIME type mismatch — the artifact was declared as <code>text/csv</code> but the
+      bytes are XLSX, or vice versa. The platform infers MIME on save; if you suspect the inference is
+      wrong, open the artifact, click <strong>Edit metadata</strong>, set the correct MIME, re-save.
     </p>
 
     <div class="next-up">

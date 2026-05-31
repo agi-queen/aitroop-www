@@ -7,10 +7,17 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
   <DocsShell current="connects">
     <h1>Connects</h1>
     <p class="lead">
-      A Connect is an OAuth integration between Aitroop and an account you have on another service —
-      Gmail, Drive, GitHub, a CRM, and so on. Connects are how the agent reads and writes to your tools
-      <em>through your own account</em>, without you sharing passwords or API keys.
+      A Connect is how Aitroop acts as <em>you</em> on another service. You authorize once via that
+      provider's OAuth flow; from then on, any Chat or App that needs the provider uses your scoped token
+      transparently. The agent reads your Gmail, comments on your GitHub PR, drops a row into your
+      Salesforce — all using your own identity, with your provider's audit log capturing every action.
     </p>
+
+    <div class="callout">
+      <strong>The privilege model in one sentence.</strong> Connects are <em>per-user</em> by default —
+      your colleagues' Apps run against their own accounts, not yours. Even when you build and share an
+      App, your token never leaves your account. Each user authorizes their own Connects.
+    </div>
 
     <h2>How Connects work operationally</h2>
     <ol>
@@ -61,11 +68,28 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h2>Browsing available Connects</h2>
     <p>
-      Open <strong>Settings → Connects → Available</strong>. The page lists providers Aitroop currently
-      supports with their categories (productivity, communication, CRM, dev tools, etc.). The exact catalog
-      evolves; check the settings page for what's available right now.
+      Open <strong>Settings → Connects → Available</strong>. Providers are grouped by category. The exact
+      catalog evolves; here's a snapshot of common categories and the kind of providers in each:
     </p>
-    <p>You can also ask the agent in chat:</p>
+
+    <table>
+      <thead><tr><th>Category</th><th>Example providers</th><th>Typical use</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Email</strong></td><td>Google (Gmail), Microsoft (Outlook)</td><td>Read inbox, send mail, draft replies.</td></tr>
+        <tr><td><strong>Calendar</strong></td><td>Google Calendar, Outlook Calendar</td><td>List events, create meetings, check free/busy.</td></tr>
+        <tr><td><strong>Storage</strong></td><td>Google Drive, Dropbox, OneDrive</td><td>Read files, write artifacts, list folders.</td></tr>
+        <tr><td><strong>Code repo</strong></td><td>GitHub, GitLab, Bitbucket</td><td>List commits, comment on PRs, file issues.</td></tr>
+        <tr><td><strong>Messaging</strong></td><td>Slack, Microsoft Teams, Discord</td><td>Post messages, listen for triggers.</td></tr>
+        <tr><td><strong>CRM</strong></td><td>Salesforce, HubSpot, Pipedrive</td><td>Query leads, create records, log activity.</td></tr>
+        <tr><td><strong>Project</strong></td><td>Notion, Linear, Jira, Asana</td><td>Read tickets, create pages, update status.</td></tr>
+        <tr><td><strong>Data</strong></td><td>Snowflake, BigQuery, Airtable</td><td>Run queries, fetch rows, write back results.</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      The exact list is exposed via <code>GET /api/connect/categories</code> and per-provider definitions
+      via <code>GET /api/connect/definitions</code>. You can also ask the agent in chat:
+    </p>
     <div class="code-block">
 &gt; what Connects can I authorize?<br/>
 &gt; is there a Connect for Salesforce?
@@ -187,34 +211,86 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
       <li><strong>Revocation propagation.</strong> Revoking a Connect immediately invalidates the stored token. In-flight runs may complete their current call but won't be able to make new ones.</li>
     </ul>
 
-    <h2>Troubleshooting</h2>
+    <h2>FAQ &amp; troubleshooting</h2>
 
-    <h3>"Authorization succeeded but the App still fails."</h3>
+    <p class="faq-q">OAuth popup got blocked / closed early.</p>
     <p>
-      Two common causes:
+      <strong>Cause:</strong> the browser blocked the popup, or you closed it before the provider returned
+      a code.
+    </p>
+    <p>
+      <strong>Fix:</strong> Aitroop falls back to redirect mode if the popup fails — just click
+      <strong>Authorize</strong> again. If your browser blocks popups for the Aitroop domain, allow them
+      explicitly and retry.
+    </p>
+
+    <p class="faq-q">Authorization succeeded but the App still fails with <code>connect_unauthorized</code>.</p>
+    <p>
+      <strong>Two common causes:</strong>
     </p>
     <ul>
-      <li>You authorized with the wrong account (a personal account when the App expected a work account). Switch accounts in the OAuth provider's settings and re-authorize.</li>
-      <li>The App needs more scopes than you initially granted. Open the Connect's settings page and add missing scopes.</li>
+      <li><strong>Wrong account.</strong> You authorized with a personal account when the App expected a
+        work account (or vice versa). Sign out of the provider's account in your browser, then
+        <strong>Revoke</strong> the Connect in Aitroop and re-authorize.</li>
+      <li><strong>Missing scopes.</strong> The App needs <code>gmail.send</code> but you only granted
+        <code>gmail.readonly</code>. Open the Connect's settings, click <strong>Add scopes</strong>, go
+        through OAuth re-prompt.</li>
     </ul>
 
-    <h3>"Token expired" errors on scheduled runs</h3>
+    <p class="faq-q">"Token expired" errors on scheduled runs.</p>
     <p>
-      Some providers (notably long-lived OAuth tokens that rotate) require periodic re-authorization. Open
-      the Connect's settings page; if status is "Re-auth required", click <strong>Re-authorize</strong>
-      and complete OAuth again. Scheduled runs resume automatically.
+      Some providers (Microsoft 365 in particular) rotate refresh tokens periodically. If a Connect's
+      status flips to "Re-auth required", scheduled runs that depend on it start failing.
+    </p>
+    <p>
+      <strong>Fix:</strong> open the Connect's settings page; if status is "Re-auth required", click
+      <strong>Re-authorize</strong> and complete OAuth again. Scheduled runs resume on their next cron tick.
+    </p>
+    <p>
+      To get alerted earlier, enable <strong>Connect health alerts</strong> in <strong>Settings →
+      Notifications</strong> — you'll get a notification 7 days before a known expiry.
     </p>
 
-    <h3>"I revoked from the provider's side. How do I clean up Aitroop's state?"</h3>
+    <p class="faq-q">I revoked from the provider's side. How do I clean up Aitroop's state?</p>
     <p>
       Open <strong>Settings → Connects</strong>. The Connect will show as "Revoked" (the platform detects
       this on the next attempted call). Click <strong>Remove</strong> to delete the stored token reference
       entirely, or <strong>Re-authorize</strong> to restore the Connect.
     </p>
 
+    <p class="faq-q">Can I see exactly what scopes Aitroop has?</p>
+    <p>
+      Yes. Open the Connect, click <strong>Scopes</strong>. You'll see a list of granted permissions with
+      a short human-readable description per scope. Compare against what the provider's own audit page
+      shows. They should match — if not, revoke and re-authorize.
+    </p>
+
+    <p class="faq-q">Can a teammate use my Connect tokens?</p>
+    <p>
+      No, unless your admin has set up a <strong>shared workspace Connect</strong> for that provider (rare,
+      and explicit). By default every user authorizes their own. When a teammate runs your App, it uses
+      <em>their</em> tokens — meaning they need to have authorized the same provider in their own account.
+    </p>
+
+    <p class="faq-q">My App needs a Connect that's not in the catalog.</p>
+    <p>
+      Two paths:
+    </p>
+    <ul>
+      <li><strong>Custom MCP server.</strong> If the provider has an HTTP API, wrap it in an MCP server and add it as a custom <a href="/docs/skills">Skill</a>. No Connect needed.</li>
+      <li><strong>Request it.</strong> <a href="/contact">Tell us</a> which provider — the most-requested ones get added each sprint.</li>
+    </ul>
+
+    <p class="faq-q">How do I audit what an App did with my Connect?</p>
+    <p>
+      Open the run, click any tool call against the Connect — full request and (truncated) response are
+      logged. The provider's own audit log captures the same calls under your account. The two sources
+      should match; discrepancies usually mean the Connect was revoked mid-run.
+    </p>
+
     <div class="next-up">
       <span class="label">Next</span>
-      <a href="/docs/schedules">Schedules — running Apps on cron</a>
+      <a href="/docs/executions">Executions — lifecycle and debugging</a>
     </div>
   </DocsShell>
 </Layout>

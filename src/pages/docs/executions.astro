@@ -1,0 +1,439 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+
+const metadata = {
+  title: 'Executions — Aitroop Docs',
+};
+---
+
+<Layout metadata={metadata}>
+  <DocsShell current="executions">
+    <h1>Executions</h1>
+    <p class="lead">
+      An <strong>Execution</strong> is what happens when you press Run. It's a recorded, time-stamped,
+      auditable trip through an App's stages — with a status, a per-stage log, optional human approval
+      gates, and a final bundle of Artifacts. Every run is replayable, resumable, and shareable.
+    </p>
+
+    <div class="callout">
+      <strong>The mental model.</strong> An <em>App</em> is the recipe. An <em>Execution</em> is the time
+      you actually cooked it. The recipe doesn't change between Tuesday's dinner and Wednesday's; the
+      executions are different — different ingredients on the form, different sandbox, different output,
+      different timestamps. The platform keeps every execution forever so you can compare, debug, and
+      replay.
+    </div>
+
+    <h2>The execution lifecycle</h2>
+    <p>Every run passes through exactly one of five terminal states. The state machine:</p>
+
+    <div class="code-block" style="line-height:1.85;text-align:center;padding:1.5rem;">
+<span class="pill amber">pending</span> &nbsp;→&nbsp; <span class="pill blue">running</span> &nbsp;→&nbsp; <span class="pill green">completed</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pill blue">running</span> &nbsp;→&nbsp; <span class="pill red">failed</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pill blue">running</span> &nbsp;→&nbsp; <span class="pill" style="background:rgba(120,120,120,0.15);color:#525252;border-color:rgba(120,120,120,0.3);">cancelled</span>
+    </div>
+
+    <table>
+      <thead><tr><th>Status</th><th>Meaning</th><th>What you can do</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>pending</code></td>
+          <td>The run was queued but hasn't actually started. Usually &lt;1 second.</td>
+          <td>Wait. Cancel if needed.</td>
+        </tr>
+        <tr>
+          <td><code>running</code></td>
+          <td>At least one stage is in progress. Stage logs are streaming.</td>
+          <td>Watch live. Cancel. Respond to human gates.</td>
+        </tr>
+        <tr>
+          <td><code>completed</code></td>
+          <td>All stages finished successfully. All artifacts saved.</td>
+          <td>Download artifacts. Share. Re-run with new inputs. Resume from a later stage to try changes.</td>
+        </tr>
+        <tr>
+          <td><code>failed</code></td>
+          <td>A stage hit an error or timeout. Subsequent stages did not run.</td>
+          <td>Read the error. Debug in chat. Retry. Or re-run after fixing the App.</td>
+        </tr>
+        <tr>
+          <td><code>cancelled</code></td>
+          <td>You (or someone) explicitly stopped the run.</td>
+          <td>Re-run from scratch, or resume from a later stage if some completed.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Anatomy of an execution record</h2>
+    <p>
+      The platform persists every execution in <code>app_execution</code> with these fields:
+    </p>
+
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"id":                        <span style="color:var(--aw-color-primary)">"exec_8f4c2e1b"</span>,<br/>
+&nbsp;&nbsp;"app_id":                    <span style="color:var(--aw-color-primary)">"app_..."</span>,<br/>
+&nbsp;&nbsp;"user_id":                   <span style="color:var(--aw-color-primary)">"usr_..."</span>,<br/>
+&nbsp;&nbsp;"status":                    <span style="color:var(--aw-color-primary)">"completed"</span>,<br/>
+&nbsp;&nbsp;"input":                     <span style="color:var(--aw-color-primary)">{`{ company_name: "Stripe", ... }`}</span>,<br/>
+&nbsp;&nbsp;"is_test":                   <span style="color:var(--aw-color-primary)">false</span>,<br/>
+&nbsp;&nbsp;"shared_session":            <span style="color:var(--aw-color-primary)">false</span>,<br/>
+&nbsp;&nbsp;"start_from_stage_index":    <span style="color:var(--aw-color-primary)">0</span>,<br/>
+&nbsp;&nbsp;"prior_execution_id":        <span style="color:var(--aw-color-primary)">null</span>,<br/>
+&nbsp;&nbsp;"duration_ms":               <span style="color:var(--aw-color-primary)">43210</span>,<br/>
+&nbsp;&nbsp;"error":                     <span style="color:var(--aw-color-primary)">null</span>,<br/>
+&nbsp;&nbsp;"created_at":                <span style="color:var(--aw-color-primary)">"2026-05-31T09:14:22Z"</span><br/>
+{`}`}
+    </div>
+
+    <p>Each stage gets its own <code>app_stage_log</code> entry:</p>
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"execution_id":   <span style="color:var(--aw-color-primary)">"exec_8f4c2e1b"</span>,<br/>
+&nbsp;&nbsp;"stage_index":    <span style="color:var(--aw-color-primary)">0</span>,<br/>
+&nbsp;&nbsp;"stage_type":     <span style="color:var(--aw-color-primary)">"agent"</span>,<br/>
+&nbsp;&nbsp;"status":         <span style="color:var(--aw-color-primary)">"completed"</span>,<br/>
+&nbsp;&nbsp;"goal_expanded":  <span style="color:var(--aw-color-primary)">"Research Stripe and write a brief..."</span>,<br/>
+&nbsp;&nbsp;"session_id":     <span style="color:var(--aw-color-primary)">"sess_..."</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// linked chat session if you "Debug in chat"</span><br/>
+&nbsp;&nbsp;"duration_ms":    <span style="color:var(--aw-color-primary)">38421</span>,<br/>
+&nbsp;&nbsp;"error":          <span style="color:var(--aw-color-primary)">null</span><br/>
+{`}`}
+    </div>
+
+    <p>
+      The <code>goal_expanded</code> field is the goal <em>after</em> input substitution — what the agent
+      actually saw. If your form had <code>company_name: "Stripe"</code>, this is where
+      <code>{`{{company_name}}`}</code> in the original goal got resolved.
+    </p>
+
+    <h2>Watching a run live</h2>
+    <p>
+      During <code>running</code> state, the App page splits into two panes. The platform pushes Server-Sent
+      Events to the UI as the agent works:
+    </p>
+
+    <table>
+      <thead><tr><th>Event</th><th>When it fires</th></tr></thead>
+      <tbody>
+        <tr><td><code>text_delta</code></td><td>The agent is writing text. Streamed token-by-token.</td></tr>
+        <tr><td><code>tool_start</code></td><td>The agent decided to call a Skill or shell command.</td></tr>
+        <tr><td><code>tool_result</code></td><td>The tool returned. Output (truncated) is shown.</td></tr>
+        <tr><td><code>thinking_delta</code></td><td>Reasoning trace (shown collapsed by default).</td></tr>
+        <tr><td><code>subtask_start / done</code></td><td>The agent kicked off a sub-task in parallel.</td></tr>
+        <tr><td><code>context_usage</code></td><td>Token usage report. Useful for understanding cost.</td></tr>
+        <tr><td><code>ask_user</code></td><td>The agent paused and is asking a question (only in chat mode).</td></tr>
+        <tr><td><code>error</code></td><td>Something went wrong. Run transitions to <code>failed</code>.</td></tr>
+        <tr><td><code>done</code></td><td>Stage finished. Run continues to next stage or completes.</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      If you want to consume this stream programmatically (e.g. to mirror runs into your own dashboard),
+      subscribe to <code>GET /api/app-executions/:execId/stream</code>. Standard SSE — keep the connection
+      open and parse <code>event:</code> / <code>data:</code> framed messages.
+    </p>
+
+    <h2>Test runs vs real runs</h2>
+    <p>
+      Set <code>is_test: true</code> on a run and it's flagged as ephemeral. Test runs:
+    </p>
+    <ul>
+      <li>Don't count against your usage quotas in the same way as production runs.</li>
+      <li>Are filtered out of the App's "Runs" tab by default (toggle "Show test runs" to see them).</li>
+      <li>Use a separate <code>shared_session</code> namespace so a teammate's test runs don't pollute yours.</li>
+      <li>Are auto-purged after 30 days unless pinned.</li>
+    </ul>
+    <p>
+      The App editor uses test runs when you click <strong>Try it</strong> — exactly what you want while
+      iterating on prompts.
+    </p>
+
+    <h2>Human gates: pausing for approval</h2>
+    <p>
+      A <code>human</code> stage doesn't run code. It pauses the execution, displays the goal text and any
+      prior artifacts, and waits for you (or another permitted user) to act. The pause is stored in
+      <code>app_human_gate</code>:
+    </p>
+
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"id":           <span style="color:var(--aw-color-primary)">"gate_..."</span>,<br/>
+&nbsp;&nbsp;"execution_id": <span style="color:var(--aw-color-primary)">"exec_..."</span>,<br/>
+&nbsp;&nbsp;"stage_index":  <span style="color:var(--aw-color-primary)">2</span>,<br/>
+&nbsp;&nbsp;"message":      <span style="color:var(--aw-color-primary)">"Review these 47 enriched leads. Remove rows you don't want to email."</span>,<br/>
+&nbsp;&nbsp;"status":       <span style="color:var(--aw-color-primary)">"pending"</span>,    <span style="color:var(--aw-color-text-muted)">// pending | approved | rejected</span><br/>
+&nbsp;&nbsp;"response":     <span style="color:var(--aw-color-primary)">null</span>,<br/>
+&nbsp;&nbsp;"responded_at": <span style="color:var(--aw-color-primary)">null</span><br/>
+{`}`}
+    </div>
+
+    <h3>What a gate looks like in the UI</h3>
+    <div class="code-block" style="font-size:0.75rem;line-height:1.7;padding:1rem 1.25rem;">
+<span style="color:var(--aw-color-text-muted)">┌─────────────────────────────── Run #exec_8f4c2 ─────────────────┐</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span><strong>Stage 3 of 4 · Review</strong> &nbsp;<span class="pill amber" style="font-size:0.6rem;">paused</span><span style="color:var(--aw-color-text-muted)">                                  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│                                                                  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>Review these 47 enriched leads. Remove rows you don't want<span style="color:var(--aw-color-text-muted)">  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>to email.<span style="color:var(--aw-color-text-muted)">                                                       │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│                                                                  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>📎 enriched_leads.csv <span style="color:var(--aw-color-text-muted)">(47 rows)  [ View ]                       │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│                                                                  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>[ <strong>Approve &amp; continue</strong> ]&nbsp;&nbsp;[ Reject ]&nbsp;&nbsp;[ Edit input first ]<span style="color:var(--aw-color-text-muted)">     │</span><br/>
+<span style="color:var(--aw-color-text-muted)">└──────────────────────────────────────────────────────────────────┘</span>
+    </div>
+
+    <h3>The three buttons</h3>
+    <ul>
+      <li><strong>Approve &amp; continue</strong> — gate becomes <code>approved</code>, the next stage starts immediately.</li>
+      <li><strong>Reject</strong> — gate becomes <code>rejected</code>, the run transitions to <code>failed</code>.</li>
+      <li><strong>Edit input first</strong> — opens the artifact for editing (e.g. remove rows from the CSV), then on save the edited version is what Stage <em>n+1</em> reads.</li>
+    </ul>
+
+    <h3>Finding gates that need your attention</h3>
+    <p>
+      Open <strong>Pending gates</strong> from the top nav, or hit
+      <code>GET /api/app-executions/pending-gates</code>. Gates can be set up to ping you via email or Slack
+      when they go <code>pending</code> — useful for long-running pipelines where you might not be watching.
+    </p>
+
+    <h2>Cancelling a run</h2>
+    <p>
+      Click <strong>Cancel</strong> on a running execution, or send:
+    </p>
+    <div class="code-block">
+POST /api/app-executions/:execId/cancel<br/>
+Authorization: Bearer &lt;your_token&gt;
+    </div>
+    <p>
+      Cancellation:
+    </p>
+    <ul>
+      <li>Stops the currently-running stage. Already-completed stages stay completed; their artifacts are
+        preserved.</li>
+      <li>Closes the sandbox.</li>
+      <li>Transitions the execution to <code>cancelled</code>.</li>
+      <li>Refunds any unspent budget back to your balance.</li>
+    </ul>
+    <p>
+      You can later <strong>Resume</strong> from the next stage — see below.
+    </p>
+
+    <h2>Resuming from a specific stage</h2>
+    <p>
+      A real superpower: re-run only the stages that need re-running, reusing artifacts from the ones that
+      worked. Set <code>start_from_stage_index</code> on the run request:
+    </p>
+
+    <div class="code-block">
+POST /api/apps/:appId/run<br/>
+Content-Type: application/json<br/>
+<br/>
+{`{`}<br/>
+&nbsp;&nbsp;"input": {`{ ... same as before ... }`},<br/>
+&nbsp;&nbsp;"start_from_stage_index": 2,<br/>
+&nbsp;&nbsp;"prior_execution_id": "exec_8f4c2e1b"<br/>
+{`}`}
+    </div>
+
+    <p>
+      The platform loads stages 0 and 1's artifacts from <code>prior_execution_id</code> into the new
+      sandbox, then runs from stage 2 onward.
+    </p>
+
+    <h3>When you'd use this</h3>
+    <ul>
+      <li><strong>Last stage's draft was off.</strong> Stages 0–2 took 4 minutes and worked fine; stage 3's
+        email draft missed the tone. Tweak the App, then re-run from stage 3 — saves 4 minutes.</li>
+      <li><strong>Stage failed for an external reason</strong> (Connect token expired mid-run). Fix the
+        Connect, re-run from the failed stage with the same inputs.</li>
+      <li><strong>Human rejected a gate.</strong> Adjust the prior stage's prompt, re-run from there.</li>
+    </ul>
+
+    <p>
+      In the UI: open the run, click <strong>Re-run from stage…</strong>, pick the stage.
+    </p>
+
+    <h2>Run history</h2>
+    <p>
+      On the App page, the <strong>Runs</strong> tab lists every execution — most recent first. Each row
+      shows:
+    </p>
+
+    <table>
+      <thead><tr><th>Column</th><th>What it shows</th></tr></thead>
+      <tbody>
+        <tr><td>Status</td><td>One of the 5 pills (pending / running / completed / failed / cancelled).</td></tr>
+        <tr><td>Triggered by</td><td>You, a teammate, a Schedule, or the API.</td></tr>
+        <tr><td>Started</td><td>Timestamp in your workspace's time zone.</td></tr>
+        <tr><td>Duration</td><td>Total wall-clock time across all stages.</td></tr>
+        <tr><td>Cost</td><td>Sandbox seconds + LLM tokens converted to USD.</td></tr>
+        <tr><td>Inputs</td><td>The form values used. Click to expand.</td></tr>
+        <tr><td>Artifacts</td><td>Count, with quick-download for each.</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      Filters at the top let you narrow by status, date range, who triggered, and tag. The list is also
+      available at <code>GET /api/app-executions?app_id=...</code>.
+    </p>
+
+    <h2>Debugging failed runs</h2>
+
+    <h3>Step 1 — Read the error</h3>
+    <p>
+      Open the failed run. The first thing on the page is the error message and the stage where it
+      happened. Common shapes:
+    </p>
+
+    <table>
+      <thead><tr><th>Error</th><th>Almost always means</th></tr></thead>
+      <tbody>
+        <tr><td><code>stage_timeout</code></td><td>The stage took longer than <code>timeout_ms</code>. Increase it.</td></tr>
+        <tr><td><code>connect_unauthorized</code></td><td>A Connect was revoked or expired. Re-authorize.</td></tr>
+        <tr><td><code>required_input_missing</code></td><td>A required form field was blank. Mark less aggressively as required.</td></tr>
+        <tr><td><code>artifact_format_mismatch</code></td><td>The stage produced output in the wrong format (e.g. markdown when CSV declared).</td></tr>
+        <tr><td><code>sandbox_oom</code></td><td>Out of memory inside the sandbox. Heavy data processing — split into stages or use a script stage.</td></tr>
+        <tr><td><code>agent_gave_up</code></td><td>The agent decided the task couldn't be done. Read its reasoning — usually a missing input.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Step 2 — Debug in chat</h3>
+    <p>
+      Click <strong>Debug in chat</strong>. A chat opens with the failed run's full context — inputs,
+      partial artifacts, agent reasoning trace, error. Talk to the agent:
+    </p>
+    <div class="code-block">
+&gt; Why did this fail? What should I change in the App?
+    </div>
+    <p>
+      The agent diagnoses, suggests a fix, and (often) directly edits the App to apply it. You can then
+      re-run from the same point.
+    </p>
+
+    <h3>Step 3 — Retry or re-run</h3>
+    <ul>
+      <li><strong>Retry</strong> — same inputs, same App version, fresh sandbox. Sometimes flaky external
+        APIs just need a second try.</li>
+      <li><strong>Re-run from stage N</strong> — keeps prior artifacts. Use when only the late stages are broken.</li>
+      <li><strong>Edit App, then run</strong> — for systematic bugs (vague prompt, wrong format). Bumps
+        the App to a new version.</li>
+    </ul>
+
+    <h2>Sharing an execution</h2>
+    <p>
+      You can hand a teammate a read-only view of an execution — useful for "look what this App produced
+      yesterday" without giving them write access to the App itself.
+    </p>
+
+    <ol>
+      <li>Open the run.</li>
+      <li>Click <strong>Share</strong>.</li>
+      <li>Configure: artifacts to include, expiry, download allowed, password gate.</li>
+      <li>Get a public URL: <code>https://app.aitroop.net/s/{`<token>`}</code>.</li>
+    </ol>
+
+    <p>
+      Shares are persisted in the <code>share</code> table with a token, an unlock policy, and a download
+      handler. Revoke any time from <strong>Settings → Shares</strong>.
+    </p>
+
+    <h2>Triggering a run from the API</h2>
+    <p>
+      Useful when you want to run an App from a webhook, a CI pipeline, or another agent. The minimal call:
+    </p>
+
+    <div class="code-block">
+curl -X POST https://app.aitroop.net/api/apps/{`<appId>`}/run \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;-H "Content-Type: application/json" \<br/>
+&nbsp;&nbsp;-d '{`{`} "input": {`{ "company_name": "Stripe" }`} {`}`}'
+    </div>
+
+    <p>The response is the new <code>app_execution</code> with <code>status: "pending"</code>. To watch it:</p>
+
+    <div class="code-block">
+curl https://app.aitroop.net/api/app-executions/{`<execId>`}/stream \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;-N
+    </div>
+
+    <p>SSE stream until the run reaches a terminal state. Or poll <code>GET /api/app-executions/:execId</code>.</p>
+
+    <h2>FAQ &amp; troubleshooting</h2>
+
+    <p class="faq-q">My run is stuck in <code>pending</code> for minutes. What's wrong?</p>
+    <p>
+      <strong>Possible causes:</strong>
+    </p>
+    <ul>
+      <li>Sandbox provider cold start (rare; usually &lt;1 s).</li>
+      <li>You hit your plan's concurrent-run quota; the run is queued behind others.</li>
+      <li>The agent worker queue is backed up (status banner at <strong>Settings → Workspace</strong>).</li>
+    </ul>
+    <p>
+      <strong>Fix:</strong> if it's been &gt;2 minutes, cancel and re-run. Check the status banner. If
+      everything's green and it's still stuck, the run is queued — wait or cancel.
+    </p>
+
+    <p class="faq-q">Why does my completed run show "0 artifacts"?</p>
+    <p>
+      The App's stages didn't declare any <code>artifact_defs</code>, or the agent produced output that
+      didn't conform to the declared format and the platform discarded it. Open the run, scroll to the
+      affected stage, and look for a "format mismatch" warning. Fix the goal to be explicit about what to
+      produce, or change the declared format to <code>file</code> as an escape hatch.
+    </p>
+
+    <p class="faq-q">I cancelled a run, can I "un-cancel" it?</p>
+    <p>
+      No, but you can <strong>re-run from the last completed stage</strong>. The prior execution's
+      artifacts are preserved, so you don't lose work. Open the cancelled run, click <strong>Re-run from
+      stage…</strong>, pick the stage after the last one that completed.
+    </p>
+
+    <p class="faq-q">A human gate has been pending for 3 days. Did the run die?</p>
+    <p>
+      No. Gates wait indefinitely by default. The execution is parked, not failed. To clean up, either
+      respond to the gate or cancel the run.
+    </p>
+    <p>
+      If you want gates to auto-expire, add a timeout in the stage definition:
+      <code>"gate_timeout_ms": 86400000</code> for 24 hours. After the timeout, the gate transitions to
+      <code>rejected</code> and the run transitions to <code>failed</code>.
+    </p>
+
+    <p class="faq-q">Can I see what the agent was thinking?</p>
+    <p>
+      Yes. Click any stage in the run timeline to expand its reasoning trace. The trace shows the agent's
+      plan, every tool call with arguments and results, and its final commentary. For deeper detail,
+      toggle "Show thinking" — this exposes the model's internal reasoning blocks (when available).
+    </p>
+
+    <p class="faq-q">Why is the same App taking 2× longer this week than last week?</p>
+    <p>
+      <strong>Likely cause:</strong> the agent is making more tool calls. Either the prompt changed (check
+      <strong>Versions</strong>), the data being processed grew, or an external API got slower. Open both
+      runs side by side: the run log shows the count and duration of every tool call. Compare to find the
+      regression.
+    </p>
+
+    <p class="faq-q">I want to A/B test two versions of the same App. How?</p>
+    <p>
+      Fork the App (creates a private copy at v1), edit the copy, then run both Apps with the same inputs.
+      Compare the runs side by side from each App's Runs tab. For statistical depth, write a Schedule that
+      runs both versions every day on the same inputs and pipes results to a sheet.
+    </p>
+
+    <p class="faq-q">Can I trigger a run from Zapier / n8n / a curl command in CI?</p>
+    <p>
+      Yes — <code>POST /api/apps/:appId/run</code> with your bearer token. See the curl above. Most users
+      put the call in a webhook handler and wait on <code>GET /api/app-executions/:execId</code> to detect
+      completion. Outbound webhooks on completion are also supported via Schedule delivery destinations.
+    </p>
+
+    <div class="next-up">
+      <span class="label">Next</span>
+      <a href="/docs/schedules">Schedules — running on cron</a>
+    </div>
+  </DocsShell>
+</Layout>

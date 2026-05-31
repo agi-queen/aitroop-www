@@ -7,10 +7,19 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
   <DocsShell current="apps">
     <h1>Apps</h1>
     <p class="lead">
-      Operational guide to creating, running, editing, versioning, and sharing Apps. Companion to
-      <a href="/docs/concepts">Core concepts</a> (which covers the schema in detail) and the
-      <a href="/docs/quickstart">Quickstart</a> (which walks one example end-to-end).
+      An <strong>App</strong> is the unit of repeatable work in Aitroop. It's the difference between
+      <em>"I had a great chat with the agent yesterday"</em> and <em>"my team runs this every Monday and
+      it ships a report to Slack."</em> This page is the operational guide to creating, running, editing,
+      versioning, and sharing Apps. Companion to <a href="/docs/concepts">Core concepts</a> (schema
+      detail) and the <a href="/docs/quickstart">Quickstart</a> (full walkthrough).
     </p>
+
+    <div class="callout">
+      <strong>The mental model.</strong> An App = <em>a form</em> + <em>an ordered list of stages</em> +
+      <em>a declaration of what comes out</em>. The form makes it parametric. The stages make it
+      multi-step. The declared output makes it chainable and shareable. Strip away one and you have
+      something less than an App — strip away all three and you're just chatting.
+    </div>
 
     <h2>Creating an App — the 4-phase flow</h2>
     <p>
@@ -367,6 +376,85 @@ total_funding, last_round, last_round_date.
       <li>Stages 1 and 2's artifacts are reused. Stage 3 runs again with whatever you fixed.</li>
     </ol>
 
+    <p>From the API the same thing looks like:</p>
+    <div class="code-block">
+POST /api/apps/{`<appId>`}/run<br/>
+Content-Type: application/json<br/>
+<br/>
+{`{`}<br/>
+&nbsp;&nbsp;"input": {`{ ...same form values as the prior run... }`},<br/>
+&nbsp;&nbsp;"start_from_stage_index": 2,<br/>
+&nbsp;&nbsp;"prior_execution_id": "exec_8f4c2e1b"<br/>
+{`}`}
+    </div>
+
+    <p>
+      See <a href="/docs/executions">Executions</a> for the full execution lifecycle, cancel, gates, and
+      SSE streaming.
+    </p>
+
+    <!-- ── API ─────────────────────────────────────────── -->
+    <h2>Calling Apps from the API</h2>
+    <p>
+      Everything you can do in the UI is also available over REST. Useful when you want an App invoked
+      from a webhook, a CI job, another agent, or a teammate's own script.
+    </p>
+
+    <h3>Authentication</h3>
+    <p>
+      Get a token from <strong>Settings → API Tokens → Create</strong>. Treat it like a password — scope it
+      tightly, rotate it, never commit it. All endpoints expect:
+    </p>
+    <div class="code-block">
+Authorization: Bearer $AT_USER_TOKEN
+    </div>
+
+    <h3>The core endpoints</h3>
+    <table>
+      <thead><tr><th>Method &amp; Path</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td><code>GET /api/apps</code></td><td>List your Apps.</td></tr>
+        <tr><td><code>POST /api/apps</code></td><td>Create an App. Body is the full AppDef JSON.</td></tr>
+        <tr><td><code>GET /api/apps/:appId</code></td><td>Get an App's current definition.</td></tr>
+        <tr><td><code>PUT /api/apps/:appId</code></td><td>Update — saves a new version.</td></tr>
+        <tr><td><code>DELETE /api/apps/:appId</code></td><td>Archive the App (recoverable for 30 days).</td></tr>
+        <tr><td><code>POST /api/apps/:appId/run</code></td><td>Trigger an execution. Body has <code>input</code>, optional <code>is_test</code>, <code>start_from_stage_index</code>, <code>prior_execution_id</code>.</td></tr>
+        <tr><td><code>GET /api/app-executions/:execId</code></td><td>Poll for status / artifacts.</td></tr>
+        <tr><td><code>GET /api/app-executions/:execId/stream</code></td><td>SSE stream of live events.</td></tr>
+        <tr><td><code>POST /api/app-executions/:execId/cancel</code></td><td>Stop a running execution.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>End-to-end example: trigger an App, wait for it, download the artifact</h3>
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted)"># 1. Trigger the run</span><br/>
+EXEC=$(curl -s -X POST \<br/>
+&nbsp;&nbsp;https://app.aitroop.net/api/apps/app_8f4c2e1b/run \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;-H "Content-Type: application/json" \<br/>
+&nbsp;&nbsp;-d '{`{`} "input": {`{ "company_name": "Stripe" }`} {`}`}' \<br/>
+&nbsp;&nbsp;| jq -r .id)<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># 2. Wait until done (poll, or use SSE)</span><br/>
+while true; do<br/>
+&nbsp;&nbsp;STATUS=$(curl -s \<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;https://app.aitroop.net/api/app-executions/$EXEC \<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| jq -r .status)<br/>
+&nbsp;&nbsp;echo "status: $STATUS"<br/>
+&nbsp;&nbsp;[[ "$STATUS" == "completed" || "$STATUS" == "failed" ]] &amp;&amp; break<br/>
+&nbsp;&nbsp;sleep 5<br/>
+done<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># 3. Download the artifact</span><br/>
+ART=$(curl -s -H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;https://app.aitroop.net/api/app-executions/$EXEC/artifacts \<br/>
+&nbsp;&nbsp;| jq -r '.[0].id')<br/>
+curl -s -H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;https://app.aitroop.net/api/artifacts/$ART/download \<br/>
+&nbsp;&nbsp;-o brief.md
+    </div>
+
     <!-- ── DEBUG ─────────────────────────────────────────── -->
     <h2>When an App fails</h2>
     <p>Common failure modes and how to diagnose them:</p>
@@ -400,6 +488,87 @@ total_funding, last_round, last_round_date.
       <li><strong>Wrong input type.</strong> <code>textarea</code> for long text, not <code>text</code>. <code>select</code> for fixed options.</li>
       <li><strong>Over-decomposing.</strong> If a single conversation feels like one thought, one stage is enough. Don't pre-split.</li>
       <li><strong>Goal too short.</strong> A two-line goal often underperforms a 10-line goal with structure and constraints.</li>
+    </ul>
+
+    <h2>FAQ &amp; troubleshooting</h2>
+
+    <p class="faq-q">My App produces inconsistent output across runs. How do I tighten it?</p>
+    <p>
+      Two levers, in order:
+    </p>
+    <ol>
+      <li><strong>Tighten the goal.</strong> Add a numbered output structure, a word-count target, examples
+        of acceptable output. The agent matches more closely when the spec is more precise.</li>
+      <li><strong>Lower the model's freedom.</strong> Add to the goal: <em>"If you are unsure about any
+        section, say 'insufficient data' rather than guessing."</em> The agent prefers a hedged answer
+        over a confident one when given permission.</li>
+    </ol>
+    <p>
+      For truly deterministic transforms (parsing, filtering, formatting), replace the agent stage with a
+      <code>script</code> stage.
+    </p>
+
+    <p class="faq-q">Can a stage skip itself based on input?</p>
+    <p>
+      Yes — use <code>show_if</code> on the input that controls it (e.g.
+      <code>"show_if": "include_competitors == true"</code>), <em>and</em> use a conditional block in the
+      goal: <code>{`{{#if include_competitors}} ... {{/if}}`}</code>. The agent reads the unrendered goal,
+      so the conditional is what tells it whether to do the work.
+    </p>
+
+    <p class="faq-q">How do I pass the output of one App into another App?</p>
+    <p>
+      Two patterns:
+    </p>
+    <ul>
+      <li><strong>Schedule + webhook.</strong> Have App A's Schedule POST to App B's <code>/run</code> endpoint.
+        Pass the artifact URL as input.</li>
+      <li><strong>Chain via a script stage.</strong> Stage 1 calls App A via the API and reads the
+        artifact. Stages 2+ continue in the same App.</li>
+    </ul>
+    <p>
+      A native "App composition" feature is on the roadmap.
+    </p>
+
+    <p class="faq-q">Can two people edit the same App at once?</p>
+    <p>
+      Soft yes — each save is a new version, so two people editing in parallel won't overwrite each other.
+      But last-saved wins for the "current" pointer. For team Apps under active development, agree on an
+      owner or use the conversational edit (which is serialized through the agent).
+    </p>
+
+    <p class="faq-q">How do I get an export of an App's definition?</p>
+    <div class="code-block">
+curl https://app.aitroop.net/api/apps/{`<appId>`} \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;-o my-app.json
+    </div>
+    <p>
+      Save the JSON to git, share with a teammate, or paste into a new workspace via <code>POST /api/apps</code>.
+    </p>
+
+    <p class="faq-q">Can I import an App someone else exported?</p>
+    <p>
+      Yes. Open <strong>Apps → New → Import JSON</strong>, paste the AppDef, and click Save. The platform
+      validates and creates the App in your workspace. Required Skills and Connects are listed; you'll be
+      prompted to authorize Connects on first run.
+    </p>
+
+    <p class="faq-q">My App's goal references a Connect that the user hasn't authorized — what happens?</p>
+    <p>
+      The platform detects this <em>before</em> launching the sandbox. The run transitions to
+      <code>failed</code> with <code>connect_unauthorized</code>, naming the missing provider. The user is
+      prompted inline to authorize, then can retry. Scheduled runs alert the schedule owner.
+    </p>
+
+    <p class="faq-q">Can I limit who can run an App?</p>
+    <p>
+      Three controls:
+    </p>
+    <ul>
+      <li><strong>Visibility</strong> — private / team / public link.</li>
+      <li><strong>Role-gated runs</strong> — restrict by org role (admins-only, members-only). Configured under <strong>Apps → Settings</strong>.</li>
+      <li><strong>Per-user Connects</strong> — even if a teammate can run the App, the run uses <em>their</em> tokens, not yours.</li>
     </ul>
 
     <div class="next-up">

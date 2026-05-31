@@ -5,10 +5,33 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
 <Layout metadata={{ title: 'Quickstart — Aitroop Docs' }}>
   <DocsShell current="quickstart">
-    <h1>Quickstart</h1>
+    <h1>Quickstart — 15 minutes to your first App</h1>
     <p class="lead">
-      In about 15 minutes you'll have a working App on your account. This page is a complete operational
-      walkthrough: every click, every field, every example input. You don't need to know how to code.
+      By the time you finish this page, you'll have a real App in your account — one that researches any
+      company you give it and produces a one-page Markdown brief. You'll have built it by chatting with
+      the agent (no code), run it twice with different inputs, edited it in another conversation, and
+      optionally scheduled it to run every Monday. Every click, every field, every example message you
+      should type is below.
+    </p>
+
+    <div class="callout tip">
+      <strong>Skim or follow along.</strong> If you'd rather read first and try later, skim Steps 1–10
+      in five minutes — they tell the story without you having to type along. Each step ends with a
+      screenshot of what you should be seeing.
+    </div>
+
+    <h2>What you'll have built when you're done</h2>
+    <p>
+      An App called <code>Company Brief</code> that:
+    </p>
+    <ul>
+      <li>Takes a <strong>company name</strong> (required) and an optional <strong>website URL</strong>.</li>
+      <li>Lets you toggle whether to <strong>include competitors</strong>.</li>
+      <li>Researches the company on the open web, then writes a one-page Markdown brief.</li>
+      <li>Saves the brief as a downloadable, shareable, chainable <strong>Artifact</strong>.</li>
+    </ul>
+    <p>
+      Simple enough to finish in 15 minutes. Realistic enough that you'd actually use it.
     </p>
 
     <h2>Before you start</h2>
@@ -487,6 +510,93 @@ Approve and save as v2?
     <ul>
       <li>Skills: <strong>Sidebar → Skills</strong>, or ask the agent <em>"what Skills do I have?"</em></li>
       <li>Connects: <strong>Sidebar → Connects</strong> shows authorized + available providers.</li>
+    </ul>
+
+    <h2>Frequently asked questions</h2>
+
+    <p class="faq-q">Sign-up email never arrived.</p>
+    <p>
+      Check spam. Wait 2 minutes. If still missing, sign in with <strong>Continue with Google</strong> —
+      no email needed. If you must use email, click "Resend verification" on the sign-in screen.
+    </p>
+
+    <p class="faq-q">The agent isn't asking me clarifying questions.</p>
+    <p>
+      Your initial description was specific enough to fill in all 5 design slots. That's a good thing —
+      the agent jumps straight to Step 5 (review the design). Same flow from there. If you'd rather force
+      questions, end your message with <em>"Ask me anything you need to know first."</em>
+    </p>
+
+    <p class="faq-q">"Save as App" button is grayed out.</p>
+    <p>
+      The chat hasn't reached a saveable state. You need either (a) a recognizable trigger phrase in your
+      messages, or (b) at least one agent turn that looks like a complete task. Type <em>"save this as
+      an app"</em> instead — the App Builder will figure out an AppDef from the conversation.
+    </p>
+
+    <p class="faq-q">Form has the wrong fields after the App is saved.</p>
+    <p>
+      Don't worry, the App is editable. Two options:
+    </p>
+    <ul>
+      <li><strong>Conversational:</strong> on the App page, click <strong>Edit in chat</strong>. Tell the agent <em>"Change <code>company_name</code> to a textarea"</em>. Approve the diff.</li>
+      <li><strong>Direct:</strong> on the App page, click <strong>Edit</strong>. Change any field by hand. Save.</li>
+    </ul>
+    <p>Either way, the change creates a new version. Old versions stay accessible in the <strong>Versions</strong> tab.</p>
+
+    <p class="faq-q">First run failed. What now?</p>
+    <ol>
+      <li>Open the <strong>Runs</strong> tab on the App page.</li>
+      <li>Click the failed run.</li>
+      <li>Read the error at the top. Most common: timeout (bump <code>timeout_ms</code>), missing Connect (authorize), wrong format (edit goal).</li>
+      <li>Click <strong>Debug in chat</strong> — opens the failed run as a chat with full context. Ask <em>"why did this fail?"</em></li>
+    </ol>
+    <p>See <a href="/docs/executions">Executions</a> for the full debugging playbook.</p>
+
+    <p class="faq-q">Run took way longer than I expected.</p>
+    <p>
+      Three common reasons:
+    </p>
+    <ul>
+      <li><strong>Research stages.</strong> Web search + reasoning over 10+ results takes 30–90 seconds. Normal.</li>
+      <li><strong>Cold sandbox.</strong> First run after long idle: +1–3 seconds for sandbox provision.</li>
+      <li><strong>Vague goal.</strong> If the agent isn't sure what "good" looks like, it iterates. Tighten the goal — add structure, constraints, examples.</li>
+    </ul>
+
+    <p class="faq-q">How do I share this App with a teammate?</p>
+    <p>
+      Three levels:
+    </p>
+    <ul>
+      <li><strong>Private</strong> (default) — only you can see / run.</li>
+      <li><strong>Team</strong> — visible to your workspace. Open the App, click <strong>Share → Workspace</strong>.</li>
+      <li><strong>Public link</strong> — anyone with the link can run it. Open the App, click <strong>Share → Public link</strong>. Generates a token; revoke any time.</li>
+    </ul>
+    <p>
+      Connects under team Apps are <em>per-user</em> — your teammate authorizes their own Gmail, not yours.
+      See <a href="/docs/connects">Connects</a>.
+    </p>
+
+    <p class="faq-q">I want to call this App from a webhook / script.</p>
+    <p>One curl:</p>
+    <div class="code-block">
+curl -X POST https://app.aitroop.net/api/apps/{`<appId>`}/run \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;-H "Content-Type: application/json" \<br/>
+&nbsp;&nbsp;-d '{`{`} "input": {`{ "company_name": "Stripe" }`} {`}`}'
+    </div>
+    <p>
+      Get <code>$AT_USER_TOKEN</code> from <strong>Settings → API Tokens</strong>. The response includes the
+      execution ID; stream <code>GET /api/app-executions/:execId/stream</code> for live progress, or poll
+      <code>GET /api/app-executions/:execId</code> for the final state.
+    </p>
+
+    <p class="faq-q">Where can I learn the full set of features?</p>
+    <ul>
+      <li><a href="/docs/concepts">Core concepts</a> — the App JSON schema in detail.</li>
+      <li><a href="/docs/executions">Executions</a> — what happens at run time.</li>
+      <li><a href="/docs/sandbox">Sandbox</a> — what the agent can do inside.</li>
+      <li><a href="/docs/schedules">Schedules</a> — cron syntax and delivery destinations.</li>
     </ul>
 
     <div class="next-up">

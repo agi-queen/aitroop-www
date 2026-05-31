@@ -7,33 +7,45 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
   <DocsShell current="concepts">
     <h1>Core concepts</h1>
     <p class="lead">
-      The technical anatomy of an Aitroop App. This page is the reference companion to the Quickstart:
-      every field, every type, every option. About 12 minutes to read end-to-end.
+      The technical anatomy of an Aitroop App. This page is the reference companion to the
+      <a href="/docs/quickstart">Quickstart</a>: every field, every type, every option. About 15 minutes
+      to read end-to-end. You don't have to memorize it — bookmark it and come back when a concept
+      shows up.
     </p>
+
+    <div class="callout">
+      <strong>The 10-second model.</strong> An <strong>App</strong> is a recipe (JSON). An
+      <strong>Execution</strong> is a single time the recipe is cooked. A <strong>Stage</strong> is one
+      step in the recipe. An <strong>Artifact</strong> is what comes out of a stage. A <strong>Skill</strong>
+      is a tool the agent reaches for; a <strong>Connect</strong> is the OAuth bridge to your other
+      accounts. Everything else is detail.
+    </div>
 
     <h2>The App definition</h2>
     <p>
-      An <strong>App</strong> is a JSON document describing a runnable workflow. You don't write the JSON
-      yourself — the agent does — but knowing what it contains makes everything else clear. The top-level
-      shape:
+      An <strong>App</strong> is a JSON document persisted in <code>app_def</code>. You don't write the
+      JSON yourself — the agent does — but knowing what it contains makes everything else clear. The
+      top-level shape:
     </p>
 
     <div class="code-block" style="line-height:1.7;">
 {`{`}<br/>
+&nbsp;&nbsp;"id":              <span style="color:var(--aw-color-primary)">string</span>,           <span style="color:var(--aw-color-text-muted)">// auto-generated, "app_..."</span><br/>
 &nbsp;&nbsp;"name":            <span style="color:var(--aw-color-primary)">string</span>,           <span style="color:var(--aw-color-text-muted)">// "Company Brief"</span><br/>
 &nbsp;&nbsp;"description":     <span style="color:var(--aw-color-primary)">string</span>,           <span style="color:var(--aw-color-text-muted)">// one-sentence summary</span><br/>
 &nbsp;&nbsp;"icon":            <span style="color:var(--aw-color-primary)">string</span>,           <span style="color:var(--aw-color-text-muted)">// emoji, e.g. "🏢"</span><br/>
 &nbsp;&nbsp;"tags":            <span style="color:var(--aw-color-primary)">string[]</span>,         <span style="color:var(--aw-color-text-muted)">// ["research", "b2b"]</span><br/>
+&nbsp;&nbsp;"status":          <span style="color:var(--aw-color-primary)">"ready" | "draft"</span>,<br/>
+&nbsp;&nbsp;"version":         <span style="color:var(--aw-color-primary)">number</span>,           <span style="color:var(--aw-color-text-muted)">// auto-incremented per save</span><br/>
 &nbsp;&nbsp;"input_schema":    <span style="color:var(--aw-color-primary)">AppInput[]</span>,       <span style="color:var(--aw-color-text-muted)">// the form</span><br/>
-&nbsp;&nbsp;"stages":          <span style="color:var(--aw-color-primary)">AppStage[]</span>,       <span style="color:var(--aw-color-text-muted)">// what to do</span><br/>
+&nbsp;&nbsp;"stages":          <span style="color:var(--aw-color-primary)">AppStage[]</span>,       <span style="color:var(--aw-color-text-muted)">// what to do, in order</span><br/>
 &nbsp;&nbsp;"artifact_schema": <span style="color:var(--aw-color-primary)">AppArtifactDef[]</span>, <span style="color:var(--aw-color-text-muted)">// what to produce</span><br/>
-&nbsp;&nbsp;"resources":       <span style="color:var(--aw-color-primary)">{`{`}</span> skills: <span style="color:var(--aw-color-primary)">string[]</span>, connects: <span style="color:var(--aw-color-primary)">string[]</span> <span style="color:var(--aw-color-primary)">{`}`}</span><br/>
+&nbsp;&nbsp;"resources":       <span style="color:var(--aw-color-primary)">{`{`}</span> skills: <span style="color:var(--aw-color-primary)">string[]</span>, connects: <span style="color:var(--aw-color-primary)">string[]</span> <span style="color:var(--aw-color-primary)">{`}`}</span>,<br/>
+&nbsp;&nbsp;"examples":        <span style="color:var(--aw-color-primary)">AppExample[]</span>      <span style="color:var(--aw-color-text-muted)">// optional pre-filled samples</span><br/>
 {`}`}
     </div>
 
-    <p>
-      The formula in shorthand:
-    </p>
+    <p>The formula in shorthand:</p>
     <div class="code-block" style="text-align:center;padding:1.25rem;">
       <strong style="color:var(--aw-color-primary)">App</strong>&nbsp;=&nbsp;<strong style="color:var(--aw-color-primary)">AppInput</strong>[]&nbsp;+&nbsp;<strong style="color:var(--aw-color-primary)">Stage</strong>[]&nbsp;+&nbsp;<strong style="color:var(--aw-color-primary)">Artifact</strong>[]&nbsp;+&nbsp;<strong style="color:var(--aw-color-primary)">resources</strong>
     </div>
@@ -41,37 +53,40 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     <!-- ── APP INPUT ─────────────────────────────────────────── -->
     <h2>AppInput — the form fields</h2>
     <p>
-      Each entry in <code>input_schema</code> is one form field. The full type:
+      Each entry in <code>input_schema</code> is one form field your users fill in. The full type:
     </p>
     <div class="code-block" style="line-height:1.7;">
 {`{`}<br/>
-&nbsp;&nbsp;"id":          <span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// snake_case, e.g. "company_name"</span><br/>
-&nbsp;&nbsp;"label":       <span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// shown above the field</span><br/>
-&nbsp;&nbsp;"type":        <span style="color:var(--aw-color-primary)">AppInputType</span>,  <span style="color:var(--aw-color-text-muted)">// see table below</span><br/>
-&nbsp;&nbsp;"required":    <span style="color:var(--aw-color-primary)">boolean</span>,       <span style="color:var(--aw-color-text-muted)">// default false</span><br/>
-&nbsp;&nbsp;"placeholder": <span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// optional hint</span><br/>
-&nbsp;&nbsp;"default":     <span style="color:var(--aw-color-primary)">unknown</span>,       <span style="color:var(--aw-color-text-muted)">// optional pre-filled value</span><br/>
-&nbsp;&nbsp;"description": <span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// help text shown below</span><br/>
-&nbsp;&nbsp;"options":     <span style="color:var(--aw-color-primary)">{`{`} label, value {`}`}</span>[],   <span style="color:var(--aw-color-text-muted)">// for select/multiselect/radio</span><br/>
-&nbsp;&nbsp;"min", "max", "step": <span style="color:var(--aw-color-primary)">number</span>  <span style="color:var(--aw-color-text-muted)">// for number/slider</span><br/>
+&nbsp;&nbsp;"id":             <span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// snake_case, e.g. "company_name"</span><br/>
+&nbsp;&nbsp;"label":          <span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// shown above the field</span><br/>
+&nbsp;&nbsp;"type":           <span style="color:var(--aw-color-primary)">AppInputType</span>,  <span style="color:var(--aw-color-text-muted)">// see table below</span><br/>
+&nbsp;&nbsp;"required":       <span style="color:var(--aw-color-primary)">boolean</span>,       <span style="color:var(--aw-color-text-muted)">// default false; blocks Run when blank</span><br/>
+&nbsp;&nbsp;"placeholder":    <span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// optional hint shown inside the field</span><br/>
+&nbsp;&nbsp;"default":        <span style="color:var(--aw-color-primary)">unknown</span>,       <span style="color:var(--aw-color-text-muted)">// optional pre-filled value</span><br/>
+&nbsp;&nbsp;"dynamic_default":<span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// "{`{{today}}`}" etc — resolved at run time</span><br/>
+&nbsp;&nbsp;"description":    <span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// help text shown below</span><br/>
+&nbsp;&nbsp;"options":        <span style="color:var(--aw-color-primary)">{`{`} label, value {`}`}</span>[],   <span style="color:var(--aw-color-text-muted)">// for select/multiselect/radio</span><br/>
+&nbsp;&nbsp;"show_if":        <span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// conditional visibility, e.g. "tone == 'exec'"</span><br/>
+&nbsp;&nbsp;"min" | "max" | "step": <span style="color:var(--aw-color-primary)">number</span>   <span style="color:var(--aw-color-text-muted)">// for number/slider</span><br/>
 {`}`}
     </div>
 
-    <h3>The 11 input types</h3>
+    <h3>The 12 input types</h3>
     <table>
-      <thead><tr><th>Type</th><th>UI</th><th>Use it when</th></tr></thead>
+      <thead><tr><th>Type</th><th>UI</th><th>Use it when</th><th>Extra fields</th></tr></thead>
       <tbody>
-        <tr><td><code>text</code></td><td>Single-line text box</td><td>Short identifiers — names, URLs, IDs.</td></tr>
-        <tr><td><code>textarea</code></td><td>Multi-line text box</td><td>Long instructions, descriptions, content to process.</td></tr>
-        <tr><td><code>number</code></td><td>Numeric input</td><td>Counts, thresholds, prices. Pair with <code>min</code>/<code>max</code>.</td></tr>
-        <tr><td><code>select</code></td><td>Single-choice dropdown</td><td>3–10 fixed options, only one allowed.</td></tr>
-        <tr><td><code>multiselect</code></td><td>Multi-choice dropdown</td><td>3–10 fixed options, multiple allowed.</td></tr>
-        <tr><td><code>radio</code></td><td>Radio button group</td><td>2–4 options where seeing all of them at once helps.</td></tr>
-        <tr><td><code>boolean</code></td><td>Toggle / checkbox</td><td>Yes/no flags, optional features.</td></tr>
-        <tr><td><code>date</code></td><td>Date picker (one date)</td><td>"As of date", deadlines, anchor points.</td></tr>
-        <tr><td><code>daterange</code></td><td>Two date pickers</td><td>Windowed reports — "from X to Y".</td></tr>
-        <tr><td><code>file</code></td><td>File upload button</td><td>User uploads a fresh document each run (CSV, PDF, image).</td></tr>
-        <tr><td><code>slider</code></td><td>Numeric slider</td><td>Bounded ranges where a feel matters more than precision.</td></tr>
+        <tr><td><code>text</code></td><td>Single-line text box</td><td>Short identifiers — names, URLs, IDs.</td><td>—</td></tr>
+        <tr><td><code>textarea</code></td><td>Multi-line text box</td><td>Long instructions, descriptions, content to process.</td><td>—</td></tr>
+        <tr><td><code>number</code></td><td>Numeric input</td><td>Counts, thresholds, prices.</td><td><code>min</code>, <code>max</code>, <code>step</code></td></tr>
+        <tr><td><code>slider</code></td><td>Numeric slider</td><td>Bounded ranges where a feel matters more than precision.</td><td><code>min</code>, <code>max</code>, <code>step</code></td></tr>
+        <tr><td><code>select</code></td><td>Single-choice dropdown</td><td>3–10 fixed options, only one allowed.</td><td><code>options</code></td></tr>
+        <tr><td><code>multiselect</code></td><td>Multi-choice dropdown</td><td>3–10 fixed options, multiple allowed.</td><td><code>options</code></td></tr>
+        <tr><td><code>radio</code></td><td>Radio button group</td><td>2–4 options where showing all of them at once helps.</td><td><code>options</code></td></tr>
+        <tr><td><code>boolean</code></td><td>Toggle / checkbox</td><td>Yes/no flags, optional features.</td><td>—</td></tr>
+        <tr><td><code>date</code></td><td>Date picker</td><td>"As of date", deadlines, anchor points.</td><td>—</td></tr>
+        <tr><td><code>daterange</code></td><td>Two date pickers</td><td>Windowed reports — "from X to Y".</td><td>—</td></tr>
+        <tr><td><code>file</code></td><td>File upload button</td><td>User uploads a fresh document each run (CSV, PDF, image).</td><td>—</td></tr>
+        <tr><td><code>connect_file</code></td><td>File picker against a Connect</td><td>"Pick a Drive folder", "pick a Notion page" — uses your authorized Connect.</td><td>—</td></tr>
       </tbody>
     </table>
 
@@ -95,50 +110,96 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 ]
     </div>
 
+    <div class="callout tip">
+      <strong>Designing good forms.</strong> Default everything you can. Mark the absolute minimum as
+      <code>required</code>. Use <code>dynamic_default</code> for time-relative inputs
+      (<code>{`{{today}}`}</code>, <code>{`{{last_week_start}}`}</code>) so scheduled runs don't need any
+      input at all.
+    </div>
+
     <!-- ── STAGE ─────────────────────────────────────────────── -->
-    <h2>AppStage — what the agent does</h2>
+    <h2>AppStage — what gets done</h2>
     <p>
-      Each entry in <code>stages</code> is one step in the workflow. The full type:
+      Each entry in <code>stages</code> is one step in the workflow. Stages run in order; each can read
+      the artifacts produced by earlier stages.
     </p>
     <div class="code-block" style="line-height:1.7;">
 {`{`}<br/>
-&nbsp;&nbsp;"id":            <span style="color:var(--aw-color-primary)">string</span>,         <span style="color:var(--aw-color-text-muted)">// snake_case, e.g. "research_stage"</span><br/>
+&nbsp;&nbsp;"id":            <span style="color:var(--aw-color-primary)">string</span>,         <span style="color:var(--aw-color-text-muted)">// snake_case, e.g. "research"</span><br/>
 &nbsp;&nbsp;"name":          <span style="color:var(--aw-color-primary)">string</span>,         <span style="color:var(--aw-color-text-muted)">// display name</span><br/>
 &nbsp;&nbsp;"stage_type":    <span style="color:var(--aw-color-primary)">"agent" | "script" | "human"</span>,  <span style="color:var(--aw-color-text-muted)">// default "agent"</span><br/>
 &nbsp;&nbsp;"goal":          <span style="color:var(--aw-color-primary)">string</span>,         <span style="color:var(--aw-color-text-muted)">// the instruction with {`{{`}refs{`}}`}</span><br/>
 &nbsp;&nbsp;"system_prompt": <span style="color:var(--aw-color-primary)">string</span>,         <span style="color:var(--aw-color-text-muted)">// optional extra context</span><br/>
-&nbsp;&nbsp;"model":         <span style="color:var(--aw-color-primary)">string</span>,         <span style="color:var(--aw-color-text-muted)">// optional model override</span><br/>
+&nbsp;&nbsp;"model":         <span style="color:var(--aw-color-primary)">string</span>,         <span style="color:var(--aw-color-text-muted)">// default "claude-sonnet-4-6"</span><br/>
 &nbsp;&nbsp;"timeout_ms":    <span style="color:var(--aw-color-primary)">number</span>,         <span style="color:var(--aw-color-text-muted)">// default 180000 (3 min)</span><br/>
-&nbsp;&nbsp;"artifact_defs": <span style="color:var(--aw-color-primary)">AppArtifactDef[]</span> <span style="color:var(--aw-color-text-muted)">// what this stage produces</span><br/>
+&nbsp;&nbsp;"skills":        <span style="color:var(--aw-color-primary)">string[]</span>,       <span style="color:var(--aw-color-text-muted)">// stage-local skill list (overrides App-level)</span><br/>
+&nbsp;&nbsp;"connects":      <span style="color:var(--aw-color-primary)">string[]</span>,       <span style="color:var(--aw-color-text-muted)">// stage-local connect list</span><br/>
+&nbsp;&nbsp;"artifact_defs": <span style="color:var(--aw-color-primary)">AppArtifactDef[]</span>,<span style="color:var(--aw-color-text-muted)">// what this stage produces</span><br/>
+<br/>
+&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// for stage_type == "script":</span><br/>
+&nbsp;&nbsp;"script_lang":   <span style="color:var(--aw-color-primary)">"python" | "node"</span>,<br/>
+&nbsp;&nbsp;"script_code":   <span style="color:var(--aw-color-primary)">string</span>,<br/>
+<br/>
+&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// for stage_type == "human":</span><br/>
+&nbsp;&nbsp;"human_message": <span style="color:var(--aw-color-primary)">string</span>          <span style="color:var(--aw-color-text-muted)">// shown to the approver</span><br/>
 {`}`}
     </div>
 
-    <h3>The 3 stage types</h3>
-
-    <h3 style="margin-top:1.25rem;">1. <code>agent</code> stage (default — 90% of stages)</h3>
-    <p>
-      The agent runs the <code>goal</code> in an isolated sandbox, with access to the App's Skills and Connects.
-      It reads the inputs, does the work, produces the artifact.
-    </p>
-
-    <h3>2. <code>script</code> stage</h3>
-    <p>
-      Deterministic data transformation without an LLM. Used for steps where you want exact, repeatable behavior —
-      filter a CSV by column, deduplicate rows, format dates. Fast and free of model variability.
-    </p>
-
-    <h3>3. <code>human</code> stage</h3>
-    <p>
-      Pauses the run and waits for human input. The <code>goal</code> describes what to show the user.
-      Used for human-in-the-loop reviews — "approve these drafts before sending", "pick the best 5 of these 20 leads".
-      The run resumes after human input.
-    </p>
+    <h3>Comparing the three stage types</h3>
+    <table>
+      <thead><tr><th></th><th><code>agent</code> <span class="pill green">default</span></th><th><code>script</code></th><th><code>human</code></th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Runs what</strong></td>
+          <td>Claude with full reasoning + tool use</td>
+          <td>Python or Node code, no LLM</td>
+          <td>Waits for a person</td>
+        </tr>
+        <tr>
+          <td><strong>Use for</strong></td>
+          <td>Research, drafting, summarization, anything ambiguous</td>
+          <td>Exact transforms — filter CSV, dedupe, format dates</td>
+          <td>Approval gates, "pick the best N"</td>
+        </tr>
+        <tr>
+          <td><strong>Latency</strong></td>
+          <td>20 s – 10 min</td>
+          <td>&lt; 1 s typical</td>
+          <td>However long the human takes</td>
+        </tr>
+        <tr>
+          <td><strong>Cost driver</strong></td>
+          <td>LLM tokens + sandbox seconds</td>
+          <td>Sandbox seconds only</td>
+          <td>Zero compute cost</td>
+        </tr>
+        <tr>
+          <td><strong>Deterministic?</strong></td>
+          <td>No (LLM stochasticity)</td>
+          <td>Yes — same input, same output</td>
+          <td>No (human variability)</td>
+        </tr>
+      </tbody>
+    </table>
 
     <h3>Writing the <code>goal</code> field</h3>
     <p>
-      The goal is the agent's instruction. It can reference input fields with <code>{`{{ field_id }}`}</code>.
-      A real example from the App Builder skill:
+      The goal is the agent's instruction. Inside the goal you can reference inputs and prior stage
+      artifacts with template syntax:
     </p>
+
+    <table>
+      <thead><tr><th>Reference</th><th>Resolves to</th></tr></thead>
+      <tbody>
+        <tr><td><code>{`{{company_name}}`}</code></td><td>The value the user typed into the <code>company_name</code> input.</td></tr>
+        <tr><td><code>{`{{stages.research.brief}}`}</code></td><td>The <code>brief</code> artifact produced by the <code>research</code> stage.</td></tr>
+        <tr><td><code>{`{{today}}`}</code></td><td>Run date in <code>YYYY-MM-DD</code> in the workspace's time zone.</td></tr>
+        <tr><td><code>{`{{user.email}}`}</code></td><td>The email of the user who triggered the run.</td></tr>
+        <tr><td><code>{`{{#if x}} ... {{/if}}`}</code></td><td>Conditional sections — included only if <code>x</code> is truthy.</td></tr>
+      </tbody>
+    </table>
+
+    <p>A real example:</p>
     <div class="code-block" style="line-height:1.7;">
 Research <span style="color:var(--aw-color-primary)">{`{{company_name}}`}</span> (<span style="color:var(--aw-color-primary)">{`{{company_url}}`}</span>) and write a comprehensive<br/>
 competitive analysis covering:<br/>
@@ -149,25 +210,29 @@ competitive analysis covering:<br/>
 4. Recent news and strategic moves<br/>
 5. Strengths, weaknesses, opportunities, threats<br/>
 <br/>
+<span style="color:var(--aw-color-primary)">{`{{#if include_competitors}}`}</span><br/>
+6. Top 3–5 direct competitors with a one-paragraph profile each.<br/>
+<span style="color:var(--aw-color-primary)">{`{{/if}}`}</span><br/>
+<br/>
 Produce a Markdown report titled "<span style="color:var(--aw-color-primary)">{`{{company_name}}`}</span> Competitive<br/>
-Analysis" with clear sections for each topic. Save it as<br/>
-the "competitive_analysis" artifact.
+Analysis" and save it as the "competitive_analysis" artifact.
     </div>
 
     <p>A good goal is:</p>
     <ul>
       <li><strong>Specific</strong> — names the inputs to use and what to do with them.</li>
       <li><strong>Output-aware</strong> — names the artifact ID and format.</li>
-      <li><strong>Actionable</strong> — uses imperative verbs ("Research", "Write", "Analyze").</li>
+      <li><strong>Actionable</strong> — imperative verbs ("Research", "Write", "Analyze").</li>
+      <li><strong>Structured</strong> — a 10-line goal with numbered sections almost always beats a 2-line one.</li>
     </ul>
 
     <!-- ── ARTIFACT ──────────────────────────────────────────── -->
-    <h2>AppArtifactDef — what the stage produces</h2>
+    <h2>AppArtifactDef — what each stage produces</h2>
     <div class="code-block" style="line-height:1.7;">
 {`{`}<br/>
 &nbsp;&nbsp;"id":          <span style="color:var(--aw-color-primary)">string</span>,    <span style="color:var(--aw-color-text-muted)">// snake_case, e.g. "final_report"</span><br/>
 &nbsp;&nbsp;"title":       <span style="color:var(--aw-color-primary)">string</span>,    <span style="color:var(--aw-color-text-muted)">// display name</span><br/>
-&nbsp;&nbsp;"format":      <span style="color:var(--aw-color-primary)">string</span>,    <span style="color:var(--aw-color-text-muted)">// see formats below</span><br/>
+&nbsp;&nbsp;"format":      <span style="color:var(--aw-color-primary)">ArtifactFormat</span>, <span style="color:var(--aw-color-text-muted)">// see table below</span><br/>
 &nbsp;&nbsp;"language":    <span style="color:var(--aw-color-primary)">string</span>,    <span style="color:var(--aw-color-text-muted)">// for format="code", e.g. "python"</span><br/>
 &nbsp;&nbsp;"description": <span style="color:var(--aw-color-primary)">string</span><br/>
 {`}`}
@@ -175,17 +240,23 @@ the "competitive_analysis" artifact.
 
     <p>Seven supported formats:</p>
     <table>
-      <thead><tr><th>format</th><th>Used for</th></tr></thead>
+      <thead><tr><th><code>format</code></th><th>Used for</th><th>Preview</th></tr></thead>
       <tbody>
-        <tr><td><code>markdown</code></td><td>Reports, briefings, drafts. Default for prose.</td></tr>
-        <tr><td><code>code</code></td><td>Source code. Set <code>language</code> to <code>python</code>, <code>typescript</code>, etc.</td></tr>
-        <tr><td><code>html</code></td><td>Rendered web pages, dashboards, slide decks.</td></tr>
-        <tr><td><code>json</code></td><td>Structured data. Default for downstream-consumption.</td></tr>
-        <tr><td><code>csv</code></td><td>Tabular data — lead lists, transactions.</td></tr>
-        <tr><td><code>image</code></td><td>Generated images, charts, diagrams.</td></tr>
-        <tr><td><code>file</code></td><td>Anything else — PDF, ZIP, audio, video, binary.</td></tr>
+        <tr><td><code>markdown</code></td><td>Reports, briefings, drafts</td><td>Rendered with GFM, tables, code fences, Mermaid.</td></tr>
+        <tr><td><code>code</code></td><td>Source code, single file or a tree</td><td>Syntax-highlighted, with a file tree for multi-file output.</td></tr>
+        <tr><td><code>html</code></td><td>Rendered pages, dashboards, slides</td><td>Sandboxed iframe; scripts allowed but isolated.</td></tr>
+        <tr><td><code>json</code></td><td>Structured data for downstream systems</td><td>Collapsible tree with type info.</td></tr>
+        <tr><td><code>csv</code></td><td>Tabular data — leads, transactions</td><td>Sortable, filterable spreadsheet view.</td></tr>
+        <tr><td><code>image</code></td><td>Generated images, charts, diagrams</td><td>Zoom &amp; pan. PNG / JPEG / SVG / WebP.</td></tr>
+        <tr><td><code>file</code></td><td>Anything else — PDF, ZIP, audio, video</td><td>Type-aware: PDF inline, audio player, ZIP listing.</td></tr>
       </tbody>
     </table>
+
+    <p>
+      All artifacts are stored in S3 (or R2 if you self-host) under <code>app_artifact.s3_key</code>, with
+      MIME type and byte size recorded. Stored for the lifetime of the App; deleted App archives are
+      recoverable for 30 days.
+    </p>
 
     <!-- ── RESOURCES ─────────────────────────────────────────── -->
     <h2>Resources — Skills and Connects the App needs</h2>
@@ -196,18 +267,75 @@ the "competitive_analysis" artifact.
 {`}`}
     </div>
     <p>
-      <strong>Skills</strong> are capability modules the agent can call (web search, PDF extraction, image generation).
-      <strong>Connects</strong> are OAuth provider keys for the integrations the App uses (Google, HubSpot, GitHub).
-      When a user runs the App for the first time and a required Connect isn't authorized, the platform
-      prompts them to authorize it inline.
+      <strong>Skills</strong> are capability modules the agent can call (web search, PDF extraction, image
+      generation). <strong>Connects</strong> are OAuth provider keys for the integrations the App uses
+      (Google, HubSpot, GitHub). When a user runs the App for the first time and a required Connect isn't
+      authorized, the platform prompts them to authorize it inline.
     </p>
-    <p>See <a href="/docs/skills">Skills</a> and <a href="/docs/connects">Connects</a> for full lists.</p>
+    <p>
+      Resources can be declared App-wide (as above) or per-stage (under <code>stage.skills</code> /
+      <code>stage.connects</code>). Per-stage scoping is the way to make a multi-stage App safer — give
+      stage 1 only <code>web-search</code>, stage 2 only the CRM Connect, and so on.
+    </p>
+    <p>
+      See <a href="/docs/skills">Skills</a> and <a href="/docs/connects">Connects</a> for full lists and
+      operational detail.
+    </p>
+
+    <!-- ── EXECUTIONS ─────────────────────────────────── -->
+    <h2>Executions — when an App actually runs</h2>
+    <p>
+      An <strong>Execution</strong> is one trip through an App's stages. It's the thing with a status, a
+      stage log, a duration, and a final set of artifacts.
+    </p>
+
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"id":           <span style="color:var(--aw-color-primary)">"exec_..."</span>,<br/>
+&nbsp;&nbsp;"app_id":       <span style="color:var(--aw-color-primary)">"app_..."</span>,<br/>
+&nbsp;&nbsp;"status":       <span style="color:var(--aw-color-primary)">"pending" | "running" | "completed" | "failed" | "cancelled"</span>,<br/>
+&nbsp;&nbsp;"input":        <span style="color:var(--aw-color-primary)">{`{ ...form values }`}</span>,<br/>
+&nbsp;&nbsp;"is_test":      <span style="color:var(--aw-color-primary)">boolean</span>,<br/>
+&nbsp;&nbsp;"duration_ms":  <span style="color:var(--aw-color-primary)">number</span>,<br/>
+&nbsp;&nbsp;"start_from_stage_index": <span style="color:var(--aw-color-primary)">number</span>,  <span style="color:var(--aw-color-text-muted)">// for resumes</span><br/>
+&nbsp;&nbsp;"prior_execution_id":     <span style="color:var(--aw-color-primary)">string | null</span>&nbsp;<span style="color:var(--aw-color-text-muted)">// when resuming</span><br/>
+{`}`}
+    </div>
+
+    <p>
+      Every stage in the execution gets its own <code>app_stage_log</code> row with status, duration, the
+      session ID (so you can open it as a chat), the expanded goal, and any error. See
+      <a href="/docs/executions">Executions</a> for the full lifecycle, debug flows, and SSE streaming.
+    </p>
+
+    <!-- ── SANDBOX ─────────────────────────────────── -->
+    <h2>Sandbox — where the agent does its work</h2>
+    <p>
+      Every chat and every App stage runs inside a <strong>sandbox</strong>: an isolated runtime with its
+      own filesystem, its own processes, and outbound network. The agent can <code>pip install</code>,
+      run shell commands, write files, fetch URLs — and when the run ends, the sandbox is destroyed.
+    </p>
+
+    <p>
+      Three providers under one interface (<code>ISandbox</code>):
+    </p>
+    <ul>
+      <li><code>host</code> — runs on the Aitroop server itself. Self-hosted dev installs only.</li>
+      <li><code>e2b</code> — Firecracker microVMs from E2B. Default for hosted Aitroop.</li>
+      <li><code>daytona</code> — managed dev containers from Daytona. For heavy / longer-running stages.</li>
+    </ul>
+
+    <p>
+      All stages in a single execution share the same sandbox, so stage 2 can read what stage 1 wrote.
+      Different executions get different sandboxes — nothing leaks across runs. See <a href="/docs/sandbox">Sandbox</a>
+      for capabilities, timeouts, security model, and troubleshooting.
+    </p>
 
     <!-- ── MULTI-STAGE ─────────────────────────────────────── -->
     <h2>Multi-stage Apps</h2>
     <p>
-      When a workflow naturally has steps that feed each other, define multiple stages. Each stage's artifact
-      becomes available to the next stage as context.
+      When a workflow naturally has steps that feed each other, define multiple stages. Each stage's
+      artifact becomes available to the next stage as <code>{`{{ stages.<stageId>.<artifactId> }}`}</code>.
     </p>
 
     <div class="code-block" style="line-height:1.85;">
@@ -224,8 +352,8 @@ stages: [<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;artifact_defs: [{`{`} id: "enriched", format: "csv" {`}`}] <span style="color:var(--aw-color-primary)">{`}`}</span>,<br/>
 <br/>
 &nbsp;&nbsp;<span style="color:var(--aw-color-primary)">{`{`} id: "review", stage_type: "human",</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;goal: "Review the enriched leads. Remove rows you<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;don't want to contact." <span style="color:var(--aw-color-primary)">{`}`}</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;human_message: "Review the enriched leads. Remove rows<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;you don't want to contact." <span style="color:var(--aw-color-primary)">{`}`}</span>,<br/>
 <br/>
 &nbsp;&nbsp;<span style="color:var(--aw-color-primary)">{`{`} id: "draft", stage_type: "agent",</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;goal: "Draft personalized outreach for the<br/>
@@ -236,11 +364,10 @@ stages: [<br/>
 
     <p>
       Notice the <code>human</code> stage between two <code>agent</code> stages — that's the
-      <strong>human-in-the-loop</strong> pattern. The run pauses there, shows the goal text to the user,
-      waits for their input, then continues.
+      <strong>human-in-the-loop</strong> pattern. The run pauses there, shows the message and the prior
+      artifact, and waits for approval. The next stage runs only after the gate is approved.
     </p>
 
-    <!-- ── HOW APPS GET CREATED ──────────────────────────────── -->
     <h2>How Apps actually get created</h2>
     <p>
       You don't write the App JSON by hand. The agent does it. The flow:
@@ -265,6 +392,7 @@ stages: [<br/>
       <li><strong>Too many required inputs</strong> — users abandon Apps with long forms. Default everything you can.</li>
       <li><strong>Undersized timeout</strong> — heavy research stages need 5–10 min. Bump <code>timeout_ms</code> to <code>600000</code>.</li>
       <li><strong>Wrong input type</strong> — use <code>textarea</code> for long text, <code>text</code> for short identifiers, <code>select</code> when there are 3–6 fixed options.</li>
+      <li><strong>Over-decomposing</strong> — splitting a one-thought task into 4 stages. Use multi-stage only when the work naturally has separable steps.</li>
     </ul>
 
     <h2>Quick glossary</h2>
@@ -272,21 +400,25 @@ stages: [<br/>
       <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
       <tbody>
         <tr><td><strong>App</strong></td><td>A saved workflow JSON document with form, stages, and artifacts.</td></tr>
-        <tr><td><strong>AppInput</strong></td><td>One form field. 11 supported types.</td></tr>
-        <tr><td><strong>Stage</strong></td><td>One step in the workflow. Types: agent, script, human.</td></tr>
+        <tr><td><strong>AppInput</strong></td><td>One form field. 12 supported types.</td></tr>
+        <tr><td><strong>Stage</strong></td><td>One step in the workflow. Types: <code>agent</code>, <code>script</code>, <code>human</code>.</td></tr>
         <tr><td><strong>Goal</strong></td><td>The agent's instruction string inside a stage. References inputs with <code>{`{{id}}`}</code>.</td></tr>
         <tr><td><strong>Artifact</strong></td><td>The deliverable a stage produces. Typed (markdown, csv, etc).</td></tr>
         <tr><td><strong>Skill</strong></td><td>A capability the agent can call (web-search, pdf-extract, etc).</td></tr>
         <tr><td><strong>Connect</strong></td><td>OAuth integration to an external service (google, github, hubspot).</td></tr>
         <tr><td><strong>Resources</strong></td><td>The Skills and Connects an App declares it needs.</td></tr>
-        <tr><td><strong>Sandbox</strong></td><td>Isolated runtime each chat or App run executes in.</td></tr>
+        <tr><td><strong>Execution</strong></td><td>One run of an App. Has a status, stage logs, and artifacts.</td></tr>
+        <tr><td><strong>Stage log</strong></td><td>The per-stage record of an execution — status, duration, error, session.</td></tr>
+        <tr><td><strong>Human gate</strong></td><td>A paused execution waiting for human approve / reject / edit.</td></tr>
+        <tr><td><strong>Sandbox</strong></td><td>Isolated runtime each chat or App run executes in. Three providers: host / e2b / daytona.</td></tr>
         <tr><td><strong>Workspace</strong></td><td>Account container — holds Apps, Connects, run history.</td></tr>
+        <tr><td><strong>Org</strong></td><td>Team layer on top of users. Shared Apps, shared billing, member roles.</td></tr>
       </tbody>
     </table>
 
     <div class="next-up">
       <span class="label">Next</span>
-      <a href="/docs/chat">Chat mode — operational details</a>
+      <a href="/docs/chat">Chat mode — the agent cockpit</a>
     </div>
   </DocsShell>
 </Layout>
