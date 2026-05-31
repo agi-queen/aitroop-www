@@ -2,51 +2,456 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ════════════════════════════════════════════════════════════════════
+   UTILITIES — design-token bridges
+   ════════════════════════════════════════════════════════════════════ */
 @layer utilities {
-  .bg-page   { background-color: var(--aw-color-bg-page); }
-  .bg-subtle { background-color: var(--aw-color-bg-subtle); }
-  .bg-dark   { background-color: var(--aw-color-bg-page-dark); }
-  .bg-light  { background-color: var(--aw-color-bg-page); }
-  .text-page { color: var(--aw-color-text-default); }
+  .bg-page    { background-color: var(--aw-color-bg-page); }
+  .bg-subtle  { background-color: var(--aw-color-bg-subtle); }
+  .bg-dark    { background-color: var(--aw-color-bg-page-dark); }
+  .bg-light   { background-color: var(--aw-color-bg-page); }
+  .text-page  { color: var(--aw-color-text-default); }
   .text-muted { color: var(--aw-color-text-muted); }
+  .text-heading { color: var(--aw-color-text-heading); }
+  .border-default { border-color: var(--aw-color-border); }
+  .ring-primary-soft { --tw-ring-color: rgba(82, 153, 97, 0.45); }
 }
 
+/* ════════════════════════════════════════════════════════════════════
+   DESIGN SYSTEM — shared component classes (aw-* prefixed)
+   These are the primitives every page composes from.
+   ════════════════════════════════════════════════════════════════════ */
 @layer components {
-  /* ── Base button — matches aitroop-system buttonVariants ── */
+  /* ── Layout containers ──────────────────────────────────────────── */
+  .aw-container {
+    max-width: 64rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .aw-container { padding-left: 2.5rem; padding-right: 2.5rem; }
+  }
+  .aw-container-narrow {
+    max-width: 36rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    text-align: center;
+  }
+  .aw-container-wide {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .aw-container-wide { padding-left: 2.5rem; padding-right: 2.5rem; }
+  }
+
+  /* ── Section rhythm ─────────────────────────────────────────────── */
+  .aw-hero {
+    padding-top: 5rem;
+    padding-bottom: 4rem;
+  }
+  @media (min-width: 768px) {
+    .aw-hero { padding-top: 7rem; padding-bottom: 6rem; }
+  }
+
+  .aw-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    border-top: 1px solid var(--aw-color-border);
+  }
+  @media (min-width: 768px) {
+    .aw-section { padding-top: 7rem; padding-bottom: 7rem; }
+  }
+
+  .aw-section-flush {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+  @media (min-width: 768px) {
+    .aw-section-flush { padding-top: 7rem; padding-bottom: 7rem; }
+  }
+
+  .aw-section-head {
+    margin-bottom: 3rem;
+  }
+  @media (min-width: 768px) {
+    .aw-section-head { margin-bottom: 4rem; }
+  }
+
+  /* ── Eyebrow (small uppercase primary label) ────────────────────── */
+  .aw-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--aw-color-primary);
+    margin: 0 0 1.125rem;
+    line-height: 1;
+  }
+  .aw-eyebrow::before {
+    content: '';
+    width: 1.25rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+  }
+
+  .aw-eyebrow-mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--aw-color-text-muted);
+    margin: 0 0 0.625rem;
+    line-height: 1;
+    font-weight: 600;
+    display: inline-block;
+  }
+
+  /* ── Typography scale ───────────────────────────────────────────── */
+  .aw-display {
+    font-size: clamp(2.25rem, 4.8vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.06;
+    color: var(--aw-color-text-heading);
+    margin: 0 0 1.25rem;
+    text-wrap: balance;
+  }
+
+  .aw-h1 {
+    font-size: clamp(2rem, 4vw, 2.875rem);
+    font-weight: 700;
+    letter-spacing: -0.028em;
+    line-height: 1.1;
+    color: var(--aw-color-text-heading);
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .aw-h2 {
+    font-size: clamp(1.75rem, 3.2vw, 2.25rem);
+    font-weight: 700;
+    letter-spacing: -0.024em;
+    line-height: 1.15;
+    color: var(--aw-color-text-heading);
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .aw-h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+    color: var(--aw-color-text-heading);
+    margin: 0;
+    line-height: 1.35;
+  }
+
+  .aw-lede {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--aw-color-text-muted);
+    max-width: 44ch;
+    margin: 0 0 2rem;
+    text-wrap: pretty;
+  }
+  .aw-container-narrow .aw-lede { margin-left: auto; margin-right: auto; }
+
+  .aw-lede a {
+    color: var(--aw-color-primary);
+    text-decoration: underline;
+    text-decoration-color: rgba(82, 153, 97, 0.4);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-color 160ms ease;
+  }
+  .aw-lede a:hover { text-decoration-color: var(--aw-color-primary); }
+
+  /* ── Inline code ────────────────────────────────────────────────── */
+  .aw-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.86em;
+    padding: 0.12em 0.42em;
+    border-radius: 5px;
+    background: rgba(82, 153, 97, 0.08);
+    border: 1px solid rgba(82, 153, 97, 0.18);
+    color: rgb(45, 110, 63);
+    font-weight: 500;
+  }
+
+  /* ── Buttons ────────────────────────────────────────────────────── */
+  .aw-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 2.625rem;
+    padding: 0 1.25rem;
+    border-radius: 8px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    line-height: 1;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    cursor: pointer;
+    user-select: none;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      color 160ms ease,
+      box-shadow 200ms ease,
+      transform 160ms ease;
+  }
+  .aw-btn:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--aw-color-bg-page),
+      0 0 0 4px rgba(82, 153, 97, 0.45);
+  }
+  .aw-btn:disabled { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
+
+  .aw-btn-primary {
+    background: var(--aw-color-primary);
+    color: #fff;
+    border-color: rgba(0, 0, 0, 0.04);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      0 1px 2px rgba(45, 110, 63, 0.22),
+      0 6px 16px -8px rgba(82, 153, 97, 0.45);
+  }
+  .aw-btn-primary:hover {
+    background: var(--aw-color-secondary);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 2px 4px rgba(45, 110, 63, 0.28),
+      0 12px 24px -10px rgba(82, 153, 97, 0.55);
+  }
+  .aw-btn-primary:active {
+    background: var(--aw-color-accent);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .aw-btn-ghost {
+    background: var(--aw-color-bg-page);
+    color: var(--aw-color-text-default);
+    border-color: var(--aw-color-border);
+  }
+  .aw-btn-ghost:hover {
+    background: rgba(0, 0, 0, 0.025);
+    border-color: rgba(0, 0, 0, 0.18);
+    color: var(--aw-color-text-heading);
+  }
+  .aw-btn-ghost:active { background: rgba(0, 0, 0, 0.045); }
+
+  .aw-btn-link {
+    background: transparent;
+    color: var(--aw-color-primary);
+    border-color: transparent;
+    height: auto;
+    padding: 0;
+    text-decoration: underline;
+    text-decoration-color: rgba(82, 153, 97, 0.4);
+    text-underline-offset: 3px;
+  }
+  .aw-btn-link:hover { text-decoration-color: var(--aw-color-primary); }
+
+  /* Button row */
+  .aw-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.625rem;
+  }
+  .aw-actions-center { justify-content: center; }
+
+  /* ── Legacy .btn alias — preserved for Button.astro / Header etc. ── */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap
-           rounded-[6px]
-           border border-[rgba(0,0,0,0.12)]
-           bg-transparent
-           font-medium text-sm text-page leading-none
-           h-9 px-4
-           transition-colors duration-150
-           hover:bg-[rgba(0,0,0,0.04)] hover:border-[rgba(0,0,0,0.18)]
-           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--aw-color-primary)] focus-visible:ring-offset-1
-           disabled:pointer-events-none disabled:opacity-50
-           cursor-pointer;
+    @apply aw-btn aw-btn-ghost;
   }
-
-  /* ── Primary: solid green ── */
   .btn-primary {
-    @apply btn
-           bg-primary text-white border-primary
-           hover:bg-secondary hover:border-secondary hover:bg-[rgb(61_133_79)];
+    @apply aw-btn aw-btn-primary;
   }
-
-  /* ── Secondary: outline ── */
   .btn-secondary {
-    @apply btn;
+    @apply aw-btn aw-btn-ghost;
+  }
+  .btn-tertiary {
+    background: transparent;
+    color: var(--aw-color-text-muted);
+    border-color: transparent;
+    box-shadow: none;
+    @apply aw-btn;
+  }
+  .btn-tertiary:hover {
+    color: var(--aw-color-text-default);
+    background: rgba(0, 0, 0, 0.04);
   }
 
-  /* ── Tertiary: ghost ── */
-  .btn-tertiary {
-    @apply btn border-transparent shadow-none text-muted
-           hover:bg-[rgba(0,0,0,0.05)] hover:border-transparent;
+  /* ── Crumbs (breadcrumb row) ────────────────────────────────────── */
+  .aw-crumbs {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    color: var(--aw-color-text-muted);
+    margin: 0 0 2rem;
+  }
+  .aw-crumbs a {
+    color: var(--aw-color-text-muted);
+    text-decoration: underline;
+    text-decoration-color: var(--aw-color-border);
+    text-underline-offset: 3px;
+    transition: color 160ms ease, text-decoration-color 160ms ease;
+  }
+  .aw-crumbs a:hover {
+    color: var(--aw-color-primary);
+    text-decoration-color: var(--aw-color-primary);
+  }
+  .aw-crumbs span[aria-hidden] { opacity: 0.5; }
+
+  /* ── Tag / pill chips ──────────────────────────────────────────── */
+  .aw-tag {
+    display: inline-flex;
+    align-items: center;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    padding: 0.3125rem 0.625rem;
+    border: 1px solid var(--aw-color-border);
+    border-radius: 6px;
+    color: var(--aw-color-text-default);
+    background: var(--aw-color-bg-page);
+    line-height: 1;
+    transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+  }
+  .aw-tag-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  .aw-tag-accent {
+    color: var(--aw-color-primary);
+    border-color: rgba(82, 153, 97, 0.28);
+    background: rgba(82, 153, 97, 0.06);
+  }
+
+  /* ── Animated arrow (inline) ───────────────────────────────────── */
+  .aw-arrow {
+    display: inline-block;
+    transition: transform 220ms ease;
+  }
+  .group:hover .aw-arrow,
+  a:hover .aw-arrow {
+    transform: translateX(4px);
+  }
+
+  /* ── Card ──────────────────────────────────────────────────────── */
+  .aw-card {
+    background: var(--aw-color-bg-page);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition:
+      border-color 220ms ease,
+      box-shadow 260ms ease,
+      transform 220ms ease;
+  }
+  .aw-card-interactive:hover {
+    border-color: rgba(82, 153, 97, 0.35);
+    transform: translateY(-2px);
+    box-shadow:
+      0 14px 32px -18px rgba(82, 153, 97, 0.28),
+      0 4px 12px -6px rgba(0, 0, 0, 0.05);
+  }
+
+  /* ── Form fields ───────────────────────────────────────────────── */
+  .aw-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .aw-field-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.005em;
+  }
+  .aw-input,
+  .aw-textarea {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--aw-color-border);
+    border-radius: 8px;
+    background: var(--aw-color-bg-page);
+    color: var(--aw-color-text-default);
+    font-family: inherit;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  }
+  .aw-textarea {
+    resize: vertical;
+    min-height: 7rem;
+    line-height: 1.6;
+  }
+  .aw-input::placeholder,
+  .aw-textarea::placeholder { color: var(--aw-color-text-muted); }
+  .aw-input:hover,
+  .aw-textarea:hover {
+    border-color: rgba(0, 0, 0, 0.22);
+  }
+  .aw-input:focus,
+  .aw-textarea:focus {
+    outline: none;
+    border-color: var(--aw-color-primary);
+    box-shadow: 0 0 0 3px rgba(82, 153, 97, 0.15);
+    background: var(--aw-color-bg-page);
+  }
+
+  /* ── Numbered editorial piece (top hairline + number + title) ──── */
+  .aw-piece {
+    border-top: 1px solid var(--aw-color-text-heading);
+    padding-top: 1.25rem;
+  }
+  .aw-piece-num {
+    display: block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--aw-color-primary);
+    letter-spacing: 0.06em;
+    margin-bottom: 0.875rem;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .aw-piece-title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--aw-color-text-heading);
+    margin: 0 0 0.375rem;
+    letter-spacing: -0.005em;
+    line-height: 1.35;
+  }
+  .aw-piece-desc {
+    margin: 0;
+    color: var(--aw-color-text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
   }
 }
 
-/* ── Sticky header scroll ── */
+/* ════════════════════════════════════════════════════════════════════
+   GLOBAL STYLES — sticky header chrome, dropdowns, scrollbars
+   ════════════════════════════════════════════════════════════════════ */
+
+/* Sticky header scroll-state hook — kept for BasicScripts hook */
 #header.scroll > div:first-child {
   @apply backdrop-blur-md;
   background-color: rgb(255 255 255 / 96%);
@@ -65,12 +470,10 @@
   border-top: 1px solid var(--aw-color-border);
 }
 
-/* ── Dropdown ── */
+/* Dropdown hover/focus reveal */
 .dropdown:focus .dropdown-menu,
 .dropdown:focus-within .dropdown-menu,
-.dropdown:hover .dropdown-menu {
-  display: block;
-}
+.dropdown:hover .dropdown-menu { display: block; }
 
 [astro-icon].icon-light > * { stroke-width: 1.2; }
 [astro-icon].icon-bold > *  { stroke-width: 2.4; }

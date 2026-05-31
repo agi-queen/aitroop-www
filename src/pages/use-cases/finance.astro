@@ -61,28 +61,28 @@ const why = [
 <Layout metadata={metadata}>
 
   <!-- HERO ─────────────────────────────────────────────────────────── -->
-  <section class="hero">
-    <div class="container">
-      <nav class="crumbs">
+  <section class="aw-hero">
+    <div class="aw-container">
+      <nav class="aw-crumbs">
         <a href="/use-cases">Use cases</a>
         <span aria-hidden="true">/</span>
         <span>Finance</span>
       </nav>
-      <p class="eyebrow">Finance teams · CFO</p>
-      <h1 class="display">Close the books faster.</h1>
-      <p class="lede">
+      <p class="aw-eyebrow">Finance teams · CFO</p>
+      <h1 class="aw-display" style="max-width: 18ch;">Close the books faster.</h1>
+      <p class="aw-lede" style="max-width: 52ch;">
         Four pre-built Apps cover the month-end and operational finance workflows your team runs every cycle. Less spreadsheet wrangling — more time on the analysis.
       </p>
-      <div class="actions">
-        <a href="https://app.aitroop.net" class="btn btn-primary">Install Finance pack</a>
-        <a href="/contact" class="btn btn-ghost">Talk to a consultant</a>
+      <div class="aw-actions">
+        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Install Finance pack</a>
+        <a href="/contact" class="aw-btn aw-btn-ghost">Talk to a consultant</a>
       </div>
     </div>
   </section>
 
   <!-- METRICS — hairline grid ──────────────────────────────────────── -->
   <section class="metrics-section">
-    <div class="container">
+    <div class="aw-container">
       <div class="metrics" role="list">
         {stats.map((s) => (
           <div class="metric" role="listitem">
@@ -95,11 +95,11 @@ const why = [
   </section>
 
   <!-- APPS ─────────────────────────────────────────────────────────── -->
-  <section class="block">
-    <div class="container">
-      <header class="block-head">
-        <p class="eyebrow">Included apps</p>
-        <h2 class="h2">Four Apps for the finance cycle.</h2>
+  <section class="aw-section">
+    <div class="aw-container">
+      <header class="aw-section-head">
+        <p class="aw-eyebrow">Included apps</p>
+        <h2 class="aw-h2">Four Apps for the finance cycle.</h2>
       </header>
 
       <div class="apps">
@@ -109,25 +109,27 @@ const why = [
               <span class="app-num">{app.n}</span>
               <h3 class="app-title">{app.name}</h3>
             </div>
-            <p class="app-desc">{app.description}</p>
-            <dl class="app-meta">
-              <div>
-                <dt>Inputs</dt>
-                <dd>{app.inputs.join(' · ')}</dd>
-              </div>
-              <div>
-                <dt>Outputs</dt>
-                <dd>{app.outputs.join(' · ')}</dd>
-              </div>
-              <div>
-                <dt>Skills</dt>
-                <dd class="mono">{app.skills.join(' · ')}</dd>
-              </div>
-              <div>
-                <dt>Connects</dt>
-                <dd class="mono accent">{app.connects.join(' · ')}</dd>
-              </div>
-            </dl>
+            <div class="app-body">
+              <p class="app-desc">{app.description}</p>
+              <dl class="app-meta">
+                <div>
+                  <dt>Inputs</dt>
+                  <dd>{app.inputs.join(' · ')}</dd>
+                </div>
+                <div>
+                  <dt>Outputs</dt>
+                  <dd>{app.outputs.join(' · ')}</dd>
+                </div>
+                <div>
+                  <dt>Skills</dt>
+                  <dd class="mono">{app.skills.join(' · ')}</dd>
+                </div>
+                <div>
+                  <dt>Connects</dt>
+                  <dd class="mono accent">{app.connects.join(' · ')}</dd>
+                </div>
+              </dl>
+            </div>
           </article>
         ))}
       </div>
@@ -135,18 +137,18 @@ const why = [
   </section>
 
   <!-- WHY ──────────────────────────────────────────────────────────── -->
-  <section class="block">
-    <div class="container">
-      <header class="block-head">
-        <p class="eyebrow">Why finance leaders pick Aitroop</p>
-        <h2 class="h2">Built for auditable, repeatable work.</h2>
+  <section class="aw-section">
+    <div class="aw-container">
+      <header class="aw-section-head">
+        <p class="aw-eyebrow">Why finance leaders pick Aitroop</p>
+        <h2 class="aw-h2">Built for auditable, repeatable work.</h2>
       </header>
       <div class="why">
         {why.map((w, i) => (
-          <article class="why-item">
-            <span class="why-num">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="why-title">{w.title}</h3>
-            <p class="why-desc">{w.desc}</p>
+          <article class="aw-piece">
+            <span class="aw-piece-num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="aw-piece-title">{w.title}</h3>
+            <p class="aw-piece-desc">{w.desc}</p>
           </article>
         ))}
       </div>
@@ -154,13 +156,13 @@ const why = [
   </section>
 
   <!-- CTA ──────────────────────────────────────────────────────────── -->
-  <section class="cta">
-    <div class="container container-narrow">
-      <h2 class="cta-h2">Start with the Finance pack.</h2>
-      <p class="lede">Free to install. Connect your accounting system and run the first close-cycle App in a single session.</p>
-      <div class="actions actions-center">
-        <a href="https://app.aitroop.net" class="btn btn-primary">Install Finance pack</a>
-        <a href="/use-cases/gtm" class="btn btn-ghost">See GTM pack</a>
+  <section class="aw-section">
+    <div class="aw-container-narrow">
+      <h2 class="aw-h2" style="max-width: 18ch; margin: 0 auto 1rem;">Start with the Finance pack.</h2>
+      <p class="aw-lede">Free to install. Connect your accounting system and run the first close-cycle App in a single session.</p>
+      <div class="aw-actions aw-actions-center">
+        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Install Finance pack</a>
+        <a href="/use-cases/gtm" class="aw-btn aw-btn-ghost">See GTM pack</a>
       </div>
     </div>
   </section>
@@ -168,157 +170,12 @@ const why = [
 </Layout>
 
 <style>
-  /* ════ layout primitives ════ */
-  .container {
-    max-width: 64rem;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-  }
-  @media (min-width: 768px) {
-    .container { padding: 0 2.5rem; }
-  }
-  .container-narrow {
-    max-width: 36rem;
-    text-align: center;
-  }
-  .block {
-    padding: 6rem 0;
-    border-top: 1px solid var(--aw-color-border);
-  }
-  @media (min-width: 768px) {
-    .block { padding: 8rem 0; }
-  }
-  .block-head { margin-bottom: 4rem; }
-  @media (min-width: 768px) {
-    .block-head { margin-bottom: 5rem; }
-  }
-
-  /* ════ shared type ════ */
-  .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.625rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--aw-color-primary);
-    margin: 0 0 1.125rem;
-    line-height: 1;
-  }
-  .eyebrow::before {
-    content: '';
-    width: 1.25rem;
-    height: 1px;
-    background: currentColor;
-    opacity: 0.5;
-  }
-  .display {
-    font-size: clamp(2.5rem, 5vw, 3.75rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.05;
-    color: var(--aw-color-text-heading);
-    margin: 0 0 1.5rem;
-    text-wrap: balance;
-    max-width: 18ch;
-  }
-  .h2 {
-    font-size: clamp(1.875rem, 3.4vw, 2.375rem);
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 1.15;
-    color: var(--aw-color-text-heading);
-    margin: 0;
-    text-wrap: balance;
-    max-width: 28ch;
-  }
-  .lede {
-    font-size: 1.0625rem;
-    line-height: 1.6;
-    color: var(--aw-color-text-muted);
-    max-width: 48ch;
-    margin: 0 0 2rem;
-    text-wrap: pretty;
-  }
-  .container-narrow .lede { margin: 0 auto 2rem; }
-  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-  .accent { color: var(--aw-color-primary); }
-
-  /* ════ crumbs ════ */
-  .crumbs {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
-    color: var(--aw-color-text-muted);
-    margin: 0 0 2rem;
-  }
-  .crumbs a {
-    color: var(--aw-color-text-muted);
-    text-decoration: underline;
-    text-decoration-color: var(--aw-color-border);
-    text-underline-offset: 3px;
-    transition: color 160ms ease;
-  }
-  .crumbs a:hover { color: var(--aw-color-primary); }
-  .crumbs span[aria-hidden] { opacity: 0.5; }
-
-  /* ════ actions ════ */
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.625rem;
-  }
-  .actions-center { justify-content: center; }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 2.75rem;
-    padding: 0 1.375rem;
-    border-radius: 0.5rem;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    letter-spacing: -0.005em;
-    line-height: 1;
-    white-space: nowrap;
-    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
-  }
-  .btn-primary {
-    background: var(--aw-color-primary);
-    color: #fff;
-    box-shadow:
-      inset 0 -1px 0 rgba(0, 0, 0, 0.12),
-      0 1px 2px rgba(15, 30, 18, 0.06);
-  }
-  .btn-primary:hover { background: rgb(67, 138, 84); }
-  .btn-ghost {
-    color: var(--aw-color-text-default);
-    border: 1px solid var(--aw-color-border);
-    background: var(--aw-color-bg-page);
-  }
-  .btn-ghost:hover {
-    border-color: rgba(0, 0, 0, 0.25);
-    background: rgba(0, 0, 0, 0.02);
-  }
-
-  /* ════ hero ════ */
-  .hero {
-    padding: 6rem 0 5rem;
-  }
-  @media (min-width: 768px) {
-    .hero { padding: 8rem 0 6rem; }
-  }
-
-  /* ════ metrics — hairline grid ════ */
+  /* ════ metrics — first content after hero, no top border ════ */
   .metrics-section {
-    padding: 0 0 6rem;
+    padding: 0 0 5rem;
   }
   @media (min-width: 768px) {
-    .metrics-section { padding: 0 0 8rem; }
+    .metrics-section { padding: 0 0 7rem; }
   }
   .metrics {
     display: grid;
@@ -326,7 +183,7 @@ const why = [
     gap: 1px;
     background: var(--aw-color-border);
     border: 1px solid var(--aw-color-border);
-    border-radius: 0.5rem;
+    border-radius: 10px;
     overflow: hidden;
   }
   @media (min-width: 768px) {
@@ -338,16 +195,19 @@ const why = [
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    transition: background-color 200ms ease;
   }
+  .metric:hover { background: var(--aw-color-bg-subtle); }
   .metric-value {
     font-size: clamp(1.625rem, 3vw, 2rem);
     font-weight: 700;
     letter-spacing: -0.025em;
     line-height: 1;
     color: var(--aw-color-text-heading);
+    font-variant-numeric: tabular-nums;
   }
   .metric-label {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
     font-size: 0.6875rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -355,7 +215,7 @@ const why = [
     line-height: 1.3;
   }
 
-  /* ════ apps list ════ */
+  /* ════ apps — hairline separated rows ════ */
   .apps {
     display: grid;
     gap: 0;
@@ -364,29 +224,28 @@ const why = [
     border-top: 1px solid var(--aw-color-text-heading);
     padding: 2rem 0 2.5rem;
   }
-  .app:last-child {
-    border-bottom: 1px solid var(--aw-color-border);
-  }
+  .app:last-child { border-bottom: 1px solid var(--aw-color-border); }
   @media (min-width: 768px) {
     .app {
       display: grid;
-      grid-template-columns: 18rem 1fr;
+      grid-template-columns: 16rem 1fr;
       gap: 3rem;
-      padding: 2.5rem 0 3rem;
+      padding: 2.25rem 0 2.75rem;
     }
   }
   .app-head {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.625rem;
   }
   .app-num {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
     font-size: 0.75rem;
     font-weight: 600;
     color: var(--aw-color-primary);
     letter-spacing: 0.06em;
     font-variant-numeric: tabular-nums;
+    line-height: 1;
   }
   .app-title {
     font-size: 1.5rem;
@@ -398,9 +257,10 @@ const why = [
   }
   .app-desc {
     font-size: 0.9375rem;
-    line-height: 1.6;
+    line-height: 1.65;
     color: var(--aw-color-text-muted);
     margin: 1rem 0 1.5rem;
+    text-wrap: pretty;
   }
   @media (min-width: 768px) {
     .app-desc { margin: 0 0 1.5rem; }
@@ -409,26 +269,29 @@ const why = [
     margin: 0;
     display: grid;
     grid-template-columns: 1fr;
-    gap: 0.875rem;
+    gap: 1rem;
   }
   @media (min-width: 640px) {
-    .app-meta { grid-template-columns: repeat(2, 1fr); gap: 1rem 2rem; }
+    .app-meta { grid-template-columns: repeat(2, 1fr); gap: 1.125rem 2rem; }
   }
   .app-meta dt {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
     font-size: 0.6875rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     color: var(--aw-color-text-muted);
-    margin: 0 0 0.25rem;
+    margin: 0 0 0.3125rem;
     line-height: 1;
+    font-weight: 600;
   }
   .app-meta dd {
     margin: 0;
     font-size: 0.8125rem;
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--aw-color-text-default);
   }
+  .mono { font-family: var(--aw-font-mono, ui-monospace, monospace); }
+  .accent { color: var(--aw-color-primary); }
 
   /* ════ why grid ════ */
   .why {
@@ -437,50 +300,5 @@ const why = [
   }
   @media (min-width: 768px) {
     .why { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
-  }
-  .why-item {
-    border-top: 1px solid var(--aw-color-text-heading);
-    padding-top: 1.25rem;
-  }
-  .why-num {
-    display: block;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--aw-color-primary);
-    letter-spacing: 0.06em;
-    margin-bottom: 0.875rem;
-    font-variant-numeric: tabular-nums;
-  }
-  .why-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--aw-color-text-heading);
-    margin: 0 0 0.5rem;
-    letter-spacing: -0.005em;
-  }
-  .why-desc {
-    margin: 0;
-    color: var(--aw-color-text-muted);
-    font-size: 0.9375rem;
-    line-height: 1.6;
-  }
-
-  /* ════ cta ════ */
-  .cta {
-    padding: 6rem 0;
-    border-top: 1px solid var(--aw-color-border);
-  }
-  @media (min-width: 768px) {
-    .cta { padding: 8rem 0; }
-  }
-  .cta-h2 {
-    font-size: clamp(2rem, 4vw, 2.75rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    color: var(--aw-color-text-heading);
-    margin: 0 0 1rem;
-    text-wrap: balance;
   }
 </style>

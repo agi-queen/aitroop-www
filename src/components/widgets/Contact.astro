@@ -1,7 +1,6 @@
-﻿---
+---
 import FormContainer from '~/components/ui/Form.astro';
 import Headline from '~/components/ui/Headline.astro';
-import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import type { Contact as Props } from '~/types';
 
 const {
@@ -15,26 +14,42 @@ const {
   description,
 
   id,
-  isDark = false,
-  classes = {},
-  bg = await Astro.slots.render('bg'),
 } = Astro.props;
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
-  <Headline title={title} subtitle={subtitle} tagline={tagline} />
+<section id={id} class="aw-section">
+  <div class="aw-container">
+    <Headline title={title} subtitle={subtitle} tagline={tagline} />
 
-  {
-    inputs && (
-      <div class="flex flex-col max-w-xl mx-auto rounded-lg backdrop-blur border border-gray-200 bg-white shadow p-4 sm:p-6 lg:p-8 w-full">
-        <FormContainer
-          inputs={inputs}
-          textarea={textarea}
-          disclaimer={disclaimer}
-          button={button}
-          description={description}
-        />
-      </div>
-    )
+    {
+      inputs && (
+        <div class="aw-form-card">
+          <FormContainer
+            inputs={inputs}
+            textarea={textarea}
+            disclaimer={disclaimer}
+            button={button}
+            description={description}
+          />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .aw-form-card {
+    max-width: 36rem;
+    margin: 0 auto;
+    padding: 1.75rem;
+    border-radius: 14px;
+    border: 1px solid var(--aw-color-border);
+    background: var(--aw-color-bg-page);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 1px 2px rgba(0, 0, 0, 0.02);
   }
-</WidgetWrapper>
+  @media (min-width: 640px) {
+    .aw-form-card { padding: 2.25rem; }
+  }
+</style>

@@ -1,226 +1,301 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import { Icon } from 'astro-icon/components';
 
 const metadata = {
   title: '财务案例 — Aitroop',
 };
 
+const stats = [
+  { value: '↓ 60%', label: '月结周期' },
+  { value: '100%',  label: '审计可追溯' },
+  { value: '7',     label: '产物格式' },
+  { value: '∞',     label: '同形态复跑' },
+];
+
 const apps = [
   {
-    icon: 'tabler:calendar-check',
+    n: '01',
     name: '月结清单 Month-end checklist',
     description: '按顺序跑完整个月结：总账核对、计提分录、内部往来匹配、签字确认。每一步都留下审计痕迹。',
     inputs: ['结算期间', '法人主体', '负责人分配'],
-    outputs: ['月结清单 (markdown)', '对账报告 (csv)'],
+    outputs: ['月结清单 (Markdown)', '对账报告 (CSV)'],
     skills: ['gl-reconcile', 'accrual-calc', 'intercompany-match'],
     connects: ['quickbooks', 'xero', 'netsuite'],
   },
   {
-    icon: 'tabler:receipt-tax',
+    n: '02',
     name: '应收账龄 AR aging',
     description: '应收账款按账龄分桶，标记风险敞口，自动生成对账与催款邮件草稿——一气呵成。',
     inputs: ['基准日期', '账龄分桶', '风险阈值'],
-    outputs: ['账龄报告 (csv)', '催款邮件草稿 (markdown)'],
+    outputs: ['账龄报告 (CSV)', '催款邮件草稿 (Markdown)'],
     skills: ['ar-bucket', 'risk-score', 'email-writer'],
     connects: ['quickbooks', 'stripe', 'gmail'],
   },
   {
-    icon: 'tabler:scan-eye',
+    n: '03',
     name: '费用稽核 Expense audit',
     description: '扫描费用报销，识别政策违规、重复提交与异常项。Agent 解释每个例外的理由，供人工复核。',
     inputs: ['期间', '政策文档', '阈值规则'],
-    outputs: ['例外清单 (csv)', '稽核摘要 (markdown)'],
+    outputs: ['例外清单 (CSV)', '稽核摘要 (Markdown)'],
     skills: ['expense-classify', 'policy-match', 'anomaly-detect'],
     connects: ['expensify', 'concur', 'google-drive'],
   },
   {
-    icon: 'tabler:chart-arcs',
+    n: '04',
     name: '差异分析 Variance analysis',
     description: '对比实际与预算，归因每个差异背后的主驱动因素，生成可直接放进董事会材料的叙事说明。',
     inputs: ['期间', '部门筛选', '差异阈值'],
-    outputs: ['差异明细 (csv)', '执行层叙事 (markdown)'],
+    outputs: ['差异明细 (CSV)', '执行层叙事 (Markdown)'],
     skills: ['variance-calc', 'driver-attribute', 'narrative-writer'],
     connects: ['netsuite', 'quickbooks', 'sheets'],
   },
 ];
+
+const why = [
+  { title: '默认可审计',   desc: '每一次 App 运行都产出结构化产物与完整执行日志。可复现、可比对、可对外解释。' },
+  { title: '数据始终属于你', desc: '每个用户在隔离沙箱中运行。OAuth 仅授权 Agent 看到的范围。数据不会用于模型训练。' },
+  { title: '每周期同形态',  desc: '相同的 App 每次产出相同的结构化输出。对下游消费者可预测，对董事会可审计。' },
+];
 ---
 
 <Layout metadata={metadata}>
-  <section class="border-b border-[var(--aw-color-border)] py-16 md:py-20">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <nav class="text-[0.75rem] font-mono text-[var(--aw-color-text-muted)] mb-6">
-        <a href="/zh-CN/use-cases" class="hover:text-[var(--aw-color-text-default)] transition-colors">案例</a>
-        <span class="mx-2 opacity-50">/</span>
-        <span class="text-[var(--aw-color-text-default)]">财务</span>
-      </nav>
 
-      <p class="section-label">财务团队 · CFO</p>
-      <h1 class="text-[2.25rem] md:text-[3.25rem] font-black tracking-[-0.03em] leading-[1.05] text-[var(--aw-color-text-heading)] mb-5 max-w-[820px]">
-        更快地把账关掉。
-      </h1>
-      <p class="text-[1rem] md:text-[1.0625rem] text-[var(--aw-color-text-muted)] leading-[1.7] max-w-[640px] mb-8">
+  <!-- HERO ─────────────────────────────────────────────────────────── -->
+  <section class="aw-hero">
+    <div class="aw-container">
+      <nav class="aw-crumbs">
+        <a href="/zh-CN/use-cases">案例</a>
+        <span aria-hidden="true">/</span>
+        <span>财务</span>
+      </nav>
+      <p class="aw-eyebrow">财务团队 · CFO</p>
+      <h1 class="aw-display" style="max-width: 14ch;">更快地把账关掉。</h1>
+      <p class="aw-lede" style="max-width: 52ch;">
         四个预置 App 覆盖月结与日常财务运营的常见环节。让团队少花时间在表格上，多花时间在驱动决策的分析上。
       </p>
-
-      <div class="flex flex-wrap items-center gap-3">
-        <a href="https://app.aitroop.net"
-           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
-          安装财务套件
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-        <a href="/zh-CN/contact"
-           class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.025)] transition-all duration-150">
-          联系顾问
-        </a>
+      <div class="aw-actions">
+        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">安装财务套件</a>
+        <a href="/zh-CN/contact" class="aw-btn aw-btn-ghost">联系顾问</a>
       </div>
     </div>
   </section>
 
-  <section class="border-b border-[var(--aw-color-border)] py-12 md:py-14">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
-        <div>
-          <p class="text-[2rem] md:text-[2.5rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] mb-1">↓ 60%</p>
-          <p class="text-[0.75rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)]">月结周期</p>
-        </div>
-        <div>
-          <p class="text-[2rem] md:text-[2.5rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] mb-1">100%</p>
-          <p class="text-[0.75rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)]">审计可追溯</p>
-        </div>
-        <div>
-          <p class="text-[2rem] md:text-[2.5rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] mb-1">7</p>
-          <p class="text-[0.75rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)]">产物格式</p>
-        </div>
-        <div>
-          <p class="text-[2rem] md:text-[2.5rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] mb-1">∞</p>
-          <p class="text-[0.75rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)]">同形态复跑</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-16 md:py-24">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <div class="mb-12">
-        <p class="section-label">包含的 APP</p>
-        <h2 class="text-[1.75rem] md:text-[2rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)]">财务周期里的四个 App。</h2>
-      </div>
-
-      <div class="space-y-4">
-        {apps.map((app) => (
-          <div class="group p-6 md:p-8 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-primary/25 transition-colors">
-            <div class="grid md:grid-cols-[1fr_320px] gap-6 md:gap-10">
-              <div>
-                <div class="flex items-center gap-3 mb-3">
-                  <div class="w-10 h-10 rounded-lg bg-primary/[0.08] flex items-center justify-center text-primary">
-                    <Icon name={app.icon} class="w-5 h-5" />
-                  </div>
-                  <h3 class="text-[1.25rem] font-semibold text-[var(--aw-color-text-heading)]">{app.name}</h3>
-                </div>
-                <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-5">{app.description}</p>
-
-                <div class="flex flex-wrap gap-x-6 gap-y-3 text-[0.8125rem]">
-                  <div>
-                    <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-1">Skills</span>
-                    <div class="flex flex-wrap gap-1.5">
-                      {app.skills.map((s) => (
-                        <span class="font-mono text-[0.6875rem] px-2 py-0.5 rounded-md bg-[var(--aw-color-bg-subtle)] text-[var(--aw-color-text-default)]">{s}</span>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-1">Connects</span>
-                    <div class="flex flex-wrap gap-1.5">
-                      {app.connects.map((c) => (
-                        <span class="font-mono text-[0.6875rem] px-2 py-0.5 rounded-md bg-primary/[0.08] text-primary">{c}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="md:border-l md:border-[var(--aw-color-border)] md:pl-8">
-                <div class="mb-4">
-                  <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-2">输入</span>
-                  <ul class="space-y-1">
-                    {app.inputs.map((i) => (
-                      <li class="text-[0.8125rem] text-[var(--aw-color-text-default)] flex items-center gap-2">
-                        <span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>
-                        {i}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-2">产物</span>
-                  <ul class="space-y-1">
-                    {app.outputs.map((o) => (
-                      <li class="text-[0.8125rem] text-[var(--aw-color-text-default)] flex items-center gap-2">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" class="text-primary/70 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-                        {o}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
+  <!-- METRICS ──────────────────────────────────────────────────────── -->
+  <section class="metrics-section">
+    <div class="aw-container">
+      <div class="metrics" role="list">
+        {stats.map((s) => (
+          <div class="metric" role="listitem">
+            <span class="metric-value">{s.value}</span>
+            <span class="metric-label">{s.label}</span>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="bg-[rgba(0,0,0,0.015)] border-y border-[var(--aw-color-border)] py-16 md:py-24">
-    <div class="mx-auto max-w-5xl px-6 md:px-10">
-      <p class="section-label">为什么财务负责人选 AITROOP</p>
-      <div class="grid md:grid-cols-3 gap-8 mt-6">
-        <div>
-          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">默认可审计</h3>
-          <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.7]">每次执行都产出结构化产物与完整执行日志。可复现、可比较、可申辩——半年之后依然成立。</p>
-        </div>
-        <div>
-          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">数据归你所有</h3>
-          <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.7]">每个用户在独立沙箱中运行。OAuth 权限限定 Agent 能看到什么。我们不会用你的财务数据训练模型。</p>
-        </div>
-        <div>
-          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">每个周期同形态</h3>
-          <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.7]">App 每次输出结构一致，对下游消费者可预期、对董事会可审计。</p>
-        </div>
+  <!-- APPS ─────────────────────────────────────────────────────────── -->
+  <section class="aw-section">
+    <div class="aw-container">
+      <header class="aw-section-head">
+        <p class="aw-eyebrow">包含的 App</p>
+        <h2 class="aw-h2">四个 App，覆盖财务周期。</h2>
+      </header>
+
+      <div class="apps">
+        {apps.map((app) => (
+          <article class="app">
+            <div class="app-head">
+              <span class="app-num">{app.n}</span>
+              <h3 class="app-title">{app.name}</h3>
+            </div>
+            <div class="app-body">
+              <p class="app-desc">{app.description}</p>
+              <dl class="app-meta">
+                <div>
+                  <dt>输入</dt>
+                  <dd>{app.inputs.join(' · ')}</dd>
+                </div>
+                <div>
+                  <dt>产物</dt>
+                  <dd>{app.outputs.join(' · ')}</dd>
+                </div>
+                <div>
+                  <dt>技能</dt>
+                  <dd class="mono">{app.skills.join(' · ')}</dd>
+                </div>
+                <div>
+                  <dt>集成</dt>
+                  <dd class="mono accent">{app.connects.join(' · ')}</dd>
+                </div>
+              </dl>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   </section>
 
-  <section class="py-16 md:py-20">
-    <div class="mx-auto max-w-3xl px-6 md:px-10 text-center">
-      <h2 class="text-[1.75rem] md:text-[2.25rem] font-bold tracking-[-0.025em] leading-[1.15] text-[var(--aw-color-text-heading)] mb-4">
-        从财务套件开始。
-      </h2>
-      <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-7">
-        免费安装。连接你的核算系统，一次会话内跑完首个月结 App。
-      </p>
-      <div class="flex flex-wrap items-center justify-center gap-3">
-        <a href="https://app.aitroop.net"
-           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
-          安装财务套件
-        </a>
-        <a href="/zh-CN/use-cases/gtm"
-           class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] transition-all">
-          看 GTM 套件 →
-        </a>
+  <!-- WHY ──────────────────────────────────────────────────────────── -->
+  <section class="aw-section">
+    <div class="aw-container">
+      <header class="aw-section-head">
+        <p class="aw-eyebrow">财务负责人为什么选 Aitroop</p>
+        <h2 class="aw-h2">为可审计、可复用的工作而设计。</h2>
+      </header>
+      <div class="why">
+        {why.map((w, i) => (
+          <article class="aw-piece">
+            <span class="aw-piece-num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="aw-piece-title">{w.title}</h3>
+            <p class="aw-piece-desc">{w.desc}</p>
+          </article>
+        ))}
       </div>
     </div>
   </section>
+
+  <!-- CTA ──────────────────────────────────────────────────────────── -->
+  <section class="aw-section">
+    <div class="aw-container-narrow">
+      <h2 class="aw-h2" style="max-width: 18ch; margin: 0 auto 1rem;">从财务套件开始。</h2>
+      <p class="aw-lede">免费安装。连接你的财务系统，一次会话内跑出第一个月结 App。</p>
+      <div class="aw-actions aw-actions-center">
+        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">安装财务套件</a>
+        <a href="/zh-CN/use-cases/gtm" class="aw-btn aw-btn-ghost">看 GTM 套件</a>
+      </div>
+    </div>
+  </section>
+
 </Layout>
 
 <style>
-  .section-label {
+  .metrics-section {
+    padding: 0 0 5rem;
+  }
+  @media (min-width: 768px) {
+    .metrics-section { padding: 0 0 7rem; }
+  }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--aw-color-border);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .metrics { grid-template-columns: repeat(4, 1fr); }
+  }
+  .metric {
+    background: var(--aw-color-bg-page);
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: background-color 200ms ease;
+  }
+  .metric:hover { background: var(--aw-color-bg-subtle); }
+  .metric-value {
+    font-size: clamp(1.625rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    color: var(--aw-color-text-heading);
+    font-variant-numeric: tabular-nums;
+  }
+  .metric-label {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
     font-size: 0.6875rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     text-transform: uppercase;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.1em;
+    color: var(--aw-color-text-muted);
+    line-height: 1.3;
+  }
+
+  .apps {
+    display: grid;
+    gap: 0;
+  }
+  .app {
+    border-top: 1px solid var(--aw-color-text-heading);
+    padding: 2rem 0 2.5rem;
+  }
+  .app:last-child { border-bottom: 1px solid var(--aw-color-border); }
+  @media (min-width: 768px) {
+    .app {
+      display: grid;
+      grid-template-columns: 16rem 1fr;
+      gap: 3rem;
+      padding: 2.25rem 0 2.75rem;
+    }
+  }
+  .app-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+  .app-num {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.75rem;
     font-weight: 600;
-    color: var(--aw-color-primary, #529961);
-    margin-bottom: 0.875rem;
+    color: var(--aw-color-primary);
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .app-title {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.02em;
+    margin: 0;
+    line-height: 1.15;
+  }
+  .app-desc {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--aw-color-text-muted);
+    margin: 1rem 0 1.5rem;
+    text-wrap: pretty;
+  }
+  @media (min-width: 768px) {
+    .app-desc { margin: 0 0 1.5rem; }
+  }
+  .app-meta {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 640px) {
+    .app-meta { grid-template-columns: repeat(2, 1fr); gap: 1.125rem 2rem; }
+  }
+  .app-meta dt {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--aw-color-text-muted);
+    margin: 0 0 0.3125rem;
+    line-height: 1;
+    font-weight: 600;
+  }
+  .app-meta dd {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--aw-color-text-default);
+  }
+  .mono { font-family: var(--aw-font-mono, ui-monospace, monospace); }
+  .accent { color: var(--aw-color-primary); }
+
+  .why {
+    display: grid;
+    gap: 2rem;
+  }
+  @media (min-width: 768px) {
+    .why { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
   }
 </style>

@@ -1,6 +1,5 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import { Icon } from 'astro-icon/components';
 
 const metadata = {
   title: '案例 — Aitroop',
@@ -13,101 +12,173 @@ const cases = [
     title: 'GTM',
     tagline: '让管道自动运转。',
     desc: '线索挖掘、外部触达、客户留存、管道洞察。为不想增加 headcount 又想持续放大产出的营收团队预置的 App 套件。',
-    apps: [
-      { icon: 'tabler:radar-2',      name: '线索挖掘', hint: '线索富化 + ICP 评分' },
-      { icon: 'tabler:mail-forward', name: '外部触达', hint: '个性化冷邮件草稿' },
-      { icon: 'tabler:shield-check', name: '客户留存', hint: '账户健康度监控' },
-      { icon: 'tabler:chart-line',   name: '管道洞察', hint: '预测 + 聚焦建议' },
-    ],
+    apps: ['线索挖掘', '外部触达', '客户留存', '管道洞察'],
   },
   {
     slug: '/zh-CN/use-cases/finance',
     eyebrow: '财务团队 · CFO',
-    title: '财务 Finance',
+    title: '财务',
     tagline: '更快地把账关掉。',
     desc: '月结、应收账款分析、费用合规、预算差异分析——让财务团队少花时间在表格上，多花时间在驱动决策的分析上。',
-    apps: [
-      { icon: 'tabler:calendar-check', name: '月结清单',     hint: '自动化对账步骤' },
-      { icon: 'tabler:receipt-tax',    name: '应收账龄',     hint: '账龄分桶 + 风险标记' },
-      { icon: 'tabler:scan-eye',       name: '费用稽核',     hint: '违规与异常识别' },
-      { icon: 'tabler:chart-arcs',     name: '差异分析',     hint: '预算 vs 实际叙事' },
-    ],
+    apps: ['月结清单', '应收账龄', '费用稽核', '差异分析'],
   },
 ];
 ---
 
 <Layout metadata={metadata}>
-  <section class="border-b border-[var(--aw-color-border)] py-16 md:py-20">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <p class="section-label">案例</p>
-      <h1 class="text-[2.25rem] md:text-[3rem] font-black tracking-[-0.03em] leading-[1.08] text-[var(--aw-color-text-heading)] mb-5 max-w-[760px]">
-        团队真实在做的工作，<br/>都有预置 App 包。
+
+  <!-- HERO ─────────────────────────────────────────────────────────── -->
+  <section class="aw-hero">
+    <div class="aw-container">
+      <p class="aw-eyebrow">案例</p>
+      <h1 class="aw-display" style="max-width: 24ch;">
+        团队真实在做的工作，都有预置 App 包。
       </h1>
-      <p class="text-[1rem] md:text-[1.0625rem] text-[var(--aw-color-text-muted)] leading-[1.7] max-w-[640px]">
+      <p class="aw-lede" style="max-width: 52ch;">
         每个套件是策划好的一组 App、技能与集成，开箱即用。直接使用，或 fork 后定制成你团队的流程。
       </p>
     </div>
   </section>
 
-  <section class="py-16 md:py-24">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <div class="grid md:grid-cols-2 gap-5">
+  <!-- PACKS ────────────────────────────────────────────────────────── -->
+  <section class="aw-section">
+    <div class="aw-container">
+      <ul class="packs">
         {cases.map((c) => (
-          <a href={c.slug} class="group relative block p-7 md:p-9 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-primary/40 hover:shadow-[0_16px_50px_rgba(82,153,97,0.10)] transition-all duration-200">
-            <p class="text-[0.6875rem] font-mono uppercase tracking-[0.18em] text-[var(--aw-color-text-muted)] mb-3">{c.eyebrow}</p>
-            <h2 class="text-[2rem] md:text-[2.5rem] font-bold tracking-[-0.03em] text-[var(--aw-color-text-heading)] mb-2 group-hover:text-primary transition-colors">{c.title}</h2>
-            <p class="text-[1.0625rem] font-medium text-[var(--aw-color-text-default)] mb-3">{c.tagline}</p>
-            <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-6">{c.desc}</p>
-
-            <div class="grid grid-cols-2 gap-2 mb-6">
-              {c.apps.map((app) => (
-                <div class="p-3 rounded-lg border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-subtle)]/50">
-                  <div class="flex items-center gap-2 mb-1">
-                    <Icon name={app.icon} class="w-3.5 h-3.5 text-primary" />
-                    <span class="text-[0.8125rem] font-semibold text-[var(--aw-color-text-default)]">{app.name}</span>
-                  </div>
-                  <p class="text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)] leading-[1.5]">{app.hint}</p>
-                </div>
-              ))}
-            </div>
-
-            <div class="inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-primary">
-              查看案例
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-0.5 transition-transform"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </div>
-          </a>
-        ))}
-      </div>
-
-      <div class="mt-8 p-7 md:p-9 rounded-2xl border border-dashed border-[var(--aw-color-border)] bg-[var(--aw-color-bg-subtle)]/30">
-        <div class="flex flex-col md:flex-row md:items-center gap-5 md:gap-8">
-          <div class="flex-1">
-            <p class="text-[0.6875rem] font-mono uppercase tracking-[0.18em] text-[var(--aw-color-text-muted)] mb-2">CUSTOM</p>
-            <h3 class="text-[1.25rem] font-semibold text-[var(--aw-color-text-heading)] mb-1.5">没找到你的场景？</h3>
-            <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.65]">
-              Aitroop 不是某个垂直工具——它是把任意 AI 辅助工作流固化成可复用 App 的平台。聊聊你团队的具体场景。
-            </p>
-          </div>
-          <div class="shrink-0">
-            <a href="/zh-CN/contact"
-               class="inline-flex items-center h-10 px-5 rounded-full text-[0.875rem] font-semibold text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-[rgba(0,0,0,0.22)] transition-all">
-              联系我们
+          <li>
+            <a href={c.slug} class="group">
+              <div class="pack-head">
+                <p class="aw-eyebrow-mono">{c.eyebrow}</p>
+                <h2 class="pack-title">{c.title}</h2>
+                <p class="pack-tagline">{c.tagline}</p>
+              </div>
+              <div class="pack-body">
+                <p class="pack-desc">{c.desc}</p>
+                <ul class="pack-apps">
+                  {c.apps.map((app) => <li class="aw-tag">{app}</li>)}
+                </ul>
+                <span class="pack-cta">
+                  查看案例
+                  <span class="aw-arrow" aria-hidden="true">→</span>
+                </span>
+              </div>
             </a>
-          </div>
+          </li>
+        ))}
+      </ul>
+
+      <div class="byo">
+        <div class="byo-text">
+          <p class="aw-eyebrow">自定义</p>
+          <h3 class="byo-title">没找到你的场景？</h3>
+          <p class="byo-desc">Aitroop 是把任意 AI 辅助工作流固化成可复用 App 的平台。聊聊你团队的具体场景。</p>
         </div>
+        <a href="/zh-CN/contact" class="aw-btn aw-btn-ghost">联系我们</a>
       </div>
     </div>
   </section>
+
 </Layout>
 
 <style>
-  .section-label {
-    font-size: 0.6875rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
+  .packs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+  }
+  .packs > li { border-top: 1px solid var(--aw-color-text-heading); }
+  .packs > li:last-child { border-bottom: 1px solid var(--aw-color-border); }
+  .packs a {
+    display: grid;
+    gap: 1.5rem;
+    padding: 2rem 0 2.5rem;
+    grid-template-columns: 1fr;
+    align-items: start;
+    transition: padding-left 220ms ease;
+  }
+  .packs a:hover { padding-left: 0.25rem; }
+  @media (min-width: 768px) {
+    .packs a {
+      grid-template-columns: 16rem 1fr;
+      gap: 3.5rem;
+      padding: 2.5rem 0 3rem;
+    }
+  }
+  .pack-title {
+    font-size: clamp(1.875rem, 3.4vw, 2.375rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    color: var(--aw-color-text-heading);
+    margin: 0 0 0.5rem;
+    transition: color 200ms ease;
+  }
+  .packs a:hover .pack-title { color: var(--aw-color-primary); }
+  .pack-tagline {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--aw-color-text-default);
+    margin: 0;
+    line-height: 1.4;
+  }
+  .pack-desc {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--aw-color-text-muted);
+    margin: 0 0 1.25rem;
+    text-wrap: pretty;
+  }
+  .pack-apps {
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .pack-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    color: var(--aw-color-primary, #529961);
-    margin-bottom: 0.875rem;
+    color: var(--aw-color-primary);
+  }
+
+  .byo {
+    margin-top: 3rem;
+    padding: 2.5rem 0 0;
+    border-top: 1px solid var(--aw-color-border);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .byo {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      gap: 3rem;
+    }
+  }
+  .byo-text { flex: 1; }
+  .byo-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.015em;
+    margin: 0 0 0.5rem;
+  }
+  .byo-desc {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--aw-color-text-muted);
+    margin: 0;
+    max-width: 56ch;
   }
 </style>

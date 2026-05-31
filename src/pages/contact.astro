@@ -23,33 +23,34 @@ const offers = [
 <Layout metadata={metadata}>
 
   <!-- HERO ─────────────────────────────────────────────────────────── -->
-  <section class="hero">
-    <div class="container">
-      <p class="eyebrow">Contact us</p>
-      <h1 class="display">Let's talk about your GTM challenges.</h1>
-      <p class="lede">
+  <section class="aw-hero">
+    <div class="aw-container">
+      <p class="aw-eyebrow">Contact us</p>
+      <h1 class="aw-display" style="max-width: 22ch;">Let's talk about your GTM challenges.</h1>
+      <p class="aw-lede" style="max-width: 52ch;">
         Book a product demo, explore an enterprise plan, or just learn more. Our consultants are happy to connect.
       </p>
     </div>
   </section>
 
   <!-- FORM + DIRECT ─────────────────────────────────────────────────── -->
-  <section class="block">
-    <div class="container">
+  <section class="aw-section">
+    <div class="aw-container">
       <div class="form-grid">
         <div class="form-intro">
-          <p class="eyebrow">Form</p>
-          <h2 class="h2">Book a demo or consultation.</h2>
-          <p class="lede">
+          <p class="aw-eyebrow">Form</p>
+          <h2 class="aw-h2" style="max-width: 18ch; margin-bottom: 1.125rem;">Book a demo or consultation.</h2>
+          <p class="aw-lede" style="max-width: 38ch;">
             We respond within one business day. For urgent inquiries, email <a href="mailto:hello@aitroop.net">hello@aitroop.net</a>.
           </p>
         </div>
 
         <form class="form" id="form">
           {fields.map((f) => (
-            <div class="field">
-              <label for={f.name}>{f.label}</label>
+            <div class="aw-field">
+              <label class="aw-field-label" for={f.name}>{f.label}</label>
               <input
+                class="aw-input"
                 type={f.type}
                 name={f.name}
                 id={f.name}
@@ -58,9 +59,10 @@ const offers = [
               />
             </div>
           ))}
-          <div class="field">
-            <label for="message">What's the biggest problem you want to solve?</label>
+          <div class="aw-field">
+            <label class="aw-field-label" for="message">What's the biggest problem you want to solve?</label>
             <textarea
+              class="aw-textarea"
               id="message"
               name="message"
               rows="4"
@@ -71,25 +73,25 @@ const offers = [
             <input type="checkbox" id="disclaimer" name="disclaimer" />
             <span>By submitting, you agree we may use your contact info per our Privacy Policy to respond to your inquiry. We will not share it with third parties.</span>
           </label>
-          <button type="submit" class="btn btn-primary">Send message</button>
+          <button type="submit" class="aw-btn aw-btn-primary form-submit">Send message</button>
         </form>
       </div>
     </div>
   </section>
 
   <!-- WHAT WE OFFER ────────────────────────────────────────────────── -->
-  <section class="block">
-    <div class="container">
-      <header class="block-head">
-        <p class="eyebrow">What we offer</p>
-        <h2 class="h2">Four ways to work with us.</h2>
+  <section class="aw-section">
+    <div class="aw-container">
+      <header class="aw-section-head">
+        <p class="aw-eyebrow">What we offer</p>
+        <h2 class="aw-h2">Four ways to work with us.</h2>
       </header>
       <div class="offers">
         {offers.map((o) => (
-          <article class="offer">
-            <span class="offer-num">{o.n}</span>
-            <h3 class="offer-title">{o.title}</h3>
-            <p class="offer-desc">{o.desc}</p>
+          <article class="aw-piece">
+            <span class="aw-piece-num">{o.n}</span>
+            <h3 class="aw-piece-title">{o.title}</h3>
+            <p class="aw-piece-desc">{o.desc}</p>
           </article>
         ))}
       </div>
@@ -97,11 +99,11 @@ const offers = [
       <div class="direct">
         <div class="direct-row">
           <span class="direct-label">Email</span>
-          <a href="mailto:hello@aitroop.net" class="direct-value">hello@aitroop.net</a>
+          <a href="mailto:hello@aitroop.net" class="direct-value direct-link">hello@aitroop.net</a>
         </div>
         <div class="direct-row">
           <span class="direct-label">WeChat</span>
-          <span class="direct-value">Search “Aitroop” to follow for B2B sales and GTM insights.</span>
+          <span class="direct-value">Search "Aitroop" to follow for B2B sales and GTM insights.</span>
         </div>
       </div>
     </div>
@@ -110,91 +112,7 @@ const offers = [
 </Layout>
 
 <style>
-  /* ════ layout primitives ════ */
-  .container {
-    max-width: 64rem;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-  }
-  @media (min-width: 768px) {
-    .container { padding: 0 2.5rem; }
-  }
-  .block {
-    padding: 6rem 0;
-    border-top: 1px solid var(--aw-color-border);
-  }
-  @media (min-width: 768px) {
-    .block { padding: 8rem 0; }
-  }
-  .block-head { margin-bottom: 4rem; }
-  @media (min-width: 768px) {
-    .block-head { margin-bottom: 5rem; }
-  }
-
-  /* ════ shared type ════ */
-  .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.625rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--aw-color-primary);
-    margin: 0 0 1.125rem;
-    line-height: 1;
-  }
-  .eyebrow::before {
-    content: '';
-    width: 1.25rem;
-    height: 1px;
-    background: currentColor;
-    opacity: 0.5;
-  }
-  .display {
-    font-size: clamp(2.25rem, 4.6vw, 3.25rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.05;
-    color: var(--aw-color-text-heading);
-    margin: 0 0 1.25rem;
-    text-wrap: balance;
-    max-width: 22ch;
-  }
-  .h2 {
-    font-size: clamp(1.75rem, 3vw, 2.125rem);
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 1.15;
-    color: var(--aw-color-text-heading);
-    margin: 0 0 1rem;
-    text-wrap: balance;
-    max-width: 28ch;
-  }
-  .lede {
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--aw-color-text-muted);
-    max-width: 48ch;
-    margin: 0;
-    text-wrap: pretty;
-  }
-  .lede a {
-    color: var(--aw-color-primary);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  /* ════ hero ════ */
-  .hero {
-    padding: 6rem 0 4rem;
-  }
-  @media (min-width: 768px) {
-    .hero { padding: 8rem 0 6rem; }
-  }
-
-  /* ════ form layout ════ */
+  /* ════ form grid layout ════ */
   .form-grid {
     display: grid;
     gap: 3rem;
@@ -202,9 +120,15 @@ const offers = [
   @media (min-width: 900px) {
     .form-grid {
       grid-template-columns: 18rem 1fr;
-      gap: 4rem;
+      gap: 4.5rem;
       align-items: start;
     }
+  }
+  .form-intro .aw-lede a {
+    color: var(--aw-color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(82, 153, 97, 0.4);
   }
 
   /* ════ form ════ */
@@ -214,43 +138,9 @@ const offers = [
     gap: 1.25rem;
     max-width: 32rem;
   }
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .field label {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--aw-color-text-heading);
-    letter-spacing: -0.005em;
-  }
-  .field input,
-  .field textarea {
-    width: 100%;
-    padding: 0.625rem 0.875rem;
-    border: 1px solid var(--aw-color-border);
-    border-radius: 0.5rem;
-    background: var(--aw-color-bg-page);
-    color: var(--aw-color-text-default);
-    font-family: inherit;
-    font-size: 0.9375rem;
-    line-height: 1.4;
-    transition: border-color 160ms ease, box-shadow 160ms ease;
-  }
-  .field textarea {
-    resize: vertical;
-    min-height: 6rem;
-    line-height: 1.55;
-  }
-  .field input::placeholder,
-  .field textarea::placeholder { color: var(--aw-color-text-muted); }
-  .field input:focus,
-  .field textarea:focus {
-    outline: none;
-    border-color: var(--aw-color-primary);
-    box-shadow: 0 0 0 3px rgba(82, 153, 97, 0.15);
-  }
+  .form-submit { align-self: flex-start; }
+
+  /* ════ disclaimer ════ */
   .disclaimer {
     display: flex;
     gap: 0.625rem;
@@ -265,32 +155,6 @@ const offers = [
     accent-color: var(--aw-color-primary);
   }
 
-  /* ════ buttons ════ */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 2.75rem;
-    padding: 0 1.375rem;
-    border-radius: 0.5rem;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    line-height: 1;
-    white-space: nowrap;
-    border: none;
-    cursor: pointer;
-    transition: background-color 160ms ease, border-color 160ms ease;
-  }
-  .btn-primary {
-    background: var(--aw-color-primary);
-    color: #fff;
-    box-shadow:
-      inset 0 -1px 0 rgba(0, 0, 0, 0.12),
-      0 1px 2px rgba(15, 30, 18, 0.06);
-    align-self: flex-start;
-  }
-  .btn-primary:hover { background: rgb(67, 138, 84); }
-
   /* ════ offers ════ */
   .offers {
     display: grid;
@@ -298,33 +162,6 @@ const offers = [
   }
   @media (min-width: 768px) {
     .offers { grid-template-columns: repeat(2, 1fr); gap: 2.5rem 3rem; }
-  }
-  .offer {
-    border-top: 1px solid var(--aw-color-text-heading);
-    padding-top: 1.25rem;
-  }
-  .offer-num {
-    display: block;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--aw-color-primary);
-    letter-spacing: 0.06em;
-    margin-bottom: 0.875rem;
-    font-variant-numeric: tabular-nums;
-  }
-  .offer-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--aw-color-text-heading);
-    margin: 0 0 0.5rem;
-    letter-spacing: -0.005em;
-  }
-  .offer-desc {
-    margin: 0;
-    color: var(--aw-color-text-muted);
-    font-size: 0.9375rem;
-    line-height: 1.6;
   }
 
   /* ════ direct contact rows ════ */
@@ -347,22 +184,24 @@ const offers = [
     }
   }
   .direct-label {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
     font-size: 0.6875rem;
     text-transform: uppercase;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.14em;
     color: var(--aw-color-text-muted);
+    font-weight: 600;
   }
   .direct-value {
     font-size: 0.9375rem;
     color: var(--aw-color-text-default);
     line-height: 1.5;
   }
-  a.direct-value {
+  .direct-link {
     color: var(--aw-color-primary);
     text-decoration: underline;
     text-underline-offset: 3px;
     text-decoration-color: var(--aw-color-border);
+    transition: text-decoration-color 160ms ease;
   }
-  a.direct-value:hover { text-decoration-color: var(--aw-color-primary); }
+  .direct-link:hover { text-decoration-color: var(--aw-color-primary); }
 </style>

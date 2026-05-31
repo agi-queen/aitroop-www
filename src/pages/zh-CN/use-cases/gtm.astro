@@ -1,6 +1,5 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import { Icon } from 'astro-icon/components';
 
 const metadata = {
   title: 'GTM 案例 — Aitroop',
@@ -8,196 +7,230 @@ const metadata = {
 
 const apps = [
   {
-    icon: 'tabler:radar-2',
+    n: '01',
     name: '线索挖掘 Prospecting',
     description: '基于公司信号、招聘动态、技术栈与意向数据找到高匹配账户，按你的 ICP 打分。',
     inputs: ['ICP 描述', '行业筛选', '公司规模', '技术关键词'],
-    outputs: ['富化后的线索清单 (CSV)', 'ICP 评分依据 (markdown)'],
+    outputs: ['富化后的线索清单 (CSV)', 'ICP 评分依据 (Markdown)'],
     skills: ['lead-finder', 'web-scrape', 'company-enrich'],
     connects: ['salesforce', 'hubspot'],
   },
   {
-    icon: 'tabler:mail-forward',
+    n: '02',
     name: '外部触达 Outreach',
     description: '批量生成个性化冷邮件与 LinkedIn 消息。结合企业画像、最新触发事件和你的语气。',
     inputs: ['目标列表', '邮件模板', '发件人画像', '语气'],
-    outputs: ['邮件草稿 (markdown)', 'A/B 变体 (json)'],
+    outputs: ['邮件草稿 (Markdown)', 'A/B 变体 (JSON)'],
     skills: ['email-writer', 'linkedin-scrape', 'tone-match'],
     connects: ['gmail', 'linkedin'],
   },
   {
-    icon: 'tabler:shield-check',
+    n: '03',
     name: '客户留存 Retention',
     description: '持续监控账户健康分。在客户流失之前预警——使用下滑、支持工单模式、关键人变动。',
     inputs: ['账户列表', '风险阈值', '回看窗口'],
-    outputs: ['风险报告 (markdown)', '账户评分 (csv)'],
+    outputs: ['风险报告 (Markdown)', '账户评分 (CSV)'],
     skills: ['usage-analyzer', 'crm-query'],
     connects: ['salesforce', 'hubspot', 'segment'],
   },
   {
-    icon: 'tabler:chart-line',
+    n: '04',
     name: '管道洞察 Pipeline insights',
     description: '把管道数据转化为清晰的建议。哪些 deal 应该推、哪些应该降级、时间该投到哪里——一目了然。',
     inputs: ['销售阶段', '时间窗口', '负责人'],
-    outputs: ['管道叙事 (markdown)', 'Deal 评分 (csv)'],
+    outputs: ['管道叙事 (Markdown)', 'Deal 评分 (CSV)'],
     skills: ['pipeline-analyzer', 'forecast-model'],
     connects: ['salesforce', 'hubspot'],
   },
 ];
+
+const why = [
+  { title: '复合式产出',     desc: '每一次跑通的对话都变成可复用的 App。团队的集体经验逐周复利。' },
+  { title: '原生 CRM 集成',  desc: '通过 OAuth 读写 Salesforce、HubSpot 和数据仓库——不用 Zapier，也不用自写脚本。' },
+  { title: '设一次定时',     desc: '每日管道摘要、每周触达清单、每月留存报告。设好 cron 就忘掉它。' },
+];
 ---
 
 <Layout metadata={metadata}>
-  <section class="border-b border-[var(--aw-color-border)] py-16 md:py-20">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <nav class="text-[0.75rem] font-mono text-[var(--aw-color-text-muted)] mb-6">
-        <a href="/zh-CN/use-cases" class="hover:text-[var(--aw-color-text-default)] transition-colors">案例</a>
-        <span class="mx-2 opacity-50">/</span>
-        <span class="text-[var(--aw-color-text-default)]">GTM</span>
-      </nav>
 
-      <p class="section-label">B2B 增长</p>
-      <h1 class="text-[2.25rem] md:text-[3.25rem] font-black tracking-[-0.03em] leading-[1.05] text-[var(--aw-color-text-heading)] mb-5 max-w-[820px]">
-        让管道自动运转。
-      </h1>
-      <p class="text-[1rem] md:text-[1.0625rem] text-[var(--aw-color-text-muted)] leading-[1.7] max-w-[640px] mb-8">
+  <!-- HERO ─────────────────────────────────────────────────────────── -->
+  <section class="aw-hero">
+    <div class="aw-container">
+      <nav class="aw-crumbs">
+        <a href="/zh-CN/use-cases">案例</a>
+        <span aria-hidden="true">/</span>
+        <span>GTM</span>
+      </nav>
+      <p class="aw-eyebrow">B2B 增长</p>
+      <h1 class="aw-display" style="max-width: 14ch;">让管道自动运转。</h1>
+      <p class="aw-lede" style="max-width: 52ch;">
         四个预置 App 端到端覆盖 GTM 流程——从找到线索到留住客户。每一个都自带所需的技能与集成，第一天就能跑起来。
       </p>
-
-      <div class="flex flex-wrap items-center gap-3">
-        <a href="https://app.aitroop.net"
-           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
-          安装 GTM 套件
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-        <a href="/zh-CN/contact"
-           class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.025)] transition-all duration-150">
-          预约演示
-        </a>
+      <div class="aw-actions">
+        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">安装 GTM 套件</a>
+        <a href="/zh-CN/contact" class="aw-btn aw-btn-ghost">预约演示</a>
       </div>
     </div>
   </section>
 
-  <section class="py-16 md:py-24">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <div class="mb-12">
-        <p class="section-label">包含的 APP</p>
-        <h2 class="text-[1.75rem] md:text-[2rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)]">四个 App，一条营收主线。</h2>
-      </div>
+  <!-- APPS ─────────────────────────────────────────────────────────── -->
+  <section class="aw-section">
+    <div class="aw-container">
+      <header class="aw-section-head">
+        <p class="aw-eyebrow">包含的 App</p>
+        <h2 class="aw-h2">四个 App，一条营收主线。</h2>
+      </header>
 
-      <div class="space-y-4">
+      <div class="apps">
         {apps.map((app) => (
-          <div class="group p-6 md:p-8 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-primary/25 transition-colors">
-            <div class="grid md:grid-cols-[1fr_320px] gap-6 md:gap-10">
-              <div>
-                <div class="flex items-center gap-3 mb-3">
-                  <div class="w-10 h-10 rounded-lg bg-primary/[0.08] flex items-center justify-center text-primary">
-                    <Icon name={app.icon} class="w-5 h-5" />
-                  </div>
-                  <h3 class="text-[1.25rem] font-semibold text-[var(--aw-color-text-heading)]">{app.name}</h3>
-                </div>
-                <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-5">{app.description}</p>
-
-                <div class="flex flex-wrap gap-x-6 gap-y-3 text-[0.8125rem]">
-                  <div>
-                    <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-1">Skills</span>
-                    <div class="flex flex-wrap gap-1.5">
-                      {app.skills.map((s) => (
-                        <span class="font-mono text-[0.6875rem] px-2 py-0.5 rounded-md bg-[var(--aw-color-bg-subtle)] text-[var(--aw-color-text-default)]">{s}</span>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-1">Connects</span>
-                    <div class="flex flex-wrap gap-1.5">
-                      {app.connects.map((c) => (
-                        <span class="font-mono text-[0.6875rem] px-2 py-0.5 rounded-md bg-primary/[0.08] text-primary">{c}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="md:border-l md:border-[var(--aw-color-border)] md:pl-8">
-                <div class="mb-4">
-                  <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-2">输入</span>
-                  <ul class="space-y-1">
-                    {app.inputs.map((i) => (
-                      <li class="text-[0.8125rem] text-[var(--aw-color-text-default)] flex items-center gap-2">
-                        <span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>
-                        {i}
-                      </li>
-                    ))}
-                  </ul>
+          <article class="app">
+            <div class="app-head">
+              <span class="app-num">{app.n}</span>
+              <h3 class="app-title">{app.name}</h3>
+            </div>
+            <div class="app-body">
+              <p class="app-desc">{app.description}</p>
+              <dl class="app-meta">
+                <div>
+                  <dt>输入</dt>
+                  <dd>{app.inputs.join(' · ')}</dd>
                 </div>
                 <div>
-                  <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-2">产物</span>
-                  <ul class="space-y-1">
-                    {app.outputs.map((o) => (
-                      <li class="text-[0.8125rem] text-[var(--aw-color-text-default)] flex items-center gap-2">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" class="text-primary/70 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-                        {o}
-                      </li>
-                    ))}
-                  </ul>
+                  <dt>产物</dt>
+                  <dd>{app.outputs.join(' · ')}</dd>
                 </div>
-              </div>
+                <div>
+                  <dt>技能</dt>
+                  <dd class="mono">{app.skills.join(' · ')}</dd>
+                </div>
+                <div>
+                  <dt>集成</dt>
+                  <dd class="mono accent">{app.connects.join(' · ')}</dd>
+                </div>
+              </dl>
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="bg-[rgba(0,0,0,0.015)] border-y border-[var(--aw-color-border)] py-16 md:py-24">
-    <div class="mx-auto max-w-5xl px-6 md:px-10">
-      <p class="section-label">为什么 GTM 团队选 AITROOP</p>
-      <div class="grid md:grid-cols-3 gap-8 mt-6">
-        <div>
-          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">复合式产出</h3>
-          <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.7]">每一次跑通的对话都变成可复用的 App。团队的集体经验逐周复利。</p>
-        </div>
-        <div>
-          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">原生 CRM 集成</h3>
-          <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.7]">通过 OAuth 读写 Salesforce、HubSpot 和数据仓库——不用 Zapier，也不用自写脚本。</p>
-        </div>
-        <div>
-          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">设一次定时</h3>
-          <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.7]">每日管道摘要、每周触达清单、每月留存报告——设好 cron 就忘掉它。</p>
-        </div>
+  <!-- WHY ──────────────────────────────────────────────────────────── -->
+  <section class="aw-section">
+    <div class="aw-container">
+      <header class="aw-section-head">
+        <p class="aw-eyebrow">GTM 团队为什么选 Aitroop</p>
+        <h2 class="aw-h2">为可复利的管道工作而设计。</h2>
+      </header>
+      <div class="why">
+        {why.map((w, i) => (
+          <article class="aw-piece">
+            <span class="aw-piece-num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="aw-piece-title">{w.title}</h3>
+            <p class="aw-piece-desc">{w.desc}</p>
+          </article>
+        ))}
       </div>
     </div>
   </section>
 
-  <section class="py-16 md:py-20">
-    <div class="mx-auto max-w-3xl px-6 md:px-10 text-center">
-      <h2 class="text-[1.75rem] md:text-[2.25rem] font-bold tracking-[-0.025em] leading-[1.15] text-[var(--aw-color-text-heading)] mb-4">
-        从 GTM 套件开始。
-      </h2>
-      <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-7">
-        免费安装。连接 CRM，10 分钟内跑出第一个 App。
-      </p>
-      <div class="flex flex-wrap items-center justify-center gap-3">
-        <a href="https://app.aitroop.net"
-           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
-          安装 GTM 套件
-        </a>
-        <a href="/zh-CN/use-cases/finance"
-           class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] transition-all">
-          看财务套件 →
-        </a>
+  <!-- CTA ──────────────────────────────────────────────────────────── -->
+  <section class="aw-section">
+    <div class="aw-container-narrow">
+      <h2 class="aw-h2" style="max-width: 18ch; margin: 0 auto 1rem;">从 GTM 套件开始。</h2>
+      <p class="aw-lede">免费安装。连接 CRM，10 分钟内跑出第一个 App。</p>
+      <div class="aw-actions aw-actions-center">
+        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">安装 GTM 套件</a>
+        <a href="/zh-CN/use-cases/finance" class="aw-btn aw-btn-ghost">看财务套件</a>
       </div>
     </div>
   </section>
+
 </Layout>
 
 <style>
-  .section-label {
-    font-size: 0.6875rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
+  .apps {
+    display: grid;
+    gap: 0;
+  }
+  .app {
+    border-top: 1px solid var(--aw-color-text-heading);
+    padding: 2rem 0 2.5rem;
+  }
+  .app:last-child { border-bottom: 1px solid var(--aw-color-border); }
+  @media (min-width: 768px) {
+    .app {
+      display: grid;
+      grid-template-columns: 16rem 1fr;
+      gap: 3rem;
+      padding: 2.25rem 0 2.75rem;
+    }
+  }
+  .app-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+  .app-num {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.75rem;
     font-weight: 600;
-    color: var(--aw-color-primary, #529961);
-    margin-bottom: 0.875rem;
+    color: var(--aw-color-primary);
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .app-title {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.02em;
+    margin: 0;
+    line-height: 1.15;
+  }
+  .app-desc {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--aw-color-text-muted);
+    margin: 1rem 0 1.5rem;
+    text-wrap: pretty;
+  }
+  @media (min-width: 768px) {
+    .app-desc { margin: 0 0 1.5rem; }
+  }
+  .app-meta {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 640px) {
+    .app-meta { grid-template-columns: repeat(2, 1fr); gap: 1.125rem 2rem; }
+  }
+  .app-meta dt {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--aw-color-text-muted);
+    margin: 0 0 0.3125rem;
+    line-height: 1;
+    font-weight: 600;
+  }
+  .app-meta dd {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--aw-color-text-default);
+  }
+  .mono { font-family: var(--aw-font-mono, ui-monospace, monospace); }
+  .accent { color: var(--aw-color-primary); }
+
+  .why {
+    display: grid;
+    gap: 2rem;
+  }
+  @media (min-width: 768px) {
+    .why { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
   }
 </style>

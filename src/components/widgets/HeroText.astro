@@ -1,4 +1,4 @@
-﻿---
+---
 import type { CallToAction } from '~/types';
 import Button from '~/components/ui/Button.astro';
 
@@ -21,66 +21,35 @@ const {
 } = Astro.props;
 ---
 
-<section class="relative md:-mt-[76px] not-prose">
-  <div class="absolute inset-0 pointer-events-none" aria-hidden="true"></div>
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="pt-0 md:pt-[76px] pointer-events-none"></div>
-    <div class="py-12 md:py-20 pb-8 md:pb-8">
-      <div class="text-center max-w-5xl mx-auto">
-        {
-          tagline && (
-            <p
-              class="text-base text-secondary font-bold tracking-wide uppercase intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
-              set:html={tagline}
-            />
+<section class="aw-hero not-prose">
+  <div class="aw-container" style="text-align: center;">
+    {tagline && (
+      <p class="aw-eyebrow" style="justify-content: center;" set:html={tagline} />
+    )}
+    {title && (
+      <h1 class="aw-display" style="margin-left: auto; margin-right: auto;" set:html={title} />
+    )}
+    {subtitle && (
+      <p class="aw-lede" style="margin: 0 auto 2rem;" set:html={subtitle} />
+    )}
+    {(callToAction || callToAction2) && (
+      <div class="aw-actions aw-actions-center">
+        {callToAction && (
+          typeof callToAction === 'string' ? (
+            <Fragment set:html={callToAction} />
+          ) : (
+            <Button variant="primary" {...callToAction} />
           )
-        }
-        {
-          title && (
-            <h1
-              class="text-5xl md:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
-              set:html={title}
-            />
+        )}
+        {callToAction2 && (
+          typeof callToAction2 === 'string' ? (
+            <Fragment set:html={callToAction2} />
+          ) : (
+            <Button {...callToAction2} />
           )
-        }
-        <div class="max-w-3xl mx-auto">
-          {
-            subtitle && (
-              <p
-                class="text-xl text-muted mb-6 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
-                set:html={subtitle}
-              />
-            )
-          }
-          <div
-            class="max-w-xs sm:max-w-md m-auto flex flex-nowrap flex-col sm:flex-row sm:justify-center gap-4 intersect-once intersect-quarter motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
-          >
-            {
-              callToAction && (
-                <div class="flex w-full sm:w-auto">
-                  {typeof callToAction === 'string' ? (
-                    <Fragment set:html={callToAction} />
-                  ) : (
-                    <Button variant="primary" {...callToAction} />
-                  )}
-                </div>
-              )
-            }
-            {
-              callToAction2 && (
-                <div class="flex w-full sm:w-auto">
-                  {typeof callToAction2 === 'string' ? (
-                    <Fragment set:html={callToAction2} />
-                  ) : (
-                    <Button {...callToAction2} />
-                  )}
-                </div>
-              )
-            }
-          </div>
-        </div>
-        {content && <Fragment set:html={content} />}
+        )}
       </div>
-    </div>
+    )}
+    {content && <Fragment set:html={content} />}
   </div>
 </section>

@@ -1,66 +1,28 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import { Icon } from 'astro-icon/components';
 import ChatToAppDemo from '~/components/widgets/ChatToAppDemo.astro';
-import WorkflowLifecycle from '~/components/widgets/WorkflowLifecycle.astro';
 
 const metadata = {
   title: 'Aitroop — 把 AI Agent 对话固化成 App',
   ignoreTitleTemplate: true,
 };
 
-const pieces = [
-  {
-    icon: 'tabler:puzzle',
-    label: '150+ 技能',
-    title: '技能 Skills',
-    desc: '可复用的能力模块：线索挖掘、网页抓取、SEO 审计、github-mcp、calendar-mcp 等。一键安装。',
-    items: ['github-mcp', 'lead-finder', 'web-scrape', 'seo-audit', 'gmail-search', '更多'],
-  },
-  {
-    icon: 'tabler:plug-connected',
-    label: '20+ 集成',
-    title: '集成 Connects',
-    desc: 'OAuth 连接你已在使用的系统。Agent 通过你授权的账户读写数据。',
-    items: ['google-drive', 'gmail', 'github', 'salesforce', 'hubspot', 'notion'],
-  },
-  {
-    icon: 'tabler:calendar-clock',
-    label: 'cron 驱动',
-    title: '调度 Schedules',
-    desc: '将任意 App 设为定时任务。日报、小时轮询、周度汇总——结果自动送达。',
-    items: ['daily', 'hourly', 'weekly', '自定义 cron', '事件触发', '手动'],
-  },
-  {
-    icon: 'tabler:files',
-    label: '7 种格式',
-    title: '产物 Artifacts',
-    desc: '一等公民的产出物，可预览、编辑、下载，并作为下一阶段的输入继续流转。',
-    items: ['markdown', 'code', 'html', 'json', 'csv', 'image', 'file'],
-  },
+const anatomy = [
+  { n: '01', title: 'AppInput',  desc: '基于 Schema 的表单。text、select、daterange、file——按需声明，自动渲染。' },
+  { n: '02', title: 'Stage',     desc: '带明确目标的 Agent 会话。多数 App 仅需一个；多 Stage 时产物自动流转。' },
+  { n: '03', title: 'Artifact',  desc: '可预览、可导出，也能喂给下一个 Stage 继续流转。' },
 ];
 
-const anatomy = [
-  { n: '01', title: 'AppInput',  desc: '基于 Schema 的表单：text、daterange、select、file、connect_file——按需声明，自动渲染。' },
-  { n: '02', title: 'Stage',     desc: '一次独立的 AI Agent 会话，带明确目标。大多数 App 仅需一个；多 Stage 时产物自动向后流转。' },
-  { n: '03', title: 'Artifact',  desc: '最终交付物。可渲染预览、导出，也能回到 Chat 继续编辑或喂给下一个 Stage。' },
+const stats = [
+  { value: '150+', label: '技能' },
+  { value: '20+',  label: '集成' },
+  { value: 'cron', label: '调度' },
+  { value: '7',    label: '产物格式' },
 ];
 
 const cases = [
-  {
-    slug: '/zh-CN/use-cases/gtm',
-    eyebrow: 'B2B 增长',
-    title: 'GTM',
-    desc: '线索挖掘、外部触达、客户留存、管道洞察——Agent 驱动的增长能力套件。',
-    examples: ['线索富化', '冷邮件草稿', '账户健康监控', '管道洞察'],
-  },
-  {
-    slug: '/zh-CN/use-cases/finance',
-    eyebrow: '财务团队',
-    title: '财务 Finance',
-    desc: '月结、应收账款、费用合规、预算差异分析——面向财务团队与 CFO。',
-    examples: ['月结清单', '应收账龄报告', '费用稽核', '差异分析叙事'],
-  },
+  { slug: '/zh-CN/use-cases/gtm',     title: 'GTM',     desc: '线索挖掘、外部触达、客户留存、管道洞察。' },
+  { slug: '/zh-CN/use-cases/finance', title: '财务',    desc: '月结、稽核、差异分析、报告——CFO 团队专用。' },
 ];
 
 const demoStrings = {
@@ -100,67 +62,28 @@ const demoStrings = {
     '- fix(ui): 购物车合计四舍五入',
   ],
 };
-
-const lifecycleSteps = [
-  { icon: 'tabler:messages', label: '对话' },
-  { icon: 'tabler:device-floppy', label: '保存' },
-  { icon: 'tabler:forms', label: '表单' },
-  { icon: 'tabler:player-play', label: '运行' },
-  { icon: 'tabler:file-text', label: '产物' },
-  { icon: 'tabler:repeat', label: '调度' },
-];
 ---
 
 <Layout metadata={metadata}>
 
-  <!-- ══════════════════════════ HERO ══════════════════════════ -->
-  <section class="relative isolate overflow-hidden">
-    <div aria-hidden="true" class="aurora">
-      <div class="aurora-a"></div>
-      <div class="aurora-b"></div>
-    </div>
-    <div aria-hidden="true" class="grid-bg"></div>
-
-    <div class="mx-auto max-w-6xl px-6 md:px-10 pt-20 md:pt-28 lg:pt-32 pb-24 md:pb-32">
-      <div class="grid lg:grid-cols-[1.05fr_1fr] gap-12 lg:gap-14 items-center">
-
+  <!-- HERO ─────────────────────────────────────────────────────────── -->
+  <section class="aw-hero relative isolate overflow-hidden">
+    <div aria-hidden="true" class="hero-glow"></div>
+    <div class="aw-container-wide">
+      <div class="hero-grid">
         <div class="hero-copy">
-          <div class="hero-eyebrow">
-            <span class="relative flex h-1.5 w-1.5">
-              <span class="absolute inline-flex h-full w-full rounded-full bg-primary opacity-60 animate-ping"></span>
-              <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
-            </span>
-            <span>AI Agent 平台</span>
-          </div>
-
-          <h1 class="hero-h1">
-            把 Agent <span class="strike-pop">对话</span><br/>
-            <span class="text-primary">固化成 App。</span>
+          <p class="aw-eyebrow">AI Agent 平台</p>
+          <h1 class="aw-display hero-display">
+            把 Agent 对话<span class="text-primary">固化成 App。</span>
           </h1>
-
-          <p class="hero-sub">
-            在 Chat 里探索出有效方法后，保存为带表单与定时任务的 <span class="font-mono text-[var(--aw-color-text-default)]">App</span>。
-            团队拿到的是可复用的 AI 工作流——无需编码，也无需复制粘贴长 Prompt。
+          <p class="aw-lede hero-lede">
+            在 Chat 里探索出有效方法后，保存为带表单与定时任务的 App。团队拿到的是可复用的 AI 工作流——无需编码。
           </p>
-
-          <div class="hero-cta">
-            <a href="https://app.aitroop.net" class="btn-pill btn-pill-primary">
-              免费开始
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </a>
-            <a href="/zh-CN/use-cases" class="btn-pill btn-pill-ghost">
-              查看案例
-            </a>
+          <div class="aw-actions">
+            <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">免费开始</a>
+            <a href="/zh-CN/use-cases" class="aw-btn aw-btn-ghost">查看案例</a>
           </div>
-
-          <ul class="trust-strip">
-            <li>多租户</li>
-            <li>OAuth 集成</li>
-            <li>150+ 内置技能</li>
-            <li>E2B 沙箱隔离</li>
-          </ul>
         </div>
-
         <div class="hero-demo">
           <ChatToAppDemo {...demoStrings} />
         </div>
@@ -168,137 +91,65 @@ const lifecycleSteps = [
     </div>
   </section>
 
-  <!-- ══════════════════════════ WORKFLOW ══════════════════════ -->
-  <section class="band-subtle border-t border-[var(--aw-color-border)]">
-    <div class="mx-auto max-w-6xl px-6 md:px-10 py-16 md:py-24">
-      <div class="text-center mb-12 md:mb-14 mx-auto max-w-[640px]">
-        <p class="section-label inline-block">完整闭环</p>
-        <h2 class="section-title section-title--mid">一次对话，跑上一千遍。</h2>
-      </div>
-      <WorkflowLifecycle steps={lifecycleSteps} loopHint="并且会自动循环——定时、按需、Webhook 触发" />
-    </div>
-  </section>
-
-  <!-- ══════════════════════════ BUILT-IN ══════════════════════ -->
-  <section class="border-y border-[var(--aw-color-border)] py-24 md:py-32">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <header class="section-intro">
-        <p class="section-label">开箱即用</p>
-        <h2 class="section-title">Agent 需要的一切，都在这里。</h2>
-        <p class="section-lede">
-          不需要组装集成，也不需要写胶水代码。挑选技能、授权系统、设置调度——发布上线。
-        </p>
+  <!-- ANATOMY ──────────────────────────────────────────────────────── -->
+  <section class="aw-section">
+    <div class="aw-container">
+      <header class="aw-section-head">
+        <p class="aw-eyebrow">解剖</p>
+        <h2 class="aw-h2">一个 App，三块拼图。</h2>
       </header>
 
-      <div class="grid sm:grid-cols-2 gap-5">
-        {pieces.map((p, i) => (
-          <div class="piece-card intersect intersect-once motion-safe:opacity-0 motion-safe:translate-y-3 motion-safe:[&:not([no-intersect])]:opacity-100 motion-safe:[&:not([no-intersect])]:translate-y-0 motion-safe:transition-all motion-safe:duration-700" style={`transition-delay:${i * 90}ms`}>
-            <div class="flex items-start justify-between mb-5">
-              <div class="piece-icon">
-                <Icon name={p.icon} class="w-[18px] h-[18px]" />
-              </div>
-              <span class="piece-badge">{p.label}</span>
-            </div>
-            <h3 class="piece-title">{p.title}</h3>
-            <p class="piece-desc">{p.desc}</p>
-            <div class="piece-tags">
-              {p.items.map((item) => (
-                <span class="piece-tag">{item}</span>
-              ))}
-            </div>
+      <div class="anatomy">
+        {anatomy.map((a) => (
+          <article class="aw-piece">
+            <span class="aw-piece-num">{a.n}</span>
+            <h3 class="aw-piece-title">{a.title}</h3>
+            <p class="aw-piece-desc">{a.desc}</p>
+          </article>
+        ))}
+      </div>
+
+      <div class="stats" role="list">
+        {stats.map((s) => (
+          <div class="stat" role="listitem">
+            <span class="stat-value">{s.value}</span>
+            <span class="stat-label">{s.label}</span>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════ ANATOMY ══════════════════════ -->
-  <section class="band-subtle py-24 md:py-32">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <header class="section-intro">
-        <p class="section-label">App 的解剖</p>
-        <h2 class="section-title">一个 App，三块拼图。</h2>
-        <p class="section-lede">
-          整个平台的核心只有三个原语。简单可推理，灵活可组合。
-        </p>
+  <!-- USE CASES ────────────────────────────────────────────────────── -->
+  <section class="aw-section">
+    <div class="aw-container">
+      <header class="aw-section-head">
+        <p class="aw-eyebrow">案例</p>
+        <h2 class="aw-h2">为团队真实在做的事而设计。</h2>
       </header>
 
-      <div class="anatomy">
-        <div aria-hidden="true" class="anatomy-rail"></div>
-        <div class="grid md:grid-cols-3 gap-6 md:gap-8 relative">
-          {anatomy.map((a, i) => (
-            <div class="anatomy-card intersect intersect-once motion-safe:opacity-0 motion-safe:translate-y-3 motion-safe:[&:not([no-intersect])]:opacity-100 motion-safe:[&:not([no-intersect])]:translate-y-0 motion-safe:transition-all motion-safe:duration-700" style={`transition-delay:${i * 110}ms`}>
-              <div class="anatomy-num">{a.n}</div>
-              <h3 class="anatomy-title">{a.title}</h3>
-              <p class="anatomy-desc">{a.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div class="anatomy-formula-wrap">
-        <div class="anatomy-formula">
-          <code>
-            <span class="text-primary">App</span> = <span class="text-primary">AppInput</span>[] + <span class="text-primary">Stage</span>[] + <span class="text-primary">Artifact</span>[]
-          </code>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════ USE CASES ════════════════════ -->
-  <section class="border-y border-[var(--aw-color-border)] py-24 md:py-32">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <header class="section-intro">
-        <p class="section-label">案例</p>
-        <h2 class="section-title">为团队真实要做的事而设计。</h2>
-        <p class="section-lede">
-          我们提供预置 App 包，覆盖各团队的常见工作流。开箱即用，或 fork 后改造为你自己的流程。
-        </p>
-      </header>
-
-      <div class="grid md:grid-cols-2 gap-5">
-        {cases.map((c, i) => (
-          <a href={c.slug} class="case-card group intersect intersect-once motion-safe:opacity-0 motion-safe:translate-y-3 motion-safe:[&:not([no-intersect])]:opacity-100 motion-safe:[&:not([no-intersect])]:translate-y-0 motion-safe:transition-all motion-safe:duration-700" style={`transition-delay:${i * 120}ms`}>
-            <p class="case-eyebrow">{c.eyebrow}</p>
-            <h3 class="case-title">{c.title}</h3>
-            <p class="case-desc">{c.desc}</p>
-            <ul class="case-list">
-              {c.examples.map((ex) => (
-                <li>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-                  <span>{ex}</span>
-                </li>
-              ))}
-            </ul>
-            <span class="case-cta">
-              查看案例详情
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </span>
-          </a>
+      <ul class="cases">
+        {cases.map((c) => (
+          <li>
+            <a href={c.slug}>
+              <span class="case-title">{c.title}</span>
+              <span class="case-desc">{c.desc}</span>
+              <span class="case-arrow aw-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   </section>
 
-  <!-- ══════════════════════════ CTA ══════════════════════════ -->
-  <section class="cta-section relative isolate overflow-hidden">
-    <div aria-hidden="true" class="cta-glow"></div>
-    <div class="mx-auto max-w-3xl px-6 md:px-10 text-center relative">
-      <h2 class="cta-h2">
-        午饭前发布你的<br/>第一个 App。
-      </h2>
-      <p class="cta-lede">
-        打开对话，跑通一次，点击<span class="font-mono"> 存为 App </span>——就是整个流程。
-      </p>
-      <div class="cta-actions">
-        <a href="https://app.aitroop.net" class="btn-pill btn-pill-primary">
-          免费开始
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-        <a href="/zh-CN/contact" class="btn-pill btn-pill-ghost">
-          联系我们
-        </a>
+  <!-- CTA ──────────────────────────────────────────────────────────── -->
+  <section class="aw-section">
+    <div class="aw-container-narrow">
+      <h2 class="aw-h2 cta-h2">午饭前发布你的第一个 App。</h2>
+      <p class="aw-lede">打开对话。点击 <code class="aw-code">存为 App</code>。整个流程就是这样。</p>
+      <div class="aw-actions aw-actions-center">
+        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">免费开始</a>
+        <a href="/zh-CN/contact" class="aw-btn aw-btn-ghost">联系我们</a>
       </div>
     </div>
   </section>
@@ -306,541 +157,145 @@ const lifecycleSteps = [
 </Layout>
 
 <style>
-  /* ════════════════════════════════════════════════════════════════
-     DESIGN TOKENS (local to homepage)
-     ════════════════════════════════════════════════════════════════ */
-  .band-subtle {
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.012), rgba(0, 0, 0, 0.022) 50%, rgba(0, 0, 0, 0.012));
-  }
-
-  .section-intro { max-width: 640px; margin-bottom: 3rem; }
-  @media (min-width: 768px) { .section-intro { margin-bottom: 4rem; } }
-  .section-label {
-    display: inline-block;
-    font-size: 0.6875rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    font-weight: 700;
-    color: var(--aw-color-primary);
-    margin-bottom: 0.875rem;
-    line-height: 1;
-  }
-  .section-title {
-    font-size: clamp(1.875rem, 3.6vw, 2.5rem);
-    font-weight: 800;
-    letter-spacing: -0.032em;
-    line-height: 1.08;
-    color: var(--aw-color-text-heading);
-    margin: 0 0 0.875rem;
-    text-wrap: balance;
-  }
-  .section-title--mid {
-    font-size: clamp(1.625rem, 3vw, 2rem);
-    letter-spacing: -0.028em;
-    margin-bottom: 0;
-  }
-  .section-lede {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: var(--aw-color-text-muted);
-    text-wrap: pretty;
-    margin: 0;
-  }
-  @media (min-width: 768px) { .section-lede { font-size: 1.0625rem; } }
-
-  /* ── HERO ── */
-  .hero-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.3125rem 0.6875rem;
-    border-radius: 9999px;
-    border: 1px solid var(--aw-color-border);
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.6) inset;
-    margin-bottom: 1.5rem;
-  }
-  .hero-eyebrow > span:last-child {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.6875rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--aw-color-text-muted);
-    line-height: 1;
-  }
-  .hero-h1 {
-    font-size: clamp(2.5rem, 5.2vw, 4rem);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1.05;
-    color: var(--aw-color-text-heading);
-    margin: 0 0 1.5rem;
-    text-wrap: balance;
-  }
-  .hero-sub {
-    font-size: 1.0625rem;
-    line-height: 1.75;
-    color: var(--aw-color-text-muted);
-    max-width: 520px;
-    margin: 0 0 2rem;
-    text-wrap: pretty;
-  }
-  @media (min-width: 768px) { .hero-sub { font-size: 1.125rem; } }
-
-  .strike-pop { position: relative; display: inline-block; }
-  .strike-pop::after {
-    content: '';
+  .hero-glow {
     position: absolute;
-    left: -4px; right: -4px;
-    bottom: 0.08em;
-    height: 0.36em;
-    background: rgba(82, 153, 97, 0.18);
-    border-radius: 3px;
-    z-index: -1;
-  }
-
-  .hero-cta {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 2rem;
-  }
-
-  .trust-strip {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.375rem 1.25rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .trust-strip li {
-    position: relative;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
-    color: var(--aw-color-text-muted);
-    line-height: 1.3;
-    letter-spacing: -0.01em;
-    padding-left: 0.75rem;
-  }
-  .trust-strip li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px; height: 4px;
-    border-radius: 9999px;
-    background: rgba(82, 153, 97, 0.55);
-  }
-
-  .aurora {
-    position: absolute;
-    inset: -20% -10% auto -10%;
+    inset: -10% -10% auto -10%;
     height: 120%;
-    z-index: -2;
-    pointer-events: none;
-  }
-  .aurora-a, .aurora-b {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.9;
-  }
-  .aurora-a {
-    top: -10%; left: 5%;
-    width: 55%; height: 70%;
-    background: radial-gradient(circle, rgba(82, 153, 97, 0.22), transparent 65%);
-  }
-  .aurora-b {
-    top: 10%; right: -10%;
-    width: 50%; height: 60%;
-    background: radial-gradient(circle, rgba(82, 153, 97, 0.14), transparent 65%);
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .aurora-a { animation: aurora-drift-a 28s ease-in-out infinite; }
-    .aurora-b { animation: aurora-drift-b 36s ease-in-out infinite; }
-  }
-  @keyframes aurora-drift-a {
-    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-    50%      { transform: translate3d(2%, 3%, 0) scale(1.08); }
-  }
-  @keyframes aurora-drift-b {
-    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-    50%      { transform: translate3d(-2%, -2%, 0) scale(1.06); }
-  }
-
-  .grid-bg {
-    position: absolute;
-    inset: 0;
     z-index: -1;
-    opacity: 0.32;
-    background-image:
-      linear-gradient(rgba(0, 0, 0, 0.045) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
-    background-size: 48px 48px;
-    -webkit-mask-image: radial-gradient(ellipse 72% 56% at 50% 0%, #000 30%, transparent 78%);
-            mask-image: radial-gradient(ellipse 72% 56% at 50% 0%, #000 30%, transparent 78%);
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 55% 50% at 22% 18%, rgba(82, 153, 97, 0.10), transparent 65%),
+      radial-gradient(ellipse 50% 50% at 80% 30%, rgba(82, 153, 97, 0.06), transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 80%);
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 80%);
   }
 
-  /* ── BUTTONS ── */
-  .btn-pill {
-    display: inline-flex;
+  .hero-grid {
+    display: grid;
+    gap: 3rem;
     align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    height: 2.75rem;
-    padding: 0 1.375rem;
-    border-radius: 9999px;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    letter-spacing: -0.005em;
-    line-height: 1;
-    white-space: nowrap;
-    transition:
-      background-color 160ms ease,
-      border-color 160ms ease,
-      box-shadow 200ms ease,
-      transform 160ms ease;
-    will-change: transform;
   }
-  .btn-pill:focus-visible {
-    outline: none;
-    box-shadow:
-      0 0 0 2px var(--aw-color-bg-page),
-      0 0 0 4px rgba(82, 153, 97, 0.55);
+  @media (min-width: 1024px) {
+    .hero-grid {
+      grid-template-columns: 1.1fr 1fr;
+      gap: 4.5rem;
+    }
   }
-  .btn-pill-primary {
-    background: var(--aw-color-primary);
-    color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.04);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.18),
-      0 1px 2px rgba(45, 110, 63, 0.25),
-      0 8px 20px -8px rgba(82, 153, 97, 0.55);
-  }
-  .btn-pill-primary:hover {
-    background: rgb(61, 133, 79);
-    transform: translateY(-1px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.22),
-      0 2px 4px rgba(45, 110, 63, 0.28),
-      0 14px 28px -10px rgba(82, 153, 97, 0.6);
-  }
-  .btn-pill-primary:active {
-    transform: translateY(0);
-    box-shadow:
-      inset 0 1px 1px rgba(0, 0, 0, 0.08),
-      0 1px 2px rgba(45, 110, 63, 0.25);
-  }
-  .btn-pill-ghost {
-    background: rgba(255, 255, 255, 0.6);
-    color: var(--aw-color-text-default);
-    border: 1px solid var(--aw-color-border);
-    backdrop-filter: blur(6px);
-  }
-  .btn-pill-ghost:hover {
-    border-color: rgba(0, 0, 0, 0.22);
-    background: rgba(0, 0, 0, 0.03);
-    transform: translateY(-1px);
-  }
-  .btn-pill-ghost:active { transform: translateY(0); }
-
-  /* ── PIECES ── */
-  .piece-card {
-    position: relative;
-    padding: 1.625rem;
-    border-radius: 14px;
-    border: 1px solid var(--aw-color-border);
-    background: var(--aw-color-bg-page);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      0 1px 0 rgba(0, 0, 0, 0.015);
-    transition:
-      border-color 200ms ease,
-      box-shadow 250ms ease,
-      transform 200ms ease;
-  }
-  .piece-card:hover {
-    border-color: rgba(82, 153, 97, 0.35);
-    transform: translateY(-2px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      0 12px 32px -16px rgba(82, 153, 97, 0.28),
-      0 4px 12px -6px rgba(0, 0, 0, 0.06);
-  }
-  .piece-card:hover .piece-icon {
-    background: rgba(82, 153, 97, 0.16);
-    transform: scale(1.05);
-  }
-  .piece-icon {
-    width: 40px; height: 40px;
-    border-radius: 10px;
-    background: rgba(82, 153, 97, 0.08);
-    color: var(--aw-color-primary);
-    display: inline-flex; align-items: center; justify-content: center;
-    transition: background 200ms ease, transform 200ms ease;
-  }
-  .piece-badge {
-    display: inline-flex;
-    align-items: center;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--aw-color-text-muted);
-    padding: 0.25rem 0.625rem;
-    border-radius: 9999px;
-    border: 1px solid var(--aw-color-border);
-    background: var(--aw-color-bg-page);
-    line-height: 1;
-    height: 22px;
-  }
-  .piece-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    letter-spacing: -0.015em;
-    color: var(--aw-color-text-heading);
-    margin: 0 0 0.5rem;
-  }
-  .piece-desc {
-    font-size: 0.9375rem;
-    color: var(--aw-color-text-muted);
-    line-height: 1.65;
-    margin: 0 0 1.125rem;
-    text-wrap: pretty;
-  }
-  .piece-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.375rem;
-  }
-  .piece-tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.1875rem 0.5rem;
-    border-radius: 6px;
-    background: var(--aw-color-bg-subtle);
-    border: 1px solid transparent;
-    color: var(--aw-color-text-muted);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.6875rem;
-    line-height: 1.4;
-    transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
-  }
-  .piece-card:hover .piece-tag {
-    background: rgba(82, 153, 97, 0.06);
-    border-color: rgba(82, 153, 97, 0.12);
-    color: var(--aw-color-text-default);
-  }
-
-  /* ── ANATOMY ── */
-  .anatomy { position: relative; }
-  .anatomy-rail {
-    display: none;
-    position: absolute;
-    top: 20px;
-    left: 16.6667%; right: 16.6667%;
-    height: 1px;
-    background: linear-gradient(to right,
-      transparent 0%,
-      rgba(82, 153, 97, 0.10) 8%,
-      var(--aw-color-border) 50%,
-      rgba(82, 153, 97, 0.10) 92%,
-      transparent 100%
-    );
-    z-index: 0;
-  }
-  @media (min-width: 768px) { .anatomy-rail { display: block; } }
-  .anatomy-card {
-    position: relative;
-    padding: 1.5rem 1.75rem 1.75rem;
-    background: var(--aw-color-bg-page);
-    border: 1px solid var(--aw-color-border);
-    border-radius: 14px;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      0 1px 0 rgba(0, 0, 0, 0.015);
-    z-index: 1;
-  }
-  .anatomy-num {
-    width: 56px; height: 56px;
-    margin: -2rem 0 1.25rem;
-    border-radius: 9999px;
-    background: var(--aw-color-bg-page);
-    border: 1px solid var(--aw-color-border);
-    display: inline-flex; align-items: center; justify-content: center;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.9375rem; font-weight: 700;
-    color: var(--aw-color-primary);
-    letter-spacing: 0.02em;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.8),
-      0 6px 16px -8px rgba(82, 153, 97, 0.3),
-      0 1px 2px rgba(0, 0, 0, 0.04);
-  }
-  .anatomy-title {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 1.0625rem;
-    font-weight: 600;
-    color: var(--aw-color-text-heading);
-    letter-spacing: -0.01em;
-    margin: 0 0 0.5rem;
-  }
-  .anatomy-desc {
-    font-size: 0.9375rem;
-    color: var(--aw-color-text-muted);
-    line-height: 1.7;
-    margin: 0;
-    text-wrap: pretty;
-  }
-  .anatomy-formula-wrap {
-    display: flex;
-    justify-content: center;
-    margin-top: 3.5rem;
-  }
-  @media (min-width: 768px) { .anatomy-formula-wrap { margin-top: 4rem; } }
-  .anatomy-formula {
-    padding: 0.875rem 1.25rem;
-    border-radius: 12px;
-    background: var(--aw-color-bg-page);
-    border: 1px solid var(--aw-color-border);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      0 1px 2px rgba(0, 0, 0, 0.02);
-  }
-  .anatomy-formula code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.875rem;
-    color: var(--aw-color-text-default);
-    line-height: 1.6;
-    letter-spacing: -0.005em;
-  }
-
-  /* ── USE CASES ── */
-  .case-card {
-    display: block;
-    position: relative;
-    padding: 1.75rem 1.875rem 1.875rem;
-    border: 1px solid var(--aw-color-border);
-    border-radius: 14px;
-    background: var(--aw-color-bg-page);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      0 1px 0 rgba(0, 0, 0, 0.015);
-    transition:
-      border-color 220ms ease,
-      box-shadow 280ms ease,
-      transform 220ms ease;
-  }
-  @media (min-width: 768px) { .case-card { padding: 2rem 2.25rem 2.125rem; } }
-  .case-card:hover {
-    border-color: rgba(82, 153, 97, 0.45);
-    transform: translateY(-2px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.6),
-      0 18px 44px -20px rgba(82, 153, 97, 0.28),
-      0 6px 16px -8px rgba(0, 0, 0, 0.06);
-  }
-  .case-eyebrow {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--aw-color-text-muted);
-    margin: 0 0 0.75rem;
-    line-height: 1;
-  }
-  .case-title {
-    font-size: 1.75rem;
-    font-weight: 800;
-    letter-spacing: -0.028em;
-    line-height: 1.1;
-    color: var(--aw-color-text-heading);
-    margin: 0 0 0.625rem;
-    transition: color 200ms ease;
-  }
-  @media (min-width: 768px) { .case-title { font-size: 2.125rem; } }
-  .case-card:hover .case-title { color: var(--aw-color-primary); }
-  .case-desc {
-    font-size: 0.9375rem;
-    color: var(--aw-color-text-muted);
-    line-height: 1.7;
+  .hero-display {
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    line-height: 1.05;
     margin: 0 0 1.5rem;
-    text-wrap: pretty;
+    max-width: 16ch;
   }
-  .case-list {
-    list-style: none;
-    margin: 0 0 1.625rem;
-    padding: 0;
+  .hero-lede { max-width: 42ch; }
+
+  .anatomy {
+    display: grid;
+    gap: 2rem;
+    margin-bottom: 4.5rem;
+  }
+  @media (min-width: 768px) {
+    .anatomy {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+      margin-bottom: 5.5rem;
+    }
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--aw-color-border);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .stats { grid-template-columns: repeat(4, 1fr); }
+  }
+  .stat {
+    background: var(--aw-color-bg-page);
+    padding: 1.25rem 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 0.375rem;
+    gap: 0.4rem;
+    transition: background-color 200ms ease;
   }
-  .case-list li {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
-    line-height: 1.5;
-    color: var(--aw-color-text-default);
-  }
-  .case-list svg {
-    color: rgba(82, 153, 97, 0.75);
-    flex-shrink: 0;
-  }
-  .case-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--aw-color-primary);
-    letter-spacing: -0.005em;
-  }
-  .case-card:hover .case-cta svg { transform: translateX(2px); }
-  .case-cta svg { transition: transform 200ms ease; }
-
-  /* ── CTA ── */
-  .cta-section { padding: 6rem 0 7rem; }
-  @media (min-width: 768px) { .cta-section { padding: 8rem 0 9rem; } }
-  .cta-h2 {
-    font-size: clamp(2.125rem, 4.5vw, 3rem);
-    font-weight: 800;
-    letter-spacing: -0.035em;
-    line-height: 1.1;
-    color: var(--aw-color-text-heading);
-    margin: 0 0 1rem;
-    text-wrap: balance;
-  }
-  .cta-lede {
+  .stat:hover { background: var(--aw-color-bg-subtle); }
+  .stat-value {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
     font-size: 1.0625rem;
-    line-height: 1.7;
+    font-weight: 600;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.01em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .stat-label {
+    font-size: 0.75rem;
     color: var(--aw-color-text-muted);
-    margin: 0 auto 2rem;
-    max-width: 440px;
-    text-wrap: pretty;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
   }
-  .cta-actions {
-    display: flex;
-    flex-wrap: wrap;
+
+  .cases {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .cases li { border-top: 1px solid var(--aw-color-border); }
+  .cases li:last-child { border-bottom: 1px solid var(--aw-color-border); }
+  .cases a {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "title arrow"
+      "desc  arrow";
+    column-gap: 1rem;
+    row-gap: 0.5rem;
+    padding: 1.75rem 0;
     align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
+    transition: padding-left 220ms ease;
   }
-  .cta-glow {
-    position: absolute;
-    inset: auto 0 -20% 0;
-    height: 70%;
-    z-index: -1;
-    background:
-      radial-gradient(ellipse 55% 65% at 50% 100%, rgba(82, 153, 97, 0.16), transparent 70%);
-    pointer-events: none;
+  @media (min-width: 768px) {
+    .cases a {
+      grid-template-columns: 12rem 1fr auto;
+      grid-template-areas: "title desc arrow";
+      column-gap: 2.5rem;
+      padding: 2.25rem 0;
+    }
+  }
+  .cases a:hover { padding-left: 0.25rem; }
+
+  .case-title {
+    grid-area: title;
+    font-size: 1.625rem;
+    font-weight: 700;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    transition: color 200ms ease;
+  }
+  .case-desc {
+    grid-area: desc;
+    color: var(--aw-color-text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+  }
+  .case-arrow {
+    grid-area: arrow;
+    color: var(--aw-color-text-muted);
+    font-size: 1.125rem;
+    line-height: 1;
+    transition: color 200ms ease, transform 220ms ease;
+  }
+  .cases a:hover .case-title { color: var(--aw-color-primary); }
+  .cases a:hover .case-arrow { color: var(--aw-color-primary); }
+
+  .cta-h2 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    margin: 0 auto 1rem;
+    max-width: 18ch;
   }
 </style>

@@ -1,226 +1,301 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import { Icon } from 'astro-icon/components';
 
 const metadata = {
   title: '財務案例 — Aitroop',
 };
 
+const stats = [
+  { value: '↓ 60%', label: '月結週期' },
+  { value: '100%',  label: '審計可追溯' },
+  { value: '7',     label: '產物格式' },
+  { value: '∞',     label: '同形態複跑' },
+];
+
 const apps = [
   {
-    icon: 'tabler:calendar-check',
+    n: '01',
     name: '月結清單 Month-end checklist',
-    description: '按順序跑完整個月結：總帳對帳、計提分錄、內部往來匹配、簽核確認。每一步都留下審計痕跡。',
-    inputs: ['結算期間', '法人實體', '負責人分派'],
-    outputs: ['月結清單 (markdown)', '對帳報告 (csv)'],
+    description: '按順序跑完整個月結：總帳核對、計提分錄、內部往來匹配、簽字確認。每一步都留下審計痕跡。',
+    inputs: ['結算期間', '法人主體', '負責人分配'],
+    outputs: ['月結清單 (Markdown)', '對帳報告 (CSV)'],
     skills: ['gl-reconcile', 'accrual-calc', 'intercompany-match'],
     connects: ['quickbooks', 'xero', 'netsuite'],
   },
   {
-    icon: 'tabler:receipt-tax',
+    n: '02',
     name: '應收帳齡 AR aging',
     description: '應收帳款按帳齡分桶，標記風險敞口，自動產生對帳與催款郵件草稿——一氣呵成。',
     inputs: ['基準日期', '帳齡分桶', '風險閾值'],
-    outputs: ['帳齡報告 (csv)', '催款郵件草稿 (markdown)'],
+    outputs: ['帳齡報告 (CSV)', '催款郵件草稿 (Markdown)'],
     skills: ['ar-bucket', 'risk-score', 'email-writer'],
     connects: ['quickbooks', 'stripe', 'gmail'],
   },
   {
-    icon: 'tabler:scan-eye',
+    n: '03',
     name: '費用稽核 Expense audit',
-    description: '掃描費用申請，識別政策違規、重複提交與異常項。Agent 解釋每個例外的理由，供人工複核。',
+    description: '掃描費用報銷，識別政策違規、重複提交與異常項。Agent 解釋每個例外的理由，供人工複核。',
     inputs: ['期間', '政策文件', '閾值規則'],
-    outputs: ['例外清單 (csv)', '稽核摘要 (markdown)'],
+    outputs: ['例外清單 (CSV)', '稽核摘要 (Markdown)'],
     skills: ['expense-classify', 'policy-match', 'anomaly-detect'],
     connects: ['expensify', 'concur', 'google-drive'],
   },
   {
-    icon: 'tabler:chart-arcs',
+    n: '04',
     name: '差異分析 Variance analysis',
     description: '對比實際與預算，歸因每個差異背後的主驅動因素，產生可直接放進董事會材料的敘事說明。',
     inputs: ['期間', '部門篩選', '差異閾值'],
-    outputs: ['差異明細 (csv)', '執行層敘事 (markdown)'],
+    outputs: ['差異明細 (CSV)', '執行層敘事 (Markdown)'],
     skills: ['variance-calc', 'driver-attribute', 'narrative-writer'],
     connects: ['netsuite', 'quickbooks', 'sheets'],
   },
 ];
+
+const why = [
+  { title: '預設可審計',     desc: '每一次 App 運行都產出結構化產物與完整執行日誌。可複現、可比對、可對外解釋。' },
+  { title: '資料始終屬於你',  desc: '每個使用者在隔離沙箱中執行。OAuth 僅授權 Agent 看到的範圍。資料不會用於模型訓練。' },
+  { title: '每週期同形態',    desc: '相同的 App 每次產出相同的結構化輸出。對下游消費者可預測，對董事會可審計。' },
+];
 ---
 
 <Layout metadata={metadata}>
-  <section class="border-b border-[var(--aw-color-border)] py-16 md:py-20">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <nav class="text-[0.75rem] font-mono text-[var(--aw-color-text-muted)] mb-6">
-        <a href="/zh-TW/use-cases" class="hover:text-[var(--aw-color-text-default)] transition-colors">案例</a>
-        <span class="mx-2 opacity-50">/</span>
-        <span class="text-[var(--aw-color-text-default)]">財務</span>
+
+  <!-- HERO ─────────────────────────────────────────────────────────── -->
+  <section class="aw-hero">
+    <div class="aw-container">
+      <nav class="aw-crumbs">
+        <a href="/zh-TW/use-cases">案例</a>
+        <span aria-hidden="true">/</span>
+        <span>財務</span>
       </nav>
-
-      <p class="section-label">財務團隊 · CFO</p>
-      <h1 class="text-[2.25rem] md:text-[3.25rem] font-black tracking-[-0.03em] leading-[1.05] text-[var(--aw-color-text-heading)] mb-5 max-w-[820px]">
-        更快地把帳關掉。
-      </h1>
-      <p class="text-[1rem] md:text-[1.0625rem] text-[var(--aw-color-text-muted)] leading-[1.7] max-w-[640px] mb-8">
-        四個預置 App 覆蓋月結與日常財務運營的常見環節。讓團隊少花時間在試算表上，多花時間在驅動決策的分析上。
+      <p class="aw-eyebrow">財務團隊 · CFO</p>
+      <h1 class="aw-display" style="max-width: 14ch;">更快地把帳關掉。</h1>
+      <p class="aw-lede" style="max-width: 52ch;">
+        四個預置 App 覆蓋月結與日常財務營運的常見環節。讓團隊少花時間在表格上，多花時間在驅動決策的分析上。
       </p>
-
-      <div class="flex flex-wrap items-center gap-3">
-        <a href="https://app.aitroop.net"
-           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
-          安裝財務套件
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-        <a href="/zh-TW/contact"
-           class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.025)] transition-all duration-150">
-          聯絡顧問
-        </a>
+      <div class="aw-actions">
+        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">安裝財務套件</a>
+        <a href="/zh-TW/contact" class="aw-btn aw-btn-ghost">聯絡顧問</a>
       </div>
     </div>
   </section>
 
-  <section class="border-b border-[var(--aw-color-border)] py-12 md:py-14">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10">
-        <div>
-          <p class="text-[2rem] md:text-[2.5rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] mb-1">↓ 60%</p>
-          <p class="text-[0.75rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)]">月結週期</p>
-        </div>
-        <div>
-          <p class="text-[2rem] md:text-[2.5rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] mb-1">100%</p>
-          <p class="text-[0.75rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)]">審計可追溯</p>
-        </div>
-        <div>
-          <p class="text-[2rem] md:text-[2.5rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] mb-1">7</p>
-          <p class="text-[0.75rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)]">產物格式</p>
-        </div>
-        <div>
-          <p class="text-[2rem] md:text-[2.5rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] mb-1">∞</p>
-          <p class="text-[0.75rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)]">同形態複跑</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-16 md:py-24">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <div class="mb-12">
-        <p class="section-label">包含的 APP</p>
-        <h2 class="text-[1.75rem] md:text-[2rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)]">財務週期裡的四個 App。</h2>
-      </div>
-
-      <div class="space-y-4">
-        {apps.map((app) => (
-          <div class="group p-6 md:p-8 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-primary/25 transition-colors">
-            <div class="grid md:grid-cols-[1fr_320px] gap-6 md:gap-10">
-              <div>
-                <div class="flex items-center gap-3 mb-3">
-                  <div class="w-10 h-10 rounded-lg bg-primary/[0.08] flex items-center justify-center text-primary">
-                    <Icon name={app.icon} class="w-5 h-5" />
-                  </div>
-                  <h3 class="text-[1.25rem] font-semibold text-[var(--aw-color-text-heading)]">{app.name}</h3>
-                </div>
-                <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-5">{app.description}</p>
-
-                <div class="flex flex-wrap gap-x-6 gap-y-3 text-[0.8125rem]">
-                  <div>
-                    <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-1">Skills</span>
-                    <div class="flex flex-wrap gap-1.5">
-                      {app.skills.map((s) => (
-                        <span class="font-mono text-[0.6875rem] px-2 py-0.5 rounded-md bg-[var(--aw-color-bg-subtle)] text-[var(--aw-color-text-default)]">{s}</span>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-1">Connects</span>
-                    <div class="flex flex-wrap gap-1.5">
-                      {app.connects.map((c) => (
-                        <span class="font-mono text-[0.6875rem] px-2 py-0.5 rounded-md bg-primary/[0.08] text-primary">{c}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="md:border-l md:border-[var(--aw-color-border)] md:pl-8">
-                <div class="mb-4">
-                  <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-2">輸入</span>
-                  <ul class="space-y-1">
-                    {app.inputs.map((i) => (
-                      <li class="text-[0.8125rem] text-[var(--aw-color-text-default)] flex items-center gap-2">
-                        <span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>
-                        {i}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-2">產物</span>
-                  <ul class="space-y-1">
-                    {app.outputs.map((o) => (
-                      <li class="text-[0.8125rem] text-[var(--aw-color-text-default)] flex items-center gap-2">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" class="text-primary/70 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-                        {o}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
+  <!-- METRICS ──────────────────────────────────────────────────────── -->
+  <section class="metrics-section">
+    <div class="aw-container">
+      <div class="metrics" role="list">
+        {stats.map((s) => (
+          <div class="metric" role="listitem">
+            <span class="metric-value">{s.value}</span>
+            <span class="metric-label">{s.label}</span>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="bg-[rgba(0,0,0,0.015)] border-y border-[var(--aw-color-border)] py-16 md:py-24">
-    <div class="mx-auto max-w-5xl px-6 md:px-10">
-      <p class="section-label">為什麼財務負責人選 AITROOP</p>
-      <div class="grid md:grid-cols-3 gap-8 mt-6">
-        <div>
-          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">預設可審計</h3>
-          <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.7]">每次執行都產出結構化產物與完整執行日誌。可重現、可比較、可申辯——半年之後依然成立。</p>
-        </div>
-        <div>
-          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">資料歸你所有</h3>
-          <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.7]">每個使用者在獨立沙箱中執行。OAuth 權限限定 Agent 能看到什麼。我們不會用你的財務資料訓練模型。</p>
-        </div>
-        <div>
-          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">每個週期同形態</h3>
-          <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.7]">App 每次輸出結構一致，對下游消費者可預期、對董事會可審計。</p>
-        </div>
+  <!-- APPS ─────────────────────────────────────────────────────────── -->
+  <section class="aw-section">
+    <div class="aw-container">
+      <header class="aw-section-head">
+        <p class="aw-eyebrow">包含的 App</p>
+        <h2 class="aw-h2">四個 App，覆蓋財務週期。</h2>
+      </header>
+
+      <div class="apps">
+        {apps.map((app) => (
+          <article class="app">
+            <div class="app-head">
+              <span class="app-num">{app.n}</span>
+              <h3 class="app-title">{app.name}</h3>
+            </div>
+            <div class="app-body">
+              <p class="app-desc">{app.description}</p>
+              <dl class="app-meta">
+                <div>
+                  <dt>輸入</dt>
+                  <dd>{app.inputs.join(' · ')}</dd>
+                </div>
+                <div>
+                  <dt>產物</dt>
+                  <dd>{app.outputs.join(' · ')}</dd>
+                </div>
+                <div>
+                  <dt>技能</dt>
+                  <dd class="mono">{app.skills.join(' · ')}</dd>
+                </div>
+                <div>
+                  <dt>整合</dt>
+                  <dd class="mono accent">{app.connects.join(' · ')}</dd>
+                </div>
+              </dl>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   </section>
 
-  <section class="py-16 md:py-20">
-    <div class="mx-auto max-w-3xl px-6 md:px-10 text-center">
-      <h2 class="text-[1.75rem] md:text-[2.25rem] font-bold tracking-[-0.025em] leading-[1.15] text-[var(--aw-color-text-heading)] mb-4">
-        從財務套件開始。
-      </h2>
-      <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-7">
-        免費安裝。連接你的核算系統，一次會話內跑完首個月結 App。
-      </p>
-      <div class="flex flex-wrap items-center justify-center gap-3">
-        <a href="https://app.aitroop.net"
-           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
-          安裝財務套件
-        </a>
-        <a href="/zh-TW/use-cases/gtm"
-           class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] transition-all">
-          看 GTM 套件 →
-        </a>
+  <!-- WHY ──────────────────────────────────────────────────────────── -->
+  <section class="aw-section">
+    <div class="aw-container">
+      <header class="aw-section-head">
+        <p class="aw-eyebrow">財務負責人為什麼選 Aitroop</p>
+        <h2 class="aw-h2">為可審計、可重複使用的工作而設計。</h2>
+      </header>
+      <div class="why">
+        {why.map((w, i) => (
+          <article class="aw-piece">
+            <span class="aw-piece-num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="aw-piece-title">{w.title}</h3>
+            <p class="aw-piece-desc">{w.desc}</p>
+          </article>
+        ))}
       </div>
     </div>
   </section>
+
+  <!-- CTA ──────────────────────────────────────────────────────────── -->
+  <section class="aw-section">
+    <div class="aw-container-narrow">
+      <h2 class="aw-h2" style="max-width: 18ch; margin: 0 auto 1rem;">從財務套件開始。</h2>
+      <p class="aw-lede">免費安裝。連接你的財務系統，一次會話內跑出第一個月結 App。</p>
+      <div class="aw-actions aw-actions-center">
+        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">安裝財務套件</a>
+        <a href="/zh-TW/use-cases/gtm" class="aw-btn aw-btn-ghost">看 GTM 套件</a>
+      </div>
+    </div>
+  </section>
+
 </Layout>
 
 <style>
-  .section-label {
+  .metrics-section {
+    padding: 0 0 5rem;
+  }
+  @media (min-width: 768px) {
+    .metrics-section { padding: 0 0 7rem; }
+  }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--aw-color-border);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .metrics { grid-template-columns: repeat(4, 1fr); }
+  }
+  .metric {
+    background: var(--aw-color-bg-page);
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    transition: background-color 200ms ease;
+  }
+  .metric:hover { background: var(--aw-color-bg-subtle); }
+  .metric-value {
+    font-size: clamp(1.625rem, 3vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1;
+    color: var(--aw-color-text-heading);
+    font-variant-numeric: tabular-nums;
+  }
+  .metric-label {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
     font-size: 0.6875rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     text-transform: uppercase;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.1em;
+    color: var(--aw-color-text-muted);
+    line-height: 1.3;
+  }
+
+  .apps {
+    display: grid;
+    gap: 0;
+  }
+  .app {
+    border-top: 1px solid var(--aw-color-text-heading);
+    padding: 2rem 0 2.5rem;
+  }
+  .app:last-child { border-bottom: 1px solid var(--aw-color-border); }
+  @media (min-width: 768px) {
+    .app {
+      display: grid;
+      grid-template-columns: 16rem 1fr;
+      gap: 3rem;
+      padding: 2.25rem 0 2.75rem;
+    }
+  }
+  .app-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+  .app-num {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.75rem;
     font-weight: 600;
-    color: var(--aw-color-primary, #529961);
-    margin-bottom: 0.875rem;
+    color: var(--aw-color-primary);
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  .app-title {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.02em;
+    margin: 0;
+    line-height: 1.15;
+  }
+  .app-desc {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--aw-color-text-muted);
+    margin: 1rem 0 1.5rem;
+    text-wrap: pretty;
+  }
+  @media (min-width: 768px) {
+    .app-desc { margin: 0 0 1.5rem; }
+  }
+  .app-meta {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 640px) {
+    .app-meta { grid-template-columns: repeat(2, 1fr); gap: 1.125rem 2rem; }
+  }
+  .app-meta dt {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--aw-color-text-muted);
+    margin: 0 0 0.3125rem;
+    line-height: 1;
+    font-weight: 600;
+  }
+  .app-meta dd {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--aw-color-text-default);
+  }
+  .mono { font-family: var(--aw-font-mono, ui-monospace, monospace); }
+  .accent { color: var(--aw-color-primary); }
+
+  .why {
+    display: grid;
+    gap: 2rem;
+  }
+  @media (min-width: 768px) {
+    .why { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
   }
 </style>
