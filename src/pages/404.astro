@@ -1,24 +1,104 @@
-﻿---
+---
 import Layout from '~/layouts/Layout.astro';
 import { getHomePermalink } from '~/utils/permalinks';
 
-const title = `Error 404`;
+const title = 'Error 404';
 ---
 
 <Layout metadata={{ title }}>
-  <section class="flex items-center h-full p-16">
-    <div class="container flex flex-col items-center justify-center px-5 mx-auto my-8">
-      <div class="max-w-md text-center">
-        <h2 class="mb-8 font-bold text-9xl">
-          <span class="sr-only">Error</span>
-          <span class="text-primary">404</span>
-        </h2>
-        <p class="text-3xl font-semibold md:text-3xl">Sorry, we couldn't find this page.</p>
-        <p class="mt-4 mb-8 text-lg text-muted">
-          But dont worry, you can find plenty of other things on our homepage.
-        </p>
-        <a rel="noopener noreferrer" href={getHomePermalink()} class="btn ml-4">Back to homepage</a>
+  <section class="wrap">
+    <div class="container">
+      <p class="eyebrow">404</p>
+      <h1 class="display">This page doesn't exist.</h1>
+      <p class="lede">Try the homepage, or head into the docs to find what you were after.</p>
+      <div class="actions">
+        <a href={getHomePermalink()} class="btn btn-primary">Back to homepage</a>
+        <a href="/docs" class="btn btn-ghost">Read the docs</a>
       </div>
     </div>
   </section>
 </Layout>
+
+<style>
+  .wrap {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    padding: 6rem 0;
+  }
+  .container {
+    max-width: 36rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--aw-color-primary);
+    margin: 0 0 1.125rem;
+    line-height: 1;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 1.25rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+  .display {
+    font-size: clamp(2.25rem, 4.8vw, 3.25rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--aw-color-text-heading);
+    margin: 0 0 1.25rem;
+    text-wrap: balance;
+  }
+  .lede {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--aw-color-text-muted);
+    margin: 0 0 2rem;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    padding: 0 1.375rem;
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    line-height: 1;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+  }
+  .btn-primary {
+    background: var(--aw-color-primary);
+    color: #fff;
+    box-shadow:
+      inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+      0 1px 2px rgba(15, 30, 18, 0.06);
+  }
+  .btn-primary:hover { background: rgb(67, 138, 84); }
+  .btn-ghost {
+    color: var(--aw-color-text-default);
+    border: 1px solid var(--aw-color-border);
+    background: var(--aw-color-bg-page);
+  }
+  .btn-ghost:hover {
+    border-color: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.02);
+  }
+</style>

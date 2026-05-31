@@ -1,6 +1,5 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import { Icon } from 'astro-icon/components';
 
 const metadata = {
   title: 'GTM — Use Cases — Aitroop',
@@ -8,201 +7,419 @@ const metadata = {
 
 const apps = [
   {
-    icon: 'tabler:radar-2',
+    n: '01',
     name: 'Prospecting',
     description: 'Find high-fit accounts using company signals, hiring activity, tech stack, and intent data — scored against your ICP.',
     inputs: ['ICP description', 'Industry filter', 'Company size', 'Tech keywords'],
-    outputs: ['Enriched lead list (CSV)', 'ICP scoring rationale (markdown)'],
+    outputs: ['Enriched lead list (CSV)', 'ICP scoring rationale (Markdown)'],
     skills: ['lead-finder', 'web-scrape', 'company-enrich'],
     connects: ['salesforce', 'hubspot'],
   },
   {
-    icon: 'tabler:mail-forward',
+    n: '02',
     name: 'Outreach',
     description: 'Generate personalized cold emails and LinkedIn messages. Combines firmographic context, recent triggers, and your voice.',
     inputs: ['Target list', 'Email template', 'Sender persona', 'Tone'],
-    outputs: ['Email drafts (markdown)', 'A/B variants (json)'],
+    outputs: ['Email drafts (Markdown)', 'A/B variants (JSON)'],
     skills: ['email-writer', 'linkedin-scrape', 'tone-match'],
     connects: ['gmail', 'linkedin'],
   },
   {
-    icon: 'tabler:shield-check',
+    n: '03',
     name: 'Retention',
     description: 'Monitor account health scores. Flag at-risk customers before churn materializes — usage drop-offs, support patterns, exec changes.',
     inputs: ['Account list', 'Risk threshold', 'Lookback window'],
-    outputs: ['Risk report (markdown)', 'Account scores (csv)'],
+    outputs: ['Risk report (Markdown)', 'Account scores (CSV)'],
     skills: ['usage-analyzer', 'crm-query'],
     connects: ['salesforce', 'hubspot', 'segment'],
   },
   {
-    icon: 'tabler:chart-line',
+    n: '04',
     name: 'Pipeline insights',
     description: 'Synthesize pipeline data into clear recommendations. Know which deals to push, which to deprioritize, and where to invest your time.',
     inputs: ['Sales stage filter', 'Time window', 'Owner filter'],
-    outputs: ['Pipeline narrative (markdown)', 'Deal scoring (csv)'],
+    outputs: ['Pipeline narrative (Markdown)', 'Deal scoring (CSV)'],
     skills: ['pipeline-analyzer', 'forecast-model'],
     connects: ['salesforce', 'hubspot'],
   },
 ];
+
+const why = [
+  { title: 'Compounding output', desc: 'Every chat that worked becomes a reusable App. Team know-how compounds week over week.' },
+  { title: 'Native CRM integration', desc: 'Read and write Salesforce, HubSpot, your data warehouse — through OAuth, not Zapier.' },
+  { title: 'Schedule it once', desc: 'Daily pipeline summaries, weekly outreach lists, monthly retention reports. Set the cron and forget it.' },
+];
 ---
 
 <Layout metadata={metadata}>
-  <!-- HERO -->
-  <section class="border-b border-[var(--aw-color-border)] py-16 md:py-20">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <nav class="text-[0.75rem] font-mono text-[var(--aw-color-text-muted)] mb-6">
-        <a href="/use-cases" class="hover:text-[var(--aw-color-text-default)] transition-colors">Use Cases</a>
-        <span class="mx-2 opacity-50">/</span>
-        <span class="text-[var(--aw-color-text-default)]">GTM</span>
+
+  <!-- HERO ─────────────────────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="container">
+      <nav class="crumbs">
+        <a href="/use-cases">Use cases</a>
+        <span aria-hidden="true">/</span>
+        <span>GTM</span>
       </nav>
-
-      <p class="section-label">B2B GROWTH</p>
-      <h1 class="text-[2.25rem] md:text-[3.25rem] font-black tracking-[-0.03em] leading-[1.05] text-[var(--aw-color-text-heading)] mb-5 max-w-[820px]">
-        Pipeline that runs itself.
-      </h1>
-      <p class="text-[1rem] md:text-[1.0625rem] text-[var(--aw-color-text-muted)] leading-[1.7] max-w-[640px] mb-8">
-        Four pre-built Apps cover the GTM motion end-to-end — from finding leads through retaining customers.
-        Each one ships with the skills and integrations it needs, ready to run on day one.
+      <p class="eyebrow">B2B Growth</p>
+      <h1 class="display">Pipeline that runs itself.</h1>
+      <p class="lede">
+        Four pre-built Apps cover the GTM motion end-to-end — from finding leads through retaining customers. Each ships with the skills and integrations it needs.
       </p>
-
-      <div class="flex flex-wrap items-center gap-3">
-        <a href="https://app.aitroop.net"
-           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
-          Install GTM pack
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-        <a href="/contact"
-           class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.025)] transition-all duration-150">
-          Book demo
-        </a>
+      <div class="actions">
+        <a href="https://app.aitroop.net" class="btn btn-primary">Install GTM pack</a>
+        <a href="/contact" class="btn btn-ghost">Book demo</a>
       </div>
     </div>
   </section>
 
-  <!-- APPS -->
-  <section class="py-16 md:py-24">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <div class="mb-12">
-        <p class="section-label">INCLUDED APPS</p>
-        <h2 class="text-[1.75rem] md:text-[2rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)]">Four Apps. One revenue motion.</h2>
-      </div>
+  <!-- APPS ─────────────────────────────────────────────────────────── -->
+  <section class="block">
+    <div class="container">
+      <header class="block-head">
+        <p class="eyebrow">Included apps</p>
+        <h2 class="h2">Four Apps. One revenue motion.</h2>
+      </header>
 
-      <div class="space-y-4">
+      <div class="apps">
         {apps.map((app) => (
-          <div class="group p-6 md:p-8 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-primary/25 transition-colors">
-            <div class="grid md:grid-cols-[1fr_320px] gap-6 md:gap-10">
-              <div>
-                <div class="flex items-center gap-3 mb-3">
-                  <div class="w-10 h-10 rounded-lg bg-primary/[0.08] flex items-center justify-center text-primary">
-                    <Icon name={app.icon} class="w-5 h-5" />
-                  </div>
-                  <h3 class="text-[1.25rem] font-semibold text-[var(--aw-color-text-heading)]">{app.name}</h3>
-                </div>
-                <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-5">{app.description}</p>
-
-                <div class="flex flex-wrap gap-x-6 gap-y-3 text-[0.8125rem]">
-                  <div>
-                    <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-1">Skills</span>
-                    <div class="flex flex-wrap gap-1.5">
-                      {app.skills.map((s) => (
-                        <span class="font-mono text-[0.6875rem] px-2 py-0.5 rounded-md bg-[var(--aw-color-bg-subtle)] text-[var(--aw-color-text-default)]">{s}</span>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-1">Connects</span>
-                    <div class="flex flex-wrap gap-1.5">
-                      {app.connects.map((c) => (
-                        <span class="font-mono text-[0.6875rem] px-2 py-0.5 rounded-md bg-primary/[0.08] text-primary">{c}</span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="md:border-l md:border-[var(--aw-color-border)] md:pl-8">
-                <div class="mb-4">
-                  <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-2">Inputs</span>
-                  <ul class="space-y-1">
-                    {app.inputs.map((i) => (
-                      <li class="text-[0.8125rem] text-[var(--aw-color-text-default)] flex items-center gap-2">
-                        <span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>
-                        {i}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] block mb-2">Outputs</span>
-                  <ul class="space-y-1">
-                    {app.outputs.map((o) => (
-                      <li class="text-[0.8125rem] text-[var(--aw-color-text-default)] flex items-center gap-2">
-                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" class="text-primary/70 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
-                        {o}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+          <article class="app">
+            <div class="app-head">
+              <span class="app-num">{app.n}</span>
+              <h3 class="app-title">{app.name}</h3>
             </div>
-          </div>
+            <p class="app-desc">{app.description}</p>
+            <dl class="app-meta">
+              <div>
+                <dt>Inputs</dt>
+                <dd>{app.inputs.join(' · ')}</dd>
+              </div>
+              <div>
+                <dt>Outputs</dt>
+                <dd>{app.outputs.join(' · ')}</dd>
+              </div>
+              <div>
+                <dt>Skills</dt>
+                <dd class="mono">{app.skills.join(' · ')}</dd>
+              </div>
+              <div>
+                <dt>Connects</dt>
+                <dd class="mono accent">{app.connects.join(' · ')}</dd>
+              </div>
+            </dl>
+          </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- WHY -->
-  <section class="bg-[rgba(0,0,0,0.015)] border-y border-[var(--aw-color-border)] py-16 md:py-24">
-    <div class="mx-auto max-w-5xl px-6 md:px-10">
-      <p class="section-label">WHY GTM TEAMS PICK AITROOP</p>
-      <div class="grid md:grid-cols-3 gap-8 mt-6">
-        <div>
-          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">Compounding output</h3>
-          <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.7]">Every chat that worked becomes a reusable App. The team's collective know-how compounds week over week.</p>
-        </div>
-        <div>
-          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">Native CRM integration</h3>
-          <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.7]">Read and write Salesforce, HubSpot, and your data warehouse through OAuth — no Zapier, no custom scripts.</p>
-        </div>
-        <div>
-          <h3 class="text-[1rem] font-semibold text-[var(--aw-color-text-heading)] mb-2">Schedule it once</h3>
-          <p class="text-[0.875rem] text-[var(--aw-color-text-muted)] leading-[1.7]">Daily pipeline summaries, weekly outreach lists, monthly retention reports — set the cron and forget it.</p>
-        </div>
+  <!-- WHY ──────────────────────────────────────────────────────────── -->
+  <section class="block">
+    <div class="container">
+      <header class="block-head">
+        <p class="eyebrow">Why GTM teams pick Aitroop</p>
+        <h2 class="h2">Built for compounding pipeline work.</h2>
+      </header>
+      <div class="why">
+        {why.map((w, i) => (
+          <article class="why-item">
+            <span class="why-num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="why-title">{w.title}</h3>
+            <p class="why-desc">{w.desc}</p>
+          </article>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="py-16 md:py-20">
-    <div class="mx-auto max-w-3xl px-6 md:px-10 text-center">
-      <h2 class="text-[1.75rem] md:text-[2.25rem] font-bold tracking-[-0.025em] leading-[1.15] text-[var(--aw-color-text-heading)] mb-4">
-        Start with the GTM pack today.
-      </h2>
-      <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-7">
-        Free to install. Connect your CRM and run the first App in under 10 minutes.
-      </p>
-      <div class="flex flex-wrap items-center justify-center gap-3">
-        <a href="https://app.aitroop.net"
-           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
-          Install GTM pack
-        </a>
-        <a href="/use-cases/finance"
-           class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] transition-all">
-          See finance pack →
-        </a>
+  <!-- CTA ──────────────────────────────────────────────────────────── -->
+  <section class="cta">
+    <div class="container container-narrow">
+      <h2 class="cta-h2">Start with the GTM pack today.</h2>
+      <p class="lede">Free to install. Connect your CRM and run the first App in under 10 minutes.</p>
+      <div class="actions actions-center">
+        <a href="https://app.aitroop.net" class="btn btn-primary">Install GTM pack</a>
+        <a href="/use-cases/finance" class="btn btn-ghost">See Finance pack</a>
       </div>
     </div>
   </section>
+
 </Layout>
 
 <style>
-  .section-label {
-    font-size: 0.6875rem;
+  /* ════ layout primitives ════ */
+  .container {
+    max-width: 64rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .container { padding: 0 2.5rem; }
+  }
+  .container-narrow {
+    max-width: 36rem;
+    text-align: center;
+  }
+  .block {
+    padding: 6rem 0;
+    border-top: 1px solid var(--aw-color-border);
+  }
+  @media (min-width: 768px) {
+    .block { padding: 8rem 0; }
+  }
+  .block-head { margin-bottom: 4rem; }
+  @media (min-width: 768px) {
+    .block-head { margin-bottom: 5rem; }
+  }
+
+  /* ════ shared type ════ */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
+    font-size: 0.75rem;
     font-weight: 600;
-    color: var(--aw-color-primary, #529961);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--aw-color-primary);
+    margin: 0 0 1.125rem;
+    line-height: 1;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 1.25rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+  .display {
+    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--aw-color-text-heading);
+    margin: 0 0 1.5rem;
+    text-wrap: balance;
+    max-width: 18ch;
+  }
+  .h2 {
+    font-size: clamp(1.875rem, 3.4vw, 2.375rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    color: var(--aw-color-text-heading);
+    margin: 0;
+    text-wrap: balance;
+    max-width: 28ch;
+  }
+  .lede {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--aw-color-text-muted);
+    max-width: 48ch;
+    margin: 0 0 2rem;
+    text-wrap: pretty;
+  }
+  .container-narrow .lede { margin: 0 auto 2rem; }
+  .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+  .accent { color: var(--aw-color-primary); }
+
+  /* ════ crumbs ════ */
+  .crumbs {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    color: var(--aw-color-text-muted);
+    margin: 0 0 2rem;
+  }
+  .crumbs a {
+    color: var(--aw-color-text-muted);
+    text-decoration: underline;
+    text-decoration-color: var(--aw-color-border);
+    text-underline-offset: 3px;
+    transition: color 160ms ease;
+  }
+  .crumbs a:hover { color: var(--aw-color-primary); }
+  .crumbs span[aria-hidden] { opacity: 0.5; }
+
+  /* ════ actions ════ */
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+  }
+  .actions-center { justify-content: center; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.75rem;
+    padding: 0 1.375rem;
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    line-height: 1;
+    white-space: nowrap;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+  }
+  .btn-primary {
+    background: var(--aw-color-primary);
+    color: #fff;
+    box-shadow:
+      inset 0 -1px 0 rgba(0, 0, 0, 0.12),
+      0 1px 2px rgba(15, 30, 18, 0.06);
+  }
+  .btn-primary:hover { background: rgb(67, 138, 84); }
+  .btn-ghost {
+    color: var(--aw-color-text-default);
+    border: 1px solid var(--aw-color-border);
+    background: var(--aw-color-bg-page);
+  }
+  .btn-ghost:hover {
+    border-color: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.02);
+  }
+
+  /* ════ hero ════ */
+  .hero {
+    padding: 6rem 0 5rem;
+  }
+  @media (min-width: 768px) {
+    .hero { padding: 8rem 0 7rem; }
+  }
+
+  /* ════ apps list — hairline-separated ════ */
+  .apps {
+    display: grid;
+    gap: 0;
+  }
+  .app {
+    border-top: 1px solid var(--aw-color-text-heading);
+    padding: 2rem 0 2.5rem;
+  }
+  .app:last-child {
+    border-bottom: 1px solid var(--aw-color-border);
+  }
+  @media (min-width: 768px) {
+    .app {
+      display: grid;
+      grid-template-columns: 18rem 1fr;
+      gap: 3rem;
+      padding: 2.5rem 0 3rem;
+    }
+  }
+  .app-head {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .app-num {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--aw-color-primary);
+    letter-spacing: 0.06em;
+    font-variant-numeric: tabular-nums;
+  }
+  .app-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.02em;
+    margin: 0;
+    line-height: 1.1;
+  }
+  .app-desc {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--aw-color-text-muted);
+    margin: 1rem 0 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .app-desc { margin: 0 0 1.5rem; }
+  }
+  .app-meta {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+  }
+  @media (min-width: 640px) {
+    .app-meta { grid-template-columns: repeat(2, 1fr); gap: 1rem 2rem; }
+  }
+  .app-meta dt {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--aw-color-text-muted);
+    margin: 0 0 0.25rem;
+    line-height: 1;
+  }
+  .app-meta dd {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--aw-color-text-default);
+  }
+
+  /* ════ why grid ════ */
+  .why {
+    display: grid;
+    gap: 2rem;
+  }
+  @media (min-width: 768px) {
+    .why { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+  }
+  .why-item {
+    border-top: 1px solid var(--aw-color-text-heading);
+    padding-top: 1.25rem;
+  }
+  .why-num {
+    display: block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--aw-color-primary);
+    letter-spacing: 0.06em;
     margin-bottom: 0.875rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .why-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--aw-color-text-heading);
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.005em;
+  }
+  .why-desc {
+    margin: 0;
+    color: var(--aw-color-text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  /* ════ cta ════ */
+  .cta {
+    padding: 6rem 0;
+    border-top: 1px solid var(--aw-color-border);
+  }
+  @media (min-width: 768px) {
+    .cta { padding: 8rem 0; }
+  }
+  .cta-h2 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--aw-color-text-heading);
+    margin: 0 0 1rem;
+    text-wrap: balance;
   }
 </style>
