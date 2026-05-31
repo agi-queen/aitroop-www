@@ -24,22 +24,79 @@ const metadata = {
     </div>
 
     <h2>Anatomy of a Schedule</h2>
-    <p>The platform stores Schedules in <code>app_scheduled_tasks</code>. The fields you'll set:</p>
+    <p>
+      The platform stores Schedules in <code>app_scheduled_tasks</code>. The shape is the same
+      whether the schedule runs an App or sends a chat prompt — the difference is
+      <code>action_type</code>.
+    </p>
 
     <div class="code-block" style="line-height:1.7;">
 {`{`}<br/>
-&nbsp;&nbsp;"app_id":          <span style="color:var(--aw-color-primary)">"app_..."</span>,<br/>
-&nbsp;&nbsp;"app_version":     <span style="color:var(--aw-color-primary)">number | null</span>,&nbsp;<span style="color:var(--aw-color-text-muted)">// null = always use latest</span><br/>
-&nbsp;&nbsp;"schedule_type":   <span style="color:var(--aw-color-primary)">"cron" | "once"</span>,<br/>
-&nbsp;&nbsp;"cron_expr":       <span style="color:var(--aw-color-primary)">"0 9 * * MON"</span>,<br/>
-&nbsp;&nbsp;"timezone":        <span style="color:var(--aw-color-primary)">"America/Los_Angeles"</span>,<br/>
-&nbsp;&nbsp;"action_type":     <span style="color:var(--aw-color-primary)">"run_app" | "webhook"</span>,<br/>
-&nbsp;&nbsp;"input":           <span style="color:var(--aw-color-primary)">{`{ ...form values with dynamic placeholders }`}</span>,<br/>
-&nbsp;&nbsp;"delivery":        <span style="color:var(--aw-color-primary)">DeliveryTarget[]</span>,<br/>
+&nbsp;&nbsp;"id":              <span style="color:var(--aw-color-primary)">"task_..."</span>,<br/>
+&nbsp;&nbsp;"name":            <span style="color:var(--aw-color-primary)">string</span>,<br/>
 &nbsp;&nbsp;"enabled":         <span style="color:var(--aw-color-primary)">boolean</span>,<br/>
-&nbsp;&nbsp;"next_run_at":     <span style="color:var(--aw-color-primary)">timestamp</span>&nbsp;<span style="color:var(--aw-color-text-muted)">// computed by the scheduler</span><br/>
+&nbsp;&nbsp;"schedule_type":   <span style="color:var(--aw-color-primary)">"interval" | "daily" | "weekly" | "monthly"</span>,<br/>
+&nbsp;&nbsp;"schedule_config": <span style="color:var(--aw-color-primary)">ScheduleConfig</span>,   <span style="color:var(--aw-color-text-muted)">// preset-shaped, see below</span><br/>
+&nbsp;&nbsp;"cron_expr":       <span style="color:var(--aw-color-primary)">string</span>,           <span style="color:var(--aw-color-text-muted)">// computed from config; read-only</span><br/>
+&nbsp;&nbsp;"timezone":        <span style="color:var(--aw-color-primary)">"America/Los_Angeles"</span>,&nbsp;<span style="color:var(--aw-color-text-muted)">// IANA name</span><br/>
+&nbsp;&nbsp;"action_type":     <span style="color:var(--aw-color-primary)">"send_message" | "run_app"</span>,<br/>
+&nbsp;&nbsp;"action_config":   <span style="color:var(--aw-color-primary)">ActionConfig</span>,     <span style="color:var(--aw-color-text-muted)">// shape depends on action_type</span><br/>
+&nbsp;&nbsp;"session_id":      <span style="color:var(--aw-color-primary)">string | null</span>,    <span style="color:var(--aw-color-text-muted)">// auto-created on first send_message tick</span><br/>
+&nbsp;&nbsp;"run_count":       <span style="color:var(--aw-color-primary)">number</span>,<br/>
+&nbsp;&nbsp;"last_run_at":     <span style="color:var(--aw-color-primary)">timestamp | null</span>,<br/>
+&nbsp;&nbsp;"next_run_at":     <span style="color:var(--aw-color-primary)">timestamp</span>,        <span style="color:var(--aw-color-text-muted)">// scheduler picks tasks where next_run_at &lt;= NOW()</span><br/>
+&nbsp;&nbsp;"last_status":     <span style="color:var(--aw-color-primary)">"ok" | "error" | "queued" | null</span>,<br/>
+&nbsp;&nbsp;"last_error":      <span style="color:var(--aw-color-primary)">string | null</span><br/>
 {`}`}
     </div>
+
+    <h3><code>ScheduleConfig</code> — the four shapes</h3>
+    <p>
+      You don't write cron. You pick one of four <code>schedule_type</code>s; each takes a small
+      config object. The server derives <code>cron_expr</code> (a human-readable label) and computes
+      <code>next_run_at</code> using IANA timezone math.
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+<span style="color:var(--aw-color-text-muted)">// schedule_type = "interval"</span><br/>
+{`{`} "every": <span style="color:var(--aw-color-primary)">15</span>, "unit": <span style="color:var(--aw-color-primary)">"minutes"</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// unit: "minutes" | "hours"</span><br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">// schedule_type = "daily"</span><br/>
+{`{`} "time": <span style="color:var(--aw-color-primary)">"09:00"</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// HH:MM in the task's timezone</span><br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">// schedule_type = "weekly"</span><br/>
+{`{`} "time": <span style="color:var(--aw-color-primary)">"09:00"</span>, "days": <span style="color:var(--aw-color-primary)">[1,3,5]</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// 0=Sun .. 6=Sat — Mon/Wed/Fri here</span><br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">// schedule_type = "monthly"</span><br/>
+{`{`} "time": <span style="color:var(--aw-color-primary)">"09:00"</span>, "day": <span style="color:var(--aw-color-primary)">1</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// 1–28 (28 to stay safe across all months)</span>
+    </div>
+
+    <h3><code>ActionConfig</code> — what the tick does</h3>
+    <p>
+      Two kinds of action. The validator picks them apart at <code>POST /api/scheduled-tasks</code>:
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+<span style="color:var(--aw-color-text-muted)">// action_type = "send_message" — enqueue a prompt to a session</span><br/>
+{`{`} "prompt": <span style="color:var(--aw-color-primary)">"Summarize my GitHub activity since yesterday."</span> {`}`}<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">// action_type = "run_app" — fire an AppExecution</span><br/>
+{`{`}<br/>
+&nbsp;&nbsp;"app_id":    <span style="color:var(--aw-color-primary)">"app_..."</span>,<br/>
+&nbsp;&nbsp;"app_input": <span style="color:var(--aw-color-primary)">{`{ company_name: "Stripe", ... }`}</span><br/>
+{`}`}
+    </div>
+    <p>
+      For <code>send_message</code>, the first tick creates a dedicated chat session
+      (<code>session_type = 'scheduled'</code>) and stores the <code>session_id</code> back on the
+      task. Every subsequent tick enqueues a new message into the <em>same</em> session — so the
+      agent has continuity across runs, which is what makes <em>"every morning, check on X"</em>
+      actually feel like a recurring conversation.
+    </p>
+    <p>
+      For <code>run_app</code>, before each tick the scheduler verifies that all required Connects
+      are still authorized. A run with missing Connects records
+      <code>last_status = 'error'</code> with a <code>"Missing required connections: …"</code>
+      message instead of starting the execution.
+    </p>
 
     <h2>Creating a Schedule</h2>
     <p>
@@ -73,146 +130,115 @@ const metadata = {
       tick. Open the <strong>Schedules</strong> tab any time to pause, edit, run-now, or delete.
     </p>
 
-    <h2>Cron presets</h2>
-    <p>You don't need to write cron for the common cases:</p>
+    <h2>Common patterns expressed as ScheduleConfig</h2>
+    <p>
+      The same recurring runs you'd describe in cron, written in Aitroop's preset shape. The
+      <code>cron_expr</code> column is what the server computes for display — it's never
+      user-editable.
+    </p>
 
     <table>
-      <thead><tr><th>Preset</th><th>Equivalent cron</th><th>Fires</th></tr></thead>
+      <thead><tr><th>Pattern</th><th><code>schedule_type</code></th><th><code>schedule_config</code></th><th>Computed <code>cron_expr</code></th></tr></thead>
       <tbody>
-        <tr><td>Hourly</td><td><code>0 * * * *</code></td><td>Top of every hour.</td></tr>
-        <tr><td>Daily at 9 AM</td><td><code>0 9 * * *</code></td><td>Once per day at 9 AM workspace time.</td></tr>
-        <tr><td>Weekdays at 8:30 AM</td><td><code>30 8 * * MON-FRI</code></td><td>Skip weekends.</td></tr>
-        <tr><td>Weekly Monday</td><td><code>0 9 * * MON</code></td><td>Every Monday at 9 AM.</td></tr>
-        <tr><td>Monthly 1st</td><td><code>0 9 1 * *</code></td><td>First of each month at 9 AM.</td></tr>
-        <tr><td>Every 15 min</td><td><code>*/15 * * * *</code></td><td>4× per hour. Mind the cost.</td></tr>
+        <tr><td>Every 15 minutes</td><td><code>interval</code></td><td><code>{`{ every: 15, unit: "minutes" }`}</code></td><td><code>every 15 min</code></td></tr>
+        <tr><td>Every hour</td><td><code>interval</code></td><td><code>{`{ every: 1, unit: "hours" }`}</code></td><td><code>every 1 hour</code></td></tr>
+        <tr><td>Daily at 9 AM</td><td><code>daily</code></td><td><code>{`{ time: "09:00" }`}</code></td><td><code>0 9 * * *</code></td></tr>
+        <tr><td>Mon/Wed/Fri at 8:30 AM</td><td><code>weekly</code></td><td><code>{`{ time: "08:30", days: [1,3,5] }`}</code></td><td><code>30 8 * * 1,3,5</code></td></tr>
+        <tr><td>Every Monday at 9 AM</td><td><code>weekly</code></td><td><code>{`{ time: "09:00", days: [1] }`}</code></td><td><code>0 9 * * 1</code></td></tr>
+        <tr><td>1st of the month at 9 AM</td><td><code>monthly</code></td><td><code>{`{ time: "09:00", day: 1 }`}</code></td><td><code>0 9 1 * *</code></td></tr>
       </tbody>
     </table>
 
-    <h2>Cron syntax cheatsheet</h2>
-    <p>
-      Aitroop uses standard 5-field cron syntax: <code>minute hour day-of-month month day-of-week</code>.
-    </p>
-
-    <div class="code-block">
-<span style="color:var(--aw-color-text-muted)"># Every weekday at 8:30 AM</span><br/>
-30 8 * * MON-FRI<br/>
-<br/>
-<span style="color:var(--aw-color-text-muted)"># First and 15th of every month at noon</span><br/>
-0 12 1,15 * *<br/>
-<br/>
-<span style="color:var(--aw-color-text-muted)"># Every 30 minutes during business hours, Mon-Fri</span><br/>
-*/30 9-17 * * MON-FRI<br/>
-<br/>
-<span style="color:var(--aw-color-text-muted)"># Last day of the month at 11 PM (cron 'L' extension)</span><br/>
-0 23 L * *<br/>
-<br/>
-<span style="color:var(--aw-color-text-muted)"># Every quarter (first day of Jan/Apr/Jul/Oct at 6 AM)</span><br/>
-0 6 1 1,4,7,10 *
+    <div class="callout warn">
+      <strong>Minimum cadence: 5 minutes.</strong> The server rejects any
+      <code>interval</code> below 300 seconds with <code>422 invalid schedule</code>. The scheduler
+      also self-defends — if it picks up a task whose config has drifted below 5 min, it pushes
+      <code>next_run_at</code> forward and skips the tick.
     </div>
 
+    <h2>What "cron" means here (and what it doesn't)</h2>
     <p>
-      All times use your workspace's configured time zone. Set this in <strong>Settings → Workspace → Time
-      zone</strong> before relying on schedules; default is UTC. Workspaces in multiple time zones can pin
-      a per-schedule time zone in the schedule's settings.
+      Aitroop's <code>cron_expr</code> field is a derived label, not an input — there is no place to
+      paste a 5-field expression like <code>*/30 9-17 * * MON-FRI</code>. The four
+      <code>schedule_type</code>s cover the cases the platform supports, and the executor doesn't
+      parse a cron grammar at runtime. If you need expressiveness beyond the presets, the canonical
+      pattern is:
+    </p>
+    <ul>
+      <li>Schedule the task <code>daily</code> at the earliest time it could fire.</li>
+      <li>Add a guard at the top of the App (a <code>script</code> stage) that checks <em>"is today the right day to actually do the work?"</em> and exits cheaply if not.</li>
+    </ul>
+
+    <h3>Timezones</h3>
+    <p>
+      Each task carries its own IANA <code>timezone</code> string (e.g.
+      <code>America/Los_Angeles</code>). For <code>daily</code> / <code>weekly</code> /
+      <code>monthly</code>, the <code>time</code> field is interpreted in that timezone — so a
+      Daily 09:00 schedule in <code>America/Los_Angeles</code> fires at 9 AM Pacific year-round,
+      automatically tracking DST through Intl-based offset math (see <code>computeNextRun</code> in
+      <code>scheduledTasks.ts</code>). Default timezone is <code>UTC</code>.
     </p>
 
-    <h2>Dynamic inputs — placeholders that shift on each run</h2>
+    <h3>Scheduler internals</h3>
     <p>
-      Most scheduled Apps need relative inputs — "last week's commits", "yesterday's tickets", "this
-      month's expenses". Use placeholders in the schedule's input form; they resolve at run start.
+      A worker ticks the scheduler roughly every 60 seconds. Each tick picks up every task with
+      <code>enabled = true</code> AND <code>next_run_at &lt;= NOW()</code>, in batches of 50. For each
+      due task it calls <code>executeTask</code>, then writes back <code>last_run_at</code>,
+      <code>last_status</code>, and the freshly computed <code>next_run_at</code>. Manually
+      triggering via <code>POST /api/scheduled-tasks/:id/run</code> goes through the same
+      <code>executeTask</code> path so manual and scheduled runs are indistinguishable downstream.
+    </p>
+
+    <h2>Dynamic inputs — defaults that shift on each run</h2>
+    <p>
+      Most scheduled Apps need a moving anchor — "yesterday's tickets", "last month's expenses".
+      The right place to make this happen is on the App's <code>input_schema</code>, not on the
+      schedule. Set <code>dynamic_default</code> on the relevant input field and leave that field
+      out of <code>action_config.app_input</code>; the executor fills it at run time.
     </p>
 
     <table>
-      <thead><tr><th>Placeholder</th><th>Resolves to (sample on 2026-05-31)</th></tr></thead>
+      <thead><tr><th><code>dynamic_default</code></th><th>Resolves to (sample on 2026-05-31)</th></tr></thead>
       <tbody>
-        <tr><td><code>{`{{today}}`}</code></td><td><code>2026-05-31</code></td></tr>
-        <tr><td><code>{`{{yesterday}}`}</code></td><td><code>2026-05-30</code></td></tr>
-        <tr><td><code>{`{{tomorrow}}`}</code></td><td><code>2026-06-01</code></td></tr>
-        <tr><td><code>{`{{last_week_start}}`}</code></td><td><code>2026-05-18</code> (Monday)</td></tr>
-        <tr><td><code>{`{{last_week_end}}`}</code></td><td><code>2026-05-24</code> (Sunday)</td></tr>
-        <tr><td><code>{`{{this_month_start}}`}</code></td><td><code>2026-05-01</code></td></tr>
-        <tr><td><code>{`{{this_month_end}}`}</code></td><td><code>2026-05-31</code></td></tr>
-        <tr><td><code>{`{{last_month_start}}`}</code></td><td><code>2026-04-01</code></td></tr>
-        <tr><td><code>{`{{last_month_end}}`}</code></td><td><code>2026-04-30</code></td></tr>
-        <tr><td><code>{`{{this_quarter_start}}`}</code></td><td><code>2026-04-01</code></td></tr>
-        <tr><td><code>{`{{run_iso}}`}</code></td><td><code>2026-05-31T09:00:00-07:00</code> — full timestamp.</td></tr>
+        <tr><td><code>today</code></td><td><code>2026-05-31</code></td></tr>
+        <tr><td><code>yesterday</code></td><td><code>2026-05-30</code></td></tr>
+        <tr><td><code>last7days</code></td><td><code>2026-05-24 → 2026-05-31</code> (for <code>daterange</code>)</td></tr>
+        <tr><td><code>last30days</code></td><td><code>2026-05-01 → 2026-05-31</code></td></tr>
+        <tr><td><code>thisMonth</code></td><td><code>2026-05-01 → 2026-05-31</code></td></tr>
+        <tr><td><code>lastMonth</code></td><td><code>2026-04-01 → 2026-04-30</code></td></tr>
       </tbody>
     </table>
 
     <p>
-      Use these in <code>daterange</code> inputs to make a report self-shifting. A weekly engineering
-      report scheduled with <code>{`{{last_week_start}}`}</code> to <code>{`{{last_week_end}}`}</code>
-      always covers the right window — you set it up once.
+      A weekly engineering report with a <code>daterange</code> input set to
+      <code>dynamic_default: "last7days"</code> always covers the right window — you configure
+      it once and the schedule never needs to touch the date again.
     </p>
 
-    <h2>Delivery destinations</h2>
-    <p>The result of a scheduled run can be delivered to one or more places at once:</p>
-
-    <table>
-      <thead><tr><th>Destination</th><th>What happens</th><th>Configure</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>Email</strong></td>
-          <td>Markdown renders inline; CSV/file attaches; subject line interpolates run metadata.</td>
-          <td>List of addresses, optional subject template.</td>
-        </tr>
-        <tr>
-          <td><strong>Slack</strong></td>
-          <td>Posts into a channel. Long markdown splits intelligently. CSVs upload as files.</td>
-          <td>Pick a channel from your authorized Slack workspace.</td>
-        </tr>
-        <tr>
-          <td><strong>Drive</strong></td>
-          <td>Saves into a designated folder with a timestamp suffix in the filename.</td>
-          <td>Pick a folder. Optional retention (auto-delete after N days).</td>
-        </tr>
-        <tr>
-          <td><strong>Notion</strong></td>
-          <td>Appends to a designated page, or creates a new row in a designated database.</td>
-          <td>Pick a page or database from your authorized Notion workspace.</td>
-        </tr>
-        <tr>
-          <td><strong>Webhook</strong></td>
-          <td><code>POST</code>s the Artifact (with run metadata) to a URL of your choice.</td>
-          <td>URL, optional auth header, optional retry policy.</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <p>
-      The Artifact also always lives on the App's run history, regardless of where you deliver it.
-      Nothing is lost — you can always go back and view past runs in the UI.
-    </p>
-
-    <h3>Webhook payload shape</h3>
-    <div class="code-block" style="line-height:1.7;">
-POST &lt;your-webhook-url&gt;<br/>
-Content-Type: application/json<br/>
-X-Aitroop-Signature: sha256=...<br/>
-<br/>
-{`{`}<br/>
-&nbsp;&nbsp;"execution_id": "exec_8f4c2e1b",<br/>
-&nbsp;&nbsp;"app_id":       "app_...",<br/>
-&nbsp;&nbsp;"schedule_id":  "sched_...",<br/>
-&nbsp;&nbsp;"status":       "completed",<br/>
-&nbsp;&nbsp;"started_at":   "2026-05-31T09:00:00Z",<br/>
-&nbsp;&nbsp;"duration_ms":  43210,<br/>
-&nbsp;&nbsp;"artifacts": [<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;{`{`}<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"id":         "art_...",<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"title":      "Company Brief",<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"format":     "markdown",<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"mime_type":  "text/markdown",<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"size_bytes": 8421,<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"download_url": "https://app.aitroop.net/api/artifacts/.../download"<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;{`}`}<br/>
-&nbsp;&nbsp;]<br/>
-{`}`}
+    <div class="callout">
+      <strong>Why not goal-side templating?</strong> Earlier docs implied scheduled inputs could
+      use placeholders like <code>{`{{last_week_start}}`}</code>. They can't — the goal expander
+      is a literal-key substitutor (see <a href="/docs/concepts">Core concepts</a>). All
+      time-relativity lives on the input schema.
     </div>
 
+    <h2>What happens to the result</h2>
     <p>
-      The <code>X-Aitroop-Signature</code> header is an HMAC of the body with a secret you configure on
-      the webhook destination. Verify it on your end to ensure the call is genuinely from Aitroop.
+      A scheduled run produces the same artifact set as a manual run, and lands in the same place:
+      <code>app_artifact</code> rows under the <code>AppExecution</code> (for <code>run_app</code>),
+      or the chat session's message history (for <code>send_message</code>). There's no separate
+      "delivery" subsystem — to get the result somewhere external, build it into the App:
+    </p>
+    <ul>
+      <li>To email a report — add a stage that uses the user's authorized email Connect to send.</li>
+      <li>To post to Slack — give the App the Slack Connect and have the final stage post.</li>
+      <li>To save to Drive / Notion — same pattern, via the corresponding Connect.</li>
+      <li>To push to your own webhook — add a <code>script</code> stage that <code>POST</code>s.</li>
+    </ul>
+    <p>
+      Every run is also recorded in <code>app_task_runs</code> with status (<code>queued</code> →
+      <code>ok</code> / <code>error</code>), and the App's <strong>Executions</strong> tab shows the
+      artifacts as usual.
     </p>
 
     <h2>Running on demand from outside the platform</h2>
@@ -232,42 +258,32 @@ Authorization: Bearer $AT_USER_TOKEN
 
     <h2>App versions and Schedules</h2>
     <p>
-      By default a Schedule uses the <em>current</em> version of its App. Fix a bug in the App on
-      Sunday — Monday's scheduled run picks up the fix.
-    </p>
-    <p>
-      For stability (a customer-facing report that should not change unexpectedly), pin the Schedule to a
-      specific version. Open the Schedule, click <strong>Pin to version</strong>, pick the version.
-      Future App edits will not affect the pinned Schedule. You can unpin any time.
+      A Schedule always uses the App's <em>current</em> version. When you edit the App, the next
+      tick picks up the change — there is no pinning UI today. The execution record stores
+      <code>app_version</code> at the time of run, so the history remains unambiguous, but you
+      can't freeze a Schedule to an older version. If you need version stability, the practical
+      workaround is to clone the App, freeze the clone, and point the Schedule at the clone.
     </p>
 
     <h2>When a scheduled run fails</h2>
     <p>
-      Failed runs are kept in the schedule's history (<code>app_task_runs</code>) with the full reasoning
-      trace and error. By default, a failed run sends an alert to the schedule's owner via email — you
-      don't have to monitor the schedule yourself.
+      Every tick writes a row to <code>app_task_runs</code> with a <code>status</code> and
+      <code>triggered</code> (<code>scheduler</code> | <code>manual</code>). The owning task row
+      records the most recent outcome: <code>last_status</code> (<code>ok</code> /
+      <code>error</code> / <code>queued</code>), <code>last_error</code>, <code>last_run_at</code>.
+      Failures don't auto-retry — they wait for the next tick.
     </p>
 
     <h3>Common failure modes</h3>
     <table>
       <thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead>
       <tbody>
-        <tr><td><code>connect_unauthorized</code></td><td>A Connect token expired or was revoked.</td><td>Re-authorize the Connect; the schedule resumes on its next tick.</td></tr>
-        <tr><td>Stage timeout</td><td>Goal got more expensive over time (more data, longer searches).</td><td>Bump <code>timeout_ms</code> on the stage.</td></tr>
-        <tr><td>Empty result</td><td>Dynamic placeholder resolved to a window with no data.</td><td>Adjust the window, or have the stage gracefully report "no activity".</td></tr>
-        <tr><td>Delivery failed</td><td>Slack channel deleted, Drive folder removed, webhook URL changed.</td><td>Update the Schedule's destination.</td></tr>
-        <tr><td>Quota exceeded</td><td>Workspace ran out of run budget for the period.</td><td>Top up balance or pause non-essential Schedules.</td></tr>
+        <tr><td><code>last_error: "Missing required connections: …"</code></td><td>A Connect that the App requires was revoked or expired before the tick.</td><td>Re-authorize the Connect in Settings → Connects. The next tick proceeds.</td></tr>
+        <tr><td>Stage timeout</td><td>Goal got more expensive over time (more data, longer searches).</td><td>Bump <code>timeout_ms</code> on the affected stage.</td></tr>
+        <tr><td>Empty result</td><td>Window from <code>dynamic_default</code> resolved to a span with no data.</td><td>Widen the window, or have the stage gracefully report "no activity".</td></tr>
+        <tr><td>Skipped below minimum</td><td>An interval drifted below 5 minutes (typically via direct DB edits).</td><td>The scheduler pushes <code>next_run_at</code> forward by 5 min and skips. Fix the interval via <code>PUT</code>.</td></tr>
       </tbody>
     </table>
-
-    <h3>Retry policy</h3>
-    <p>
-      Failed Schedules don't auto-retry the same tick. They wait for the next cron tick. To override:
-    </p>
-    <ul>
-      <li>Set <code>retry_policy: {`{ max_attempts: 3, backoff_seconds: 60 }`}</code> on the Schedule.</li>
-      <li>The platform retries the run up to <code>max_attempts</code> times before declaring final failure.</li>
-    </ul>
 
     <h2>Pausing and editing</h2>
     <p>
@@ -288,18 +304,20 @@ Authorization: Bearer $AT_USER_TOKEN
       <strong>Most common causes:</strong>
     </p>
     <ul>
-      <li><strong>Time zone.</strong> Your workspace is on UTC but you assumed Pacific. Set the right TZ in <strong>Settings → Workspace</strong> or pin the Schedule's own TZ.</li>
-      <li><strong>Daylight saving.</strong> The cron tick fired but at a different wall-clock time than you remember. Cron is wall-clock based; expect ±1 hour shifts twice a year.</li>
-      <li><strong>Schedule disabled.</strong> Someone toggled <code>enabled: false</code> — check the schedule's history page for the timestamp of the change.</li>
+      <li><strong>Wrong timezone.</strong> Default is UTC. Either pass an IANA <code>timezone</code> when you create the task, or update it via <code>PUT /api/scheduled-tasks/:id</code>.</li>
+      <li><strong>DST transition.</strong> The <code>computeNextRun</code> implementation walks the IANA database so the wall-clock <code>time</code> stays fixed across DST changes. Inspect <code>next_run_at</code> in <code>app_scheduled_tasks</code> to see what the scheduler thinks the next tick should be.</li>
+      <li><strong>Task disabled.</strong> Someone set <code>enabled = false</code>. Inspect the row directly or via <code>GET /api/scheduled-tasks</code>.</li>
+      <li><strong>Tick window.</strong> The scheduler runs roughly every 60 s — a tick can lag the configured time by up to a minute on a busy server.</li>
     </ul>
 
     <p class="faq-q">How do I run "once per quarter on the second business Tuesday"?</p>
     <p>
-      Standard cron can't express that natively. Two options:
+      The four presets don't cover this, and there's no raw-cron escape hatch. The supported pattern
+      is "schedule daily, guard in the App":
     </p>
     <ul>
-      <li><strong>Approximate with cron:</strong> <code>0 9 8-14 1,4,7,10 TUE</code> — runs the second Tuesday of those months (days 8–14, restricted to Tuesday).</li>
-      <li><strong>Run daily, guard in the App:</strong> add a script stage at the top that checks "is today the second business Tuesday?" — exit early if not.</li>
+      <li>Set <code>schedule_type: "daily"</code> at a chosen wall-clock time.</li>
+      <li>Make the App's first stage a <code>script</code> stage that checks the date and exits cheaply when today isn't the right day.</li>
     </ul>
 
     <p class="faq-q">Can I trigger a Schedule from a Slack slash command?</p>
@@ -311,26 +329,34 @@ Authorization: Bearer $AT_USER_TOKEN
 
     <p class="faq-q">My App now needs an extra input. Will old Schedules break?</p>
     <p>
-      They keep running, but the new input gets the App's <code>default</code> (or <code>null</code> if
-      no default). To get the new input filled in for an existing Schedule, edit it and add the value.
-      If the new input is <code>required</code> and has no default, the next scheduled run will fail
-      with <code>required_input_missing</code> — fix the Schedule before the next tick.
+      They keep running. <code>action_config.app_input</code> is passed through verbatim, so missing
+      keys fall back to whatever the App's <code>input_schema</code> specifies — the field's
+      <code>default</code>, or <code>dynamic_default</code> at run time. If the new input is
+      <code>required</code> with no default, the next tick fails at the validator with a
+      <code>Missing required input</code> error. Update the task via
+      <code>PUT /api/scheduled-tasks/:id</code> with the new key in <code>action_config.app_input</code>.
     </p>
 
-    <p class="faq-q">Where do I see what Schedules are running this week?</p>
+    <p class="faq-q">Where do I see what's queued or running?</p>
     <p>
-      Open <strong>Sidebar → Schedules</strong> for a unified view across all Apps. Or call:
+      List the tasks themselves, then drill into per-task run history:
     </p>
-    <div class="code-block">
+    <div class="code-block" style="line-height:1.7;">
+<span style="color:var(--aw-color-text-muted)"># All schedules for the current user</span><br/>
 curl https://app.aitroop.net/api/scheduled-tasks \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN"<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Last 50 runs of one schedule (status / triggered / started_at)</span><br/>
+curl https://app.aitroop.net/api/scheduled-tasks/$ID/runs \<br/>
 &nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN"
     </div>
 
     <p class="faq-q">Can I version-control my Schedules?</p>
     <p>
-      Yes — export with <code>GET /api/scheduled-tasks/:id</code>, save the JSON to git, re-import via
-      <code>PUT</code>. Teams often check Schedule definitions into a repo so they're reviewable and
-      auditable.
+      Yes — read with <code>GET /api/scheduled-tasks</code> (or filter to one task and persist the
+      JSON to a repo). Recreate via <code>POST</code> or amend an existing task via
+      <code>PUT /api/scheduled-tasks/:id</code>. There is no per-task <code>GET</code> endpoint — list
+      everything and pick the row you want.
     </p>
 
     <div class="next-up">

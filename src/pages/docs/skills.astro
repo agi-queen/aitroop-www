@@ -33,7 +33,11 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h2>Anatomy of a Skill</h2>
     <p>
-      Every Skill is defined by a <code>SKILL.md</code> file with YAML frontmatter and instructional content:
+      A Skill is a versioned bundle of files — a <code>SKILL.md</code> at the root, plus any
+      scripts, prompts, or data the skill references. Bundles live in S3 (under
+      <code>builtin/skills/{`{name}`}/{`{version}`}/</code> for platform skills and
+      <code>users/{`{userId}`}/skills/{`{name}`}/{`{version}`}/</code> for user-published ones) and
+      are mirrored into each sandbox at run time.
     </p>
     <div class="code-block">
 ---<br/>
@@ -59,9 +63,55 @@ news, or any data that requires looking at public web pages.<br/>
     </div>
 
     <p>
-      The frontmatter is metadata; the body is instructions for the agent. The instructions describe
-      <em>when</em> to use the Skill, <em>how</em> to use it, what its inputs/outputs look like, and
-      common pitfalls.
+      The frontmatter is metadata; the body is instructions for the agent. Aitroop reads
+      <code>name</code>, <code>title</code>, <code>description</code>, <code>category</code>,
+      <code>icon</code>, and <code>author</code> from the frontmatter to populate the platform
+      catalogue (<code>builtin_skills</code> and <code>app_user_skills_custom</code>). The body
+      describes <em>when</em> to use the Skill, <em>how</em> to use it, what its inputs/outputs
+      look like, and common pitfalls.
+    </p>
+
+    <h3>How a Skill becomes available in a sandbox</h3>
+    <p>
+      Skills are surfaced through Claude Code's filesystem-based skill loader — not through a
+      runtime registry, and not as MCP servers. The agent runner stages skills onto a couple of
+      well-known paths inside the sandbox:
+    </p>
+    <ul>
+      <li><strong>Cache:</strong> the skill bundle is unpacked to <code>~/.aitroop/skills/{`{name}/{version}/`}</code>. Versioned, immutable, reused across runs.</li>
+      <li><strong>Global skills</strong> (the ones marked <code>category: "core"</code> or installed with <code>is_global = true</code>): a symlink at <code>~/.claude/skills/{`{name}`}</code> points at the cache — Claude Code's default <code>configDir</code> picks them up automatically.</li>
+      <li><strong>Per-app skills</strong> (declared in <code>resources.skills</code> but not core): symlinked under <code>~/.aitroop/app_skills/{`{appId}/.claude/skills/`}</code> and exposed to Claude Code via <code>--add-dir</code>. They're visible only for runs of that App.</li>
+    </ul>
+    <p>
+      When an App's stage overrides <code>stage.skills</code>, only that subset is symlinked for the
+      stage — Per-stage scoping shrinks the toolbox without touching the workspace's installed set.
+    </p>
+
+    <div class="callout">
+      <strong>Skills are not MCP servers.</strong> An MCP server is a runtime process that exposes
+      tools over the Model Context Protocol; Aitroop passes those to the runner via the separate
+      <code>extraMCPServers</code> channel on an agent request. Skills, by contrast, are static
+      content the agent reads — there's no process to spawn, no protocol to negotiate, no
+      <code>tools/list</code> handshake.
+    </div>
+
+    <h3>Builtin vs. custom skills</h3>
+    <p>
+      Two stores back the catalogue:
+    </p>
+    <table>
+      <thead><tr><th></th><th><code>builtin_skills</code></th><th><code>app_user_skills_custom</code></th></tr></thead>
+      <tbody>
+        <tr><td><strong>Author</strong></td><td>Aitroop platform</td><td>The end user (you)</td></tr>
+        <tr><td><strong>Version</strong></td><td>Semver string seeded into the row (<code>1.0.0</code>, <code>1.1.0</code>, …)</td><td>Auto-incrementing integer, bumped on each publish</td></tr>
+        <tr><td><strong>Visibility</strong></td><td>Available to every workspace</td><td>Available only to the publishing user</td></tr>
+        <tr><td><strong>Install state</strong></td><td><code>app_user_skills_enabled</code> with optional <code>is_global</code> flag</td><td>Always available to its owner; no separate install row</td></tr>
+      </tbody>
+    </table>
+    <p>
+      A user-published skill of the same <code>name</code> as a builtin <em>shadows</em> the builtin
+      for that user — the symlink resolution picks the user's version. That's the supported way to
+      override a built-in skill's behaviour without forking the platform.
     </p>
 
     <h2>The built-in Skill: App Builder</h2>
@@ -189,6 +239,97 @@ news, or any data that requires looking at public web pages.<br/>
         <tr><td>Skill timed out</td><td>The underlying API was slow</td><td>Re-run; the agent will retry automatically once</td></tr>
       </tbody>
     </table>
+
+    <h2>How a skill physically gets into the sandbox</h2>
+    <p>
+      Skills don't live "in the workspace" as a single canonical install — every run materializes
+      the subset it needs into a fresh sandbox. The path from S3 to a working
+      <code>~/.claude/skills/{`{name}`}</code> symlink is short but worth understanding:
+    </p>
+
+    <ol>
+      <li>
+        <strong>Resolution.</strong> When a turn starts, the server resolves the union of
+        (a) the user's globally-installed skills marked <code>is_global = true</code>, (b) the App's
+        <code>resources.skills</code> for app-scoped skills, and (c) any per-stage
+        <code>stage.skills</code> override. Each entry becomes a <code>SkillRef</code> with
+        <code>{`{ name, version, s3Prefix }`}</code>.
+      </li>
+      <li>
+        <strong>Presigning.</strong> For every <code>SkillRef</code>, the server lists the S3 prefix
+        and signs each object key with a 1-hour expiry GET URL. The signed URLs are bundled into the
+        run-agent config — so the agent's host can download skill files without holding S3
+        credentials itself.
+      </li>
+      <li>
+        <strong>Caching.</strong> Inside the sandbox, the runner pulls each presigned URL into
+        <code>~/.aitroop/skills/{`{name}/{version}/`}</code>. Because the path is versioned, a second
+        run that needs the same skill at the same version skips the download entirely — the
+        directory is already there.
+      </li>
+      <li>
+        <strong>Symlinking.</strong> The runner then symlinks the cache into the location Claude
+        Code expects: <code>~/.claude/skills/{`{name}`}</code> for global skills, or
+        <code>~/.aitroop/app_skills/{`{appId}/.claude/skills/{name}`}</code> for app-scoped ones
+        (loaded via <code>--add-dir</code>). Symlinks are cheap to make and break, so per-stage
+        skill scoping is a re-link, not a re-download.
+      </li>
+    </ol>
+
+    <p>
+      The net effect: the agent reads skill files from the local filesystem the same way Claude
+      Code does in any other context. No remote calls at runtime, no skill-server-side rate limits.
+      The bottleneck is the first download of an unseen version, which the per-sandbox cache
+      eliminates on repeat use.
+    </p>
+
+    <h2>Aitroop's own MCP server</h2>
+    <p>
+      Independently of user-installed skills, the platform ships a small built-in MCP server that
+      every run-agent attaches to. It's not optional — it's how stages talk back to the platform
+      without going through HTTP from inside the sandbox. The runner sees it as
+      <code>mcp__aitroop__*</code> tools.
+    </p>
+
+    <table>
+      <thead><tr><th>Tool name</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>mcp__aitroop__ask_question</code></td>
+          <td>Surface a question to the user mid-turn. Drives the <code>ask_user</code> event you see in the chat UI — backs the <em>"agent needs clarification"</em> flow described in <a href="/docs/concepts">Core concepts</a>.</td>
+        </tr>
+        <tr>
+          <td><code>mcp__aitroop__get_task</code></td>
+          <td>Read the current platform-side task structure (active App, stage being executed, prior artifacts). The agent uses it to know <em>which</em> stage of <em>which</em> App it's running.</td>
+        </tr>
+        <tr>
+          <td><code>mcp__aitroop__update_task</code></td>
+          <td>Update task fields — used by the App Builder skill to set draft App state during a save flow.</td>
+        </tr>
+        <tr>
+          <td><code>mcp__aitroop__get_asset_content</code></td>
+          <td>Read an artifact by ID (e.g. a file the user attached, or an earlier stage's CSV). Returns raw bytes; the agent can then parse them however it likes.</td>
+        </tr>
+        <tr>
+          <td><code>mcp__aitroop__generate_image</code></td>
+          <td>Optional — only registered when the Gemini API key is configured. Generates images from a prompt and returns an artifact handle.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Transport: HTTP, not stdio — the URL is
+      <code>{`{mcpServerURL}?session={conversationId}`}</code>, and the agent treats it like any
+      other MCP server in its <code>mcpServers</code> list. You don't configure this manually; the
+      runner config is built with it pre-populated.
+    </p>
+
+    <div class="callout">
+      <strong>This is what makes "skills" feel native.</strong> A user skill that needs to ask a
+      clarifying question or attach a follow-up artifact doesn't have to invent its own protocol —
+      it calls the platform's built-in MCP tools. The skill content can stay declarative
+      (<code>SKILL.md</code> + scripts) because the interactivity is provided by the runtime.
+    </div>
 
     <h2>MCP server compatibility</h2>
     <p>

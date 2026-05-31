@@ -66,34 +66,83 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
       <li>You're returned to the chat or run. It resumes from where it paused.</li>
     </ol>
 
-    <h2>Browsing available Connects</h2>
+    <h2>What's actually behind Connects</h2>
     <p>
-      Open <strong>Settings → Connects → Available</strong>. Providers are grouped by category. The exact
-      catalog evolves; here's a snapshot of common categories and the kind of providers in each:
+      Aitroop doesn't run a separate OAuth integration for each provider — it brokers them through
+      <a href="https://composio.dev" target="_blank" rel="noopener">Composio</a>. The platform owns
+      the provider catalogue (categories and definitions seeded into the
+      <code>connect_category</code> and <code>connect_definition</code> tables), and a local mirror
+      of each user's authorization state lives in <code>app_user_connect</code>. Tokens stay with
+      Composio; Aitroop holds the connection ID and the cached "is this user connected to provider
+      X right now" flag.
+    </p>
+
+    <h2>The provider catalogue</h2>
+    <p>
+      The seeded catalogue at time of writing — 12 categories, 40+ providers. The set is editable
+      from the database; <code>is_enabled = false</code> hides a definition without deleting it.
     </p>
 
     <table>
-      <thead><tr><th>Category</th><th>Example providers</th><th>Typical use</th></tr></thead>
+      <thead><tr><th>Category</th><th>Providers</th></tr></thead>
       <tbody>
-        <tr><td><strong>Email</strong></td><td>Google (Gmail), Microsoft (Outlook)</td><td>Read inbox, send mail, draft replies.</td></tr>
-        <tr><td><strong>Calendar</strong></td><td>Google Calendar, Outlook Calendar</td><td>List events, create meetings, check free/busy.</td></tr>
-        <tr><td><strong>Storage</strong></td><td>Google Drive, Dropbox, OneDrive</td><td>Read files, write artifacts, list folders.</td></tr>
-        <tr><td><strong>Code repo</strong></td><td>GitHub, GitLab, Bitbucket</td><td>List commits, comment on PRs, file issues.</td></tr>
-        <tr><td><strong>Messaging</strong></td><td>Slack, Microsoft Teams, Discord</td><td>Post messages, listen for triggers.</td></tr>
-        <tr><td><strong>CRM</strong></td><td>Salesforce, HubSpot, Pipedrive</td><td>Query leads, create records, log activity.</td></tr>
-        <tr><td><strong>Project</strong></td><td>Notion, Linear, Jira, Asana</td><td>Read tickets, create pages, update status.</td></tr>
-        <tr><td><strong>Data</strong></td><td>Snowflake, BigQuery, Airtable</td><td>Run queries, fetch rows, write back results.</td></tr>
+        <tr><td><strong>Email</strong></td><td>Gmail, Outlook, SendGrid, Smartlead, AgentMail</td></tr>
+        <tr><td><strong>Calendar</strong></td><td>Google Calendar</td></tr>
+        <tr><td><strong>Code Repository</strong></td><td>GitHub, GitLab, Bitbucket</td></tr>
+        <tr><td><strong>Messaging</strong></td><td>Slack, Discord, WhatsApp, Telegram</td></tr>
+        <tr><td><strong>File Storage</strong></td><td>Google Drive, Dropbox, OneDrive</td></tr>
+        <tr><td><strong>CRM</strong></td><td>Salesforce, HubSpot, Pipedrive, Close, Apollo, CrustData, Shopify</td></tr>
+        <tr><td><strong>Project Management</strong></td><td>Linear, Jira, Notion, Asana</td></tr>
+        <tr><td><strong>Social Media</strong></td><td>Twitter/X, LinkedIn, Facebook, Instagram, TikTok, YouTube</td></tr>
+        <tr><td><strong>Spreadsheets</strong></td><td>Google Sheets, Airtable</td></tr>
+        <tr><td><strong>Documents</strong></td><td>Google Docs</td></tr>
+        <tr><td><strong>Automation</strong></td><td>Apify, Firecrawl</td></tr>
+        <tr><td><strong>Database</strong></td><td>Supabase</td></tr>
       </tbody>
     </table>
 
     <p>
-      The exact list is exposed via <code>GET /api/connect/categories</code> and per-provider definitions
-      via <code>GET /api/connect/definitions</code>. You can also ask the agent in chat:
+      Programmatically:
     </p>
-    <div class="code-block">
-&gt; what Connects can I authorize?<br/>
-&gt; is there a Connect for Salesforce?
+    <div class="code-block" style="line-height:1.7;">
+GET /api/connect/connections   <span style="color:var(--aw-color-text-muted)">// your authorized providers</span><br/>
+GET /api/connect/status        <span style="color:var(--aw-color-text-muted)">// cached connect satisfaction state</span><br/>
+POST /api/connect/initiate     <span style="color:var(--aw-color-text-muted)">// kick off an OAuth flow for a provider</span><br/>
+GET /api/connect/callback      <span style="color:var(--aw-color-text-muted)">// OAuth redirect target (no auth)</span><br/>
+DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">// disconnect</span>
     </div>
+
+    <h2>How Apps declare which Connects they need</h2>
+    <p>
+      Connect requirements live on <code>resources.connects</code> at the App level, or on
+      <code>stage.connects</code> for per-stage scoping. Two requirement shapes:
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+"connects": [<br/>
+&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// "I need GitHub specifically"</span><br/>
+&nbsp;&nbsp;{`{`} "type": "specific", "id": <span style="color:var(--aw-color-primary)">"github"</span>, "is_required": true {`}`},<br/>
+<br/>
+&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// "I need any email provider"</span><br/>
+&nbsp;&nbsp;{`{`} "type": "category", "id": <span style="color:var(--aw-color-primary)">"email"</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;"is_required": true,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;"label": "Any inbox we can send from" {`}`}<br/>
+]
+    </div>
+    <p>
+      A <strong>specific</strong> requirement names a single <code>connect_definition.id</code>; the
+      user must have authorized exactly that provider. A <strong>category</strong> requirement is
+      satisfied if the user has authorized <em>any</em> provider in the
+      <code>connect_category</code>. The satisfaction check runs before each App execution (and
+      again before each scheduled tick); if it fails, the run is held until the user authorizes the
+      missing piece.
+    </p>
+    <p>
+      The legacy short form <code>"connects": ["github", "hubspot"]</code> is still accepted — each
+      string is upgraded to <code>{`{ type: "specific", id: <string>, is_required: true }`}</code> on
+      read. Skills define their own connect requirements the same way, and the App's overall
+      satisfaction state merges the App-level requirements with every required skill's
+      requirements.
+    </p>
 
     <h2>Reading vs writing — scope selection</h2>
     <p>
@@ -185,6 +234,101 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
       This is set in the App design — the App Builder picks it automatically when the App's task makes
       it natural ("summarize a Notion page I'll point at"). The user running the App sees a file picker
       showing their cloud storage, picks a document, and the agent reads it via the Connect.
+    </p>
+
+    <h2>The satisfaction model — how the platform decides "OK to run"</h2>
+    <p>
+      Before any App execution begins (and again before every scheduled tick), the platform
+      computes a <strong>satisfaction</strong> report: for each Connect the App requires, has the
+      user authorized something that satisfies it? Two layers of requirements collapse into one
+      check.
+    </p>
+
+    <h3>Requirement sources</h3>
+    <ol>
+      <li>
+        <strong>Direct requirements</strong> — what the App itself declares in
+        <code>resources.connects</code> (either App-wide or per-stage).
+      </li>
+      <li>
+        <strong>Skill requirements</strong> — every skill the App uses brings its own
+        <code>connects</code> requirements with it. A "send email" skill effectively says
+        <em>"any App that uses me needs an email Connect"</em>.
+      </li>
+    </ol>
+
+    <h3>The merged view</h3>
+    <p>
+      The platform deduplicates by <code>(type, id)</code> and produces a single flat list. For each
+      entry, it asks: "is this satisfied?"
+    </p>
+    <table>
+      <thead><tr><th><code>type</code></th><th>Satisfied when…</th></tr></thead>
+      <tbody>
+        <tr><td><code>specific</code></td><td>The user has authorized the named provider (e.g. <code>github</code> appears in <code>app_user_connect</code> with <code>connected = true</code>).</td></tr>
+        <tr><td><code>category</code></td><td>The user has authorized <em>at least one</em> provider whose <code>connect_definition.category_id</code> matches the requirement. Which provider satisfies it is recorded in <code>satisfied_by</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      A full satisfaction record for one requirement looks like this — same shape the API exposes
+      via <code>GET /api/connect/status</code>:
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"type":          <span style="color:var(--aw-color-primary)">"category"</span>,<br/>
+&nbsp;&nbsp;"id":            <span style="color:var(--aw-color-primary)">"email"</span>,<br/>
+&nbsp;&nbsp;"is_required":   <span style="color:var(--aw-color-primary)">true</span>,<br/>
+&nbsp;&nbsp;"category_name": <span style="color:var(--aw-color-primary)">"Email"</span>,<br/>
+&nbsp;&nbsp;"is_satisfied":  <span style="color:var(--aw-color-primary)">true</span>,<br/>
+&nbsp;&nbsp;"satisfied_by":  <span style="color:var(--aw-color-primary)">["gmail"]</span>,<br/>
+&nbsp;&nbsp;"available":     <span style="color:var(--aw-color-primary)">["gmail", "outlook", "sendgrid", ...]</span><br/>
+{`}`}
+    </div>
+
+    <h3>What happens when something is unsatisfied</h3>
+    <p>
+      The behaviour differs by trigger:
+    </p>
+    <ul>
+      <li>
+        <strong>Manual run from the UI:</strong> the run button is disabled with a tooltip naming the
+        missing piece. Clicking the inline <em>Authorize</em> chip walks through OAuth, and the run
+        button re-enables.
+      </li>
+      <li>
+        <strong>Run via API (<code>POST /api/apps/:appId/run</code>):</strong> the call returns
+        <code>422</code> with the missing requirements listed in the response body. Test runs
+        (<code>is_test: true</code>) skip the check — useful for trying things in the App editor.
+      </li>
+      <li>
+        <strong>Scheduled tick:</strong> the scheduler doesn't pause indefinitely. It writes
+        <code>last_status = 'error'</code> with the message <code>"Missing required connections: …"</code>
+        on the task row, leaves <code>next_run_at</code> at its scheduled value, and tries again on
+        the next tick. The schedule's runs page surfaces this so you don't have to monitor every
+        provider yourself.
+      </li>
+    </ul>
+
+    <h3>The cache</h3>
+    <p>
+      Calling Composio to enumerate "what is this user connected to" on every tick would be
+      expensive. Aitroop instead keeps a local mirror in <code>app_user_connect</code>:
+    </p>
+    <table>
+      <thead><tr><th>Column</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>user_id</code></td><td>Who.</td></tr>
+        <tr><td><code>provider</code></td><td>Which <code>connect_definition.id</code> (e.g. <code>github</code>).</td></tr>
+        <tr><td><code>connected</code></td><td><code>true</code> when the user currently has a live Composio connection for this provider.</td></tr>
+        <tr><td><code>connection_id</code></td><td>Composio-side ID — what we hand back when actually invoking an action.</td></tr>
+        <tr><td><code>connected_at</code> / <code>updated_at</code></td><td>When the row last flipped; used for cache freshness.</td></tr>
+      </tbody>
+    </table>
+    <p>
+      The cache is invalidated on every successful OAuth completion, on explicit revoke, and on
+      Composio-side webhook delivery. Worst case: the cache lags reality by the webhook delay,
+      after which the next satisfaction check will see the new state.
     </p>
 
     <h2>Confirmation for write actions</h2>

@@ -223,6 +223,94 @@ DAYTONA_TARGET=...
       it existed in the sandbox at end-of-run. You can click any file to view it, then download or share.
     </p>
 
+    <h2>Lifecycle — how a sandbox is acquired and held</h2>
+    <p>
+      Aitroop doesn't spawn a sandbox per request. Each user has at most one warm sandbox, recorded
+      in the <code>sb_container</code> row keyed by their internal username. The same sandbox is
+      reused across consecutive chats and App runs — that's what keeps cold-start cost off the
+      common path. Lifecycle state lives on that one row:
+    </p>
+
+    <table>
+      <thead><tr><th><code>sb_container</code> column</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><code>username</code></td><td>Primary key. The user's stable internal identifier.</td></tr>
+        <tr><td><code>sandbox_id</code></td><td>Provider-side identifier (E2B sandbox ID, Daytona workspace ID, host PID-prefix). Empty during creation.</td></tr>
+        <tr><td><code>status</code></td><td><code>ready</code> when usable. <code>creating</code> while a worker is provisioning a fresh one.</td></tr>
+        <tr><td><code>paused</code></td><td><code>true</code> after the provider auto-paused the sandbox for idleness. <code>false</code> once it's resumed and warm.</td></tr>
+        <tr><td><code>type</code></td><td>Which provider owns it (<code>e2b</code> / <code>daytona</code> / <code>local</code>).</td></tr>
+        <tr><td><code>lock_version</code></td><td>Optimistic-lock counter. Bumped on every mutation; concurrent writers with a stale version are rejected.</td></tr>
+        <tr><td><code>total_usage_seconds</code></td><td>Cumulative wall-clock time the sandbox has been active — the billable metric.</td></tr>
+        <tr><td><code>last_activity_at</code></td><td>Last successful SDK touch. Drives the 5-minute idle-pause timer.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Concurrent acquire with optimistic locking</h3>
+    <p>
+      Two reasons a sandbox might be touched simultaneously: a chat reply and a scheduled App
+      starting at the same instant, or two server instances handling traffic for the same user.
+      The platform serialises this with CAS on <code>lock_version</code>:
+    </p>
+    <ol>
+      <li>The caller reads the current row, including <code>lock_version</code>.</li>
+      <li>It tries to claim the lock with an UPDATE conditioned on the version it just saw, incrementing it atomically.</li>
+      <li>Success → that caller owns the sandbox; everyone else retries the read after ~100 ms.</li>
+      <li>Failure → another caller got there first. Re-read and try again.</li>
+    </ol>
+    <p>
+      A worker that crashed mid-acquire would leave <code>status = 'creating'</code> forever. To
+      prevent indefinite stuck state, any row sitting in <code>creating</code> for more than ~25 s is
+      considered stale: the next acquirer resets it, bumps the version, and proceeds. This is the
+      stale-lock recovery path — silent in normal operation, visible in logs as a one-line warning
+      when it fires.
+    </p>
+
+    <h3>Pause / resume</h3>
+    <p>
+      Every SDK call to the underlying provider resets the 5-minute idle timer. If 5 minutes elapse
+      with no touch, the provider freezes the sandbox: the row stays, <code>paused</code> flips to
+      <code>true</code>, the container is no longer billing. The next acquisition wakes it back up —
+      cold-resume on E2B is ~1 s. To keep the sandbox warm during long agent thinking (no SDK calls
+      between LLM turns), the runner emits a <code>keepAlive</code> ping every 30 s. That's why the
+      cluster constants line up the way they do:
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+SANDBOX_KEEPALIVE_INTERVAL_MS <span style="color:var(--aw-color-text-muted)">= 30 s</span><br/>
+SANDBOX_IDLE_TIMEOUT_MS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:var(--aw-color-text-muted)">= 5 min  (12× the keepalive)</span><br/>
+AGENT_RUN_TIMEOUT_MS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:var(--aw-color-text-muted)">= 7 days (hard ceiling on a single turn)</span>
+    </div>
+
+    <h3>Dead sandboxes and <code>withSandbox</code></h3>
+    <p>
+      Sandboxes can die outside the platform's view — a provider deletes the underlying VM, the host
+      process gets OOM-killed. The runner notices this by classifying the resulting error as
+      <code>sandbox_not_found</code> (see <a href="/docs/concepts">runner error classification</a>).
+      Most server code uses a wrapper helper:
+    </p>
+    <div class="code-block">
+provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
+&nbsp;&nbsp;await sb.commands.run('pip install pandas');<br/>
+&nbsp;&nbsp;await sb.files.write('script.py', code);<br/>
+{`}`});
+    </div>
+    <p>
+      If the inner function throws and the error matches "sandbox is gone", the wrapper evicts the
+      in-memory cache, calls <code>createOrResume</code> for a fresh sandbox, and runs the function
+      one more time. One retry — that's it; a second failure propagates out. Other transient errors
+      (network, busy) propagate immediately; they're not the wrapper's job to handle.
+    </p>
+
+    <h3>Host-mode secret stripping</h3>
+    <p>
+      Host mode is the developer-only provider where the "sandbox" is a process on the Aitroop
+      server itself. Without protection, any code the agent runs would inherit the server's
+      environment — including database URLs, JWT signing keys, and S3 credentials. The host
+      provider therefore strips a fixed set of variables from the child environment before spawn:
+      <code>DATABASE_URL</code>, <code>JWT_SECRET</code>, <code>E2B_API_KEY</code>,
+      <code>DAYTONA_API_KEY</code>, OAuth client secrets, S3 access/secret keys, and anything
+      Composio-side. The agent gets a clean environment; the server keeps its secrets.
+    </p>
+
     <h2>Sandbox usage and cost</h2>
     <p>
       Each sandbox second is metered. The billing table (<code>buy_balance</code>) tracks total deposited

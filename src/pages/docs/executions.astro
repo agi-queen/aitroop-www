@@ -108,32 +108,91 @@ const metadata = {
       <code>{`{{company_name}}`}</code> in the original goal got resolved.
     </p>
 
-    <h2>Watching a run live</h2>
+    <h2>Watching a run live — the SSE stream</h2>
     <p>
-      During <code>running</code> state, the App page splits into two panes. The platform pushes Server-Sent
-      Events to the UI as the agent works:
+      During <code>running</code> state, the App page subscribes to a Server-Sent Events stream
+      keyed on the execution ID. The same stream is the public API surface for anyone wanting to
+      mirror runs into another system. The endpoint:
+    </p>
+
+    <div class="code-block">
+GET /api/app-executions/:execId/stream<br/>
+Authorization: Bearer &lt;token&gt;<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">// Response headers</span><br/>
+Content-Type: text/event-stream<br/>
+Cache-Control: no-cache<br/>
+Connection: keep-alive
+    </div>
+
+    <h3>The five execution-level events</h3>
+    <p>
+      Each event is framed as <code>event: {`<name>`}\n data: {`<JSON>`}\n\n</code>. On connect, the
+      server first <em>replays</em> the current state so a late subscriber always sees a coherent
+      sequence — current execution status, every stage log so far, any pending human gate, every
+      saved artifact — before switching to live broadcast.
     </p>
 
     <table>
-      <thead><tr><th>Event</th><th>When it fires</th></tr></thead>
+      <thead><tr><th><code>event</code></th><th>Payload shape</th><th>When it fires</th></tr></thead>
       <tbody>
-        <tr><td><code>text_delta</code></td><td>The agent is writing text. Streamed token-by-token.</td></tr>
-        <tr><td><code>tool_start</code></td><td>The agent decided to call a Skill or shell command.</td></tr>
-        <tr><td><code>tool_result</code></td><td>The tool returned. Output (truncated) is shown.</td></tr>
-        <tr><td><code>thinking_delta</code></td><td>Reasoning trace (shown collapsed by default).</td></tr>
-        <tr><td><code>subtask_start / done</code></td><td>The agent kicked off a sub-task in parallel.</td></tr>
-        <tr><td><code>context_usage</code></td><td>Token usage report. Useful for understanding cost.</td></tr>
-        <tr><td><code>ask_user</code></td><td>The agent paused and is asking a question (only in chat mode).</td></tr>
-        <tr><td><code>error</code></td><td>Something went wrong. Run transitions to <code>failed</code>.</td></tr>
-        <tr><td><code>done</code></td><td>Stage finished. Run continues to next stage or completes.</td></tr>
+        <tr>
+          <td><code>status</code></td>
+          <td><code>{`{ status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled' }`}</code></td>
+          <td>On subscribe (replay) and on every execution-level state change.</td>
+        </tr>
+        <tr>
+          <td><code>stage_log</code></td>
+          <td>A full <code>AppStageLog</code> row — see <em>Anatomy</em> above.</td>
+          <td>On subscribe (one per existing stage log) and on every stage transition.</td>
+        </tr>
+        <tr>
+          <td><code>human_gate</code></td>
+          <td>A full <code>AppHumanGate</code> row.</td>
+          <td>When a <code>human</code> stage opens a gate and again when the gate is resolved.</td>
+        </tr>
+        <tr>
+          <td><code>artifact</code></td>
+          <td>A full <code>AppArtifact</code> row including <code>content</code> if present.</td>
+          <td>Each time a stage's outputs are persisted.</td>
+        </tr>
+        <tr>
+          <td><code>done</code></td>
+          <td><code>{`{ status, duration_ms }`}</code></td>
+          <td>Once, at the end. The server then closes the stream.</td>
+        </tr>
       </tbody>
     </table>
 
     <p>
-      If you want to consume this stream programmatically (e.g. to mirror runs into your own dashboard),
-      subscribe to <code>GET /api/app-executions/:execId/stream</code>. Standard SSE — keep the connection
-      open and parse <code>event:</code> / <code>data:</code> framed messages.
+      If you subscribe to an execution that is already in a terminal state, the server replays the
+      stored stage logs and artifacts, sends a <code>done</code> event, and disconnects — no live
+      socket is created. This makes replay and live monitoring use the same endpoint and the same
+      parser.
     </p>
+
+    <h3>The fine-grained runner events</h3>
+    <p>
+      The five execution events above are the <strong>summary</strong> stream. Inside an
+      <code>agent</code> stage, the underlying <code>run-agent</code> binary emits a much finer
+      JSONL trace — token-by-token text, tool calls, sub-tasks, thinking. Those events live on the
+      session-level stream, not the execution-level one, but they're what powers the right-hand
+      reasoning trace pane. See <a href="/docs/concepts#the-agent-runner-protocol">the runner
+      protocol</a> for the full event catalogue.
+    </p>
+
+    <h3>Minimal SSE consumer</h3>
+    <div class="code-block" style="line-height:1.7;">
+const es = new EventSource('/api/app-executions/' + execId + '/stream', {`{`}<br/>
+&nbsp;&nbsp;withCredentials: true,<br/>
+{`}`});<br/>
+<br/>
+es.addEventListener('status',     (e) =&gt; console.log('status', JSON.parse(e.data)));<br/>
+es.addEventListener('stage_log',  (e) =&gt; console.log('stage',  JSON.parse(e.data)));<br/>
+es.addEventListener('artifact',   (e) =&gt; console.log('artifact', JSON.parse(e.data)));<br/>
+es.addEventListener('human_gate', (e) =&gt; console.log('gate',   JSON.parse(e.data)));<br/>
+es.addEventListener('done',       (e) =&gt; {`{`} console.log('done', JSON.parse(e.data)); es.close(); {`}`});
+    </div>
 
     <h2>Test runs vs real runs</h2>
     <p>
@@ -197,6 +256,37 @@ const metadata = {
       when they go <code>pending</code> — useful for long-running pipelines where you might not be watching.
     </p>
 
+    <h3>The gate API</h3>
+    <p>
+      Approve or reject a gate by POSTing to its resolution endpoint. The body carries the verdict
+      and an optional free-text <code>response</code> stored on the gate row:
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+POST /api/app-executions/:execId/gates/:gateId<br/>
+Content-Type: application/json<br/>
+Authorization: Bearer &lt;token&gt;<br/>
+<br/>
+{`{`}<br/>
+&nbsp;&nbsp;"action":   <span style="color:var(--aw-color-primary)">"approved"</span> <span style="color:var(--aw-color-text-muted)">// or "rejected"</span>,<br/>
+&nbsp;&nbsp;"response": <span style="color:var(--aw-color-primary)">"Removed 4 lookalikes; lists looks tighter now."</span><br/>
+{`}`}
+    </div>
+    <p>
+      Mechanically: the server marks <code>app_human_gate.status</code> and stamps
+      <code>responded_at</code>, then resolves an in-memory <code>Promise</code> the executor has
+      been awaiting on. The awaiting stage immediately transitions out of <code>waiting</code> and
+      the pipeline either proceeds to stage N+1 (on approve) or short-circuits to
+      <code>failed</code> (on reject). A <code>human_gate</code> SSE event with the updated row is
+      fanned out to every subscriber.
+    </p>
+    <div class="callout">
+      <strong>The execution stays <code>running</code> the whole time a gate is pending.</strong>
+      Only the stage log goes to <code>waiting</code>. The sandbox is held alive (via
+      <code>keepAlive</code>) so resuming on approve doesn't pay a cold-start cost. The trade-off is
+      that an indefinitely-pending gate keeps a sandbox warm — set a reasonable expectation with
+      your reviewers, or build the gate around an auto-timeout in the App's design.
+    </div>
+
     <h2>Cancelling a run</h2>
     <p>
       Click <strong>Cancel</strong> on a running execution, or send:
@@ -221,8 +311,9 @@ Authorization: Bearer &lt;your_token&gt;
 
     <h2>Resuming from a specific stage</h2>
     <p>
-      A real superpower: re-run only the stages that need re-running, reusing artifacts from the ones that
-      worked. Set <code>start_from_stage_index</code> on the run request:
+      A real superpower: re-run only the stages that need re-running, reusing artifacts from the
+      ones that worked. Pass <code>start_from_stage_index</code> and <code>prior_execution_id</code>
+      on the run request:
     </p>
 
     <div class="code-block">
@@ -230,15 +321,47 @@ POST /api/apps/:appId/run<br/>
 Content-Type: application/json<br/>
 <br/>
 {`{`}<br/>
-&nbsp;&nbsp;"input": {`{ ... same as before ... }`},<br/>
+&nbsp;&nbsp;"input": {`{ ... same shape as the original run ... }`},<br/>
 &nbsp;&nbsp;"start_from_stage_index": 2,<br/>
 &nbsp;&nbsp;"prior_execution_id": "exec_8f4c2e1b"<br/>
 {`}`}
     </div>
 
+    <h3>What the executor actually does</h3>
+    <ol>
+      <li>
+        Creates a fresh <code>app_execution</code> row pointing at the same App version. Stage logs
+        for indexes <code>0 .. start_from_stage_index - 1</code> are written as
+        <code>status: 'skipped'</code> immediately — the run history makes it clear which stages
+        weren't re-executed.
+      </li>
+      <li>
+        Loads the skipped stages' artifacts via <code>dao.listArtifactsByStages(priorExecutionId, [stageIds])</code>.
+        For each artifact that doesn't carry inline <code>content</code>, the executor downloads
+        the body from S3 by its <code>s3_key</code> and decodes UTF-8 — so the next stage's system
+        prompt sees the prior content even if the original row was offloaded.
+      </li>
+      <li>
+        Acquires a brand-new sandbox. Files Stage 0–1 wrote on the original execution's sandbox are
+        <em>gone</em> — only the persisted artifacts cross the boundary. If a later stage depended
+        on intermediate scratch files rather than declared artifacts, resume won't reproduce them.
+      </li>
+      <li>
+        Builds stage <code>start_from_stage_index</code>'s system prompt with the loaded prior
+        artifacts injected as <code>## Previous Stage Outputs</code>, then proceeds from there
+        through the end of the pipeline.
+      </li>
+    </ol>
+
+    <h3>Resume + <code>shared_session</code></h3>
     <p>
-      The platform loads stages 0 and 1's artifacts from <code>prior_execution_id</code> into the new
-      sandbox, then runs from stage 2 onward.
+      When the original run used <code>shared_session: true</code> and the resume also asks for it,
+      the executor goes one step further: it locates a stage log on
+      <code>prior_execution_id</code> that already has a <code>session_id</code>, reuses that
+      session, and continues the same Claude conversation. Visible result: <em>Debug in chat</em>
+      shows one continuous thread spanning the original and the resumed run. Don't enable this
+      blindly — a shared Claude session means the model's context still contains earlier turns,
+      which is sometimes the point and sometimes not.
     </p>
 
     <h3>When you'd use this</h3>
@@ -249,6 +372,13 @@ Content-Type: application/json<br/>
         Connect, re-run from the failed stage with the same inputs.</li>
       <li><strong>Human rejected a gate.</strong> Adjust the prior stage's prompt, re-run from there.</li>
     </ul>
+
+    <div class="callout warn">
+      <strong>Resume doesn't roll back partial side-effects.</strong> If the resumed stage wrote
+      rows to your CRM, sent a Slack message, or pushed a git commit, that work has already shipped.
+      The platform doesn't track outbound side-effects; resume only reuses persisted artifacts.
+      For idempotency, make Connect-touching stages check "have we already done this?" first.
+    </div>
 
     <p>
       In the UI: open the run, click <strong>Re-run from stage…</strong>, pick the stage.

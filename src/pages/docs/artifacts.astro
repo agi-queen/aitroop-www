@@ -28,23 +28,80 @@ const metadata = {
 
     <h2>How the agent produces an artifact</h2>
     <p>
-      When a stage declares an <code>artifact_def</code>, the agent finishes its turn by emitting an XML
-      block in its output:
+      There are two extraction paths in the codebase, and they look superficially similar but apply
+      in different contexts. Both end up at the same row in <code>app_artifact</code>; pick the one
+      that matches where you are.
     </p>
 
+    <h3>Path A — App stages (markdown-section extraction)</h3>
+    <p>
+      When a stage runs as part of an <code>AppExecution</code>, the executor builds a system prompt
+      that ends with an <code>## Expected Outputs</code> block, listing each
+      <code>artifact_defs</code> entry as <code>### {`{{title}}`}</code> with its
+      <code>format</code> and <code>description</code>. The agent's response is then scanned by
+      <code>extractArtifactContent</code> with this priority:
+    </p>
+    <ol>
+      <li>Match a markdown heading whose text equals the artifact <code>title</code> (case-insensitive,
+        <code>#</code> through <code>####</code>) — take everything until the next heading of the
+        same depth or higher.</li>
+      <li>For structured formats (<code>code</code>, <code>json</code>, <code>html</code>,
+        <code>csv</code>) — fall back to the first language-matched fenced code block.</li>
+      <li>If the stage declares exactly one artifact — fall back to the entire response text.</li>
+    </ol>
+    <p>
+      That's why the example below uses <code>## Stripe — Company Brief</code> as the section
+      heading rather than an XML tag: it's what the matcher actually looks for.
+    </p>
     <div class="code-block" style="line-height:1.7;">
-&lt;artifact id="company_brief" format="markdown" title="Stripe — Company Brief"&gt;<br/>
-&nbsp;&nbsp;# Stripe — Company Brief<br/>
+## Stripe — Company Brief<br/>
 <br/>
-&nbsp;&nbsp;## Business model<br/>
-&nbsp;&nbsp;Stripe runs payment infrastructure as a service...<br/>
-&lt;/artifact&gt;
+# Stripe — Company Brief<br/>
+<br/>
+## Business model<br/>
+Stripe runs payment infrastructure as a service...<br/>
+<br/>
+## Recent moves<br/>
+...
+    </div>
+    <p>
+      Each saved artifact gets an S3 key
+      <code>app-artifacts/{`{userId}/{executionId}/{stageId}/{defId}`}</code>, a generated
+      filename <code>{`{appSlug}_{stageSlug}_{defSlug}.{ext}`}</code>, and a MIME type derived from
+      the format (<code>text/markdown</code>, <code>application/json</code>, <code>text/csv</code>,
+      <code>text/html</code>, etc.). For <code>code</code>, the extension follows the
+      <code>language</code> field on the def (<code>python</code> → <code>.python</code>,
+      <code>ts</code> → <code>.ts</code>); for everything else, a fixed map applies. The raw content
+      is also stored on the <code>app_artifact</code> row, with S3 as a fallback for large bodies.
+    </p>
+
+    <div class="callout">
+      <strong>What <em>doesn't</em> work in app stages.</strong> There is no
+      <code>{`{{ stages.<id>.<artifactId> }}`}</code> reference inside the goal — the goal templater
+      only substitutes form inputs. Prior-stage artifacts reach the next stage two other ways: (1)
+      files left on the shared sandbox filesystem, and (2) the auto-injected
+      <code>## Previous Stage Outputs</code> block at the top of the system prompt.
     </div>
 
+    <h3>Path B — Chat stream (XML-tag extraction)</h3>
     <p>
-      The platform extracts this block, stores the content in S3 / R2 under the artifact's
-      <code>s3_key</code>, and exposes it to the next stage as <code>{`{{stages.<stageId>.<artifactId>}}`}</code>.
-      The agent doesn't write the storage step — it just emits the block.
+      In free-form chat, the agent emits artifacts as XML tags directly in its output stream. The
+      streaming parser (<code>artifact/parser.ts</code>) is chunk-boundary safe and reads three
+      attributes:
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+&lt;artifact title="Stripe — Company Brief" type="markdown" language=""&gt;<br/>
+# Stripe — Company Brief<br/>
+<br/>
+## Business model<br/>
+Stripe runs payment infrastructure as a service...<br/>
+&lt;/artifact&gt;
+    </div>
+    <p>
+      Recognized attributes are <code>title</code>, <code>type</code>, and <code>language</code>.
+      There is no <code>id</code> or <code>format</code> attribute on the chat-stream tag — the
+      parser ignores anything else. An unclosed tag at end-of-stream is surfaced as literal text
+      rather than silently dropped.
     </p>
 
     <h2>Picking the right format</h2>
@@ -290,6 +347,108 @@ total_funding, last_round, last_round_date.
       object; for markdown, as a document. You don't need to add any parsing logic.
     </p>
 
+    <h2>How artifacts are stored — the persistence layout</h2>
+    <p>
+      Once the executor extracts content (Path A or Path B above), it writes <em>two</em> places:
+      a row in the <code>app_artifact</code> table and an object in the configured S3 bucket. The
+      two are designed to outlive each other — DB content is the fast path, S3 is the durable copy
+      and the source of truth for anything bulky.
+    </p>
+
+    <h3>The S3 key shape</h3>
+    <p>
+      Every artifact emitted from an App stage lands at a deterministic key:
+    </p>
+    <div class="code-block">
+app-artifacts/{`{user_id}`}/{`{execution_id}`}/{`{stage_id}`}/{`{def_id}`}
+    </div>
+    <p>
+      The shape gives you predictable batched access: every artifact for one run shares the
+      <code>app-artifacts/{`{user_id}`}/{`{execution_id}`}/</code> prefix; every artifact a specific
+      stage ever produced (across runs of the same App) is reachable by listing under
+      <code>app-artifacts/{`{user_id}`}/&ast;/{`{stage_id}`}/{`{def_id}`}</code>. Chat-emitted
+      artifacts use a parallel prefix (<code>artifacts/{`{user_id}`}/…/{`{file_name}`}</code>) since
+      they don't have an execution context.
+    </p>
+
+    <h3>Filename convention</h3>
+    <p>
+      The row's <code>file_name</code> is built deterministically from slugged App, stage, and def
+      titles: <code>{`{app_slug}_{stage_slug}_{def_slug}.{ext}`}</code>. The extension comes from
+      the format → ext map below, except <code>code</code> uses the def's <code>language</code> as
+      the extension verbatim (so a Python code artifact ends up as <code>analysis.python</code>,
+      not <code>analysis.py</code> — that's intentional for round-tripping the type).
+    </p>
+
+    <h3>Format → MIME → extension reference</h3>
+    <table>
+      <thead><tr><th><code>format</code></th><th>MIME stored on the row</th><th>Default extension</th></tr></thead>
+      <tbody>
+        <tr><td><code>markdown</code></td><td><code>text/markdown</code></td><td><code>md</code></td></tr>
+        <tr><td><code>json</code></td><td><code>application/json</code></td><td><code>json</code></td></tr>
+        <tr><td><code>html</code></td><td><code>text/html</code></td><td><code>html</code></td></tr>
+        <tr><td><code>csv</code></td><td><code>text/csv</code></td><td><code>csv</code></td></tr>
+        <tr><td><code>code</code></td><td><code>text/plain</code></td><td>def's <code>language</code> (e.g. <code>python</code>, <code>ts</code>)</td></tr>
+        <tr><td><code>image</code></td><td><code>application/octet-stream</code></td><td><code>txt</code> (override on save)</td></tr>
+        <tr><td><code>file</code> &amp; everything else</td><td><code>text/plain</code></td><td><code>txt</code></td></tr>
+      </tbody>
+    </table>
+    <p>
+      <code>image</code> and <code>file</code> default to a generic MIME because the actual content
+      type isn't known until the bytes are inspected; the upload pipeline can override
+      <code>mime_type</code> on the row after sniffing.
+    </p>
+
+    <h3>Inline content vs S3 fallback</h3>
+    <p>
+      For convenience, the row's <code>content</code> column also stores the raw artifact body —
+      whether the artifact is hot-readable from the DB depends on how it was created and how big
+      it is. The executor follows a deterministic rule when reading prior-stage artifacts on a
+      resume:
+    </p>
+    <ol>
+      <li>If <code>app_artifact.content</code> is non-empty — use it directly.</li>
+      <li>Else if <code>s3_key</code> is set — download from S3, decode UTF-8, use that.</li>
+      <li>Else — proceed with empty content (a recoverable degenerate state).</li>
+    </ol>
+    <p>
+      So the worst-case end-to-end loss for an artifact is "content is empty"; the row, its
+      metadata, and its preview structure all survive even if the S3 object disappears.
+    </p>
+
+    <h3>JSON validation</h3>
+    <p>
+      For <code>format: "json"</code>, the executor attempts <code>JSON.parse</code> on the
+      extracted content before saving. If parsing fails, it still saves the raw content (you don't
+      lose the agent's work), but it logs a warning. The preview marks the artifact as "invalid
+      JSON" so you can see it at a glance.
+    </p>
+
+    <h3>The <code>artifact</code> SSE event</h3>
+    <p>
+      Every time a stage's outputs are persisted, the execution's SSE stream emits an
+      <code>artifact</code> event whose payload is the full <code>AppArtifact</code> row including
+      inline <code>content</code> when present. Subscribers can render the preview without an
+      extra fetch:
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+event: artifact<br/>
+data: {`{`}<br/>
+&nbsp;&nbsp;"id":          "art_8a3...",<br/>
+&nbsp;&nbsp;"execution_id":"exec_8f4...",<br/>
+&nbsp;&nbsp;"stage_id":    "research",<br/>
+&nbsp;&nbsp;"def_id":      "competitive_analysis",<br/>
+&nbsp;&nbsp;"title":       "Stripe Competitive Analysis",<br/>
+&nbsp;&nbsp;"format":      "markdown",<br/>
+&nbsp;&nbsp;"mime_type":   "text/markdown",<br/>
+&nbsp;&nbsp;"file_name":   "company_brief_research_competitive_analysis.md",<br/>
+&nbsp;&nbsp;"s3_key":      "app-artifacts/usr_.../exec_.../research/competitive_analysis",<br/>
+&nbsp;&nbsp;"size_bytes":  8421,<br/>
+&nbsp;&nbsp;"content":     "# Stripe Competitive Analysis\n\n..."<br/>
+{`}`}<br/>
+<br/>
+    </div>
+
     <h2>Sharing artifacts publicly</h2>
     <p>
       Each artifact can be shared via a public link without exposing the rest of your workspace:
@@ -317,9 +476,45 @@ total_funding, last_round, last_round_date.
       </div>
     </div>
 
+    <h3>The <code>app_share</code> data model</h3>
     <p>
-      Shares are persisted in the <code>share</code> table; raw downloads come back through
-      <code>GET /s/:token/raw</code> (no auth) or <code>GET /s/:token/dl</code> (forces attachment headers).
+      A share is one row in <code>app_share</code> keyed by a random <code>share_token</code>. The
+      row carries enforcement state plus an optional access gate:
+    </p>
+    <table>
+      <thead><tr><th>Column</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td><code>resource_type</code> / <code>resource_id</code></td><td>What's being shared — an artifact, an execution, an App.</td></tr>
+        <tr><td><code>access_mode</code></td><td><code>public</code> (anyone with the link) or <code>token</code> (anyone who unlocks with the right secret).</td></tr>
+        <tr><td><code>access_token_hash</code></td><td>Argon2/bcrypt hash of the unlock secret when <code>access_mode = 'token'</code>.</td></tr>
+        <tr><td><code>expires_at</code></td><td>Nullable. After this timestamp the share resolves to <code>expired</code>.</td></tr>
+        <tr><td><code>max_views</code> / <code>view_count</code></td><td>Optional view cap and the running count. Each successful resolve atomically increments the count.</td></tr>
+        <tr><td><code>revoked_at</code></td><td>Set when you revoke; resolves to <code>not_found</code> thereafter.</td></tr>
+        <tr><td><code>permission</code></td><td>Currently always <code>read</code>; the schema reserves room for higher-permission shares.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Resolution states</h3>
+    <p>
+      Hitting <code>GET /api/public/shares/:token</code> returns one of five outcomes — the rendering
+      logic on the public page is driven by which:
+    </p>
+    <table>
+      <thead><tr><th><code>kind</code></th><th>What happened</th></tr></thead>
+      <tbody>
+        <tr><td><code>public_ok</code></td><td>Public link, no gate. Render the resource.</td></tr>
+        <tr><td><code>requires_token</code></td><td>Token-gated; render the unlock form.</td></tr>
+        <tr><td><code>expired</code></td><td><code>expires_at</code> has passed.</td></tr>
+        <tr><td><code>over_limit</code></td><td><code>view_count &gt;= max_views</code>.</td></tr>
+        <tr><td><code>not_found</code></td><td>Bad token, deleted share, or revoked.</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Token unlock posts the secret to <code>POST /api/public/shares/:token/unlock</code>; on
+      success the server issues a short-lived JWT, sets it as a cookie scoped to the
+      <code>/s</code> path, and the user can subsequently hit
+      <code>/api/public/shares/:token/blob</code> (inline) or <code>…/download</code> (attachment
+      headers) until the cookie expires.
     </p>
 
     <h2>Versioning and history</h2>
@@ -351,13 +546,20 @@ total_funding, last_round, last_round_date.
 
     <p class="faq-q">The agent produced output but my run shows "0 artifacts".</p>
     <p>
-      <strong>Most likely:</strong> the agent didn't wrap the output in an <code>&lt;artifact&gt;</code>
-      block. The platform only persists what's inside that block. Two fixes:
+      For App stages, the executor extracts content by matching the artifact's
+      <code>title</code> against a <code>##</code> heading in the response (or, for a single
+      structured artifact, by finding a fenced code block in the right language). If neither hits,
+      no artifact is persisted. Two fixes:
     </p>
     <ul>
-      <li>Tighten the stage goal: <em>"Save the report as the <code>company_brief</code> artifact in markdown format."</em></li>
-      <li>Check the stage's <code>artifact_defs</code> — the IDs in the goal must match exactly.</li>
+      <li>Tighten the stage goal so the agent <em>names its sections</em>: <em>"Write the report under a <code>## Stripe Competitive Analysis</code> heading."</em> — the heading must match the artifact's <code>title</code>.</li>
+      <li>Check the stage's <code>artifact_defs</code> — the executor needs at least one entry to even start looking.</li>
     </ul>
+    <p>
+      In chat, the rule is different: the streaming parser only fires on
+      <code>&lt;artifact title="..." type="..."&gt;…&lt;/artifact&gt;</code> tags. If the agent
+      forgot to wrap, you'll see the content inline but no row in <code>app_artifact</code>.
+    </p>
 
     <p class="faq-q">My JSON artifact has trailing commas / comments and won't parse.</p>
     <p>

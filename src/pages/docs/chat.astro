@@ -252,6 +252,76 @@ Let me search the web for recent news.<br/>
 &nbsp;&nbsp;[ Send ] &nbsp; [ Edit first ] &nbsp; [ Cancel ]
     </div>
 
+    <h2>How a message becomes a turn</h2>
+    <p>
+      The chat box looks like one big text field, but underneath, every send goes through a small,
+      cluster-safe message queue. Understanding what happens is worth two minutes — it explains
+      every "why didn't my message send?" question you'll ever have.
+    </p>
+
+    <h3>The state machine</h3>
+    <div class="code-block" style="line-height:1.85;text-align:center;padding:1.5rem;">
+<span class="pill amber">pending</span> &nbsp;→&nbsp; <span class="pill blue">dispatching</span> &nbsp;→&nbsp; <span class="pill green">sent</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pill blue">dispatching</span> &nbsp;→&nbsp; <span class="pill amber">pending</span>&nbsp;(transient failure, attempt &lt; 5)<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pill blue">dispatching</span> &nbsp;→&nbsp; <span class="pill red">failed</span>&nbsp;(after 5 attempts)
+    </div>
+
+    <ol>
+      <li>
+        <strong>You hit send.</strong> The server inserts an <code>app_message</code> row with
+        <code>status: 'pending'</code>, a session-scoped <code>position</code> (monotonically
+        increasing), and a <code>priority</code> (defaults to wall-clock time so messages run in
+        send order). The UI immediately renders the row as "Sending…".
+      </li>
+      <li>
+        <strong>A worker claims it.</strong> Servers in the cluster listen on a
+        <code>queue_dispatch</code> Postgres channel; the writer also <code>NOTIFY</code>s after
+        inserting. Whichever worker wins the race claims the row with
+        <code>SELECT … FOR UPDATE SKIP LOCKED</code> ordered by <code>priority DESC, position ASC</code>,
+        flips it to <code>dispatching</code>, and increments <code>attempts</code>.
+      </li>
+      <li>
+        <strong>The runner runs.</strong> The worker hands the message to the agent runner (via the
+        protocol detailed in <a href="/docs/concepts">Core concepts</a>). JSONL events stream back;
+        each one is fanned out to the chat's SSE subscribers in real time.
+      </li>
+      <li>
+        <strong>Completion.</strong> Successful turn → row goes to <code>sent</code>. Transient
+        error (<code>network</code>, <code>session_expired</code>, etc.) → row goes back to
+        <code>pending</code> for another worker to pick up. After 5 failed attempts the row goes to
+        <code>failed</code> and the UI surfaces the captured <code>last_error</code>.
+      </li>
+    </ol>
+
+    <h3>One turn at a time, per session</h3>
+    <p>
+      The schema enforces a single in-flight user message per session via a partial unique index
+      over <code>session_id</code> WHERE <code>status = 'dispatching' AND role = 'user'</code>. If
+      you somehow send two messages before the first dispatches, the second waits in
+      <code>pending</code> until the first finishes — no interleaved turns, no race between two
+      Claude responses. Multi-instance dispatch can never violate this; the database is the source
+      of truth.
+    </p>
+
+    <h3>Recovery from a crashed worker</h3>
+    <p>
+      Workers can die mid-dispatch — Kubernetes evicts a pod, a node crashes. A separate recovery
+      poller scans every 60 seconds for rows stuck in <code>dispatching</code> for more than 900
+      seconds (15 minutes) and flips them back to <code>pending</code> so another worker can claim
+      them. You'll see this in practice as a 15-minute worst-case delay on a fresh dispatch attempt
+      after an infra incident — never a silently-lost message.
+    </p>
+
+    <h3>What "Sending…" really means in the UI</h3>
+    <ul>
+      <li><strong>Spinner stays on briefly.</strong> Status is <code>pending</code> or <code>dispatching</code>; the worker is connecting to the sandbox or starting the runner. Normal for the first few hundred milliseconds.</li>
+      <li><strong>Spinner stays on for &gt;30 s without text.</strong> The runner is up but Claude is in long thinking; the keepalive is firing. Wait it out.</li>
+      <li><strong>Spinner stays on for 15+ min.</strong> The worker hosting the dispatch may have died. The recovery poller will reset it shortly.</li>
+      <li><strong>Red bubble with an error.</strong> Status is <code>failed</code>; the <code>last_error</code> field is what you're looking at. Retry by sending again — the queue picks up.</li>
+    </ul>
+
     <h2>Iterating on output</h2>
     <p>The standard rhythm in a productive chat:</p>
     <ol>
