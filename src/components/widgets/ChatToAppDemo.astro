@@ -1,0 +1,568 @@
+---
+/*
+  Self-playing 16s loop that demonstrates the product's whole story:
+    Chat (explore) → Save → App (form) → Run → Artifact
+
+  Pure CSS — no JS. Respects prefers-reduced-motion.
+  Locale-aware copy passed in via props.
+*/
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  modeChatLabel?: string;
+  modeAppLabel?: string;
+  liveLabel?: string;
+  youLabel?: string;
+  agentLabel?: string;
+  // Three-part prompt — split for staggered reveal
+  promptParts?: [string, string, string];
+  promptCode?: string;
+  saveAsAppLabel?: string;
+  appTitle?: string;
+  appVersion?: string;
+  dateRangeLabel?: string;
+  repoLabel?: string;
+  langLabel?: string;
+  langValue?: string;
+  runLabel?: string;
+  artifactLabel?: string;
+  artifactRows?: string[];
+}
+
+const {
+  modeChatLabel = 'Mode 1 · Chat',
+  modeAppLabel = 'Mode 2 · App',
+  liveLabel = 'live · auto-loop',
+  youLabel = 'You',
+  agentLabel = 'Agent',
+  promptParts = [
+    'Pull commits from 2025-05-01 to 05-07 in',
+    'summarize as a daily report in Chinese.',
+    'Group by repo, include PR titles. Skip merges.',
+  ],
+  promptCode = 'shop-frontend',
+  saveAsAppLabel = 'Save as App',
+  appTitle = 'Daily Report',
+  appVersion = 'v3 · public',
+  dateRangeLabel = 'Date range',
+  repoLabel = 'Repository',
+  langLabel = 'Output language',
+  langValue = '中文',
+  runLabel = 'Run',
+  artifactLabel = 'daily-report.md',
+  artifactRows = [
+    '## Mon · 12 PRs across 4 repos',
+    '- feat(api): pagination on /v2/orders',
+    '- fix(ui): cart total off by rounding',
+  ],
+} = Astro.props;
+---
+
+<div class="demo" aria-label="Live product demo: Chat to App">
+  <!-- Head bar with mode label that cross-fades -->
+  <div class="demo-head">
+    <div class="demo-head-left">
+      <div class="dots">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="mode-label">
+        <span class="ml ml-chat">{modeChatLabel}</span>
+        <span class="ml ml-app">{modeAppLabel}</span>
+      </div>
+    </div>
+    <span class="live">
+      <span class="live-dot"></span>
+      {liveLabel}
+    </span>
+  </div>
+
+  <!-- Two panes overlap and cross-fade -->
+  <div class="demo-body">
+
+    <!-- ── CHAT PANE ── -->
+    <div class="pane pane-chat" aria-hidden="true">
+      <div class="row">
+        <span class="who">{youLabel}</span>
+      </div>
+      <p class="prompt">
+        <span class="seg seg-1">{promptParts[0]} <code>{promptCode}</code>,</span>
+        <span class="seg seg-2">{promptParts[1]}</span>
+        <span class="seg seg-3">{promptParts[2]}</span>
+        <span class="caret" aria-hidden="true"></span>
+      </p>
+
+      <div class="row row-agent">
+        <span class="who">{agentLabel}</span>
+      </div>
+      <div class="thinking" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+
+      <div class="save-cta">
+        <button type="button" tabindex="-1">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+          {saveAsAppLabel}
+        </button>
+        <span class="save-ripple" aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <!-- ── APP PANE ── -->
+    <div class="pane pane-app" aria-hidden="true">
+      <div class="app-head">
+        <div class="app-icon">
+          <Icon name="tabler:report" class="w-3.5 h-3.5" />
+        </div>
+        <span class="app-title">{appTitle}</span>
+        <span class="app-version">{appVersion}</span>
+      </div>
+
+      <div class="field field-1">
+        <label>{dateRangeLabel}</label>
+        <div class="row-2">
+          <div class="input mono">2025-05-01</div>
+          <span class="arrow">→</span>
+          <div class="input mono">2025-05-07</div>
+        </div>
+      </div>
+
+      <div class="field field-2">
+        <label>{repoLabel}</label>
+        <div class="input between">
+          <span class="mono">{promptCode}</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+
+      <div class="field field-3">
+        <label>{langLabel}</label>
+        <div class="input between">
+          <span>{langValue}</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+
+      <button type="button" class="run-btn" tabindex="-1">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        {runLabel}
+      </button>
+
+      <!-- Artifact preview appears after Run -->
+      <div class="artifact">
+        <div class="artifact-head">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span class="mono">{artifactLabel}</span>
+        </div>
+        {artifactRows.map((r, i) => (
+          <div class={`a-row a-row-${i + 1}`}>{r}</div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ============================================================
+     Demo container
+     ============================================================ */
+  .demo {
+    position: relative;
+    width: 100%;
+    border: 1px solid var(--aw-color-border);
+    border-radius: 16px;
+    background: var(--aw-color-bg-page);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.6) inset,
+      0 18px 50px -20px rgba(82, 153, 97, 0.18),
+      0 8px 24px -12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+  }
+
+  /* ── Head ── */
+  .demo-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--aw-color-border);
+    background: linear-gradient(to bottom, rgba(82, 153, 97, 0.025), transparent);
+  }
+  .demo-head-left { display: flex; align-items: center; gap: 12px; }
+  .dots { display: flex; gap: 5px; }
+  .dots span {
+    width: 9px; height: 9px; border-radius: 9999px;
+    background: rgba(0, 0, 0, 0.08);
+  }
+
+  .mode-label {
+    position: relative;
+    height: 14px;
+    min-width: 110px;
+    overflow: hidden;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--aw-color-text-muted);
+  }
+  .ml {
+    position: absolute;
+    inset: 0;
+    white-space: nowrap;
+  }
+  .ml-chat { opacity: 1; }
+  .ml-app  { opacity: 0; color: var(--aw-color-primary); }
+
+  .live {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--aw-color-text-muted);
+  }
+  .live-dot {
+    width: 6px; height: 6px; border-radius: 9999px;
+    background: var(--aw-color-primary);
+    box-shadow: 0 0 0 0 rgba(82, 153, 97, 0.45);
+  }
+
+  /* ============================================================
+     Body — two panes overlap, cross-fade
+     ============================================================ */
+  .demo-body {
+    position: relative;
+    height: 430px;
+    padding: 20px 22px;
+  }
+  @media (max-width: 640px) {
+    .demo-body { height: 460px; padding: 18px 18px; }
+  }
+  .pane {
+    position: absolute;
+    inset: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: opacity 600ms ease;
+  }
+  @media (max-width: 640px) {
+    .pane { inset: 18px 18px; }
+  }
+
+  /* ── Chat pane ── */
+  .pane-chat .row {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--aw-color-text-muted);
+  }
+  .pane-chat .row-agent { margin-top: 4px; }
+  .prompt {
+    position: relative;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--aw-color-text-default);
+    margin: 0;
+  }
+  .prompt code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    background: rgba(82, 153, 97, 0.08);
+    color: var(--aw-color-primary);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+  .seg {
+    opacity: 0;
+    display: inline;
+  }
+  .caret {
+    display: inline-block;
+    width: 7px;
+    height: 14px;
+    background: var(--aw-color-primary);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    border-radius: 1px;
+  }
+
+  .thinking {
+    display: flex; gap: 5px; align-items: center;
+    height: 14px;
+  }
+  .thinking span {
+    width: 6px; height: 6px; border-radius: 9999px;
+    background: rgba(82, 153, 97, 0.55);
+    opacity: 0;
+  }
+
+  .save-cta {
+    margin-top: auto;
+    position: relative;
+    padding-top: 14px;
+    border-top: 1px dashed var(--aw-color-border);
+  }
+  .save-cta button {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    background: rgba(82, 153, 97, 0.10);
+    color: var(--aw-color-primary);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border: 1px solid rgba(82, 153, 97, 0.18);
+    pointer-events: none;
+  }
+  .save-ripple {
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 130px;
+    height: 30px;
+    border-radius: 8px;
+    border: 1.5px solid var(--aw-color-primary);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ── App pane ── */
+  .pane-app {
+    opacity: 0;
+  }
+  .app-head {
+    display: flex; align-items: center; gap: 8px;
+    padding-bottom: 12px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid var(--aw-color-border);
+  }
+  .app-icon {
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    background: rgba(82, 153, 97, 0.12);
+    color: var(--aw-color-primary);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .app-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--aw-color-text-heading);
+  }
+  .app-version {
+    margin-left: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.625rem;
+    color: var(--aw-color-text-muted);
+  }
+  .field {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  .field label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--aw-color-text-muted);
+    margin-bottom: 5px;
+  }
+  .input {
+    height: 30px;
+    padding: 0 11px;
+    border: 1px solid var(--aw-color-border);
+    border-radius: 6px;
+    display: flex; align-items: center;
+    font-size: 0.75rem;
+    color: var(--aw-color-text-default);
+    background: var(--aw-color-bg-page);
+  }
+  .input.between { justify-content: space-between; }
+  .input.between svg { color: var(--aw-color-text-muted); }
+  .input.mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  .row-2 { display: flex; gap: 8px; align-items: center; }
+  .row-2 .input { flex: 1; }
+  .arrow { color: var(--aw-color-text-muted); font-size: 0.75rem; }
+
+  .run-btn {
+    opacity: 0;
+    transform: translateY(6px);
+    width: 100%;
+    height: 34px;
+    border-radius: 6px;
+    background: var(--aw-color-primary);
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    border: none;
+    pointer-events: none;
+    position: relative;
+  }
+  .run-btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 6px;
+    box-shadow: 0 0 0 0 rgba(82, 153, 97, 0.45);
+    pointer-events: none;
+  }
+
+  .artifact {
+    opacity: 0;
+    margin-top: 4px;
+    padding: 10px 12px;
+    border: 1px solid var(--aw-color-border);
+    border-radius: 8px;
+    background: var(--aw-color-bg-subtle);
+  }
+  .artifact-head {
+    display: flex; align-items: center; gap: 6px;
+    color: var(--aw-color-text-muted);
+    padding-bottom: 6px;
+    margin-bottom: 6px;
+    border-bottom: 1px dashed var(--aw-color-border);
+    font-size: 0.6875rem;
+  }
+  .a-row {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    color: var(--aw-color-text-default);
+    line-height: 1.55;
+    opacity: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* ============================================================
+     Animations — single 16s timeline drives all sub-elements
+     ============================================================ */
+  @media (prefers-reduced-motion: no-preference) {
+
+    /* Mode label cross-fade */
+    .ml-chat { animation: ml-chat 16s infinite; }
+    .ml-app  { animation: ml-app  16s infinite; }
+    @keyframes ml-chat {
+      0%, 43% { opacity: 1; }
+      48%, 95% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes ml-app {
+      0%, 43% { opacity: 0; }
+      48%, 95% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* Pane cross-fade */
+    .pane-chat { animation: chat-fade 16s infinite; }
+    .pane-app  { animation: app-fade  16s infinite; }
+    @keyframes chat-fade {
+      0%, 43% { opacity: 1; }
+      48%, 95% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes app-fade {
+      0%, 43% { opacity: 0; }
+      48%, 95% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* Chat sub-animations */
+    .seg-1 { animation: seg-in 16s infinite; animation-delay: 0.4s; }
+    .seg-2 { animation: seg-in 16s infinite; animation-delay: 1.0s; }
+    .seg-3 { animation: seg-in 16s infinite; animation-delay: 1.6s; }
+    @keyframes seg-in {
+      0%   { opacity: 0; }
+      6%   { opacity: 1; }
+      40%  { opacity: 1; }
+      45%, 100% { opacity: 0; }
+    }
+
+    .caret { animation: caret-blink 1s steps(1) infinite, caret-hide 16s infinite; }
+    @keyframes caret-blink { 50% { opacity: 0; } }
+    @keyframes caret-hide {
+      0%, 14% { display: inline-block; }
+      18%, 100% { opacity: 0 !important; }
+    }
+
+    .thinking span:nth-child(1) { animation: dot-bounce 16s infinite; animation-delay: 2.3s; }
+    .thinking span:nth-child(2) { animation: dot-bounce 16s infinite; animation-delay: 2.45s; }
+    .thinking span:nth-child(3) { animation: dot-bounce 16s infinite; animation-delay: 2.6s; }
+    @keyframes dot-bounce {
+      0%, 14% { opacity: 0; transform: translateY(0); }
+      16%     { opacity: 1; transform: translateY(0); }
+      19%     { opacity: 1; transform: translateY(-3px); }
+      22%     { opacity: 1; transform: translateY(0); }
+      35%     { opacity: 1; }
+      40%, 100% { opacity: 0; }
+    }
+
+    .save-cta button { animation: save-pulse 16s infinite; }
+    @keyframes save-pulse {
+      0%, 35% { transform: scale(1); box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
+      38%     { transform: scale(1.03); box-shadow: 0 0 0 4px rgba(82, 153, 97, 0.18); }
+      42%     { transform: scale(1); box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
+      100%    { transform: scale(1); }
+    }
+    .save-ripple { animation: ripple-out 16s infinite; }
+    @keyframes ripple-out {
+      0%, 35% { opacity: 0; transform: scale(1); }
+      38%     { opacity: 0.7; transform: scale(1); }
+      46%     { opacity: 0; transform: scale(1.25); }
+      100%    { opacity: 0; }
+    }
+
+    /* App sub-animations */
+    .field-1 { animation: field-in 16s infinite; animation-delay: 7.8s; }
+    .field-2 { animation: field-in 16s infinite; animation-delay: 8.2s; }
+    .field-3 { animation: field-in 16s infinite; animation-delay: 8.6s; }
+    .run-btn { animation: field-in 16s infinite; animation-delay: 9.0s; }
+    @keyframes field-in {
+      0%   { opacity: 0; transform: translateY(6px); }
+      3%   { opacity: 1; transform: translateY(0); }
+      50%  { opacity: 1; transform: translateY(0); }
+      55%, 100% { opacity: 0; transform: translateY(-3px); }
+    }
+
+    .run-btn::after { animation: run-pulse 16s infinite; }
+    @keyframes run-pulse {
+      0%, 68% { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
+      72%     { box-shadow: 0 0 0 6px rgba(82, 153, 97, 0.22); }
+      78%     { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
+      100%    { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
+    }
+
+    .artifact     { animation: artifact-in 16s infinite; animation-delay: 11.7s; }
+    .a-row-1      { animation: arow-in 16s infinite; animation-delay: 12.1s; }
+    .a-row-2      { animation: arow-in 16s infinite; animation-delay: 12.4s; }
+    .a-row-3      { animation: arow-in 16s infinite; animation-delay: 12.7s; }
+    @keyframes artifact-in {
+      0%   { opacity: 0; transform: translateY(4px); }
+      3%   { opacity: 1; transform: translateY(0); }
+      22%  { opacity: 1; }
+      27%, 100% { opacity: 0; }
+    }
+    @keyframes arow-in {
+      0%   { opacity: 0; transform: translateX(-3px); }
+      3%   { opacity: 1; transform: translateX(0); }
+      18%  { opacity: 1; }
+      24%, 100% { opacity: 0; }
+    }
+
+    .live-dot { animation: live-pulse 2.2s ease-in-out infinite; }
+    @keyframes live-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0.55); }
+      70%      { box-shadow: 0 0 0 6px rgba(82, 153, 97, 0); }
+    }
+  }
+
+  /* Reduced-motion fallback — show end state of App pane, no motion */
+  @media (prefers-reduced-motion: reduce) {
+    .pane-chat { opacity: 0; }
+    .pane-app, .field, .run-btn, .artifact, .a-row { opacity: 1; transform: none; }
+    .ml-chat { opacity: 0; }
+    .ml-app { opacity: 1; }
+    .caret { display: none; }
+  }
+</style>

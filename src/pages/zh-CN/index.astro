@@ -1,6 +1,8 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
+import ChatToAppDemo from '~/components/widgets/ChatToAppDemo.astro';
+import WorkflowLifecycle from '~/components/widgets/WorkflowLifecycle.astro';
 
 const metadata = {
   title: 'Aitroop — 把 AI Agent 对话固化成 App',
@@ -60,167 +62,121 @@ const cases = [
     examples: ['月结清单', '应收账龄报告', '费用稽核', '差异分析叙事'],
   },
 ];
+
+const demoStrings = {
+  modeChatLabel: '模式 1 · Chat',
+  modeAppLabel: '模式 2 · App',
+  liveLabel: '实时演示 · 循环播放',
+  youLabel: '你',
+  agentLabel: 'Agent',
+  promptParts: [
+    '拉取 2025-05-01 至 05-07 的提交',
+    '按仓库分组、忽略 merge 提交，',
+    '整理成中文工作日报。',
+  ] as [string, string, string],
+  promptCode: 'shop-frontend',
+  saveAsAppLabel: '存为 App',
+  appTitle: '工作日报',
+  appVersion: 'v3 · public',
+  dateRangeLabel: '日期范围',
+  repoLabel: '代码仓库',
+  langLabel: '输出语言',
+  langValue: '中文',
+  runLabel: '运行',
+  artifactLabel: 'daily-report.md',
+  artifactRows: [
+    '## 周一 · 4 个仓库共 12 个 PR',
+    '- feat(api): /v2/orders 加分页',
+    '- fix(ui): 购物车合计四舍五入',
+  ],
+};
+
+const lifecycleSteps = [
+  { icon: 'tabler:messages', label: '对话' },
+  { icon: 'tabler:device-floppy', label: '保存' },
+  { icon: 'tabler:forms', label: '表单' },
+  { icon: 'tabler:player-play', label: '运行' },
+  { icon: 'tabler:file-text', label: '产物' },
+  { icon: 'tabler:repeat', label: '调度' },
+];
 ---
 
 <Layout metadata={metadata}>
 
-  <!-- ── HERO ───────────────────────────────────────────────────────── -->
-  <section class="relative overflow-hidden">
-    <div aria-hidden="true" class="absolute inset-0 -z-10 opacity-[0.4]"
-         style="background-image:linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 30%,transparent 80%);-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 30%,transparent 80%);"></div>
+  <!-- ══════════════════════════ HERO ══════════════════════════ -->
+  <section class="relative isolate overflow-hidden">
+    <div aria-hidden="true" class="aurora">
+      <div class="aurora-a"></div>
+      <div class="aurora-b"></div>
+    </div>
+    <div aria-hidden="true" class="grid-bg"></div>
 
-    <div class="mx-auto max-w-6xl px-6 md:px-10 pt-16 md:pt-24 pb-12 md:pb-16">
-      <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] mb-6">
-        <span class="relative flex h-1.5 w-1.5">
-          <span class="absolute inline-flex h-full w-full rounded-full bg-primary opacity-60 animate-ping"></span>
-          <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
-        </span>
-        <span class="text-[0.6875rem] tracking-[0.18em] uppercase font-mono text-[var(--aw-color-text-muted)]">AI Agent 平台</span>
-      </div>
+    <div class="mx-auto max-w-6xl px-6 md:px-10 pt-16 md:pt-24 lg:pt-28 pb-20 md:pb-28">
+      <div class="grid lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-16 items-center">
 
-      <h1 class="text-[2.25rem] sm:text-[2.75rem] md:text-[3.5rem] lg:text-[4rem] font-black tracking-[-0.035em] leading-[1.02] text-[var(--aw-color-text-heading)] mb-5 max-w-[920px]">
-        把 Agent 对话<br/>
-        <span class="text-primary">固化成 App。</span>
-      </h1>
+        <div class="hero-copy">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]/80 backdrop-blur-sm mb-6 shadow-[0_1px_0_rgba(255,255,255,0.6)_inset]">
+            <span class="relative flex h-1.5 w-1.5">
+              <span class="absolute inline-flex h-full w-full rounded-full bg-primary opacity-60 animate-ping"></span>
+              <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+            </span>
+            <span class="text-[0.6875rem] tracking-[0.18em] uppercase font-mono text-[var(--aw-color-text-muted)]">AI Agent 平台</span>
+          </div>
 
-      <p class="text-[1.0625rem] md:text-[1.125rem] leading-[1.7] text-[var(--aw-color-text-muted)] max-w-[640px] mb-8">
-        在 Chat 里探索出有效方法后，保存为带表单与定时任务的 <span class="font-mono text-[var(--aw-color-text-default)]">App</span>。
-        团队拿到的是可复用的 AI 工作流——无需编码，也无需复制粘贴长 Prompt。
-      </p>
+          <h1 class="hero-h1">
+            把 Agent <span class="strike-pop">对话</span><br/>
+            <span class="text-primary">固化成 App。</span>
+          </h1>
 
-      <div class="flex flex-wrap items-center gap-3 mb-10">
-        <a href="https://app.aitroop.net"
-           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
-          免费开始
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-        <a href="/zh-CN/use-cases"
-           class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.025)] transition-all duration-150">
-          查看案例
-        </a>
-      </div>
+          <p class="hero-sub">
+            在 Chat 里探索出有效方法后，保存为带表单与定时任务的 <span class="font-mono text-[var(--aw-color-text-default)]">App</span>。
+            团队拿到的是可复用的 AI 工作流——无需编码，也无需复制粘贴长 Prompt。
+          </p>
 
-      <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.75rem] font-mono text-[var(--aw-color-text-muted)] tracking-tight">
-        <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>多租户</span>
-        <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>OAuth 集成</span>
-        <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>150+ 内置技能</span>
-        <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>E2B 沙箱隔离</span>
+          <div class="flex flex-wrap items-center gap-3 mb-8">
+            <a href="https://app.aitroop.net"
+               class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-[0_6px_20px_-6px_rgba(82,153,97,0.5)]">
+              免费开始
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+            <a href="/zh-CN/use-cases"
+               class="inline-flex items-center h-11 px-6 rounded-full text-[0.9375rem] font-medium text-[var(--aw-color-text-default)] border border-[var(--aw-color-border)] hover:border-[rgba(0,0,0,0.22)] hover:bg-[rgba(0,0,0,0.025)] transition-all duration-150">
+              查看案例
+            </a>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-[0.75rem] font-mono text-[var(--aw-color-text-muted)] tracking-tight">
+            <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>多租户</span>
+            <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>OAuth 集成</span>
+            <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>150+ 内置技能</span>
+            <span class="inline-flex items-center gap-1.5"><span class="w-1 h-1 rounded-full bg-[var(--aw-color-text-muted)] opacity-50"></span>E2B 沙箱隔离</span>
+          </div>
+        </div>
+
+        <div class="hero-demo">
+          <ChatToAppDemo {...demoStrings} />
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ── THE IDEA ──────────────────────────────────────────────────── -->
-  <section class="relative border-t border-[var(--aw-color-border)] py-20 md:py-28">
-    <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <div class="mb-14 max-w-[640px]">
-        <p class="section-label">核心理念</p>
-        <h2 class="section-title">两种模式。一个平台。</h2>
-        <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] leading-[1.75]">
-          大多数团队用 AI 时反复输入同一段长 Prompt。我们换种思路：在 Chat 里自由探索，把跑通的方案
-          <span class="text-[var(--aw-color-text-default)] font-medium">固化</span>为参数化 App。
-        </p>
+  <!-- ══════════════════════════ WORKFLOW ══════════════════════ -->
+  <section class="relative border-t border-[var(--aw-color-border)] bg-[rgba(0,0,0,0.015)]">
+    <div class="mx-auto max-w-5xl px-6 md:px-10 py-14 md:py-20">
+      <div class="text-center mb-10 md:mb-12">
+        <p class="section-label inline-block">完整闭环</p>
+        <h2 class="text-[1.5rem] md:text-[1.875rem] font-bold tracking-[-0.02em] text-[var(--aw-color-text-heading)]">
+          一次对话，跑上一千遍。
+        </h2>
       </div>
-
-      <div class="grid md:grid-cols-[1fr_auto_1fr] gap-6 md:gap-4 items-stretch">
-
-        <div class="group relative rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] overflow-hidden">
-          <div class="flex items-center justify-between px-4 py-2.5 border-b border-[var(--aw-color-border)] bg-[var(--aw-color-bg-subtle)]">
-            <div class="flex items-center gap-2">
-              <div class="flex gap-1.5">
-                <span class="w-2.5 h-2.5 rounded-full bg-[rgba(0,0,0,0.08)]"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-[rgba(0,0,0,0.08)]"></span>
-                <span class="w-2.5 h-2.5 rounded-full bg-[rgba(0,0,0,0.08)]"></span>
-              </div>
-              <span class="ml-2 text-[0.6875rem] font-mono uppercase tracking-[0.15em] text-[var(--aw-color-text-muted)]">Mode 1 · Chat</span>
-            </div>
-            <span class="text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)]">探索</span>
-          </div>
-          <div class="p-5 md:p-6 space-y-3 text-[0.875rem] leading-[1.65]">
-            <div class="text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)] uppercase tracking-[0.12em]">你</div>
-            <p class="text-[var(--aw-color-text-default)]">
-              拉取 <span class="font-mono">shop-frontend</span> 仓库 2025-05-01 到 05-07 的提交，按仓库分组、忽略 merge 提交，整理成中文日报。
-            </p>
-            <div class="text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)] uppercase tracking-[0.12em] pt-2">Agent</div>
-            <div class="space-y-2">
-              <div class="h-2 rounded-full bg-[rgba(0,0,0,0.06)] w-full"></div>
-              <div class="h-2 rounded-full bg-[rgba(0,0,0,0.06)] w-[88%]"></div>
-              <div class="h-2 rounded-full bg-[rgba(0,0,0,0.06)] w-[72%]"></div>
-              <div class="h-2 rounded-full bg-[rgba(0,0,0,0.06)] w-[94%]"></div>
-            </div>
-            <div class="pt-3 mt-3 border-t border-dashed border-[var(--aw-color-border)]">
-              <button class="text-[0.75rem] font-mono text-primary inline-flex items-center gap-1.5 hover:underline">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
-                存为 App
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div class="hidden md:flex flex-col items-center justify-center px-3 self-center">
-          <div class="text-[0.625rem] font-mono uppercase tracking-[0.2em] text-[var(--aw-color-text-muted)] mb-2">crystallize</div>
-          <svg width="48" height="32" viewBox="0 0 48 32" fill="none" class="text-primary">
-            <path d="M2 16 H42 M34 8 l8 8 -8 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="flex md:hidden items-center justify-center">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-primary rotate-90">
-            <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-
-        <div class="group relative rounded-2xl border-2 border-primary/30 bg-[var(--aw-color-bg-page)] overflow-hidden shadow-[0_12px_40px_rgba(82,153,97,0.10)]">
-          <div class="flex items-center justify-between px-4 py-2.5 border-b border-primary/20 bg-primary/[0.04]">
-            <div class="flex items-center gap-2">
-              <div class="w-5 h-5 rounded-md bg-primary/15 flex items-center justify-center text-primary">
-                <Icon name="tabler:report" class="w-3 h-3" />
-              </div>
-              <span class="ml-1 text-[0.8125rem] font-semibold text-[var(--aw-color-text-default)]">工作日报</span>
-              <span class="text-[0.6875rem] font-mono uppercase tracking-[0.15em] text-primary/80">Mode 2 · App</span>
-            </div>
-            <span class="text-[0.6875rem] font-mono text-[var(--aw-color-text-muted)]">v3 · public</span>
-          </div>
-          <div class="p-5 md:p-6 space-y-4 text-[0.8125rem]">
-            <div>
-              <label class="block text-[0.75rem] font-medium text-[var(--aw-color-text-muted)] mb-1.5">日期范围</label>
-              <div class="flex gap-2">
-                <div class="flex-1 h-8 px-3 rounded-md border border-[var(--aw-color-border)] flex items-center font-mono text-[0.75rem] text-[var(--aw-color-text-default)]">2025-05-01</div>
-                <div class="flex items-center text-[var(--aw-color-text-muted)]">→</div>
-                <div class="flex-1 h-8 px-3 rounded-md border border-[var(--aw-color-border)] flex items-center font-mono text-[0.75rem] text-[var(--aw-color-text-default)]">2025-05-07</div>
-              </div>
-            </div>
-            <div>
-              <label class="block text-[0.75rem] font-medium text-[var(--aw-color-text-muted)] mb-1.5">代码仓库</label>
-              <div class="h-8 px-3 rounded-md border border-[var(--aw-color-border)] flex items-center justify-between">
-                <span class="font-mono text-[0.75rem] text-[var(--aw-color-text-default)]">shop-frontend</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-[var(--aw-color-text-muted)]"><polyline points="6 9 12 15 18 9"/></svg>
-              </div>
-            </div>
-            <div>
-              <label class="block text-[0.75rem] font-medium text-[var(--aw-color-text-muted)] mb-1.5">输出语言</label>
-              <div class="h-8 px-3 rounded-md border border-[var(--aw-color-border)] flex items-center justify-between">
-                <span class="text-[0.75rem] text-[var(--aw-color-text-default)]">中文</span>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="text-[var(--aw-color-text-muted)]"><polyline points="6 9 12 15 18 9"/></svg>
-              </div>
-            </div>
-            <button class="w-full h-9 rounded-md bg-primary text-white text-[0.8125rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors inline-flex items-center justify-center gap-1.5">
-              <Icon name="tabler:player-play-filled" class="w-3 h-3" />
-              运行
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <p class="mt-10 text-[0.875rem] md:text-[0.9375rem] text-[var(--aw-color-text-muted)] max-w-[640px] leading-[1.7]">
-        保存之后，所有团队成员只需要填表单、点 <span class="font-mono">运行</span>。
-        再设个定时任务，日报每周一早上自动出现在你的邮箱。
-      </p>
+      <WorkflowLifecycle steps={lifecycleSteps} loopHint="并且会自动循环——定时、按需、Webhook 触发" />
     </div>
   </section>
 
-  <!-- ── BUILT-IN ──────────────────────────────────────────────────── -->
-  <section class="bg-[rgba(0,0,0,0.015)] border-y border-[var(--aw-color-border)] py-20 md:py-28">
+  <!-- ══════════════════════════ BUILT-IN ══════════════════════ -->
+  <section class="border-y border-[var(--aw-color-border)] py-24 md:py-32">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <div class="mb-14 max-w-[640px]">
+      <div class="mb-14 md:mb-16 max-w-[640px]">
         <p class="section-label">开箱即用</p>
         <h2 class="section-title">Agent 需要的一切，都在这里。</h2>
         <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] leading-[1.75]">
@@ -230,9 +186,9 @@ const cases = [
 
       <div class="grid sm:grid-cols-2 gap-4">
         {pieces.map((p) => (
-          <div class="group relative p-6 md:p-7 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-primary/30 hover:shadow-[0_8px_30px_rgba(82,153,97,0.09)] transition-all duration-200">
+          <div class="piece-card intersect intersect-once motion-safe:opacity-0 motion-safe:translate-y-3 motion-safe:[&:not([no-intersect])]:opacity-100 motion-safe:[&:not([no-intersect])]:translate-y-0 motion-safe:transition-all motion-safe:duration-700">
             <div class="flex items-start justify-between mb-4">
-              <div class="w-9 h-9 rounded-lg bg-primary/[0.08] flex items-center justify-center text-primary">
+              <div class="piece-icon">
                 <Icon name={p.icon} class="w-4 h-4" />
               </div>
               <span class="text-[0.6875rem] font-mono uppercase tracking-[0.12em] text-[var(--aw-color-text-muted)] px-2 py-0.5 rounded-full border border-[var(--aw-color-border)]">{p.label}</span>
@@ -250,10 +206,10 @@ const cases = [
     </div>
   </section>
 
-  <!-- ── ANATOMY ───────────────────────────────────────────────────── -->
-  <section class="py-20 md:py-28">
+  <!-- ══════════════════════════ ANATOMY ══════════════════════ -->
+  <section class="py-24 md:py-32 bg-[rgba(0,0,0,0.015)]">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <div class="mb-14 max-w-[640px]">
+      <div class="mb-14 md:mb-16 max-w-[640px]">
         <p class="section-label">App 的解剖</p>
         <h2 class="section-title">一个 App，三块拼图。</h2>
         <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] leading-[1.75]">
@@ -261,27 +217,20 @@ const cases = [
         </p>
       </div>
 
-      <div class="relative">
-        <div aria-hidden="true" class="hidden md:block absolute left-[20px] top-[24px] bottom-[24px] w-px bg-[var(--aw-color-border)]"></div>
-
-        <div class="space-y-8 md:space-y-10">
+      <div class="anatomy">
+        <div aria-hidden="true" class="anatomy-rail"></div>
+        <div class="grid md:grid-cols-3 gap-6 md:gap-8 relative">
           {anatomy.map((a) => (
-            <div class="flex gap-5 md:gap-8 items-start">
-              <div class="shrink-0 relative">
-                <div class="w-10 h-10 rounded-full border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] flex items-center justify-center font-mono text-[0.75rem] font-semibold text-primary">
-                  {a.n}
-                </div>
-              </div>
-              <div class="flex-1 pt-1">
-                <h3 class="text-[1.125rem] font-semibold text-[var(--aw-color-text-heading)] mb-1.5 font-mono">{a.title}</h3>
-                <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] max-w-[620px]">{a.desc}</p>
-              </div>
+            <div class="anatomy-card intersect intersect-once motion-safe:opacity-0 motion-safe:translate-y-3 motion-safe:[&:not([no-intersect])]:opacity-100 motion-safe:[&:not([no-intersect])]:translate-y-0 motion-safe:transition-all motion-safe:duration-700">
+              <div class="anatomy-num">{a.n}</div>
+              <h3 class="anatomy-title">{a.title}</h3>
+              <p class="anatomy-desc">{a.desc}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <div class="mt-14 p-5 rounded-xl bg-[var(--aw-color-bg-subtle)] border border-[var(--aw-color-border)] inline-block">
+      <div class="mt-14 md:mt-16 p-5 rounded-xl bg-[var(--aw-color-bg-page)] border border-[var(--aw-color-border)] inline-block shadow-[0_1px_0_rgba(255,255,255,0.6)_inset]">
         <code class="text-[0.8125rem] md:text-[0.875rem] font-mono text-[var(--aw-color-text-default)] leading-relaxed">
           <span class="text-primary">App</span> = <span class="text-primary">AppInput</span>[] + <span class="text-primary">Stage</span>[] + <span class="text-primary">Artifact</span>[]
         </code>
@@ -289,10 +238,10 @@ const cases = [
     </div>
   </section>
 
-  <!-- ── USE CASES ─────────────────────────────────────────────────── -->
-  <section class="bg-[rgba(0,0,0,0.015)] border-y border-[var(--aw-color-border)] py-20 md:py-28">
+  <!-- ══════════════════════════ USE CASES ════════════════════ -->
+  <section class="border-y border-[var(--aw-color-border)] py-24 md:py-32">
     <div class="mx-auto max-w-6xl px-6 md:px-10">
-      <div class="mb-14 max-w-[640px]">
+      <div class="mb-14 md:mb-16 max-w-[640px]">
         <p class="section-label">案例</p>
         <h2 class="section-title">为团队真实要做的事而设计。</h2>
         <p class="text-[0.9375rem] md:text-[1rem] text-[var(--aw-color-text-muted)] leading-[1.75]">
@@ -302,7 +251,7 @@ const cases = [
 
       <div class="grid md:grid-cols-2 gap-5">
         {cases.map((c) => (
-          <a href={c.slug} class="group relative block p-7 md:p-8 rounded-2xl border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)] hover:border-primary/40 hover:shadow-[0_12px_40px_rgba(82,153,97,0.10)] transition-all duration-200">
+          <a href={c.slug} class="case-card intersect intersect-once motion-safe:opacity-0 motion-safe:translate-y-3 motion-safe:[&:not([no-intersect])]:opacity-100 motion-safe:[&:not([no-intersect])]:translate-y-0 motion-safe:transition-all motion-safe:duration-700">
             <p class="text-[0.6875rem] font-mono uppercase tracking-[0.18em] text-[var(--aw-color-text-muted)] mb-3">{c.eyebrow}</p>
             <h3 class="text-[1.75rem] md:text-[2rem] font-bold tracking-[-0.025em] text-[var(--aw-color-text-heading)] mb-2.5 group-hover:text-primary transition-colors">{c.title}</h3>
             <p class="text-[0.9375rem] text-[var(--aw-color-text-muted)] leading-[1.7] mb-6">{c.desc}</p>
@@ -324,9 +273,10 @@ const cases = [
     </div>
   </section>
 
-  <!-- ── CTA ───────────────────────────────────────────────────────── -->
-  <section class="py-20 md:py-28">
-    <div class="mx-auto max-w-3xl px-6 md:px-10 text-center">
+  <!-- ══════════════════════════ CTA ══════════════════════════ -->
+  <section class="relative isolate overflow-hidden py-24 md:py-32">
+    <div aria-hidden="true" class="cta-glow"></div>
+    <div class="mx-auto max-w-3xl px-6 md:px-10 text-center relative">
       <h2 class="text-[1.875rem] md:text-[2.5rem] font-bold tracking-[-0.025em] leading-[1.15] text-[var(--aw-color-text-heading)] mb-4">
         午饭前发布你的<br/>第一个 App。
       </h2>
@@ -335,7 +285,7 @@ const cases = [
       </p>
       <div class="flex flex-wrap items-center justify-center gap-3">
         <a href="https://app.aitroop.net"
-           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-sm">
+           class="inline-flex items-center gap-2 h-11 px-6 rounded-full bg-primary text-white text-[0.9375rem] font-semibold hover:bg-[rgb(61,133,79)] transition-colors duration-150 shadow-[0_6px_20px_-6px_rgba(82,153,97,0.5)]">
           免费开始
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
@@ -366,5 +316,175 @@ const cases = [
     line-height: 1.1;
     color: var(--aw-color-text-heading);
     margin-bottom: 1rem;
+  }
+  .hero-h1 {
+    font-size: clamp(2.5rem, 5.5vw, 4.25rem);
+    font-weight: 900;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    color: var(--aw-color-text-heading);
+    margin-bottom: 1.4rem;
+  }
+  .hero-sub {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--aw-color-text-muted);
+    max-width: 540px;
+    margin-bottom: 2rem;
+  }
+  @media (min-width: 768px) { .hero-sub { font-size: 1.125rem; } }
+
+  .strike-pop { position: relative; display: inline-block; }
+  .strike-pop::after {
+    content: '';
+    position: absolute;
+    left: -4px; right: -4px;
+    bottom: 0.06em;
+    height: 0.36em;
+    background: rgba(82, 153, 97, 0.18);
+    border-radius: 3px;
+    z-index: -1;
+  }
+
+  .aurora {
+    position: absolute;
+    inset: -20% -10% auto -10%;
+    height: 120%;
+    z-index: -2;
+    pointer-events: none;
+  }
+  .aurora-a, .aurora-b {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.9;
+  }
+  .aurora-a {
+    top: -10%; left: 5%;
+    width: 55%; height: 70%;
+    background: radial-gradient(circle, rgba(82, 153, 97, 0.22), transparent 65%);
+  }
+  .aurora-b {
+    top: 10%; right: -10%;
+    width: 50%; height: 60%;
+    background: radial-gradient(circle, rgba(82, 153, 97, 0.14), transparent 65%);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .aurora-a { animation: aurora-drift-a 28s ease-in-out infinite; }
+    .aurora-b { animation: aurora-drift-b 36s ease-in-out infinite; }
+  }
+  @keyframes aurora-drift-a {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50%      { transform: translate3d(2%, 3%, 0) scale(1.08); }
+  }
+  @keyframes aurora-drift-b {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50%      { transform: translate3d(-2%, -2%, 0) scale(1.06); }
+  }
+
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.35;
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.045) 1px, transparent 1px);
+    background-size: 44px 44px;
+    -webkit-mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, #000 30%, transparent 78%);
+    mask-image: radial-gradient(ellipse 75% 55% at 50% 0%, #000 30%, transparent 78%);
+  }
+
+  .piece-card {
+    position: relative;
+    padding: 1.5rem 1.75rem;
+    border-radius: 16px;
+    border: 1px solid var(--aw-color-border);
+    background: var(--aw-color-bg-page);
+    transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+  }
+  .piece-card:hover {
+    border-color: rgba(82, 153, 97, 0.35);
+    box-shadow: 0 8px 30px rgba(82, 153, 97, 0.09);
+    transform: translateY(-1px);
+  }
+  .piece-card:hover .piece-icon {
+    background: rgba(82, 153, 97, 0.16);
+    transform: scale(1.04);
+  }
+  .piece-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: rgba(82, 153, 97, 0.08);
+    color: var(--aw-color-primary);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 200ms ease, transform 200ms ease;
+  }
+
+  .anatomy { position: relative; }
+  .anatomy-rail {
+    display: none;
+    position: absolute;
+    top: 28px; left: 8%; right: 8%;
+    height: 1px;
+    background: linear-gradient(to right,
+      transparent,
+      var(--aw-color-border) 10%,
+      var(--aw-color-border) 90%,
+      transparent
+    );
+    z-index: 0;
+  }
+  @media (min-width: 768px) { .anatomy-rail { display: block; } }
+  .anatomy-card {
+    position: relative;
+    padding: 1.5rem 1.75rem 1.75rem;
+    background: var(--aw-color-bg-page);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 16px;
+    z-index: 1;
+  }
+  .anatomy-num {
+    width: 56px; height: 56px;
+    margin: -2.25rem 0 1.25rem;
+    border-radius: 9999px;
+    background: var(--aw-color-bg-page);
+    border: 1px solid var(--aw-color-border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.875rem; font-weight: 700;
+    color: var(--aw-color-primary);
+    box-shadow: 0 4px 14px -6px rgba(82, 153, 97, 0.25);
+  }
+  .anatomy-title {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 1.125rem; font-weight: 600;
+    color: var(--aw-color-text-heading);
+    margin-bottom: 0.6rem;
+  }
+  .anatomy-desc { font-size: 0.9375rem; color: var(--aw-color-text-muted); line-height: 1.7; }
+
+  .case-card {
+    display: block; position: relative;
+    padding: 1.75rem 2rem;
+    border: 1px solid var(--aw-color-border);
+    border-radius: 16px;
+    background: var(--aw-color-bg-page);
+    transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+  }
+  .case-card:hover {
+    border-color: rgba(82, 153, 97, 0.45);
+    box-shadow: 0 12px 40px rgba(82, 153, 97, 0.10);
+    transform: translateY(-1px);
+  }
+  @media (min-width: 768px) { .case-card { padding: 2rem 2.25rem; } }
+
+  .cta-glow {
+    position: absolute;
+    inset: auto 0 -20% 0;
+    height: 70%;
+    z-index: -1;
+    background: radial-gradient(ellipse 50% 60% at 50% 100%, rgba(82, 153, 97, 0.14), transparent 70%);
+    pointer-events: none;
   }
 </style>

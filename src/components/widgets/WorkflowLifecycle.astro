@@ -1,0 +1,193 @@
+---
+/*
+  Horizontal lifecycle strip: Chat → Save → Form → Run → Artifact → Schedule.
+  On scroll-into-view, animates each node lighting up in sequence, then
+  a "schedule arrow" loops back to the start — one full pass, then static.
+
+  Uses the global IntersectionObserver (`intersect:` Tailwind variant) so
+  the animation only runs the first time the strip becomes visible.
+*/
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  steps?: { icon: string; label: string }[];
+  loopHint?: string;
+}
+
+const {
+  steps = [
+    { icon: 'tabler:messages', label: 'Chat' },
+    { icon: 'tabler:device-floppy', label: 'Save' },
+    { icon: 'tabler:forms', label: 'Form' },
+    { icon: 'tabler:player-play', label: 'Run' },
+    { icon: 'tabler:file-text', label: 'Artifact' },
+    { icon: 'tabler:repeat', label: 'Schedule' },
+  ],
+  loopHint = 'and it repeats — on a cron, on demand, on a webhook',
+} = Astro.props;
+---
+
+<div class="lifecycle intersect intersect-once intersect-quarter" data-lifecycle>
+  <div class="track" role="list">
+    {steps.map((s, i) => (
+      <div class="node" role="listitem" style={`--i:${i}`}>
+        <div class="bubble">
+          <Icon name={s.icon} class="w-4 h-4" />
+        </div>
+        <span class="label">{s.label}</span>
+      </div>
+    ))}
+    <!-- progress line behind nodes -->
+    <div class="rail" aria-hidden="true">
+      <div class="rail-fill"></div>
+    </div>
+  </div>
+  <p class="hint">{loopHint}</p>
+</div>
+
+<style>
+  .lifecycle {
+    --node-count: 6;
+    --primary: var(--aw-color-primary, #529961);
+    width: 100%;
+  }
+
+  .track {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    padding: 8px 0 8px;
+  }
+  @media (max-width: 640px) {
+    .track {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px 0;
+      padding: 12px 0;
+    }
+  }
+
+  .node {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 1;
+  }
+
+  .bubble {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    background: var(--aw-color-bg-page);
+    border: 1px solid var(--aw-color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--aw-color-text-muted);
+    transition: color 400ms ease, border-color 400ms ease,
+                background 400ms ease, box-shadow 400ms ease, transform 400ms ease;
+  }
+
+  .label {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--aw-color-text-muted);
+    transition: color 400ms ease;
+  }
+
+  .rail {
+    position: absolute;
+    top: 28px;   /* center of bubble (40px / 2 + 8px padding top) */
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--aw-color-border);
+    z-index: 0;
+    overflow: hidden;
+  }
+  .rail-fill {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, var(--primary), var(--primary) 60%, rgba(82,153,97,0));
+    transform-origin: left center;
+    transform: scaleX(0);
+    transition: transform 2.4s cubic-bezier(.65,.05,.36,1);
+  }
+  @media (max-width: 640px) {
+    .rail { display: none; }
+  }
+
+  .hint {
+    margin-top: 22px;
+    text-align: center;
+    font-size: 0.8125rem;
+    color: var(--aw-color-text-muted);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 600ms ease, transform 600ms ease;
+    transition-delay: 2.2s;
+  }
+
+  /* ── Activation: when not [no-intersect] (i.e., in view) ── */
+  [data-lifecycle]:not([no-intersect]) .rail-fill {
+    transform: scaleX(1);
+  }
+  [data-lifecycle]:not([no-intersect]) .hint {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  [data-lifecycle]:not([no-intersect]) .node .bubble {
+    animation: node-pop 600ms ease forwards;
+    animation-delay: calc(var(--i) * 0.32s);
+  }
+  [data-lifecycle]:not([no-intersect]) .node .label {
+    animation: label-on 600ms ease forwards;
+    animation-delay: calc(var(--i) * 0.32s + 0.1s);
+  }
+  @keyframes node-pop {
+    0% {
+      transform: scale(0.92);
+      color: var(--aw-color-text-muted);
+      border-color: var(--aw-color-border);
+      background: var(--aw-color-bg-page);
+      box-shadow: 0 0 0 0 rgba(82,153,97,0);
+    }
+    60% {
+      transform: scale(1.08);
+      color: #fff;
+      border-color: var(--primary);
+      background: var(--primary);
+      box-shadow: 0 0 0 6px rgba(82,153,97,0.18);
+    }
+    100% {
+      transform: scale(1);
+      color: #fff;
+      border-color: var(--primary);
+      background: var(--primary);
+      box-shadow: 0 6px 18px -8px rgba(82,153,97,0.45);
+    }
+  }
+  @keyframes label-on {
+    to { color: var(--aw-color-text-default); }
+  }
+
+  /* Default (before activation) — pure static state */
+  [no-intersect] .rail-fill { transform: scaleX(0); }
+  [no-intersect] .hint { opacity: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rail-fill { transition: none; transform: scaleX(1); }
+    .hint { transition: none; opacity: 1; transform: none; }
+    .node .bubble {
+      transition: none;
+      color: #fff;
+      border-color: var(--primary);
+      background: var(--primary);
+    }
+    .node .label { color: var(--aw-color-text-default); }
+  }
+</style>
