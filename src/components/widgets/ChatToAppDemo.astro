@@ -7,6 +7,7 @@
   Locale-aware copy passed in via props.
 */
 import { Icon } from 'astro-icon/components';
+import LogoAssemble from './LogoAssemble.astro';
 
 export interface Props {
   modeChatLabel?: string;
@@ -84,7 +85,8 @@ const {
   <!-- Head bar with mode label that cross-fades -->
   <div class="demo-head">
     <div class="demo-head-left">
-      <div class="dots">
+      <LogoAssemble size={24} class="demo-mark" label="Aitroop" />
+      <div class="dots" aria-hidden="true">
         <span></span><span></span><span></span>
       </div>
       <div class="mode-label">
@@ -252,10 +254,20 @@ const {
     border-bottom: 1px solid var(--aw-color-border);
     background: linear-gradient(to bottom, rgba(82, 153, 97, 0.025), transparent);
   }
-  .demo-head-left { display: flex; align-items: center; gap: 12px; }
-  .dots { display: flex; gap: 5px; }
+  .demo-head-left { display: flex; align-items: center; gap: 10px; }
+  .demo-mark {
+    flex-shrink: 0;
+    filter: drop-shadow(0 2px 6px rgba(82, 153, 97, 0.22));
+  }
+  .dots {
+    display: flex;
+    gap: 4px;
+    padding-left: 10px;
+    margin-left: 2px;
+    border-left: 1px solid var(--aw-color-border);
+  }
   .dots span {
-    width: 9px; height: 9px; border-radius: 9999px;
+    width: 7px; height: 7px; border-radius: 9999px;
     background: rgba(0, 0, 0, 0.08);
   }
 

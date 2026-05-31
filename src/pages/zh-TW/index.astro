@@ -3,7 +3,6 @@ import Layout from '~/layouts/PageLayout.astro';
 import { Icon } from 'astro-icon/components';
 import ChatToAppDemo from '~/components/widgets/ChatToAppDemo.astro';
 import WorkflowLifecycle from '~/components/widgets/WorkflowLifecycle.astro';
-import LogoAssemble from '~/components/widgets/LogoAssemble.astro';
 
 const metadata = {
   title: 'Aitroop — 把 AI Agent 對話固化成 App',
@@ -126,15 +125,12 @@ const lifecycleSteps = [
       <div class="grid lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-16 items-center">
 
         <div class="hero-copy">
-          <div class="hero-brand mb-6">
-            <LogoAssemble size={56} class="hero-mark" label="Aitroop" />
-            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]/80 backdrop-blur-sm shadow-[0_1px_0_rgba(255,255,255,0.6)_inset]">
-              <span class="relative flex h-1.5 w-1.5">
-                <span class="absolute inline-flex h-full w-full rounded-full bg-primary opacity-60 animate-ping"></span>
-                <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
-              </span>
-              <span class="text-[0.6875rem] tracking-[0.18em] uppercase font-mono text-[var(--aw-color-text-muted)]">AI Agent 平台</span>
-            </div>
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]/80 backdrop-blur-sm mb-6 shadow-[0_1px_0_rgba(255,255,255,0.6)_inset]">
+            <span class="relative flex h-1.5 w-1.5">
+              <span class="absolute inline-flex h-full w-full rounded-full bg-primary opacity-60 animate-ping"></span>
+              <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
+            </span>
+            <span class="text-[0.6875rem] tracking-[0.18em] uppercase font-mono text-[var(--aw-color-text-muted)]">AI Agent 平台</span>
           </div>
 
           <h1 class="hero-h1">
@@ -330,15 +326,6 @@ const lifecycleSteps = [
     line-height: 1.1;
     color: var(--aw-color-text-heading);
     margin-bottom: 1rem;
-  }
-  .hero-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.875rem;
-    flex-wrap: wrap;
-  }
-  .hero-mark {
-    filter: drop-shadow(0 6px 16px rgba(82, 153, 97, 0.18));
   }
   .hero-h1 {
     font-size: clamp(2.5rem, 5.5vw, 4.25rem);
