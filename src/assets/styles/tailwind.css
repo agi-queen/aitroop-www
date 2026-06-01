@@ -54,11 +54,11 @@
 
   /* ── Section rhythm ─────────────────────────────────────────────── */
   .aw-hero {
-    padding-top: 5rem;
+    padding-top: 2.5rem;
     padding-bottom: 4rem;
   }
   @media (min-width: 768px) {
-    .aw-hero { padding-top: 7rem; padding-bottom: 6rem; }
+    .aw-hero { padding-top: 4rem; padding-bottom: 6rem; }
   }
 
   .aw-section {
@@ -417,7 +417,7 @@
 
   /* ── Numbered editorial piece (top hairline + number + title) ──── */
   .aw-piece {
-    border-top: 1px solid var(--aw-color-text-heading);
+    border-top: 1px solid var(--aw-color-border-strong);
     padding-top: 1.25rem;
   }
   .aw-piece-num {

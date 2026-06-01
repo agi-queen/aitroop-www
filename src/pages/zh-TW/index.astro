@@ -8,9 +8,39 @@ const metadata = {
 };
 
 const anatomy = [
-  { n: '01', title: 'AppInput',  desc: '基於 Schema 的表單。text、select、daterange、file——按需宣告，自動渲染。' },
-  { n: '02', title: 'Stage',     desc: '帶明確目標的 Agent 會話。多數 App 僅需一個；多 Stage 時產物自動流轉。' },
-  { n: '03', title: 'Artifact',  desc: '可預覽、可匯出，也能餵給下一個 Stage 繼續流轉。' },
+  {
+    n: '01',
+    title: 'AppInput',
+    desc: '基於 Schema 的表單。text、select、daterange、file——按需宣告，自動渲染。',
+    example: [
+      { k: 'date_range', v: '2025-05-01 → 05-07' },
+      { k: 'repo',       v: 'shop-frontend' },
+      { k: 'lang',       v: 'English' },
+    ],
+    foot: '4 種欄位類型 · 內建驗證',
+  },
+  {
+    n: '02',
+    title: 'Stage',
+    desc: '帶明確目標的 Agent 會話。多數 App 僅需一個；多 Stage 時產物自動流轉。',
+    example: [
+      { k: 'goal',   v: 'weekly engineering digest' },
+      { k: 'skills', v: 'github-mcp · web-scrape' },
+      { k: 'output', v: 'markdown' },
+    ],
+    foot: '單 Stage · 或串聯 N 個構建管道',
+  },
+  {
+    n: '03',
+    title: 'Artifact',
+    desc: '可預覽、可匯出，也能餵給下一個 Stage 繼續流轉。',
+    example: [
+      { k: 'file',    v: 'daily-report.md' },
+      { k: 'formats', v: 'md · csv · pdf · 共 7 種' },
+      { k: 'flow',    v: '→ 下一個 Stage' },
+    ],
+    foot: '內聯預覽 · 一鍵匯出',
+  },
 ];
 
 const stats = [
@@ -27,25 +57,33 @@ const cases = [
 
 const demoStrings = {
   modeChatLabel: '模式 1 · Chat',
-  modeAppLabel: '模式 2 · App',
+  modeAppsLabel: '模式 2 · Apps',
+  modeAppLabel: '模式 3 · App',
   liveLabel: '即時演示 · 循環播放',
   youLabel: '你',
   agentLabel: 'Agent',
   promptParts: [
     '拉取 2025-05-01 至 05-07 的提交',
     '依倉庫分組、忽略 merge 提交，',
-    '整理成中文工作日報。',
+    '整理成英文工作日報。',
   ] as [string, string, string],
   promptCode: 'shop-frontend',
   skillTagLabel: '技能',
   connectTagLabel: '整合',
   toolSkillName: 'github-mcp',
-  toolSkillStatus: '→ 拉取提交中…',
+  toolSkillStatusLoading: '→ 拉取提交中…',
+  toolSkillStatusDone: '✓ 142 個提交',
   toolConnectName: 'github',
   toolConnectStatus: '✓ 已授權',
+  agentReplyText: '完成 — 已從 4 個倉庫的 12 個 PR 產生 daily-report.md。',
   saveAsAppLabel: '存為 App',
+  savedToastLabel: '已加入你的 App',
+  appsHeaderLabel: '我的 App',
+  appsCount: '6',
+  newBadgeLabel: 'NEW',
+  justNowLabel: '剛剛',
   appTitle: '工作日報',
-  appVersion: 'v3 · public',
+  appVersion: 'v1 · public',
   skillsLabel: '技能',
   connectsLabel: '整合',
   skills: ['github-mcp', 'web-scrape'] as [string, string],
@@ -53,14 +91,18 @@ const demoStrings = {
   dateRangeLabel: '日期範圍',
   repoLabel: '程式碼倉庫',
   langLabel: '輸出語言',
-  langValue: '中文',
+  langValue: 'English',
   runLabel: '執行',
+  runningLabel: '執行中…',
   artifactLabel: 'daily-report.md',
   artifactRows: [
-    '## 週一 · 4 個倉庫共 12 個 PR',
-    '- feat(api): /v2/orders 加分頁',
-    '- fix(ui): 購物車合計四捨五入',
+    '## Mon · 12 PRs across 4 repos',
+    '- feat(api): pagination on /v2/orders',
+    '- fix(ui): cart total off by rounding',
+    '- chore(deps): bump astro 5.2 → 5.4',
+    '- perf(cart): memoize line totals',
   ],
+  exportLabel: '匯出至 Drive',
 };
 ---
 
@@ -105,6 +147,15 @@ const demoStrings = {
             <span class="aw-piece-num">{a.n}</span>
             <h3 class="aw-piece-title">{a.title}</h3>
             <p class="aw-piece-desc">{a.desc}</p>
+            <div class="piece-ex" role="presentation">
+              {a.example.map((line) => (
+                <div class="ex-row">
+                  <span class="ex-k">{line.k}</span>
+                  <span class="ex-v">{line.v}</span>
+                </div>
+              ))}
+            </div>
+            <p class="piece-foot">{a.foot}</p>
           </article>
         ))}
       </div>
@@ -200,6 +251,39 @@ const demoStrings = {
       gap: 2.5rem;
       margin-bottom: 5.5rem;
     }
+  }
+
+  .piece-ex {
+    margin-top: 1.25rem;
+    padding: 0.75rem 0.875rem;
+    background: var(--aw-color-bg-subtle);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 8px;
+    font-family: var(--aw-font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+    font-size: 0.75rem;
+    display: grid;
+    gap: 0.35rem;
+  }
+  .ex-row {
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    column-gap: 0.75rem;
+    align-items: baseline;
+    line-height: 1.4;
+  }
+  .ex-k {
+    color: var(--aw-color-text-muted);
+    letter-spacing: 0.03em;
+  }
+  .ex-v {
+    color: var(--aw-color-text-default);
+    word-break: break-word;
+  }
+  .piece-foot {
+    margin: 0.875rem 0 0;
+    font-size: 0.75rem;
+    color: var(--aw-color-text-muted);
+    font-variant-numeric: tabular-nums;
   }
 
   .stats {

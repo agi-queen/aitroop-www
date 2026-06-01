@@ -1,34 +1,47 @@
 ---
 /*
-  Self-playing 16s loop that demonstrates the product's whole story:
-    Chat (explore) → Save → App (form) → Run → Artifact
+  Self-playing 20s loop that demonstrates the product story:
+    Chat (explore) → Save → Apps (gallery) → App (form + run) → Artifact
 
-  Pure CSS — no JS. Plays for everyone (including reduced-motion users) by design.
-  Locale-aware copy passed in via props.
+  Pure CSS — no JS. Plays for everyone (including reduced-motion users) by
+  design choice so every viewer sees the full narrative.
+
+  Three cross-fading panes, one shared timeline. All timings are percentages
+  of the 20s loop so adjusting the loop length only requires updating one
+  number per animation rule.
 */
 import { Icon } from 'astro-icon/components';
 import LogoAssemble from './LogoAssemble.astro';
 
 export interface Props {
+  // Mode labels (top-left chrome)
   modeChatLabel?: string;
+  modeAppsLabel?: string;
   modeAppLabel?: string;
   liveLabel?: string;
+  // Chat pane
   youLabel?: string;
   agentLabel?: string;
-  // Three-part prompt — split for staggered reveal
   promptParts?: [string, string, string];
   promptCode?: string;
-  // Tool-use strip in chat pane
   skillTagLabel?: string;
   connectTagLabel?: string;
   toolSkillName?: string;
-  toolSkillStatus?: string;
+  toolSkillStatusLoading?: string;
+  toolSkillStatusDone?: string;
   toolConnectName?: string;
   toolConnectStatus?: string;
+  agentReplyText?: string;
   saveAsAppLabel?: string;
+  savedToastLabel?: string;
+  // Apps grid pane
+  appsHeaderLabel?: string;
+  appsCount?: string;
+  newBadgeLabel?: string;
+  justNowLabel?: string;
+  // App pane
   appTitle?: string;
   appVersion?: string;
-  // Wired-up chips in app pane
   skillsLabel?: string;
   connectsLabel?: string;
   skills?: [string, string];
@@ -38,31 +51,41 @@ export interface Props {
   langLabel?: string;
   langValue?: string;
   runLabel?: string;
+  runningLabel?: string;
   artifactLabel?: string;
   artifactRows?: string[];
+  exportLabel?: string;
 }
 
 const {
   modeChatLabel = 'Mode 1 · Chat',
-  modeAppLabel = 'Mode 2 · App',
+  modeAppsLabel = 'Mode 2 · Apps',
+  modeAppLabel = 'Mode 3 · App',
   liveLabel = 'live · auto-loop',
   youLabel = 'You',
   agentLabel = 'Agent',
   promptParts = [
     'Pull commits from 2025-05-01 to 05-07 in',
-    'summarize as a daily report in Chinese.',
+    'summarize as a daily report in English.',
     'Group by repo, include PR titles. Skip merges.',
   ],
   promptCode = 'shop-frontend',
   skillTagLabel = 'skill',
   connectTagLabel = 'connect',
   toolSkillName = 'github-mcp',
-  toolSkillStatus = '→ pulling commits',
+  toolSkillStatusLoading = '→ pulling commits…',
+  toolSkillStatusDone = '✓ 142 commits',
   toolConnectName = 'github',
   toolConnectStatus = '✓ authorized',
+  agentReplyText = 'Done — drafted daily-report.md from 12 PRs across 4 repos.',
   saveAsAppLabel = 'Save as App',
+  savedToastLabel = 'Saved to your Apps',
+  appsHeaderLabel = 'Your Apps',
+  appsCount = '6',
+  newBadgeLabel = 'NEW',
+  justNowLabel = 'just now',
   appTitle = 'Daily Report',
-  appVersion = 'v3 · public',
+  appVersion = 'v1 · public',
   skillsLabel = 'SKILLS',
   connectsLabel = 'CONNECTS',
   skills = ['github-mcp', 'web-scrape'],
@@ -70,19 +93,35 @@ const {
   dateRangeLabel = 'Date range',
   repoLabel = 'Repository',
   langLabel = 'Output language',
-  langValue = '中文',
+  langValue = 'English',
   runLabel = 'Run',
+  runningLabel = 'Running…',
   artifactLabel = 'daily-report.md',
   artifactRows = [
     '## Mon · 12 PRs across 4 repos',
     '- feat(api): pagination on /v2/orders',
     '- fix(ui): cart total off by rounding',
+    '- chore(deps): bump astro 5.2 → 5.4',
+    '- perf(cart): memoize line totals',
   ],
+  exportLabel = 'Export to Drive',
 } = Astro.props;
+
+// Illustrative app catalog for the grid pane — names stay English across
+// locales since they read as product identifiers.
+const otherApps = [
+  { icon: 'tabler:chart-bar', name: 'Sales Weekly',  meta: 'v2 · 2d' },
+  { icon: 'tabler:user-plus', name: 'Lead Enrich',   meta: 'v5 · 1h' },
+  { icon: 'tabler:mail',      name: 'Email Drip',    meta: 'v3 · 4d' },
+  { icon: 'tabler:messages',  name: 'Stand-up Bot',  meta: 'v7 · 3h' },
+  { icon: 'tabler:receipt',   name: 'Invoice Match', meta: 'v1 · 1w' },
+];
+
+const appVersionShort = appVersion.split(' · ')[0];
 ---
 
-<div class="demo" aria-label="Live product demo: Chat to App">
-  <!-- Head bar with mode label that cross-fades -->
+<div class="demo" aria-label="Live product demo: chat to saved app">
+  <!-- Head bar — mode label cross-fades through three modes -->
   <div class="demo-head">
     <div class="demo-head-left">
       <LogoAssemble size={24} class="demo-mark" label="Aitroop" />
@@ -91,6 +130,7 @@ const {
       </div>
       <div class="mode-label">
         <span class="ml ml-chat">{modeChatLabel}</span>
+        <span class="ml ml-apps">{modeAppsLabel}</span>
         <span class="ml ml-app">{modeAppLabel}</span>
       </div>
     </div>
@@ -100,19 +140,17 @@ const {
     </span>
   </div>
 
-  <!-- Two panes overlap and cross-fade -->
   <div class="demo-body">
 
-    <!-- ── CHAT PANE ── -->
+    <!-- ── CHAT PANE ───────────────────────────────────────────── -->
     <div class="pane pane-chat" aria-hidden="true">
-      <div class="row">
+      <div class="row row-you">
         <span class="who">{youLabel}</span>
       </div>
       <p class="prompt">
-        <span class="seg seg-1">{promptParts[0]} <code>{promptCode}</code>,</span>
-        <span class="seg seg-2">{promptParts[1]}</span>
-        <span class="seg seg-3">{promptParts[2]}</span>
-        <span class="caret" aria-hidden="true"></span>
+        <span class="seg seg-1">{promptParts[0]} <code>{promptCode}</code>,<span class="caret c-1" aria-hidden="true"></span></span>
+        <span class="seg seg-2"> {promptParts[1]}<span class="caret c-2" aria-hidden="true"></span></span>
+        <span class="seg seg-3"> {promptParts[2]}<span class="caret c-3" aria-hidden="true"></span></span>
       </p>
 
       <div class="row row-agent">
@@ -122,7 +160,7 @@ const {
         <span></span><span></span><span></span>
       </div>
 
-      <!-- Agent's tool calls — skill + connect light up while thinking -->
+      <!-- Agent's tool calls — skill in-flight, then completes; connect already authorized -->
       <div class="tools">
         <div class="tool tool-1">
           <span class="tool-kind tk-skill">
@@ -130,7 +168,10 @@ const {
             {skillTagLabel}
           </span>
           <code>{toolSkillName}</code>
-          <span class="tool-msg">{toolSkillStatus}</span>
+          <span class="tool-msg">
+            <span class="msg msg-loading">{toolSkillStatusLoading}</span>
+            <span class="msg msg-done">{toolSkillStatusDone}</span>
+          </span>
         </div>
         <div class="tool tool-2">
           <span class="tool-kind tk-connect">
@@ -142,16 +183,56 @@ const {
         </div>
       </div>
 
+      <p class="agent-reply">{agentReplyText}</p>
+
       <div class="save-cta">
-        <button type="button" tabindex="-1">
+        <button type="button" class="save-btn" tabindex="-1">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
           {saveAsAppLabel}
         </button>
         <span class="save-ripple" aria-hidden="true"></span>
+        <span class="saved-toast">
+          <Icon name="tabler:check" class="w-3 h-3" />
+          {savedToastLabel}
+        </span>
       </div>
     </div>
 
-    <!-- ── APP PANE ── -->
+    <!-- ── APPS GRID PANE ──────────────────────────────────────── -->
+    <div class="pane pane-grid" aria-hidden="true">
+      <div class="grid-head">
+        <span class="grid-title">{appsHeaderLabel}</span>
+        <span class="grid-count">· {appsCount}</span>
+      </div>
+      <div class="apps">
+        <!-- The just-saved app — first card, primary border, NEW badge, pulse -->
+        <article class="card card-new">
+          <span class="card-hover" aria-hidden="true"></span>
+          <div class="card-row">
+            <div class="card-icon card-icon-primary">
+              <Icon name="tabler:report" class="w-4 h-4" />
+            </div>
+            <span class="new-badge">{newBadgeLabel}</span>
+          </div>
+          <h4 class="card-name">{appTitle}</h4>
+          <p class="card-meta">{appVersionShort} · <span class="meta-fresh">{justNowLabel}</span></p>
+        </article>
+
+        {otherApps.map((a, i) => (
+          <article class={`card card-existing card-${i + 2}`}>
+            <div class="card-row">
+              <div class="card-icon">
+                <Icon name={a.icon} class="w-4 h-4" />
+              </div>
+            </div>
+            <h4 class="card-name">{a.name}</h4>
+            <p class="card-meta">{a.meta}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <!-- ── APP PANE ────────────────────────────────────────────── -->
     <div class="pane pane-app" aria-hidden="true">
       <div class="app-head">
         <div class="app-icon">
@@ -161,7 +242,6 @@ const {
         <span class="app-version">{appVersion}</span>
       </div>
 
-      <!-- Wired-up skills + connects baked into the saved App -->
       <div class="wired">
         <span class="wired-label">{skillsLabel}</span>
         <span class="wchip wchip-skill wchip-1">
@@ -210,15 +290,24 @@ const {
       </div>
 
       <button type="button" class="run-btn" tabindex="-1">
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        {runLabel}
+        <span class="run-text run-text-default">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          {runLabel}
+        </span>
+        <span class="run-text run-text-running">
+          <span class="spinner" aria-hidden="true"></span>
+          {runningLabel}
+        </span>
       </button>
 
-      <!-- Artifact preview appears after Run -->
       <div class="artifact">
         <div class="artifact-head">
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
           <span class="mono">{artifactLabel}</span>
+          <span class="export-hint">
+            <Icon name="tabler:cloud-upload" class="w-2.5 h-2.5" />
+            {exportLabel}
+          </span>
         </div>
         {artifactRows.map((r, i) => (
           <div class={`a-row a-row-${i + 1}`}>{r}</div>
@@ -230,7 +319,7 @@ const {
 
 <style>
   /* ============================================================
-     Demo container
+     Container chrome
      ============================================================ */
   .demo {
     position: relative;
@@ -246,7 +335,6 @@ const {
     overflow: hidden;
   }
 
-  /* ── Head ── */
   .demo-head {
     display: flex;
     align-items: center;
@@ -275,7 +363,7 @@ const {
   .mode-label {
     position: relative;
     height: 14px;
-    min-width: 110px;
+    min-width: 140px;
     overflow: hidden;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 0.6875rem;
@@ -289,6 +377,7 @@ const {
     white-space: nowrap;
   }
   .ml-chat { opacity: 1; }
+  .ml-apps { opacity: 0; color: var(--aw-color-primary); }
   .ml-app  { opacity: 0; color: var(--aw-color-primary); }
 
   .live {
@@ -306,15 +395,15 @@ const {
   }
 
   /* ============================================================
-     Body — two panes overlap, cross-fade
+     Body — three panes overlap, cross-fade
      ============================================================ */
   .demo-body {
     position: relative;
-    height: 500px;
+    height: 520px;
     padding: 20px 22px;
   }
   @media (max-width: 640px) {
-    .demo-body { height: 530px; padding: 18px 18px; }
+    .demo-body { height: 560px; padding: 18px 18px; }
   }
   .pane {
     position: absolute;
@@ -322,13 +411,15 @@ const {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    transition: opacity 600ms ease;
+    transform-origin: 50% 40%;
   }
   @media (max-width: 640px) {
     .pane { inset: 18px 18px; }
   }
 
-  /* ── Chat pane ── */
+  /* ============================================================
+     CHAT pane
+     ============================================================ */
   .pane-chat .row {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 0.625rem;
@@ -337,6 +428,7 @@ const {
     color: var(--aw-color-text-muted);
   }
   .pane-chat .row-agent { margin-top: 4px; }
+
   .prompt {
     position: relative;
     font-size: 0.9375rem;
@@ -352,10 +444,7 @@ const {
     border-radius: 4px;
     font-size: 0.85em;
   }
-  .seg {
-    opacity: 0;
-    display: inline;
-  }
+  .seg { opacity: 0; display: inline; }
   .caret {
     display: inline-block;
     width: 7px;
@@ -364,6 +453,7 @@ const {
     margin-left: 2px;
     vertical-align: text-bottom;
     border-radius: 1px;
+    opacity: 0;
   }
 
   .thinking {
@@ -376,7 +466,7 @@ const {
     opacity: 0;
   }
 
-  /* ── Tool-use strip (chat pane) ── */
+  /* Tools — skill flips status mid-flight, connect already authorized */
   .tools {
     display: flex;
     flex-direction: column;
@@ -416,9 +506,38 @@ const {
     font-size: 0.75rem;
     color: var(--aw-color-text-default);
   }
-  .tool-msg {
+  /* Two-state status — both occupy the same grid cell, swap via opacity */
+  .tool-1 .tool-msg {
+    display: inline-grid;
+    grid-template-areas: 'm';
     font-size: 0.6875rem;
+  }
+  .tool-1 .msg {
+    grid-area: m;
+    white-space: nowrap;
     color: var(--aw-color-text-muted);
+  }
+  .tool-1 .msg-done {
+    color: var(--aw-color-primary);
+    font-weight: 500;
+    opacity: 0;
+  }
+  .tool-2 .tool-msg {
+    font-size: 0.6875rem;
+    color: var(--aw-color-primary);
+    font-weight: 500;
+  }
+
+  .agent-reply {
+    opacity: 0;
+    margin: 4px 0 0;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--aw-color-text-default);
+    padding: 8px 10px 9px;
+    background: rgba(82, 153, 97, 0.06);
+    border-radius: 6px;
+    border-left: 2px solid var(--aw-color-primary);
   }
 
   .save-cta {
@@ -426,8 +545,9 @@ const {
     position: relative;
     padding-top: 14px;
     border-top: 1px dashed var(--aw-color-border);
+    min-height: 50px;
   }
-  .save-cta button {
+  .save-btn {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 7px 12px;
     border-radius: 8px;
@@ -443,23 +563,154 @@ const {
     position: absolute;
     left: 0;
     top: 14px;
-    width: 130px;
+    width: 132px;
     height: 30px;
     border-radius: 8px;
     border: 1.5px solid var(--aw-color-primary);
     opacity: 0;
     pointer-events: none;
   }
-
-  /* ── App pane ── */
-  .pane-app {
+  .saved-toast {
+    position: absolute;
+    left: 142px;
+    top: 14px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 10px;
+    border-radius: 6px;
+    background: rgba(82, 153, 97, 0.12);
+    color: var(--aw-color-primary);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    border: 1px solid rgba(82, 153, 97, 0.22);
+    white-space: nowrap;
     opacity: 0;
+    transform: translateX(-6px);
+    pointer-events: none;
   }
+
+  /* ============================================================
+     APPS GRID pane
+     ============================================================ */
+  .pane-grid { opacity: 0; }
+  .grid-head {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    padding-bottom: 10px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid var(--aw-color-border);
+  }
+  .grid-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.005em;
+  }
+  .grid-count {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    color: var(--aw-color-text-muted);
+  }
+
+  .apps {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    flex: 1;
+    align-content: start;
+  }
+
+  .card {
+    position: relative;
+    padding: 12px 14px 11px;
+    border: 1px solid var(--aw-color-border);
+    border-radius: 8px;
+    background: var(--aw-color-bg-page);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  .card-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .card-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    background: var(--aw-color-bg-subtle);
+    color: var(--aw-color-text-muted);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .card-icon-primary {
+    background: rgba(82, 153, 97, 0.12);
+    color: var(--aw-color-primary);
+  }
+  .card-name {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.005em;
+    line-height: 1.25;
+  }
+  .card-meta {
+    margin: 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.625rem;
+    color: var(--aw-color-text-muted);
+  }
+  .meta-fresh {
+    color: var(--aw-color-primary);
+    font-weight: 500;
+  }
+
+  /* The new card — slightly stronger border baseline, halo on pulse */
+  .card-new {
+    border-color: rgba(82, 153, 97, 0.35);
+    z-index: 1;
+  }
+  .new-badge {
+    padding: 2px 6px;
+    border-radius: 9999px;
+    background: var(--aw-color-primary);
+    color: #fff;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  .card-hover {
+    position: absolute;
+    inset: -2px;
+    border-radius: 10px;
+    border: 1.5px solid var(--aw-color-primary);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ============================================================
+     APP pane
+     ============================================================ */
+  .pane-app { opacity: 0; }
   .app-head {
     display: flex; align-items: center; gap: 8px;
     padding-bottom: 12px;
     margin-bottom: 4px;
     border-bottom: 1px solid var(--aw-color-border);
+    opacity: 0;
+    transform: translateY(-4px);
   }
   .app-icon {
     width: 22px; height: 22px;
@@ -480,7 +731,6 @@ const {
     color: var(--aw-color-text-muted);
   }
 
-  /* ── Wired-up skills + connects (app pane) ── */
   .wired {
     display: flex;
     flex-wrap: wrap;
@@ -523,9 +773,7 @@ const {
     background: var(--aw-color-bg-subtle);
     color: var(--aw-color-text-default);
   }
-  .wchip-connect svg {
-    color: var(--aw-color-primary);
-  }
+  .wchip-connect svg { color: var(--aw-color-primary); }
 
   .field {
     opacity: 0;
@@ -565,11 +813,20 @@ const {
     color: #fff;
     font-size: 0.8125rem;
     font-weight: 600;
-    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
     border: none;
     pointer-events: none;
     position: relative;
+    overflow: hidden;
   }
+  .run-text {
+    position: absolute;
+    inset: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .run-text-running { opacity: 0; }
   .run-btn::after {
     content: '';
     position: absolute;
@@ -578,6 +835,16 @@ const {
     box-shadow: 0 0 0 0 rgba(82, 153, 97, 0.45);
     pointer-events: none;
   }
+  .spinner {
+    width: 11px;
+    height: 11px;
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    border-radius: 9999px;
+    display: inline-block;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
   .artifact {
     opacity: 0;
@@ -595,6 +862,17 @@ const {
     border-bottom: 1px dashed var(--aw-color-border);
     font-size: 0.6875rem;
   }
+  .export-hint {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    color: var(--aw-color-primary);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    opacity: 0;
+  }
   .a-row {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 0.6875rem;
@@ -607,145 +885,298 @@ const {
   }
 
   /* ============================================================
-     Animations — single 16s timeline drives all sub-elements.
-     Plays unconditionally (no prefers-reduced-motion gate) — design
-     choice so every viewer sees the chat → save → app story.
+     ANIMATIONS — one 20s timeline drives everything.
+     Percentages map to seconds: 1% = 0.2s, 5% = 1s, 25% = 5s, 50% = 10s.
+     Storyboard:
+       0  – 33%   CHAT     (type → think → tools → reply → save)
+       33 – 53%   APPS     (gallery populates, new card lands, click)
+       53 – 92%   APP      (form → run → artifact → export hint)
+       92 – 100%  reset
      ============================================================ */
 
-    /* Mode label cross-fade */
-    .ml-chat { animation: ml-chat 16s infinite; }
-    .ml-app  { animation: ml-app  16s infinite; }
-    @keyframes ml-chat {
-      0%, 43% { opacity: 1; }
-      48%, 95% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    @keyframes ml-app {
-      0%, 43% { opacity: 0; }
-      48%, 95% { opacity: 1; }
-      100% { opacity: 0; }
-    }
+  /* Mode labels */
+  .ml-chat { animation: ml-chat 20s infinite; }
+  .ml-apps { animation: ml-apps 20s infinite; }
+  .ml-app  { animation: ml-app  20s infinite; }
+  @keyframes ml-chat {
+    0%, 32%   { opacity: 1; }
+    34%, 96%  { opacity: 0; }
+    100%      { opacity: 1; }
+  }
+  @keyframes ml-apps {
+    0%, 32%   { opacity: 0; }
+    34%, 52%  { opacity: 1; }
+    54%, 100% { opacity: 0; }
+  }
+  @keyframes ml-app {
+    0%, 52%   { opacity: 0; }
+    54%, 92%  { opacity: 1; }
+    94%, 100% { opacity: 0; }
+  }
 
-    /* Pane cross-fade */
-    .pane-chat { animation: chat-fade 16s infinite; }
-    .pane-app  { animation: app-fade  16s infinite; }
-    @keyframes chat-fade {
-      0%, 43% { opacity: 1; }
-      48%, 95% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    @keyframes app-fade {
-      0%, 43% { opacity: 0; }
-      48%, 95% { opacity: 1; }
-      100% { opacity: 0; }
-    }
+  /* Pane cross-fade — subtle scale so each pane lands like a camera move */
+  .pane-chat { animation: chat-fade 20s infinite; }
+  .pane-grid { animation: grid-fade 20s infinite; }
+  .pane-app  { animation: app-fade  20s infinite; }
+  @keyframes chat-fade {
+    0%, 32%   { opacity: 1; transform: scale(1); }
+    34%       { opacity: 0; transform: scale(0.97); }
+    96%       { opacity: 0; transform: scale(1); }
+    100%      { opacity: 1; }
+  }
+  @keyframes grid-fade {
+    0%, 32%   { opacity: 0; transform: scale(1.02); }
+    34%, 52%  { opacity: 1; transform: scale(1); }
+    54%, 100% { opacity: 0; transform: scale(0.98); }
+  }
+  @keyframes app-fade {
+    0%, 52%   { opacity: 0; transform: scale(0.98); }
+    54%, 92%  { opacity: 1; transform: scale(1); }
+    94%, 100% { opacity: 0; transform: scale(1.01); }
+  }
 
-    /* Chat sub-animations */
-    .seg-1 { animation: seg-in 16s infinite; animation-delay: 0.4s; }
-    .seg-2 { animation: seg-in 16s infinite; animation-delay: 1.0s; }
-    .seg-3 { animation: seg-in 16s infinite; animation-delay: 1.6s; }
-    @keyframes seg-in {
-      0%   { opacity: 0; }
-      6%   { opacity: 1; }
-      40%  { opacity: 1; }
-      45%, 100% { opacity: 0; }
-    }
+  /* ── Chat: prompt segments + per-segment carets ── */
+  .seg-1 { animation: seg-in 20s infinite; animation-delay: 0.4s; }
+  .seg-2 { animation: seg-in 20s infinite; animation-delay: 1.0s; }
+  .seg-3 { animation: seg-in 20s infinite; animation-delay: 1.6s; }
+  @keyframes seg-in {
+    0%   { opacity: 0; }
+    5%   { opacity: 1; }
+    32%  { opacity: 1; }
+    34%, 100% { opacity: 0; }
+  }
+  .c-1 { animation: caret-1 20s infinite; }
+  .c-2 { animation: caret-2 20s infinite; }
+  .c-3 { animation: caret-3 20s infinite; }
+  @keyframes caret-1 {
+    0%, 2%      { opacity: 0; }
+    2.5%, 5%    { opacity: 1; }
+    5.5%, 100%  { opacity: 0; }
+  }
+  @keyframes caret-2 {
+    0%, 5%      { opacity: 0; }
+    5.5%, 8%    { opacity: 1; }
+    8.5%, 100%  { opacity: 0; }
+  }
+  @keyframes caret-3 {
+    0%, 8%      { opacity: 0; }
+    8.5%, 11.5% { opacity: 1; }
+    12%, 100%   { opacity: 0; }
+  }
 
-    .caret { animation: caret-blink 1s steps(1) infinite, caret-hide 16s infinite; }
-    @keyframes caret-blink { 50% { opacity: 0; } }
-    @keyframes caret-hide {
-      0%, 14% { display: inline-block; }
-      18%, 100% { opacity: 0 !important; }
-    }
+  /* ── Chat: agent thinking dots (visible during 14–23%) ── */
+  .thinking span:nth-child(1) { animation: dot-bounce 20s infinite; animation-delay: 2.8s; }
+  .thinking span:nth-child(2) { animation: dot-bounce 20s infinite; animation-delay: 2.95s; }
+  .thinking span:nth-child(3) { animation: dot-bounce 20s infinite; animation-delay: 3.10s; }
+  @keyframes dot-bounce {
+    0%, 13.5% { opacity: 0; transform: translateY(0); }
+    15%       { opacity: 1; transform: translateY(0); }
+    17%       { opacity: 1; transform: translateY(-3px); }
+    19%       { opacity: 1; transform: translateY(0); }
+    22%       { opacity: 1; }
+    24%, 100% { opacity: 0; }
+  }
 
-    .thinking span:nth-child(1) { animation: dot-bounce 16s infinite; animation-delay: 2.3s; }
-    .thinking span:nth-child(2) { animation: dot-bounce 16s infinite; animation-delay: 2.45s; }
-    .thinking span:nth-child(3) { animation: dot-bounce 16s infinite; animation-delay: 2.6s; }
-    @keyframes dot-bounce {
-      0%, 14% { opacity: 0; transform: translateY(0); }
-      16%     { opacity: 1; transform: translateY(0); }
-      19%     { opacity: 1; transform: translateY(-3px); }
-      22%     { opacity: 1; transform: translateY(0); }
-      35%     { opacity: 1; }
-      40%, 100% { opacity: 0; }
-    }
+  /* ── Chat: tool calls ── */
+  .tool-1 { animation: tool-in 20s infinite; animation-delay: 3.5s; }
+  .tool-2 { animation: tool-in 20s infinite; animation-delay: 4.2s; }
+  @keyframes tool-in {
+    0%   { opacity: 0; transform: translateX(-4px); }
+    3%   { opacity: 1; transform: translateX(0); }
+    16%  { opacity: 1; transform: translateX(0); }
+    20%, 100% { opacity: 0; }
+  }
+  /* Tool-1 status crossfade — "pulling…" then "✓ 142 commits" */
+  .tool-1 .msg-loading { animation: msg-loading 20s infinite; }
+  .tool-1 .msg-done    { animation: msg-done    20s infinite; }
+  @keyframes msg-loading {
+    0%, 17%   { opacity: 0; }
+    18%, 20%  { opacity: 1; }
+    20.5%, 100% { opacity: 0; }
+  }
+  @keyframes msg-done {
+    0%, 20%   { opacity: 0; }
+    20.5%, 23% { opacity: 1; }
+    24%, 100% { opacity: 0; }
+  }
 
-    .save-cta button { animation: save-pulse 16s infinite; }
-    @keyframes save-pulse {
-      0%, 35% { transform: scale(1); box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
-      38%     { transform: scale(1.03); box-shadow: 0 0 0 4px rgba(82, 153, 97, 0.18); }
-      42%     { transform: scale(1); box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
-      100%    { transform: scale(1); }
-    }
-    .save-ripple { animation: ripple-out 16s infinite; }
-    @keyframes ripple-out {
-      0%, 35% { opacity: 0; transform: scale(1); }
-      38%     { opacity: 0.7; transform: scale(1); }
-      46%     { opacity: 0; transform: scale(1.25); }
-      100%    { opacity: 0; }
-    }
+  /* ── Chat: agent reply (after tools complete) ── */
+  .agent-reply { animation: reply-in 20s infinite; }
+  @keyframes reply-in {
+    0%, 23.5% { opacity: 0; transform: translateY(4px); }
+    25%       { opacity: 1; transform: translateY(0); }
+    32%       { opacity: 1; }
+    34%, 100% { opacity: 0; }
+  }
 
-    /* Tool calls — skill + connect light up while agent works */
-    .tool-1 { animation: tool-in 16s infinite; animation-delay: 3.2s; }
-    .tool-2 { animation: tool-in 16s infinite; animation-delay: 3.9s; }
-    @keyframes tool-in {
-      0%   { opacity: 0; transform: translateX(-4px); }
-      3%   { opacity: 1; transform: translateX(0); }
-      22%  { opacity: 1; transform: translateX(0); }
-      28%, 100% { opacity: 0; }
-    }
+  /* ── Chat: save button glow + click ripple + saved toast ── */
+  .save-btn { animation: save-pulse 20s infinite; }
+  @keyframes save-pulse {
+    0%, 27%   { transform: scale(1); box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
+    29%       { transform: scale(1.04); box-shadow: 0 0 0 5px rgba(82, 153, 97, 0.18); }
+    31%       { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
+    32%       { transform: scale(1); }
+    100%      { transform: scale(1); }
+  }
+  .save-ripple { animation: ripple-out 20s infinite; }
+  @keyframes ripple-out {
+    0%, 28%   { opacity: 0; transform: scale(1); }
+    30%       { opacity: 0.7; transform: scale(1); }
+    33%       { opacity: 0; transform: scale(1.3); }
+    100%      { opacity: 0; }
+  }
+  .saved-toast { animation: toast-in 20s infinite; }
+  @keyframes toast-in {
+    0%, 30.5% { opacity: 0; transform: translateX(-6px); }
+    31.5%     { opacity: 1; transform: translateX(0); }
+    33%       { opacity: 1; }
+    34%, 100% { opacity: 0; transform: translateX(-2px); }
+  }
 
-    /* App sub-animations */
-    .wchip-1 { animation: chip-in 16s infinite; animation-delay: 7.95s; }
-    .wchip-2 { animation: chip-in 16s infinite; animation-delay: 8.12s; }
-    .wchip-3 { animation: chip-in 16s infinite; animation-delay: 8.30s; }
-    .wchip-4 { animation: chip-in 16s infinite; animation-delay: 8.48s; }
-    @keyframes chip-in {
-      0%   { opacity: 0; transform: scale(0.94); }
-      3%   { opacity: 1; transform: scale(1); }
-      44%  { opacity: 1; transform: scale(1); }
-      50%, 100% { opacity: 0; transform: scale(0.96); }
-    }
+  /* ============================================================
+     APPS GRID animations (33% – 53%)
+     ============================================================ */
+  /* Existing cards stagger in, top-left → bottom-right */
+  .card-2 { animation: card-in 20s infinite; animation-delay: 7.20s; }
+  .card-3 { animation: card-in 20s infinite; animation-delay: 7.34s; }
+  .card-4 { animation: card-in 20s infinite; animation-delay: 7.48s; }
+  .card-5 { animation: card-in 20s infinite; animation-delay: 7.62s; }
+  .card-6 { animation: card-in 20s infinite; animation-delay: 7.76s; }
+  @keyframes card-in {
+    0%   { opacity: 0; transform: translateY(6px); }
+    4%   { opacity: 1; transform: translateY(0); }
+    78%  { opacity: 1; transform: translateY(0); }
+    82%  { opacity: 0; transform: translateY(-2px); }
+    100% { opacity: 0; }
+  }
 
-    .field-1 { animation: field-in 16s infinite; animation-delay: 8.9s; }
-    .field-2 { animation: field-in 16s infinite; animation-delay: 9.2s; }
-    .field-3 { animation: field-in 16s infinite; animation-delay: 9.5s; }
-    .run-btn { animation: field-in 16s infinite; animation-delay: 9.9s; }
-    @keyframes field-in {
-      0%   { opacity: 0; transform: translateY(6px); }
-      3%   { opacity: 1; transform: translateY(0); }
-      50%  { opacity: 1; transform: translateY(0); }
-      55%, 100% { opacity: 0; transform: translateY(-3px); }
-    }
+  /* The new card: lands after others, gets a NEW badge, pulses twice, hover, click */
+  .card-new { animation: new-card 20s infinite; animation-delay: 8.1s; }
+  @keyframes new-card {
+    /* land + settle */
+    0%    { opacity: 0; transform: translateY(10px) scale(0.94); box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); border-color: rgba(82, 153, 97, 0.35); }
+    4%    { opacity: 1; transform: translateY(0) scale(1); }
+    /* pulse 1 */
+    8%    { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); border-color: rgba(82, 153, 97, 0.35); }
+    11%   { box-shadow: 0 0 0 7px rgba(82, 153, 97, 0.16); border-color: rgba(82, 153, 97, 0.65); }
+    14%   { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); border-color: rgba(82, 153, 97, 0.35); }
+    /* pulse 2 */
+    18%   { box-shadow: 0 0 0 7px rgba(82, 153, 97, 0.14); border-color: rgba(82, 153, 97, 0.6); }
+    21%   { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); border-color: rgba(82, 153, 97, 0.4); }
+    /* hover frame appears via .card-hover; here we lift the card subtly */
+    50%   { transform: translateY(0) scale(1); }
+    63%   { transform: translateY(-2px) scale(1.015); }
+    /* click — depress, then bloom out into the App pane */
+    72%   { transform: translateY(0) scale(0.98); box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
+    78%   { transform: scale(1.04); box-shadow: 0 0 0 10px rgba(82, 153, 97, 0.18); }
+    82%   { opacity: 0; transform: scale(1.08); box-shadow: 0 0 0 18px rgba(82, 153, 97, 0); }
+    100%  { opacity: 0; }
+  }
 
-    .run-btn::after { animation: run-pulse 16s infinite; }
-    @keyframes run-pulse {
-      0%, 68% { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
-      72%     { box-shadow: 0 0 0 6px rgba(82, 153, 97, 0.22); }
-      78%     { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
-      100%    { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
-    }
+  .new-badge { animation: badge-pop 20s infinite; animation-delay: 8.4s; }
+  @keyframes badge-pop {
+    0%   { opacity: 0; transform: scale(0.7); }
+    3%   { opacity: 1; transform: scale(1.18); }
+    5%   { transform: scale(0.96); }
+    7%   { transform: scale(1); }
+    65%  { opacity: 1; transform: scale(1); }
+    72%, 100% { opacity: 0; transform: scale(0.9); }
+  }
 
-    .artifact     { animation: artifact-in 16s infinite; animation-delay: 11.7s; }
-    .a-row-1      { animation: arow-in 16s infinite; animation-delay: 12.1s; }
-    .a-row-2      { animation: arow-in 16s infinite; animation-delay: 12.4s; }
-    .a-row-3      { animation: arow-in 16s infinite; animation-delay: 12.7s; }
-    @keyframes artifact-in {
-      0%   { opacity: 0; transform: translateY(4px); }
-      3%   { opacity: 1; transform: translateY(0); }
-      22%  { opacity: 1; }
-      27%, 100% { opacity: 0; }
-    }
-    @keyframes arow-in {
-      0%   { opacity: 0; transform: translateX(-3px); }
-      3%   { opacity: 1; transform: translateX(0); }
-      18%  { opacity: 1; }
-      24%, 100% { opacity: 0; }
-    }
+  .card-hover { animation: card-hover 20s infinite; animation-delay: 11.0s; }
+  @keyframes card-hover {
+    0%    { opacity: 0; }
+    8%    { opacity: 0.6; }
+    18%   { opacity: 1; }
+    22%   { opacity: 0; }
+    100%  { opacity: 0; }
+  }
 
-    .live-dot { animation: live-pulse 2.2s ease-in-out infinite; }
-    @keyframes live-pulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0.55); }
-      70%      { box-shadow: 0 0 0 6px rgba(82, 153, 97, 0); }
-    }
+  /* ============================================================
+     APP pane animations (53% – 92%)
+     ============================================================ */
+  .app-head { animation: head-in 20s infinite; animation-delay: 10.6s; }
+  @keyframes head-in {
+    0%   { opacity: 0; transform: translateY(-4px); }
+    4%   { opacity: 1; transform: translateY(0); }
+    66%  { opacity: 1; transform: translateY(0); }
+    72%, 100% { opacity: 0; }
+  }
+
+  .wchip-1 { animation: chip-in 20s infinite; animation-delay: 11.1s; }
+  .wchip-2 { animation: chip-in 20s infinite; animation-delay: 11.22s; }
+  .wchip-3 { animation: chip-in 20s infinite; animation-delay: 11.34s; }
+  .wchip-4 { animation: chip-in 20s infinite; animation-delay: 11.46s; }
+  @keyframes chip-in {
+    0%   { opacity: 0; transform: scale(0.94); }
+    3%   { opacity: 1; transform: scale(1); }
+    60%  { opacity: 1; transform: scale(1); }
+    66%, 100% { opacity: 0; transform: scale(0.96); }
+  }
+
+  .field-1 { animation: field-in 20s infinite; animation-delay: 11.7s; }
+  .field-2 { animation: field-in 20s infinite; animation-delay: 12.0s; }
+  .field-3 { animation: field-in 20s infinite; animation-delay: 12.3s; }
+  .run-btn { animation: field-in 20s infinite; animation-delay: 12.7s; }
+  @keyframes field-in {
+    0%   { opacity: 0; transform: translateY(6px); }
+    3%   { opacity: 1; transform: translateY(0); }
+    52%  { opacity: 1; transform: translateY(0); }
+    58%, 100% { opacity: 0; transform: translateY(-3px); }
+  }
+
+  /* Run button: pulse, then click, then swap label to Running… */
+  .run-btn::after { animation: run-pulse 20s infinite; }
+  @keyframes run-pulse {
+    0%, 65%  { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
+    66.5%    { box-shadow: 0 0 0 6px rgba(82, 153, 97, 0.22); }
+    68.5%    { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
+    100%     { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
+  }
+  .run-text-default  { animation: run-default 20s infinite; }
+  .run-text-running  { animation: run-running 20s infinite; }
+  @keyframes run-default {
+    0%, 67%  { opacity: 1; }
+    68%, 71% { opacity: 0; }
+    72%, 100% { opacity: 1; }
+  }
+  @keyframes run-running {
+    0%, 67%  { opacity: 0; }
+    68%, 71% { opacity: 1; }
+    72%, 100% { opacity: 0; }
+  }
+
+  /* Artifact slides up after run completes */
+  .artifact { animation: artifact-in 20s infinite; animation-delay: 14.3s; }
+  @keyframes artifact-in {
+    0%   { opacity: 0; transform: translateY(8px); }
+    4%   { opacity: 1; transform: translateY(0); }
+    32%  { opacity: 1; }
+    36%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+  .a-row-1 { animation: arow-in 20s infinite; animation-delay: 14.7s; }
+  .a-row-2 { animation: arow-in 20s infinite; animation-delay: 14.85s; }
+  .a-row-3 { animation: arow-in 20s infinite; animation-delay: 15.00s; }
+  .a-row-4 { animation: arow-in 20s infinite; animation-delay: 15.15s; }
+  .a-row-5 { animation: arow-in 20s infinite; animation-delay: 15.30s; }
+  @keyframes arow-in {
+    0%   { opacity: 0; transform: translateX(-3px); }
+    4%   { opacity: 1; transform: translateX(0); }
+    22%  { opacity: 1; }
+    27%, 100% { opacity: 0; }
+  }
+  .export-hint { animation: export-in 20s infinite; animation-delay: 16.0s; }
+  @keyframes export-in {
+    0%   { opacity: 0; }
+    5%   { opacity: 1; }
+    22%  { opacity: 1; }
+    27%, 100% { opacity: 0; }
+  }
+
+  /* Live dot — independent slow pulse */
+  .live-dot { animation: live-pulse 2.2s ease-in-out infinite; }
+  @keyframes live-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0.55); }
+    70%      { box-shadow: 0 0 0 6px rgba(82, 153, 97, 0); }
+  }
 </style>
