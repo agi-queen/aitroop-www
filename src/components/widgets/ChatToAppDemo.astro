@@ -24,6 +24,15 @@ export interface Props {
   modeAppsLabel?: string;
   modeAppLabel?: string;
   liveLabel?: string;
+  // Sidebar
+  newChatLabel?: string;
+  navAppsLabel?: string;
+  navArtifactsLabel?: string;
+  toolsLabel?: string;
+  navConnectLabel?: string;
+  navSkillsLabel?: string;
+  navSchedulesLabel?: string;
+  navSettingsLabel?: string;
   // Chat pane
   composerPlaceholder?: string;
   modelLabel?: string;
@@ -67,6 +76,14 @@ const {
   modeAppsLabel = 'Mode 2 · Apps',
   modeAppLabel = 'Mode 3 · App',
   liveLabel = 'live · auto-loop',
+  newChatLabel = 'New Chat',
+  navAppsLabel = 'Apps',
+  navArtifactsLabel = 'Artifacts',
+  toolsLabel = 'Tools',
+  navConnectLabel = 'Connect',
+  navSkillsLabel = 'Skills',
+  navSchedulesLabel = 'Schedules',
+  navSettingsLabel = 'Settings',
   composerPlaceholder = 'Ask AITroop anything…',
   modelLabel = 'claude',
   promptParts = [
@@ -144,6 +161,68 @@ const appVersionShort = appVersion.split(' · ')[0];
   </div>
 
   <div class="demo-body">
+
+    <!-- ══════════════════════════════════════════════════════════
+         LEFT SIDEBAR — mirrors the real product's TreeSidebar
+         ══════════════════════════════════════════════════════════ -->
+    <aside class="sidebar" aria-hidden="true">
+      <div class="sb-workspace">
+        <div class="sb-ws-avatar">P</div>
+        <span class="sb-ws-name">Personal</span>
+        <Icon name="tabler:chevron-down" class="sb-ws-chev" />
+      </div>
+
+      <button type="button" class="sb-new-chat" tabindex="-1">
+        <Icon name="tabler:edit" class="w-3 h-3" />
+        <span class="sb-label">{newChatLabel}</span>
+      </button>
+
+      <nav class="sb-nav">
+        <a class="sb-item sb-item-apps" tabindex="-1">
+          <span class="sb-accent" aria-hidden="true"></span>
+          <Icon name="tabler:layout-grid" class="w-3.5 h-3.5" />
+          <span class="sb-label">{navAppsLabel}</span>
+        </a>
+        <a class="sb-item" tabindex="-1">
+          <Icon name="tabler:package" class="w-3.5 h-3.5" />
+          <span class="sb-label">{navArtifactsLabel}</span>
+        </a>
+      </nav>
+
+      <div class="sb-section">
+        <div class="sb-section-label">{toolsLabel}</div>
+        <nav class="sb-nav">
+          <a class="sb-item" tabindex="-1">
+            <Icon name="tabler:plug" class="w-3.5 h-3.5" />
+            <span class="sb-label">{navConnectLabel}</span>
+          </a>
+          <a class="sb-item" tabindex="-1">
+            <Icon name="tabler:wand" class="w-3.5 h-3.5" />
+            <span class="sb-label">{navSkillsLabel}</span>
+          </a>
+          <a class="sb-item" tabindex="-1">
+            <Icon name="tabler:clock" class="w-3.5 h-3.5" />
+            <span class="sb-label">{navSchedulesLabel}</span>
+          </a>
+          <a class="sb-item" tabindex="-1">
+            <Icon name="tabler:settings" class="w-3.5 h-3.5" />
+            <span class="sb-label">{navSettingsLabel}</span>
+          </a>
+        </nav>
+      </div>
+
+      <div class="sb-spacer"></div>
+
+      <div class="sb-user">
+        <div class="sb-user-avatar">Y</div>
+        <span class="sb-label sb-user-name">you@team</span>
+      </div>
+    </aside>
+
+    <!-- ══════════════════════════════════════════════════════════
+         MAIN — the three cross-fading panes
+         ══════════════════════════════════════════════════════════ -->
+    <div class="demo-main">
 
     <!-- ══════════════════════════════════════════════════════════
          CHAT PANE — message stream on top, composer pill on bottom
@@ -356,6 +435,8 @@ const appVersionShort = appVersion.split(' · ')[0];
         ))}
       </div>
     </div>
+
+    </div><!-- /.demo-main -->
   </div>
 </div>
 
@@ -437,16 +518,28 @@ const appVersionShort = appVersion.split(' · ')[0];
   }
 
   /* ============================================================
-     Body — three panes overlap, cross-fade
+     Body — left sidebar + main column with three cross-fading panes
      ============================================================ */
   .demo-body {
     position: relative;
     height: 580px;
+    display: flex;
+    align-items: stretch;
+  }
+  @media (max-width: 640px) {
+    .demo-body { height: 620px; }
+  }
+
+  .demo-main {
+    position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
     padding: 20px 22px;
   }
   @media (max-width: 640px) {
-    .demo-body { height: 620px; padding: 18px 18px; }
+    .demo-main { padding: 18px 18px; }
   }
+
   .pane {
     position: absolute;
     inset: 20px 22px;
@@ -458,6 +551,202 @@ const appVersionShort = appVersion.split(' · ')[0];
   .pane > * { flex-shrink: 0; }
   @media (max-width: 640px) {
     .pane { inset: 18px 18px; }
+  }
+
+  /* ============================================================
+     LEFT SIDEBAR — TreeSidebar-style nav
+     ============================================================ */
+  .sidebar {
+    flex-shrink: 0;
+    width: 152px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 10px 12px;
+    border-right: 1px solid var(--aw-color-border);
+    background: linear-gradient(to bottom, rgba(82, 153, 97, 0.02), transparent 40%);
+    font-size: 0.6875rem;
+  }
+  @media (max-width: 640px) {
+    .sidebar { width: 46px; padding: 14px 6px 12px; align-items: center; }
+    .sidebar .sb-label { display: none; }
+    .sidebar .sb-section-label { display: none; }
+    .sidebar .sb-ws-chev { display: none; }
+    .sidebar .sb-ws-name { display: none; }
+    .sidebar .sb-new-chat { padding: 0; width: 28px; justify-content: center; }
+    .sidebar .sb-item { padding: 6px 0; justify-content: center; width: 28px; }
+    .sidebar .sb-user { padding: 4px 0; }
+  }
+
+  /* Workspace switcher */
+  .sb-workspace {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 6px;
+    border-radius: 6px;
+    background: var(--aw-color-bg-subtle);
+    border: 1px solid var(--aw-color-border);
+  }
+  .sb-ws-avatar {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    border-radius: 4px;
+    background: rgba(82, 153, 97, 0.18);
+    color: var(--aw-color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .sb-ws-name {
+    flex: 1;
+    color: var(--aw-color-text-heading);
+    font-weight: 600;
+    font-size: 0.6875rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .sb-ws-chev {
+    color: var(--aw-color-text-muted);
+    flex-shrink: 0;
+  }
+
+  /* New Chat button */
+  .sb-new-chat {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 26px;
+    padding: 0 9px;
+    border-radius: 6px;
+    background: rgba(82, 153, 97, 0.10);
+    border: 1px solid rgba(82, 153, 97, 0.20);
+    color: var(--aw-color-primary);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    cursor: pointer;
+    pointer-events: none;
+    white-space: nowrap;
+    transition: background-color 200ms ease, box-shadow 240ms ease;
+  }
+
+  /* Nav lists */
+  .sb-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .sb-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 8px;
+    border-radius: 5px;
+    color: var(--aw-color-text-default);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    cursor: pointer;
+    pointer-events: none;
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+  .sb-item svg {
+    color: var(--aw-color-text-muted);
+    flex-shrink: 0;
+    transition: color 200ms ease;
+  }
+  .sb-accent {
+    position: absolute;
+    left: -2px;
+    top: 5px;
+    bottom: 5px;
+    width: 2px;
+    border-radius: 2px;
+    background: var(--aw-color-primary);
+    opacity: 0;
+  }
+
+  /* Section header (e.g., TOOLS) */
+  .sb-section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--aw-color-border);
+  }
+  .sb-section-label {
+    padding: 0 8px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--aw-color-text-muted);
+  }
+
+  .sb-spacer { flex: 1; }
+
+  /* User row at bottom */
+  .sb-user {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 8px;
+    border-top: 1px solid var(--aw-color-border);
+    margin-top: 4px;
+  }
+  .sb-user-avatar {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    background: var(--aw-color-bg-subtle);
+    border: 1px solid var(--aw-color-border);
+    color: var(--aw-color-text-default);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.625rem;
+    font-weight: 600;
+  }
+  .sb-user-name {
+    color: var(--aw-color-text-muted);
+    font-size: 0.625rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Active states driven by the 20s timeline */
+  .sb-new-chat { animation: sb-newchat-active 20s infinite; }
+  @keyframes sb-newchat-active {
+    0%, 32%   { background: rgba(82, 153, 97, 0.16); box-shadow: 0 0 0 1px rgba(82, 153, 97, 0.20); }
+    34%, 100% { background: rgba(82, 153, 97, 0.10); box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
+  }
+  .sb-item-apps { animation: sb-apps-active 20s infinite; }
+  @keyframes sb-apps-active {
+    0%, 32%   { background: transparent; color: var(--aw-color-text-default); }
+    34%, 92%  { background: rgba(82, 153, 97, 0.08); color: var(--aw-color-text-heading); }
+    94%, 100% { background: transparent; color: var(--aw-color-text-default); }
+  }
+  .sb-item-apps svg { animation: sb-apps-icon 20s infinite; }
+  @keyframes sb-apps-icon {
+    0%, 32%   { color: var(--aw-color-text-muted); }
+    34%, 92%  { color: var(--aw-color-primary); }
+    94%, 100% { color: var(--aw-color-text-muted); }
+  }
+  .sb-item-apps .sb-accent { animation: sb-apps-accent 20s infinite; }
+  @keyframes sb-apps-accent {
+    0%, 32%   { opacity: 0; transform: scaleY(0.4); }
+    34%, 92%  { opacity: 1; transform: scaleY(1); }
+    94%, 100% { opacity: 0; transform: scaleY(0.4); }
   }
 
   /* ============================================================
