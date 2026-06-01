@@ -85,6 +85,13 @@ const currentLocale = getLocaleFromPath(currentPath);
 <script>
   function initLangPicker() {
     document.querySelectorAll<HTMLElement>('[data-lang-picker]').forEach((picker) => {
+      // Idempotent: skip pickers already wired up. initLangPicker runs both on
+      // module init AND on astro:page-load — without this guard, the initial load
+      // ends up with two click listeners on the trigger, and each click toggles
+      // the menu twice (open → close), making the button look unresponsive.
+      if (picker.dataset.langInit === '1') return;
+      picker.dataset.langInit = '1';
+
       const trigger = picker.querySelector<HTMLButtonElement>('[data-lang-trigger]');
       const menu = picker.querySelector<HTMLElement>('[data-lang-menu]');
       const chevron = picker.querySelector<SVGElement>('[data-lang-chevron]');

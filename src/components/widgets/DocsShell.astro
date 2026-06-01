@@ -155,6 +155,11 @@ const currentItem = currentIndex !== -1 ? flat[currentIndex] : null;
       var toc = document.getElementById('docs-toc');
       if (!content || !toc) return;
 
+      // Idempotent across navigations — clear any prior build, restore rail visibility.
+      toc.innerHTML = '';
+      var rail = document.querySelector('.docs-toc-rail');
+      if (rail) rail.style.display = '';
+
       var headings = content.querySelectorAll('h2, h3');
       var entries = [];
 
@@ -183,7 +188,6 @@ const currentItem = currentIndex !== -1 ? flat[currentIndex] : null;
       });
 
       if (entries.length === 0) {
-        var rail = document.querySelector('.docs-toc-rail');
         if (rail) rail.style.display = 'none';
         return;
       }
@@ -225,11 +229,10 @@ const currentItem = currentIndex !== -1 ? flat[currentIndex] : null;
       entries.forEach(function (e) { observer.observe(e.el); });
     }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
+    // Run on initial load AND after every Astro view transition.
+    // `astro:page-load` covers both — DOMContentLoaded doesn't fire after
+    // client-side navigations driven by <ClientRouter />.
+    document.addEventListener('astro:page-load', init);
   })();
 </script>
 
