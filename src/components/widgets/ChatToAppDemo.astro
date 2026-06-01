@@ -1,14 +1,19 @@
 ---
 /*
   Self-playing 20s loop that demonstrates the product story:
-    Chat (explore) → Save → Apps (gallery) → App (form + run) → Artifact
+    Chat (compose → send → tools → reply → distill) → Apps (gallery) → App (form → run → artifact)
 
   Pure CSS — no JS. Plays for everyone (including reduced-motion users) by
   design choice so every viewer sees the full narrative.
 
-  Three cross-fading panes, one shared timeline. All timings are percentages
-  of the 20s loop so adjusting the loop length only requires updating one
-  number per animation rule.
+  Three cross-fading panes share one 20s timeline. All timings are percentages
+  of the 20s loop so adjusting loop length only requires editing one number
+  per rule.
+
+  Chat pane mirrors the real product surface — rounded composer pill at the
+  bottom with a Distill-to-App / model / send toolbar, user prompts render
+  as right-aligned bubbles, tool calls render as inline cards with spinner →
+  check status, agent reply renders as a left-aligned bubble.
 */
 import { Icon } from 'astro-icon/components';
 import LogoAssemble from './LogoAssemble.astro';
@@ -20,8 +25,8 @@ export interface Props {
   modeAppLabel?: string;
   liveLabel?: string;
   // Chat pane
-  youLabel?: string;
-  agentLabel?: string;
+  composerPlaceholder?: string;
+  modelLabel?: string;
   promptParts?: [string, string, string];
   promptCode?: string;
   skillTagLabel?: string;
@@ -62,8 +67,8 @@ const {
   modeAppsLabel = 'Mode 2 · Apps',
   modeAppLabel = 'Mode 3 · App',
   liveLabel = 'live · auto-loop',
-  youLabel = 'You',
-  agentLabel = 'Agent',
+  composerPlaceholder = 'Ask AITroop anything…',
+  modelLabel = 'claude',
   promptParts = [
     'Pull commits from 2025-05-01 to 05-07 in',
     'summarize as a daily report in English.',
@@ -73,12 +78,12 @@ const {
   skillTagLabel = 'skill',
   connectTagLabel = 'connect',
   toolSkillName = 'github-mcp',
-  toolSkillStatusLoading = '→ pulling commits…',
-  toolSkillStatusDone = '✓ 142 commits',
+  toolSkillStatusLoading = 'pulling commits…',
+  toolSkillStatusDone = '142 commits fetched',
   toolConnectName = 'github',
-  toolConnectStatus = '✓ authorized',
+  toolConnectStatus = 'authorized',
   agentReplyText = 'Done — drafted daily-report.md from 12 PRs across 4 repos.',
-  saveAsAppLabel = 'Save as App',
+  saveAsAppLabel = 'Distill to App',
   savedToastLabel = 'Saved to your Apps',
   appsHeaderLabel = 'Your Apps',
   appsCount = '6',
@@ -107,8 +112,6 @@ const {
   exportLabel = 'Export to Drive',
 } = Astro.props;
 
-// Illustrative app catalog for the grid pane — names stay English across
-// locales since they read as product identifiers.
 const otherApps = [
   { icon: 'tabler:chart-bar', name: 'Sales Weekly',  meta: 'v2 · 2d' },
   { icon: 'tabler:user-plus', name: 'Lead Enrich',   meta: 'v5 · 1h' },
@@ -121,7 +124,7 @@ const appVersionShort = appVersion.split(' · ')[0];
 ---
 
 <div class="demo" aria-label="Live product demo: chat to saved app">
-  <!-- Head bar — mode label cross-fades through three modes -->
+  <!-- Top chrome — logo, dots, cross-fading mode label, live indicator -->
   <div class="demo-head">
     <div class="demo-head-left">
       <LogoAssemble size={24} class="demo-mark" label="Aitroop" />
@@ -142,55 +145,91 @@ const appVersionShort = appVersion.split(' · ')[0];
 
   <div class="demo-body">
 
-    <!-- ── CHAT PANE ───────────────────────────────────────────── -->
+    <!-- ══════════════════════════════════════════════════════════
+         CHAT PANE — message stream on top, composer pill on bottom
+         ══════════════════════════════════════════════════════════ -->
     <div class="pane pane-chat" aria-hidden="true">
-      <div class="row row-you">
-        <span class="who">{youLabel}</span>
-      </div>
-      <p class="prompt">
-        <span class="seg seg-1">{promptParts[0]} <code>{promptCode}</code>,<span class="caret c-1" aria-hidden="true"></span></span>
-        <span class="seg seg-2"> {promptParts[1]}<span class="caret c-2" aria-hidden="true"></span></span>
-        <span class="seg seg-3"> {promptParts[2]}<span class="caret c-3" aria-hidden="true"></span></span>
-      </p>
 
-      <div class="row row-agent">
-        <span class="who">{agentLabel}</span>
-      </div>
-      <div class="thinking" aria-hidden="true">
-        <span></span><span></span><span></span>
-      </div>
-
-      <!-- Agent's tool calls — skill in-flight, then completes; connect already authorized -->
-      <div class="tools">
-        <div class="tool tool-1">
-          <span class="tool-kind tk-skill">
-            <Icon name="tabler:puzzle" class="w-3 h-3" />
-            {skillTagLabel}
-          </span>
-          <code>{toolSkillName}</code>
-          <span class="tool-msg">
-            <span class="msg msg-loading">{toolSkillStatusLoading}</span>
-            <span class="msg msg-done">{toolSkillStatusDone}</span>
-          </span>
+      <div class="chat-stream">
+        <!-- User's sent prompt — right-aligned bubble (appears after send) -->
+        <div class="bubble-row bubble-row-user">
+          <div class="bubble bubble-user">
+            {promptParts[0]} <code class="bubble-code">{promptCode}</code>, {promptParts[1]} {promptParts[2]}
+          </div>
         </div>
-        <div class="tool tool-2">
-          <span class="tool-kind tk-connect">
-            <Icon name="tabler:plug-connected" class="w-3 h-3" />
-            {connectTagLabel}
+
+        <!-- Agent activity row — thinking dots that fade once tools land -->
+        <div class="thinking-row">
+          <div class="thinking" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+
+        <!-- Tool call card 1 — spinner that flips to a check + status text crossfade -->
+        <div class="tool-card tool-1">
+          <span class="tc-icon">
+            <span class="tc-spin" aria-hidden="true"></span>
+            <Icon name="tabler:check" class="tc-check" />
           </span>
-          <code>{toolConnectName}</code>
-          <span class="tool-msg">{toolConnectStatus}</span>
+          <div class="tc-body">
+            <div class="tc-head">
+              <span class="tc-kind tc-kind-skill">{skillTagLabel}</span>
+              <code class="tc-tool">{toolSkillName}</code>
+            </div>
+            <div class="tc-msg">
+              <span class="tc-status tc-status-loading">{toolSkillStatusLoading}</span>
+              <span class="tc-status tc-status-done">{toolSkillStatusDone}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tool call card 2 — already authorized, lands with a check -->
+        <div class="tool-card tool-2">
+          <span class="tc-icon tc-icon-done">
+            <Icon name="tabler:check" />
+          </span>
+          <div class="tc-body">
+            <div class="tc-head">
+              <span class="tc-kind tc-kind-connect">{connectTagLabel}</span>
+              <code class="tc-tool">{toolConnectName}</code>
+            </div>
+            <div class="tc-msg">{toolConnectStatus}</div>
+          </div>
+        </div>
+
+        <!-- Final assistant reply — left-aligned bubble -->
+        <div class="bubble-row bubble-row-agent">
+          <div class="bubble bubble-agent">{agentReplyText}</div>
         </div>
       </div>
 
-      <p class="agent-reply">{agentReplyText}</p>
-
-      <div class="save-cta">
-        <button type="button" class="save-btn" tabindex="-1">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
-          {saveAsAppLabel}
-        </button>
-        <span class="save-ripple" aria-hidden="true"></span>
+      <!-- Composer pill — matches real product (rounded-3xl, toolbar w/ Distill + model + send) -->
+      <div class="composer">
+        <div class="composer-content">
+          <span class="composer-placeholder">{composerPlaceholder}</span>
+          <p class="composer-prompt">
+            <span class="seg seg-1">{promptParts[0]} <code>{promptCode}</code>,<span class="caret c-1" aria-hidden="true"></span></span>
+            <span class="seg seg-2"> {promptParts[1]}<span class="caret c-2" aria-hidden="true"></span></span>
+            <span class="seg seg-3"> {promptParts[2]}<span class="caret c-3" aria-hidden="true"></span></span>
+          </p>
+        </div>
+        <div class="composer-toolbar">
+          <div class="tb-left">
+            <button type="button" class="tb-btn distill-btn" tabindex="-1">
+              <Icon name="tabler:sparkles" class="w-3 h-3 distill-icon" />
+              <span class="distill-label">{saveAsAppLabel}</span>
+            </button>
+            <button type="button" class="tb-btn model-btn" tabindex="-1">
+              <Icon name="tabler:robot" class="w-3 h-3" />
+              <span class="model-text">{modelLabel}</span>
+            </button>
+          </div>
+          <button type="button" class="send-btn" tabindex="-1">
+            <Icon name="tabler:arrow-up" class="w-3.5 h-3.5 send-arrow" />
+            <span class="send-glow" aria-hidden="true"></span>
+          </button>
+        </div>
+        <span class="distill-ripple" aria-hidden="true"></span>
         <span class="saved-toast">
           <Icon name="tabler:check" class="w-3 h-3" />
           {savedToastLabel}
@@ -198,14 +237,15 @@ const appVersionShort = appVersion.split(' · ')[0];
       </div>
     </div>
 
-    <!-- ── APPS GRID PANE ──────────────────────────────────────── -->
+    <!-- ══════════════════════════════════════════════════════════
+         APPS GRID PANE
+         ══════════════════════════════════════════════════════════ -->
     <div class="pane pane-grid" aria-hidden="true">
       <div class="grid-head">
         <span class="grid-title">{appsHeaderLabel}</span>
         <span class="grid-count">· {appsCount}</span>
       </div>
       <div class="apps">
-        <!-- The just-saved app — first card, primary border, NEW badge, pulse -->
         <article class="card card-new">
           <span class="card-hover" aria-hidden="true"></span>
           <div class="card-row">
@@ -232,7 +272,9 @@ const appVersionShort = appVersion.split(' · ')[0];
       </div>
     </div>
 
-    <!-- ── APP PANE ────────────────────────────────────────────── -->
+    <!-- ══════════════════════════════════════════════════════════
+         APP PANE — saved app's form + run + artifact
+         ══════════════════════════════════════════════════════════ -->
     <div class="pane pane-app" aria-hidden="true">
       <div class="app-head">
         <div class="app-icon">
@@ -399,11 +441,11 @@ const appVersionShort = appVersion.split(' · ')[0];
      ============================================================ */
   .demo-body {
     position: relative;
-    height: 520px;
+    height: 580px;
     padding: 20px 22px;
   }
   @media (max-width: 640px) {
-    .demo-body { height: 560px; padding: 18px 18px; }
+    .demo-body { height: 620px; padding: 18px 18px; }
   }
   .pane {
     position: absolute;
@@ -413,30 +455,209 @@ const appVersionShort = appVersion.split(' · ')[0];
     gap: 10px;
     transform-origin: 50% 40%;
   }
+  .pane > * { flex-shrink: 0; }
   @media (max-width: 640px) {
     .pane { inset: 18px 18px; }
   }
 
   /* ============================================================
-     CHAT pane
+     CHAT pane — stream + composer
      ============================================================ */
-  .pane-chat .row {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.625rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--aw-color-text-muted);
+  .chat-stream {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: flex-end;
+    overflow: hidden;
   }
-  .pane-chat .row-agent { margin-top: 4px; }
+  .chat-stream > * { flex-shrink: 0; }
 
-  .prompt {
+  /* ── Message bubbles ── */
+  .bubble-row {
+    display: flex;
+  }
+  .bubble-row-user { justify-content: flex-end; }
+  .bubble-row-agent { justify-content: flex-start; }
+
+  .bubble {
+    max-width: 86%;
+    padding: 8px 12px;
+    border-radius: 14px;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    word-wrap: break-word;
+    opacity: 0;
+  }
+  .bubble-user {
+    background: var(--aw-color-bg-page);
+    border: 1px solid var(--aw-color-border);
+    color: var(--aw-color-text-default);
+    border-bottom-right-radius: 6px; /* tail toward composer */
+  }
+  .bubble-agent {
+    background: var(--aw-color-bg-subtle);
+    color: var(--aw-color-text-default);
+    border-bottom-left-radius: 6px;
+  }
+  .bubble-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    background: rgba(82, 153, 97, 0.10);
+    color: var(--aw-color-primary);
+    padding: 1px 5px;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+
+  /* ── Thinking indicator ── */
+  .thinking-row {
+    display: flex;
+    align-items: center;
+    padding: 4px 4px;
+  }
+  .thinking {
+    display: flex; gap: 5px; align-items: center;
+    height: 14px;
+  }
+  .thinking span {
+    width: 6px; height: 6px; border-radius: 9999px;
+    background: rgba(82, 153, 97, 0.55);
+    opacity: 0;
+  }
+
+  /* ── Tool call cards (inline in stream) ── */
+  .tool-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 8px 10px 8px 9px;
+    background: var(--aw-color-bg-page);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 10px;
+    font-size: 0.75rem;
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  .tc-icon {
     position: relative;
-    font-size: 0.9375rem;
-    line-height: 1.6;
+    width: 14px; height: 14px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: var(--aw-color-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tc-spin {
+    position: absolute;
+    inset: 0;
+    border: 1.5px solid rgba(82, 153, 97, 0.25);
+    border-top-color: var(--aw-color-primary);
+    border-radius: 9999px;
+    animation: spin 0.75s linear infinite;
+  }
+  .tc-check {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    color: var(--aw-color-primary);
+  }
+  .tc-icon-done .tc-spin { opacity: 0; }
+  .tc-icon-done .tc-check { opacity: 1; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .tc-body {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .tc-head {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.6875rem;
+    line-height: 1.4;
+  }
+  .tc-kind {
+    padding: 1px 6px;
+    border-radius: 9999px;
+    font-size: 0.5625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    color: var(--aw-color-primary);
+    background: rgba(82, 153, 97, 0.10);
+    border: 1px solid rgba(82, 153, 97, 0.22);
+    line-height: 1.45;
+  }
+  .tc-kind-connect {
+    color: var(--aw-color-text-default);
+    background: var(--aw-color-bg-subtle);
+    border-color: var(--aw-color-border);
+  }
+  .tc-tool {
+    color: var(--aw-color-text-heading);
+    font-weight: 500;
+  }
+  .tc-msg {
+    position: relative;
+    font-size: 0.6875rem;
+    color: var(--aw-color-text-muted);
+    line-height: 1.4;
+    min-height: 1em;
+  }
+  .tool-1 .tc-msg {
+    display: grid;
+    grid-template-areas: 's';
+  }
+  .tool-1 .tc-status {
+    grid-area: s;
+    white-space: nowrap;
+  }
+  .tool-1 .tc-status-done {
+    color: var(--aw-color-primary);
+    font-weight: 500;
+    opacity: 0;
+  }
+
+  /* ============================================================
+     CHAT pane — composer pill (rounded-3xl, like real product)
+     ============================================================ */
+  .composer {
+    position: relative;
+    border: 1px solid var(--aw-color-border);
+    border-radius: 22px;
+    background: var(--aw-color-bg-page);
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.04),
+      0 1px 3px rgba(0, 0, 0, 0.03);
+    padding: 11px 12px 8px 14px;
+    flex-shrink: 0;
+  }
+  .composer-content {
+    display: grid;
+    grid-template-areas: 'c';
+    min-height: 38px;
+    padding: 2px 2px 6px;
+  }
+  .composer-placeholder,
+  .composer-prompt {
+    grid-area: c;
+    font-size: 0.875rem;
+    line-height: 1.55;
     color: var(--aw-color-text-default);
     margin: 0;
   }
-  .prompt code {
+  .composer-placeholder {
+    color: var(--aw-color-text-muted);
+  }
+  .composer-prompt {
+    position: relative;
+  }
+  .composer-prompt code {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     background: rgba(82, 153, 97, 0.08);
     color: var(--aw-color-primary);
@@ -456,144 +677,110 @@ const appVersionShort = appVersion.split(' · ')[0];
     opacity: 0;
   }
 
-  .thinking {
-    display: flex; gap: 5px; align-items: center;
-    height: 14px;
-  }
-  .thinking span {
-    width: 6px; height: 6px; border-radius: 9999px;
-    background: rgba(82, 153, 97, 0.55);
-    opacity: 0;
-  }
-
-  /* Tools — skill flips status mid-flight, connect already authorized */
-  .tools {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 2px;
-  }
-  .tool {
-    opacity: 0;
-    transform: translateX(-4px);
+  .composer-toolbar {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 8px;
-    flex-wrap: wrap;
+    padding-top: 6px;
   }
-  .tool-kind {
+  .tb-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tb-btn {
+    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 2px 7px;
+    gap: 5px;
+    height: 26px;
+    padding: 0 10px;
     border-radius: 9999px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.625rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    font-weight: 600;
-    color: var(--aw-color-primary);
-    background: rgba(82, 153, 97, 0.10);
-    border: 1px solid rgba(82, 153, 97, 0.20);
-  }
-  .tk-connect {
-    background: rgba(82, 153, 97, 0.05);
-    border-color: rgba(82, 153, 97, 0.14);
-    color: rgb(61, 133, 79);
-  }
-  .tool code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
+    border: 1px solid var(--aw-color-border);
+    background: var(--aw-color-bg-page);
     color: var(--aw-color-text-default);
-  }
-  /* Two-state status — both occupy the same grid cell, swap via opacity */
-  .tool-1 .tool-msg {
-    display: inline-grid;
-    grid-template-areas: 'm';
     font-size: 0.6875rem;
-  }
-  .tool-1 .msg {
-    grid-area: m;
+    font-weight: 500;
+    cursor: pointer;
+    pointer-events: none;
     white-space: nowrap;
-    color: var(--aw-color-text-muted);
+    transition: border-color 200ms ease, color 200ms ease, background-color 200ms ease, box-shadow 220ms ease;
   }
-  .tool-1 .msg-done {
-    color: var(--aw-color-primary);
-    font-weight: 500;
-    opacity: 0;
-  }
-  .tool-2 .tool-msg {
-    font-size: 0.6875rem;
-    color: var(--aw-color-primary);
-    font-weight: 500;
-  }
-
-  .agent-reply {
-    opacity: 0;
-    margin: 4px 0 0;
-    font-size: 0.8125rem;
-    line-height: 1.55;
+  .distill-btn {
     color: var(--aw-color-text-default);
-    padding: 8px 10px 9px;
-    background: rgba(82, 153, 97, 0.06);
-    border-radius: 6px;
-    border-left: 2px solid var(--aw-color-primary);
   }
+  .distill-icon { color: var(--aw-color-primary); }
+  .distill-label { font-weight: 600; }
+  .model-btn { color: var(--aw-color-text-muted); }
+  .model-btn svg { color: var(--aw-color-text-muted); }
 
-  .save-cta {
-    margin-top: auto;
+  .send-btn {
     position: relative;
-    padding-top: 14px;
-    border-top: 1px dashed var(--aw-color-border);
-    min-height: 50px;
+    width: 32px;
+    height: 32px;
+    border-radius: 9999px;
+    background: var(--aw-color-text-muted);
+    color: #fff;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: none;
+    transition: background-color 200ms ease, transform 180ms ease, box-shadow 220ms ease;
+    flex-shrink: 0;
   }
-  .save-btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 7px 12px;
-    border-radius: 8px;
-    background: rgba(82, 153, 97, 0.10);
-    color: var(--aw-color-primary);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border: 1px solid rgba(82, 153, 97, 0.18);
+  .send-glow {
+    position: absolute;
+    inset: -3px;
+    border-radius: 9999px;
+    box-shadow: 0 0 0 0 rgba(82, 153, 97, 0);
     pointer-events: none;
   }
-  .save-ripple {
+  .send-arrow { color: #fff; }
+
+  /* Distill button — pulse + ripple at the "save" moment */
+  .distill-ripple {
     position: absolute;
-    left: 0;
-    top: 14px;
-    width: 132px;
-    height: 30px;
-    border-radius: 8px;
+    /* matches Distill button position relative to .composer padding */
+    left: 12px;
+    bottom: 8px;
+    width: 110px;
+    height: 26px;
+    border-radius: 9999px;
     border: 1.5px solid var(--aw-color-primary);
     opacity: 0;
     pointer-events: none;
   }
+
+  /* Saved toast — slides in from below the composer after distill */
   .saved-toast {
     position: absolute;
-    left: 142px;
-    top: 14px;
-    height: 30px;
+    left: 50%;
+    bottom: -34px;
+    transform: translateX(-50%) translateY(-4px);
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    padding: 0 10px;
-    border-radius: 6px;
-    background: rgba(82, 153, 97, 0.12);
-    color: var(--aw-color-primary);
+    padding: 6px 12px;
+    border-radius: 9999px;
+    background: var(--aw-color-primary);
+    color: #fff;
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 0.6875rem;
     font-weight: 600;
-    border: 1px solid rgba(82, 153, 97, 0.22);
+    letter-spacing: 0.02em;
     white-space: nowrap;
     opacity: 0;
-    transform: translateX(-6px);
     pointer-events: none;
+    box-shadow:
+      0 4px 14px -4px rgba(82, 153, 97, 0.4),
+      0 1px 2px rgba(0, 0, 0, 0.08);
   }
 
   /* ============================================================
-     APPS GRID pane
+     APPS GRID pane (unchanged from previous)
      ============================================================ */
   .pane-grid { opacity: 0; }
   .grid-head {
@@ -673,7 +860,6 @@ const appVersionShort = appVersion.split(' · ')[0];
     font-weight: 500;
   }
 
-  /* The new card — slightly stronger border baseline, halo on pulse */
   .card-new {
     border-color: rgba(82, 153, 97, 0.35);
     z-index: 1;
@@ -701,7 +887,7 @@ const appVersionShort = appVersion.split(' · ')[0];
   }
 
   /* ============================================================
-     APP pane
+     APP pane (unchanged from previous)
      ============================================================ */
   .pane-app { opacity: 0; }
   .app-head {
@@ -844,7 +1030,6 @@ const appVersionShort = appVersion.split(' · ')[0];
     display: inline-block;
     animation: spin 0.7s linear infinite;
   }
-  @keyframes spin { to { transform: rotate(360deg); } }
 
   .artifact {
     opacity: 0;
@@ -888,9 +1073,15 @@ const appVersionShort = appVersion.split(' · ')[0];
      ANIMATIONS — one 20s timeline drives everything.
      Percentages map to seconds: 1% = 0.2s, 5% = 1s, 25% = 5s, 50% = 10s.
      Storyboard:
-       0  – 33%   CHAT     (type → think → tools → reply → save)
-       33 – 53%   APPS     (gallery populates, new card lands, click)
-       53 – 92%   APP      (form → run → artifact → export hint)
+       0  – 33%   CHAT
+              0 – 12%   type in composer (placeholder fades, carets track segs)
+             12 – 14%   send (button glows → click → composer clears)
+             14 – 15%   user bubble appears in stream
+             15 – 23%   agent thinks; tool 1 (loading → done) + tool 2 land
+             25 – 28%   agent reply bubble appears
+             28 – 32%   Distill button pulse → click → saved toast
+       33 – 53%   APPS — grid populates, NEW Daily Report lands, click bloom
+       53 – 92%   APP  — form → run → artifact → export hint
        92 – 100%  reset
      ============================================================ */
 
@@ -914,7 +1105,7 @@ const appVersionShort = appVersion.split(' · ')[0];
     94%, 100% { opacity: 0; }
   }
 
-  /* Pane cross-fade — subtle scale so each pane lands like a camera move */
+  /* Pane cross-fade */
   .pane-chat { animation: chat-fade 20s infinite; }
   .pane-grid { animation: grid-fade 20s infinite; }
   .pane-app  { animation: app-fade  20s infinite; }
@@ -935,16 +1126,27 @@ const appVersionShort = appVersion.split(' · ')[0];
     94%, 100% { opacity: 0; transform: scale(1.01); }
   }
 
-  /* ── Chat: prompt segments + per-segment carets ── */
+  /* ── Composer: placeholder fades when typing starts ── */
+  .composer-placeholder { animation: placeholder-out 20s infinite; }
+  @keyframes placeholder-out {
+    0%, 1.5% { opacity: 1; }
+    2.5%, 100% { opacity: 0; }
+  }
+
+  /* ── Composer: prompt segments + carets (typing inside composer) ── */
   .seg-1 { animation: seg-in 20s infinite; animation-delay: 0.4s; }
   .seg-2 { animation: seg-in 20s infinite; animation-delay: 1.0s; }
   .seg-3 { animation: seg-in 20s infinite; animation-delay: 1.6s; }
   @keyframes seg-in {
     0%   { opacity: 0; }
     5%   { opacity: 1; }
-    32%  { opacity: 1; }
-    34%, 100% { opacity: 0; }
+    55%  { opacity: 1; }                        /* stays visible until send */
+    56.5%, 100% { opacity: 0; }                 /* clears after send (~13%) */
   }
+  /* seg-in is keyed in % of its own delayed 20s timeline. Net effect: each
+     seg becomes visible shortly after its delay, stays through send, and
+     vanishes around the 13–14% global mark when composer empties. */
+
   .c-1 { animation: caret-1 20s infinite; }
   .c-2 { animation: caret-2 20s infinite; }
   .c-3 { animation: caret-3 20s infinite; }
@@ -960,48 +1162,93 @@ const appVersionShort = appVersion.split(' · ')[0];
   }
   @keyframes caret-3 {
     0%, 8%      { opacity: 0; }
-    8.5%, 11.5% { opacity: 1; }
-    12%, 100%   { opacity: 0; }
+    8.5%, 12%   { opacity: 1; }
+    12.5%, 100% { opacity: 0; }
   }
 
-  /* ── Chat: agent thinking dots (visible during 14–23%) ── */
-  .thinking span:nth-child(1) { animation: dot-bounce 20s infinite; animation-delay: 2.8s; }
-  .thinking span:nth-child(2) { animation: dot-bounce 20s infinite; animation-delay: 2.95s; }
-  .thinking span:nth-child(3) { animation: dot-bounce 20s infinite; animation-delay: 3.10s; }
+  /* Composer prompt holder fades out around send time, regardless of segs */
+  .composer-prompt { animation: composer-clear 20s infinite; }
+  @keyframes composer-clear {
+    0%, 12.5% { opacity: 1; }
+    14%, 100% { opacity: 0; }
+  }
+
+  /* ── Send button: grey → primary → click depress ── */
+  .send-btn { animation: send-state 20s infinite; }
+  @keyframes send-state {
+    0%, 11%   { background: var(--aw-color-text-muted); transform: scale(1); }
+    11.5%     { background: var(--aw-color-primary); transform: scale(1); }
+    13%       { background: var(--aw-color-primary); transform: scale(1.05); }
+    13.5%     { background: var(--aw-color-primary); transform: scale(0.92); }
+    14%       { background: var(--aw-color-primary); transform: scale(1); }
+    32%       { background: var(--aw-color-primary); transform: scale(1); }
+    34%, 100% { background: var(--aw-color-text-muted); transform: scale(1); }
+  }
+  .send-glow { animation: send-glow 20s infinite; }
+  @keyframes send-glow {
+    0%, 12%   { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
+    13%       { box-shadow: 0 0 0 6px rgba(82, 153, 97, 0.28); }
+    15%, 100% { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
+  }
+
+  /* ── Stream items: bubbles + thinking + tools + reply ── */
+  .bubble-row-user .bubble { animation: bubble-user-in 20s infinite; }
+  @keyframes bubble-user-in {
+    0%, 13%   { opacity: 0; transform: translateY(6px); }
+    14.5%     { opacity: 1; transform: translateY(0); }
+    32%       { opacity: 1; }
+    34%, 100% { opacity: 0; }
+  }
+
+  /* Thinking dots appear right after user sends; fade once tools complete */
+  .thinking-row .thinking span:nth-child(1) { animation: dot-bounce 20s infinite; animation-delay: 3.0s; }
+  .thinking-row .thinking span:nth-child(2) { animation: dot-bounce 20s infinite; animation-delay: 3.15s; }
+  .thinking-row .thinking span:nth-child(3) { animation: dot-bounce 20s infinite; animation-delay: 3.30s; }
   @keyframes dot-bounce {
-    0%, 13.5% { opacity: 0; transform: translateY(0); }
-    15%       { opacity: 1; transform: translateY(0); }
-    17%       { opacity: 1; transform: translateY(-3px); }
-    19%       { opacity: 1; transform: translateY(0); }
-    22%       { opacity: 1; }
-    24%, 100% { opacity: 0; }
+    0%, 0.5% { opacity: 0; transform: translateY(0); }
+    2%       { opacity: 1; transform: translateY(0); }
+    4%       { opacity: 1; transform: translateY(-3px); }
+    6%       { opacity: 1; transform: translateY(0); }
+    9%       { opacity: 1; }
+    11%, 100% { opacity: 0; }
   }
 
-  /* ── Chat: tool calls ── */
   .tool-1 { animation: tool-in 20s infinite; animation-delay: 3.5s; }
   .tool-2 { animation: tool-in 20s infinite; animation-delay: 4.2s; }
   @keyframes tool-in {
-    0%   { opacity: 0; transform: translateX(-4px); }
-    3%   { opacity: 1; transform: translateX(0); }
-    16%  { opacity: 1; transform: translateX(0); }
-    20%, 100% { opacity: 0; }
+    0%   { opacity: 0; transform: translateY(4px); }
+    3%   { opacity: 1; transform: translateY(0); }
+    50%  { opacity: 1; transform: translateY(0); }
+    55%, 100% { opacity: 0; }
   }
-  /* Tool-1 status crossfade — "pulling…" then "✓ 142 commits" */
-  .tool-1 .msg-loading { animation: msg-loading 20s infinite; }
-  .tool-1 .msg-done    { animation: msg-done    20s infinite; }
-  @keyframes msg-loading {
+
+  /* Tool 1: spinner → check icon swap, status text crossfade — both at ~20.5% */
+  .tool-1 .tc-spin  { animation: tc-spin-out  20s infinite; }
+  .tool-1 .tc-check { animation: tc-check-in  20s infinite; }
+  @keyframes tc-spin-out {
+    0%, 20%      { opacity: 1; }
+    20.5%, 100%  { opacity: 0; }
+  }
+  @keyframes tc-check-in {
+    0%, 20%      { opacity: 0; transform: scale(0.7); }
+    20.5%        { opacity: 1; transform: scale(1.15); }
+    22%, 100%    { opacity: 1; transform: scale(1); }
+  }
+  .tool-1 .tc-status-loading { animation: status-loading 20s infinite; }
+  .tool-1 .tc-status-done    { animation: status-done    20s infinite; }
+  @keyframes status-loading {
     0%, 17%   { opacity: 0; }
     18%, 20%  { opacity: 1; }
     20.5%, 100% { opacity: 0; }
   }
-  @keyframes msg-done {
+  @keyframes status-done {
     0%, 20%   { opacity: 0; }
-    20.5%, 23% { opacity: 1; }
-    24%, 100% { opacity: 0; }
+    20.5%, 32% { opacity: 1; }
+    34%, 100% { opacity: 0; }
   }
 
-  /* ── Chat: agent reply (after tools complete) ── */
-  .agent-reply { animation: reply-in 20s infinite; }
+  /* Agent reply bubble — appears once tools complete */
+  .bubble-row-agent .bubble { animation: reply-in 20s infinite; }
   @keyframes reply-in {
     0%, 23.5% { opacity: 0; transform: translateY(4px); }
     25%       { opacity: 1; transform: translateY(0); }
@@ -1009,34 +1256,41 @@ const appVersionShort = appVersion.split(' · ')[0];
     34%, 100% { opacity: 0; }
   }
 
-  /* ── Chat: save button glow + click ripple + saved toast ── */
-  .save-btn { animation: save-pulse 20s infinite; }
-  @keyframes save-pulse {
-    0%, 27%   { transform: scale(1); box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
-    29%       { transform: scale(1.04); box-shadow: 0 0 0 5px rgba(82, 153, 97, 0.18); }
-    31%       { transform: scale(0.98); box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
-    32%       { transform: scale(1); }
-    100%      { transform: scale(1); }
+  /* ── Distill to App: button pulse → ripple → toast ── */
+  .distill-btn { animation: distill-pulse 20s infinite; }
+  @keyframes distill-pulse {
+    0%, 27%   { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); border-color: var(--aw-color-border); }
+    28%       { box-shadow: 0 0 0 4px rgba(82, 153, 97, 0.16); border-color: rgba(82, 153, 97, 0.4); }
+    29%       { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); transform: scale(1.04); }
+    30%       { box-shadow: 0 0 0 5px rgba(82, 153, 97, 0.22); transform: scale(1); }
+    32%       { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); border-color: rgba(82, 153, 97, 0.4); }
+    34%, 100% { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); border-color: var(--aw-color-border); transform: scale(1); }
   }
-  .save-ripple { animation: ripple-out 20s infinite; }
-  @keyframes ripple-out {
+  .distill-icon { animation: distill-icon 20s infinite; }
+  @keyframes distill-icon {
+    0%, 28%   { transform: scale(1) rotate(0); }
+    29%       { transform: scale(1.25) rotate(-12deg); }
+    30%       { transform: scale(1.15) rotate(8deg); }
+    31%, 100% { transform: scale(1) rotate(0); }
+  }
+  .distill-ripple { animation: distill-ripple 20s infinite; }
+  @keyframes distill-ripple {
     0%, 28%   { opacity: 0; transform: scale(1); }
-    30%       { opacity: 0.7; transform: scale(1); }
-    33%       { opacity: 0; transform: scale(1.3); }
+    29%       { opacity: 0.7; transform: scale(1); }
+    32%       { opacity: 0; transform: scale(1.4); }
     100%      { opacity: 0; }
   }
   .saved-toast { animation: toast-in 20s infinite; }
   @keyframes toast-in {
-    0%, 30.5% { opacity: 0; transform: translateX(-6px); }
-    31.5%     { opacity: 1; transform: translateX(0); }
-    33%       { opacity: 1; }
-    34%, 100% { opacity: 0; transform: translateX(-2px); }
+    0%, 30%   { opacity: 0; transform: translateX(-50%) translateY(-4px); }
+    31%       { opacity: 1; transform: translateX(-50%) translateY(-32px); }
+    32.5%     { opacity: 1; transform: translateX(-50%) translateY(-32px); }
+    34%, 100% { opacity: 0; transform: translateX(-50%) translateY(-28px); }
   }
 
   /* ============================================================
-     APPS GRID animations (33% – 53%)
+     APPS GRID animations (unchanged)
      ============================================================ */
-  /* Existing cards stagger in, top-left → bottom-right */
   .card-2 { animation: card-in 20s infinite; animation-delay: 7.20s; }
   .card-3 { animation: card-in 20s infinite; animation-delay: 7.34s; }
   .card-4 { animation: card-in 20s infinite; animation-delay: 7.48s; }
@@ -1049,30 +1303,22 @@ const appVersionShort = appVersion.split(' · ')[0];
     82%  { opacity: 0; transform: translateY(-2px); }
     100% { opacity: 0; }
   }
-
-  /* The new card: lands after others, gets a NEW badge, pulses twice, hover, click */
   .card-new { animation: new-card 20s infinite; animation-delay: 8.1s; }
   @keyframes new-card {
-    /* land + settle */
     0%    { opacity: 0; transform: translateY(10px) scale(0.94); box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); border-color: rgba(82, 153, 97, 0.35); }
     4%    { opacity: 1; transform: translateY(0) scale(1); }
-    /* pulse 1 */
     8%    { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); border-color: rgba(82, 153, 97, 0.35); }
     11%   { box-shadow: 0 0 0 7px rgba(82, 153, 97, 0.16); border-color: rgba(82, 153, 97, 0.65); }
     14%   { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); border-color: rgba(82, 153, 97, 0.35); }
-    /* pulse 2 */
     18%   { box-shadow: 0 0 0 7px rgba(82, 153, 97, 0.14); border-color: rgba(82, 153, 97, 0.6); }
     21%   { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); border-color: rgba(82, 153, 97, 0.4); }
-    /* hover frame appears via .card-hover; here we lift the card subtly */
     50%   { transform: translateY(0) scale(1); }
     63%   { transform: translateY(-2px) scale(1.015); }
-    /* click — depress, then bloom out into the App pane */
     72%   { transform: translateY(0) scale(0.98); box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
     78%   { transform: scale(1.04); box-shadow: 0 0 0 10px rgba(82, 153, 97, 0.18); }
     82%   { opacity: 0; transform: scale(1.08); box-shadow: 0 0 0 18px rgba(82, 153, 97, 0); }
     100%  { opacity: 0; }
   }
-
   .new-badge { animation: badge-pop 20s infinite; animation-delay: 8.4s; }
   @keyframes badge-pop {
     0%   { opacity: 0; transform: scale(0.7); }
@@ -1082,7 +1328,6 @@ const appVersionShort = appVersion.split(' · ')[0];
     65%  { opacity: 1; transform: scale(1); }
     72%, 100% { opacity: 0; transform: scale(0.9); }
   }
-
   .card-hover { animation: card-hover 20s infinite; animation-delay: 11.0s; }
   @keyframes card-hover {
     0%    { opacity: 0; }
@@ -1093,7 +1338,7 @@ const appVersionShort = appVersion.split(' · ')[0];
   }
 
   /* ============================================================
-     APP pane animations (53% – 92%)
+     APP pane animations (unchanged)
      ============================================================ */
   .app-head { animation: head-in 20s infinite; animation-delay: 10.6s; }
   @keyframes head-in {
@@ -1102,7 +1347,6 @@ const appVersionShort = appVersion.split(' · ')[0];
     66%  { opacity: 1; transform: translateY(0); }
     72%, 100% { opacity: 0; }
   }
-
   .wchip-1 { animation: chip-in 20s infinite; animation-delay: 11.1s; }
   .wchip-2 { animation: chip-in 20s infinite; animation-delay: 11.22s; }
   .wchip-3 { animation: chip-in 20s infinite; animation-delay: 11.34s; }
@@ -1113,7 +1357,6 @@ const appVersionShort = appVersion.split(' · ')[0];
     60%  { opacity: 1; transform: scale(1); }
     66%, 100% { opacity: 0; transform: scale(0.96); }
   }
-
   .field-1 { animation: field-in 20s infinite; animation-delay: 11.7s; }
   .field-2 { animation: field-in 20s infinite; animation-delay: 12.0s; }
   .field-3 { animation: field-in 20s infinite; animation-delay: 12.3s; }
@@ -1124,8 +1367,6 @@ const appVersionShort = appVersion.split(' · ')[0];
     52%  { opacity: 1; transform: translateY(0); }
     58%, 100% { opacity: 0; transform: translateY(-3px); }
   }
-
-  /* Run button: pulse, then click, then swap label to Running… */
   .run-btn::after { animation: run-pulse 20s infinite; }
   @keyframes run-pulse {
     0%, 65%  { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0); }
@@ -1145,8 +1386,6 @@ const appVersionShort = appVersion.split(' · ')[0];
     68%, 71% { opacity: 1; }
     72%, 100% { opacity: 0; }
   }
-
-  /* Artifact slides up after run completes */
   .artifact { animation: artifact-in 20s infinite; animation-delay: 14.3s; }
   @keyframes artifact-in {
     0%   { opacity: 0; transform: translateY(8px); }
