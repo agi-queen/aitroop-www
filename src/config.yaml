@@ -9,9 +9,9 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: Aitroop — AI-Powered Acquisition & Retention Platform
-    template: '%s — Aitroop'
-  description: "Aitroop is an AI GTM platform built for B2B teams. From data enrichment and personalized outreach to pipeline management, it lets every team operate at enterprise scale."
+    default: Aitroop - Save AI agent conversations as apps
+    template: '%s | Aitroop'
+  description: "An AI agent platform. Save your best chats as one-click Apps with a form, a goal, and a schedule. 150+ skills, 20+ connects."
   robots:
     index: true
     follow: true

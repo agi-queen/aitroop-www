@@ -379,6 +379,13 @@ const {
     100% { width: 78%; }
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    .vs-icon-running { animation: none; }
+    .vs-bar-fill     { animation: none; width: 64%; }
+    .step-card       { transition: none; }
+    .step-card:hover { transform: none; }
+  }
+
   /* === 03 Artifact — file preview mockup === */
   .visual-file {
     background: var(--aw-color-bg-subtle);

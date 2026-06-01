@@ -3,8 +3,10 @@
   Self-playing 20s loop that demonstrates the product story:
     Chat (compose → send → tools → reply → distill) → Apps (gallery) → App (form → run → artifact)
 
-  Pure CSS — no JS. Plays for everyone (including reduced-motion users) by
-  design choice so every viewer sees the full narrative.
+  Pure CSS, no JS. Under `prefers-reduced-motion: reduce` the loop is paused
+  and the chat pane is pinned at its narrative-complete frame (prompt sent,
+  tools resolved, agent reply rendered) so the same story is told without
+  motion. See the @media block at the bottom of the stylesheet.
 
   Three cross-fading panes share one 20s timeline. All timings are percentages
   of the 20s loop so adjusting loop length only requires editing one number
@@ -1679,6 +1681,61 @@ const appVersionShort = appVersion.split(' · ')[0];
     5%   { opacity: 1; }
     22%  { opacity: 1; }
     27%, 100% { opacity: 0; }
+  }
+
+  /* ============================================================
+     REDUCED MOTION — freeze the 20s loop, pin the chat pane at its
+     narrative-complete frame. Mandatory per §6.B for MOTION_INTENSITY > 3.
+     ============================================================ */
+  @media (prefers-reduced-motion: reduce) {
+    .ml-chat, .ml-apps, .ml-app,
+    .pane-chat, .pane-grid, .pane-app,
+    .composer-placeholder, .composer-prompt,
+    .seg-1, .seg-2, .seg-3, .c-1, .c-2, .c-3,
+    .send-btn, .send-glow,
+    .bubble-row-user .bubble, .bubble-row-agent .bubble,
+    .thinking-row .thinking span,
+    .tool-1, .tool-2,
+    .tool-1 .tc-spin, .tool-1 .tc-check,
+    .tool-1 .tc-status-loading, .tool-1 .tc-status-done,
+    .distill-btn, .distill-icon, .distill-ripple, .saved-toast,
+    .sb-new-chat, .sb-item-apps, .sb-item-apps svg, .sb-item-apps .sb-accent,
+    .card-2, .card-3, .card-4, .card-5, .card-6,
+    .card-new, .new-badge, .card-hover,
+    .app-head, .wchip-1, .wchip-2, .wchip-3, .wchip-4,
+    .field-1, .field-2, .field-3, .run-btn, .run-btn::after,
+    .run-text-default, .run-text-running,
+    .artifact, .a-row-1, .a-row-2, .a-row-3, .a-row-4, .a-row-5,
+    .export-hint,
+    .tc-spin,
+    .spinner {
+      animation: none !important;
+    }
+
+    .pane-chat { opacity: 1; transform: none; }
+    .pane-grid, .pane-app { opacity: 0; }
+    .ml-chat { opacity: 1; }
+    .ml-apps, .ml-app { opacity: 0; }
+
+    .composer-placeholder { opacity: 1; }
+    .composer-prompt { opacity: 0; }
+    .seg-1, .seg-2, .seg-3, .c-1, .c-2, .c-3 { opacity: 0; }
+
+    .bubble-row-user .bubble { opacity: 1; transform: none; }
+    .thinking-row .thinking span { opacity: 0; }
+    .tool-1, .tool-2 { opacity: 1; transform: none; }
+    .tool-1 .tc-spin { opacity: 0; }
+    .tool-1 .tc-check { opacity: 1; transform: none; }
+    .tool-1 .tc-status-loading { opacity: 0; }
+    .tool-1 .tc-status-done { opacity: 1; }
+    .bubble-row-agent .bubble { opacity: 1; transform: none; }
+
+    .send-btn { background: var(--aw-color-text-muted); transform: none; }
+    .send-glow { box-shadow: none; }
+    .distill-btn { box-shadow: none; border-color: var(--aw-color-border); transform: none; }
+    .distill-icon { transform: none; }
+    .distill-ripple { opacity: 0; }
+    .saved-toast { opacity: 0; }
   }
 
 </style>
