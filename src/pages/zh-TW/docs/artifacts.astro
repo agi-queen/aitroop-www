@@ -1,0 +1,609 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+
+const metadata = {
+  title: '產物格式 — Aitroop 文件',
+};
+---
+
+<Layout metadata={metadata}>
+  <DocsShell current="artifacts" locale="zh-TW">
+    <h1>產物格式</h1>
+    <p class="lead">
+      <strong>產物</strong>是一個階段所產出的交付物 —— 它是平台的一等公民，
+      而不是聊天裡滾過去就消失的一條回覆。產物具有型別，可預覽、可下載、可編輯、
+      可透過公開連結分享，也可以串接到下一個階段。平台支援七種格式，
+      你選用的格式會決定智慧體的寫作方式、預覽面板的渲染邏輯，
+      以及下游階段如何消費它。
+    </p>
+
+    <div class="callout">
+      <strong>為什麼要為輸出指定型別。</strong>「幫我寫一份摘要」和「幫我寫一份 Markdown
+      摘要，並在 frontmatter 裡以 YAML 陣列形式列出 5 條關鍵事實」會產生差異極大的結果。
+      格式宣告告訴智慧體「什麼樣的產出才算成功」。同時它也讓預覽面板可以做正確的事 ——
+      渲染 Markdown、依 schema 校驗 JSON、為程式碼做語法高亮、校驗 CSV 的欄位。
+    </div>
+
+    <h2>智慧體如何產生一個產物</h2>
+    <p>
+      程式碼庫中存在兩條提取路徑，表面看起來相似，但適用於不同的場景。兩者最終都會寫入
+      <code>app_artifact</code> 表中的同一列；根據你目前所處的位置，選擇對應的那一條。
+    </p>
+
+    <h3>路徑 A —— 應用階段（基於 Markdown 段落提取）</h3>
+    <p>
+      當一個階段作為 <code>AppExecution</code> 的一部分執行時，執行器會建立一個系統提示詞，
+      其末尾包含一個 <code>## Expected Outputs</code> 區塊，把每條
+      <code>artifact_defs</code> 列為 <code>### {`{{title}}`}</code>，並附帶其
+      <code>format</code> 和 <code>description</code>。然後由
+      <code>extractArtifactContent</code> 依以下優先順序掃描智慧體的回應：
+    </p>
+    <ol>
+      <li>比對一個 Markdown 標題，其文字與產物的 <code>title</code> 相同（不分大小寫，
+        <code>#</code> 到 <code>####</code>） —— 取該標題之後、直到下一個同級或更高級標題之間的所有內容。</li>
+      <li>對於結構化格式（<code>code</code>、<code>json</code>、<code>html</code>、
+        <code>csv</code>） —— 回退到第一個語言相符的圍欄程式碼區塊。</li>
+      <li>如果該階段只宣告了一個產物 —— 回退到整段回應文字。</li>
+    </ol>
+    <p>
+      這就是為什麼下方的範例使用 <code>## Stripe — Company Brief</code> 作為段落標題，
+      而不是 XML 標籤：這才是比對器實際尋找的形式。
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+## Stripe — Company Brief<br/>
+<br/>
+# Stripe — Company Brief<br/>
+<br/>
+## Business model<br/>
+Stripe runs payment infrastructure as a service...<br/>
+<br/>
+## Recent moves<br/>
+...
+    </div>
+    <p>
+      每個被儲存下來的產物都會獲得一個 S3 key
+      <code>app-artifacts/{`{userId}/{executionId}/{stageId}/{defId}`}</code>、一個生成的
+      檔名 <code>{`{appSlug}_{stageSlug}_{defSlug}.{ext}`}</code>，以及從格式衍生出的 MIME 類型
+      （<code>text/markdown</code>、<code>application/json</code>、<code>text/csv</code>、
+      <code>text/html</code> 等）。對於 <code>code</code>，副檔名由該 def 上的
+      <code>language</code> 欄位決定（<code>python</code> → <code>.python</code>、
+      <code>ts</code> → <code>.ts</code>）；其他類型則使用固定的對應表。原始內容
+      也會保存在 <code>app_artifact</code> 列上，對於過大的內容體則以 S3 作為兜底。
+    </p>
+
+    <div class="callout">
+      <strong>在應用階段中<em>不</em>奏效的寫法。</strong>目標（goal）裡
+      <em>不存在</em> <code>{`{{ stages.<id>.<artifactId> }}`}</code> 這樣的參照 ——
+      目標模板器只會替換表單輸入。前置階段的產物以另外兩種方式抵達下一個階段：
+      （1）留在共享沙盒檔案系統中的檔案，以及（2）自動注入到系統提示詞頂部的
+      <code>## Previous Stage Outputs</code> 區塊。
+    </div>
+
+    <h3>路徑 B —— 聊天串流（基於 XML 標籤提取）</h3>
+    <p>
+      在自由聊天中，智慧體會直接在輸出串流中以 XML 標籤的形式發出產物。串流解析器
+      （<code>artifact/parser.ts</code>）能夠安全處理分塊邊界，並讀取以下三個屬性：
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+&lt;artifact title="Stripe — Company Brief" type="markdown" language=""&gt;<br/>
+# Stripe — Company Brief<br/>
+<br/>
+## Business model<br/>
+Stripe runs payment infrastructure as a service...<br/>
+&lt;/artifact&gt;
+    </div>
+    <p>
+      可辨識的屬性是 <code>title</code>、<code>type</code> 和 <code>language</code>。
+      聊天串流標籤上沒有 <code>id</code> 或 <code>format</code> 屬性 ——
+      解析器會忽略其他任何屬性。串流結束時若仍有未閉合的標籤，會以字面文字呈現，
+      而不會被靜默捨棄。
+    </p>
+
+    <h2>選擇合適的格式</h2>
+
+    <table>
+      <thead><tr><th>輸出是……</th><th>使用</th></tr></thead>
+      <tbody>
+        <tr><td>給人閱讀的文件</td><td><code>markdown</code></td></tr>
+        <tr><td>給其他機器消費的資料</td><td><code>json</code> 或 <code>csv</code></td></tr>
+        <tr><td>頁面或儀表板</td><td><code>html</code></td></tr>
+        <tr><td>原始碼（單檔案或整棵樹）</td><td><code>code</code></td></tr>
+        <tr><td>圖片或圖表</td><td><code>image</code></td></tr>
+        <tr><td>其他任何東西（PDF、ZIP、音訊、影片）</td><td><code>file</code></td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      你在階段的 <code>artifact_defs</code> 條目上設定格式。智慧體會讓其輸出符合該型別，
+      或者在做不到時明確失敗 —— 這正是你想要的行為。
+    </p>
+
+    <h2>markdown <span class="pill green">最常見</span></h2>
+    <p>
+      報告、摘要、簡報、文件、草稿。散文類內容的預設選擇。生產環境中大約 60% 的產物都是
+      <code>markdown</code>。
+    </p>
+
+    <h3>預覽</h3>
+    <p>
+      使用標準 CommonMark + GFM 擴充進行渲染：表格、任務清單、帶語法高亮的圍欄程式碼區塊。
+      數學公式（KaTeX）和 Mermaid 圖表會內嵌渲染。點擊任意標題可獲得穩定的錨點連結。
+    </p>
+
+    <h3>匯出</h3>
+    <ul>
+      <li><code>.md</code> —— 原始 Markdown 原始檔。</li>
+      <li><strong>PDF</strong> —— 伺服器端使用工作區品牌樣式渲染。</li>
+      <li><strong>DOCX</strong> —— 透過 Pandoc 轉換；樣式對應到 Word 標題。</li>
+    </ul>
+
+    <h3>串接</h3>
+    <p>
+      當下一步要做摘要、翻譯或重組同一段內容時，把 Markdown 產物餵給下一個階段。
+      接收階段可以原樣讀取 Markdown，也可以根據提示指令擷取某些段落。
+    </p>
+
+    <h2>code <span class="pill blue">單檔案或檔案樹</span></h2>
+    <p>
+      任意語言的原始檔。被生成腳本、設定、遷移檔案、測試或整套專案骨架的應用所使用。
+    </p>
+
+    <h3>預覽</h3>
+    <p>
+      帶語法高亮的檢視。語言依檔案副檔名自動辨識，也可在階段的
+      <code>artifact_def.language</code> 上指定。包含行號、複製按鈕和程式碼區塊摺疊。
+    </p>
+
+    <h3>多檔案輸出</h3>
+    <p>
+      單個 <code>code</code> 產物可以容納一棵檔案樹 —— 當應用生成的是小型專案而非單一檔案時非常實用：
+    </p>
+
+    <div class="code-block" style="line-height:1.7;">
+&lt;artifact id="project" format="code"&gt;<br/>
+&lt;file path="src/main.ts"&gt;<br/>
+import {`{ greet }`} from './greet';<br/>
+console.log(greet('world'));<br/>
+&lt;/file&gt;<br/>
+&lt;file path="src/greet.ts"&gt;<br/>
+export const greet = (name: string) =&gt; `Hello, ${`{name}`}!`;<br/>
+&lt;/file&gt;<br/>
+&lt;file path="package.json"&gt;<br/>
+{`{ "name": "demo", "version": "0.0.1" }`}<br/>
+&lt;/file&gt;<br/>
+&lt;/artifact&gt;
+    </div>
+
+    <p>
+      預覽左側展示檔案樹，右側展示選取的檔案。可下載單個檔案，也可以把整棵樹打包為 ZIP 下載。
+    </p>
+
+    <h2>html <span class="pill amber">自包含的頁面</span></h2>
+    <p>
+      獨立的網頁、儀表板、簡報、品牌化報告。在預覽面板中完整渲染。
+    </p>
+
+    <h3>預覽</h3>
+    <p>
+      在 iframe 中按原樣渲染 HTML，允許指令稿執行。沙盒非常嚴格：無法存取父頁面、
+      無法存取你的 Connect、沒有 cookie、沒有 localStorage 帶入。可安全地透過公開連結分享。
+    </p>
+
+    <h3>匯出</h3>
+    <ul>
+      <li><code>.html</code> —— 單個自包含的檔案。</li>
+      <li><strong>PDF</strong> —— 伺服器端列印為 PDF。</li>
+      <li><strong>PNG/JPEG 螢幕擷取</strong> —— 整頁或首屏。</li>
+    </ul>
+
+    <h3>什麼時候用這個型別</h3>
+    <p>
+      只要你想得到一個自包含的視覺輸出，讓使用者無需任何工具就能在瀏覽器中開啟它。常見場景：
+      面向客戶的報告、儀表板快照、含圖表的週報、會議簡報匯出。
+    </p>
+
+    <h2>json <span class="pill" style="background:rgba(120,120,200,0.1);color:#4f46e5;border-color:rgba(120,120,200,0.3);">機器對機器</span></h2>
+    <p>
+      結構化資料。當輸出將被另一個系統消費而非人類閱讀時使用 —— 或者當應用中的下一個階段
+      希望讀取特定欄位、而不是重新解析自由文字時使用。
+    </p>
+
+    <h3>預覽</h3>
+    <p>
+      帶型別資訊的可摺疊樹狀檢視。如果階段在 <code>artifact_def.schema</code> 中宣告了 schema，
+      預覽會進行校驗並內嵌展示任何差異。
+    </p>
+
+    <h3>Schema 宣告</h3>
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"id": "extracted",<br/>
+&nbsp;&nbsp;"format": "json",<br/>
+&nbsp;&nbsp;"schema": {`{`}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;"type": "object",<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;"properties": {`{`}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"company":      {`{ "type": "string" }`},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"founded_year": {`{ "type": "number" }`},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"employees":    {`{ "type": "number" }`}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{`}`},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;"required": ["company"]<br/>
+&nbsp;&nbsp;{`}`}<br/>
+{`}`}
+    </div>
+
+    <p>
+      Schema 給智慧體提供了護欄 —— 它知道應該產出怎樣的形狀 —— 同時也免費讓預覽擁有一個校驗器。
+    </p>
+
+    <h3>串接</h3>
+    <p>
+      多階段的應用幾乎總是在階段之間使用 <code>json</code> —— 下一個階段可以讀取具體欄位，
+      而不必重新解析自由文字。
+    </p>
+
+    <h2>csv <span class="pill amber">表格</span></h2>
+    <p>
+      表格類資料。用於潛在客戶清單、帳戶快照、財務明細、問卷回收等場景的常用格式。
+    </p>
+
+    <h3>預覽</h3>
+    <p>
+      試算表風格的表格檢視，欄位可排序，支援欄內篩選，並顯示列數統計。寬表支援橫向捲動，
+      長表使用虛擬捲動。
+    </p>
+
+    <h3>匯出</h3>
+    <ul>
+      <li><code>.csv</code> —— 帶標題列的 RFC 4180 格式。</li>
+      <li><code>.xlsx</code> —— Excel 檔案。盡可能保留資料型別。</li>
+      <li><strong>推送到 Google Sheets</strong> —— 在已授權 Drive Connect 的前提下。</li>
+    </ul>
+
+    <h3>Schema 校驗</h3>
+    <p>
+      如果階段宣告了欄位名稱與型別，智慧體的輸出會被逐列校驗。不相符的列會在預覽中被標記並附上原因。
+      你可以就地修正：編輯該列、儲存，執行串接到下游時會讀到修正後的版本。
+    </p>
+
+    <h2>image <span class="pill green">視覺</span></h2>
+    <p>
+      生成的或渲染出來的圖片。圖表、示意圖、行銷素材、原型稿。
+    </p>
+
+    <h3>預覽</h3>
+    <p>
+      支援縮放與平移的原尺寸圖片。支援 PNG、JPEG、SVG 和 WebP。
+    </p>
+
+    <h3>如何產生</h3>
+    <p>有兩種方式：</p>
+    <ul>
+      <li><strong>透過 <code>generate_image</code> 工具</strong>（基於所設定提供商的文字轉圖像 ——
+        通常是 Gemini 的圖像 API，如果主機有對應的 key）。</li>
+      <li><strong>透過智慧體沙盒中的程式碼</strong> —— Matplotlib 圖表、Graphviz 示意圖、Pillow 合成、
+        Playwright 螢幕擷取。</li>
+    </ul>
+
+    <h3>匯出</h3>
+    <ul>
+      <li>按原格式下載。</li>
+      <li>對點陣輸出可以按不同解析度重新渲染。</li>
+      <li>對於 SVG：還可以下載為 PNG / PDF 的點陣化版本。</li>
+    </ul>
+
+    <h2>file <span class="pill red">兜底通道</span></h2>
+    <p>
+      任何不適合其他格式的內容 —— PDF、ZIP、音訊、影片、二進位格式。如果你拿不定主意，
+      <code>file</code> 是安全的預設選項。
+    </p>
+
+    <h3>預覽</h3>
+    <p>依型別自我調整：</p>
+    <ul>
+      <li><strong>PDF</strong> —— 以內建檢視器內嵌渲染。</li>
+      <li><strong>音訊</strong> —— 帶波形的 HTML5 播放器。</li>
+      <li><strong>影片</strong> —— 可拖曳進度條的 HTML5 播放器。</li>
+      <li><strong>ZIP</strong> —— 檔案清單；點擊任意條目可作為獨立產物預覽。</li>
+      <li><strong>未知</strong> —— 展示中繼資料（大小、MIME）和下載按鈕。</li>
+    </ul>
+
+    <h3>匯出</h3>
+    <p>
+      直接下載。檔案在投遞到郵件、Slack 或 Drive 時會保留原始檔名與 MIME 類型。MIME 類型
+      與產物一起儲存在 <code>app_artifact.mime_type</code> 中。
+    </p>
+
+    <h2>在階段之間串接產物</h2>
+    <p>
+      每個階段的產物都會作為命名參照自動暴露給下一個階段。接收階段的目標可以直接參照它：
+    </p>
+
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted)"># 階段 2 的目標參照階段 1 的產物</span><br/>
+Take the CSV from Stage 1 (<span style="color:var(--aw-color-primary)">{`{{ stages.find.leads }}`}</span>) and<br/>
+enrich each row with the company's funding history.<br/>
+Output the same CSV with three new columns:<br/>
+total_funding, last_round, last_round_date.
+    </div>
+
+    <p>
+      變數會解析為前一個階段的輸出，保持其原本的格式。智慧體會根據型別自動選擇讀取方式 ——
+      CSV 當作表格讀、JSON 當作結構化物件讀、Markdown 當作文件讀。你不需要寫任何解析邏輯。
+    </p>
+
+    <h2>產物如何儲存 —— 持久化佈局</h2>
+    <p>
+      一旦執行器擷取出內容（上方的路徑 A 或路徑 B），它會寫入<em>兩處</em>：
+      <code>app_artifact</code> 表中的一列，以及設定好的 S3 儲存桶中的一個物件。兩者被設計為可彼此獨立存活
+      —— DB 中的內容是快速路徑，S3 是耐久副本，也是大體積內容的最終來源。
+    </p>
+
+    <h3>S3 key 的結構</h3>
+    <p>
+      所有從應用階段發出的產物都會落到一個確定性的 key 上：
+    </p>
+    <div class="code-block">
+app-artifacts/{`{user_id}`}/{`{execution_id}`}/{`{stage_id}`}/{`{def_id}`}
+    </div>
+    <p>
+      這個結構讓你能可預測地批次存取：一次執行的所有產物共享
+      <code>app-artifacts/{`{user_id}`}/{`{execution_id}`}/</code> 前綴；
+      某個階段歷史上產生過的所有產物（跨同一應用的多次執行）都可以透過列出
+      <code>app-artifacts/{`{user_id}`}/&ast;/{`{stage_id}`}/{`{def_id}`}</code> 來存取。
+      聊天發出的產物使用平行前綴（<code>artifacts/{`{user_id}`}/…/{`{file_name}`}</code>），
+      因為它們沒有執行上下文。
+    </p>
+
+    <h3>檔名慣例</h3>
+    <p>
+      列上的 <code>file_name</code> 由 slug 化的應用、階段和 def 標題確定性地拼接而成：
+      <code>{`{app_slug}_{stage_slug}_{def_slug}.{ext}`}</code>。副檔名來自下方的
+      格式 → 副檔名對應表，但 <code>code</code> 例外 —— 它會原樣使用 def 的
+      <code>language</code> 作為副檔名（所以 Python 程式碼產物最終的檔名是
+      <code>analysis.python</code>，而不是 <code>analysis.py</code> ——
+      這是刻意為之，便於型別的往返還原）。
+    </p>
+
+    <h3>格式 → MIME → 副檔名參考表</h3>
+    <table>
+      <thead><tr><th><code>format</code></th><th>儲存到列上的 MIME</th><th>預設副檔名</th></tr></thead>
+      <tbody>
+        <tr><td><code>markdown</code></td><td><code>text/markdown</code></td><td><code>md</code></td></tr>
+        <tr><td><code>json</code></td><td><code>application/json</code></td><td><code>json</code></td></tr>
+        <tr><td><code>html</code></td><td><code>text/html</code></td><td><code>html</code></td></tr>
+        <tr><td><code>csv</code></td><td><code>text/csv</code></td><td><code>csv</code></td></tr>
+        <tr><td><code>code</code></td><td><code>text/plain</code></td><td>def 的 <code>language</code>（例如 <code>python</code>、<code>ts</code>）</td></tr>
+        <tr><td><code>image</code></td><td><code>application/octet-stream</code></td><td><code>txt</code>（儲存時可覆寫）</td></tr>
+        <tr><td><code>file</code> 及其他一切</td><td><code>text/plain</code></td><td><code>txt</code></td></tr>
+      </tbody>
+    </table>
+    <p>
+      <code>image</code> 和 <code>file</code> 預設使用通用 MIME，因為在位元組被檢視之前實際內容型別
+      並不確定；上傳管線會在嗅探之後覆寫該列上的 <code>mime_type</code>。
+    </p>
+
+    <h3>內嵌內容 vs S3 兜底</h3>
+    <p>
+      為了便利，列的 <code>content</code> 欄位也會保存產物的原始內容 ——
+      產物是否能從 DB 熱讀取，取決於它的建立方式以及大小。在恢復執行時，
+      執行器讀取前置階段產物的規則是確定的：
+    </p>
+    <ol>
+      <li>如果 <code>app_artifact.content</code> 非空 —— 直接使用。</li>
+      <li>否則如果 <code>s3_key</code> 已設定 —— 從 S3 下載，依 UTF-8 解碼後使用。</li>
+      <li>否則 —— 以空內容繼續（這是一種可恢復的退化狀態）。</li>
+    </ol>
+    <p>
+      因此一個產物端到端的最壞情況只是「內容為空」；即使 S3 物件消失，列、它的中繼資料
+      以及它的預覽結構仍然存在。
+    </p>
+
+    <h3>JSON 校驗</h3>
+    <p>
+      對於 <code>format: "json"</code>，執行器會在儲存之前嘗試對擷取到的內容執行
+      <code>JSON.parse</code>。如果解析失敗，它仍然會儲存原始內容（你不會失去智慧體的工作成果），
+      但會記錄一條警告。預覽會把該產物標記為「無效 JSON」，讓你一眼就能看到問題。
+    </p>
+
+    <h3><code>artifact</code> SSE 事件</h3>
+    <p>
+      每當一個階段的輸出被持久化時，該次執行的 SSE 串流就會發出一個 <code>artifact</code> 事件，
+      其酬載是完整的 <code>AppArtifact</code> 列，包括內嵌的 <code>content</code>（如果有的話）。
+      訂閱方無需再發起額外請求即可渲染預覽：
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+event: artifact<br/>
+data: {`{`}<br/>
+&nbsp;&nbsp;"id":          "art_8a3...",<br/>
+&nbsp;&nbsp;"execution_id":"exec_8f4...",<br/>
+&nbsp;&nbsp;"stage_id":    "research",<br/>
+&nbsp;&nbsp;"def_id":      "competitive_analysis",<br/>
+&nbsp;&nbsp;"title":       "Stripe Competitive Analysis",<br/>
+&nbsp;&nbsp;"format":      "markdown",<br/>
+&nbsp;&nbsp;"mime_type":   "text/markdown",<br/>
+&nbsp;&nbsp;"file_name":   "company_brief_research_competitive_analysis.md",<br/>
+&nbsp;&nbsp;"s3_key":      "app-artifacts/usr_.../exec_.../research/competitive_analysis",<br/>
+&nbsp;&nbsp;"size_bytes":  8421,<br/>
+&nbsp;&nbsp;"content":     "# Stripe Competitive Analysis\n\n..."<br/>
+{`}`}<br/>
+<br/>
+    </div>
+
+    <h2>公開分享產物</h2>
+    <p>
+      每個產物都可以透過公開連結分享，而不會曝光你工作區中的其他內容：
+    </p>
+
+    <div class="step-grid">
+      <span class="step-num">1</span>
+      <div class="step-body">
+        <strong>開啟產物並點擊「分享」。</strong>
+        會產生一個帶 token 的 URL：<code>https://app.aitroop.net/s/{`<token>`}</code>。
+      </div>
+
+      <span class="step-num">2</span>
+      <div class="step-body">
+        <strong>設定存取權限。</strong>
+        唯讀，或讀取 + 下載。可選過期時間。可選密碼門禁。可選解鎖提示
+        （「解鎖前先索取電子郵件」）。
+      </div>
+
+      <span class="step-num">3</span>
+      <div class="step-body">
+        <strong>隨時可撤銷。</strong>
+        開啟 <strong>設定 → 分享</strong> 並關閉開關，或呼叫
+        <code>DELETE /api/shares/:id</code>。
+      </div>
+    </div>
+
+    <h3><code>app_share</code> 資料模型</h3>
+    <p>
+      一個分享對應 <code>app_share</code> 表中的一列，以一個隨機的 <code>share_token</code> 作為 key。
+      該列攜帶存取控制狀態和一個可選的存取門禁：
+    </p>
+    <table>
+      <thead><tr><th>欄位</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td><code>resource_type</code> / <code>resource_id</code></td><td>正在分享的物件 —— 一個產物、一次執行記錄或一個應用。</td></tr>
+        <tr><td><code>access_mode</code></td><td><code>public</code>（任何持有連結的人）或 <code>token</code>（任何用正確密鑰解鎖的人）。</td></tr>
+        <tr><td><code>access_token_hash</code></td><td>當 <code>access_mode = 'token'</code> 時，解鎖密鑰的 Argon2/bcrypt 雜湊。</td></tr>
+        <tr><td><code>expires_at</code></td><td>可空。在此時間戳之後，分享會解析為 <code>expired</code>。</td></tr>
+        <tr><td><code>max_views</code> / <code>view_count</code></td><td>可選的存取上限及當前計數。每次成功解析都會原子地遞增計數。</td></tr>
+        <tr><td><code>revoked_at</code></td><td>撤銷時被設定；之後會解析為 <code>not_found</code>。</td></tr>
+        <tr><td><code>permission</code></td><td>目前固定為 <code>read</code>；schema 為更高權限的分享預留了空間。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>解析狀態</h3>
+    <p>
+      請求 <code>GET /api/public/shares/:token</code> 會回傳五種結果之一 ——
+      公開頁面的渲染邏輯由它決定：
+    </p>
+    <table>
+      <thead><tr><th><code>kind</code></th><th>對應情況</th></tr></thead>
+      <tbody>
+        <tr><td><code>public_ok</code></td><td>公開連結、沒有門禁。渲染資源。</td></tr>
+        <tr><td><code>requires_token</code></td><td>token 門禁；渲染解鎖表單。</td></tr>
+        <tr><td><code>expired</code></td><td><code>expires_at</code> 已過期。</td></tr>
+        <tr><td><code>over_limit</code></td><td><code>view_count &gt;= max_views</code>。</td></tr>
+        <tr><td><code>not_found</code></td><td>錯誤的 token、已刪除的分享，或已撤銷。</td></tr>
+      </tbody>
+    </table>
+    <p>
+      Token 解鎖會把密鑰 POST 到 <code>POST /api/public/shares/:token/unlock</code>；
+      成功後伺服器會簽發一個短期 JWT，將其作為 cookie 設定在 <code>/s</code> 路徑下，
+      之後使用者可以請求 <code>/api/public/shares/:token/blob</code>（內嵌）或
+      <code>…/download</code>（帶 attachment 標頭），直到 cookie 過期。
+    </p>
+
+    <h2>版本與歷史</h2>
+    <p>
+      每個產物都會被版本化。應用的每次執行都會產生一個新版本；在聊天中，每條產生產物的回覆都是一個新版本。
+      你可以在預覽面板中回看歷史，並把任意一個歷史版本還原為當前版本。
+    </p>
+
+    <p>
+      產物的保留期等同於應用（或聊天）的生命週期。刪除一個應用會封存它的產物；封存在 30 天內可還原，
+      之後會從 S3 中永久刪除。
+    </p>
+
+    <h2>編輯產物</h2>
+    <p>
+      在任意產物上點擊 <strong>編輯</strong>，你會得到一個專門針對這一個產物的聊天。
+      在裡面提出修改要求 —— <em>「把表格做寬一點」</em>、<em>「加一列 Q4 的資料」</em>、
+      <em>「把第二段重寫得不要那麼正式」</em>。可以儲存回同一個產物，也可以分支出新版本。
+    </p>
+
+    <p>
+      對產物的編輯不會改變應用本身。如果你希望該改動套用到後續執行，需要在編輯器中開啟應用並更新
+      階段的目標。「在聊天中編輯」這個介面也是一個實用的除錯工具 ——
+      聊天會帶著該產物和原始目標作為上下文開啟。
+    </p>
+
+    <h2>常見問題與排錯</h2>
+
+    <p class="faq-q">智慧體明明產出了內容，但我的執行記錄顯示「0 個產物」。</p>
+    <p>
+      對於應用階段，執行器透過把產物的 <code>title</code> 與回應中的某個 <code>##</code> 標題
+      進行比對來擷取內容（如果只有一個結構化產物，則嘗試找一個對應語言的圍欄程式碼區塊）。
+      如果兩者都沒命中，就不會持久化任何產物。兩種修正方式：
+    </p>
+    <ul>
+      <li>收緊階段目標，讓智慧體<em>為段落命名</em>：<em>「把報告寫在 <code>## Stripe Competitive Analysis</code> 這個標題之下。」</em> —— 標題必須和產物的 <code>title</code> 一致。</li>
+      <li>檢查階段的 <code>artifact_defs</code> —— 執行器至少需要一個條目才會開始尋找。</li>
+    </ul>
+    <p>
+      在聊天中規則不同：串流解析器只會在
+      <code>&lt;artifact title="..." type="..."&gt;…&lt;/artifact&gt;</code> 標籤上觸發。
+      如果智慧體忘了包裹，你會內嵌看到內容，但 <code>app_artifact</code> 表裡不會有對應的列。
+    </p>
+
+    <p class="faq-q">我的 JSON 產物裡有結尾逗號 / 註解，無法解析。</p>
+    <p>
+      智慧體偶爾會不小心吐出「JSON5」。預覽會標記這種情況。修一下目標：
+      <em>「輸出嚴格符合 RFC 8259 的 JSON —— 不要註解、不要結尾逗號。」</em>
+      對於反覆發生的情況，給 artifact_def 加一個 <code>schema</code>，讓智慧體獲得更嚴格的約束。
+    </p>
+
+    <p class="faq-q">CSV 產物的欄位不對。</p>
+    <p>
+      在 artifact_def 中宣告欄位的 schema：
+    </p>
+    <div class="code-block">
+{`{`}<br/>
+&nbsp;&nbsp;"id": "leads",<br/>
+&nbsp;&nbsp;"format": "csv",<br/>
+&nbsp;&nbsp;"schema": {`{`}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;"columns": [<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{`{ "name": "company", "type": "string", "required": true }`},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{`{ "name": "url",     "type": "string" }`},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{`{ "name": "size",    "type": "number" }`}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;]<br/>
+&nbsp;&nbsp;{`}`}<br/>
+{`}`}
+    </div>
+    <p>
+      智慧體會把 schema 作為指令的一部分來讀取；不相符的列會未通過校驗，並在預覽中被標記出來。
+    </p>
+
+    <p class="faq-q">我希望一個階段產出多個產物。</p>
+    <p>
+      在 <code>artifact_defs</code> 中列出多個條目：
+    </p>
+    <div class="code-block">
+"artifact_defs": [<br/>
+&nbsp;&nbsp;{`{ "id": "brief", "format": "markdown" }`},<br/>
+&nbsp;&nbsp;{`{ "id": "data",  "format": "json" }`}<br/>
+]
+    </div>
+    <p>
+      智慧體會發出兩個 <code>&lt;artifact&gt;</code> 區塊。兩者都會被儲存，都可以單獨預覽，
+      下游也都可以透過 ID 參照。
+    </p>
+
+    <p class="faq-q">我能把一個產物作為新一次執行的輸入嗎？</p>
+    <p>
+      可以 —— 大多數檔案輸入欄位都接受上傳檔案或對現有產物的參照。在表單中，點擊檔案欄位旁邊的
+      產物選擇器圖示，挑選一個產物即可。新執行會直接從 S3 讀取它 —— 無需重新下載/重新上傳。
+    </p>
+
+    <p class="faq-q">產物可以多大？</p>
+    <p>
+      軟性大小限制為每個產物 100 MB，硬性大小限制為 1 GB。對於更大的酬載，使用 <code>file</code>
+      格式並打包為 ZIP。超過 50 MB 的產物儲存在較慢的儲存層；超過 25 MB 的產物預覽會關閉內嵌渲染。
+    </p>
+
+    <p class="faq-q">產物的預覽沒問題，但下載下來損壞了。</p>
+    <p>
+      幾乎總是 MIME 類型不相符 —— 產物被宣告為 <code>text/csv</code>，但實際位元組是 XLSX，
+      或者反過來。平台會在儲存時推斷 MIME；如果你懷疑推斷錯了，開啟產物，點擊
+      <strong>編輯中繼資料</strong>，設定正確的 MIME，重新儲存即可。
+    </p>
+
+    <div class="next-up">
+      <span class="label">返回</span>
+      <a href="/zh-TW/docs">文件首頁</a>
+    </div>
+  </DocsShell>
+</Layout>

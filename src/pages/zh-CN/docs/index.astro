@@ -1,0 +1,244 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+
+const metadata = {
+  title: '文档 — Aitroop',
+};
+---
+
+<Layout metadata={metadata}>
+  <DocsShell current="index" locale="zh-CN">
+    <h1>欢迎使用 Aitroop</h1>
+    <p class="lead">
+      把 Aitroop 想象成一位有自己电脑的队友。你描述要做的事，它来设计工作流，在沙箱环境中执行，
+      返回带类型的输出供你阅读、分享，或接入下一个步骤。你不用写代码 —— 你只是聊天，
+      而这场对话会变成一个可保存的 <strong>应用</strong>，可以反复运行、定时执行、交给同事，
+      或通过 API 调用。
+    </p>
+
+    <div class="callout">
+      <strong>阅读顺序。</strong>如果你有 15 分钟，直接去看
+      <a href="/zh-CN/docs/quickstart">快速开始</a> —— 它会带你完整走一遍，附带截图和需要输入的具体内容。
+      想了解概念地图时再回到这里。
+    </div>
+
+    <h2>与传统聊天机器人不同</h2>
+    <p>
+      大多数 AI 工具只是一个聊天框。你输入，它回复，然后翻篇。第二天早上你的同事想做同样的事，
+      只能从头重新输入提示词 —— 丢掉了你的调整、你的上下文、你的打磨。Aitroop 不是这样：
+    </p>
+
+    <table>
+      <thead><tr><th>在聊天机器人里你会怎么做</th><th>在 Aitroop 里你怎么做</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>每周一重新敲一遍"公司简报"提示词。</td>
+          <td>把提示词存成一个一表单的 <strong>应用</strong>。点击 Run 按钮。或定时在周一上午 9 点运行。</td>
+        </tr>
+        <tr>
+          <td>复制模型的输出，粘贴到 Notion，排版，再通过邮件发出去。</td>
+          <td>把输出声明为带类型的 <strong>产物</strong>。Aitroop 会格式化好，发送到邮箱/Slack/Drive。</td>
+        </tr>
+        <tr>
+          <td>担心智能体会不会正确读取你的 Gmail。</td>
+          <td>授权一次 <strong>连接</strong>。智能体会透明地使用你授权范围内的 OAuth 令牌。</td>
+        </tr>
+        <tr>
+          <td>祈祷模型不要对你的私有数据胡编乱造。</td>
+          <td>每一次运行都在隔离的 <strong>沙箱</strong> 中执行,可以访问文件、网络和合适的工具。</td>
+        </tr>
+        <tr>
+          <td>在三个对话之间手动协调"调研 → 人工审核 → 起草邮件"。</td>
+          <td>定义一个 3 阶段应用：<em>智能体 → 人工 → 智能体</em>。平台来处理暂停与恢复。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>一段话版本</h2>
+    <p>
+      打开对话。说<em>"创建一个应用来……"</em>。智能体激活它的应用构建器技能，问 1–5 个澄清问题，
+      设计工作流（表单字段、阶段、输出格式、所需的技能和连接），逐项验证，通过
+      <code>POST /api/apps</code> 保存，并告诉你应用 ID。然后你就可以从你的应用库里运行它 ——
+      填写表单，点击 Run 按钮，得到一个带类型的产物。或者挂上一个定时任务，让它每周一上午 9 点自动跑。
+    </p>
+
+    <h2>你究竟能用它做什么</h2>
+    <p>三个具体的场景，今天就可以跑：</p>
+
+    <h3>📰 每周情报简报</h3>
+    <p>
+      构建一个"竞品周报"应用，输入是一组公司名。每周一上午 9 点，
+      它在网上检索每家公司上周的新闻，写成一份按公司分节的 2 页 Markdown 简报，
+      并通过邮件群发给你的团队列表。你只动了一次提示词；平台一年帮你跑 52 次。
+    </p>
+
+    <h3>📧 收件箱整理</h3>
+    <p>
+      连接 Gmail（只读）一次。构建一个"每日整理"应用，读取过去 24 小时的未读邮件，
+      按紧急程度排出前 20 封并各配一行摘要，每天早上 8 点发到 Slack 频道。
+      等你想让它帮你起草回复时，再去授权 Gmail 的撰写权限。
+    </p>
+
+    <h3>🗂 多阶段触达流水线</h3>
+    <p>
+      一个 4 阶段应用：<em>(1)</em> 根据 ICP 描述找出匹配的公司，<em>(2)</em> 用融资历史
+      为每家公司补充信息，<em>(3)</em> <strong>暂停</strong>等你删掉不想要的行，
+      <em>(4)</em> 为留下来的对象起草个性化冷邮件。人工暂停是写在应用里的 ——
+      这次运行会无限期等待，直到你批准，然后从第 4 阶段恢复。
+    </p>
+
+    <h2>从哪里开始</h2>
+
+    <div class="step-grid">
+      <span class="step-num">1</span>
+      <div class="step-body">
+        <strong><a href="/zh-CN/docs/quickstart">快速开始</a> —— 15 分钟，端到端走完</strong>
+        登录，通过和智能体对话来构建一个"公司简报"应用，在 Stripe 和 Notion 上运行它，
+        给它挂上定时任务。<strong>先读这个。</strong>
+      </div>
+
+      <span class="step-num">2</span>
+      <div class="step-body">
+        <strong><a href="/zh-CN/docs/concepts">核心概念</a> —— 详细的 schema</strong>
+        应用 JSON 文档。全部 12 种输入类型。3 种阶段类型。
+        <code>{`{{field_id}}`}</code> 模板语法。是快速开始的参考手册。
+      </div>
+
+      <span class="step-num">3</span>
+      <div class="step-body">
+        <strong><a href="/zh-CN/docs/chat">对话</a>与<a href="/zh-CN/docs/apps">应用</a> —— 两个界面</strong>
+        对话是驾驶舱。应用是被保存下来的工作流。大部分时间你都在这两个页面里。
+      </div>
+
+      <span class="step-num">4</span>
+      <div class="step-body">
+        <strong>需要的时候再深入</strong>
+        <a href="/zh-CN/docs/skills">技能</a> · <a href="/zh-CN/docs/connects">连接</a> ·
+        <a href="/zh-CN/docs/executions">执行记录</a> · <a href="/zh-CN/docs/schedules">定时任务</a> ·
+        <a href="/zh-CN/docs/sandbox">沙箱</a> · <a href="/zh-CN/docs/artifacts">产物</a>。
+      </div>
+    </div>
+
+    <h2>一个应用底层长什么样</h2>
+    <p>
+      这个不需要你写 —— 是智能体来写 —— 但看一眼它的形状会让其他一切豁然开朗：
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"name":     "Company Brief",<br/>
+&nbsp;&nbsp;"icon":     "🏢",<br/>
+&nbsp;&nbsp;"input_schema": [<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{`{`} "id": "company_name", "type": "text", "required": true {`}`},<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{`{`} "id": "tone", "type": "select",<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"options": [{`{`} "label": "Executive", "value": "exec" {`}`}, ...] {`}`}<br/>
+&nbsp;&nbsp;],<br/>
+&nbsp;&nbsp;"stages": [<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;{`{`} "id": "research", "stage_type": "agent",<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"goal": "Research <span style="color:var(--aw-color-primary)">{`{{company_name}}`}</span> and write a brief<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in a <span style="color:var(--aw-color-primary)">{`{{tone}}`}</span> tone...",<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"timeout_ms": 600000,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"artifact_defs": [<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{`{`} "id": "brief", "format": "markdown" {`}`}<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;] {`}`}<br/>
+&nbsp;&nbsp;],<br/>
+&nbsp;&nbsp;"resources": {`{`} "skills": ["web-search"], "connects": [] {`}`}<br/>
+{`}`}
+    </div>
+
+    <h2>四个基本概念</h2>
+    <p>
+      掌握这四个，整个平台就小到可以装进脑子里：
+    </p>
+
+    <table>
+      <thead><tr><th>基本概念</th><th>一句话定义</th><th>它住在哪里</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>应用</strong> <span class="pill green">配方</span></td>
+          <td>描述一个可运行工作流的 JSON 文档。</td>
+          <td><code>app_def</code> 表 · <strong>侧边栏 → 应用</strong></td>
+        </tr>
+        <tr>
+          <td><strong>执行记录</strong> <span class="pill blue">运行</span></td>
+          <td>应用的一次完整运行。包含状态、阶段日志、产物。</td>
+          <td><code>app_execution</code> · 应用的 <strong>Runs</strong> 标签页</td>
+        </tr>
+        <tr>
+          <td><strong>产物</strong> <span class="pill amber">输出</span></td>
+          <td>阶段产出的带类型交付物。Markdown、CSV、代码、图片、文件。</td>
+          <td><code>app_artifact</code> · 存储在 S3</td>
+        </tr>
+        <tr>
+          <td><strong>连接</strong> <span class="pill" style="background:rgba(120,120,200,0.1);color:#4f46e5;border-color:rgba(120,120,200,0.3);">凭据</span></td>
+          <td>通向你在另一个服务上账号的 OAuth 桥。</td>
+          <td><code>app_user_connect</code> · <strong>设置 → 连接</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>两个界面，一个平台</h2>
+    <p>
+      你几乎所有动作都发生在这两个界面之一 —— 选哪个取决于一个问题：<em>会不会再做一次</em>？
+    </p>
+
+    <table>
+      <thead><tr><th>界面</th><th>什么时候用</th><th>持久化</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong><a href="/zh-CN/docs/chat">对话</a></strong></td>
+          <td>你在探索。一次性任务。随手问问。调试失败的运行。</td>
+          <td>对话历史。沙箱在空闲后销毁。</td>
+        </tr>
+        <tr>
+          <td><strong><a href="/zh-CN/docs/apps">应用</a></strong></td>
+          <td>你想再次运行这个任务。同事不需要懂你的提示词诀窍也能用。你想给它挂定时任务。</td>
+          <td>永久保存。带版本。可审计。可通过 API 调用。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      一场高效的对话几乎总想变成一个应用。这一步就是一个按钮：
+      选择 "Save as App"，或者直接说<em>"把这个保存成应用"</em>。
+    </p>
+
+    <h2>Aitroop 和笔记本/工作流工具有什么不同</h2>
+    <p>
+      把 Aitroop 比作 Zapier、n8n 或 Jupyter 是很自然的反应。但最贴切的类比都不是它们：
+    </p>
+
+    <table>
+      <thead><tr><th>工具</th><th>构建单元</th><th>"一步"是如何配置的</th></tr></thead>
+      <tbody>
+        <tr><td>Zapier / n8n</td><td>用图连起来的节点</td><td>每个节点点开表单去填</td></tr>
+        <tr><td>Jupyter / Notebooks</td><td>代码单元格</td><td>你来写 Python / R</td></tr>
+        <tr><td>ChatGPT / Claude.ai</td><td>对话线程</td><td>每次都要重新提示</td></tr>
+        <tr><td><strong>Aitroop</strong></td><td>带阶段的 <strong>应用</strong></td><td>你用英文描述这个阶段；智能体在一个真正的沙箱里执行</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      关键词是<em>真正的</em>。Aitroop 的一个阶段不是一段提示词模板 —— 它是一个会推理的智能体，
+      会调用技能、命中连接、执行代码、失败时重试，并产出一个带类型的产物。
+      阶段的英文描述就是规格；智能体的行为就是实现。
+    </p>
+
+    <h2>卡住了怎么办</h2>
+    <p>
+      最快的帮助就是智能体本身。打开对话问一句<em>"我该怎么……？"</em> ——
+      它已经加载了应用构建器技能，了解平台的每一个部分。具体场景：
+    </p>
+    <ul>
+      <li><strong>第一个应用就失败了</strong> —— 打开失败的运行，点击 <strong>Debug in chat</strong>。参见<a href="/zh-CN/docs/executions">执行记录</a>。</li>
+      <li><strong>连接授权不过</strong> —— 通常是权限范围问题或用错了账号。参见<a href="/zh-CN/docs/connects">连接</a>。</li>
+      <li><strong>定时任务没触发</strong> —— 工作区时区，或者任务被暂停了。参见<a href="/zh-CN/docs/schedules">定时任务</a>。</li>
+      <li><strong>其他问题</strong> —— <a href="/zh-CN/contact">联系我们</a>。</li>
+    </ul>
+
+    <div class="next-up">
+      <span class="label">从这里开始</span>
+      <a href="/zh-CN/docs/quickstart">快速开始 —— 15 分钟构建你的第一个应用</a>
+    </div>
+  </DocsShell>
+</Layout>

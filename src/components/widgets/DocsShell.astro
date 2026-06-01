@@ -9,40 +9,81 @@
 
 interface Props {
   current: string;
+  locale?: 'en' | 'zh-CN' | 'zh-TW';
 }
 
-const { current } = Astro.props;
+const { current, locale = 'en' } = Astro.props;
+
+const sectionLabels = {
+  en:      { gs: 'Getting started', build: 'Building', run: 'Running', ref: 'Reference' },
+  'zh-CN': { gs: '入门',           build: '构建',    run: '运行',    ref: '参考'    },
+  'zh-TW': { gs: '入門',           build: '建構',    run: '執行',    ref: '參考'    },
+};
+
+const itemTitles = {
+  en: {
+    index: 'Introduction', quickstart: 'Quickstart', concepts: 'Core concepts',
+    chat: 'Chat mode', apps: 'Apps', skills: 'Skills', connects: 'Connects',
+    executions: 'Executions', schedules: 'Schedules', sandbox: 'Sandbox',
+    artifacts: 'Artifact formats',
+  },
+  'zh-CN': {
+    index: '简介', quickstart: '快速开始', concepts: '核心概念',
+    chat: '对话模式', apps: '应用', skills: '技能', connects: '连接',
+    executions: '执行记录', schedules: '定时任务', sandbox: '沙箱',
+    artifacts: '产物格式',
+  },
+  'zh-TW': {
+    index: '簡介', quickstart: '快速開始', concepts: '核心概念',
+    chat: '對話模式', apps: '應用', skills: '技能', connects: '連接',
+    executions: '執行記錄', schedules: '排程', sandbox: '沙盒',
+    artifacts: '產物格式',
+  },
+};
+
+const uiText = {
+  en:      { docsKicker: 'Documentation', onThisPage: 'On this page', docsCrumb: 'Docs', prev: 'Previous', next: 'Next' },
+  'zh-CN': { docsKicker: '文档',           onThisPage: '本页内容',     docsCrumb: '文档',  prev: '上一篇',   next: '下一篇' },
+  'zh-TW': { docsKicker: '文件',           onThisPage: '本頁內容',     docsCrumb: '文件',  prev: '上一篇',   next: '下一篇' },
+};
+
+const localePrefix = locale === 'en' ? '' : `/${locale}`;
+const docsRoot = `${localePrefix}/docs`;
+
+const labels = sectionLabels[locale];
+const titles = itemTitles[locale];
+const ui = uiText[locale];
 
 const sections = [
   {
-    label: 'Getting started',
+    label: labels.gs,
     items: [
-      { slug: 'index',       title: 'Introduction',  href: '/docs' },
-      { slug: 'quickstart',  title: 'Quickstart',    href: '/docs/quickstart' },
-      { slug: 'concepts',    title: 'Core concepts', href: '/docs/concepts' },
+      { slug: 'index',       title: titles.index,      href: docsRoot },
+      { slug: 'quickstart',  title: titles.quickstart, href: `${docsRoot}/quickstart` },
+      { slug: 'concepts',    title: titles.concepts,   href: `${docsRoot}/concepts` },
     ],
   },
   {
-    label: 'Building',
+    label: labels.build,
     items: [
-      { slug: 'chat',        title: 'Chat mode',     href: '/docs/chat' },
-      { slug: 'apps',        title: 'Apps',          href: '/docs/apps' },
-      { slug: 'skills',      title: 'Skills',        href: '/docs/skills' },
-      { slug: 'connects',    title: 'Connects',      href: '/docs/connects' },
+      { slug: 'chat',        title: titles.chat,     href: `${docsRoot}/chat` },
+      { slug: 'apps',        title: titles.apps,     href: `${docsRoot}/apps` },
+      { slug: 'skills',      title: titles.skills,   href: `${docsRoot}/skills` },
+      { slug: 'connects',    title: titles.connects, href: `${docsRoot}/connects` },
     ],
   },
   {
-    label: 'Running',
+    label: labels.run,
     items: [
-      { slug: 'executions',  title: 'Executions',    href: '/docs/executions' },
-      { slug: 'schedules',   title: 'Schedules',     href: '/docs/schedules' },
-      { slug: 'sandbox',     title: 'Sandbox',       href: '/docs/sandbox' },
+      { slug: 'executions',  title: titles.executions, href: `${docsRoot}/executions` },
+      { slug: 'schedules',   title: titles.schedules,  href: `${docsRoot}/schedules` },
+      { slug: 'sandbox',     title: titles.sandbox,    href: `${docsRoot}/sandbox` },
     ],
   },
   {
-    label: 'Reference',
+    label: labels.ref,
     items: [
-      { slug: 'artifacts',   title: 'Artifact formats', href: '/docs/artifacts' },
+      { slug: 'artifacts',   title: titles.artifacts, href: `${docsRoot}/artifacts` },
     ],
   },
 ];
@@ -60,7 +101,7 @@ const currentItem = currentIndex !== -1 ? flat[currentIndex] : null;
   <aside class="docs-sidebar">
     <div class="docs-sidebar-inner">
       <div class="docs-sidebar-brand">
-        <span class="docs-sidebar-kicker">Documentation</span>
+        <span class="docs-sidebar-kicker">{ui.docsKicker}</span>
       </div>
       <nav class="docs-nav">
         {sections.map((section) => (
@@ -93,7 +134,7 @@ const currentItem = currentIndex !== -1 ? flat[currentIndex] : null;
   <div class="docs-main">
     {currentItem && current !== 'index' && (
       <div class="docs-breadcrumb">
-        <a href="/docs">Docs</a>
+        <a href={docsRoot}>{ui.docsCrumb}</a>
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
         <span class="docs-breadcrumb-section">{currentItem.sectionLabel}</span>
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -111,7 +152,7 @@ const currentItem = currentIndex !== -1 ? flat[currentIndex] : null;
           <a href={prevItem.href} class="docs-pager-link docs-pager-prev">
             <span class="docs-pager-meta">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-              Previous
+              {ui.prev}
             </span>
             <span class="docs-pager-title">{prevItem.title}</span>
           </a>
@@ -119,7 +160,7 @@ const currentItem = currentIndex !== -1 ? flat[currentIndex] : null;
         {nextItem ? (
           <a href={nextItem.href} class="docs-pager-link docs-pager-next">
             <span class="docs-pager-meta">
-              Next
+              {ui.next}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </span>
             <span class="docs-pager-title">{nextItem.title}</span>
@@ -130,9 +171,9 @@ const currentItem = currentIndex !== -1 ? flat[currentIndex] : null;
   </div>
 
   <!-- ── RIGHT RAIL (TOC) ──────────────────────────────────── -->
-  <aside class="docs-toc-rail" aria-label="On this page">
+  <aside class="docs-toc-rail" aria-label={ui.onThisPage}>
     <div class="docs-toc-inner">
-      <div class="docs-toc-kicker">On this page</div>
+      <div class="docs-toc-kicker">{ui.onThisPage}</div>
       <ol class="docs-toc" id="docs-toc"></ol>
     </div>
   </aside>

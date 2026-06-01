@@ -1,0 +1,549 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+
+const metadata = {
+  title: '執行記錄 — Aitroop Docs',
+};
+---
+
+<Layout metadata={metadata}>
+  <DocsShell current="executions" locale="zh-TW">
+    <h1>執行記錄</h1>
+    <p class="lead">
+      <strong>執行記錄</strong>就是你按下「執行」之後發生的事情。它是一次帶有時間戳、可稽核、
+      對應用所有階段完整跑一遍的記錄——附帶狀態、每個階段的日誌、可選的人工核准關卡，以及最終的
+      產物集合。每一次執行都可重播、可恢復、可分享。
+    </p>
+
+    <div class="callout">
+      <strong>心智模型。</strong>一個<em>應用</em>是食譜，一次<em>執行記錄</em>是你實際下廚的那一次。
+      食譜在週二晚餐和週三晚餐之間不會變；變的是執行記錄——表單上的食材不同、沙盒不同、輸出不同、
+      時間戳不同。平台會永久保留每一次執行，方便你比較、偵錯與重播。
+    </div>
+
+    <h2>執行的生命週期</h2>
+    <p>每次執行都會走入五種終止狀態之一。狀態機如下：</p>
+
+    <div class="code-block" style="line-height:1.85;text-align:center;padding:1.5rem;">
+<span class="pill amber">pending</span> &nbsp;→&nbsp; <span class="pill blue">running</span> &nbsp;→&nbsp; <span class="pill green">completed</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pill blue">running</span> &nbsp;→&nbsp; <span class="pill red">failed</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pill blue">running</span> &nbsp;→&nbsp; <span class="pill" style="background:rgba(120,120,120,0.15);color:#525252;border-color:rgba(120,120,120,0.3);">cancelled</span>
+    </div>
+
+    <table>
+      <thead><tr><th>狀態</th><th>意義</th><th>你可以做什麼</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>pending</code></td>
+          <td>執行已排入佇列但尚未真正開始。通常小於 1 秒。</td>
+          <td>等待。必要時取消。</td>
+        </tr>
+        <tr>
+          <td><code>running</code></td>
+          <td>至少一個階段正在進行中。階段日誌正在即時輸出。</td>
+          <td>即時觀看。取消。回應人工關卡。</td>
+        </tr>
+        <tr>
+          <td><code>completed</code></td>
+          <td>所有階段都成功完成。所有產物都已儲存。</td>
+          <td>下載產物。分享。用新的輸入重新執行。從後面某個階段恢復以嘗試變動。</td>
+        </tr>
+        <tr>
+          <td><code>failed</code></td>
+          <td>某個階段遇到錯誤或逾時。後續階段沒有執行。</td>
+          <td>閱讀錯誤訊息。點擊 "Debug in chat"。重試。或修正應用後重新執行。</td>
+        </tr>
+        <tr>
+          <td><code>cancelled</code></td>
+          <td>你（或某人）明確地停止了執行。</td>
+          <td>從頭重新執行，或在已有部分完成階段時從後面階段恢復。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>一筆執行記錄的結構</h2>
+    <p>
+      平台會將每一次執行持久化到 <code>app_execution</code>，包含以下欄位：
+    </p>
+
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"id":                        <span style="color:var(--aw-color-primary)">"exec_8f4c2e1b"</span>,<br/>
+&nbsp;&nbsp;"app_id":                    <span style="color:var(--aw-color-primary)">"app_..."</span>,<br/>
+&nbsp;&nbsp;"user_id":                   <span style="color:var(--aw-color-primary)">"usr_..."</span>,<br/>
+&nbsp;&nbsp;"status":                    <span style="color:var(--aw-color-primary)">"completed"</span>,<br/>
+&nbsp;&nbsp;"input":                     <span style="color:var(--aw-color-primary)">{`{ company_name: "Stripe", ... }`}</span>,<br/>
+&nbsp;&nbsp;"is_test":                   <span style="color:var(--aw-color-primary)">false</span>,<br/>
+&nbsp;&nbsp;"shared_session":            <span style="color:var(--aw-color-primary)">false</span>,<br/>
+&nbsp;&nbsp;"start_from_stage_index":    <span style="color:var(--aw-color-primary)">0</span>,<br/>
+&nbsp;&nbsp;"prior_execution_id":        <span style="color:var(--aw-color-primary)">null</span>,<br/>
+&nbsp;&nbsp;"duration_ms":               <span style="color:var(--aw-color-primary)">43210</span>,<br/>
+&nbsp;&nbsp;"error":                     <span style="color:var(--aw-color-primary)">null</span>,<br/>
+&nbsp;&nbsp;"created_at":                <span style="color:var(--aw-color-primary)">"2026-05-31T09:14:22Z"</span><br/>
+{`}`}
+    </div>
+
+    <p>每個階段也會擁有自己的 <code>app_stage_log</code> 條目：</p>
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"execution_id":   <span style="color:var(--aw-color-primary)">"exec_8f4c2e1b"</span>,<br/>
+&nbsp;&nbsp;"stage_index":    <span style="color:var(--aw-color-primary)">0</span>,<br/>
+&nbsp;&nbsp;"stage_type":     <span style="color:var(--aw-color-primary)">"agent"</span>,<br/>
+&nbsp;&nbsp;"status":         <span style="color:var(--aw-color-primary)">"completed"</span>,<br/>
+&nbsp;&nbsp;"goal_expanded":  <span style="color:var(--aw-color-primary)">"Research Stripe and write a brief..."</span>,<br/>
+&nbsp;&nbsp;"session_id":     <span style="color:var(--aw-color-primary)">"sess_..."</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// 如果你點擊 "Debug in chat"，這裡會關聯到對應的會話</span><br/>
+&nbsp;&nbsp;"duration_ms":    <span style="color:var(--aw-color-primary)">38421</span>,<br/>
+&nbsp;&nbsp;"error":          <span style="color:var(--aw-color-primary)">null</span><br/>
+{`}`}
+    </div>
+
+    <p>
+      <code>goal_expanded</code> 欄位是輸入替換<em>之後</em>的目標——也就是 agent 實際看到的內容。
+      如果你的表單中 <code>company_name: "Stripe"</code>，那麼原始目標中的
+      <code>{`{{company_name}}`}</code> 就會在這裡被解析出來。
+    </p>
+
+    <h2>即時觀看執行 —— SSE 串流</h2>
+    <p>
+      在 <code>running</code> 狀態下，應用頁面會訂閱一個以執行記錄 ID 為鍵的 Server-Sent Events
+      串流。這個串流同時也是對外公開的 API 介面，任何想把執行情況鏡像到其他系統的人都可以使用。
+      端點如下：
+    </p>
+
+    <div class="code-block">
+GET /api/app-executions/:execId/stream<br/>
+Authorization: Bearer &lt;token&gt;<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">// 回應標頭</span><br/>
+Content-Type: text/event-stream<br/>
+Cache-Control: no-cache<br/>
+Connection: keep-alive
+    </div>
+
+    <h3>五種執行層級事件</h3>
+    <p>
+      每個事件以 <code>event: {`<name>`}\n data: {`<JSON>`}\n\n</code> 的形式封包。連線時，伺服器
+      會先<em>重播</em>當前狀態，讓晚到的訂閱者也能看到完整序列——當前執行狀態、迄今為止的每一筆
+      階段日誌、任何待處理的人工關卡、每一個已儲存的產物——然後再切換到即時廣播。
+    </p>
+
+    <table>
+      <thead><tr><th><code>event</code></th><th>負載結構</th><th>觸發時機</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>status</code></td>
+          <td><code>{`{ status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled' }`}</code></td>
+          <td>訂閱時（重播）以及每次執行層級狀態變化時。</td>
+        </tr>
+        <tr>
+          <td><code>stage_log</code></td>
+          <td>一整列 <code>AppStageLog</code> 資料——參見上面的<em>結構</em>。</td>
+          <td>訂閱時（每筆現有階段日誌一次）以及每次階段狀態變化時。</td>
+        </tr>
+        <tr>
+          <td><code>human_gate</code></td>
+          <td>一整列 <code>AppHumanGate</code> 資料。</td>
+          <td>當 <code>human</code> 階段開啟一個關卡時，以及關卡被解決時再次觸發。</td>
+        </tr>
+        <tr>
+          <td><code>artifact</code></td>
+          <td>一整列 <code>AppArtifact</code> 資料，若存在則包含 <code>content</code>。</td>
+          <td>每次階段的輸出被持久化時。</td>
+        </tr>
+        <tr>
+          <td><code>done</code></td>
+          <td><code>{`{ status, duration_ms }`}</code></td>
+          <td>在結尾觸發一次，然後伺服器關閉串流。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      若你訂閱的是一個已經處於終止狀態的執行，伺服器會重播已儲存的階段日誌與產物，發送一個
+      <code>done</code> 事件後斷線——不會建立即時連線。如此一來，重播與即時監控使用的是同一個
+      端點與同一個解析器。
+    </p>
+
+    <h3>更細粒度的 runner 事件</h3>
+    <p>
+      上面五個執行層級事件是<strong>摘要</strong>串流。在一個 <code>agent</code> 階段內部，底層的
+      <code>run-agent</code> 二進位檔會輸出粒度細得多的 JSONL 軌跡——逐 token 文字、工具呼叫、
+      子任務、思考過程。這些事件位於會話層級串流而非執行層級串流，但它們正是右側推理軌跡面板背後
+      的資料來源。完整事件目錄請參見<a href="/zh-TW/docs/concepts#the-agent-runner-protocol">runner
+      協定</a>。
+    </p>
+
+    <h3>最小 SSE 消費者</h3>
+    <div class="code-block" style="line-height:1.7;">
+const es = new EventSource('/api/app-executions/' + execId + '/stream', {`{`}<br/>
+&nbsp;&nbsp;withCredentials: true,<br/>
+{`}`});<br/>
+<br/>
+es.addEventListener('status',     (e) =&gt; console.log('status', JSON.parse(e.data)));<br/>
+es.addEventListener('stage_log',  (e) =&gt; console.log('stage',  JSON.parse(e.data)));<br/>
+es.addEventListener('artifact',   (e) =&gt; console.log('artifact', JSON.parse(e.data)));<br/>
+es.addEventListener('human_gate', (e) =&gt; console.log('gate',   JSON.parse(e.data)));<br/>
+es.addEventListener('done',       (e) =&gt; {`{`} console.log('done', JSON.parse(e.data)); es.close(); {`}`});
+    </div>
+
+    <h2>測試執行 vs 正式執行</h2>
+    <p>
+      在執行上設定 <code>is_test: true</code>，它就會被標記為臨時性的。測試執行：
+    </p>
+    <ul>
+      <li>不會以正式執行同樣的方式計入你的用量配額。</li>
+      <li>預設會被應用「執行」分頁過濾掉（切換「顯示測試執行」即可看到）。</li>
+      <li>使用獨立的 <code>shared_session</code> 命名空間，這樣隊友的測試執行不會污染你的。</li>
+      <li>除非被釘選，30 天後會自動清除。</li>
+    </ul>
+    <p>
+      當你點擊<strong>試一下</strong>時，應用編輯器使用的就是測試執行——這正是你在迭代提示詞時
+      想要的。
+    </p>
+
+    <h2>人工關卡：暫停以等待核准</h2>
+    <p>
+      <code>human</code> 階段不會執行程式碼。它會暫停執行，顯示目標文字以及先前的產物，等待你
+      （或另一位有權限的使用者）採取行動。這次暫停會被儲存在 <code>app_human_gate</code> 中：
+    </p>
+
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"id":           <span style="color:var(--aw-color-primary)">"gate_..."</span>,<br/>
+&nbsp;&nbsp;"execution_id": <span style="color:var(--aw-color-primary)">"exec_..."</span>,<br/>
+&nbsp;&nbsp;"stage_index":  <span style="color:var(--aw-color-primary)">2</span>,<br/>
+&nbsp;&nbsp;"message":      <span style="color:var(--aw-color-primary)">"Review these 47 enriched leads. Remove rows you don't want to email."</span>,<br/>
+&nbsp;&nbsp;"status":       <span style="color:var(--aw-color-primary)">"pending"</span>,    <span style="color:var(--aw-color-text-muted)">// pending | approved | rejected</span><br/>
+&nbsp;&nbsp;"response":     <span style="color:var(--aw-color-primary)">null</span>,<br/>
+&nbsp;&nbsp;"responded_at": <span style="color:var(--aw-color-primary)">null</span><br/>
+{`}`}
+    </div>
+
+    <h3>關卡在 UI 中長什麼樣</h3>
+    <div class="code-block" style="font-size:0.75rem;line-height:1.7;padding:1rem 1.25rem;">
+<span style="color:var(--aw-color-text-muted)">┌─────────────────────────────── Run #exec_8f4c2 ─────────────────┐</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span><strong>Stage 3 of 4 · Review</strong> &nbsp;<span class="pill amber" style="font-size:0.6rem;">paused</span><span style="color:var(--aw-color-text-muted)">                                  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│                                                                  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>Review these 47 enriched leads. Remove rows you don't want<span style="color:var(--aw-color-text-muted)">  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>to email.<span style="color:var(--aw-color-text-muted)">                                                       │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│                                                                  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>📎 enriched_leads.csv <span style="color:var(--aw-color-text-muted)">(47 rows)  [ View ]                       │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│                                                                  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>[ <strong>Approve &amp; continue</strong> ]&nbsp;&nbsp;[ Reject ]&nbsp;&nbsp;[ Edit input first ]<span style="color:var(--aw-color-text-muted)">     │</span><br/>
+<span style="color:var(--aw-color-text-muted)">└──────────────────────────────────────────────────────────────────┘</span>
+    </div>
+
+    <h3>三個按鈕</h3>
+    <ul>
+      <li><strong>Approve &amp; continue</strong>（核准並繼續）—— 關卡變為 <code>approved</code>，下一個階段立即開始。</li>
+      <li><strong>Reject</strong>（拒絕）—— 關卡變為 <code>rejected</code>，執行轉入 <code>failed</code>。</li>
+      <li><strong>Edit input first</strong>（先編輯輸入）—— 開啟產物以編輯（例如從 CSV 移除列），存檔之後，被編輯的版本就是第 <em>n+1</em> 階段讀取的內容。</li>
+    </ul>
+
+    <h3>找到需要你處理的關卡</h3>
+    <p>
+      從頂部導覽開啟<strong>待處理的關卡</strong>，或呼叫
+      <code>GET /api/app-executions/pending-gates</code>。當關卡進入 <code>pending</code> 狀態時，
+      可以設定透過電子郵件或 Slack 通知你——這對你可能不會盯著看的長任務流程線非常有用。
+    </p>
+
+    <h3>關卡 API</h3>
+    <p>
+      透過向關卡的解決端點 POST 來核准或拒絕它。請求主體攜帶判定結果，以及可選的自由文字
+      <code>response</code>，會儲存在關卡列上：
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+POST /api/app-executions/:execId/gates/:gateId<br/>
+Content-Type: application/json<br/>
+Authorization: Bearer &lt;token&gt;<br/>
+<br/>
+{`{`}<br/>
+&nbsp;&nbsp;"action":   <span style="color:var(--aw-color-primary)">"approved"</span> <span style="color:var(--aw-color-text-muted)">// 或 "rejected"</span>,<br/>
+&nbsp;&nbsp;"response": <span style="color:var(--aw-color-primary)">"Removed 4 lookalikes; lists looks tighter now."</span><br/>
+{`}`}
+    </div>
+    <p>
+      機制上：伺服器會標記 <code>app_human_gate.status</code> 並寫入 <code>responded_at</code>，
+      然後解決一個執行器一直在 await 的記憶體 <code>Promise</code>。等待中的階段會立刻從
+      <code>waiting</code> 切出，流程線要嘛進入第 N+1 階段（核准時），要嘛短路到
+      <code>failed</code>（拒絕時）。一個攜帶更新後資料列的 <code>human_gate</code> SSE 事件會
+      送發給所有訂閱者。
+    </p>
+    <div class="callout">
+      <strong>當關卡待處理期間，執行始終保持 <code>running</code>。</strong>
+      只有階段日誌會進入 <code>waiting</code>。沙盒會透過 <code>keepAlive</code> 保持運作，這樣
+      在核准後恢復時不必付冷啟動成本。代價是：一個無限期待處理的關卡會一直霸佔一個熱沙盒——
+      請給審核者一個合理的預期，或者在應用設計裡為關卡設定自動逾時。
+    </div>
+
+    <h2>取消執行</h2>
+    <p>
+      在執行中的執行上點擊<strong>取消</strong>，或送出：
+    </p>
+    <div class="code-block">
+POST /api/app-executions/:execId/cancel<br/>
+Authorization: Bearer &lt;your_token&gt;
+    </div>
+    <p>
+      取消會：
+    </p>
+    <ul>
+      <li>停止當前正在執行的階段。已完成的階段維持完成狀態，其產物會被保留。</li>
+      <li>關閉沙盒。</li>
+      <li>將執行轉入 <code>cancelled</code>。</li>
+      <li>將尚未花用的預算退還到你的餘額。</li>
+    </ul>
+    <p>
+      稍後你可以從下一個階段<strong>恢復</strong>——見下文。
+    </p>
+
+    <h2>從指定階段恢復</h2>
+    <p>
+      一個真正強大的能力：只重跑需要重跑的階段，重用那些已經跑得好的階段產物。在執行請求中傳入
+      <code>start_from_stage_index</code> 和 <code>prior_execution_id</code>：
+    </p>
+
+    <div class="code-block">
+POST /api/apps/:appId/run<br/>
+Content-Type: application/json<br/>
+<br/>
+{`{`}<br/>
+&nbsp;&nbsp;"input": {`{ ... same shape as the original run ... }`},<br/>
+&nbsp;&nbsp;"start_from_stage_index": 2,<br/>
+&nbsp;&nbsp;"prior_execution_id": "exec_8f4c2e1b"<br/>
+{`}`}
+    </div>
+
+    <h3>執行器實際上做了什麼</h3>
+    <ol>
+      <li>
+        建立一筆新的 <code>app_execution</code> 列，指向同一個應用版本。對於索引
+        <code>0 .. start_from_stage_index - 1</code> 的階段日誌，會立即以
+        <code>status: 'skipped'</code> 寫入——執行歷史會清楚標示哪些階段並未重新執行。
+      </li>
+      <li>
+        透過 <code>dao.listArtifactsByStages(priorExecutionId, [stageIds])</code> 載入被略過階段
+        的產物。對於不攜帶內嵌 <code>content</code> 的產物，執行器會以
+        <code>s3_key</code> 從 S3 下載主體並以 UTF-8 解碼——這樣即使原始列已被卸載，下一階段
+        的系統提示詞也能看到先前的內容。
+      </li>
+      <li>
+        取得一個全新的沙盒。原執行沙盒上第 0–1 階段寫入的檔案<em>都消失了</em>——只有已被持久化的
+        產物會跨越邊界。如果後續階段依賴的是中間暫存檔案而非宣告的產物，恢復就無法重現它們。
+      </li>
+      <li>
+        建立第 <code>start_from_stage_index</code> 階段的系統提示詞，把載入到的先前產物以
+        <code>## Previous Stage Outputs</code> 的形式注入，然後從那裡一路跑到流程線結尾。
+      </li>
+    </ol>
+
+    <h3>恢復 + <code>shared_session</code></h3>
+    <p>
+      當原始執行使用了 <code>shared_session: true</code>，且恢復執行也要求它時，執行器會更進一步：
+      它會在 <code>prior_execution_id</code> 上找出一筆已經有 <code>session_id</code> 的階段日誌，
+      重用那個會話，繼續同一段 Claude 對話。可見效果：<em>Debug in chat</em>
+      會顯示一條橫跨原始執行與恢復執行的連續討論串。不要不假思索就啟用——共用 Claude 會話意味著
+      模型的上下文仍然包含先前的輪次，有時這正是你要的，有時不是。
+    </p>
+
+    <h3>什麼時候會用到它</h3>
+    <ul>
+      <li><strong>最後一個階段的草稿不對。</strong>第 0–2 階段花了 4 分鐘跑得好好的；第 3 階段的
+        郵件草稿語氣不對。調整應用，然後從第 3 階段重跑——省下 4 分鐘。</li>
+      <li><strong>階段因為外部原因失敗</strong>（Connect 權杖在執行中過期）。修復 Connect，用相同的
+        輸入從失敗階段重跑。</li>
+      <li><strong>人工拒絕了一個關卡。</strong>調整前一個階段的提示詞，從那裡重跑。</li>
+    </ul>
+
+    <div class="callout warn">
+      <strong>恢復不會回復已產生的副作用。</strong>如果被恢復的階段已經往你的 CRM 寫入了列、
+      發送了 Slack 訊息、或推送過一次 git commit，這些工作已經實際發生了。平台不追蹤對外副作用；
+      恢復只重用已持久化的產物。為了具備冪等性，請讓會觸及 Connect 的階段先檢查
+      「我們是不是已經做過這件事了？」。
+    </div>
+
+    <p>
+      在 UI 中：開啟執行，點擊<strong>從階段重新執行……</strong>，挑選階段。
+    </p>
+
+    <h2>執行歷史</h2>
+    <p>
+      在應用頁面，<strong>執行</strong>分頁會以最新優先的順序列出每一次執行。每一列顯示：
+    </p>
+
+    <table>
+      <thead><tr><th>欄位</th><th>顯示內容</th></tr></thead>
+      <tbody>
+        <tr><td>狀態</td><td>五個狀態徽章之一（pending / running / completed / failed / cancelled）。</td></tr>
+        <tr><td>觸發者</td><td>你、隊友、排程，或 API。</td></tr>
+        <tr><td>開始時間</td><td>以你工作區時區顯示的時間戳。</td></tr>
+        <tr><td>耗時</td><td>所有階段加總的牆鐘時間。</td></tr>
+        <tr><td>成本</td><td>沙盒秒數 + LLM token 換算成美元。</td></tr>
+        <tr><td>輸入</td><td>所使用的表單值。點擊以展開。</td></tr>
+        <tr><td>產物</td><td>數量，並附帶每個的快速下載。</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      頂部的篩選條件可以讓你按狀態、日期區間、觸發者與標籤縮小範圍。該列表也可透過
+      <code>GET /api/app-executions?app_id=...</code> 取得。
+    </p>
+
+    <h2>偵錯失敗的執行</h2>
+
+    <h3>第 1 步 —— 閱讀錯誤訊息</h3>
+    <p>
+      開啟失敗的執行。頁面最上方第一項就是錯誤訊息與發生錯誤的階段。常見形式：
+    </p>
+
+    <table>
+      <thead><tr><th>錯誤</th><th>幾乎總是表示</th></tr></thead>
+      <tbody>
+        <tr><td><code>stage_timeout</code></td><td>階段耗時超過了 <code>timeout_ms</code>。把它調大。</td></tr>
+        <tr><td><code>connect_unauthorized</code></td><td>某個 Connect 被撤銷或過期了。重新授權。</td></tr>
+        <tr><td><code>required_input_missing</code></td><td>某個必填表單欄位是空的。不要把欄位過於激進地標為必填。</td></tr>
+        <tr><td><code>artifact_format_mismatch</code></td><td>階段產出的格式不對（例如宣告的是 CSV，卻輸出 Markdown）。</td></tr>
+        <tr><td><code>sandbox_oom</code></td><td>沙盒內記憶體耗盡。資料量太大——拆分階段，或使用腳本階段。</td></tr>
+        <tr><td><code>agent_gave_up</code></td><td>agent 判斷任務做不下去了。閱讀它的推理——通常是少了某個輸入。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>第 2 步 —— 點擊 "Debug in chat"</h3>
+    <p>
+      點擊 <strong>Debug in chat</strong>。會開啟一個攜帶失敗執行完整脈絡的對話——輸入、部分產物、
+      agent 推理軌跡、錯誤。直接和 agent 對話：
+    </p>
+    <div class="code-block">
+&gt; Why did this fail? What should I change in the App?
+    </div>
+    <p>
+      agent 會診斷問題、建議修正方案，並（通常會）直接編輯應用以套用修正。然後你就可以從相同位置
+      重跑。
+    </p>
+
+    <h3>第 3 步 —— 重試或重新執行</h3>
+    <ul>
+      <li><strong>重試</strong>—— 相同輸入、相同應用版本、全新沙盒。有時候不穩定的外部 API 只是
+        需要再試一次。</li>
+      <li><strong>從第 N 階段重跑</strong>—— 保留先前的產物。當只有後段階段壞掉時使用。</li>
+      <li><strong>編輯應用後再執行</strong>—— 用於系統性的 bug（模糊的提示詞、錯誤的格式）。會讓應用升一個新版本。</li>
+    </ul>
+
+    <h2>分享一次執行記錄</h2>
+    <p>
+      你可以把一次執行的唯讀檢視給隊友看——適用於「看看這個應用昨天產出了什麼」之類的情境，又不必
+      給對方應用本身的寫入權限。
+    </p>
+
+    <ol>
+      <li>開啟執行。</li>
+      <li>點擊<strong>分享</strong>。</li>
+      <li>設定：要包含哪些產物、有效期、是否允許下載、是否設密碼關卡。</li>
+      <li>取得一個公開連結：<code>https://app.aitroop.net/s/{`<token>`}</code>。</li>
+    </ol>
+
+    <p>
+      分享記錄會被持久化到 <code>share</code> 表中，附帶 token、解鎖政策與下載處理器。可以隨時
+      從<strong>設定 → 分享</strong>撤銷。
+    </p>
+
+    <h2>透過 API 觸發執行</h2>
+    <p>
+      當你想要從一個 webhook、CI 流程線或另一個 agent 觸發一個應用時很有用。最小呼叫：
+    </p>
+
+    <div class="code-block">
+curl -X POST https://app.aitroop.net/api/apps/{`<appId>`}/run \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;-H "Content-Type: application/json" \<br/>
+&nbsp;&nbsp;-d '{`{`} "input": {`{ "company_name": "Stripe" }`} {`}`}'
+    </div>
+
+    <p>回應是新的 <code>app_execution</code>，狀態為 <code>status: "pending"</code>。要觀察它：</p>
+
+    <div class="code-block">
+curl https://app.aitroop.net/api/app-executions/{`<execId>`}/stream \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;-N
+    </div>
+
+    <p>SSE 串流會持續輸出直到執行進入終止狀態。或者輪詢 <code>GET /api/app-executions/:execId</code>。</p>
+
+    <h2>常見問題 &amp; 疑難排解</h2>
+
+    <p class="faq-q">我的執行卡在 <code>pending</code> 好幾分鐘了。怎麼回事？</p>
+    <p>
+      <strong>可能原因：</strong>
+    </p>
+    <ul>
+      <li>沙盒供應商冷啟動（罕見；通常小於 1 秒）。</li>
+      <li>你觸到了方案的並行執行配額；執行在排其他執行的佇列。</li>
+      <li>agent worker 佇列塞住了（<strong>設定 → 工作區</strong>的頂部會有狀態橫幅）。</li>
+    </ul>
+    <p>
+      <strong>解法：</strong>如果超過 2 分鐘，取消並重跑。檢查狀態橫幅。如果一切都正常但仍然卡著，
+      表示執行在排隊——等待或取消。
+    </p>
+
+    <p class="faq-q">為什麼我已完成的執行顯示「0 個產物」？</p>
+    <p>
+      應用的階段沒有宣告任何 <code>artifact_defs</code>，或者 agent 產出的格式不符合宣告，平台把
+      它丟掉了。開啟執行，捲到對應的階段，找一找「format mismatch」警告。把目標寫得更明確說明
+      要產出什麼，或者把宣告的格式改成 <code>file</code> 作為退路。
+    </p>
+
+    <p class="faq-q">我取消了一個執行，能「取消取消」嗎？</p>
+    <p>
+      不行，但你可以<strong>從最後一個完成的階段重新執行</strong>。先前執行的產物已保留，所以
+      不會丟掉工作。開啟被取消的執行，點擊<strong>從階段重新執行……</strong>，挑選最後一個已完成
+      階段之後的那個階段。
+    </p>
+
+    <p class="faq-q">一個人工關卡待處理 3 天了。執行是死了嗎？</p>
+    <p>
+      沒有。關卡預設無限期等待。執行只是停在那裡，並沒有失敗。要清理它，要嘛回應該關卡，要嘛
+      取消執行。
+    </p>
+    <p>
+      如果你希望關卡自動逾期，在階段定義中加入一個逾時：
+      <code>"gate_timeout_ms": 86400000</code> 代表 24 小時。逾時後，關卡會轉入
+      <code>rejected</code>，執行轉入 <code>failed</code>。
+    </p>
+
+    <p class="faq-q">我能看到 agent 當時在想什麼嗎？</p>
+    <p>
+      可以。在執行的時間軸上點擊任一階段，即可展開它的推理軌跡。軌跡會顯示 agent 的計畫、每一次
+      工具呼叫（含參數與結果），以及它最後的評註。要看更深的細節，切換「顯示思考過程」——這會
+      暴露模型內部的推理區塊（在可用時）。
+    </p>
+
+    <p class="faq-q">為什麼同一個應用這週比上週慢了一倍？</p>
+    <p>
+      <strong>可能原因：</strong>agent 進行了更多次工具呼叫。可能是提示詞改了（看一下<strong>版本</strong>），
+      處理的資料變多了，或者某個外部 API 變慢了。把兩次執行並排開啟：執行日誌會顯示每次工具呼叫
+      的次數與耗時。對比一下就能找到回歸點。
+    </p>
+
+    <p class="faq-q">我想 A/B 測試同一個應用的兩個版本。怎麼做？</p>
+    <p>
+      Fork 這個應用（會建立一份私有副本 v1），編輯副本，然後用相同的輸入執行兩個應用。從各自應用
+      的「執行」分頁並排比較兩次執行。要做統計層面的深入分析，寫一個排程，每天用相同的輸入執行
+      兩個版本，並把結果送到一張試算表裡。
+    </p>
+
+    <p class="faq-q">我能從 Zapier / n8n / CI 中的 curl 指令觸發執行嗎？</p>
+    <p>
+      可以——用你的 bearer token 呼叫 <code>POST /api/apps/:appId/run</code>。參考上面的 curl。多數
+      使用者會把這個呼叫放進一個 webhook 處理器中，再以 <code>GET /api/app-executions/:execId</code>
+      等待完成。完成時的對外 webhook 也可透過排程的投遞目標來支援。
+    </p>
+
+    <div class="next-up">
+      <span class="label">下一篇</span>
+      <a href="/zh-TW/docs/schedules">排程 —— 用 cron 執行應用</a>
+    </div>
+  </DocsShell>
+</Layout>

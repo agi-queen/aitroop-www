@@ -1,0 +1,409 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+---
+
+<Layout metadata={{ title: '連接 — Aitroop 文件' }}>
+  <DocsShell current="connects" locale="zh-TW">
+    <h1>連接</h1>
+    <p class="lead">
+      連接是 Aitroop 在其他服務上以 <em>你的身分</em> 進行操作的方式。你透過該提供者的 OAuth 流程進行一次授權;
+      之後,任何需要該提供者的對話或應用都會透明地使用你的受限權杖。代理讀取你的 Gmail、在你的 GitHub PR 上留言、
+      向你的 Salesforce 寫入一筆資料——全部使用你自己的身分完成,每一個動作都會被該提供者的稽核日誌記錄下來。
+    </p>
+
+    <div class="callout">
+      <strong>一句話講清權限模型。</strong> 連接預設是 <em>依使用者</em> 的——同事的應用執行在他們自己的帳號上,而不是你的。
+      即使你建構並分享了一個應用,你的權杖也絕不會離開你的帳號。每個使用者都需要授權自己的連接。
+    </div>
+
+    <h2>連接在執行層面如何運作</h2>
+    <ol>
+      <li>每個提供者,你只需透過其 OAuth 流程授權一次。</li>
+      <li>Aitroop 接收存取權杖並以加密形式靜態儲存。</li>
+      <li>從那時起,任何需要該提供者的應用或對話都會透明地使用你的權杖。</li>
+      <li>權杖的權限範圍僅限於你在 OAuth 流程中授予的範圍。</li>
+      <li>你可以隨時撤銷任何連接;此後所有呼叫都會失敗,直到重新授權。</li>
+    </ol>
+
+    <h3>為什麼用 OAuth?</h3>
+    <p>OAuth 之所以是標準而非 API 金鑰,有三個原因:</p>
+    <ul>
+      <li><strong>權限範圍可控。</strong> 只需要讀取時,你可以僅授予唯讀權限。</li>
+      <li><strong>權杖可撤銷。</strong> 可透過 Aitroop 或提供者的帳號設定撤銷。</li>
+      <li><strong>可稽核。</strong> Aitroop 和提供者都會記錄每一次呼叫。</li>
+    </ul>
+
+    <h2>授權一個連接</h2>
+    <p>有兩條路徑,取決於觸發情境:</p>
+
+    <h3>路徑 A:在設定中主動授權</h3>
+    <ol>
+      <li>開啟 <strong>設定 → 連接</strong>(側邊欄或右上角選單)。</li>
+      <li>你會看到兩個區塊:<strong>已授權</strong>(作用中的連接)和 <strong>可用</strong>(你可以授權的提供者)。</li>
+      <li>在「可用」中找到你想要的提供者——Google、GitHub、你的 CRM 等。</li>
+      <li>點擊 <strong>授權</strong>。</li>
+      <li>彈出視窗開啟該提供者的 OAuth 介面。檢視 Aitroop 請求的權限範圍。</li>
+      <li>點擊 <strong>批准</strong>(或提供者對應的按鈕名稱)。</li>
+      <li>你被返回 Aitroop。該連接現在出現在「已授權」中,狀態為「作用中」。</li>
+    </ol>
+
+    <h3>路徑 B:執行時即時授權</h3>
+    <p>
+      你執行了一個應用(或使用對話)需要一個你尚未授權的連接。執行會暫停並顯示:
+    </p>
+    <div class="code-block" style="font-size:0.8125rem;line-height:1.7;">
+🔒 This App needs Google Drive access to read your files.<br/>
+<br/>
+&nbsp;&nbsp;[ Authorize Google Drive ] &nbsp; [ Cancel run ]
+    </div>
+    <ol>
+      <li>點擊 <strong>Authorize Google Drive</strong>。</li>
+      <li>OAuth 彈窗開啟。檢視權限範圍。批准。</li>
+      <li>你被返回對話或執行,從暫停處恢復繼續執行。</li>
+    </ol>
+
+    <h2>連接背後到底是什麼</h2>
+    <p>
+      Aitroop 並不為每個提供者單獨執行一套 OAuth 整合——而是透過
+      <a href="https://composio.dev" target="_blank" rel="noopener">Composio</a> 進行代理。
+      平台擁有提供者目錄(種子分類和定義存放在
+      <code>connect_category</code> 和 <code>connect_definition</code> 資料表中),而每個使用者的授權狀態在本地有一份鏡像,
+      存放在 <code>app_user_connect</code> 中。權杖保留在 Composio 一側;Aitroop 持有連接 ID 以及快取的
+      「該使用者目前是否連接到提供者 X」旗標。
+    </p>
+
+    <h2>提供者目錄</h2>
+    <p>
+      撰寫本文時的種子目錄——12 個分類、40+ 個提供者。這套配置可在資料庫中編輯;<code>is_enabled = false</code>
+      會隱藏某個定義而不刪除它。
+    </p>
+
+    <table>
+      <thead><tr><th>分類</th><th>提供者</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Email</strong></td><td>Gmail, Outlook, SendGrid, Smartlead, AgentMail</td></tr>
+        <tr><td><strong>Calendar</strong></td><td>Google Calendar</td></tr>
+        <tr><td><strong>Code Repository</strong></td><td>GitHub, GitLab, Bitbucket</td></tr>
+        <tr><td><strong>Messaging</strong></td><td>Slack, Discord, WhatsApp, Telegram</td></tr>
+        <tr><td><strong>File Storage</strong></td><td>Google Drive, Dropbox, OneDrive</td></tr>
+        <tr><td><strong>CRM</strong></td><td>Salesforce, HubSpot, Pipedrive, Close, Apollo, CrustData, Shopify</td></tr>
+        <tr><td><strong>Project Management</strong></td><td>Linear, Jira, Notion, Asana</td></tr>
+        <tr><td><strong>Social Media</strong></td><td>Twitter/X, LinkedIn, Facebook, Instagram, TikTok, YouTube</td></tr>
+        <tr><td><strong>Spreadsheets</strong></td><td>Google Sheets, Airtable</td></tr>
+        <tr><td><strong>Documents</strong></td><td>Google Docs</td></tr>
+        <tr><td><strong>Automation</strong></td><td>Apify, Firecrawl</td></tr>
+        <tr><td><strong>Database</strong></td><td>Supabase</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      以程式化方式:
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+GET /api/connect/connections   <span style="color:var(--aw-color-text-muted)">// your authorized providers</span><br/>
+GET /api/connect/status        <span style="color:var(--aw-color-text-muted)">// cached connect satisfaction state</span><br/>
+POST /api/connect/initiate     <span style="color:var(--aw-color-text-muted)">// kick off an OAuth flow for a provider</span><br/>
+GET /api/connect/callback      <span style="color:var(--aw-color-text-muted)">// OAuth redirect target (no auth)</span><br/>
+DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">// disconnect</span>
+    </div>
+
+    <h2>應用如何宣告所需的連接</h2>
+    <p>
+      連接需求在應用層級位於 <code>resources.connects</code>,也可以在每個階段層級透過 <code>stage.connects</code>
+      限定。需求有兩種形態:
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+"connects": [<br/>
+&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// "I need GitHub specifically"</span><br/>
+&nbsp;&nbsp;{`{`} "type": "specific", "id": <span style="color:var(--aw-color-primary)">"github"</span>, "is_required": true {`}`},<br/>
+<br/>
+&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// "I need any email provider"</span><br/>
+&nbsp;&nbsp;{`{`} "type": "category", "id": <span style="color:var(--aw-color-primary)">"email"</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;"is_required": true,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;"label": "Any inbox we can send from" {`}`}<br/>
+]
+    </div>
+    <p>
+      <strong>specific</strong> 類型的需求指定一個 <code>connect_definition.id</code>;使用者必須授權過這個特定提供者。
+      <strong>category</strong> 類型的需求只要使用者授權過該 <code>connect_category</code> 中 <em>任意一個</em>
+      提供者即滿足。每次應用執行前(以及每次排程觸發前)都會執行滿足性檢查;如果未通過,執行會被擱置,
+      直到使用者授權所缺的部分。
+    </p>
+    <p>
+      舊式簡寫 <code>"connects": ["github", "hubspot"]</code> 仍被接受——讀取時每個字串會被升級為
+      <code>{`{ type: "specific", id: <string>, is_required: true }`}</code>。技能以同樣方式宣告自己的連接需求,
+      應用的整體滿足狀態會將應用層級需求與每個所需技能的需求合併起來。
+    </p>
+
+    <h2>讀 vs 寫——權限範圍的選擇</h2>
+    <p>
+      大多數提供者提供分開的讀寫 OAuth 權限範圍。當你授權時,提供者的介面會顯示正在請求哪些權限。
+    </p>
+    <ul>
+      <li><strong>僅授權唯讀</strong>——如果應用只讀取資料,例如「每週收件匣摘要」應用。</li>
+      <li><strong>需要時再加入寫入權限</strong>——只在你希望應用進行寫入時才加入,例如「以回覆形式寄送摘要」。</li>
+    </ul>
+    <p>你可以重新授權既有的連接以加入權限範圍,而無需先撤銷再從頭授權。</p>
+
+    <h3>實作範例:逐步擴展權限範圍</h3>
+    <ol>
+      <li>你為某個分類應用授權 <strong>Gmail(唯讀)</strong>。</li>
+      <li>幾個月後,你決定讓該應用也為你草擬回覆。</li>
+      <li>開啟 <strong>設定 → 連接 → Gmail → 管理權限範圍</strong>。</li>
+      <li>開啟 <code>gmail.compose</code>。</li>
+      <li>走一遍 OAuth 重新提示。批准。</li>
+      <li>原先只有 Gmail 唯讀權限的應用,現在可以撰寫郵件了。</li>
+    </ol>
+
+    <h2>在應用上宣告連接</h2>
+    <p>
+      每個應用在 <code>resources.connects</code> 中宣告其所需的連接提供者鍵:
+    </p>
+    <div class="code-block">
+"resources": {`{`}<br/>
+&nbsp;&nbsp;"skills": ["web-search"],<br/>
+&nbsp;&nbsp;"connects": ["google", "github"]<br/>
+{`}`}
+    </div>
+
+    <p>
+      提供者鍵是諸如 <code>google</code>、<code>github</code>、<code>hubspot</code>、<code>notion</code>、
+      <code>slack</code> 這樣的簡短識別字。當你以對話方式建構應用時,App Builder 會根據應用的需要自動加入正確的鍵。
+    </p>
+
+    <h2>依使用者連接 vs 共享連接</h2>
+    <p>根據提供者以及你工作區的配置,有兩種執行模式:</p>
+
+    <h3>依使用者連接(個人資料的預設模式)</h3>
+    <p>
+      每位使用者授權自己的帳號。當隊友執行一個共享應用時,使用的是 <em>他們自己</em> 的權杖——不是你的。
+    </p>
+    <p>
+      例如:一個共享的「每日收件匣分類」應用,在你執行時讀取你的 Gmail,在同事執行時讀取他的。
+      每位使用者都需要分別授權 Gmail。
+    </p>
+
+    <h3>工作區共享連接(用於共享帳號)</h3>
+    <p>
+      由工作區管理員代表團隊一次性授權。工作區內所有應用共用該次授權。適用於諸如共享的 Salesforce 實例,
+      讓所有人都以同一個 Aitroop 服務帳號的身分進行操作。
+    </p>
+    <p>
+      由工作區管理員依連接逐項配置。在該連接的設定頁上尋找 <strong>Workspace Connect</strong> 標籤。
+    </p>
+
+    <h2>撤銷連接</h2>
+
+    <h3>從 Aitroop 撤銷</h3>
+    <ol>
+      <li>開啟 <strong>設定 → 連接 → 已授權</strong>。</li>
+      <li>找到要撤銷的連接。</li>
+      <li>點擊 <strong>撤銷</strong>。</li>
+      <li>確認提示。</li>
+      <li>加密的權杖將被刪除。狀態變為「已撤銷」。</li>
+      <li>需要此連接的應用在下次執行時會提示重新授權。</li>
+    </ol>
+
+    <h3>從提供者一側撤銷</h3>
+    <p>
+      你也可以從提供者的帳號設定中撤銷(例如 Google 的「第三方應用程式存取」頁面)。下次應用嘗試使用該權杖時,
+      API 呼叫會失敗——Aitroop 偵測到後會提示重新授權。
+    </p>
+
+    <h2>感知連接的 AppInputs</h2>
+    <p>
+      <code>file</code> 類型的 AppInput 可以被設定為從你已授權的某個連接(Drive、Notion 等)中挑選檔案,
+      而不必每次都重新上傳。
+    </p>
+    <p>
+      這是在應用設計中設定的——當應用的任務自然契合時(例如「對我指定的某個 Notion 頁面進行摘要」),
+      App Builder 會自動採用該方式。執行該應用的使用者會看到一個展示其雲端儲存的檔案選擇器,選擇一個文件後,
+      代理透過連接讀取它。
+    </p>
+
+    <h2>滿足性模型——平台如何判斷「可以執行」</h2>
+    <p>
+      在任何應用執行開始之前(以及每次排程觸發之前),平台會計算一份 <strong>滿足性</strong> 報告:
+      對應用所需的每一個連接,使用者是否授權了能滿足它的內容?兩層需求會合併為一次檢查。
+    </p>
+
+    <h3>需求的來源</h3>
+    <ol>
+      <li>
+        <strong>直接需求</strong>——應用本身在 <code>resources.connects</code> 中宣告的內容
+        (可以是應用範圍,也可以是每個階段範圍)。
+      </li>
+      <li>
+        <strong>技能需求</strong>——應用使用的每個技能都會帶來自己的 <code>connects</code> 需求。一個「寄送郵件」
+        技能實際上是在說 <em>「任何使用我的應用都需要一個郵件連接」</em>。
+      </li>
+    </ol>
+
+    <h3>合併檢視</h3>
+    <p>
+      平台依 <code>(type, id)</code> 去重複,產生一份扁平的清單。對其中每一項,平台都會問:「這個滿足了嗎?」
+    </p>
+    <table>
+      <thead><tr><th><code>type</code></th><th>滿足條件……</th></tr></thead>
+      <tbody>
+        <tr><td><code>specific</code></td><td>使用者已授權指定的提供者(例如 <code>github</code> 出現在 <code>app_user_connect</code> 中且 <code>connected = true</code>)。</td></tr>
+        <tr><td><code>category</code></td><td>使用者已授權 <em>至少一個</em> 其 <code>connect_definition.category_id</code> 與需求相符的提供者。具體由哪個提供者滿足,會記錄在 <code>satisfied_by</code> 中。</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      單筆需求的完整滿足性紀錄是這樣的——形態與 API 透過
+      <code>GET /api/connect/status</code> 暴露的一致:
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"type":          <span style="color:var(--aw-color-primary)">"category"</span>,<br/>
+&nbsp;&nbsp;"id":            <span style="color:var(--aw-color-primary)">"email"</span>,<br/>
+&nbsp;&nbsp;"is_required":   <span style="color:var(--aw-color-primary)">true</span>,<br/>
+&nbsp;&nbsp;"category_name": <span style="color:var(--aw-color-primary)">"Email"</span>,<br/>
+&nbsp;&nbsp;"is_satisfied":  <span style="color:var(--aw-color-primary)">true</span>,<br/>
+&nbsp;&nbsp;"satisfied_by":  <span style="color:var(--aw-color-primary)">["gmail"]</span>,<br/>
+&nbsp;&nbsp;"available":     <span style="color:var(--aw-color-primary)">["gmail", "outlook", "sendgrid", ...]</span><br/>
+{`}`}
+    </div>
+
+    <h3>當不滿足時會發生什麼</h3>
+    <p>
+      行為取決於觸發方式:
+    </p>
+    <ul>
+      <li>
+        <strong>從 UI 手動執行:</strong> 執行按鈕被停用,工具提示會說明所缺少的部分。點擊內嵌的
+        <em>授權</em> 標籤會走一遍 OAuth,完成後執行按鈕重新啟用。
+      </li>
+      <li>
+        <strong>透過 API 執行(<code>POST /api/apps/:appId/run</code>):</strong> 呼叫傳回 <code>422</code>,
+        回應主體中列出缺少的需求。測試執行(<code>is_test: true</code>)會跳過此檢查——便於在 App 編輯器中試驗。
+      </li>
+      <li>
+        <strong>排程觸發:</strong> 排程器不會無限暫停。它會在任務資料列上寫入
+        <code>last_status = 'error'</code>,訊息為 <code>"Missing required connections: …"</code>,
+        將 <code>next_run_at</code> 保留為既定值,並在下一次觸發時再次嘗試。排程的執行頁面會顯示這些資訊,
+        這樣你就不必自己監控每一個提供者。
+      </li>
+    </ul>
+
+    <h3>快取</h3>
+    <p>
+      在每次排程觸發時呼叫 Composio 列出「此使用者已連接的內容」代價高昂。Aitroop 改為在
+      <code>app_user_connect</code> 中保留一份本地鏡像:
+    </p>
+    <table>
+      <thead><tr><th>欄位</th><th>含義</th></tr></thead>
+      <tbody>
+        <tr><td><code>user_id</code></td><td>誰。</td></tr>
+        <tr><td><code>provider</code></td><td>哪一個 <code>connect_definition.id</code>(例如 <code>github</code>)。</td></tr>
+        <tr><td><code>connected</code></td><td>當使用者對該提供者目前有一個有效的 Composio 連線時為 <code>true</code>。</td></tr>
+        <tr><td><code>connection_id</code></td><td>Composio 一側的 ID——實際呼叫某個動作時我們傳回的就是它。</td></tr>
+        <tr><td><code>connected_at</code> / <code>updated_at</code></td><td>該列最近一次翻轉的時間;用於判斷快取新鮮度。</td></tr>
+      </tbody>
+    </table>
+    <p>
+      快取會在每次 OAuth 成功完成時、明確撤銷時,以及收到 Composio 一側的 webhook 時失效。最壞情況下,
+      快取落後於真實狀態最多一個 webhook 延遲,之後下一次滿足性檢查就會看到新狀態。
+    </p>
+
+    <h2>寫入操作的確認</h2>
+    <p>
+      當應用或對話即將透過連接進行寫入(寄送郵件、建立紀錄、修改檔案)時,行為視情境而定:
+    </p>
+    <ul>
+      <li><strong>在對話中:</strong> 代理會展示它將要做什麼,並等待明確批准。你可以批准、修改或取消。</li>
+      <li><strong>在應用執行中(手動):</strong> 在應用建立時已批准。寫入操作不再逐次確認。</li>
+      <li><strong>在排程執行中:</strong> 在排程建立時已批准。寫入操作自動進行。</li>
+    </ul>
+    <p>
+      寫入能力永遠不會悄然擴大。將應用從「草擬郵件」提升到「寄送郵件」,必須明確批准並發布一個新的應用版本。
+    </p>
+
+    <h2>安全模型</h2>
+    <ul>
+      <li><strong>權杖靜態加密儲存。</strong> 儲存使用工作區層級的加密金鑰。</li>
+      <li><strong>權杖絕不離開平台。</strong> 代理透過內部服務呼叫使用權杖;原始權杖絕不會傳給語言模型,也不會出現在對話記錄中。</li>
+      <li><strong>沙盒化執行。</strong> 每次執行都在一個隔離的 E2B 沙盒中執行。權杖依執行注入;執行結束後沙盒被銷毀。</li>
+      <li><strong>稽核軌跡。</strong> 每次連接呼叫都會記錄觸發它的應用、執行和使用者。可在 <strong>設定 → 連接 → 稽核日誌</strong> 下檢視。</li>
+      <li><strong>撤銷傳播。</strong> 撤銷一個連接會立即使儲存的權杖失效。進行中的執行可以完成目前呼叫,但無法發起新的呼叫。</li>
+    </ul>
+
+    <h2>常見問題與疑難排解</h2>
+
+    <p class="faq-q">OAuth 彈窗被攔截/被過早關閉。</p>
+    <p>
+      <strong>原因:</strong> 瀏覽器攔截了彈窗,或你在提供者傳回授權碼之前就關閉了它。
+    </p>
+    <p>
+      <strong>解決:</strong> 彈窗失敗時 Aitroop 會回退到重新導向模式——再次點擊 <strong>授權</strong> 即可。
+      如果你的瀏覽器對 Aitroop 網域攔截彈窗,請明確允許後再重試。
+    </p>
+
+    <p class="faq-q">授權已成功,但應用仍然以 <code>connect_unauthorized</code> 失敗。</p>
+    <p>
+      <strong>兩種常見原因:</strong>
+    </p>
+    <ul>
+      <li><strong>帳號不對。</strong> 應用預期使用工作帳號,你卻用個人帳號授權了(反之亦然)。在瀏覽器中登出該提供者的帳號,
+        然後在 Aitroop 中 <strong>撤銷</strong> 該連接並重新授權。</li>
+      <li><strong>缺少權限範圍。</strong> 應用需要 <code>gmail.send</code>,但你只授予了
+        <code>gmail.readonly</code>。開啟該連接的設定,點擊 <strong>加入權限範圍</strong>,走一遍 OAuth 重新提示。</li>
+    </ul>
+
+    <p class="faq-q">排程執行出現「Token expired」錯誤。</p>
+    <p>
+      某些提供者(尤其是 Microsoft 365)會定期輪換重新整理權杖。如果連接的狀態翻轉為「需要重新授權」,
+      依賴它的排程執行會開始失敗。
+    </p>
+    <p>
+      <strong>解決:</strong> 開啟該連接的設定頁;如果狀態是「需要重新授權」,點擊 <strong>重新授權</strong>
+      並再次完成 OAuth。排程執行會在下一次 cron 觸發時恢復。
+    </p>
+    <p>
+      要更早收到提醒,可在 <strong>設定 → 通知</strong> 中啟用 <strong>連接健康提醒</strong>——
+      在已知到期日前 7 天你會收到通知。
+    </p>
+
+    <p class="faq-q">我從提供者一側撤銷了。如何清理 Aitroop 中的狀態?</p>
+    <p>
+      開啟 <strong>設定 → 連接</strong>。該連接會顯示為「已撤銷」(平台在下一次嘗試呼叫時偵測到)。
+      點擊 <strong>移除</strong> 可以完全刪除已儲存的權杖參照,或點擊 <strong>重新授權</strong> 還原該連接。
+    </p>
+
+    <p class="faq-q">我能確切看到 Aitroop 持有哪些權限範圍嗎?</p>
+    <p>
+      可以。開啟該連接,點擊 <strong>權限範圍</strong>。你會看到已授予權限的清單,每個權限範圍都有一段簡短易讀的說明。
+      可與提供者自家的稽核頁面上的內容進行比對。兩者應當一致——如果不一致,請撤銷並重新授權。
+    </p>
+
+    <p class="faq-q">隊友能使用我的連接權杖嗎?</p>
+    <p>
+      不行,除非你的管理員為該提供者特別設定了 <strong>工作區共享連接</strong>(少見且明確)。預設情況下,
+      每位使用者都要授權自己的連接。當隊友執行你的應用時,使用的是 <em>他們自己</em> 的權杖——這表示他們需要在
+      自己的帳號中也授權過同一個提供者。
+    </p>
+
+    <p class="faq-q">我的應用需要的連接不在目錄裡。</p>
+    <p>
+      有兩條路徑:
+    </p>
+    <ul>
+      <li><strong>自訂 MCP 伺服器。</strong> 如果該提供者有 HTTP API,可以把它封裝為 MCP 伺服器,作為自訂<a href="/zh-TW/docs/skills">技能</a>加入。無需連接。</li>
+      <li><strong>請求加入。</strong> <a href="/zh-TW/contact">告訴我們</a>是哪個提供者——呼聲最高的提供者每個衝刺都會新增。</li>
+    </ul>
+
+    <p class="faq-q">如何稽核某個應用對我的連接做了什麼?</p>
+    <p>
+      開啟該次執行,點擊針對該連接的任意工具呼叫——完整的請求和(截斷的)回應都已記錄在案。
+      提供者自己的稽核日誌也會在你的帳號下記錄同樣的呼叫。兩份來源應當一致;若有差異,通常表示連接在執行中途被撤銷。
+    </p>
+
+    <div class="next-up">
+      <span class="label">下一步</span>
+      <a href="/zh-TW/docs/executions">執行記錄——生命週期與除錯</a>
+    </div>
+  </DocsShell>
+</Layout>

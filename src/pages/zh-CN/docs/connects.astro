@@ -1,0 +1,409 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+---
+
+<Layout metadata={{ title: '连接 — Aitroop 文档' }}>
+  <DocsShell current="connects" locale="zh-CN">
+    <h1>连接</h1>
+    <p class="lead">
+      连接是 Aitroop 在其他服务上以 <em>你的身份</em> 进行操作的方式。你通过该提供商的 OAuth 流程进行一次授权；
+      之后，任何需要该提供商的对话或应用都会透明地使用你的受限令牌。智能体读取你的 Gmail、在你的 GitHub PR 上评论、
+      向你的 Salesforce 写入一行数据——全部使用你自己的身份完成，每一个动作都会被该提供商的审计日志记录下来。
+    </p>
+
+    <div class="callout">
+      <strong>一句话讲清权限模型。</strong> 连接默认是 <em>按用户</em> 的——同事的应用运行在他们自己的账户上，而不是你的。
+      即使你构建并分享了一个应用,你的令牌也绝不会离开你的账户。每个用户都需要授权自己的连接。
+    </div>
+
+    <h2>连接在运行层面如何工作</h2>
+    <ol>
+      <li>每个提供商,你只需通过其 OAuth 流程授权一次。</li>
+      <li>Aitroop 接收访问令牌并以加密形式静态存储。</li>
+      <li>从那时起,任何需要该提供商的应用或对话都会透明地使用你的令牌。</li>
+      <li>令牌的权限范围限于你在 OAuth 流程中授予的范围。</li>
+      <li>你可以随时撤销任何连接;此后所有调用都会失败,直到重新授权。</li>
+    </ol>
+
+    <h3>为什么用 OAuth?</h3>
+    <p>OAuth 之所以是标准而非 API 密钥,有三个原因:</p>
+    <ul>
+      <li><strong>权限范围可控。</strong> 只需要读取时,你可以仅授予只读权限。</li>
+      <li><strong>令牌可撤销。</strong> 可通过 Aitroop 或提供商的账户设置撤销。</li>
+      <li><strong>可审计。</strong> Aitroop 和提供商都会记录每一次调用。</li>
+    </ul>
+
+    <h2>授权一个连接</h2>
+    <p>有两条路径,取决于触发场景:</p>
+
+    <h3>路径 A:在设置中主动授权</h3>
+    <ol>
+      <li>打开 <strong>设置 → 连接</strong>(侧边栏或右上角菜单)。</li>
+      <li>你会看到两个区块:<strong>已授权</strong>(活跃连接)和 <strong>可用</strong>(你可以授权的提供商)。</li>
+      <li>在"可用"中找到你想要的提供商——Google、GitHub、你的 CRM 等。</li>
+      <li>点击 <strong>授权</strong>。</li>
+      <li>弹出窗口打开该提供商的 OAuth 界面。查看 Aitroop 请求的权限范围。</li>
+      <li>点击 <strong>批准</strong>(或提供商对应的按钮名称)。</li>
+      <li>你被返回 Aitroop。该连接现在出现在"已授权"中,状态为"活跃"。</li>
+    </ol>
+
+    <h3>路径 B:运行时即时授权</h3>
+    <p>
+      你运行了一个应用(或使用对话)需要一个你尚未授权的连接。运行会暂停并显示:
+    </p>
+    <div class="code-block" style="font-size:0.8125rem;line-height:1.7;">
+🔒 This App needs Google Drive access to read your files.<br/>
+<br/>
+&nbsp;&nbsp;[ Authorize Google Drive ] &nbsp; [ Cancel run ]
+    </div>
+    <ol>
+      <li>点击 <strong>Authorize Google Drive</strong>。</li>
+      <li>OAuth 弹窗打开。查看权限范围。批准。</li>
+      <li>你被返回对话或运行,从暂停处恢复继续执行。</li>
+    </ol>
+
+    <h2>连接背后到底是什么</h2>
+    <p>
+      Aitroop 并不为每个提供商单独运行一套 OAuth 集成——而是通过
+      <a href="https://composio.dev" target="_blank" rel="noopener">Composio</a> 进行代理。
+      平台拥有提供商目录(种子分类和定义存放在
+      <code>connect_category</code> 和 <code>connect_definition</code> 表中),而每个用户的授权状态在本地有一份镜像,
+      存放在 <code>app_user_connect</code> 中。令牌保留在 Composio 一侧;Aitroop 持有连接 ID 以及缓存的
+      "该用户当前是否连接到提供商 X"标志位。
+    </p>
+
+    <h2>提供商目录</h2>
+    <p>
+      撰写本文时的种子目录——12 个分类、40+ 个提供商。这套配置可在数据库中编辑;<code>is_enabled = false</code>
+      会隐藏某个定义而不删除它。
+    </p>
+
+    <table>
+      <thead><tr><th>分类</th><th>提供商</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Email</strong></td><td>Gmail, Outlook, SendGrid, Smartlead, AgentMail</td></tr>
+        <tr><td><strong>Calendar</strong></td><td>Google Calendar</td></tr>
+        <tr><td><strong>Code Repository</strong></td><td>GitHub, GitLab, Bitbucket</td></tr>
+        <tr><td><strong>Messaging</strong></td><td>Slack, Discord, WhatsApp, Telegram</td></tr>
+        <tr><td><strong>File Storage</strong></td><td>Google Drive, Dropbox, OneDrive</td></tr>
+        <tr><td><strong>CRM</strong></td><td>Salesforce, HubSpot, Pipedrive, Close, Apollo, CrustData, Shopify</td></tr>
+        <tr><td><strong>Project Management</strong></td><td>Linear, Jira, Notion, Asana</td></tr>
+        <tr><td><strong>Social Media</strong></td><td>Twitter/X, LinkedIn, Facebook, Instagram, TikTok, YouTube</td></tr>
+        <tr><td><strong>Spreadsheets</strong></td><td>Google Sheets, Airtable</td></tr>
+        <tr><td><strong>Documents</strong></td><td>Google Docs</td></tr>
+        <tr><td><strong>Automation</strong></td><td>Apify, Firecrawl</td></tr>
+        <tr><td><strong>Database</strong></td><td>Supabase</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      以编程方式:
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+GET /api/connect/connections   <span style="color:var(--aw-color-text-muted)">// your authorized providers</span><br/>
+GET /api/connect/status        <span style="color:var(--aw-color-text-muted)">// cached connect satisfaction state</span><br/>
+POST /api/connect/initiate     <span style="color:var(--aw-color-text-muted)">// kick off an OAuth flow for a provider</span><br/>
+GET /api/connect/callback      <span style="color:var(--aw-color-text-muted)">// OAuth redirect target (no auth)</span><br/>
+DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">// disconnect</span>
+    </div>
+
+    <h2>应用如何声明所需的连接</h2>
+    <p>
+      连接需求在应用层级位于 <code>resources.connects</code>,也可以在每个阶段层级通过 <code>stage.connects</code>
+      限定。需求有两种形态:
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+"connects": [<br/>
+&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// "I need GitHub specifically"</span><br/>
+&nbsp;&nbsp;{`{`} "type": "specific", "id": <span style="color:var(--aw-color-primary)">"github"</span>, "is_required": true {`}`},<br/>
+<br/>
+&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// "I need any email provider"</span><br/>
+&nbsp;&nbsp;{`{`} "type": "category", "id": <span style="color:var(--aw-color-primary)">"email"</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;"is_required": true,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;"label": "Any inbox we can send from" {`}`}<br/>
+]
+    </div>
+    <p>
+      <strong>specific</strong> 类型的需求指定一个 <code>connect_definition.id</code>;用户必须授权过这个特定提供商。
+      <strong>category</strong> 类型的需求只要用户授权过该 <code>connect_category</code> 中 <em>任意一个</em>
+      提供商即满足。每次应用执行前(以及每次定时任务触发前)都会运行满足性检查;如果未通过,运行会被搁置,
+      直到用户授权所缺的部分。
+    </p>
+    <p>
+      旧式简写 <code>"connects": ["github", "hubspot"]</code> 仍被接受——读取时每个字符串会被升级为
+      <code>{`{ type: "specific", id: <string>, is_required: true }`}</code>。技能用同样方式声明自己的连接需求,
+      应用的整体满足状态会将应用级需求与每个所需技能的需求合并起来。
+    </p>
+
+    <h2>读 vs 写——权限范围的选择</h2>
+    <p>
+      大多数提供商提供分开的读写 OAuth 权限范围。当你授权时,提供商的界面会显示正在请求哪些权限。
+    </p>
+    <ul>
+      <li><strong>仅授权只读</strong>——如果应用只读取数据,例如"每周收件箱摘要"应用。</li>
+      <li><strong>需要时再添加写入权限</strong>——只在你希望应用进行写入时才添加,例如"以回复形式发送摘要"。</li>
+    </ul>
+    <p>你可以重新授权已有的连接以添加权限范围,而无需先撤销再从头授权。</p>
+
+    <h3>实操示例:逐步扩展权限范围</h3>
+    <ol>
+      <li>你为某个分拣应用授权 <strong>Gmail(只读)</strong>。</li>
+      <li>几个月后,你决定让该应用也为你起草回复。</li>
+      <li>打开 <strong>设置 → 连接 → Gmail → 管理权限范围</strong>。</li>
+      <li>开启 <code>gmail.compose</code>。</li>
+      <li>走一遍 OAuth 重新提示。批准。</li>
+      <li>原先只有 Gmail 只读权限的应用,现在可以撰写邮件了。</li>
+    </ol>
+
+    <h2>在应用上声明连接</h2>
+    <p>
+      每个应用在 <code>resources.connects</code> 中声明其所需的连接提供商键:
+    </p>
+    <div class="code-block">
+"resources": {`{`}<br/>
+&nbsp;&nbsp;"skills": ["web-search"],<br/>
+&nbsp;&nbsp;"connects": ["google", "github"]<br/>
+{`}`}
+    </div>
+
+    <p>
+      提供商键是诸如 <code>google</code>、<code>github</code>、<code>hubspot</code>、<code>notion</code>、
+      <code>slack</code> 这样的简短标识符。当你以对话方式构建应用时,应用构建器会根据应用的需要自动添加正确的键。
+    </p>
+
+    <h2>按用户连接 vs 共享连接</h2>
+    <p>根据提供商以及你工作区的配置,有两种运行模式:</p>
+
+    <h3>按用户连接(个人数据的默认模式)</h3>
+    <p>
+      每位用户授权自己的账户。当队友运行一个共享应用时,使用的是 <em>他们自己</em> 的令牌——不是你的。
+    </p>
+    <p>
+      例如:一个共享的"每日收件箱分拣"应用,在你运行时读取你的 Gmail,在同事运行时读取他的。
+      每位用户都需要单独授权 Gmail。
+    </p>
+
+    <h3>工作区共享连接(用于共享账户)</h3>
+    <p>
+      由工作区管理员代表团队一次性授权。工作区内所有应用共用该次授权。适用于诸如共享的 Salesforce 实例,
+      让所有人都以同一个 Aitroop 服务账户的身份进行操作。
+    </p>
+    <p>
+      由工作区管理员按连接逐项配置。在该连接的设置页上查找 <strong>Workspace Connect</strong> 标签。
+    </p>
+
+    <h2>撤销连接</h2>
+
+    <h3>从 Aitroop 撤销</h3>
+    <ol>
+      <li>打开 <strong>设置 → 连接 → 已授权</strong>。</li>
+      <li>找到要撤销的连接。</li>
+      <li>点击 <strong>撤销</strong>。</li>
+      <li>确认提示。</li>
+      <li>加密的令牌将被删除。状态变为"已撤销"。</li>
+      <li>需要此连接的应用在下次运行时会提示重新授权。</li>
+    </ol>
+
+    <h3>从提供商一侧撤销</h3>
+    <p>
+      你也可以从提供商的账户设置中撤销(例如 Google 的"第三方应用访问"页面)。下次应用尝试使用该令牌时,
+      API 调用会失败——Aitroop 检测到后会提示重新授权。
+    </p>
+
+    <h2>感知连接的 AppInputs</h2>
+    <p>
+      <code>file</code> 类型的 AppInput 可以被配置为从你已授权的某个连接(Drive、Notion 等)中选取文件,
+      而不必每次都重新上传。
+    </p>
+    <p>
+      这是在应用设计中设定的——当应用的任务自然契合时(比如"对我指定的某个 Notion 页面进行总结"),
+      应用构建器会自动选取该方式。运行该应用的用户会看到一个展示其云存储的文件选择器,选择一个文档后,
+      智能体通过连接读取它。
+    </p>
+
+    <h2>满足性模型——平台如何判断"可以运行"</h2>
+    <p>
+      在任何应用执行开始之前(以及每次定时任务触发之前),平台会计算一份 <strong>满足性</strong> 报告:
+      对应用所需的每一个连接,用户是否授权了能满足它的内容?两层需求会合并为一次检查。
+    </p>
+
+    <h3>需求的来源</h3>
+    <ol>
+      <li>
+        <strong>直接需求</strong>——应用自身在 <code>resources.connects</code> 中声明的内容
+        (可以是应用范围,也可以是每个阶段范围)。
+      </li>
+      <li>
+        <strong>技能需求</strong>——应用使用的每个技能都会带来自己的 <code>connects</code> 需求。一个"发送邮件"
+        技能实际上是在说 <em>"任何使用我的应用都需要一个邮件连接"</em>。
+      </li>
+    </ol>
+
+    <h3>合并视图</h3>
+    <p>
+      平台按 <code>(type, id)</code> 去重,生成一份扁平的列表。对其中每一项,平台都会问:"这个满足了吗?"
+    </p>
+    <table>
+      <thead><tr><th><code>type</code></th><th>满足条件……</th></tr></thead>
+      <tbody>
+        <tr><td><code>specific</code></td><td>用户已授权指定的提供商(例如 <code>github</code> 出现在 <code>app_user_connect</code> 中且 <code>connected = true</code>)。</td></tr>
+        <tr><td><code>category</code></td><td>用户已授权 <em>至少一个</em> 其 <code>connect_definition.category_id</code> 与需求相符的提供商。具体由哪个提供商满足,会记录在 <code>satisfied_by</code> 中。</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      单条需求的完整满足性记录是这样的——形态与 API 通过
+      <code>GET /api/connect/status</code> 暴露的一致:
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"type":          <span style="color:var(--aw-color-primary)">"category"</span>,<br/>
+&nbsp;&nbsp;"id":            <span style="color:var(--aw-color-primary)">"email"</span>,<br/>
+&nbsp;&nbsp;"is_required":   <span style="color:var(--aw-color-primary)">true</span>,<br/>
+&nbsp;&nbsp;"category_name": <span style="color:var(--aw-color-primary)">"Email"</span>,<br/>
+&nbsp;&nbsp;"is_satisfied":  <span style="color:var(--aw-color-primary)">true</span>,<br/>
+&nbsp;&nbsp;"satisfied_by":  <span style="color:var(--aw-color-primary)">["gmail"]</span>,<br/>
+&nbsp;&nbsp;"available":     <span style="color:var(--aw-color-primary)">["gmail", "outlook", "sendgrid", ...]</span><br/>
+{`}`}
+    </div>
+
+    <h3>当不满足时会发生什么</h3>
+    <p>
+      行为取决于触发方式:
+    </p>
+    <ul>
+      <li>
+        <strong>从 UI 手动运行:</strong> 运行按钮被禁用,工具提示会说明所缺失的部分。点击内嵌的
+        <em>授权</em> 标签会走一遍 OAuth,完成后运行按钮重新启用。
+      </li>
+      <li>
+        <strong>通过 API 运行(<code>POST /api/apps/:appId/run</code>):</strong> 调用返回 <code>422</code>,
+        响应体中列出缺失的需求。测试运行(<code>is_test: true</code>)会跳过此检查——便于在应用编辑器中试验。
+      </li>
+      <li>
+        <strong>定时触发:</strong> 调度器不会无限暂停。它会在任务行上写入
+        <code>last_status = 'error'</code>,消息为 <code>"Missing required connections: …"</code>,
+        将 <code>next_run_at</code> 保留为既定值,并在下一次触发时再次尝试。定时任务的运行页面会显示这些信息,
+        这样你就不必自己监控每一个提供商。
+      </li>
+    </ul>
+
+    <h3>缓存</h3>
+    <p>
+      在每次定时触发时调用 Composio 列出"此用户已连接的内容"代价高昂。Aitroop 改为在
+      <code>app_user_connect</code> 中保留一份本地镜像:
+    </p>
+    <table>
+      <thead><tr><th>列</th><th>含义</th></tr></thead>
+      <tbody>
+        <tr><td><code>user_id</code></td><td>谁。</td></tr>
+        <tr><td><code>provider</code></td><td>哪个 <code>connect_definition.id</code>(例如 <code>github</code>)。</td></tr>
+        <tr><td><code>connected</code></td><td>当用户对该提供商当前有一个有效的 Composio 连接时为 <code>true</code>。</td></tr>
+        <tr><td><code>connection_id</code></td><td>Composio 一侧的 ID——实际调用某个动作时我们传回的就是它。</td></tr>
+        <tr><td><code>connected_at</code> / <code>updated_at</code></td><td>该行最近一次翻转的时间;用于判断缓存新鲜度。</td></tr>
+      </tbody>
+    </table>
+    <p>
+      缓存会在每次 OAuth 成功完成时、显式撤销时,以及收到 Composio 一侧的 webhook 时失效。最坏情况下,
+      缓存滞后于真实状态最多一个 webhook 延迟,之后下一次满足性检查就会看到新状态。
+    </p>
+
+    <h2>写入操作的确认</h2>
+    <p>
+      当应用或对话即将通过连接进行写入(发送邮件、创建记录、修改文件)时,行为视上下文而定:
+    </p>
+    <ul>
+      <li><strong>在对话中:</strong> 智能体会展示它将要做什么,并等待显式批准。你可以批准、修改或取消。</li>
+      <li><strong>在应用运行中(手动):</strong> 在应用创建时已批准。写入操作不再逐次确认。</li>
+      <li><strong>在定时运行中:</strong> 在定时任务创建时已批准。写入操作自动进行。</li>
+    </ul>
+    <p>
+      写入能力永远不会悄然扩大。将应用从"起草邮件"提升到"发送邮件",必须显式批准并发布一个新的应用版本。
+    </p>
+
+    <h2>安全模型</h2>
+    <ul>
+      <li><strong>令牌静态加密存储。</strong> 存储使用工作区级别的加密密钥。</li>
+      <li><strong>令牌绝不离开平台。</strong> 智能体通过内部服务调用使用令牌;原始令牌绝不会传给语言模型,也不会出现在对话记录中。</li>
+      <li><strong>沙箱化执行。</strong> 每次运行都在一个隔离的 E2B 沙箱中执行。令牌按运行注入;运行结束后沙箱被销毁。</li>
+      <li><strong>审计轨迹。</strong> 每次连接调用都会记录触发它的应用、运行和用户。可在 <strong>设置 → 连接 → 审计日志</strong> 下查看。</li>
+      <li><strong>撤销传播。</strong> 撤销一个连接会立即使存储的令牌失效。进行中的运行可以完成当前调用,但无法发起新的调用。</li>
+    </ul>
+
+    <h2>常见问题与排错</h2>
+
+    <p class="faq-q">OAuth 弹窗被拦截/被过早关闭。</p>
+    <p>
+      <strong>原因:</strong> 浏览器拦截了弹窗,或你在提供商返回授权码之前就关闭了它。
+    </p>
+    <p>
+      <strong>解决:</strong> 弹窗失败时 Aitroop 会回退到重定向模式——再次点击 <strong>授权</strong> 即可。
+      如果你的浏览器对 Aitroop 域名拦截弹窗,请显式允许后再重试。
+    </p>
+
+    <p class="faq-q">授权已成功,但应用仍然以 <code>connect_unauthorized</code> 失败。</p>
+    <p>
+      <strong>两种常见原因:</strong>
+    </p>
+    <ul>
+      <li><strong>账户不对。</strong> 应用预期使用工作账户,你却用个人账户授权了(反之亦然)。在浏览器中退出该提供商的账户,
+        然后在 Aitroop 中 <strong>撤销</strong> 该连接并重新授权。</li>
+      <li><strong>缺少权限范围。</strong> 应用需要 <code>gmail.send</code>,但你只授予了
+        <code>gmail.readonly</code>。打开该连接的设置,点击 <strong>添加权限范围</strong>,走一遍 OAuth 重新提示。</li>
+    </ul>
+
+    <p class="faq-q">定时运行出现"Token expired"错误。</p>
+    <p>
+      某些提供商(尤其是 Microsoft 365)会定期轮换刷新令牌。如果连接的状态翻转为"需要重新授权",
+      依赖它的定时运行会开始失败。
+    </p>
+    <p>
+      <strong>解决:</strong> 打开该连接的设置页;如果状态是"需要重新授权",点击 <strong>重新授权</strong>
+      并再次完成 OAuth。定时运行会在下一次 cron 触发时恢复。
+    </p>
+    <p>
+      要更早地收到提醒,可在 <strong>设置 → 通知</strong> 中启用 <strong>连接健康提醒</strong>——
+      在已知过期日期前 7 天你会收到通知。
+    </p>
+
+    <p class="faq-q">我从提供商一侧撤销了。如何清理 Aitroop 中的状态?</p>
+    <p>
+      打开 <strong>设置 → 连接</strong>。该连接会显示为"已撤销"(平台在下一次尝试调用时检测到)。
+      点击 <strong>移除</strong> 可以完全删除已存储的令牌引用,或点击 <strong>重新授权</strong> 恢复该连接。
+    </p>
+
+    <p class="faq-q">我能确切看到 Aitroop 持有哪些权限范围吗?</p>
+    <p>
+      可以。打开该连接,点击 <strong>权限范围</strong>。你会看到已授予权限的列表,每个权限范围都有一段简短易读的说明。
+      可与提供商自家的审计页面上的内容进行比对。两者应当一致——如果不一致,请撤销并重新授权。
+    </p>
+
+    <p class="faq-q">队友能使用我的连接令牌吗?</p>
+    <p>
+      不能,除非你的管理员为该提供商专门设置了 <strong>工作区共享连接</strong>(少见且显式)。默认情况下,
+      每位用户都要授权自己的连接。当队友运行你的应用时,使用的是 <em>他们自己</em> 的令牌——这意味着他们需要在
+      自己的账户中也授权过同一个提供商。
+    </p>
+
+    <p class="faq-q">我的应用需要的连接不在目录里。</p>
+    <p>
+      有两条路径:
+    </p>
+    <ul>
+      <li><strong>自定义 MCP 服务器。</strong> 如果该提供商有 HTTP API,可以把它封装为 MCP 服务器,作为自定义<a href="/zh-CN/docs/skills">技能</a>添加。无需连接。</li>
+      <li><strong>请求添加。</strong> <a href="/zh-CN/contact">告诉我们</a>是哪个提供商——呼声最高的提供商每个迭代都会新增。</li>
+    </ul>
+
+    <p class="faq-q">如何审计某个应用对我的连接做了什么?</p>
+    <p>
+      打开该次运行,点击针对该连接的任意工具调用——完整的请求和(截断的)响应都已记录在案。
+      提供商自己的审计日志也会在你的账户下记录同样的调用。两份来源应当一致;若有差异,通常意味着连接在运行中途被撤销。
+    </p>
+
+    <div class="next-up">
+      <span class="label">下一步</span>
+      <a href="/zh-CN/docs/executions">执行记录——生命周期与调试</a>
+    </div>
+  </DocsShell>
+</Layout>

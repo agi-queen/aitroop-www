@@ -1,0 +1,355 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+
+const metadata = {
+  title: '排程 — Aitroop 文件',
+};
+---
+
+<Layout metadata={metadata}>
+  <DocsShell current="schedules" locale="zh-TW">
+    <h1>排程</h1>
+    <p class="lead">
+      排程依照 cron 表達式自動執行一個應用。它把<em>"我做了一個有用的應用"</em>變成<em>"每週一早上，
+      報告會自動出現在我的 Slack 裡，我什麼都不用想。"</em>排程正是"存在的工作流"與"持續產生複利的
+      工作流"之間的分水嶺。
+    </p>
+
+    <div class="callout">
+      <strong>心智模型。</strong>一個排程 = Cron 表達式 × 一組輸入 × 一個交付目的地。你在說：
+      <em>"每週一上午 9 點，用這些預設參數執行這個應用，然後把結果送到這裡。"</em>剩下的事情交給平台：
+      建立沙盒、執行各階段、儲存產物、交付結果、記錄全程。
+    </div>
+
+    <h2>排程的結構</h2>
+    <p>
+      平台把排程儲存在 <code>app_scheduled_tasks</code> 表中。無論這個任務是執行應用還是傳送聊天提示詞，
+      結構都一樣，差別在 <code>action_type</code>。
+    </p>
+
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"id":              <span style="color:var(--aw-color-primary)">"task_..."</span>,<br/>
+&nbsp;&nbsp;"name":            <span style="color:var(--aw-color-primary)">string</span>,<br/>
+&nbsp;&nbsp;"enabled":         <span style="color:var(--aw-color-primary)">boolean</span>,<br/>
+&nbsp;&nbsp;"schedule_type":   <span style="color:var(--aw-color-primary)">"interval" | "daily" | "weekly" | "monthly"</span>,<br/>
+&nbsp;&nbsp;"schedule_config": <span style="color:var(--aw-color-primary)">ScheduleConfig</span>,   <span style="color:var(--aw-color-text-muted)">// 預設形狀，見下文</span><br/>
+&nbsp;&nbsp;"cron_expr":       <span style="color:var(--aw-color-primary)">string</span>,           <span style="color:var(--aw-color-text-muted)">// 從 config 計算而來；唯讀</span><br/>
+&nbsp;&nbsp;"timezone":        <span style="color:var(--aw-color-primary)">"America/Los_Angeles"</span>,&nbsp;<span style="color:var(--aw-color-text-muted)">// IANA 名稱</span><br/>
+&nbsp;&nbsp;"action_type":     <span style="color:var(--aw-color-primary)">"send_message" | "run_app"</span>,<br/>
+&nbsp;&nbsp;"action_config":   <span style="color:var(--aw-color-primary)">ActionConfig</span>,     <span style="color:var(--aw-color-text-muted)">// 形狀取決於 action_type</span><br/>
+&nbsp;&nbsp;"session_id":      <span style="color:var(--aw-color-primary)">string | null</span>,    <span style="color:var(--aw-color-text-muted)">// send_message 第一次觸發時自動建立</span><br/>
+&nbsp;&nbsp;"run_count":       <span style="color:var(--aw-color-primary)">number</span>,<br/>
+&nbsp;&nbsp;"last_run_at":     <span style="color:var(--aw-color-primary)">timestamp | null</span>,<br/>
+&nbsp;&nbsp;"next_run_at":     <span style="color:var(--aw-color-primary)">timestamp</span>,        <span style="color:var(--aw-color-text-muted)">// 排程器挑選 next_run_at &lt;= NOW() 的任務</span><br/>
+&nbsp;&nbsp;"last_status":     <span style="color:var(--aw-color-primary)">"ok" | "error" | "queued" | null</span>,<br/>
+&nbsp;&nbsp;"last_error":      <span style="color:var(--aw-color-primary)">string | null</span><br/>
+{`}`}
+    </div>
+
+    <h3><code>ScheduleConfig</code> — 四種形態</h3>
+    <p>
+      你不需要寫 cron。從四種 <code>schedule_type</code> 中選一種，每種都接收一個小型設定物件。
+      伺服器據此推導出 <code>cron_expr</code>（一個方便閱讀的標籤），並基於 IANA 時區運算
+      計算 <code>next_run_at</code>。
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+<span style="color:var(--aw-color-text-muted)">// schedule_type = "interval"</span><br/>
+{`{`} "every": <span style="color:var(--aw-color-primary)">15</span>, "unit": <span style="color:var(--aw-color-primary)">"minutes"</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// unit: "minutes" | "hours"</span><br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">// schedule_type = "daily"</span><br/>
+{`{`} "time": <span style="color:var(--aw-color-primary)">"09:00"</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// 任務時區中的 HH:MM</span><br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">// schedule_type = "weekly"</span><br/>
+{`{`} "time": <span style="color:var(--aw-color-primary)">"09:00"</span>, "days": <span style="color:var(--aw-color-primary)">[1,3,5]</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// 0=週日 .. 6=週六 — 這裡是週一/三/五</span><br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">// schedule_type = "monthly"</span><br/>
+{`{`} "time": <span style="color:var(--aw-color-primary)">"09:00"</span>, "day": <span style="color:var(--aw-color-primary)">1</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// 1–28（取 28 以相容所有月份）</span>
+    </div>
+
+    <h3><code>ActionConfig</code> — 每次觸發會做什麼</h3>
+    <p>
+      共有兩類動作。驗證器在 <code>POST /api/scheduled-tasks</code> 處區分它們：
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+<span style="color:var(--aw-color-text-muted)">// action_type = "send_message" — 向一個會話排入一條提示詞</span><br/>
+{`{`} "prompt": <span style="color:var(--aw-color-primary)">"彙總我從昨天到現在的 GitHub 活動。"</span> {`}`}<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">// action_type = "run_app" — 觸發一次 AppExecution</span><br/>
+{`{`}<br/>
+&nbsp;&nbsp;"app_id":    <span style="color:var(--aw-color-primary)">"app_..."</span>,<br/>
+&nbsp;&nbsp;"app_input": <span style="color:var(--aw-color-primary)">{`{ company_name: "Stripe", ... }`}</span><br/>
+{`}`}
+    </div>
+    <p>
+      對於 <code>send_message</code>，第一次觸發時會建立一個專用聊天會話
+      （<code>session_type = 'scheduled'</code>），並把 <code>session_id</code> 寫回任務。
+      之後每次觸發都會向<em>同一個</em>會話加入一條新訊息——這樣代理在多次執行之間就有上下文連續性，
+      <em>"每天早上看看 X"</em>才會真的像一段持續進行的對話。
+    </p>
+    <p>
+      對於 <code>run_app</code>，排程器在每次觸發前會驗證所需的 Connect 是否仍然有效。如果有缺失，
+      這次執行會記錄 <code>last_status = 'error'</code> 和一條
+      <code>"Missing required connections: …"</code> 訊息，而不會進入執行。
+    </p>
+
+    <h2>建立一個排程</h2>
+    <p>
+      在任一應用頁面，點擊 <strong>Schedules → New schedule</strong>。精靈會問你三件事：
+    </p>
+
+    <div class="step-grid">
+      <span class="step-num">1</span>
+      <div class="step-body">
+        <strong>什麼時候執行。</strong>
+        選一個預設（每小時、每天、每週、每月），或寫一個 cron 表達式。時間使用你工作區的時區——
+        在依賴排程之前請先把時區設好。
+      </div>
+
+      <span class="step-num">2</span>
+      <div class="step-body">
+        <strong>使用哪些輸入。</strong>
+        用每次執行都該使用的預設值填寫應用的表單。對於跟時間相關的輸入，使用動態佔位符
+        （<code>{`{{today}}`}</code>、<code>{`{{last_week_start}}`}</code>）。
+      </div>
+
+      <span class="step-num">3</span>
+      <div class="step-body">
+        <strong>結果送到哪裡。</strong>
+        可以是一個或多個目的地：信箱、Slack 頻道、Drive 資料夾、Notion 頁面、Webhook。
+      </div>
+    </div>
+
+    <p>
+      儲存後排程就生效了。應用頁面上的 <strong>Next run</strong> 欄位會顯示下一次觸發時間。
+      你可以隨時打開 <strong>Schedules</strong> 分頁來暫停、編輯、立即執行或刪除。
+    </p>
+
+    <h2>用 ScheduleConfig 表達的常見模式</h2>
+    <p>
+      你用 cron 想表達的那些定期執行的任務，寫成 Aitroop 預設的形狀是這樣的。
+      <code>cron_expr</code> 一欄是伺服器為展示而計算出來的——它永遠不可由使用者編輯。
+    </p>
+
+    <table>
+      <thead><tr><th>模式</th><th><code>schedule_type</code></th><th><code>schedule_config</code></th><th>計算出的 <code>cron_expr</code></th></tr></thead>
+      <tbody>
+        <tr><td>每 15 分鐘</td><td><code>interval</code></td><td><code>{`{ every: 15, unit: "minutes" }`}</code></td><td><code>every 15 min</code></td></tr>
+        <tr><td>每小時</td><td><code>interval</code></td><td><code>{`{ every: 1, unit: "hours" }`}</code></td><td><code>every 1 hour</code></td></tr>
+        <tr><td>每天上午 9 點</td><td><code>daily</code></td><td><code>{`{ time: "09:00" }`}</code></td><td><code>0 9 * * *</code></td></tr>
+        <tr><td>週一/三/五上午 8:30</td><td><code>weekly</code></td><td><code>{`{ time: "08:30", days: [1,3,5] }`}</code></td><td><code>30 8 * * 1,3,5</code></td></tr>
+        <tr><td>每週一上午 9 點</td><td><code>weekly</code></td><td><code>{`{ time: "09:00", days: [1] }`}</code></td><td><code>0 9 * * 1</code></td></tr>
+        <tr><td>每月 1 號上午 9 點</td><td><code>monthly</code></td><td><code>{`{ time: "09:00", day: 1 }`}</code></td><td><code>0 9 1 * *</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout warn">
+      <strong>最小頻率：5 分鐘。</strong>伺服器會以 <code>422 invalid schedule</code> 拒絕任何
+      低於 300 秒的 <code>interval</code>。排程器自身也會做防禦——如果發現某個任務的設定漂移到
+      5 分鐘以下，就會把 <code>next_run_at</code> 往後推並跳過這一次觸發。
+    </div>
+
+    <h2>這裡說的 "cron" 是什麼（和不是什麼）</h2>
+    <p>
+      Aitroop 的 <code>cron_expr</code> 欄位是一個衍生的標籤，而不是輸入——沒有地方讓你貼上像
+      <code>*/30 9-17 * * MON-FRI</code> 這樣的五段表達式。四種 <code>schedule_type</code> 涵蓋了
+      平台支援的場景，執行器在執行時也不會去解析 cron 語法。如果你需要超出預設的表達能力，
+      標準做法是：
+    </p>
+    <ul>
+      <li>用 <code>daily</code> 把任務排在它可能觸發的最早時間。</li>
+      <li>在應用最上方加一段守衛（一個 <code>script</code> 階段），判斷<em>"今天是不是真的該做這件事的日子？"</em>，不是的話就低成本地直接離開。</li>
+    </ul>
+
+    <h3>時區</h3>
+    <p>
+      每個任務都帶有自己的 IANA <code>timezone</code> 字串（例如
+      <code>America/Los_Angeles</code>）。對於 <code>daily</code> / <code>weekly</code> /
+      <code>monthly</code>，<code>time</code> 欄位會按該時區解釋——所以一個時區為
+      <code>America/Los_Angeles</code> 的每日 09:00 任務全年都在太平洋時間上午 9 點觸發，
+      並透過基於 Intl 的時差運算自動跟隨夏令時變化（請參考 <code>scheduledTasks.ts</code> 中的
+      <code>computeNextRun</code>）。預設時區是 <code>UTC</code>。
+    </p>
+
+    <h3>排程器內部機制</h3>
+    <p>
+      有一個工作程序大約每 60 秒驅動一次排程器。每個 tick 會以 50 個為一批，挑出所有
+      <code>enabled = true</code> 且 <code>next_run_at &lt;= NOW()</code> 的任務。對每個到期的任務
+      呼叫 <code>executeTask</code>，然後把 <code>last_run_at</code>、<code>last_status</code>，
+      以及重新計算出的 <code>next_run_at</code> 寫回去。透過
+      <code>POST /api/scheduled-tasks/:id/run</code> 手動觸發，走的是同一條
+      <code>executeTask</code> 路徑，所以從下游看，手動執行與排程執行沒有差別。
+    </p>
+
+    <h2>動態輸入 — 每次執行都會變化的預設值</h2>
+    <p>
+      大部分排程執行的應用都需要一個"滑動錨點"——"昨天的工單"、"上個月的支出"。
+      正確的實作位置在應用的 <code>input_schema</code> 上，而不是在排程上。
+      在相應的輸入欄位上設定 <code>dynamic_default</code>，並且不要把這個欄位寫進
+      <code>action_config.app_input</code>；執行器會在執行時填入。
+    </p>
+
+    <table>
+      <thead><tr><th><code>dynamic_default</code></th><th>解析為（在 2026-05-31 的範例）</th></tr></thead>
+      <tbody>
+        <tr><td><code>today</code></td><td><code>2026-05-31</code></td></tr>
+        <tr><td><code>yesterday</code></td><td><code>2026-05-30</code></td></tr>
+        <tr><td><code>last7days</code></td><td><code>2026-05-24 → 2026-05-31</code>（用於 <code>daterange</code>）</td></tr>
+        <tr><td><code>last30days</code></td><td><code>2026-05-01 → 2026-05-31</code></td></tr>
+        <tr><td><code>thisMonth</code></td><td><code>2026-05-01 → 2026-05-31</code></td></tr>
+        <tr><td><code>lastMonth</code></td><td><code>2026-04-01 → 2026-04-30</code></td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      一個每週一次的工程報告，把它的 <code>daterange</code> 輸入設成
+      <code>dynamic_default: "last7days"</code>，就始終涵蓋正確的時間視窗——設定一次之後，
+      排程就再也不用碰日期了。
+    </p>
+
+    <div class="callout">
+      <strong>為什麼不在 goal 那一側做樣板？</strong>早期的文件曾暗示排程的輸入可以用
+      <code>{`{{last_week_start}}`}</code> 這樣的佔位符。實際上不行——goal 展開器是一個字面 key 替換器
+      （見 <a href="/zh-TW/docs/concepts">核心概念</a>）。所有時間相關性都放在輸入 schema 上。
+    </div>
+
+    <h2>結果去了哪裡</h2>
+    <p>
+      一次排程執行所產生的產物集合與手動執行完全一樣，落點也相同：對於 <code>run_app</code>，是
+      <code>AppExecution</code> 下的 <code>app_artifact</code> 列；對於 <code>send_message</code>，
+      則是聊天會話的訊息歷史。這裡沒有獨立的"交付"子系統——要把結果送到外部，把它做進應用裡：
+    </p>
+    <ul>
+      <li>要寄信件報告——加一個使用者已授權信件 Connect 的階段去傳送。</li>
+      <li>要發到 Slack——給應用配上 Slack 的 Connect，讓最後一個階段去發送。</li>
+      <li>要儲存到 Drive / Notion——同樣的模式，使用對應的 Connect。</li>
+      <li>要推送到自己的 Webhook——加一個 <code>script</code> 階段去 <code>POST</code>。</li>
+    </ul>
+    <p>
+      每次執行也會在 <code>app_task_runs</code> 留下記錄，附帶狀態（<code>queued</code> →
+      <code>ok</code> / <code>error</code>），應用的 <strong>Executions</strong> 分頁裡照常顯示產物。
+    </p>
+
+    <h2>從平台外部按需觸發</h2>
+    <p>
+      排程由 cron 觸發。要從腳本或 webhook 處理器手動觸發：
+    </p>
+
+    <div class="code-block">
+POST /api/scheduled-tasks/:id/run<br/>
+Authorization: Bearer $AT_USER_TOKEN
+    </div>
+
+    <p>
+      排程會以其設定的輸入和交付目標立即執行一次。適合在下次排程觸發之前先重新整理一輪。
+    </p>
+
+    <h2>應用版本與排程</h2>
+    <p>
+      排程總是使用應用的<em>目前</em>版本。你編輯應用之後，下一次觸發就會使用新版本——
+      目前沒有版本固定的介面。執行記錄會儲存執行時的 <code>app_version</code>，
+      因此歷史記錄依然清晰無歧義，但你無法把一個排程凍結到舊版本。
+      如果你需要版本穩定性，實用的變通方法是：複製應用，把複製出的副本凍結，
+      讓排程指向該副本。
+    </p>
+
+    <h2>排程執行失敗時</h2>
+    <p>
+      每次觸發都會在 <code>app_task_runs</code> 中寫入一列，記錄 <code>status</code> 和
+      <code>triggered</code>（<code>scheduler</code> | <code>manual</code>）。所屬的任務列
+      會記錄最近一次結果：<code>last_status</code>（<code>ok</code> /
+      <code>error</code> / <code>queued</code>）、<code>last_error</code>、<code>last_run_at</code>。
+      失敗不會自動重試——它們會等待下次觸發。
+    </p>
+
+    <h3>常見失敗情境</h3>
+    <table>
+      <thead><tr><th>症狀</th><th>可能原因</th><th>解決方式</th></tr></thead>
+      <tbody>
+        <tr><td><code>last_error: "Missing required connections: …"</code></td><td>應用所需的某個 Connect 在觸發之前被撤銷或過期。</td><td>在 設定 → Connects 中重新授權該 Connect。下次觸發會照常進行。</td></tr>
+        <tr><td>階段逾時</td><td>目標隨時間變得越來越重（資料更多、搜尋更久）。</td><td>調高受影響階段的 <code>timeout_ms</code>。</td></tr>
+        <tr><td>結果為空</td><td><code>dynamic_default</code> 解析出的視窗落在了一段沒有資料的區間。</td><td>放寬視窗，或讓階段優雅地回報"沒有活動"。</td></tr>
+        <tr><td>低於最小頻率被跳過</td><td>間隔漂移到 5 分鐘以下（通常是直接改資料庫造成的）。</td><td>排程器會把 <code>next_run_at</code> 往後推 5 分鐘並跳過。透過 <code>PUT</code> 修正間隔。</td></tr>
+      </tbody>
+    </table>
+
+    <h2>暫停與編輯</h2>
+    <p>
+      可以把一個排程關掉而不刪除它——在事故期間或者編輯應用時很有用。
+      編輯任何欄位——cron、輸入、交付——下次執行會使用新值。
+    </p>
+
+    <div class="callout warn">
+      <strong>關注成本的排程。</strong>15 分鐘一次的頻率是每小時一次的 4 倍成本，是每天一次的 96 倍。
+      在調高頻率之前，問問自己有沒有東西真的變化得這麼頻繁。大多數所謂"即時"告警的需求，
+      其實每小時檢查一次就足夠了。
+    </div>
+
+    <h2>常見問題與排查</h2>
+
+    <p class="faq-q">我的排程沒有在上午 9 點按預期觸發。</p>
+    <p>
+      <strong>最常見的原因：</strong>
+    </p>
+    <ul>
+      <li><strong>時區不對。</strong>預設是 UTC。要嘛在建立任務時傳入一個 IANA <code>timezone</code>，要嘛透過 <code>PUT /api/scheduled-tasks/:id</code> 更新。</li>
+      <li><strong>夏令時切換。</strong><code>computeNextRun</code> 的實作會查閱 IANA 資料庫，讓牆上鐘的 <code>time</code> 在夏令時切換前後保持不變。可以查看 <code>app_scheduled_tasks</code> 裡的 <code>next_run_at</code>，看看排程器認為下次觸發是何時。</li>
+      <li><strong>任務被停用。</strong>有人把 <code>enabled</code> 設成了 <code>false</code>。直接檢查那一列，或透過 <code>GET /api/scheduled-tasks</code> 查看。</li>
+      <li><strong>觸發視窗。</strong>排程器大約每 60 秒執行一次——在繁忙的伺服器上，一次觸發可能比預定時間晚最多一分鐘。</li>
+    </ul>
+
+    <p class="faq-q">"每季第二個工作週的星期二執行一次"怎麼做？</p>
+    <p>
+      四種預設不能涵蓋這個情境，也沒有原生 cron 的逃生口。支援的模式是"每天排程，在應用裡守衛"：
+    </p>
+    <ul>
+      <li>設定 <code>schedule_type: "daily"</code> 在你選定的牆鐘時間。</li>
+      <li>把應用的第一個階段做成一個 <code>script</code> 階段，檢查日期，如果今天不是合適的日子就低成本退出。</li>
+    </ul>
+
+    <p class="faq-q">能不能從 Slack 的斜線指令觸發一個排程？</p>
+    <p>
+      可以——把 Slack 的斜線指令指向一個 webhook URL，讓它 POST 到
+      <code>/api/scheduled-tasks/:id/run</code>。排程會以其設定的輸入執行一次。
+      請在你這一側的處理器裡驗證 Slack 的簽章密鑰。
+    </p>
+
+    <p class="faq-q">我的應用現在多了一個輸入。已有的排程會壞嗎？</p>
+    <p>
+      它們會繼續執行。<code>action_config.app_input</code> 是原樣傳遞的，所以缺漏的鍵會回退到
+      應用 <code>input_schema</code> 中定義的內容——欄位的 <code>default</code>，
+      或者執行時的 <code>dynamic_default</code>。如果新的輸入是 <code>required</code> 且沒有預設值，
+      下次觸發會在驗證階段以 <code>Missing required input</code> 錯誤失敗。請透過
+      <code>PUT /api/scheduled-tasks/:id</code> 在 <code>action_config.app_input</code>
+      中帶上新鍵，更新任務。
+    </p>
+
+    <p class="faq-q">在哪裡能看到排隊中或執行中的任務？</p>
+    <p>
+      先列出任務本身，再深入到單一任務的執行歷史：
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+<span style="color:var(--aw-color-text-muted)"># 目前使用者的所有排程</span><br/>
+curl https://app.aitroop.net/api/scheduled-tasks \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN"<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># 單一排程最近 50 次執行（status / triggered / started_at）</span><br/>
+curl https://app.aitroop.net/api/scheduled-tasks/$ID/runs \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN"
+    </div>
+
+    <p class="faq-q">能不能把排程納入版本控制？</p>
+    <p>
+      可以——透過 <code>GET /api/scheduled-tasks</code> 讀取（或者篩選到某一個任務，然後把 JSON
+      持久化到儲存庫中）。透過 <code>POST</code> 重新建立，或用
+      <code>PUT /api/scheduled-tasks/:id</code> 修改既有任務。沒有依任務 ID 的
+      <code>GET</code> 端點——列出全部，再挑你要的那一列即可。
+    </p>
+
+    <div class="next-up">
+      <span class="label">下一篇</span>
+      <a href="/zh-TW/docs/sandbox">沙盒 — 代理工作的地方</a>
+    </div>
+  </DocsShell>
+</Layout>

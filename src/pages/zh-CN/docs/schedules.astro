@@ -1,0 +1,354 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+
+const metadata = {
+  title: '定时任务 — Aitroop 文档',
+};
+---
+
+<Layout metadata={metadata}>
+  <DocsShell current="schedules" locale="zh-CN">
+    <h1>定时任务</h1>
+    <p class="lead">
+      定时任务按 cron 表达式自动运行一个应用。它把<em>"我做了一个有用的应用"</em>变成<em>"每周一早上，
+      报告会自动出现在我的 Slack 里，我什么都不用想。"</em>定时任务正是"存在的工作流"与"持续产生复利的
+      工作流"之间的分水岭。
+    </p>
+
+    <div class="callout">
+      <strong>心智模型。</strong>一个定时任务 = Cron 表达式 × 一组输入 × 一个交付目的地。你在说：
+      <em>"每周一上午 9 点，用这些默认参数运行这个应用，然后把结果发送到这里。"</em>剩下的事情交给平台：
+      创建沙箱、运行各阶段、保存产物、交付结果、记录全过程。
+    </div>
+
+    <h2>定时任务的结构</h2>
+    <p>
+      平台把定时任务存储在 <code>app_scheduled_tasks</code> 表中。无论这个任务是运行应用还是发送聊天提示词，
+      结构都是一样的，区别在 <code>action_type</code>。
+    </p>
+
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"id":              <span style="color:var(--aw-color-primary)">"task_..."</span>,<br/>
+&nbsp;&nbsp;"name":            <span style="color:var(--aw-color-primary)">string</span>,<br/>
+&nbsp;&nbsp;"enabled":         <span style="color:var(--aw-color-primary)">boolean</span>,<br/>
+&nbsp;&nbsp;"schedule_type":   <span style="color:var(--aw-color-primary)">"interval" | "daily" | "weekly" | "monthly"</span>,<br/>
+&nbsp;&nbsp;"schedule_config": <span style="color:var(--aw-color-primary)">ScheduleConfig</span>,   <span style="color:var(--aw-color-text-muted)">// 预设形状，见下文</span><br/>
+&nbsp;&nbsp;"cron_expr":       <span style="color:var(--aw-color-primary)">string</span>,           <span style="color:var(--aw-color-text-muted)">// 从 config 计算得出；只读</span><br/>
+&nbsp;&nbsp;"timezone":        <span style="color:var(--aw-color-primary)">"America/Los_Angeles"</span>,&nbsp;<span style="color:var(--aw-color-text-muted)">// IANA 名称</span><br/>
+&nbsp;&nbsp;"action_type":     <span style="color:var(--aw-color-primary)">"send_message" | "run_app"</span>,<br/>
+&nbsp;&nbsp;"action_config":   <span style="color:var(--aw-color-primary)">ActionConfig</span>,     <span style="color:var(--aw-color-text-muted)">// 形状取决于 action_type</span><br/>
+&nbsp;&nbsp;"session_id":      <span style="color:var(--aw-color-primary)">string | null</span>,    <span style="color:var(--aw-color-text-muted)">// send_message 首次触发时自动创建</span><br/>
+&nbsp;&nbsp;"run_count":       <span style="color:var(--aw-color-primary)">number</span>,<br/>
+&nbsp;&nbsp;"last_run_at":     <span style="color:var(--aw-color-primary)">timestamp | null</span>,<br/>
+&nbsp;&nbsp;"next_run_at":     <span style="color:var(--aw-color-primary)">timestamp</span>,        <span style="color:var(--aw-color-text-muted)">// 调度器挑选 next_run_at &lt;= NOW() 的任务</span><br/>
+&nbsp;&nbsp;"last_status":     <span style="color:var(--aw-color-primary)">"ok" | "error" | "queued" | null</span>,<br/>
+&nbsp;&nbsp;"last_error":      <span style="color:var(--aw-color-primary)">string | null</span><br/>
+{`}`}
+    </div>
+
+    <h3><code>ScheduleConfig</code> — 四种形态</h3>
+    <p>
+      你不需要写 cron。从四种 <code>schedule_type</code> 中选一种，每种都接收一个小型配置对象。
+      服务器据此推导出 <code>cron_expr</code>（一个便于阅读的标签），并基于 IANA 时区运算
+      计算 <code>next_run_at</code>。
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+<span style="color:var(--aw-color-text-muted)">// schedule_type = "interval"</span><br/>
+{`{`} "every": <span style="color:var(--aw-color-primary)">15</span>, "unit": <span style="color:var(--aw-color-primary)">"minutes"</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// unit: "minutes" | "hours"</span><br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">// schedule_type = "daily"</span><br/>
+{`{`} "time": <span style="color:var(--aw-color-primary)">"09:00"</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// 任务所在时区的 HH:MM</span><br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">// schedule_type = "weekly"</span><br/>
+{`{`} "time": <span style="color:var(--aw-color-primary)">"09:00"</span>, "days": <span style="color:var(--aw-color-primary)">[1,3,5]</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// 0=周日 .. 6=周六 — 这里是周一/三/五</span><br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">// schedule_type = "monthly"</span><br/>
+{`{`} "time": <span style="color:var(--aw-color-primary)">"09:00"</span>, "day": <span style="color:var(--aw-color-primary)">1</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// 1–28（取 28 以兼容所有月份）</span>
+    </div>
+
+    <h3><code>ActionConfig</code> — 每次触发会做什么</h3>
+    <p>
+      共有两类动作。校验器在 <code>POST /api/scheduled-tasks</code> 处区分它们：
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+<span style="color:var(--aw-color-text-muted)">// action_type = "send_message" — 向一个会话排入一条提示词</span><br/>
+{`{`} "prompt": <span style="color:var(--aw-color-primary)">"汇总我从昨天到现在的 GitHub 活动。"</span> {`}`}<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">// action_type = "run_app" — 触发一次 AppExecution</span><br/>
+{`{`}<br/>
+&nbsp;&nbsp;"app_id":    <span style="color:var(--aw-color-primary)">"app_..."</span>,<br/>
+&nbsp;&nbsp;"app_input": <span style="color:var(--aw-color-primary)">{`{ company_name: "Stripe", ... }`}</span><br/>
+{`}`}
+    </div>
+    <p>
+      对于 <code>send_message</code>，首次触发时会创建一个专用聊天会话
+      （<code>session_type = 'scheduled'</code>），并把 <code>session_id</code> 写回任务。
+      此后每次触发都会向<em>同一个</em>会话中加入一条新消息——这样代理在多次运行之间就有上下文连续性，
+      <em>"每天早上检查一下 X"</em>才会真的像一段持续进行的对话。
+    </p>
+    <p>
+      对于 <code>run_app</code>，调度器在每次触发前会验证所需的 Connect 是否仍然有效。如果有缺失，
+      这次运行会记录 <code>last_status = 'error'</code> 和一条
+      <code>"Missing required connections: …"</code> 信息，而不会进入执行。
+    </p>
+
+    <h2>创建一个定时任务</h2>
+    <p>
+      在任意应用页面，点击 <strong>Schedules → New schedule</strong>。向导会问你三件事：
+    </p>
+
+    <div class="step-grid">
+      <span class="step-num">1</span>
+      <div class="step-body">
+        <strong>什么时候运行。</strong>
+        选择一个预设（每小时、每天、每周、每月），或者写一个 cron 表达式。时间使用你工作区的时区——
+        在依赖定时任务之前请先把时区设好。
+      </div>
+
+      <span class="step-num">2</span>
+      <div class="step-body">
+        <strong>使用哪些输入。</strong>
+        用每次运行都该使用的默认值填写应用的表单。对于跟时间相关的输入，使用动态占位符
+        （<code>{`{{today}}`}</code>、<code>{`{{last_week_start}}`}</code>）。
+      </div>
+
+      <span class="step-num">3</span>
+      <div class="step-body">
+        <strong>结果送到哪里。</strong>
+        可以是一个或多个目的地：邮箱、Slack 频道、Drive 文件夹、Notion 页面、Webhook。
+      </div>
+    </div>
+
+    <p>
+      保存后定时任务就生效了。应用页面上的 <strong>Next run</strong> 字段会显示下一次触发时间。
+      你可以随时打开 <strong>Schedules</strong> 标签来暂停、编辑、立即运行或删除。
+    </p>
+
+    <h2>用 ScheduleConfig 表达的常见模式</h2>
+    <p>
+      你用 cron 想表达的那些定期任务，写成 Aitroop 预设的形状是这样的。
+      <code>cron_expr</code> 一列是服务器为展示而计算出来的——它永远不可由用户编辑。
+    </p>
+
+    <table>
+      <thead><tr><th>模式</th><th><code>schedule_type</code></th><th><code>schedule_config</code></th><th>计算出的 <code>cron_expr</code></th></tr></thead>
+      <tbody>
+        <tr><td>每 15 分钟</td><td><code>interval</code></td><td><code>{`{ every: 15, unit: "minutes" }`}</code></td><td><code>every 15 min</code></td></tr>
+        <tr><td>每小时</td><td><code>interval</code></td><td><code>{`{ every: 1, unit: "hours" }`}</code></td><td><code>every 1 hour</code></td></tr>
+        <tr><td>每天上午 9 点</td><td><code>daily</code></td><td><code>{`{ time: "09:00" }`}</code></td><td><code>0 9 * * *</code></td></tr>
+        <tr><td>周一/三/五上午 8:30</td><td><code>weekly</code></td><td><code>{`{ time: "08:30", days: [1,3,5] }`}</code></td><td><code>30 8 * * 1,3,5</code></td></tr>
+        <tr><td>每周一上午 9 点</td><td><code>weekly</code></td><td><code>{`{ time: "09:00", days: [1] }`}</code></td><td><code>0 9 * * 1</code></td></tr>
+        <tr><td>每月 1 号上午 9 点</td><td><code>monthly</code></td><td><code>{`{ time: "09:00", day: 1 }`}</code></td><td><code>0 9 1 * *</code></td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout warn">
+      <strong>最小频率：5 分钟。</strong>服务器会以 <code>422 invalid schedule</code> 拒绝任何
+      低于 300 秒的 <code>interval</code>。调度器自身也会做防御——如果发现某个任务的配置漂移到
+      5 分钟以下，就会把 <code>next_run_at</code> 往后推并跳过这一次触发。
+    </div>
+
+    <h2>这里说的 "cron" 是什么（和不是什么）</h2>
+    <p>
+      Aitroop 的 <code>cron_expr</code> 字段是一个派生的标签，而不是输入——没有地方让你粘贴像
+      <code>*/30 9-17 * * MON-FRI</code> 这样的五段表达式。四种 <code>schedule_type</code> 覆盖了
+      平台支持的场景，执行器在运行时也不会去解析 cron 语法。如果你需要超出预设的表达能力，
+      标准做法是：
+    </p>
+    <ul>
+      <li>用 <code>daily</code> 把任务安排在它可能触发的最早时间。</li>
+      <li>在应用最上方加一段守卫（一个 <code>script</code> 阶段），判断<em>"今天是不是真的该干这事的日子？"</em>，不是的话就低成本地直接退出。</li>
+    </ul>
+
+    <h3>时区</h3>
+    <p>
+      每个任务都带有自己的 IANA <code>timezone</code> 字符串（例如
+      <code>America/Los_Angeles</code>）。对于 <code>daily</code> / <code>weekly</code> /
+      <code>monthly</code>，<code>time</code> 字段按该时区解释——所以一个时区为
+      <code>America/Los_Angeles</code> 的每日 09:00 任务全年都在太平洋时间上午 9 点触发，
+      并通过基于 Intl 的时差运算自动跟随夏令时变化（参见 <code>scheduledTasks.ts</code> 里的
+      <code>computeNextRun</code>）。默认时区是 <code>UTC</code>。
+    </p>
+
+    <h3>调度器内部机制</h3>
+    <p>
+      有一个工作进程大约每 60 秒驱动一次调度器。每个 tick 会以 50 个为一批，挑出所有
+      <code>enabled = true</code> 且 <code>next_run_at &lt;= NOW()</code> 的任务。对每个到期的任务
+      调用 <code>executeTask</code>，然后把 <code>last_run_at</code>、<code>last_status</code>，
+      以及新计算出的 <code>next_run_at</code> 写回去。通过
+      <code>POST /api/scheduled-tasks/:id/run</code> 手动触发，走的是同一条
+      <code>executeTask</code> 路径，所以从下游看，手动运行和定时运行没有区别。
+    </p>
+
+    <h2>动态输入 — 每次运行都会变化的默认值</h2>
+    <p>
+      大部分定时运行的应用都需要一个"滑动锚点"——"昨天的工单"、"上月的支出"。
+      正确的实现位置是在应用的 <code>input_schema</code> 上，而不是在定时任务上。
+      在相应的输入字段上设置 <code>dynamic_default</code>，并且不要把这个字段写进
+      <code>action_config.app_input</code>；执行器会在运行时填入。
+    </p>
+
+    <table>
+      <thead><tr><th><code>dynamic_default</code></th><th>解析为（在 2026-05-31 的示例）</th></tr></thead>
+      <tbody>
+        <tr><td><code>today</code></td><td><code>2026-05-31</code></td></tr>
+        <tr><td><code>yesterday</code></td><td><code>2026-05-30</code></td></tr>
+        <tr><td><code>last7days</code></td><td><code>2026-05-24 → 2026-05-31</code>（用于 <code>daterange</code>）</td></tr>
+        <tr><td><code>last30days</code></td><td><code>2026-05-01 → 2026-05-31</code></td></tr>
+        <tr><td><code>thisMonth</code></td><td><code>2026-05-01 → 2026-05-31</code></td></tr>
+        <tr><td><code>lastMonth</code></td><td><code>2026-04-01 → 2026-04-30</code></td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      一个每周一次的工程报告，把它的 <code>daterange</code> 输入设为
+      <code>dynamic_default: "last7days"</code>，就始终覆盖正确的时间窗口——配置一次之后，
+      定时任务就再也不用碰日期了。
+    </p>
+
+    <div class="callout">
+      <strong>为什么不在 goal 一侧做模板？</strong>早期的文档曾暗示定时任务的输入可以用
+      <code>{`{{last_week_start}}`}</code> 这样的占位符。实际上不行——goal 展开器是一个字面 key 替换器
+      （见 <a href="/zh-CN/docs/concepts">核心概念</a>）。所有时间相关性都放在输入 schema 上。
+    </div>
+
+    <h2>结果去了哪里</h2>
+    <p>
+      一次定时运行产生的产物集合与手动运行完全相同，落点也一样：对于 <code>run_app</code>，是
+      <code>AppExecution</code> 下的 <code>app_artifact</code> 行；对于 <code>send_message</code>，
+      是聊天会话的消息历史。这里没有单独的"交付"子系统——要把结果送到外部，把它做进应用里：
+    </p>
+    <ul>
+      <li>要发送邮件报告——加一个使用用户已授权邮箱 Connect 的阶段去发送。</li>
+      <li>要发到 Slack——给应用配上 Slack 的 Connect，让最后一个阶段去发送。</li>
+      <li>要保存到 Drive / Notion——同样的模式，使用对应的 Connect。</li>
+      <li>要推送到自己的 Webhook——加一个 <code>script</code> 阶段去 <code>POST</code>。</li>
+    </ul>
+    <p>
+      每次运行也会在 <code>app_task_runs</code> 中留下记录，附带状态（<code>queued</code> →
+      <code>ok</code> / <code>error</code>），应用的 <strong>Executions</strong> 标签里照常显示产物。
+    </p>
+
+    <h2>从平台外部按需触发</h2>
+    <p>
+      定时任务由 cron 触发。要从脚本或 webhook 处理器手动触发：
+    </p>
+
+    <div class="code-block">
+POST /api/scheduled-tasks/:id/run<br/>
+Authorization: Bearer $AT_USER_TOKEN
+    </div>
+
+    <p>
+      定时任务会以其配置的输入和交付目标立即运行一次。适合在下次定时触发之前提前刷一遍。
+    </p>
+
+    <h2>应用版本与定时任务</h2>
+    <p>
+      定时任务总是使用应用的<em>当前</em>版本。你编辑应用之后，下一次触发就会用到新版本——
+      目前没有版本固定的界面。执行记录会保存运行时的 <code>app_version</code>，
+      所以历史记录依然清晰无歧义，但你无法把一个定时任务冻结到旧版本。
+      如果你需要版本稳定性，实用的变通方法是：克隆应用，把克隆冻结，让定时任务指向克隆。
+    </p>
+
+    <h2>定时运行失败时</h2>
+    <p>
+      每次触发都会在 <code>app_task_runs</code> 中写入一行，记录 <code>status</code> 和
+      <code>triggered</code>（<code>scheduler</code> | <code>manual</code>）。所属的任务行
+      会记录最近一次结果：<code>last_status</code>（<code>ok</code> /
+      <code>error</code> / <code>queued</code>）、<code>last_error</code>、<code>last_run_at</code>。
+      失败不会自动重试——它们会等待下次触发。
+    </p>
+
+    <h3>常见失败模式</h3>
+    <table>
+      <thead><tr><th>症状</th><th>可能原因</th><th>解决</th></tr></thead>
+      <tbody>
+        <tr><td><code>last_error: "Missing required connections: …"</code></td><td>应用所需的某个 Connect 在触发之前被撤销或过期。</td><td>在 设置 → Connects 中重新授权该 Connect。下次触发会照常进行。</td></tr>
+        <tr><td>阶段超时</td><td>目标随时间变得越来越重（数据更多、检索更长）。</td><td>调高受影响阶段的 <code>timeout_ms</code>。</td></tr>
+        <tr><td>结果为空</td><td><code>dynamic_default</code> 解析出的窗口落在了一段没有数据的区间。</td><td>扩大窗口，或者让阶段优雅地报告"没有活动"。</td></tr>
+        <tr><td>低于最小频率被跳过</td><td>间隔漂移到 5 分钟以下（通常是直接改数据库导致）。</td><td>调度器会把 <code>next_run_at</code> 往后推 5 分钟并跳过。通过 <code>PUT</code> 修正间隔。</td></tr>
+      </tbody>
+    </table>
+
+    <h2>暂停与编辑</h2>
+    <p>
+      可以把一个定时任务关掉而不删除它——在故障期间或者编辑应用时很有用。
+      编辑任意字段——cron、输入、交付——下次运行会使用新值。
+    </p>
+
+    <div class="callout warn">
+      <strong>关注成本的调度。</strong>15 分钟一次的频率是每小时一次的 4 倍成本，是每天一次的 96 倍。
+      调高频率之前，问问自己有没有东西真的变化得这么频繁。大多数所谓"实时"告警的需求，
+      其实每小时检查一次就足够了。
+    </div>
+
+    <h2>常见问题与排查</h2>
+
+    <p class="faq-q">我的定时任务没有在上午 9 点按预期触发。</p>
+    <p>
+      <strong>最常见的原因：</strong>
+    </p>
+    <ul>
+      <li><strong>时区不对。</strong>默认是 UTC。要么在创建任务时传入一个 IANA <code>timezone</code>，要么通过 <code>PUT /api/scheduled-tasks/:id</code> 更新。</li>
+      <li><strong>夏令时切换。</strong><code>computeNextRun</code> 的实现会查阅 IANA 数据库，让墙上钟的 <code>time</code> 在夏令时切换前后保持不变。可以查看 <code>app_scheduled_tasks</code> 里的 <code>next_run_at</code>，看看调度器认为下次触发是何时。</li>
+      <li><strong>任务被禁用。</strong>有人把 <code>enabled</code> 设成了 <code>false</code>。直接检查行，或通过 <code>GET /api/scheduled-tasks</code> 查看。</li>
+      <li><strong>触发窗口。</strong>调度器大约每 60 秒运行一次——在繁忙的服务器上，一次触发可能比预定时间晚最多一分钟。</li>
+    </ul>
+
+    <p class="faq-q">"每个季度第二个工作周的星期二运行一次"怎么做？</p>
+    <p>
+      四种预设不能覆盖这个场景，也没有原生 cron 的逃生口。支持的模式是"每天调度，在应用里守卫"：
+    </p>
+    <ul>
+      <li>设置 <code>schedule_type: "daily"</code> 在你选定的墙钟时间。</li>
+      <li>把应用的第一个阶段做成一个 <code>script</code> 阶段，检查日期，如果今天不是合适的日子就低成本退出。</li>
+    </ul>
+
+    <p class="faq-q">能不能从 Slack 的斜杠命令触发一个定时任务？</p>
+    <p>
+      可以——把 Slack 的斜杠命令指向一个 webhook URL，让它 POST 到
+      <code>/api/scheduled-tasks/:id/run</code>。定时任务会以其配置的输入运行一次。
+      请在你这一侧的处理器里校验 Slack 的签名密钥。
+    </p>
+
+    <p class="faq-q">我的应用现在多了一个输入。已有的定时任务会坏吗？</p>
+    <p>
+      它们会继续运行。<code>action_config.app_input</code> 是原样传递的，所以缺失的键会回退到
+      应用的 <code>input_schema</code> 里定义的内容——字段的 <code>default</code>，
+      或者运行时的 <code>dynamic_default</code>。如果这个新输入是 <code>required</code> 且没有默认值，
+      下次触发会在校验阶段以 <code>Missing required input</code> 错误失败。请通过
+      <code>PUT /api/scheduled-tasks/:id</code> 在 <code>action_config.app_input</code>
+      中带上新键，更新任务。
+    </p>
+
+    <p class="faq-q">在哪里能看到正在排队或正在运行的任务？</p>
+    <p>
+      先列出任务本身，然后再钻到单个任务的运行历史：
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+<span style="color:var(--aw-color-text-muted)"># 当前用户的所有定时任务</span><br/>
+curl https://app.aitroop.net/api/scheduled-tasks \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN"<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># 单个定时任务最近 50 次运行（status / triggered / started_at）</span><br/>
+curl https://app.aitroop.net/api/scheduled-tasks/$ID/runs \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN"
+    </div>
+
+    <p class="faq-q">能不能把定时任务纳入版本控制？</p>
+    <p>
+      可以——通过 <code>GET /api/scheduled-tasks</code> 读取（或者筛选到某个任务，然后把 JSON 持久化
+      到仓库里）。通过 <code>POST</code> 重新创建，或者用
+      <code>PUT /api/scheduled-tasks/:id</code> 修改已有任务。没有按任务 ID 的
+      <code>GET</code> 端点——列出全部，再挑你要的那一行即可。
+    </p>
+
+    <div class="next-up">
+      <span class="label">下一篇</span>
+      <a href="/zh-CN/docs/sandbox">沙箱 — 代理干活的地方</a>
+    </div>
+  </DocsShell>
+</Layout>

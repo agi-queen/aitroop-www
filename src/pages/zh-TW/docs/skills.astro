@@ -1,0 +1,450 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+---
+
+<Layout metadata={{ title: '技能 — Aitroop 文件' }}>
+  <DocsShell current="skills" locale="zh-TW">
+    <h1>技能</h1>
+    <p class="lead">
+      可以把技能想成代理的工具箱。推理只能把代理帶到一半的路上;技能負責剩下的一半 —— 它們讓代理能搜尋網路、解析 PDF、查詢 CRM、
+      生成圖片、抓取網站,或建立另一個應用。代理會根據任務自行決定何時要拿哪一件工具;而你決定工具箱裡到底放什麼。
+    </p>
+
+    <div class="callout">
+      <strong>技能 vs 連接。</strong>這兩個概念經常被混淆。<strong>技能</strong>是能力(動詞 —— <em>"搜尋網路"</em>、<em>"傳送 Slack 訊息"</em>)。
+      <strong>連接</strong>是這項能力以 <em>你</em> 的身分在外部服務上行動時所需的 OAuth 憑證。web-search 技能不需要連接;
+      傳送 Slack 訊息的技能則需要一個 Slack 連接。
+    </div>
+
+    <h2>技能在執行時如何運作</h2>
+    <ol>
+      <li>你在工作區中安裝一個技能(或者它本身就是內建的)。</li>
+      <li>該技能會在每個聊天中、以及在 <code>resources.skills</code> 中宣告它的每個應用中可用。</li>
+      <li>代理會讀取技能的說明(它的 <code>SKILL.md</code>)並知道何時呼叫它。</li>
+      <li>當代理呼叫一個技能時,你會在對話中行內看到這次呼叫:名稱、參數和結果。</li>
+      <li>如果技能需要連接(例如 CRM 技能需要 Salesforce OAuth),代理會在第一次使用時提示你授權。</li>
+    </ol>
+
+    <p>你不會按名稱呼叫技能。代理會根據你的請求自行決定何時呼叫它們。</p>
+
+    <h2>一個技能的結構剖析</h2>
+    <p>
+      一個技能就是一份帶版本的檔案包 —— 根目錄下有一個 <code>SKILL.md</code>,再加上該技能引用的任何指令稿、prompt 或資料。
+      檔案包存放在 S3 上(平台技能放在 <code>builtin/skills/{`{name}`}/{`{version}`}/</code>,使用者發佈的則放在
+      <code>users/{`{userId}`}/skills/{`{name}`}/{`{version}`}/</code>),並在執行時被鏡像到每個沙盒中。
+    </p>
+    <div class="code-block">
+---<br/>
+name: web-search<br/>
+title: Web Search<br/>
+category: research<br/>
+author: aitroop<br/>
+description: Search the public web and fetch results.<br/>
+---<br/>
+<br/>
+# Web Search<br/>
+<br/>
+Use this skill when the user wants up-to-date information,<br/>
+news, or any data that requires looking at public web pages.<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">## When to use</span><br/>
+- Recent news ("what's happening with X")<br/>
+- Public company info<br/>
+- Documentation lookup<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">## How to use</span><br/>
+<span style="color:var(--aw-color-text-muted)">&lt;instructions for the agent&gt;</span>
+    </div>
+
+    <p>
+      Frontmatter 是中繼資料;本文是給代理的說明。Aitroop 會從 frontmatter 讀取
+      <code>name</code>、<code>title</code>、<code>description</code>、<code>category</code>、
+      <code>icon</code> 與 <code>author</code> 來填充平台目錄(<code>builtin_skills</code> 與
+      <code>app_user_skills_custom</code>)。本文則描述<em>何時</em>使用該技能、<em>如何</em>使用,
+      它的輸入/輸出長什麼樣子,以及常見的坑。
+    </p>
+
+    <h3>一個技能如何在沙盒中變得可用</h3>
+    <p>
+      技能是透過 Claude Code 以檔案系統為基礎的技能載入器暴露出來的 —— 不是透過執行時註冊表,也不是當作 MCP 伺服器。
+      代理執行器會把技能擺到沙盒內幾個固定路徑上:
+    </p>
+    <ul>
+      <li><strong>快取:</strong>技能包會被解壓到 <code>~/.aitroop/skills/{`{name}/{version}/`}</code>。帶版本、不可變、可跨多次執行重複使用。</li>
+      <li><strong>全域技能</strong>(標記為 <code>category: "core"</code> 或安裝時帶 <code>is_global = true</code> 的那些):在
+      <code>~/.claude/skills/{`{name}`}</code> 建立一個指向快取的符號連結 —— Claude Code 預設的 <code>configDir</code> 會自動辨識它們。</li>
+      <li><strong>每應用技能</strong>(在 <code>resources.skills</code> 中宣告、但不是 core 的技能):符號連結到
+      <code>~/.aitroop/app_skills/{`{appId}/.claude/skills/`}</code> 底下,並透過 <code>--add-dir</code> 暴露給 Claude Code。
+      它們只對該應用的執行可見。</li>
+    </ul>
+    <p>
+      當一個應用的階段覆寫了 <code>stage.skills</code> 時,只有那個子集會被為該階段建立符號連結 ——
+      每階段的範圍收緊了工具箱,而不會動到工作區裡已安裝的那套技能。
+    </p>
+
+    <div class="callout">
+      <strong>技能不是 MCP 伺服器。</strong>MCP 伺服器是一個執行時的程式,透過 Model Context Protocol 暴露工具;
+      Aitroop 透過 agent 請求上獨立的 <code>extraMCPServers</code> 通道把這些工具傳給執行器。
+      而技能是代理讀取的靜態內容 —— 沒有要啟動的程式,沒有要協商的協議,也沒有
+      <code>tools/list</code> 握手。
+    </div>
+
+    <h3>內建技能 vs 自訂技能</h3>
+    <p>
+      目錄背後有兩張表:
+    </p>
+    <table>
+      <thead><tr><th></th><th><code>builtin_skills</code></th><th><code>app_user_skills_custom</code></th></tr></thead>
+      <tbody>
+        <tr><td><strong>作者</strong></td><td>Aitroop 平台</td><td>終端使用者(你)</td></tr>
+        <tr><td><strong>版本</strong></td><td>寫入該列的 Semver 字串(<code>1.0.0</code>、<code>1.1.0</code>……)</td><td>自動遞增整數,每次發佈遞增</td></tr>
+        <tr><td><strong>可見性</strong></td><td>對每個工作區都可用</td><td>僅對發佈它的使用者可用</td></tr>
+        <tr><td><strong>安裝狀態</strong></td><td><code>app_user_skills_enabled</code>,可附帶 <code>is_global</code> 旗標</td><td>始終對其擁有者可用;沒有單獨的安裝紀錄</td></tr>
+      </tbody>
+    </table>
+    <p>
+      使用者發佈、與某個內建技能<em>同名</em>的技能會<em>遮蔽</em>該內建技能 ——
+      符號連結解析會優先採用使用者的版本。這是在不 fork 平台的前提下覆寫內建技能行為的官方方式。
+    </p>
+
+    <h2>內建技能:App Builder</h2>
+    <p>
+      每個 Aitroop 工作區都預設安裝了 <code>aitroop-app-create</code>(也就是 App Builder)。
+      就是它把對話變成可儲存的應用。
+    </p>
+
+    <h3>它做什麼</h3>
+    <p>
+      把對工作流程的自然語言描述翻譯成完整的 AppDef JSON,驗證該設計,並透過
+      <code>POST /api/apps</code> 或 <code>PUT /api/apps/{`{id}`}</code> 儲存。
+    </p>
+
+    <h3>觸發句</h3>
+    <ul>
+      <li>"Create an app that…"</li>
+      <li>"Build me a workflow for…"</li>
+      <li>"I want an app to…"</li>
+      <li>"Make an automation that…"</li>
+      <li>"Update my app…"</li>
+      <li>"Save this as an app" —— 可以在對話中途使用,把剛剛聊出來的內容固化下來。</li>
+    </ul>
+
+    <h3>4 個階段</h3>
+    <ol>
+      <li><strong>理解意圖</strong> —— 如果你的描述有缺口,會提出 1–5 個釐清問題。</li>
+      <li><strong>設計應用</strong> —— 構造完整的 AppDef。</li>
+      <li><strong>驗證</strong> —— 每個 ID 都唯一,每個 <code>{`{{ref}}`}</code> 都能解析,目標夠具體。</li>
+      <li><strong>透過 API 儲存</strong> —— 呼叫平台的 REST API 並回報應用 ID。</li>
+    </ol>
+
+    <p>
+      關於每個階段的完整講解,請參見<a href="/zh-TW/docs/apps">應用</a>。
+    </p>
+
+    <h2>查看你擁有哪些技能</h2>
+    <p>有三種方式:</p>
+
+    <h3>1. 技能頁面</h3>
+    <ol>
+      <li>在側邊欄點擊 <strong>Skills</strong>。</li>
+      <li>你會看到已安裝的技能(連同它們的分類)以及可供安裝的技能。</li>
+      <li>點擊任一技能,查看它的完整描述、支援的輸入和所需的連接。</li>
+    </ol>
+
+    <h3>2. 聊天狀態列</h3>
+    <p>訊息輸入框上方的狀態列會顯示當前啟用的技能數量("Skills: 12 active")。點擊可看到清單。</p>
+
+    <h3>3. 問問代理</h3>
+    <div class="code-block">
+&gt; what Skills do I have available?<br/>
+&gt; which Skills can search the web?<br/>
+&gt; is there a Skill for reading PDFs?
+    </div>
+    <p>代理會列出與你問題相符的技能。</p>
+
+    <h2>安裝一個技能</h2>
+    <ol>
+      <li>在側邊欄打開 <strong>Skills</strong>。</li>
+      <li>切換到 <strong>Library</strong> 分頁,查看可用的技能。</li>
+      <li>按分類(research、productivity、data、integrations……)篩選,或按名稱搜尋。</li>
+      <li>在某個技能上點擊 <strong>Install</strong>。</li>
+      <li>如果該技能需要連接(OAuth),系統會提示你授權。授權一次,各處可用。</li>
+      <li>該技能就會在你的工作區中啟用。</li>
+    </ol>
+
+    <p>
+      有些技能是工作區層級的(只安裝一次,所有人可用),另一些則是按使用者安裝。
+      技能的描述裡會告訴你屬於哪一種。
+    </p>
+
+    <h2>在應用上宣告技能</h2>
+    <p>
+      每個應用在 <code>resources.skills</code> 中宣告它需要的技能:
+    </p>
+    <div class="code-block">
+"resources": {`{`}<br/>
+&nbsp;&nbsp;"skills": ["web-search", "pdf-extract"],<br/>
+&nbsp;&nbsp;"connects": []<br/>
+{`}`}
+    </div>
+
+    <p>
+      當你以對話方式建立應用時,App Builder 會自動判斷應用需要哪些技能並加進去。
+      你不需要手寫這個陣列。
+    </p>
+
+    <h3>為什麼要按應用限定技能範圍</h3>
+    <p>限制一個應用可用的技能(而不是讓它能用所有技能)在運作上有兩個好處:</p>
+    <ul>
+      <li><strong>可預測性。</strong>應用只能使用你允許的工具。行為在多次執行之間、在不同使用者之間都保持穩定。
+        不同的同事執行同一個應用會看到一致的結果。</li>
+      <li><strong>速度。</strong>工具越少,每次呼叫的推理負擔就越小。
+        只需要一兩個技能的階段執行起來明顯更快。</li>
+    </ul>
+
+    <h2>唯讀 vs 可寫技能</h2>
+    <p>技能分為兩種:</p>
+    <ul>
+      <li><strong>唯讀技能</strong> —— 取得資訊,但不會改動任何東西。例如 web-search、PDF 擷取、讀取檔案。</li>
+      <li><strong>可寫技能</strong> —— 會修改外部狀態。例如寄送郵件、建立 CRM 紀錄、建立行事曆事件。
+        在 Library 中會清楚標註。</li>
+    </ul>
+
+    <h3>寫入動作的確認流程</h3>
+    <p>
+      在聊天中,代理在執行任何可寫動作之前都會暫停,並把它即將要做的事完整展示給你。
+      你可以核准、修改或取消。
+    </p>
+    <p>
+      在應用中,寫入技能在應用建立時被核准一次,在排程建立時再被核准一次。
+      之後不會悄悄擴大權限。
+    </p>
+
+    <h2>當技能失敗時會怎樣</h2>
+    <p>常見的失敗模式:</p>
+    <table>
+      <thead><tr><th>症狀</th><th>可能原因</th><th>修復</th></tr></thead>
+      <tbody>
+        <tr><td>"Skill not installed"</td><td>應用宣告了一個不在你工作區裡的技能</td><td>從 Skills → Library 安裝它</td></tr>
+        <tr><td>"Required Connect missing"</td><td>技能需要 Gmail/GitHub 等,而你沒有授權</td><td>在 Settings → Connects 中授權</td></tr>
+        <tr><td>技能回傳空結果</td><td>代理傳給技能的參數與真實資料對不上</td><td>編輯階段目標 —— 把輸入說得更具體</td></tr>
+        <tr><td>技能逾時</td><td>底層 API 比較慢</td><td>重新執行;代理會自動重試一次</td></tr>
+      </tbody>
+    </table>
+
+    <h2>一個技能在實體上是如何進入沙盒的</h2>
+    <p>
+      技能並不是以單一「在工作區裡安裝好」的形式存在 —— 每次執行都會把它需要的子集物化到一個全新的沙盒中。
+      從 S3 到一個可用的 <code>~/.claude/skills/{`{name}`}</code> 符號連結之間的路徑很短,但值得理解:
+    </p>
+
+    <ol>
+      <li>
+        <strong>解析。</strong>當一輪對話開始時,伺服器會解析下列聯集:
+        (a) 使用者標記為 <code>is_global = true</code> 的全域已安裝技能;(b) 應用的
+        <code>resources.skills</code>(應用範圍的技能);(c) 任何按階段覆寫的
+        <code>stage.skills</code>。每個條目都會變成一個 <code>SkillRef</code>,帶有
+        <code>{`{ name, version, s3Prefix }`}</code>。
+      </li>
+      <li>
+        <strong>預先簽章。</strong>對於每個 <code>SkillRef</code>,伺服器會列出該 S3 前綴,
+        並為每個 object key 簽發一個 1 小時有效期的 GET URL。簽章 URL 會被打包進 run-agent 設定中 ——
+        這樣代理所在的主機就能下載技能檔案,而不必自己持有 S3 憑證。
+      </li>
+      <li>
+        <strong>快取。</strong>在沙盒內,執行器會把每個預先簽章 URL 的內容拉到
+        <code>~/.aitroop/skills/{`{name}/{version}/`}</code>。因為路徑裡帶了版本,
+        第二次執行如果需要相同版本的同一個技能,就會完全略過下載 —— 目錄已經在那裡了。
+      </li>
+      <li>
+        <strong>建立符號連結。</strong>執行器接著把快取符號連結到 Claude Code 期望的位置:
+        全域技能放在 <code>~/.claude/skills/{`{name}`}</code>,應用範圍的技能則放在
+        <code>~/.aitroop/app_skills/{`{appId}/.claude/skills/{name}`}</code>
+        (透過 <code>--add-dir</code> 載入)。建立與解除符號連結的成本很小,
+        所以按階段收緊技能範圍只是重新連結,而不是重新下載。
+      </li>
+    </ol>
+
+    <p>
+      整體效果是:代理從本地檔案系統讀取技能檔案的方式,與 Claude Code 在任何其他情境下做的一樣。
+      執行時沒有遠端呼叫,也沒有 skill 伺服器側的限流。
+      唯一的瓶頸是第一次下載某個沒見過的版本,而這一點會被每個沙盒的快取在重複使用時消除。
+    </p>
+
+    <h2>Aitroop 自家的 MCP 伺服器</h2>
+    <p>
+      除了使用者安裝的技能之外,平台還內建了一個小型 MCP 伺服器,每次 run-agent 都會連到它。
+      它不是可選的 —— 它是階段從沙盒內部不走 HTTP 也能把資訊回傳給平台的途徑。
+      執行器看到它時的工具名稱是 <code>mcp__aitroop__*</code>。
+    </p>
+
+    <table>
+      <thead><tr><th>工具名稱</th><th>它做什麼</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>mcp__aitroop__ask_question</code></td>
+          <td>在一輪對話中途向使用者拋出一個問題。驅動你在聊天 UI 中看到的 <code>ask_user</code> 事件 —— 對應<a href="/zh-TW/docs/concepts">核心概念</a>中描述的<em>「代理需要釐清」</em>流程。</td>
+        </tr>
+        <tr>
+          <td><code>mcp__aitroop__get_task</code></td>
+          <td>讀取目前平台側的任務結構(目前應用、正在執行的階段、之前的產物)。代理用它來知道自己正在執行<em>哪個</em>應用的<em>哪個</em>階段。</td>
+        </tr>
+        <tr>
+          <td><code>mcp__aitroop__update_task</code></td>
+          <td>更新任務欄位 —— App Builder 技能在儲存流程中會用它來設定應用草稿的狀態。</td>
+        </tr>
+        <tr>
+          <td><code>mcp__aitroop__get_asset_content</code></td>
+          <td>按 ID 讀取一個產物(例如使用者附加的檔案,或上一階段產出的 CSV)。回傳原始位元組;代理可以自行選擇如何解析。</td>
+        </tr>
+        <tr>
+          <td><code>mcp__aitroop__generate_image</code></td>
+          <td>選用 —— 只有在設定了 Gemini API key 時才會註冊。從一個 prompt 生成圖片,並回傳一個產物 handle。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      傳輸方式:HTTP,而非 stdio —— URL 是
+      <code>{`{mcpServerURL}?session={conversationId}`}</code>,代理會把它當作其
+      <code>mcpServers</code> 清單中任何其他 MCP 伺服器來對待。你不必手動設定它;
+      執行器設定會預先把它填好。
+    </p>
+
+    <div class="callout">
+      <strong>這就是讓「技能」感覺原生的關鍵。</strong>一個需要提出釐清問題或附加後續產物的使用者技能,
+      不必發明自己的協議 —— 它只要呼叫平台內建的 MCP 工具就行。
+      技能內容可以維持宣告式(<code>SKILL.md</code> + 指令稿),因為互動性由執行時提供。
+    </div>
+
+    <h2>MCP 伺服器相容性</h2>
+    <p>
+      Aitroop 的執行時把任何<a href="https://modelcontextprotocol.io">相容 MCP</a> 的伺服器都當成可用的技能來源。
+      如果你的內部工具已經暴露了 MCP 端點,就可以直接接上,不用寫任何膠水程式。
+    </p>
+
+    <h3>MCP 的接入流程</h3>
+    <ol>
+      <li>打開 <strong>Skills → Add custom</strong>。</li>
+      <li>選擇 <strong>MCP server</strong>。</li>
+      <li>輸入端點 URL 和任何驗證憑證。</li>
+      <li>平台會拉取該伺服器的工具清單,並顯示出來供你審核。</li>
+      <li>為這個技能命名、設定分類,然後核准。</li>
+      <li>這些 MCP 工具就可以被代理呼叫了。</li>
+    </ol>
+
+    <h2>建立你自己的技能</h2>
+    <p>
+      自訂技能會根據來源存放在兩個地方:
+    </p>
+    <ul>
+      <li><code>app_user_skills_custom</code> —— 你自己撰寫或匯入到工作區的技能。帶版本,有一個 S3 前綴存放它的檔案。</li>
+      <li><code>app_user_skills_enabled</code> —— 哪些內建或已安裝的技能對你來說是<em>啟用</em>狀態(因為一個工作區裡可用的技能可能多於你實際啟用的)。</li>
+    </ul>
+
+    <h3>一個自訂技能的形態</h3>
+    <p>
+      一個技能就是一個目錄,最少要在根目錄有一個 <code>SKILL.md</code>。Frontmatter 宣告身分,本文給代理做指示。
+      其他檔案(指令稿、參考資料、prompt)放在旁邊,代理可以按需載入。
+    </p>
+
+    <div class="code-block" style="line-height:1.7;">
+my-skill/<br/>
+&nbsp;├─ SKILL.md<br/>
+&nbsp;├─ prompts/<br/>
+&nbsp;│&nbsp;&nbsp;&nbsp;└─ phase1.md<br/>
+&nbsp;├─ scripts/<br/>
+&nbsp;│&nbsp;&nbsp;&nbsp;└─ extract.py<br/>
+&nbsp;└─ references/<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ api-spec.json
+    </div>
+
+    <h3>發佈一個新版本</h3>
+    <p>
+      編輯完技能後,呼叫 <code>POST /api/user-skills/:name/publish</code> —— 它會升版本號,
+      把新的產物包上傳到 S3,並把所有沒有鎖定版本的應用滾動到新版本。
+    </p>
+
+    <div class="code-block">
+curl -X POST https://app.aitroop.net/api/user-skills/my-skill/publish \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;-H "Content-Type: application/json" \<br/>
+&nbsp;&nbsp;-d '{`{`} "notes": "Added error handling for empty PDFs" {`}`}'
+    </div>
+
+    <p>
+      如果你希望應用在升級中保持穩定,就把它鎖定到某個具體的技能版本。
+      否則,應用每次執行都會使用最新發佈的版本。
+    </p>
+
+    <h2>FAQ 與疑難排解</h2>
+
+    <p class="faq-q">為什麼代理沒有使用我已經安裝的某個技能?</p>
+    <p>
+      <strong>常見原因:</strong>代理判斷另一種方式更適合這個任務 —— 通常是直接從上下文推理,
+      而不是去呼叫工具。
+    </p>
+    <p>
+      <strong>修復:</strong>直接告訴它。<em>"Use the <code>web-search</code> Skill for this."</em>
+      或者,對於應用的階段,在 <code>stage.skills</code> 裡把該技能列出來,讓它在該階段成為唯一選擇。
+    </p>
+
+    <p class="faq-q">代理能在一個任務裡使用多個技能嗎?</p>
+    <p>
+      可以,而且通常都會。一個典型的研究任務會多次呼叫 <code>web-search</code>,
+      然後對下載到的報告呼叫 <code>pdf-extract</code>,再寫出摘要。每次呼叫你都會在對話中行內看到它的參數和結果。
+    </p>
+
+    <p class="faq-q">我的 MCP 伺服器啟動失敗了。</p>
+    <p>
+      <strong>可能的原因:</strong>
+    </p>
+    <ul>
+      <li>對於以命令啟動的 MCP 伺服器,該命令不在沙盒的 <code>PATH</code> 中。</li>
+      <li>對於 HTTP 傳輸的 MCP,HTTP 端點從沙盒中無法存取。</li>
+      <li>驗證標頭錯誤或缺失。</li>
+      <li>伺服器在初始的 <code>tools/list</code> 握手中當掉 —— 檢查它的日誌。</li>
+    </ul>
+    <p>
+      <strong>除錯指令:</strong>
+    </p>
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted)"># List configured MCP servers and their status</span><br/>
+GET /api/mcp/servers<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Ping a specific server</span><br/>
+POST /api/mcp/servers/:key/ping
+    </div>
+
+    <p class="faq-q">一個技能回傳了空結果。</p>
+    <p>
+      最常見的原因:代理傳給技能的參數與資料實際的樣子對不上。
+      打開執行記錄中的那次呼叫,檢查參數。把階段目標寫得更具體,明確要查詢什麼。
+    </p>
+
+    <p class="faq-q">技能逾時。</p>
+    <p>
+      底層 API 比較慢。代理會自動重試一次;如果兩次都失敗,該階段就會失敗。
+      你可以調高階段的 <code>timeout_ms</code>,或者用一段更寬容的 prompt 把這次技能呼叫包起來:
+      <em>"if the call times out, proceed with the data you already have."</em>
+    </p>
+
+    <p class="faq-q">如何把一個自訂技能分享給我整個工作區?</p>
+    <p>
+      工作區管理員可以在工作區層級安裝技能 —— 讓所有成員都能看到並使用。
+      按使用者安裝的技能只對你自己生效。技能的設定頁裡有可見性切換。
+    </p>
+
+    <p class="faq-q">我能用 markdown 以外的格式寫技能嗎?</p>
+    <p>
+      <code>SKILL.md</code> 是必要的(代理就是透過它來學會何時/如何使用該技能的)。
+      但本文可以引用任意格式的指令稿、資料集或 schema。代理會在執行時按需把被引用的檔案載入到它正在執行的同一個沙盒中。
+    </p>
+
+    <div class="next-up">
+      <span class="label">下一篇</span>
+      <a href="/zh-TW/docs/connects">連接 —— OAuth 整合</a>
+    </div>
+  </DocsShell>
+</Layout>

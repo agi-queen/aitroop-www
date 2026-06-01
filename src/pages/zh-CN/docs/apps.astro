@@ -1,0 +1,535 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+---
+
+<Layout metadata={{ title: '应用 — Aitroop 文档' }}>
+  <DocsShell current="apps" locale="zh-CN">
+    <h1>应用</h1>
+    <p class="lead">
+      <strong>应用</strong>是 Aitroop 中可重复工作的基本单元。它代表的是
+      <em>"我昨天和智能体进行了一次很棒的对话"</em>与<em>"我的团队每周一都会运行它，并把报告发到 Slack"</em>之间的区别。本页是创建、运行、编辑、版本管理和分享应用的操作指南。配套阅读：<a href="/zh-CN/docs/concepts">核心概念</a>（结构详解）和 <a href="/zh-CN/docs/quickstart">快速入门</a>（完整演练）。
+    </p>
+
+    <div class="callout">
+      <strong>心智模型。</strong>一个应用 = <em>一个表单</em> + <em>一组有序的阶段</em> +
+      <em>一份输出声明</em>。表单让它具备参数化；阶段让它支持多步骤；输出声明让它可链接、可分享。少了任意一项，它就不再算是一个完整的应用——三项都没有，那就只是聊天而已。
+    </div>
+
+    <h2>创建应用 —— 四阶段流程</h2>
+    <p>
+      你通过与智能体对话来创建应用。内置的 <code>aitroop-app-create</code> 技能（即应用构建器）每次都会按照结构化的四阶段流程进行。理解这些阶段有助于你引导对话，并预期接下来会发生什么。
+    </p>
+
+    <h3>阶段 0 —— 理解意图</h3>
+    <p>
+      当你的消息中包含触发词时，应用构建器会激活，并提出 1 到 5 个澄清性问题：
+    </p>
+    <ol>
+      <li><strong>应用应该做什么？</strong>一句话目标。</li>
+      <li><strong>它需要哪些输入？</strong>自由文本、文件、日期、选项？</li>
+      <li><strong>它应该产出什么？</strong>报告、代码文件、电子表格、结构化数据？</li>
+      <li><strong>有多少步骤 / 阶段？</strong>单次智能体调用，还是多阶段流水线？</li>
+      <li><strong>需要哪些特定工具或集成？</strong>网页搜索、文件处理、OAuth？</li>
+    </ol>
+
+    <div class="callout">
+      <strong>把话说具体一点就能跳过提问。</strong>如果你的第一条消息已经回答了全部五个问题，应用构建器会直接进入阶段 1。大多数熟练用户会写一段话，一次性覆盖任务 + 输入 + 输出 + 工具。
+    </div>
+
+    <h3>阶段 1 —— 设计应用</h3>
+    <p>
+      应用构建器会构造完整的 AppDef JSON。它会选定：
+    </p>
+    <ul>
+      <li><strong>名称</strong> —— 根据应用的功能确定，采用标题大小写。</li>
+      <li><strong>图标</strong> —— 一个匹配使用场景的 emoji。</li>
+      <li><strong>标签</strong> —— 可搜索的关键词。</li>
+      <li><strong>输入</strong> —— 为每个变量挑选合适的类型：<code>text</code> 用于短标识符，<code>textarea</code> 用于长内容，<code>select</code> 用于固定选项，<code>daterange</code> 用于时间区间，<code>file</code> 用于上传。</li>
+      <li><strong>阶段</strong> —— 默认单阶段。仅在工作天然存在可分离步骤时才会拆分为多阶段。</li>
+      <li><strong>产物</strong> —— <code>markdown</code> 用于散文，<code>csv</code> 用于表格，<code>json</code> 用于结构化数据，<code>html</code> 用于可渲染页面，<code>image</code> 用于视觉素材，<code>code</code> 用于源文件。</li>
+      <li><strong>资源</strong> —— 添加应用所需的技能和连接。</li>
+      <li><strong>超时</strong> —— 默认 3 分钟，重度研究类应用会提到 5–10 分钟。</li>
+    </ul>
+
+    <h3>阶段 2 —— 校验</h3>
+    <p>在保存之前，应用构建器会执行内部检查：</p>
+    <ul>
+      <li>输入、阶段、产物中的每个 <code>id</code> 都唯一。</li>
+      <li>阶段目标里每一个 <code>{`{{field_id}}`}</code> 引用都对应一个真实的输入。</li>
+      <li>阶段之间的引用（阶段 2 读取阶段 1 的产物）连接正确。</li>
+      <li>如果应用应该有可见输出，那么至少要有一个阶段产出产物。</li>
+      <li><code>required: true</code> 只用在真正会阻塞运行的输入上。</li>
+      <li>目标足够具体 —— 含糊的目标会被改写。</li>
+    </ul>
+    <p>
+      如果校验失败，应用构建器会自行修复问题，而不是反过来问你。只有当校验通过后，你才会看到阶段 3。
+    </p>
+
+    <h3>阶段 3 —— 通过 API 创建或更新</h3>
+    <p>
+      应用构建器会调用平台的 REST API：
+    </p>
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted)"># New App</span><br/>
+POST https://app.aitroop.net/api/apps<br/>
+Authorization: Bearer &lt;AT_USER_TOKEN&gt;<br/>
+Content-Type: application/json<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Existing App</span><br/>
+PUT https://app.aitroop.net/api/apps/&lt;appId&gt;<br/>
+Authorization: Bearer &lt;AT_USER_TOKEN&gt;<br/>
+Content-Type: application/json
+    </div>
+    <p>
+      请求体就是完整的 AppDef JSON。平台会持久化它，分配一个版本号，并返回应用 ID。整个过程你看不到，它在幕后完成。
+    </p>
+
+    <h3>阶段 4 —— 向用户呈现</h3>
+    <p>应用构建器会反馈以下信息：</p>
+    <ul>
+      <li>应用名称和功能说明。</li>
+      <li>输入列表及其类型。</li>
+      <li>阶段列表及其描述。</li>
+      <li>会产出哪些产物。</li>
+      <li>应用 ID —— 便于你后续查找。</li>
+      <li>提供进一步打磨的选项。</li>
+    </ul>
+
+    <p>此刻应用就已经上线、可运行，并存在于你的应用库中。</p>
+
+    <h2>示例：三种复杂度的三个应用</h2>
+
+    <h3>简单 —— 单输入、单阶段</h3>
+    <div class="code-block" style="line-height:1.7;">
+<strong>You:</strong> Create an app that explains a technical term<br/>
+in plain English for a non-technical audience. Input is<br/>
+the term. Output is a 200-word explanation.<br/>
+<br/>
+<strong>Agent:</strong> &lt;designs the App, no clarifying questions<br/>
+needed since you gave inputs+output+length up front&gt;<br/>
+<br/>
+&nbsp;App: Plain English Explainer 📖<br/>
+&nbsp;Input:&nbsp; term <span style="color:var(--aw-color-text-muted)">(text, required)</span><br/>
+&nbsp;Stage:&nbsp; Explain <span style="color:var(--aw-color-primary)">{`{{term}}`}</span> in ~200 words for a<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;non-technical audience...<br/>
+&nbsp;Output: explanation.md <span style="color:var(--aw-color-text-muted)">(markdown)</span>
+    </div>
+
+    <h3>中等 —— 多输入、单阶段，需要一个连接</h3>
+    <div class="code-block" style="line-height:1.7;">
+<strong>You:</strong> Create an app that summarizes my unread Gmail<br/>
+from the last N days into a priority-ranked list.<br/>
+<br/>
+<strong>Agent:</strong> Two questions:<br/>
+&nbsp;1. Default for N (number of days)?<br/>
+&nbsp;2. How many emails should the summary cover?<br/>
+<br/>
+<strong>You:</strong> Default N=3. Top 20 emails.<br/>
+<br/>
+<strong>Agent:</strong> &lt;designs the App&gt;<br/>
+<br/>
+&nbsp;App: Email Triage 📧<br/>
+&nbsp;Inputs:<br/>
+&nbsp;&nbsp;&nbsp;days_back <span style="color:var(--aw-color-text-muted)">(number, default 3)</span><br/>
+&nbsp;&nbsp;&nbsp;max_emails <span style="color:var(--aw-color-text-muted)">(number, default 20)</span><br/>
+&nbsp;Stage: Read the last <span style="color:var(--aw-color-primary)">{`{{days_back}}`}</span> days of unread Gmail.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rank top <span style="color:var(--aw-color-primary)">{`{{max_emails}}`}</span> by urgency...<br/>
+&nbsp;Output: triage.md <span style="color:var(--aw-color-text-muted)">(markdown)</span><br/>
+&nbsp;Resources: skills=[], connects=[<strong>google</strong>]
+    </div>
+
+    <p>
+      注意 <code>connects</code> 中的 <code>google</code>。首次运行这个应用时，你会被提示授权 Gmail 访问权限。之后再运行就不会再提示了。
+    </p>
+
+    <h3>复杂 —— 多阶段并带有人工审核步骤</h3>
+    <div class="code-block" style="line-height:1.7;">
+<strong>You:</strong> Create an outreach pipeline. Stage 1: find<br/>
+companies matching an ICP description. Stage 2: enrich<br/>
+each with public info. Stage 3: I review and remove<br/>
+rows. Stage 4: draft personalized emails for survivors.<br/>
+<br/>
+<strong>Agent:</strong> &lt;asks 3 questions, you answer&gt;<br/>
+<br/>
+&nbsp;App: Outreach Pipeline 🎯<br/>
+&nbsp;Inputs:<br/>
+&nbsp;&nbsp;&nbsp;icp <span style="color:var(--aw-color-text-muted)">(textarea, required)</span><br/>
+&nbsp;&nbsp;&nbsp;target_count <span style="color:var(--aw-color-text-muted)">(number, default 30)</span><br/>
+&nbsp;Stages:<br/>
+&nbsp;&nbsp;&nbsp;<strong>1. find</strong> <span style="color:var(--aw-color-text-muted)">(agent)</span> → leads.csv<br/>
+&nbsp;&nbsp;&nbsp;<strong>2. enrich</strong> <span style="color:var(--aw-color-text-muted)">(agent)</span> → enriched.csv<br/>
+&nbsp;&nbsp;&nbsp;<strong>3. review</strong> <span style="color:var(--aw-color-text-muted)">(human, paused until you approve)</span><br/>
+&nbsp;&nbsp;&nbsp;<strong>4. draft</strong> <span style="color:var(--aw-color-text-muted)">(agent)</span> → drafts.md<br/>
+&nbsp;Resources: skills=[web-search], connects=[]
+    </div>
+
+    <p>
+      运行这个应用时，平台会自动执行阶段 1 和阶段 2。阶段 3 会暂停，并在审核面板中展示
+      <code>enriched.csv</code> —— 你删除不需要的行后，点击<strong>Approve and continue</strong>。阶段 4 会以审核后的子集继续运行。
+    </p>
+
+    <!-- ── RUNNING ─────────────────────────────────────────── -->
+    <h2>运行应用</h2>
+
+    <h3>从应用库运行</h3>
+    <ol>
+      <li>点击侧边栏的 <strong>Apps</strong>。</li>
+      <li>点击你想运行的应用。</li>
+      <li>应用页面会打开，左边是表单，右边是输出占位。</li>
+      <li>填写必填字段（带红色星号标记的）。</li>
+      <li>可选字段会显示占位提示或预填的默认值。</li>
+      <li>点击 <strong>Run</strong>（位于表单底部的大号按钮）。</li>
+    </ol>
+
+    <h3>运行期间你会看到什么</h3>
+    <p>页面会分屏，右侧面板会填入：</p>
+    <ul>
+      <li>顶部的<strong>阶段指示器</strong> —— "Stage 1 of 3: research_and_write"。</li>
+      <li><strong>推理轨迹</strong> —— 智能体的计划、工具调用（网页搜索、技能调用）、部分输出。</li>
+      <li><strong>产物实时预览</strong> —— 智能体在写入产物的同时，你能实时看到它出现。</li>
+      <li><strong>运行控制</strong> —— 运行过程中，可以使用 <strong>Cancel</strong> 按钮取消。</li>
+    </ul>
+
+    <h3>运行结束后会发生什么</h3>
+    <p>产物会保存到运行历史。在产物预览面板，你可以：</p>
+    <ul>
+      <li><strong>Download</strong> —— 选择一种格式（产物的原生格式，或针对可渲染内容的 PDF/DOCX）。</li>
+      <li><strong>Copy</strong> —— 把原始内容复制到剪贴板。</li>
+      <li><strong>Edit in chat</strong> —— 打开一个针对此产物的新对话，便于快速调整。</li>
+      <li><strong>Share</strong> —— 生成一个指向产物的链接（可见性取决于应用设置）。</li>
+    </ul>
+
+    <h3>未更改的输入</h3>
+    <p>
+      下次再进入应用页面时，表单会自动预填上一次使用的输入。点击字段旁的重置图标（🔄）可以将它清回默认值。
+    </p>
+
+    <h3>用相同输入重新运行</h3>
+    <p>
+      在任意一次历史运行上，点击 <strong>Re-run</strong>，即可用相同输入复制一次运行。适用于：刷新时效性数据（例如"最新资讯"类应用）、验证一致性、在不同版本之间做提示词的 A/B 对比。
+    </p>
+
+    <!-- ── EDITING ─────────────────────────────────────────── -->
+    <h2>编辑应用</h2>
+
+    <h3>对话式编辑（推荐用于非琐碎的改动）</h3>
+    <ol>
+      <li>在应用页面，点击 <strong>Edit in chat</strong>（有时显示为"Chat with this App"）。</li>
+      <li>会打开一段对话，并把应用的设计作为上下文加载进来。</li>
+      <li>用自然语言告诉智能体你想改什么。例如：
+        <ul>
+          <li><em>"加一个 select 类型的输入用于输出语言，选项为 English / Chinese / Spanish。"</em></li>
+          <li><em>"把这一个阶段拆成 'research' 和 'write'，把研究笔记作为上下文传给写作阶段。"</em></li>
+          <li><em>"把超时改成 10 分钟。"</em></li>
+          <li><em>"删掉 company_url 这个输入。"</em></li>
+        </ul>
+      </li>
+      <li>智能体会给你一份差异说明：什么改了、什么没改。</li>
+      <li>批准后，智能体会调用 <code>PUT /api/apps/{`{id}`}</code>。新版本就此保存。</li>
+    </ol>
+
+    <h3>直接字段编辑（用于快速改动）</h3>
+    <ol>
+      <li>在应用页面，点击 <strong>Edit</strong>。</li>
+      <li>编辑器会打开，所有字段一览无余：名称、图标、标签、输入、阶段、产物、资源。</li>
+      <li>直接修改任意字段：
+        <ul>
+          <li>点击某个输入的类型下拉框，把 text 切换为 textarea。</li>
+          <li>点击某个选项进行重命名。</li>
+          <li>在目标字段中输入，编辑给智能体的指令。</li>
+          <li>拖动输入项以重新排序。</li>
+        </ul>
+      </li>
+      <li>点击 <strong>Save</strong>。新版本保存。</li>
+    </ol>
+
+    <h3>编辑目标 —— 常见模式</h3>
+    <p>阶段目标承载了应用大部分的行为逻辑。常见的编辑方式：</p>
+    <ul>
+      <li><strong>添加结构</strong> —— "输出格式：A 部分（一段话） / B 部分（项目符号列表）……"</li>
+      <li><strong>添加约束</strong> —— "最多 500 字。""只使用最近 12 个月的来源。"</li>
+      <li><strong>添加个性化挂钩</strong> —— "匹配 <code>{`{{tone}}`}</code> 中描述的受众语气。"</li>
+      <li><strong>提升具体性</strong> —— 把模糊动词（"review"）替换为具体动词（"给出 1–10 分并附理由"）。</li>
+    </ul>
+
+    <!-- ── VERSIONING ───────────────────────────────────────── -->
+    <h2>版本管理</h2>
+    <p>
+      每次保存都会创建一个新版本。版本按 v1、v2、v3…… 编号。应用页面上有一个
+      <strong>Versions</strong> 标签页，列出所有版本。
+    </p>
+
+    <h3>在 Versions 标签页中你可以</h3>
+    <ul>
+      <li><strong>查看历史</strong> —— 每个版本的保存时间、保存人、变更摘要。</li>
+      <li><strong>查看某个版本的完整 AppDef</strong> —— 点击任意版本，查看其完整配置。</li>
+      <li><strong>对比两个版本</strong> —— 选择两个版本，并排查看差异。</li>
+      <li><strong>回滚</strong> —— 一键将任意旧版本提升为"当前版本"。当前行为会随之回退；你回滚之前的那个版本仍会保留在历史里。</li>
+    </ul>
+
+    <h3>定时任务与版本管理</h3>
+    <p>
+      定时任务默认使用应用的<em>当前</em>版本。所以如果你周日修复了一个 bug，周一的定时运行就会用上修复后的版本。
+    </p>
+    <p>
+      若需要稳定性（例如面向客户的报告，不应突然变化），可以把定时任务固定到某个具体版本。被固定的定时任务会忽略后续的应用编辑。
+    </p>
+
+    <!-- ── SHARING ─────────────────────────────────────────── -->
+    <h2>分享与访问</h2>
+    <p>每个应用有三种可见性：</p>
+    <ul>
+      <li><strong>Private</strong> —— 只有你能看到和运行。默认。</li>
+      <li><strong>Team</strong> —— 工作区内所有人都能看见。最适合团队共享的内部应用。</li>
+      <li><strong>Public link</strong> —— 任何有链接的人都能运行（具体取决于套餐）。即便如此，每次运行的输入和输出依然各自沙箱化。</li>
+    </ul>
+
+    <h3>团队应用下的按用户连接</h3>
+    <p>
+      当一位团队成员运行一个团队应用时，运行会使用<em>他们自己</em>的连接，而不是你的。一个共享的"每日邮件分诊"应用，由你运行时读取你的 Gmail，由同事运行时读取同事的 Gmail。每个用户都会授权自己的连接。
+    </p>
+
+    <h3>Fork（复刻）</h3>
+    <p>
+      任何对团队应用有查看权限的人，都可以对它执行 <strong>fork</strong> —— 创建一份属于自己的私有副本，并拥有独立的版本历史。适用于"我想要这个应用，但要做点自己的修改"，又不希望影响共享版本的场景。
+    </p>
+
+    <!-- ── MULTI-STAGE ──────────────────────────────────────── -->
+    <h2>多阶段应用详解</h2>
+
+    <h3>什么时候该使用多阶段</h3>
+    <p>满足以下任一情形时，可以考虑多阶段：</p>
+    <ul>
+      <li>工作天然可拆分为"先做 X，然后基于 X 的结果做 Y"。</li>
+      <li>你希望只重跑最后一步，而不必重跑之前那些昂贵的步骤。</li>
+      <li>中间需要一个人工审批检查点。</li>
+      <li>某一步需要确定性的转换（在两个 <code>agent</code> 阶段之间插入一个 <code>script</code> 阶段）。</li>
+    </ul>
+
+    <h3>阶段之间如何共享数据</h3>
+    <p>
+      每个阶段的产物都会自动对下一个阶段可用。在下一个阶段的目标中用模板语法引用即可：
+    </p>
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted)"># Stage 2 goal referencing Stage 1's artifact</span><br/>
+Take the CSV produced by Stage 1 (<span style="color:var(--aw-color-primary)">{`{{ stages.find.leads }}`}</span>)<br/>
+and enrich each row with the company's funding history.<br/>
+Output the same CSV with three new columns:<br/>
+total_funding, last_round, last_round_date.
+    </div>
+
+    <h3>三种阶段类型的实际用法</h3>
+
+    <h4 style="margin-top:1rem;"><code>agent</code> —— 默认类型</h4>
+    <p>
+      智能体读取输入（以及任意先前的产物），使用已安装的技能和已授权的连接，产出声明的产物。最适合：推理、摘要、起草、研究。
+    </p>
+
+    <h4><code>script</code> —— 确定性转换</h4>
+    <p>
+      一个 Python 或 Node 脚本，在沙箱内运行，不调用语言模型。最适合：过滤 CSV、去重、格式转换、精确算术。速度快、可预测。
+    </p>
+
+    <h4><code>human</code> —— 暂停以待审核</h4>
+    <p>
+      运行会暂停。平台向用户展示目标文本和先前的产物。用户可以修改、批准或拒绝。下一个阶段使用人工产出的内容继续运行。最适合：审批检查点、"挑出最好的 N 项"、"发送前修复任何看起来不对的地方"。
+    </p>
+
+    <h3>实战示例 —— 只重跑最后一个阶段</h3>
+    <p>
+      假设你的三阶段应用顺利跑完了，但最后一个阶段的草稿不理想。为了避免重做阶段 1 和阶段 2：
+    </p>
+    <ol>
+      <li>从应用的 <strong>Runs</strong> 标签页中打开该次运行。</li>
+      <li>点击 <strong>Re-run from stage…</strong></li>
+      <li>选择 <strong>Stage 3</strong>。</li>
+      <li>阶段 1 和阶段 2 的产物会被复用，阶段 3 会带着你修过的内容再跑一遍。</li>
+    </ol>
+
+    <p>从 API 角度看，同样的操作如下：</p>
+    <div class="code-block">
+POST /api/apps/{`<appId>`}/run<br/>
+Content-Type: application/json<br/>
+<br/>
+{`{`}<br/>
+&nbsp;&nbsp;"input": {`{ ...same form values as the prior run... }`},<br/>
+&nbsp;&nbsp;"start_from_stage_index": 2,<br/>
+&nbsp;&nbsp;"prior_execution_id": "exec_8f4c2e1b"<br/>
+{`}`}
+    </div>
+
+    <p>
+      关于完整的执行生命周期、取消、门控和 SSE 流式输出，请参见 <a href="/zh-CN/docs/executions">执行记录</a>。
+    </p>
+
+    <!-- ── API ─────────────────────────────────────────── -->
+    <h2>通过 API 调用应用</h2>
+    <p>
+      在界面中能做的一切，也都通过 REST 提供。当你想从 webhook、CI 任务、另一个智能体或同事的脚本中触发应用时，这非常有用。
+    </p>
+
+    <h3>认证</h3>
+    <p>
+      在 <strong>Settings → API Tokens → Create</strong> 处获取一个 token。把它当作密码 —— 范围最小化、定期轮换、绝不入仓。所有接口都要求：
+    </p>
+    <div class="code-block">
+Authorization: Bearer $AT_USER_TOKEN
+    </div>
+
+    <h3>核心接口</h3>
+    <table>
+      <thead><tr><th>方法与路径</th><th>作用</th></tr></thead>
+      <tbody>
+        <tr><td><code>GET /api/apps</code></td><td>列出你的所有应用。</td></tr>
+        <tr><td><code>POST /api/apps</code></td><td>创建一个应用。请求体为完整的 AppDef JSON。</td></tr>
+        <tr><td><code>GET /api/apps/:appId</code></td><td>获取某个应用的当前定义。</td></tr>
+        <tr><td><code>PUT /api/apps/:appId</code></td><td>更新 —— 会保存一个新版本。</td></tr>
+        <tr><td><code>DELETE /api/apps/:appId</code></td><td>归档应用（30 天内可恢复）。</td></tr>
+        <tr><td><code>POST /api/apps/:appId/run</code></td><td>触发一次执行。请求体包含 <code>input</code>，以及可选的 <code>is_test</code>、<code>start_from_stage_index</code>、<code>prior_execution_id</code>。</td></tr>
+        <tr><td><code>GET /api/app-executions/:execId</code></td><td>轮询状态 / 产物。</td></tr>
+        <tr><td><code>GET /api/app-executions/:execId/stream</code></td><td>实时事件的 SSE 流。</td></tr>
+        <tr><td><code>POST /api/app-executions/:execId/cancel</code></td><td>停止一次正在运行的执行。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>端到端示例：触发应用、等待完成、下载产物</h3>
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted)"># 1. Trigger the run</span><br/>
+EXEC=$(curl -s -X POST \<br/>
+&nbsp;&nbsp;https://app.aitroop.net/api/apps/app_8f4c2e1b/run \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;-H "Content-Type: application/json" \<br/>
+&nbsp;&nbsp;-d '{`{`} "input": {`{ "company_name": "Stripe" }`} {`}`}' \<br/>
+&nbsp;&nbsp;| jq -r .id)<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># 2. Wait until done (poll, or use SSE)</span><br/>
+while true; do<br/>
+&nbsp;&nbsp;STATUS=$(curl -s \<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;https://app.aitroop.net/api/app-executions/$EXEC \<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| jq -r .status)<br/>
+&nbsp;&nbsp;echo "status: $STATUS"<br/>
+&nbsp;&nbsp;[[ "$STATUS" == "completed" || "$STATUS" == "failed" ]] &amp;&amp; break<br/>
+&nbsp;&nbsp;sleep 5<br/>
+done<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># 3. Download the artifact</span><br/>
+ART=$(curl -s -H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;https://app.aitroop.net/api/app-executions/$EXEC/artifacts \<br/>
+&nbsp;&nbsp;| jq -r '.[0].id')<br/>
+curl -s -H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;https://app.aitroop.net/api/artifacts/$ART/download \<br/>
+&nbsp;&nbsp;-o brief.md
+    </div>
+
+    <!-- ── DEBUG ─────────────────────────────────────────── -->
+    <h2>当应用失败时</h2>
+    <p>常见的失败模式及其诊断方式：</p>
+    <table>
+      <thead><tr><th>现象</th><th>可能原因</th><th>解决办法</th></tr></thead>
+      <tbody>
+        <tr><td>超时</td><td>阶段超过了 <code>timeout_ms</code></td><td>调高超时，或拆成两个阶段</td></tr>
+        <tr><td>"Connect not authorized"</td><td>所需的连接被撤销</td><td>在 Settings → Connects 中重新授权</td></tr>
+        <tr><td>"Required input missing"</td><td>表单在某个必填字段为空时被提交</td><td>谨慎设置必填，或修正表单</td></tr>
+        <tr><td>输出含糊或泛泛</td><td>目标不够具体</td><td>编辑目标 —— 添加结构、约束、示例</td></tr>
+        <tr><td>格式错乱</td><td>阶段目标要求了一种格式，但声明的是另一种</td><td>对齐目标与 <code>artifact_defs.format</code></td></tr>
+      </tbody>
+    </table>
+
+    <h3>"Debug in chat" 工作流</h3>
+    <ol>
+      <li>打开失败的运行。</li>
+      <li>点击 <strong>Debug in chat</strong>。</li>
+      <li>会打开一段新对话，并带上该次运行的完整上下文：输入、部分产物、智能体的推理轨迹、错误。</li>
+      <li>与智能体交流：<em>"为什么失败了？我应该改什么？"</em></li>
+      <li>智能体会进行诊断、给出修复建议，并且通常会直接编辑应用以应用修复。</li>
+      <li>重新运行。</li>
+    </ol>
+
+    <h2>需要避免的常见错误</h2>
+    <ul>
+      <li><strong>目标含糊。</strong>"Do research" —— 太模糊了。要写明来源、深度、输出结构。</li>
+      <li><strong>缺少产物。</strong>一个没有 <code>artifact_defs</code> 的阶段不会产出任何可见内容。</li>
+      <li><strong>必填项过多。</strong>能给默认值的就给。冗长的表单容易被放弃。</li>
+      <li><strong>超时过短。</strong>重度研究需要 5–10 分钟（<code>timeout_ms: 600000</code>）。</li>
+      <li><strong>输入类型错误。</strong>长文本用 <code>textarea</code>，不要用 <code>text</code>。固定选项用 <code>select</code>。</li>
+      <li><strong>过度拆分。</strong>如果在一次对话中它就是一个完整的想法，一个阶段就够了。不要预先拆。</li>
+      <li><strong>目标过短。</strong>两行的目标通常不如一份带结构和约束的 10 行目标好用。</li>
+    </ul>
+
+    <h2>常见问题与排错</h2>
+
+    <p class="faq-q">我的应用每次运行输出都不一致，怎么收紧？</p>
+    <p>
+      按以下顺序使用两个杠杆：
+    </p>
+    <ol>
+      <li><strong>收紧目标。</strong>添加带编号的输出结构、字数指标，以及可接受输出的示例。当规范越精确，智能体匹配得就越接近。</li>
+      <li><strong>降低模型的自由度。</strong>在目标里加上：<em>"如果对任何部分不确定，请说 'insufficient data'，而不要猜测。"</em>当被允许时，智能体更愿意给出保守的答复，而不是自信地猜。</li>
+    </ol>
+    <p>
+      对于真正确定性的转换（解析、过滤、格式化），请用 <code>script</code> 阶段替换智能体阶段。
+    </p>
+
+    <p class="faq-q">某个阶段可以根据输入跳过自身吗？</p>
+    <p>
+      可以 —— 在控制它的输入上使用 <code>show_if</code>（例如
+      <code>"show_if": "include_competitors == true"</code>），<em>并且</em>在目标中使用条件块：
+      <code>{`{{#if include_competitors}} ... {{/if}}`}</code>。智能体读取的是未渲染的目标，因此真正告诉它是否要做这项工作的，是这个条件块。
+    </p>
+
+    <p class="faq-q">如何把一个应用的输出传给另一个应用？</p>
+    <p>
+      两种模式：
+    </p>
+    <ul>
+      <li><strong>定时任务 + webhook。</strong>让应用 A 的定时任务 POST 到应用 B 的 <code>/run</code> 接口。把产物 URL 作为输入传过去。</li>
+      <li><strong>通过 script 阶段串联。</strong>阶段 1 通过 API 调用应用 A 并读取产物。阶段 2 及之后在同一个应用中继续。</li>
+    </ul>
+    <p>
+      原生的"应用组合"功能已在路线图上。
+    </p>
+
+    <p class="faq-q">两个人可以同时编辑同一个应用吗？</p>
+    <p>
+      勉强可以 —— 每次保存都是一个新版本，所以两人并行编辑不会互相覆盖。但"当前版本"指针归最后保存者所有。对于正在积极开发的团队应用，建议商定一位负责人，或使用对话式编辑（它会通过智能体被串行化）。
+    </p>
+
+    <p class="faq-q">如何导出应用的定义？</p>
+    <div class="code-block">
+curl https://app.aitroop.net/api/apps/{`<appId>`} \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;-o my-app.json
+    </div>
+    <p>
+      把 JSON 保存到 git、分享给同事，或通过 <code>POST /api/apps</code> 粘贴到一个新工作区。
+    </p>
+
+    <p class="faq-q">能导入别人导出的应用吗？</p>
+    <p>
+      可以。打开 <strong>Apps → New → Import JSON</strong>，粘贴 AppDef，点击保存。平台会校验并在你的工作区中创建应用。所需的技能和连接会被列出来；首次运行时会提示你授权连接。
+    </p>
+
+    <p class="faq-q">我的应用目标引用了一个用户尚未授权的连接，会怎样？</p>
+    <p>
+      平台会在启动沙箱<em>之前</em>就检测到这一点。运行会转为
+      <code>failed</code>，并附带 <code>connect_unauthorized</code>，指明缺失的提供商。系统会在界面中提示用户授权，之后即可重试。对于定时运行，会提醒该定时任务的所有者。
+    </p>
+
+    <p class="faq-q">能否限制谁可以运行应用？</p>
+    <p>
+      有三种控制方式：
+    </p>
+    <ul>
+      <li><strong>可见性</strong> —— private / team / public link。</li>
+      <li><strong>按角色限制运行</strong> —— 按组织角色限制（仅管理员、仅成员）。在 <strong>Apps → Settings</strong> 下配置。</li>
+      <li><strong>按用户的连接</strong> —— 即便同事能运行你的应用，运行使用的也是<em>他们自己</em>的 token，而不是你的。</li>
+    </ul>
+
+    <div class="next-up">
+      <span class="label">下一篇</span>
+      <a href="/zh-CN/docs/skills">技能 —— 智能体可以调用的能力</a>
+    </div>
+  </DocsShell>
+</Layout>

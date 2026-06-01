@@ -1,0 +1,600 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+---
+
+<Layout metadata={{ title: '快速开始 — Aitroop 文档' }}>
+  <DocsShell current="quickstart" locale="zh-CN">
+    <h1>快速开始 — 15 分钟构建你的第一个应用</h1>
+    <p class="lead">
+      读完本页时,你将在账户里拥有一个真正可用的应用 —— 它会针对你给定的任何公司展开调研,
+      并输出一份单页 Markdown 简报。你将通过与智能体对话来完成构建(无需编码),用两组不同的输入分别运行,
+      在另一段对话中对其进行编辑,并可选地设置为每周一自动运行。下面会列出每一次点击、每一个字段,
+      以及你应当输入的每一条示例消息。
+    </p>
+
+    <div class="callout tip">
+      <strong>可以略读,也可以跟着做。</strong> 如果你想先读完再动手,五分钟内即可略览步骤 1–10 ——
+      不必跟着打字也能看懂整体流程。每一步末尾都会展示你应当看到的截图。
+    </div>
+
+    <h2>读完时你会拥有什么</h2>
+    <p>
+      一个名为 <code>Company Brief</code> 的应用,它会:
+    </p>
+    <ul>
+      <li>接收一个<strong>公司名称</strong>(必填)和一个可选的<strong>官网链接</strong>。</li>
+      <li>让你切换是否<strong>包含竞争对手</strong>。</li>
+      <li>在开放网络上调研该公司,然后生成一份单页 Markdown 简报。</li>
+      <li>将简报保存为可下载、可分享、可链式调用的<strong>产物</strong>。</li>
+    </ul>
+    <p>
+      足够简单,15 分钟就能搞定;又足够真实,你会真的拿来用。
+    </p>
+
+    <h2>开始之前</h2>
+    <div class="not-prose my-4 space-y-2" style="max-width:720px;">
+      <div class="flex items-start gap-3 p-3 rounded-lg border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]">
+        <div class="shrink-0 w-5 h-5 rounded-full border-2 border-[var(--aw-color-border)] mt-0.5"></div>
+        <div class="text-[0.875rem] text-[var(--aw-color-text-default)] leading-[1.6]">
+          <strong>一个 <a href="https://app.aitroop.net">app.aitroop.net</a> 的账户。</strong>
+          免费注册。邮箱 + 密码,或者使用 "Continue with Google"。
+        </div>
+      </div>
+      <div class="flex items-start gap-3 p-3 rounded-lg border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]">
+        <div class="shrink-0 w-5 h-5 rounded-full border-2 border-[var(--aw-color-border)] mt-0.5"></div>
+        <div class="text-[0.875rem] text-[var(--aw-color-text-default)] leading-[1.6]">
+          <strong>15 分钟不被打扰的时间。</strong>
+          平台并不复杂,但一气呵成跑完这套流程,会让你更快地建立信心。
+        </div>
+      </div>
+      <div class="flex items-start gap-3 p-3 rounded-lg border border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]">
+        <div class="shrink-0 w-5 h-5 rounded-full border-2 border-[var(--aw-color-border)] mt-0.5"></div>
+        <div class="text-[0.875rem] text-[var(--aw-color-text-default)] leading-[1.6]">
+          <strong>一款现代浏览器。</strong>
+          Chrome、Safari、Firefox、Edge 都可以,无需安装任何软件。
+        </div>
+      </div>
+    </div>
+
+    <p>
+      <strong>我们要构建什么。</strong> 一个名为 <code>Company Brief</code> 的应用,以公司名称为输入,
+      输出一份单页的 Markdown 调研简报。简单到 15 分钟就能完成,真实到你会愿意真的拿来用。
+    </p>
+
+    <!-- ── STEP 1 ─────────────────────────────────────────────── -->
+    <h2>步骤 1 — 登录</h2>
+    <ol>
+      <li>访问 <a href="https://app.aitroop.net">app.aitroop.net</a>。</li>
+      <li>点击 <strong>Sign up</strong>(如果你已有账号,点击 <strong>Log in</strong>)。</li>
+      <li>输入邮箱并设置密码,或者点击 <strong>Continue with Google</strong>。</li>
+      <li>你会进入<strong>工作区首页</strong>。</li>
+    </ol>
+
+    <h3>登录后你会看到的界面</h3>
+    <p>大致是这样:</p>
+    <div class="code-block" style="font-size:0.75rem;line-height:1.7;padding:1rem 1.25rem;">
+<span style="color:var(--aw-color-text-muted)">┌──────────────────────────────────────────────────────────────┐</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span><strong>Aitroop</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Workspace home<span style="color:var(--aw-color-text-muted)">                       </span>profile ▼<span style="color:var(--aw-color-text-muted)"> │</span><br/>
+<span style="color:var(--aw-color-text-muted)">├────────────┬─────────────────────────────────────────────────┤</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>+ New Chat<span style="color:var(--aw-color-text-muted)">│                                                 │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│            │</span>  Welcome! Pick something to start.<span style="color:var(--aw-color-text-muted)">              │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>📁 Chats<span style="color:var(--aw-color-text-muted)">   │                                                 │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>📦 Apps<span style="color:var(--aw-color-text-muted)">    │  ┌─ Start a chat ────────┐  ┌─ Browse apps ──┐  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>🧩 Skills<span style="color:var(--aw-color-text-muted)">  │  │ Talk to the agent.    │  │ Run an existing │  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>🔌 Connects<span style="color:var(--aw-color-text-muted)">│  │                       │  │ App.            │  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>⏰ Schedules<span style="color:var(--aw-color-text-muted)">│ └───────────────────────┘  └─────────────────┘  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│            │                                                 │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>⚙ Settings<span style="color:var(--aw-color-text-muted)"> │                                                 │</span><br/>
+<span style="color:var(--aw-color-text-muted)">└────────────┴─────────────────────────────────────────────────┘</span>
+    </div>
+
+    <p>侧边栏的条目对应平台的几个操作面:</p>
+    <ul>
+      <li><strong>Chats</strong> — 与智能体的对话历史。</li>
+      <li><strong>Apps</strong> — 你保存的工作流库。</li>
+      <li><strong>Skills</strong> — 智能体可以调用的能力。</li>
+      <li><strong>Connects</strong> — 通过 OAuth 与外部账号建立的连接。</li>
+      <li><strong>Schedules</strong> — 按 cron 自动运行的应用。</li>
+      <li><strong>Settings</strong> — 工作区、计费、团队成员。</li>
+    </ul>
+
+    <div class="callout">
+      <strong>"Apps" 库在哪里?</strong> 现在还是空的 —— 你还没有构建任何应用。下一步就来解决这个问题。
+    </div>
+
+    <!-- ── STEP 2 ─────────────────────────────────────────────── -->
+    <h2>步骤 2 — 打开一个新的对话</h2>
+    <ol>
+      <li>点击侧边栏左上角的 <strong>+ New Chat</strong>。</li>
+      <li>一个空白对话打开。底部是消息输入框,上方是空的对话区域。</li>
+    </ol>
+
+    <p>对话界面的布局如下:</p>
+    <div class="code-block" style="font-size:0.75rem;line-height:1.7;padding:1rem 1.25rem;">
+<span style="color:var(--aw-color-text-muted)">┌──────────────────────────────────────────────────────────────┐</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>📁 My workspace  /  New chat                <strong>Save as App</strong><span style="color:var(--aw-color-text-muted)">    │</span><br/>
+<span style="color:var(--aw-color-text-muted)">├──────────────────────────────────────────────────────────────┤</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span>                                                              <span style="color:var(--aw-color-text-muted)">│</span><br/>
+<span style="color:var(--aw-color-text-muted)">│   </span><span style="color:var(--aw-color-text-muted)">(empty — your conversation will appear here)</span><span style="color:var(--aw-color-text-muted)">              │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span>                                                              <span style="color:var(--aw-color-text-muted)">│</span><br/>
+<span style="color:var(--aw-color-text-muted)">├──────────────────────────────────────────────────────────────┤</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>📎  Type your message…                              <strong>[↵ Send]</strong><span style="color:var(--aw-color-text-muted)"> │</span><br/>
+<span style="color:var(--aw-color-text-muted)">└──────────────────────────────────────────────────────────────┘</span>
+    </div>
+
+    <p>各部分含义:</p>
+    <ul>
+      <li>顶部的<strong>面包屑</strong>:工作区名称 / 对话名称。</li>
+      <li><strong>"Save as App"</strong> 按钮(右上角)—— 在对话进入可保存状态之前一直处于灰显。</li>
+      <li>消息输入框上的<strong>附件</strong>按钮(📎)—— 把文件拖到这里加入对话。</li>
+      <li><strong>发送</strong>按钮,或者直接按下 Enter。</li>
+    </ul>
+
+    <!-- ── STEP 3 ─────────────────────────────────────────────── -->
+    <h2>步骤 3 — 让智能体帮你构建应用</h2>
+    <p>
+      Aitroop 内置了一个名为 <code>aitroop-app-create</code> 的技能(也就是<strong>应用构建器</strong>)。
+      当你的消息包含以下触发短语时,它就会被激活:
+    </p>
+    <ul>
+      <li>"Create an app that…"</li>
+      <li>"Build me a workflow for…"</li>
+      <li>"I want an app to…"</li>
+      <li>"Make an automation that…"</li>
+    </ul>
+
+    <p>在对话中输入下面这段内容:</p>
+
+    <div class="code-block">
+Create an app that researches a company and writes a one-page brief.<br/>
+<br/>
+Inputs: a company name (required) and a website URL (optional).<br/>
+<br/>
+Output: a Markdown report covering:<br/>
+- Business model<br/>
+- Key products / services<br/>
+- Target customers<br/>
+- Recent news from the last 12 months<br/>
+- Strengths and weaknesses
+    </div>
+
+    <p>按 <strong>Enter</strong> 发送。接着会依次发生三件事:</p>
+    <ol>
+      <li>你的消息出现在对话线程中。</li>
+      <li>智能体思考几秒钟 —— 你会看到一个 "thinking" 指示。</li>
+      <li>智能体加载应用构建器技能(可能会内联显示一个 "Skill: aitroop-app-create" 标签),然后开始回复。</li>
+    </ol>
+
+    <!-- ── STEP 4 ─────────────────────────────────────────────── -->
+    <h2>步骤 4 — 回答澄清问题</h2>
+    <p>
+      应用构建器会提出 1–5 个简短问题,用来补齐设计中的空白。典型回复大致如下:
+    </p>
+
+    <div class="code-block" style="line-height:1.7;">
+<strong>🤖 Agent</strong> &nbsp;<span style="color:var(--aw-color-text-muted)">Skill: aitroop-app-create</span><br/>
+<br/>
+A few quick questions to design this right:<br/>
+<br/>
+&nbsp;1. Should I infer the company URL from the name when the user<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;omits it, or just leave that section thinner?<br/>
+&nbsp;2. Section length — one paragraph each, or longer?<br/>
+&nbsp;3. Output language — English, or configurable per run?<br/>
+&nbsp;4. Want a "competitors" section?<br/>
+&nbsp;5. Should I limit the news section to "verified sources only",<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;or include all news?
+    </div>
+
+    <p>你不必逐条作答,一条回复就够了:</p>
+
+    <div class="code-block">
+<strong>You:</strong> Yes, infer URL from name. About 3 paragraphs per<br/>
+section. English only. Add a competitors section.<br/>
+Verified sources only for news.
+    </div>
+
+    <h3>把回答答好的几个小窍门</h3>
+    <ul>
+      <li><strong>言简意赅。</strong> 智能体不需要长篇大论。"Yes / No / 3 paragraphs / English" 这种就足够了。</li>
+      <li><strong>放心让智能体取合理的默认值。</strong> 如果某个问题你并不在意,回一句 "your call" 即可 —— 智能体会选择一个合理的默认值,并在设计中标注出来。</li>
+      <li><strong>不必一次就拍板。</strong> 任何选择之后都可以再编辑。</li>
+    </ul>
+
+    <!-- ── STEP 5 ─────────────────────────────────────────────── -->
+    <h2>步骤 5 — 审阅应用设计</h2>
+    <p>
+      回答完之后,应用构建器会展示完整的设计。这是最关键的一步 —— 仔细查看每一个字段。
+    </p>
+
+    <div class="code-block" style="font-size:0.8125rem;line-height:1.7;">
+<strong>🤖 Agent</strong><br/>
+<br/>
+Here's the design. Review and tell me what to change:<br/>
+<br/>
+<strong style="color:var(--aw-color-primary)">App: Company Brief</strong><br/>
+<span style="color:var(--aw-color-text-muted)">icon: 🏢 · tags: [research, briefing]</span><br/>
+<br/>
+<strong>Inputs (input_schema)</strong>:<br/>
+&nbsp;1. company_name <span style="color:var(--aw-color-text-muted)">— text · required</span><br/>
+&nbsp;&nbsp;&nbsp;placeholder: "Acme Corp"<br/>
+&nbsp;2. company_url <span style="color:var(--aw-color-text-muted)">— text · optional</span><br/>
+&nbsp;&nbsp;&nbsp;description: "If blank, I'll find it from the name."<br/>
+&nbsp;3. include_competitors <span style="color:var(--aw-color-text-muted)">— boolean · default: true</span><br/>
+<br/>
+<strong>Stage 1 — research_and_write</strong> <span style="color:var(--aw-color-text-muted)">(agent stage, 5 min timeout)</span><br/>
+&nbsp;Goal: Research <span style="color:var(--aw-color-primary)">{`{{company_name}}`}</span> (<span style="color:var(--aw-color-primary)">{`{{company_url}}`}</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;if provided, otherwise find it). Write a one-page<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;brief covering business model, key products, target<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;customers, recent verified news (last 12 months),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;and strengths/weaknesses. Each section ~3 paragraphs.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--aw-color-primary)">{`{{#if include_competitors}}`}</span> Include a competitors<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;section listing 3–5 competitors.<span style="color:var(--aw-color-primary)">{`{{/if}}`}</span><br/>
+<br/>
+<strong>Artifact</strong>: company_brief <span style="color:var(--aw-color-text-muted)">(format: markdown)</span><br/>
+<br/>
+<strong>Resources</strong>:<br/>
+&nbsp;skills: [web-search]<br/>
+&nbsp;connects: []<br/>
+<br/>
+Looks good?
+    </div>
+
+    <h3>逐项注释:每一块都代表什么</h3>
+    <ul>
+      <li><strong>name、icon、tags</strong> —— 用于在应用库中展示。图标是一个 emoji。</li>
+      <li><strong>Inputs</strong> —— 用户要填写的表单字段。标记为 <code>required</code> 的字段未填写时会禁用 Run 按钮。</li>
+      <li><strong>Stage</strong> —— 智能体要做的事。<code>{`{{company_name}}`}</code> 在运行时会被替换为表单里的值。</li>
+      <li><strong>Artifact</strong> —— 最终的产出。<code>format: markdown</code> 会被渲染成一份漂亮的文档。</li>
+      <li><strong>Resources</strong> —— 应用需要的技能和连接。这里的 <code>web-search</code> 表示智能体会上网检索。</li>
+    </ul>
+
+    <h3>确认或修改</h3>
+    <p>三种示例回复及其效果:</p>
+
+    <div class="code-block" style="line-height:1.7;">
+<strong>You:</strong> Looks good, save it.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;→ Agent calls POST /api/apps. Done.<br/>
+<br/>
+<strong>You:</strong> Change company_name placeholder to "Stripe".<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;Make the stage timeout 10 minutes.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;→ Agent updates two fields, re-shows design, asks again.<br/>
+<br/>
+<strong>You:</strong> Add a second stage that drafts an outreach email<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;for the company, using the brief as context.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;→ Agent extends to two stages. Stage 2 references<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stage 1's artifact. Re-shows design.
+    </div>
+
+    <p>本教程里,请输入:</p>
+    <div class="code-block"><strong>You:</strong> Looks good, save it.</div>
+
+    <!-- ── STEP 6 ─────────────────────────────────────────────── -->
+    <h2>步骤 6 — 智能体保存应用</h2>
+    <p>
+      在后台,应用构建器会校验设计(每个 ID 唯一,每个 <code>{`{{ref}}`}</code> 都能解析,目标足够具体),
+      然后调用 <code>POST /api/apps</code>。你会看到类似下面的输出:
+    </p>
+
+    <div class="code-block" style="line-height:1.7;">
+<strong>🤖 Agent</strong><br/>
+<br/>
+Saved. ✅<br/>
+<br/>
+&nbsp;App: <strong>Company Brief</strong><br/>
+&nbsp;ID: app_8f4c2e1b<br/>
+&nbsp;Version: v1<br/>
+&nbsp;Status: ready to run<br/>
+<br/>
+Find it in your App library (sidebar → Apps). Want me to<br/>
+test-run it on a sample company right now?
+    </div>
+
+    <p>
+      此刻,应用已经上线,可以直接运行。
+    </p>
+
+    <h3>检查它是否真的保存成功</h3>
+    <ol>
+      <li>在侧边栏点击 <strong>Apps</strong>。</li>
+      <li>你应该能在列表顶部看到 <code>Company Brief</code>,并带有你设置的 🏢 图标。</li>
+      <li>如果没看到,刷新页面或者再次点击 <strong>Apps</strong>。</li>
+    </ol>
+
+    <!-- ── STEP 7 ─────────────────────────────────────────────── -->
+    <h2>步骤 7 — 运行你的应用</h2>
+    <ol>
+      <li>在应用列表中点击 <strong>Company Brief</strong>。</li>
+      <li>应用页面打开,显示表单(你的三个输入)和一个 <strong>Run</strong> 按钮。</li>
+      <li>填写表单:
+        <ul>
+          <li><strong>company_name:</strong> <code>Stripe</code></li>
+          <li><strong>company_url:</strong> 留空</li>
+          <li><strong>include_competitors:</strong> 打开(默认)</li>
+        </ul>
+      </li>
+      <li>点击 <strong>Run</strong>。</li>
+    </ol>
+
+    <h3>运行过程中你会看到什么</h3>
+    <p>页面会拆成左右两栏:</p>
+    <ul>
+      <li><strong>左侧 — 运行日志。</strong> 智能体的推理过程、工具调用、阶段性输出。你可以看到每一次网页搜索的发生。</li>
+      <li><strong>右侧 — 产物预览。</strong> 一开始是空白,随后 Markdown 简报会随着智能体的书写逐步呈现。</li>
+    </ul>
+
+    <p>典型的运行时间线:</p>
+    <div class="code-block" style="line-height:1.85;font-size:0.8125rem;">
+<span style="color:var(--aw-color-primary)">00:00</span>&nbsp;&nbsp;Stage 1 starts (research_and_write)<br/>
+<span style="color:var(--aw-color-primary)">00:02</span>&nbsp;&nbsp;Agent decides to search for "Stripe company overview"<br/>
+<span style="color:var(--aw-color-primary)">00:05</span>&nbsp;&nbsp;[web-search] 12 results returned<br/>
+<span style="color:var(--aw-color-primary)">00:08</span>&nbsp;&nbsp;Agent decides to search for "Stripe recent news 2025"<br/>
+<span style="color:var(--aw-color-primary)">00:12</span>&nbsp;&nbsp;[web-search] 8 results returned<br/>
+<span style="color:var(--aw-color-primary)">00:18</span>&nbsp;&nbsp;Agent starts writing the brief<br/>
+<span style="color:var(--aw-color-primary)">00:35</span>&nbsp;&nbsp;Brief draft complete — appearing in right pane<br/>
+<span style="color:var(--aw-color-primary)">00:42</span>&nbsp;&nbsp;Agent saves artifact as "company_brief.md"<br/>
+<span style="color:var(--aw-color-primary)">00:43</span>&nbsp;&nbsp;Run complete ✅
+    </div>
+
+    <p>
+      此时 <strong>Run</strong> 按钮会变灰(正在运行中),运行完成后会重新可用。
+    </p>
+
+    <h3>运行结束之后</h3>
+    <p>右侧产物预览里,你可以做三件事:</p>
+    <ul>
+      <li><strong>阅读</strong> —— 滚动浏览、复制文本、点击链接。</li>
+      <li><strong>下载</strong> —— 原始 Markdown 选 <code>.md</code>,渲染版本则选 PDF/DOCX。在预览面板顶部找到下载图标即可。</li>
+      <li><strong>在对话中打开</strong> —— 如果你想让智能体微调这次具体的输出,点击 <strong>Edit in chat</strong>。系统会打开一个新对话,并把该产物作为上下文加载进去。</li>
+    </ul>
+
+    <h3>运行历史</h3>
+    <p>
+      每一次运行都会被记录。在应用页面上,<strong>Runs</strong> 标签会展示过往的执行记录:
+      时间戳、谁运行的、使用的输入、状态、耗时。点击任意一次运行,即可查看其产物和智能体的推理轨迹。
+    </p>
+
+    <!-- ── STEP 8 ─────────────────────────────────────────────── -->
+    <h2>步骤 8 — 换一组输入再跑一次</h2>
+    <p>
+      回到应用页面,点击 <strong>Run</strong>(或 "New run"),用另一家公司填写表单:
+    </p>
+    <ul>
+      <li><strong>company_name:</strong> <code>Notion</code></li>
+      <li><strong>company_url:</strong> <code>notion.so</code></li>
+      <li><strong>include_competitors:</strong> 关闭</li>
+    </ul>
+    <p>
+      点击 <strong>Run</strong>。同一套工作流,完全不同的产出。<strong>这正是甜头时刻</strong> ——
+      你只描述了一次提示词,现在它可以适配任何输入。
+    </p>
+
+    <!-- ── STEP 9 ─────────────────────────────────────────────── -->
+    <h2>步骤 9 — 编辑应用</h2>
+    <p>
+      假设跑过几次之后,你觉得简报里还应该包含 "招聘信号"。有两种方式来更新这个应用:
+    </p>
+
+    <h3>方式 A:对话式编辑(推荐)</h3>
+    <ol>
+      <li>在应用页面找到 <strong>Edit in chat</strong> 或 <strong>Chat with this App</strong>。</li>
+      <li>对话打开,应用的设计已经载入上下文。</li>
+      <li>输入:</li>
+    </ol>
+    <div class="code-block">
+<strong>You:</strong> Add a "Hiring signals" section to the brief.<br/>
+Include open headcount, key role types being hired,<br/>
+and any noteworthy executive hires in the last 6 months.
+    </div>
+
+    <p>智能体会读取当前应用、修改阶段目标、校验,然后调用 <code>PUT /api/apps/{`{id}`}</code>。保存前你会看到一份差异对比:</p>
+
+    <div class="code-block" style="line-height:1.7;font-size:0.8125rem;">
+<strong>Diff for Company Brief v1 → v2</strong><br/>
+<br/>
+&nbsp;stages[0].goal:<br/>
+<span style="color:#d4524a">&nbsp;&nbsp;- ...strengths/weaknesses. Each section ~3 paragraphs.</span><br/>
+<span style="color:var(--aw-color-primary)">&nbsp;&nbsp;+ ...strengths/weaknesses, and hiring signals (open</span><br/>
+<span style="color:var(--aw-color-primary)">&nbsp;&nbsp;+ &nbsp;&nbsp;headcount, key roles, exec hires last 6 months).</span><br/>
+<span style="color:var(--aw-color-primary)">&nbsp;&nbsp;+ &nbsp;&nbsp;Each section ~3 paragraphs.</span><br/>
+<br/>
+Approve and save as v2?
+    </div>
+
+    <h3>方式 B:直接编辑字段</h3>
+    <ol>
+      <li>在应用页面点击 <strong>Edit</strong>。</li>
+      <li>所有字段都会以原始形式呈现:name、icon、tags、inputs、stages、artifacts、resources。</li>
+      <li>任意修改 —— 重命名字段、更换输入类型、调整阶段目标。</li>
+      <li>点击 <strong>Save</strong> 创建 v2。</li>
+    </ol>
+
+    <p>
+      无论哪种方式,旧版本都会保留在 <strong>Versions</strong> 标签里,一键回滚。
+    </p>
+
+    <!-- ── STEP 10 ────────────────────────────────────────────── -->
+    <h2>步骤 10(可选)— 设为定时任务</h2>
+    <p>
+      对于你希望自动运行的应用:
+    </p>
+    <ol>
+      <li>在应用页面打开 <strong>Schedules</strong> 标签。</li>
+      <li>点击 <strong>+ New schedule</strong>。</li>
+      <li>填写三个部分:
+        <ul>
+          <li><strong>Cron</strong> —— 选一个预设(Hourly、Daily at 9 AM、Weekly Monday),或者写自定义表达式。</li>
+          <li><strong>Inputs</strong> —— 每次运行使用的输入值。对于 "company_name",你可以硬编码一个列表,或者使用动态值(如果应用支持)。</li>
+          <li><strong>Delivery</strong> —— 产物的去向。可以是邮箱、Slack 频道、Drive 目录或 webhook。</li>
+        </ul>
+      </li>
+      <li>点击 <strong>Save schedule</strong>。</li>
+    </ol>
+
+    <p>
+      定时任务现已启用。应用页面上会显示下次运行时间。任何时候打开
+      <strong>Schedules</strong> 标签,都可以暂停、编辑或删除该任务。
+    </p>
+
+    <!-- ── WHAT YOU ACCOMPLISHED ──────────────────────────────── -->
+    <h2>你都完成了什么</h2>
+    <p>你完整走过了 Aitroop 的整套操作闭环:</p>
+    <ol>
+      <li><strong>通过对话构建了一个应用</strong> —— 使用应用构建器技能,没写一行 JSON,也没写一行代码。</li>
+      <li><strong>在保存前审阅并确认</strong>了设计。</li>
+      <li><strong>用两组不同输入运行</strong>了应用,亲眼看见参数化是怎么工作的。</li>
+      <li><strong>通过另一段对话编辑</strong>了应用。</li>
+      <li><strong>(可选)把它设为定时任务</strong>,让它自动运行。</li>
+    </ol>
+
+    <div class="callout">
+      <strong>每次都是同一个闭环。</strong> 无论你构建的是一个单输入简报应用,还是五个阶段的外联流水线,
+      构建方式都是一样的:描述你想要什么 → 回答问题 → 审阅设计 → 确认。JSON、API、校验都交给智能体。
+    </div>
+
+    <!-- ── COMMON CONFUSIONS ─────────────────────────────────── -->
+    <h2>常见问题排查与困惑</h2>
+
+    <h3>"智能体没有问我任何澄清问题。"</h3>
+    <p>
+      这通常意味着你最初的描述已经足够具体。智能体会直接跳到设计审阅(步骤 5)。
+      从那里开始流程一样 —— 审阅、确认或修改。
+    </p>
+
+    <h3>"我的应用需要读 Gmail / Drive / GitHub,该怎么办?"</h3>
+    <p>
+      这些都是<strong>连接</strong>(OAuth 集成)。当你描述的应用需要读取 Gmail 数据
+      ("read my last 50 emails and...")时,应用构建器会把 <code>google</code> 加进 <code>resources.connects</code>。
+      第一次运行该应用时,系统会提示你授权 Gmail。授权一次,以后都能用。
+      完整流程见 <a href="/zh-CN/docs/connects">连接</a>。
+    </p>
+
+    <h3>"表单字段看起来不对。"</h3>
+    <p>
+      有两种路径:
+    </p>
+    <ul>
+      <li>保存之前(步骤 5):告诉智能体改什么。<em>"Change <code>company_name</code> to a textarea instead."</em></li>
+      <li>保存之后:在应用页面打开 <strong>Edit</strong>,或者使用对话式编辑(步骤 9)。</li>
+    </ul>
+
+    <h3>"我的运行失败了。"</h3>
+    <ol>
+      <li>在应用页面打开 <strong>Runs</strong> 标签。</li>
+      <li>点击失败的那次运行。</li>
+      <li>在运行日志中查看错误。常见原因:
+        <ul>
+          <li><strong>超时</strong> —— 提高阶段的 <code>timeout_ms</code>(默认 3 分钟,重度调研可以试 10 分钟)。</li>
+          <li><strong>缺少连接</strong> —— 在 <strong>Settings → Connects</strong> 里授权所需的连接。</li>
+          <li><strong>输入不合适</strong> —— 表单值与智能体的预期不一致。换一个值再跑一次。</li>
+        </ul>
+      </li>
+      <li>点击 <strong>Debug in chat</strong>,以对话的形式打开这次失败的运行 —— 同样的上下文、同样的输入,但变成可交互的。</li>
+    </ol>
+
+    <h3>"这跟 ChatGPT 有什么区别?"</h3>
+    <p>
+      ChatGPT 没有持久化的<strong>应用</strong>,没有<strong>表单</strong>,没有<strong>定时任务</strong>,
+      没有<strong>有类型的产物</strong>,没有<strong>基于连接</strong>来读写你工具的能力,
+      也没法让队友直接用上你的工作流,他们必须把你的提示词全部重做一遍。Aitroop 把这些都补齐了。
+    </p>
+
+    <h3>"我能用哪些技能和连接?"</h3>
+    <ul>
+      <li>技能:<strong>侧边栏 → Skills</strong>,或者直接问智能体 <em>"what Skills do I have?"</em></li>
+      <li>连接:<strong>侧边栏 → Connects</strong> 会显示已授权和可用的服务方。</li>
+    </ul>
+
+    <h2>常见问题</h2>
+
+    <p class="faq-q">注册邮件一直没收到。</p>
+    <p>
+      先检查垃圾邮件,再等 2 分钟。如果还是没有,使用 <strong>Continue with Google</strong> 登录 —— 不需要邮件。
+      如果必须用邮箱,在登录页点击 "Resend verification"。
+    </p>
+
+    <p class="faq-q">智能体不问我澄清问题。</p>
+    <p>
+      说明你最初的描述已经填齐了所有 5 个设计槽位。这其实是好事 ——
+      智能体直接跳到步骤 5(审阅设计)。流程从这里继续即可。如果你就是想强制智能体提问,
+      可以在消息末尾加一句 <em>"Ask me anything you need to know first."</em>
+    </p>
+
+    <p class="faq-q">"Save as App" 按钮是灰的。</p>
+    <p>
+      对话还没有进入可保存的状态。你需要(a)在消息中带上能识别的触发短语,或者
+      (b)至少让智能体完成过一轮看起来是完整任务的回应。直接输入 <em>"save this as an app"</em>
+      也行 —— 应用构建器会从对话中推断出一个 AppDef。
+    </p>
+
+    <p class="faq-q">应用保存后表单字段不对。</p>
+    <p>
+      不用担心,应用是可编辑的。两种方式:
+    </p>
+    <ul>
+      <li><strong>对话式:</strong>在应用页面点击 <strong>Edit in chat</strong>。告诉智能体 <em>"Change <code>company_name</code> to a textarea"</em>,然后批准差异。</li>
+      <li><strong>直接编辑:</strong>在应用页面点击 <strong>Edit</strong>,手动改任何字段。然后保存。</li>
+    </ul>
+    <p>无论哪种方式,改动都会创建一个新版本。旧版本会保留在 <strong>Versions</strong> 标签中。</p>
+
+    <p class="faq-q">第一次运行就失败了,怎么办?</p>
+    <ol>
+      <li>在应用页面打开 <strong>Runs</strong> 标签。</li>
+      <li>点击失败的那次运行。</li>
+      <li>看顶部的错误。最常见的:超时(提高 <code>timeout_ms</code>)、缺少连接(去授权)、格式不对(调整目标)。</li>
+      <li>点击 <strong>Debug in chat</strong> —— 以对话的形式打开这次失败的运行,带有完整上下文。问一句 <em>"why did this fail?"</em></li>
+    </ol>
+    <p>完整的调试手册见 <a href="/zh-CN/docs/executions">执行记录</a>。</p>
+
+    <p class="faq-q">运行耗时比我预想的长得多。</p>
+    <p>
+      三种常见原因:
+    </p>
+    <ul>
+      <li><strong>调研类阶段。</strong> 联网搜索 + 在十多条结果上推理,通常需要 30–90 秒。属于正常范围。</li>
+      <li><strong>冷启动沙箱。</strong> 长时间空闲后的第一次运行:沙箱启动会多耗 1–3 秒。</li>
+      <li><strong>目标模糊。</strong> 如果智能体不清楚 "做到什么程度算好",它就会反复迭代。把目标收紧 —— 加结构、加约束、加示例。</li>
+    </ul>
+
+    <p class="faq-q">怎么把这个应用分享给同事?</p>
+    <p>
+      共有三档:
+    </p>
+    <ul>
+      <li><strong>Private</strong>(默认)—— 只有你能看到 / 运行。</li>
+      <li><strong>Team</strong> —— 对工作区内可见。在应用页面点击 <strong>Share → Workspace</strong>。</li>
+      <li><strong>公开链接</strong> —— 任何拿到链接的人都能运行。在应用页面点击 <strong>Share → Public link</strong>,会生成一个 token,可以随时吊销。</li>
+    </ul>
+    <p>
+      团队应用下的连接是<em>按人配置</em>的 —— 同事会用自己的 Gmail 授权,而不是用你的。
+      详见 <a href="/zh-CN/docs/connects">连接</a>。
+    </p>
+
+    <p class="faq-q">我想通过 webhook / 脚本调用这个应用。</p>
+    <p>一行 curl:</p>
+    <div class="code-block">
+curl -X POST https://app.aitroop.net/api/apps/{`<appId>`}/run \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;-H "Content-Type: application/json" \<br/>
+&nbsp;&nbsp;-d '{`{`} "input": {`{ "company_name": "Stripe" }`} {`}`}'
+    </div>
+    <p>
+      在 <strong>Settings → API Tokens</strong> 获取 <code>$AT_USER_TOKEN</code>。响应中会包含执行 ID;
+      可以通过 <code>GET /api/app-executions/:execId/stream</code> 流式查看实时进度,或轮询
+      <code>GET /api/app-executions/:execId</code> 获取最终状态。
+    </p>
+
+    <p class="faq-q">在哪里能学到完整的功能集?</p>
+    <ul>
+      <li><a href="/zh-CN/docs/concepts">核心概念</a> —— 应用 JSON 结构的详细说明。</li>
+      <li><a href="/zh-CN/docs/executions">执行记录</a> —— 运行时究竟发生了什么。</li>
+      <li><a href="/zh-CN/docs/sandbox">沙箱</a> —— 智能体能在里面做什么。</li>
+      <li><a href="/zh-CN/docs/schedules">定时任务</a> —— cron 语法与投递目的地。</li>
+    </ul>
+
+    <div class="next-up">
+      <span class="label">下一步</span>
+      <a href="/zh-CN/docs/concepts">核心概念 —— 应用结构详解</a>
+    </div>
+  </DocsShell>
+</Layout>

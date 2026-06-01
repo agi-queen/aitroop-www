@@ -1,0 +1,483 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+---
+
+<Layout metadata={{ title: '對話模式 — Aitroop 文件' }}>
+  <DocsShell current="chat" locale="zh-TW">
+    <h1>對話模式</h1>
+    <p class="lead">
+      對話就是駕駛艙。把它想成代理的工作桌 —— 打開一個對話,代理就拿到一個全新的沙盒、完整的網路
+      存取、你安裝的每一個技能、你授權的每一個 Connect,以及一張空白畫布可以開工。你用對話來做
+      探索(一次性任務)、建構應用(把對話變成已儲存的工作流)、編輯既有的應用,以及除錯失敗的執行。
+      本章節其餘內容都只是操作細節。
+    </p>
+
+    <div class="callout">
+      <strong>什麼時候用對話,什麼時候用應用?</strong> 對話適合<em>一次性的工作、探索、除錯</em>。
+      應用適合<em>「我之後還會想再跑這個,可能會按排程跑,可能會用不同的輸入,可能要交給同事跑。」</em>
+      切換只需一次點擊(<strong>Save as App</strong>)或一句話(<em>「把這個存成一個應用」</em>)。
+    </div>
+
+    <h2>對話能做什麼</h2>
+    <p>同一個介面裡有四種操作用途:</p>
+
+    <h3>1. 探索</h3>
+    <p>
+      在投入做成應用之前先試試這個任務。代理在全新的沙盒裡執行;除非你儲存,否則什麼都不會留下。
+      適合:「我都不確定這件事能不能做」、「讓我試幾種說法看看」、「我只需要一個一次性的答案」。
+    </p>
+
+    <h3>2. 建構應用</h3>
+    <p>
+      用一個觸發短語(「create an app that…」)來啟動應用建構器技能。代理會用對話帶你走完設計流程,
+      再透過 API 儲存這個應用。適合:把一段跑通的對話變成可重複使用的工作流。
+    </p>
+
+    <h3>3. 編輯既有的應用</h3>
+    <p>
+      請代理修改一個既有的應用(「更新 Company Brief,順便加上招募資料」)。應用建構器會抓取該應用、
+      修改它,然後存成一個新版本。適合:不用學應用編輯器介面也能做漸進式改進。
+    </p>
+
+    <h3>4. 除錯失敗的執行</h3>
+    <p>
+      從應用的歷史紀錄裡打開一次失敗的執行。點擊 <strong>Debug in chat</strong> —— 一個對話會帶著
+      這次執行的上下文打開:輸入、部分產物、代理的推理軌跡、錯誤訊息。這下你就可以問代理哪裡出錯了、
+      該怎麼修。適合:「這之前是好的,現在為什麼不行了」。
+    </p>
+
+    <h2>開啟一個對話</h2>
+    <ol>
+      <li>在任何頁面,點擊側邊欄的 <strong>+ New Chat</strong>。</li>
+      <li>一個空白對話會打開。底部是訊息輸入框,上方是對話區域,頂部是麵包屑。</li>
+      <li>對話在使用 <code>claude-code</code> 範本的隔離 E2B 沙盒裡執行 —— 代理對暫存檔案系統擁有
+        完整的讀寫權限,可以執行程式碼,但不會碰你的機器或其他對話。</li>
+    </ol>
+
+    <h3>對話介面的版面</h3>
+    <div class="code-block" style="font-size:0.75rem;line-height:1.7;padding:1rem 1.25rem;">
+<span style="color:var(--aw-color-text-muted)">┌──────────────────────────────────────────────────────────────┐</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>📁 My workspace  /  Chat • 12 May<span style="color:var(--aw-color-text-muted)">       </span><strong>Save as App ▾</strong><span style="color:var(--aw-color-text-muted)">    │</span><br/>
+<span style="color:var(--aw-color-text-muted)">├──────────────────────────────────────────────────────────────┤</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span> <strong>You</strong>                                                          <span style="color:var(--aw-color-text-muted)">│</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>Summarize last week's commits in shop-frontend.<span style="color:var(--aw-color-text-muted)">              │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span>                                                              <span style="color:var(--aw-color-text-muted)">│</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span> <strong>🤖 Agent</strong>&nbsp;<span style="color:var(--aw-color-text-muted)">[github] · 1.4s</span>                              <span style="color:var(--aw-color-text-muted)">│</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span> I'll pull commits via GitHub. One moment.<span style="color:var(--aw-color-text-muted)">                    │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span> <span style="color:var(--aw-color-text-muted)">→ github.list_commits(repo=shop-frontend, since=...)</span><span style="color:var(--aw-color-text-muted)">          │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span> <span style="color:var(--aw-color-text-muted)">← 47 commits returned</span>                                        <span style="color:var(--aw-color-text-muted)">│</span><br/>
+<span style="color:var(--aw-color-text-muted)">│</span> &lt;writes summary as markdown&gt;                                <span style="color:var(--aw-color-text-muted)">│</span><br/>
+<span style="color:var(--aw-color-text-muted)">├──────────────────────────────────────────────────────────────┤</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>📎 <span style="color:var(--aw-color-text-muted)">Skills: 12 active · Connects: 4 auth</span>                       <span style="color:var(--aw-color-text-muted)">│</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>Type your reply…                                  <strong>[↵ Send]</strong><span style="color:var(--aw-color-text-muted)"> │</span><br/>
+<span style="color:var(--aw-color-text-muted)">└──────────────────────────────────────────────────────────────┘</span>
+    </div>
+
+    <ul>
+      <li><strong>麵包屑(頂部)</strong> —— 工作區名稱 / 對話名稱。</li>
+      <li><strong>Save as App ▾(右上)</strong> —— 下拉選單,包含「Save as App」和「Save into existing App」。
+        在對話變成可儲存之前會是灰色不可點擊。</li>
+      <li><strong>對話串(中央)</strong> —— 使用者和代理輪流發言。工具呼叫(技能呼叫、Connect 呼叫)
+        會以輸入 + 輸出的形式內嵌顯示。</li>
+      <li><strong>狀態列(輸入框上方)</strong> —— 顯示已啟用的技能數量和已授權的 Connect 數量。</li>
+      <li><strong>附件(📎)</strong> —— 打開檔案選擇器或把檔案拖進對話。</li>
+      <li><strong>傳送(↵)</strong> —— Enter 鍵或點擊。</li>
+    </ul>
+
+    <h2>代理能存取什麼</h2>
+    <p>在每一個對話裡,代理都擁有:</p>
+    <ul>
+      <li><strong>沙盒執行環境。</strong> 一個使用 <code>claude-code</code> 範本的 E2B 沙盒。
+        可以執行 Python、Node,安裝軟體套件,讀寫暫存檔案系統,發出 HTTP 請求。</li>
+      <li><strong>網路存取。</strong> 搜尋、抓取 URL、渲染頁面、截圖。</li>
+      <li><strong>已安裝的技能。</strong> 你工作區裡的每一個技能都可用。
+        <code>aitroop-app-create</code> 技能是內建的。</li>
+      <li><strong>已授權的 Connect。</strong> 你授權過的每一個 OAuth 整合。執行開始時,權杖會以環境
+        變數(或透過內部服務呼叫)注入。</li>
+      <li><strong>對話上下文。</strong> 之前的回合、附加的檔案,以及你在對話中打開過的任何產物。</li>
+    </ul>
+
+    <h2>寫好第一則訊息</h2>
+    <p>
+      第一則訊息的品質決定了後續對話的走向。一個有用的範本:
+    </p>
+
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted)"># Task</span><br/>
+What you want the agent to do, in one or two sentences.<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Inputs</span><br/>
+Specific data points — dates, names, IDs, file references.<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Output</span><br/>
+What the result should look like — format, length, structure.<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Constraints</span><br/>
+What to include, what to skip, language, tone.
+    </div>
+
+    <p>
+      你不必每次都套這個範本。但當代理的輸出少了點什麼時,缺的那塊通常就是這四項之一 —— 補上再試一次。
+    </p>
+
+    <h3>範例:一則寫得好的第一則訊息</h3>
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted)"># Task</span><br/>
+Summarize this week's customer support tickets.<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Inputs</span><br/>
+Tickets in HubSpot, status=open, last 7 days.<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Output</span><br/>
+One-page Markdown brief with:<br/>
+- Top 3 themes (one bullet each)<br/>
+- Escalations (with ticket IDs)<br/>
+- Sentiment trend vs prior week<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)"># Constraints</span><br/>
+Skip tickets marked as spam.<br/>
+Executive tone, no jargon.
+    </div>
+
+    <h2>附加檔案</h2>
+    <ol>
+      <li>把檔案從你的機器拖進對話,或點擊 📎 附件按鈕。</li>
+      <li>檔案上傳後,會以小標籤的形式出現在輸入框上方。</li>
+      <li>代理可以在沙盒裡讀取這個檔案 —— 可以解析、轉換、摘要。</li>
+      <li>附件只屬於這次對話。它不會跟著你去到其他對話。</li>
+    </ol>
+
+    <h3>支援的檔案類型</h3>
+    <ul>
+      <li><strong>文字:</strong> <code>.txt</code>、<code>.md</code>、<code>.csv</code>、<code>.json</code>、<code>.xml</code>、<code>.yaml</code>。</li>
+      <li><strong>文件:</strong> <code>.pdf</code>、<code>.docx</code>、<code>.xlsx</code>、<code>.pptx</code>。</li>
+      <li><strong>圖片:</strong> <code>.png</code>、<code>.jpg</code>、<code>.gif</code>、<code>.webp</code>、<code>.svg</code>。</li>
+      <li><strong>程式碼:</strong> 任何原始檔。代理會辨識語言並相應地渲染。</li>
+      <li><strong>壓縮檔:</strong> <code>.zip</code>、<code>.tar.gz</code> —— 代理可以列出內容並解壓縮。</li>
+    </ul>
+
+    <h3>關於檔案的幾個小提示</h3>
+    <ul>
+      <li><strong>在提示中提到這個檔案。</strong>「從附件合約中萃取關鍵日期。」代理並不會總是主動去看附件。</li>
+      <li><strong>如果是應用的輸入,別在對話裡附加。</strong> 改用一個 <code>file</code> 類型的 AppInput,
+        這樣使用者每次執行時都重新上傳新的檔案。</li>
+      <li><strong>大型 CSV:</strong> 代理會分段讀取;大約 100MB 以內都運作良好。</li>
+    </ul>
+
+    <h2>代理如何使用技能</h2>
+    <p>
+      你不需要用名字去呼叫技能。代理會根據任務自行決定何時呼叫它們。一旦呼叫,你會看到呼叫過程內嵌顯示:
+    </p>
+
+    <div class="code-block" style="line-height:1.7;font-size:0.8125rem;">
+<strong>🤖 Agent</strong>&nbsp;<span style="color:var(--aw-color-text-muted)">[web-search] · 2.1s</span><br/>
+Let me search the web for recent news.<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">→ web-search(query="Stripe funding 2025", limit=10)</span><br/>
+<span style="color:var(--aw-color-text-muted)">← 10 results: ["Stripe raises Series H...", ...]</span><br/>
+<br/>
+&lt;agent continues with results in context&gt;
+    </div>
+
+    <h3>最重要的內建技能:應用建構器</h3>
+    <p>
+      <code>aitroop-app-create</code> 技能會在你的訊息中出現觸發短語時自動啟動:
+    </p>
+    <ul>
+      <li>「Create an app that…」</li>
+      <li>「Build me a workflow for…」</li>
+      <li>「I want an app to…」</li>
+      <li>「Make an automation that…」</li>
+      <li>「Update my app…」</li>
+    </ul>
+    <p>
+      觸發短語不分大小寫,也不在意前後文。「I'd like an app to summarize emails」和「Create an app that
+      summarizes emails」一樣能觸發它。
+    </p>
+
+    <h3>查看目前啟用了哪些技能</h3>
+    <p>
+      看一下輸入框上方的狀態列 —— 它會顯示一個計數(「Skills: 12 active」)。點擊會展開清單。或者
+      直接問代理:
+    </p>
+    <div class="code-block">
+&gt; what Skills do I have available?
+    </div>
+
+    <h2>代理如何使用 Connect</h2>
+    <p>
+      Connect 是隱形運作的。代理會用你授權過的 OAuth 權杖去讀取或寫入外部系統。你不必特地提到
+      Connect 的名字。
+    </p>
+
+    <h3>第一次授權</h3>
+    <ol>
+      <li>代理判斷它需要一個你還沒授權的 Connect(例如,使用者請它讀「我未讀的 Gmail」)。</li>
+      <li>代理會暫停,並顯示一個授權提示:
+        <div class="code-block" style="font-size:0.8125rem;">
+🔒 This chat needs Gmail access to read your inbox.<br/>
+&nbsp;&nbsp;[ Authorize Gmail ] &nbsp; [ Skip ]
+        </div>
+      </li>
+      <li>點擊 <strong>Authorize Gmail</strong>。一個彈出視窗會打開 Google 的 OAuth 畫面。</li>
+      <li>批准平台所要求的權限範圍。</li>
+      <li>你會被帶回到對話。代理從它暫停的地方繼續。</li>
+    </ol>
+
+    <h3>之後的執行</h3>
+    <p>
+      第一次授權之後,後續的對話和執行會無聲地使用該 Connect —— 不再有提示。可以隨時在
+      <strong>Settings → Connects</strong> 中撤銷授權。
+    </p>
+
+    <h3>寫入操作的確認</h3>
+    <p>
+      對於具備寫入能力的 Connect 動作(寄電子郵件、建立 CRM 記錄、修改檔案),代理會把它打算做的事
+      展示給你,並等待你明確的批准:
+    </p>
+    <div class="code-block" style="font-size:0.8125rem;line-height:1.7;">
+<strong>🤖 Agent</strong> About to send this email via Gmail:<br/>
+&nbsp;&nbsp;To:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;jane@example.com<br/>
+&nbsp;&nbsp;Subject: Following up on yesterday's call<br/>
+&nbsp;&nbsp;Body:&nbsp;&nbsp;&nbsp;&nbsp;Hi Jane, thanks for the time yesterday...<br/>
+<br/>
+&nbsp;&nbsp;[ Send ] &nbsp; [ Edit first ] &nbsp; [ Cancel ]
+    </div>
+
+    <h2>一則訊息如何變成一個回合</h2>
+    <p>
+      對話框看起來就是一個大大的文字欄位,但它底下,每一次傳送都會經過一個小巧、叢集安全的訊息佇列。
+      花兩分鐘搞清楚裡面發生了什麼是值得的 —— 它解釋了你以後所有「我訊息怎麼沒送出去?」的問題。
+    </p>
+
+    <h3>狀態機</h3>
+    <div class="code-block" style="line-height:1.85;text-align:center;padding:1.5rem;">
+<span class="pill amber">pending</span> &nbsp;→&nbsp; <span class="pill blue">dispatching</span> &nbsp;→&nbsp; <span class="pill green">sent</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pill blue">dispatching</span> &nbsp;→&nbsp; <span class="pill amber">pending</span>&nbsp;(瞬時失敗,嘗試次數 &lt; 5)<br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pill blue">dispatching</span> &nbsp;→&nbsp; <span class="pill red">failed</span>&nbsp;(嘗試 5 次之後)
+    </div>
+
+    <ol>
+      <li>
+        <strong>你按下傳送。</strong> 伺服器會插入一筆 <code>app_message</code> 列,狀態為
+        <code>status: 'pending'</code>,帶一個會話內單調遞增的 <code>position</code>,以及一個
+        <code>priority</code>(預設是掛鐘時間,這樣訊息會依傳送順序執行)。UI 會立刻把這一列
+        渲染成「Sending…」。
+      </li>
+      <li>
+        <strong>有一個 worker 來認領它。</strong> 叢集裡的伺服器都在監聽 Postgres 的
+        <code>queue_dispatch</code> 頻道;寫入端在插入後也會發出 <code>NOTIFY</code>。誰贏了競速,
+        誰就用 <code>SELECT … FOR UPDATE SKIP LOCKED</code> 依
+        <code>priority DESC, position ASC</code> 排序認領這一列,把它翻成 <code>dispatching</code>,
+        並把 <code>attempts</code> 加一。
+      </li>
+      <li>
+        <strong>執行器開跑。</strong> Worker 把訊息交給代理執行器(通訊協定詳見
+        <a href="/zh-TW/docs/concepts">核心概念</a>)。JSONL 事件會回傳;每一筆都會即時扇出到對話的
+        SSE 訂閱者。
+      </li>
+      <li>
+        <strong>完成。</strong> 成功的回合 → 這一列變成 <code>sent</code>。瞬時錯誤
+        (<code>network</code>、<code>session_expired</code> 等)→ 這一列回到 <code>pending</code>,
+        等下一個 worker 來認領。5 次失敗之後,這一列變成 <code>failed</code>,UI 會顯示捕獲到的
+        <code>last_error</code>。
+      </li>
+    </ol>
+
+    <h3>每個會話一次只允許一個回合</h3>
+    <p>
+      資料表結構透過一個部分唯一索引強制每個會話最多只有一筆處理中的使用者訊息,該索引建在
+      <code>session_id</code> 上,過濾條件是 <code>status = 'dispatching' AND role = 'user'</code>。
+      就算你在第一筆還沒進入 dispatching 之前就傳了第二筆,第二筆也會卡在 <code>pending</code> 裡
+      等第一筆結束 —— 不會有交錯的回合,也不會出現兩個 Claude 回應之間的競態。多執行個體派發絕對
+      不可能破壞這一點;資料庫就是事實的唯一來源。
+    </p>
+
+    <h3>從崩潰的 worker 中恢復</h3>
+    <p>
+      Worker 可能在派發途中掛掉 —— Kubernetes 驅逐了一個 pod、某個節點崩潰了。一個獨立的恢復輪詢器
+      每 60 秒掃描一次,尋找那些卡在 <code>dispatching</code> 超過 900 秒(15 分鐘)的列,把它們翻回
+      <code>pending</code>,讓另一個 worker 來認領。實際的體感是:在基礎設施事件之後,新一次派發嘗試
+      最壞會有 15 分鐘的延遲 —— 但訊息永遠不會被悄悄遺失。
+    </p>
+
+    <h3>UI 裡的「Sending…」到底是什麼意思</h3>
+    <ul>
+      <li><strong>轉圈很快就停。</strong> 狀態是 <code>pending</code> 或 <code>dispatching</code>;
+        worker 正在連線到沙盒或啟動執行器。前幾百毫秒這是正常的。</li>
+      <li><strong>轉圈持續 &gt;30 秒還沒有文字。</strong> 執行器已經起來了,但 Claude 正在長思考;
+        保活機制在運作。耐心等等。</li>
+      <li><strong>轉圈持續 15 分鐘以上。</strong> 承載這次派發的 worker 可能已經掛掉了。恢復輪詢器
+        很快會重置它。</li>
+      <li><strong>紅色泡泡帶錯誤訊息。</strong> 狀態是 <code>failed</code>;你看到的就是
+        <code>last_error</code> 欄位。再傳送一次就能重試 —— 佇列會接著處理。</li>
+    </ul>
+
+    <h2>對輸出進行迭代</h2>
+    <p>一段高效率對話的標準節奏:</p>
+    <ol>
+      <li>代理產出一些東西 —— 文字、草稿、結構化輸出。</li>
+      <li>你讀一遍。</li>
+      <li>你具體地告訴它該改什麼。</li>
+      <li>代理產出新版本。</li>
+      <li>重複,直到滿意。</li>
+    </ol>
+
+    <h3>更好的回饋方式</h3>
+    <table>
+      <thead><tr><th>籠統</th><th>更好</th></tr></thead>
+      <tbody>
+        <tr><td>「再寫好一點。」</td><td>「砍掉 30%。語氣別那麼正式。免責聲明跳過。」</td></tr>
+        <tr><td>「換個格式。」</td><td>「從散文改成編號清單,每項一句話。」</td></tr>
+        <tr><td>「不太對。」</td><td>「『優勢』這一節要寫成 3 段散文,別用項目符號。『風險』這一節繼續用項目符號就好。」</td></tr>
+        <tr><td>「太多了。」</td><td>「只保留前 3 個主題。其他全部去掉。」</td></tr>
+      </tbody>
+    </table>
+
+    <h2>把對話存成應用</h2>
+    <p>
+      把一段跑通的對話變成已儲存的工作流,有兩條路徑:
+    </p>
+
+    <h3>路徑 A:在對話中途使用觸發短語</h3>
+    <p>
+      在對話的任何時刻,說:
+    </p>
+    <div class="code-block">
+&gt; save this as an app
+    </div>
+    <p>
+      應用建構器會啟動,查看目前為止的對話內容,然後提出一個 AppDef。從這裡開始,流程和從零開始
+      建構一樣:審閱 - 確認。
+    </p>
+
+    <h3>路徑 B:使用 Save as App 按鈕</h3>
+    <ol>
+      <li>點擊右上角的 <strong>Save as App ▾</strong>。</li>
+      <li>選 <strong>Save as App</strong> 新建一個應用,或選 <strong>Save into existing App</strong>
+        合併到你已經有的某個應用裡。</li>
+      <li>應用建構器會啟動,並根據這次對話提出一個設計方案。</li>
+      <li>審閱、確認、儲存。</li>
+    </ol>
+
+    <h2>沙盒細節</h2>
+    <p>每一個對話都在一個使用 <code>claude-code</code> 範本的隔離 E2B 沙盒裡執行:</p>
+    <ul>
+      <li><strong>每個對話有全新的檔案系統。</strong> 在對話開啟時建立;在對話結束或長時間閒置之後銷毀。</li>
+      <li><strong>允許安裝軟體套件。</strong> 代理會依任務需要安裝東西(Python 套件、npm 模組、系統工具)。</li>
+      <li><strong>允許網路存取。</strong> 網路搜尋、API 呼叫、抓取檔案。</li>
+      <li><strong>Connect 依執行注入。</strong> 你的 OAuth 權杖會提供給代理,但不會暴露在對話內容裡。</li>
+      <li><strong>沒有跨對話狀態。</strong> 兩個對話絕對不會共用檔案或上下文。</li>
+    </ul>
+
+    <h2>對話歷史與搜尋</h2>
+    <ul>
+      <li>所有對話都集中在 <strong>側邊欄 → Chats</strong> 下面。</li>
+      <li>點擊任何一個對話就能重新開啟 —— 你可以隨時繼續對話。</li>
+      <li>使用搜尋(對話清單頂部)按內容尋找對話。</li>
+      <li>把你經常引用的對話釘住。</li>
+      <li>把已經做完的對話封存 —— 封存後仍可搜尋,但不會塞滿清單。</li>
+    </ul>
+
+    <h2>什麼時候對話不是合適的介面</h2>
+    <p>遇到下列情況時,改用應用,不要重複開新對話:</p>
+    <ul>
+      <li>你已經找到了任務的可行版本。</li>
+      <li>你以後還想用不同的輸入做同一類工作。</li>
+      <li>你希望同事不用學你的提示詞也能跑。</li>
+      <li>你希望它能依排程自動執行。</li>
+    </ul>
+
+    <p>一次性的工作、探索、除錯,以及隨意的提問 —— 留在對話裡就好。</p>
+
+    <h2>內建的代理工具</h2>
+    <p>
+      除了你安裝的技能和 Connect,代理還有五個始終可用的工具,透過內建的 MCP 伺服器公開
+      (<code>mcp__aitroop__*</code>):
+    </p>
+
+    <table>
+      <thead><tr><th>工具</th><th>它做什麼</th><th>代理什麼時候會用</th></tr></thead>
+      <tbody>
+        <tr><td><code>ask_question</code></td><td>暫停並向你問一個釐清性問題。</td><td>資訊缺失、猜測會浪費工作的時候。</td></tr>
+        <tr><td><code>get_task</code></td><td>查詢某個任務的細節(針對在對話中產生的任務)。</td><td>帶結構化待辦的長會話。</td></tr>
+        <tr><td><code>update_task</code></td><td>把一個任務標記為已完成 / 進行中 / 受阻。</td><td>同上。</td></tr>
+        <tr><td><code>get_asset_content</code></td><td>重新讀取本次對話裡已經產出的某個產物。</td><td>「針對你剛寫的簡報第 3 節,再展開一下。」</td></tr>
+        <tr><td><code>generate_image</code></td><td>透過 Gemini 進行文字生圖(前提是主機已設定金鑰)。</td><td>「幫這個工作流畫一張圖。」</td></tr>
+      </tbody>
+    </table>
+
+    <h2>常見問題與疑難排解</h2>
+
+    <p class="faq-q">代理沒有在使用我以為它會用的技能 / Connect。</p>
+    <p>
+      <strong>常見原因:</strong> 代理選擇了不同的做法。常常是它在依上下文推理,而你希望它呼叫一個工具。
+    </p>
+    <p>
+      <strong>修正:</strong> 明確地告訴它。<em>「這件事用 <code>web-search</code> 技能。」</em>
+      或者檢查一下輸入框上方的狀態列 —— 如果它顯示「Skills: 12 active」,但你想要的那個技能不在裡面,
+      先從 <strong>側邊欄 → Skills</strong> 安裝它。
+    </p>
+
+    <p class="faq-q">我上傳了一個檔案,但代理好像沒有在看它。</p>
+    <p>
+      透過 📎 附加的檔案躺在沙盒裡,但代理不會主動去讀,除非你的提示詞裡提到了它們。加上:
+      <em>「把附件 <code>contract.pdf</code> 當作輸入。」</em>
+    </p>
+
+    <p class="faq-q">我的對話反應特別慢。</p>
+    <p>
+      三個常見原因:
+    </p>
+    <ul>
+      <li><strong>冷啟動沙盒。</strong> 對話的第一則訊息:+1–2 秒用於配置沙盒。</li>
+      <li><strong>重量級的工具呼叫。</strong> 一個包含 10 次網路搜尋的研究任務需要 30–90 秒。盯著
+        執行紀錄看 —— 每次呼叫發生時你都能看到。</li>
+      <li><strong>上下文溢位。</strong> 非常長的對話(50+ 回合)會變慢。狀態列會顯示上下文用量;
+        可以考慮用你關心的那份產物當種子,開一個新對話。</li>
+    </ul>
+
+    <p class="faq-q">我要怎麼把一個對話分享給同事?</p>
+    <p>
+      打開對話,點擊右上角的分享圖示,拿到一個公開 URL。在那個 URL 下,對話會變成唯讀 —— 你的同事
+      可以看,但不能傳送訊息或觸發新的代理回合。可以隨時在 <strong>Settings → Shares</strong> 中
+      撤銷。
+    </p>
+
+    <p class="faq-q">我能用不同的輸入把同一個對話再跑一次嗎?</p>
+    <p>
+      不能直接做到 —— 對話是有狀態的會話,不是參數化的工作流。如果你想用不同輸入重跑,那正是應用的
+      意義所在。打 <em>「save this as an app」</em>,應用建構器會把這段對話變成一個應用。
+    </p>
+
+    <p class="faq-q">代理一直在問我釐清性問題。怎麼走捷徑?</p>
+    <p>
+      把答案提前給它。在你第一則訊息的最上面用一個有用的範本:
+    </p>
+    <div class="code-block">
+<span style="color:var(--aw-color-text-muted"># Task</span><br/>
+&lt;what to do&gt;<br/>
+<span style="color:var(--aw-color-text-muted)"># Inputs</span><br/>
+&lt;exact data points&gt;<br/>
+<span style="color:var(--aw-color-text-muted)"># Output</span><br/>
+&lt;format, length, structure&gt;<br/>
+<span style="color:var(--aw-color-text-muted)"># Constraints</span><br/>
+&lt;what to include / skip&gt;
+    </div>
+
+    <p class="faq-q">我關掉分頁之後,對話會怎樣?</p>
+    <p>
+      對話歷史會永久保存(直到你刪除它)。這個對話的<em>沙盒</em>在 5 分鐘後進入閒置模式,再過不久
+      就會被銷毀。你下次打開這個對話時,會重新配置一個全新的沙盒。之前附加的檔案會自動重新上傳;
+      代理的推理透過對話歷史延續下去。
+    </p>
+
+    <div class="next-up">
+      <span class="label">下一篇</span>
+      <a href="/zh-TW/docs/apps">應用 —— 建構與執行</a>
+    </div>
+  </DocsShell>
+</Layout>

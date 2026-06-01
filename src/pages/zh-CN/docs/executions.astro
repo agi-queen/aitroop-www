@@ -1,0 +1,549 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import DocsShell from '~/components/widgets/DocsShell.astro';
+
+const metadata = {
+  title: '执行记录 — Aitroop Docs',
+};
+---
+
+<Layout metadata={metadata}>
+  <DocsShell current="executions" locale="zh-CN">
+    <h1>执行记录</h1>
+    <p class="lead">
+      <strong>执行记录</strong>就是你按下"运行"后发生的事情。它是一次有时间戳、可审计、对应用各
+      阶段完整走一遍的记录——带有状态、每个阶段的日志、可选的人工审批门控，以及最终的产物集合。
+      每次运行都可重放、可恢复、可分享。
+    </p>
+
+    <div class="callout">
+      <strong>心智模型。</strong>一个<em>应用</em>是菜谱，一次<em>执行记录</em>是你实际下厨的那一次。
+      菜谱在周二晚饭和周三晚饭之间不会变；变的是执行记录——表单里的食材不同、沙箱不同、输出不同、
+      时间戳不同。平台会永久保留每一次执行，方便你比较、调试和重放。
+    </div>
+
+    <h2>执行的生命周期</h2>
+    <p>每次运行都会走入五种终止状态之一。状态机如下：</p>
+
+    <div class="code-block" style="line-height:1.85;text-align:center;padding:1.5rem;">
+<span class="pill amber">pending</span> &nbsp;→&nbsp; <span class="pill blue">running</span> &nbsp;→&nbsp; <span class="pill green">completed</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pill blue">running</span> &nbsp;→&nbsp; <span class="pill red">failed</span><br/>
+<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="pill blue">running</span> &nbsp;→&nbsp; <span class="pill" style="background:rgba(120,120,120,0.15);color:#525252;border-color:rgba(120,120,120,0.3);">cancelled</span>
+    </div>
+
+    <table>
+      <thead><tr><th>状态</th><th>含义</th><th>你可以做什么</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>pending</code></td>
+          <td>运行已排队但尚未真正开始。通常小于 1 秒。</td>
+          <td>等待。必要时取消。</td>
+        </tr>
+        <tr>
+          <td><code>running</code></td>
+          <td>至少一个阶段正在进行中。阶段日志正在流式输出。</td>
+          <td>实时观看。取消。响应人工门控。</td>
+        </tr>
+        <tr>
+          <td><code>completed</code></td>
+          <td>所有阶段都成功完成。所有产物都已保存。</td>
+          <td>下载产物。分享。用新输入重新运行。从后面某个阶段恢复以尝试改动。</td>
+        </tr>
+        <tr>
+          <td><code>failed</code></td>
+          <td>某个阶段遇到错误或超时。后续阶段没有运行。</td>
+          <td>阅读错误。点击 "Debug in chat"。重试。或修复应用后重新运行。</td>
+        </tr>
+        <tr>
+          <td><code>cancelled</code></td>
+          <td>你（或某人）显式终止了运行。</td>
+          <td>从头重新运行，或在已有部分完成阶段时从后面阶段恢复。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>一条执行记录的结构</h2>
+    <p>
+      平台会把每一次执行持久化到 <code>app_execution</code>，包含以下字段：
+    </p>
+
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"id":                        <span style="color:var(--aw-color-primary)">"exec_8f4c2e1b"</span>,<br/>
+&nbsp;&nbsp;"app_id":                    <span style="color:var(--aw-color-primary)">"app_..."</span>,<br/>
+&nbsp;&nbsp;"user_id":                   <span style="color:var(--aw-color-primary)">"usr_..."</span>,<br/>
+&nbsp;&nbsp;"status":                    <span style="color:var(--aw-color-primary)">"completed"</span>,<br/>
+&nbsp;&nbsp;"input":                     <span style="color:var(--aw-color-primary)">{`{ company_name: "Stripe", ... }`}</span>,<br/>
+&nbsp;&nbsp;"is_test":                   <span style="color:var(--aw-color-primary)">false</span>,<br/>
+&nbsp;&nbsp;"shared_session":            <span style="color:var(--aw-color-primary)">false</span>,<br/>
+&nbsp;&nbsp;"start_from_stage_index":    <span style="color:var(--aw-color-primary)">0</span>,<br/>
+&nbsp;&nbsp;"prior_execution_id":        <span style="color:var(--aw-color-primary)">null</span>,<br/>
+&nbsp;&nbsp;"duration_ms":               <span style="color:var(--aw-color-primary)">43210</span>,<br/>
+&nbsp;&nbsp;"error":                     <span style="color:var(--aw-color-primary)">null</span>,<br/>
+&nbsp;&nbsp;"created_at":                <span style="color:var(--aw-color-primary)">"2026-05-31T09:14:22Z"</span><br/>
+{`}`}
+    </div>
+
+    <p>每个阶段也会拥有自己的 <code>app_stage_log</code> 条目：</p>
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"execution_id":   <span style="color:var(--aw-color-primary)">"exec_8f4c2e1b"</span>,<br/>
+&nbsp;&nbsp;"stage_index":    <span style="color:var(--aw-color-primary)">0</span>,<br/>
+&nbsp;&nbsp;"stage_type":     <span style="color:var(--aw-color-primary)">"agent"</span>,<br/>
+&nbsp;&nbsp;"status":         <span style="color:var(--aw-color-primary)">"completed"</span>,<br/>
+&nbsp;&nbsp;"goal_expanded":  <span style="color:var(--aw-color-primary)">"Research Stripe and write a brief..."</span>,<br/>
+&nbsp;&nbsp;"session_id":     <span style="color:var(--aw-color-primary)">"sess_..."</span>,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// 如果你点击 "Debug in chat"，这里会关联到对应的会话</span><br/>
+&nbsp;&nbsp;"duration_ms":    <span style="color:var(--aw-color-primary)">38421</span>,<br/>
+&nbsp;&nbsp;"error":          <span style="color:var(--aw-color-primary)">null</span><br/>
+{`}`}
+    </div>
+
+    <p>
+      <code>goal_expanded</code> 字段是输入替换<em>之后</em>的目标——也就是 agent 实际看到的内容。
+      如果你的表单里 <code>company_name: "Stripe"</code>，那么原始目标中的
+      <code>{`{{company_name}}`}</code> 就会在这里被解析出来。
+    </p>
+
+    <h2>实时观看运行 —— SSE 流</h2>
+    <p>
+      在 <code>running</code> 状态下，应用页面会订阅一个以执行记录 ID 为键的 Server-Sent Events 流。
+      同一个流也是公开的 API 接口，任何想把运行情况镜像到其他系统的人都可以使用。端点如下：
+    </p>
+
+    <div class="code-block">
+GET /api/app-executions/:execId/stream<br/>
+Authorization: Bearer &lt;token&gt;<br/>
+<br/>
+<span style="color:var(--aw-color-text-muted)">// 响应头</span><br/>
+Content-Type: text/event-stream<br/>
+Cache-Control: no-cache<br/>
+Connection: keep-alive
+    </div>
+
+    <h3>五种执行级事件</h3>
+    <p>
+      每个事件以 <code>event: {`<name>`}\n data: {`<JSON>`}\n\n</code> 的形式封帧。连接时，服务端
+      会先<em>回放</em>当前状态，让晚到的订阅者也能看到一个完整序列——当前执行状态、迄今为止的
+      每一条阶段日志、任何待处理的人工门控、每一个已保存的产物——然后再切换到实时广播。
+    </p>
+
+    <table>
+      <thead><tr><th><code>event</code></th><th>载荷结构</th><th>触发时机</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>status</code></td>
+          <td><code>{`{ status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled' }`}</code></td>
+          <td>订阅时（回放）以及每次执行级状态变化时。</td>
+        </tr>
+        <tr>
+          <td><code>stage_log</code></td>
+          <td>一整行 <code>AppStageLog</code> 数据——参见上文的<em>结构</em>。</td>
+          <td>订阅时（每条已有阶段日志一次）以及每次阶段状态变化时。</td>
+        </tr>
+        <tr>
+          <td><code>human_gate</code></td>
+          <td>一整行 <code>AppHumanGate</code> 数据。</td>
+          <td>当 <code>human</code> 阶段开启一个门控时，以及门控被解决时再次触发。</td>
+        </tr>
+        <tr>
+          <td><code>artifact</code></td>
+          <td>一整行 <code>AppArtifact</code> 数据，若存在则包含 <code>content</code>。</td>
+          <td>每次阶段输出被持久化时。</td>
+        </tr>
+        <tr>
+          <td><code>done</code></td>
+          <td><code>{`{ status, duration_ms }`}</code></td>
+          <td>在结束时触发一次，然后服务端关闭流。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      如果你订阅一个已经处于终止状态的执行，服务端会回放已存储的阶段日志和产物，发送一个
+      <code>done</code> 事件，然后断开——不会建立实时连接。这样一来，回放和实时监控用的是同一个
+      端点和同一个解析器。
+    </p>
+
+    <h3>更细粒度的 runner 事件</h3>
+    <p>
+      上面五个执行级事件是<strong>汇总</strong>流。在一个 <code>agent</code> 阶段内部，底层的
+      <code>run-agent</code> 二进制会输出一份粒度细得多的 JSONL 轨迹——逐 token 文本、工具调用、
+      子任务、思考过程。这些事件位于会话级流而非执行级流，但它们正是右侧推理轨迹面板背后的
+      数据来源。完整事件目录请参见<a href="/zh-CN/docs/concepts#the-agent-runner-protocol">runner
+      协议</a>。
+    </p>
+
+    <h3>最小 SSE 消费者</h3>
+    <div class="code-block" style="line-height:1.7;">
+const es = new EventSource('/api/app-executions/' + execId + '/stream', {`{`}<br/>
+&nbsp;&nbsp;withCredentials: true,<br/>
+{`}`});<br/>
+<br/>
+es.addEventListener('status',     (e) =&gt; console.log('status', JSON.parse(e.data)));<br/>
+es.addEventListener('stage_log',  (e) =&gt; console.log('stage',  JSON.parse(e.data)));<br/>
+es.addEventListener('artifact',   (e) =&gt; console.log('artifact', JSON.parse(e.data)));<br/>
+es.addEventListener('human_gate', (e) =&gt; console.log('gate',   JSON.parse(e.data)));<br/>
+es.addEventListener('done',       (e) =&gt; {`{`} console.log('done', JSON.parse(e.data)); es.close(); {`}`});
+    </div>
+
+    <h2>测试运行与正式运行</h2>
+    <p>
+      在运行上设置 <code>is_test: true</code>，它就会被标记为临时性的。测试运行：
+    </p>
+    <ul>
+      <li>不会以正式运行同样的方式计入你的用量配额。</li>
+      <li>默认会从应用的"运行"标签中被过滤掉（切换"显示测试运行"可看到它们）。</li>
+      <li>使用独立的 <code>shared_session</code> 命名空间，这样队友的测试运行不会污染你的。</li>
+      <li>除非被钉住，30 天后自动清理。</li>
+    </ul>
+    <p>
+      当你点击<strong>试一下</strong>时，应用编辑器使用的就是测试运行——这正是你在迭代提示词
+      时想要的。
+    </p>
+
+    <h2>人工门控：暂停以等待审批</h2>
+    <p>
+      <code>human</code> 阶段不运行代码。它会暂停执行，展示目标文本和此前的产物，等待你（或另一位
+      有权限的用户）操作。这次暂停会存储在 <code>app_human_gate</code> 中：
+    </p>
+
+    <div class="code-block" style="line-height:1.7;">
+{`{`}<br/>
+&nbsp;&nbsp;"id":           <span style="color:var(--aw-color-primary)">"gate_..."</span>,<br/>
+&nbsp;&nbsp;"execution_id": <span style="color:var(--aw-color-primary)">"exec_..."</span>,<br/>
+&nbsp;&nbsp;"stage_index":  <span style="color:var(--aw-color-primary)">2</span>,<br/>
+&nbsp;&nbsp;"message":      <span style="color:var(--aw-color-primary)">"Review these 47 enriched leads. Remove rows you don't want to email."</span>,<br/>
+&nbsp;&nbsp;"status":       <span style="color:var(--aw-color-primary)">"pending"</span>,    <span style="color:var(--aw-color-text-muted)">// pending | approved | rejected</span><br/>
+&nbsp;&nbsp;"response":     <span style="color:var(--aw-color-primary)">null</span>,<br/>
+&nbsp;&nbsp;"responded_at": <span style="color:var(--aw-color-primary)">null</span><br/>
+{`}`}
+    </div>
+
+    <h3>门控在 UI 中长什么样</h3>
+    <div class="code-block" style="font-size:0.75rem;line-height:1.7;padding:1rem 1.25rem;">
+<span style="color:var(--aw-color-text-muted)">┌─────────────────────────────── Run #exec_8f4c2 ─────────────────┐</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span><strong>Stage 3 of 4 · Review</strong> &nbsp;<span class="pill amber" style="font-size:0.6rem;">paused</span><span style="color:var(--aw-color-text-muted)">                                  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│                                                                  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>Review these 47 enriched leads. Remove rows you don't want<span style="color:var(--aw-color-text-muted)">  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>to email.<span style="color:var(--aw-color-text-muted)">                                                       │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│                                                                  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>📎 enriched_leads.csv <span style="color:var(--aw-color-text-muted)">(47 rows)  [ View ]                       │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│                                                                  │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>[ <strong>Approve &amp; continue</strong> ]&nbsp;&nbsp;[ Reject ]&nbsp;&nbsp;[ Edit input first ]<span style="color:var(--aw-color-text-muted)">     │</span><br/>
+<span style="color:var(--aw-color-text-muted)">└──────────────────────────────────────────────────────────────────┘</span>
+    </div>
+
+    <h3>三个按钮</h3>
+    <ul>
+      <li><strong>Approve &amp; continue</strong>（批准并继续）—— 门控变为 <code>approved</code>，下一个阶段立即开始。</li>
+      <li><strong>Reject</strong>（拒绝）—— 门控变为 <code>rejected</code>，运行转入 <code>failed</code>。</li>
+      <li><strong>Edit input first</strong>（先编辑输入）—— 打开产物以编辑（例如从 CSV 中删除行），保存后，编辑后的版本就是第 <em>n+1</em> 阶段读取的内容。</li>
+    </ul>
+
+    <h3>找到需要你处理的门控</h3>
+    <p>
+      从顶部导航打开<strong>待处理的门控</strong>，或调用
+      <code>GET /api/app-executions/pending-gates</code>。门控在变为 <code>pending</code> 时可以
+      配置通过邮件或 Slack ping 你——这对你可能不会盯着看的长任务流水线很有用。
+    </p>
+
+    <h3>门控 API</h3>
+    <p>
+      通过向门控的解决端点 POST 来批准或拒绝它。请求体携带判定结果以及可选的自由文本
+      <code>response</code>，存储在门控行上：
+    </p>
+    <div class="code-block" style="line-height:1.7;">
+POST /api/app-executions/:execId/gates/:gateId<br/>
+Content-Type: application/json<br/>
+Authorization: Bearer &lt;token&gt;<br/>
+<br/>
+{`{`}<br/>
+&nbsp;&nbsp;"action":   <span style="color:var(--aw-color-primary)">"approved"</span> <span style="color:var(--aw-color-text-muted)">// 或 "rejected"</span>,<br/>
+&nbsp;&nbsp;"response": <span style="color:var(--aw-color-primary)">"Removed 4 lookalikes; lists looks tighter now."</span><br/>
+{`}`}
+    </div>
+    <p>
+      机制上：服务端会标记 <code>app_human_gate.status</code> 并写入 <code>responded_at</code>，
+      然后解决一个执行器一直在 await 的内存 <code>Promise</code>。等待中的阶段立刻从
+      <code>waiting</code> 状态切出，流水线要么进入第 N+1 阶段（批准时），要么短路到
+      <code>failed</code>（拒绝时）。一个携带更新后行的 <code>human_gate</code> SSE 事件会扇出
+      给所有订阅者。
+    </p>
+    <div class="callout">
+      <strong>在门控待处理期间，执行始终保持 <code>running</code>。</strong>
+      只有阶段日志会进入 <code>waiting</code>。沙箱会通过 <code>keepAlive</code> 保活，这样在
+      批准后恢复时不需要付冷启动代价。代价是：一个无限期待处理的门控会一直占着一个热沙箱——
+      请给审核者一个合理的预期，或者在应用设计中给门控加上自动超时。
+    </div>
+
+    <h2>取消运行</h2>
+    <p>
+      在正在运行的执行上点击<strong>取消</strong>，或发送：
+    </p>
+    <div class="code-block">
+POST /api/app-executions/:execId/cancel<br/>
+Authorization: Bearer &lt;your_token&gt;
+    </div>
+    <p>
+      取消会：
+    </p>
+    <ul>
+      <li>停止当前正在运行的阶段。已完成的阶段保持完成状态，它们的产物会被保留。</li>
+      <li>关闭沙箱。</li>
+      <li>将执行转入 <code>cancelled</code>。</li>
+      <li>把未消耗的预算退回到你的余额。</li>
+    </ul>
+    <p>
+      之后你可以从下一个阶段<strong>恢复</strong>——见下文。
+    </p>
+
+    <h2>从指定阶段恢复</h2>
+    <p>
+      一个真正强大的能力：只重新运行需要重跑的阶段，复用那些已经跑通的阶段产物。在运行请求里
+      传入 <code>start_from_stage_index</code> 和 <code>prior_execution_id</code>：
+    </p>
+
+    <div class="code-block">
+POST /api/apps/:appId/run<br/>
+Content-Type: application/json<br/>
+<br/>
+{`{`}<br/>
+&nbsp;&nbsp;"input": {`{ ... same shape as the original run ... }`},<br/>
+&nbsp;&nbsp;"start_from_stage_index": 2,<br/>
+&nbsp;&nbsp;"prior_execution_id": "exec_8f4c2e1b"<br/>
+{`}`}
+    </div>
+
+    <h3>执行器实际做了什么</h3>
+    <ol>
+      <li>
+        创建一行新的 <code>app_execution</code>，指向同一个应用版本。对于索引
+        <code>0 .. start_from_stage_index - 1</code> 的阶段日志，会立即以
+        <code>status: 'skipped'</code> 写入——运行历史会清楚地标明哪些阶段没有重新执行。
+      </li>
+      <li>
+        通过 <code>dao.listArtifactsByStages(priorExecutionId, [stageIds])</code> 加载被跳过
+        阶段的产物。对于不携带内联 <code>content</code> 的产物，执行器会按
+        <code>s3_key</code> 从 S3 下载主体并按 UTF-8 解码——这样即使原始行已经卸载，下一阶段
+        的系统提示词也能看到之前的内容。
+      </li>
+      <li>
+        申请一个全新的沙箱。原执行沙箱上第 0–1 阶段写入的文件<em>没有了</em>——只有已持久化的
+        产物会穿越边界。如果后续阶段依赖的是中间临时文件而不是声明的产物，那么恢复就重现不
+        了它们。
+      </li>
+      <li>
+        构建第 <code>start_from_stage_index</code> 阶段的系统提示词，把加载到的之前产物作为
+        <code>## Previous Stage Outputs</code> 注入，然后从那里一直跑到流水线末尾。
+      </li>
+    </ol>
+
+    <h3>恢复 + <code>shared_session</code></h3>
+    <p>
+      当原始运行使用了 <code>shared_session: true</code>，并且恢复运行也请求了它时，执行器会
+      更进一步：它会在 <code>prior_execution_id</code> 上定位一条已经有 <code>session_id</code>
+      的阶段日志，复用那个会话，继续同一段 Claude 对话。可见效果：<em>Debug in chat</em>
+      会显示一个跨越原始运行和恢复运行的连续线程。不要无脑启用——共享 Claude 会话意味着模型
+      的上下文仍包含此前的轮次，有时这正是你要的，有时不是。
+    </p>
+
+    <h3>什么时候会用到它</h3>
+    <ul>
+      <li><strong>最后一个阶段的草稿不对。</strong>第 0–2 阶段花了 4 分钟跑得好好的；第 3 阶段的
+        邮件草稿语气不对。调一下应用，然后从第 3 阶段重跑——省下 4 分钟。</li>
+      <li><strong>阶段因为外部原因失败</strong>（Connect 令牌运行中过期）。修好 Connect，用同样的
+        输入从失败阶段重跑。</li>
+      <li><strong>人工拒绝了一个门控。</strong>调整前一阶段的提示词，从那里重跑。</li>
+    </ul>
+
+    <div class="callout warn">
+      <strong>恢复不会回滚已经产生的副作用。</strong>如果被恢复的阶段已经往你的 CRM 写入了行、
+      发出了 Slack 消息、或推送了一次 git 提交，这些工作已经实实在在发生了。平台不跟踪对外
+      副作用；恢复只复用已持久化的产物。为了幂等性，请让会触及 Connect 的阶段先检查
+      "我是不是已经做过这件事了？"。
+    </div>
+
+    <p>
+      在 UI 里：打开运行，点击<strong>从阶段重新运行……</strong>，选择阶段。
+    </p>
+
+    <h2>运行历史</h2>
+    <p>
+      在应用页面，<strong>运行</strong>标签会按时间倒序列出每一次执行。每一行展示：
+    </p>
+
+    <table>
+      <thead><tr><th>列</th><th>展示内容</th></tr></thead>
+      <tbody>
+        <tr><td>状态</td><td>五个状态徽章之一（pending / running / completed / failed / cancelled）。</td></tr>
+        <tr><td>触发者</td><td>你、队友、定时任务，或 API。</td></tr>
+        <tr><td>开始时间</td><td>以你工作区时区显示的时间戳。</td></tr>
+        <tr><td>耗时</td><td>所有阶段的总墙钟时间。</td></tr>
+        <tr><td>成本</td><td>沙箱秒数 + LLM token 换算成美元。</td></tr>
+        <tr><td>输入</td><td>所用的表单值。点击展开。</td></tr>
+        <tr><td>产物</td><td>数量，并附带快速下载入口。</td></tr>
+      </tbody>
+    </table>
+
+    <p>
+      顶部的筛选条件让你可以按状态、日期范围、触发者和标签来缩小范围。该列表也可通过
+      <code>GET /api/app-executions?app_id=...</code> 获取。
+    </p>
+
+    <h2>调试失败的运行</h2>
+
+    <h3>第 1 步 —— 阅读错误信息</h3>
+    <p>
+      打开失败的运行。页面顶部第一项就是错误信息以及出错的阶段。常见形式：
+    </p>
+
+    <table>
+      <thead><tr><th>错误</th><th>几乎总意味着</th></tr></thead>
+      <tbody>
+        <tr><td><code>stage_timeout</code></td><td>阶段耗时超过了 <code>timeout_ms</code>。调大它。</td></tr>
+        <tr><td><code>connect_unauthorized</code></td><td>某个 Connect 被吊销或过期了。重新授权。</td></tr>
+        <tr><td><code>required_input_missing</code></td><td>有必填的表单字段是空的。不要把字段标得过于激进地"必填"。</td></tr>
+        <tr><td><code>artifact_format_mismatch</code></td><td>阶段产出的格式不对（例如声明的是 CSV，结果输出了 Markdown）。</td></tr>
+        <tr><td><code>sandbox_oom</code></td><td>沙箱内存耗尽。数据量太大——拆分阶段，或使用脚本阶段。</td></tr>
+        <tr><td><code>agent_gave_up</code></td><td>agent 判断任务做不下去了。阅读它的推理——通常是少了某个输入。</td></tr>
+      </tbody>
+    </table>
+
+    <h3>第 2 步 —— 点击 "Debug in chat"</h3>
+    <p>
+      点击 <strong>Debug in chat</strong>。会打开一个携带失败运行完整上下文的对话——输入、部分产物、
+      agent 推理轨迹、错误。直接对 agent 说话：
+    </p>
+    <div class="code-block">
+&gt; Why did this fail? What should I change in the App?
+    </div>
+    <p>
+      agent 会诊断问题、建议修复方案，并且（通常会）直接编辑应用来应用修复。然后你可以从同一个
+      位置重跑。
+    </p>
+
+    <h3>第 3 步 —— 重试或重新运行</h3>
+    <ul>
+      <li><strong>重试</strong>—— 相同输入、相同应用版本、全新沙箱。有时候不稳定的外部 API 只是
+        需要再试一次。</li>
+      <li><strong>从第 N 阶段重跑</strong>—— 保留之前的产物。当只有后段阶段坏了时使用。</li>
+      <li><strong>编辑应用后再跑</strong>—— 用于系统性 bug（提示词模糊、格式不对）。会让应用升一个新版本。</li>
+    </ul>
+
+    <h2>分享一次执行记录</h2>
+    <p>
+      你可以把一次执行的只读视图给队友看——适合"看看这个应用昨天产出了什么"这种场景，又不必
+      给对方应用本身的写权限。
+    </p>
+
+    <ol>
+      <li>打开运行。</li>
+      <li>点击<strong>分享</strong>。</li>
+      <li>配置：包含哪些产物、有效期、是否允许下载、是否设密码门控。</li>
+      <li>获得一个公开链接：<code>https://app.aitroop.net/s/{`<token>`}</code>。</li>
+    </ol>
+
+    <p>
+      分享记录会持久化到 <code>share</code> 表中，带有 token、解锁策略和下载处理器。可以随时从
+      <strong>设置 → 分享</strong>撤销。
+    </p>
+
+    <h2>通过 API 触发运行</h2>
+    <p>
+      当你想从一个 webhook、CI 流水线或另一个 agent 触发一个应用时很有用。最小调用：
+    </p>
+
+    <div class="code-block">
+curl -X POST https://app.aitroop.net/api/apps/{`<appId>`}/run \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;-H "Content-Type: application/json" \<br/>
+&nbsp;&nbsp;-d '{`{`} "input": {`{ "company_name": "Stripe" }`} {`}`}'
+    </div>
+
+    <p>响应是新的 <code>app_execution</code>，状态为 <code>status: "pending"</code>。要观察它：</p>
+
+    <div class="code-block">
+curl https://app.aitroop.net/api/app-executions/{`<execId>`}/stream \<br/>
+&nbsp;&nbsp;-H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
+&nbsp;&nbsp;-N
+    </div>
+
+    <p>SSE 流会一直输出直到运行进入终止状态。或者轮询 <code>GET /api/app-executions/:execId</code>。</p>
+
+    <h2>常见问题 &amp; 故障排查</h2>
+
+    <p class="faq-q">我的运行卡在 <code>pending</code> 几分钟了。怎么回事？</p>
+    <p>
+      <strong>可能原因：</strong>
+    </p>
+    <ul>
+      <li>沙箱服务商冷启动（罕见；通常小于 1 秒）。</li>
+      <li>你触到了套餐的并发运行配额；运行在排其他运行的队。</li>
+      <li>agent worker 队列堵了（<strong>设置 → 工作区</strong>顶部会有状态横幅）。</li>
+    </ul>
+    <p>
+      <strong>解决：</strong>如果超过 2 分钟，取消并重跑。检查状态横幅。如果一切都正常但仍然卡着，
+      说明运行在排队——等一下或取消。
+    </p>
+
+    <p class="faq-q">为什么我已完成的运行显示"0 个产物"？</p>
+    <p>
+      应用的阶段没有声明任何 <code>artifact_defs</code>，或者 agent 产出的格式不符合声明，平台把它
+      丢掉了。打开运行，滚动到对应阶段，找一找"format mismatch"警告。把目标改得更明确地说明要产出
+      什么，或者把声明的格式改成 <code>file</code> 作为兜底。
+    </p>
+
+    <p class="faq-q">我取消了一个运行，能"反取消"吗？</p>
+    <p>
+      不行，但你可以<strong>从最后一个完成的阶段重新运行</strong>。前一次执行的产物已保留，所以
+      你不会丢失工作。打开被取消的运行，点击<strong>从阶段重新运行……</strong>，选择最后一个已
+      完成阶段之后的那个阶段。
+    </p>
+
+    <p class="faq-q">一个人工门控已经待处理 3 天了。运行死了吗？</p>
+    <p>
+      没有。门控默认无限期等待。执行只是停在那里，没有失败。要清理它，要么响应这个门控，要么取消
+      运行。
+    </p>
+    <p>
+      如果你希望门控自动过期，在阶段定义里加一个超时：
+      <code>"gate_timeout_ms": 86400000</code> 表示 24 小时。超时后，门控转入
+      <code>rejected</code>，运行转入 <code>failed</code>。
+    </p>
+
+    <p class="faq-q">我能看到 agent 当时在想什么吗？</p>
+    <p>
+      可以。在运行的时间线上点击任意阶段，展开它的推理轨迹。轨迹会显示 agent 的计划、每一次工具
+      调用（包括参数和结果），以及它最后的评注。要看更深的细节，开启"显示思考过程"——这会
+      暴露模型的内部推理块（当可用时）。
+    </p>
+
+    <p class="faq-q">为什么同一个应用这周比上周慢了一倍？</p>
+    <p>
+      <strong>可能原因：</strong>agent 调用了更多次工具。可能是提示词改了（看一下<strong>版本</strong>），
+      处理的数据变多了，或者某个外部 API 变慢了。把两次运行并排打开：运行日志会显示每次工具调用
+      的次数和耗时。对比一下就能找到回归点。
+    </p>
+
+    <p class="faq-q">我想 A/B 测试同一个应用的两个版本。怎么做？</p>
+    <p>
+      Fork 这个应用（会创建一份私有副本 v1），编辑副本，然后用相同的输入运行两个应用。从各自应用
+      的"运行"标签里并排比较两次运行。要做统计层面的深入分析，写一个定时任务，每天用相同的输入
+      运行两个版本，并把结果导入到一张表里。
+    </p>
+
+    <p class="faq-q">我能从 Zapier / n8n / CI 里的 curl 命令触发运行吗？</p>
+    <p>
+      可以——用你的 bearer token 调用 <code>POST /api/apps/:appId/run</code>。参考上面的 curl。多数
+      用户会把这个调用放在一个 webhook 处理器里，再轮询 <code>GET /api/app-executions/:execId</code>
+      来检测完成。完成后的对外 webhook 也可通过定时任务的投递目标来支持。
+    </p>
+
+    <div class="next-up">
+      <span class="label">下一篇</span>
+      <a href="/zh-CN/docs/schedules">定时任务 —— 用 cron 跑应用</a>
+    </div>
+  </DocsShell>
+</Layout>
