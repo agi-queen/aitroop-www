@@ -4,14 +4,14 @@ import ChatToAppDemo from '~/components/widgets/ChatToAppDemo.astro';
 import AnatomyFlow from '~/components/widgets/AnatomyFlow.astro';
 
 const metadata = {
-  title: 'Aitroop — Save AI agent conversations as apps',
+  title: 'Aitroop - Save AI agent conversations as apps',
   ignoreTitleTemplate: true,
 };
 
 const anatomySteps = [
   {
     title: 'AppInput',
-    desc: 'A schema-driven form. Text, select, daterange, file — declared once, rendered for you.',
+    desc: 'A schema-driven form. Text, select, daterange, file. Declared once, rendered for you.',
     foot: '4 input types · validated',
   },
   {
@@ -35,7 +35,7 @@ const stats = [
 
 const cases = [
   { slug: '/use-cases/gtm',     title: 'GTM',     desc: 'Prospecting, outreach, retention, pipeline insights.' },
-  { slug: '/use-cases/finance', title: 'Finance', desc: 'Close, audit, variance, reporting — for CFO teams.' },
+  { slug: '/use-cases/finance', title: 'Finance', desc: 'Close, audit, variance, reporting. Built for CFO teams.' },
 ];
 ---
 
@@ -52,7 +52,7 @@ const cases = [
             Save agent conversations <span class="text-primary">as apps.</span>
           </h1>
           <p class="aw-lede hero-lede">
-            Find what works in a chat. Save it as a one-click App with a form, a goal, and a schedule. Your team uses it forever.
+            Find what works in a chat. Save it as a one-click App with a form, a goal, a schedule.
           </p>
           <div class="aw-actions">
             <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Start free</a>
@@ -70,9 +70,9 @@ const cases = [
   <section class="aw-section">
     <div class="aw-container">
       <AnatomyFlow
-        eyebrow="Anatomy"
+        eyebrow=""
         title="Three pieces. One pipeline."
-        lede="Inputs feed the stage. The stage produces the artifact. The artifact ships — or feeds the next stage."
+        lede="Inputs feed the stage. The stage produces the artifact. The artifact ships, or feeds the next stage."
         steps={anatomySteps}
       />
 
@@ -151,12 +151,12 @@ const cases = [
   }
   .hero-display {
     font-size: clamp(2.5rem, 5vw, 3.75rem);
-    line-height: 1.05;
+    line-height: 1.04;
     margin: 0 0 1.5rem;
-    max-width: 14ch;
+    max-width: 20ch;
   }
   .hero-lede {
-    max-width: 42ch;
+    max-width: 46ch;
   }
 
   /* ── Stats ─ table-like row ────────────────────────────────────── */

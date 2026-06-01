@@ -14,7 +14,7 @@ const stats = [
 
 const apps = [
   {
-    n: '01',
+    tag: '月結週期',
     name: '月結清單 Month-end checklist',
     description: '按順序跑完整個月結：總帳核對、計提分錄、內部往來匹配、簽字確認。每一步都留下審計痕跡。',
     inputs: ['結算期間', '法人主體', '負責人分配'],
@@ -23,7 +23,7 @@ const apps = [
     connects: ['quickbooks', 'xero', 'netsuite'],
   },
   {
-    n: '02',
+    tag: '應收',
     name: '應收帳齡 AR aging',
     description: '應收帳款按帳齡分桶，標記風險敞口，自動產生對帳與催款郵件草稿——一氣呵成。',
     inputs: ['基準日期', '帳齡分桶', '風險閾值'],
@@ -32,7 +32,7 @@ const apps = [
     connects: ['quickbooks', 'stripe', 'gmail'],
   },
   {
-    n: '03',
+    tag: '內控',
     name: '費用稽核 Expense audit',
     description: '掃描費用報銷，識別政策違規、重複提交與異常項。Agent 解釋每個例外的理由，供人工複核。',
     inputs: ['期間', '政策文件', '閾值規則'],
@@ -41,7 +41,7 @@ const apps = [
     connects: ['expensify', 'concur', 'google-drive'],
   },
   {
-    n: '04',
+    tag: 'FP&A',
     name: '差異分析 Variance analysis',
     description: '對比實際與預算，歸因每個差異背後的主驅動因素，產生可直接放進董事會材料的敘事說明。',
     inputs: ['期間', '部門篩選', '差異閾值'],
@@ -69,7 +69,7 @@ const why = [
         <span>財務</span>
       </nav>
       <p class="aw-eyebrow">財務團隊 · CFO</p>
-      <h1 class="aw-display" style="max-width: 14ch;">更快地把帳關掉。</h1>
+      <h1 class="aw-display" style="max-width: 22ch;">更快地把帳關掉。</h1>
       <p class="aw-lede" style="max-width: 52ch;">
         四個預置 App 覆蓋月結與日常財務營運的常見環節。讓團隊少花時間在表格上，多花時間在驅動決策的分析上。
       </p>
@@ -106,7 +106,7 @@ const why = [
         {apps.map((app) => (
           <article class="app">
             <div class="app-head">
-              <span class="app-num">{app.n}</span>
+              <span class="app-tag">{app.tag}</span>
               <h3 class="app-title">{app.name}</h3>
             </div>
             <div class="app-body">
@@ -144,9 +144,8 @@ const why = [
         <h2 class="aw-h2">為可審計、可重複使用的工作而設計。</h2>
       </header>
       <div class="why">
-        {why.map((w, i) => (
+        {why.map((w) => (
           <article class="aw-piece">
-            <span class="aw-piece-num">{String(i + 1).padStart(2, '0')}</span>
             <h3 class="aw-piece-title">{w.title}</h3>
             <p class="aw-piece-desc">{w.desc}</p>
           </article>
@@ -236,13 +235,14 @@ const why = [
     flex-direction: column;
     gap: 0.625rem;
   }
-  .app-num {
+  .app-tag {
+    align-self: flex-start;
     font-family: var(--aw-font-mono, ui-monospace, monospace);
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 600;
     color: var(--aw-color-primary);
-    letter-spacing: 0.06em;
-    font-variant-numeric: tabular-nums;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
     line-height: 1;
   }
   .app-title {

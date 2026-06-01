@@ -47,3 +47,6 @@ desktop.ini
 
 # Sharp (image processing cache)
 .sharp/
+
+# Claude
+.claude/

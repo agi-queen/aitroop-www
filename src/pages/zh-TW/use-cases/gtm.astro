@@ -7,7 +7,7 @@ const metadata = {
 
 const apps = [
   {
-    n: '01',
+    tag: '獲客',
     name: '線索挖掘 Prospecting',
     description: '基於公司訊號、招聘動態、技術棧與意向資料找到高匹配帳戶，按你的 ICP 打分。',
     inputs: ['ICP 描述', '行業篩選', '公司規模', '技術關鍵字'],
@@ -16,7 +16,7 @@ const apps = [
     connects: ['salesforce', 'hubspot'],
   },
   {
-    n: '02',
+    tag: '觸達',
     name: '外部觸達 Outreach',
     description: '批量產生個性化冷郵件與 LinkedIn 訊息。結合企業畫像、最新觸發事件和你的語氣。',
     inputs: ['目標清單', '郵件範本', '寄件人畫像', '語氣'],
@@ -25,7 +25,7 @@ const apps = [
     connects: ['gmail', 'linkedin'],
   },
   {
-    n: '03',
+    tag: '留存',
     name: '客戶留存 Retention',
     description: '持續監控帳戶健康分。在客戶流失之前預警——使用下滑、支援工單模式、關鍵人變動。',
     inputs: ['帳戶清單', '風險閾值', '回看視窗'],
@@ -34,7 +34,7 @@ const apps = [
     connects: ['salesforce', 'hubspot', 'segment'],
   },
   {
-    n: '04',
+    tag: 'RevOps',
     name: '管道洞察 Pipeline insights',
     description: '把管道資料轉化為清晰的建議。哪些 deal 應該推、哪些應該降級、時間該投到哪裡——一目了然。',
     inputs: ['銷售階段', '時間視窗', '負責人'],
@@ -62,7 +62,7 @@ const why = [
         <span>GTM</span>
       </nav>
       <p class="aw-eyebrow">B2B 成長</p>
-      <h1 class="aw-display" style="max-width: 14ch;">讓管道自動運轉。</h1>
+      <h1 class="aw-display" style="max-width: 22ch;">讓管道自動運轉。</h1>
       <p class="aw-lede" style="max-width: 52ch;">
         四個預置 App 端到端覆蓋 GTM 流程——從找到線索到留住客戶。每一個都自帶所需的技能與整合，第一天就能跑起來。
       </p>
@@ -85,7 +85,7 @@ const why = [
         {apps.map((app) => (
           <article class="app">
             <div class="app-head">
-              <span class="app-num">{app.n}</span>
+              <span class="app-tag">{app.tag}</span>
               <h3 class="app-title">{app.name}</h3>
             </div>
             <div class="app-body">
@@ -123,9 +123,8 @@ const why = [
         <h2 class="aw-h2">為可複利的管道工作而設計。</h2>
       </header>
       <div class="why">
-        {why.map((w, i) => (
+        {why.map((w) => (
           <article class="aw-piece">
-            <span class="aw-piece-num">{String(i + 1).padStart(2, '0')}</span>
             <h3 class="aw-piece-title">{w.title}</h3>
             <p class="aw-piece-desc">{w.desc}</p>
           </article>
@@ -171,13 +170,14 @@ const why = [
     flex-direction: column;
     gap: 0.625rem;
   }
-  .app-num {
+  .app-tag {
+    align-self: flex-start;
     font-family: var(--aw-font-mono, ui-monospace, monospace);
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 600;
     color: var(--aw-color-primary);
-    letter-spacing: 0.06em;
-    font-variant-numeric: tabular-nums;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
     line-height: 1;
   }
   .app-title {

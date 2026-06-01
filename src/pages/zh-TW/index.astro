@@ -4,14 +4,14 @@ import ChatToAppDemo from '~/components/widgets/ChatToAppDemo.astro';
 import AnatomyFlow from '~/components/widgets/AnatomyFlow.astro';
 
 const metadata = {
-  title: 'Aitroop — 把 AI Agent 對話固化成 App',
+  title: 'Aitroop - 把 AI Agent 對話固化成 App',
   ignoreTitleTemplate: true,
 };
 
 const anatomySteps = [
   {
     title: 'AppInput',
-    desc: '基於 Schema 的表單。text、select、daterange、file——宣告一次，自動渲染。',
+    desc: '基於 Schema 的表單。text、select、daterange、file，宣告一次，自動渲染。',
     foot: '4 種輸入類型 · 內建驗證',
   },
   {
@@ -35,14 +35,13 @@ const stats = [
 
 const cases = [
   { slug: '/zh-TW/use-cases/gtm',     title: 'GTM',     desc: '線索挖掘、外部觸達、客戶留存、管道洞察。' },
-  { slug: '/zh-TW/use-cases/finance', title: '財務',    desc: '月結、稽核、差異分析、報告——CFO 團隊專用。' },
+  { slug: '/zh-TW/use-cases/finance', title: '財務',    desc: '月結、稽核、差異分析、報告。專為 CFO 團隊設計。' },
 ];
 
 const demoStrings = {
   modeChatLabel: '模式 1 · Chat',
   modeAppsLabel: '模式 2 · Apps',
   modeAppLabel: '模式 3 · App',
-  liveLabel: '即時演示 · 循環播放',
   newChatLabel: '新對話',
   navAppsLabel: 'Apps',
   navArtifactsLabel: 'Artifacts',
@@ -66,7 +65,7 @@ const demoStrings = {
   toolSkillStatusDone: '已拉取 142 個提交',
   toolConnectName: 'github',
   toolConnectStatus: '已授權',
-  agentReplyText: '完成 — 已從 4 個倉庫的 12 個 PR 產生 daily-report.md。',
+  agentReplyText: '完成。已從 4 個倉庫的 12 個 PR 產生 daily-report.md。',
   saveAsAppLabel: '提煉為 App',
   savedToastLabel: '已加入你的 App',
   appsHeaderLabel: '我的 App',
@@ -110,7 +109,7 @@ const demoStrings = {
             把 Agent 對話<span class="text-primary">固化成 App。</span>
           </h1>
           <p class="aw-lede hero-lede">
-            在 Chat 裡探索出有效方法後，儲存為帶表單與定時任務的 App。團隊拿到的是可重複使用的 AI 工作流——無需編碼。
+            在 Chat 裡探索出有效方法後，儲存為帶表單與定時任務的 App。團隊拿到的是可重複使用的 AI 工作流，無需編碼。
           </p>
           <div class="aw-actions">
             <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">免費開始</a>
@@ -128,9 +127,9 @@ const demoStrings = {
   <section class="aw-section">
     <div class="aw-container">
       <AnatomyFlow
-        eyebrow="解剖"
+        eyebrow=""
         title="三塊拼圖。一條管道。"
-        lede="輸入餵給 Stage。Stage 產出 Artifact。Artifact 流向下游——或者作為下一個 Stage 的輸入。"
+        lede="輸入餵給 Stage。Stage 產出 Artifact。Artifact 流向下游，或作為下一個 Stage 的輸入。"
         steps={anatomySteps}
         labels={{ dateRange: '日期範圍', repo: '程式碼倉庫', language: '輸出語言', running: '正在整理 PR…' }}
       />
@@ -211,9 +210,9 @@ const demoStrings = {
     font-size: clamp(2.5rem, 5vw, 3.75rem);
     line-height: 1.05;
     margin: 0 0 1.5rem;
-    max-width: 16ch;
+    max-width: 20ch;
   }
-  .hero-lede { max-width: 42ch; }
+  .hero-lede { max-width: 46ch; }
 
   .stats {
     display: grid;

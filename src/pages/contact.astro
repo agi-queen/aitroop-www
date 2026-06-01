@@ -13,10 +13,10 @@ const fields = [
 ] as const;
 
 const offers = [
-  { n: '01', title: 'Product demo',          desc: 'Tailored to your context — SDR outreach, marketing attribution, RevOps, customer success. Not a generic deck.' },
-  { n: '02', title: 'Enterprise plan',       desc: 'Teams of 20+, private deployment, custom integrations. Our sales team designs a dedicated solution and pricing.' },
-  { n: '03', title: 'Integration support',   desc: 'Connect Aitroop to your existing CRM, data systems, or internal tools. Solutions engineers assess feasibility.' },
-  { n: '04', title: 'Partnerships',          desc: 'Data providers, CRM vendors, systems integrators. We actively seek ecosystem partners.' },
+  { tag: 'Demo',          title: 'Product demo',        desc: 'Tailored to your context — SDR outreach, marketing attribution, RevOps, customer success. Not a generic deck.' },
+  { tag: 'Enterprise',    title: 'Enterprise plan',     desc: 'Teams of 20+, private deployment, custom integrations. Our sales team designs a dedicated solution and pricing.' },
+  { tag: 'Engineering',   title: 'Integration support', desc: 'Connect Aitroop to your existing CRM, data systems, or internal tools. Solutions engineers assess feasibility.' },
+  { tag: 'Partner',       title: 'Partnerships',        desc: 'Data providers, CRM vendors, systems integrators. We actively seek ecosystem partners.' },
 ];
 ---
 
@@ -89,7 +89,7 @@ const offers = [
       <div class="offers">
         {offers.map((o) => (
           <article class="aw-piece">
-            <span class="aw-piece-num">{o.n}</span>
+            <span class="aw-piece-tag">{o.tag}</span>
             <h3 class="aw-piece-title">{o.title}</h3>
             <p class="aw-piece-desc">{o.desc}</p>
           </article>

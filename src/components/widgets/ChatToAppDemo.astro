@@ -23,7 +23,6 @@ export interface Props {
   modeChatLabel?: string;
   modeAppsLabel?: string;
   modeAppLabel?: string;
-  liveLabel?: string;
   // Sidebar
   newChatLabel?: string;
   navAppsLabel?: string;
@@ -75,7 +74,6 @@ const {
   modeChatLabel = 'Mode 1 · Chat',
   modeAppsLabel = 'Mode 2 · Apps',
   modeAppLabel = 'Mode 3 · App',
-  liveLabel = 'live · auto-loop',
   newChatLabel = 'New Chat',
   navAppsLabel = 'Apps',
   navArtifactsLabel = 'Artifacts',
@@ -99,7 +97,7 @@ const {
   toolSkillStatusDone = '142 commits fetched',
   toolConnectName = 'github',
   toolConnectStatus = 'authorized',
-  agentReplyText = 'Done — drafted daily-report.md from 12 PRs across 4 repos.',
+  agentReplyText = 'Done. Drafted daily-report.md from 12 PRs across 4 repos.',
   saveAsAppLabel = 'Distill to App',
   savedToastLabel = 'Saved to your Apps',
   appsHeaderLabel = 'Your Apps',
@@ -154,10 +152,6 @@ const appVersionShort = appVersion.split(' · ')[0];
         <span class="ml ml-app">{modeAppLabel}</span>
       </div>
     </div>
-    <span class="live">
-      <span class="live-dot"></span>
-      {liveLabel}
-    </span>
   </div>
 
   <div class="demo-body">
@@ -502,20 +496,6 @@ const appVersionShort = appVersion.split(' · ')[0];
   .ml-chat { opacity: 1; }
   .ml-apps { opacity: 0; color: var(--aw-color-primary); }
   .ml-app  { opacity: 0; color: var(--aw-color-primary); }
-
-  .live {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.625rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--aw-color-text-muted);
-  }
-  .live-dot {
-    width: 6px; height: 6px; border-radius: 9999px;
-    background: var(--aw-color-primary);
-    box-shadow: 0 0 0 0 rgba(82, 153, 97, 0.45);
-  }
 
   /* ============================================================
      Body — left sidebar + main column with three cross-fading panes
@@ -1701,10 +1681,4 @@ const appVersionShort = appVersion.split(' · ')[0];
     27%, 100% { opacity: 0; }
   }
 
-  /* Live dot — independent slow pulse */
-  .live-dot { animation: live-pulse 2.2s ease-in-out infinite; }
-  @keyframes live-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(82, 153, 97, 0.55); }
-    70%      { box-shadow: 0 0 0 6px rgba(82, 153, 97, 0); }
-  }
 </style>

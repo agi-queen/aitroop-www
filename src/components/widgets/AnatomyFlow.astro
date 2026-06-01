@@ -41,7 +41,7 @@ const {
 ---
 
 <header class="aw-section-head anatomy-head">
-  <p class="aw-eyebrow">{eyebrow}</p>
+  {eyebrow && <p class="aw-eyebrow">{eyebrow}</p>}
   <h2 class="aw-h2 anatomy-title">{title}</h2>
   {lede && <p class="aw-lede anatomy-lede">{lede}</p>}
 </header>
