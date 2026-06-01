@@ -1,45 +1,28 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import ChatToAppDemo from '~/components/widgets/ChatToAppDemo.astro';
+import AnatomyFlow from '~/components/widgets/AnatomyFlow.astro';
 
 const metadata = {
   title: 'Aitroop — 把 AI Agent 对话固化成 App',
   ignoreTitleTemplate: true,
 };
 
-const anatomy = [
+const anatomySteps = [
   {
-    n: '01',
     title: 'AppInput',
-    desc: '基于 Schema 的表单。text、select、daterange、file——按需声明，自动渲染。',
-    example: [
-      { k: 'date_range', v: '2025-05-01 → 05-07' },
-      { k: 'repo',       v: 'shop-frontend' },
-      { k: 'lang',       v: 'English' },
-    ],
-    foot: '4 种字段类型 · 内置校验',
+    desc: '基于 Schema 的表单。text、select、daterange、file——声明一次，自动渲染。',
+    foot: '4 种输入类型 · 内置校验',
   },
   {
-    n: '02',
     title: 'Stage',
-    desc: '带明确目标的 Agent 会话。多数 App 仅需一个；多 Stage 时产物自动流转。',
-    example: [
-      { k: 'goal',   v: 'weekly engineering digest' },
-      { k: 'skills', v: 'github-mcp · web-scrape' },
-      { k: 'output', v: 'markdown' },
-    ],
-    foot: '单 Stage · 或串联 N 个构建管道',
+    desc: '带明确目标的 Agent 会话，连入你的技能与集成。需要时多 Stage 串联成管道。',
+    foot: '150+ 技能 · 20+ 集成',
   },
   {
-    n: '03',
     title: 'Artifact',
-    desc: '可预览、可导出，也能喂给下一个 Stage 继续流转。',
-    example: [
-      { k: 'file',    v: 'daily-report.md' },
-      { k: 'formats', v: 'md · csv · pdf · 共 7 种' },
-      { k: 'flow',    v: '→ 下一个 Stage' },
-    ],
-    foot: '内联预览 · 一键导出',
+    desc: '可交付的产物。预览、导出，或直接喂给下一个 Stage。',
+    foot: '7 种格式 · 预览 + 导出',
   },
 ];
 
@@ -144,29 +127,13 @@ const demoStrings = {
   <!-- ANATOMY ──────────────────────────────────────────────────────── -->
   <section class="aw-section">
     <div class="aw-container">
-      <header class="aw-section-head">
-        <p class="aw-eyebrow">解剖</p>
-        <h2 class="aw-h2">一个 App，三块拼图。</h2>
-      </header>
-
-      <div class="anatomy">
-        {anatomy.map((a) => (
-          <article class="aw-piece">
-            <span class="aw-piece-num">{a.n}</span>
-            <h3 class="aw-piece-title">{a.title}</h3>
-            <p class="aw-piece-desc">{a.desc}</p>
-            <div class="piece-ex" role="presentation">
-              {a.example.map((line) => (
-                <div class="ex-row">
-                  <span class="ex-k">{line.k}</span>
-                  <span class="ex-v">{line.v}</span>
-                </div>
-              ))}
-            </div>
-            <p class="piece-foot">{a.foot}</p>
-          </article>
-        ))}
-      </div>
+      <AnatomyFlow
+        eyebrow="解剖"
+        title="三块拼图。一条管道。"
+        lede="输入喂给 Stage。Stage 产出 Artifact。Artifact 流向下游——或者作为下一个 Stage 的输入。"
+        steps={anatomySteps}
+        labels={{ dateRange: '日期范围', repo: '代码仓库', language: '输出语言', running: '正在整理 PR…' }}
+      />
 
       <div class="stats" role="list">
         {stats.map((s) => (
@@ -247,52 +214,6 @@ const demoStrings = {
     max-width: 16ch;
   }
   .hero-lede { max-width: 42ch; }
-
-  .anatomy {
-    display: grid;
-    gap: 2rem;
-    margin-bottom: 4.5rem;
-  }
-  @media (min-width: 768px) {
-    .anatomy {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2.5rem;
-      margin-bottom: 5.5rem;
-    }
-  }
-
-  .piece-ex {
-    margin-top: 1.25rem;
-    padding: 0.75rem 0.875rem;
-    background: var(--aw-color-bg-subtle);
-    border: 1px solid var(--aw-color-border);
-    border-radius: 8px;
-    font-family: var(--aw-font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
-    font-size: 0.75rem;
-    display: grid;
-    gap: 0.35rem;
-  }
-  .ex-row {
-    display: grid;
-    grid-template-columns: 5.5rem 1fr;
-    column-gap: 0.75rem;
-    align-items: baseline;
-    line-height: 1.4;
-  }
-  .ex-k {
-    color: var(--aw-color-text-muted);
-    letter-spacing: 0.03em;
-  }
-  .ex-v {
-    color: var(--aw-color-text-default);
-    word-break: break-word;
-  }
-  .piece-foot {
-    margin: 0.875rem 0 0;
-    font-size: 0.75rem;
-    color: var(--aw-color-text-muted);
-    font-variant-numeric: tabular-nums;
-  }
 
   .stats {
     display: grid;

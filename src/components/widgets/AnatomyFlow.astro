@@ -1,0 +1,450 @@
+---
+/*
+  AnatomyFlow — three-step pipeline: AppInput → Stage → Artifact.
+  Each card carries a real product-style UI miniature (form, agent activity,
+  file preview), connected with arrows on desktop. Locale-aware copy via
+  the `steps` prop; visual content stays English to read as product UI.
+*/
+
+export interface Props {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+  steps: {
+    title: string;
+    desc: string;
+    foot: string;
+  }[];
+  // Localizable labels on the visual miniatures
+  labels?: {
+    dateRange?: string;
+    repo?: string;
+    language?: string;
+    running?: string;
+  };
+}
+
+const {
+  eyebrow = 'Anatomy',
+  title,
+  lede,
+  steps,
+  labels = {},
+} = Astro.props;
+
+const {
+  dateRange = 'date_range',
+  repo = 'repo',
+  language = 'language',
+  running = 'summarizing PRs…',
+} = labels;
+---
+
+<header class="aw-section-head anatomy-head">
+  <p class="aw-eyebrow">{eyebrow}</p>
+  <h2 class="aw-h2 anatomy-title">{title}</h2>
+  {lede && <p class="aw-lede anatomy-lede">{lede}</p>}
+</header>
+
+<ol class="anatomy-flow">
+  <!-- 01 AppInput -->
+  <li class="flow-step">
+    <article class="step-card">
+      <header class="step-meta">
+        <span class="step-num">01</span>
+        <h3 class="step-title">{steps[0].title}</h3>
+      </header>
+
+      <div class="step-visual visual-form" role="presentation">
+        <div class="vf-field">
+          <span class="vf-label">{dateRange}</span>
+          <div class="vf-input vf-mono">2025-05-01 → 05-07</div>
+        </div>
+        <div class="vf-field">
+          <span class="vf-label">{repo}</span>
+          <div class="vf-input vf-input-select vf-mono">
+            <span>shop-frontend</span>
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+        <div class="vf-field">
+          <span class="vf-label">{language}</span>
+          <div class="vf-input vf-input-select">
+            <span>English</span>
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <p class="step-desc">{steps[0].desc}</p>
+      <p class="step-foot">{steps[0].foot}</p>
+    </article>
+
+    <span class="flow-arrow" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </span>
+  </li>
+
+  <!-- 02 Stage -->
+  <li class="flow-step">
+    <article class="step-card">
+      <header class="step-meta">
+        <span class="step-num">02</span>
+        <h3 class="step-title">{steps[1].title}</h3>
+      </header>
+
+      <div class="step-visual visual-stage" role="presentation">
+        <div class="vs-row">
+          <span class="vs-icon vs-icon-done">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+          <span class="vs-tool">github-mcp</span>
+          <span class="vs-detail">142 commits</span>
+        </div>
+        <div class="vs-row">
+          <span class="vs-icon vs-icon-done">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          </span>
+          <span class="vs-tool">github</span>
+          <span class="vs-detail">authorized</span>
+        </div>
+        <div class="vs-row vs-row-running">
+          <span class="vs-icon vs-icon-running" aria-hidden="true"></span>
+          <span class="vs-tool">claude</span>
+          <span class="vs-detail">{running}</span>
+        </div>
+        <div class="vs-bar"><span class="vs-bar-fill"></span></div>
+      </div>
+
+      <p class="step-desc">{steps[1].desc}</p>
+      <p class="step-foot">{steps[1].foot}</p>
+    </article>
+
+    <span class="flow-arrow" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </span>
+  </li>
+
+  <!-- 03 Artifact -->
+  <li class="flow-step">
+    <article class="step-card">
+      <header class="step-meta">
+        <span class="step-num">03</span>
+        <h3 class="step-title">{steps[2].title}</h3>
+      </header>
+
+      <div class="step-visual visual-file" role="presentation">
+        <div class="vfile-head">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span class="vfile-name">daily-report.md</span>
+        </div>
+        <div class="vfile-lines">
+          <div class="vfile-line vfile-line-h">## Mon · 12 PRs / 4 repos</div>
+          <div class="vfile-line">- feat(api): pagination on /v2/orders</div>
+          <div class="vfile-line">- fix(ui): cart total rounding</div>
+        </div>
+        <div class="vfile-formats">
+          <span class="vfile-chip">md</span>
+          <span class="vfile-chip">csv</span>
+          <span class="vfile-chip">pdf</span>
+          <span class="vfile-chip vfile-chip-more">+4</span>
+        </div>
+      </div>
+
+      <p class="step-desc">{steps[2].desc}</p>
+      <p class="step-foot">{steps[2].foot}</p>
+    </article>
+  </li>
+</ol>
+
+<style>
+  .anatomy-head { max-width: 56rem; }
+  .anatomy-title { max-width: 22ch; }
+  .anatomy-lede { max-width: 52ch; margin: 0; }
+
+  /* ── Flow container — column on mobile, row with arrows on desktop ── */
+  .anatomy-flow {
+    list-style: none;
+    margin: 0 0 4.5rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  @media (min-width: 1024px) {
+    .anatomy-flow {
+      flex-direction: row;
+      align-items: stretch;
+      gap: 0;
+      margin-bottom: 5.5rem;
+    }
+  }
+
+  .flow-step {
+    display: flex;
+    align-items: stretch;
+    flex: 1 1 0;
+  }
+
+  /* ── Card ── */
+  .step-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--aw-color-bg-page);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 12px;
+    transition: border-color 220ms ease, box-shadow 260ms ease, transform 220ms ease;
+  }
+  .step-card:hover {
+    border-color: rgba(82, 153, 97, 0.35);
+    box-shadow:
+      0 16px 36px -22px rgba(82, 153, 97, 0.18),
+      0 4px 10px -6px rgba(0, 0, 0, 0.04);
+    transform: translateY(-2px);
+  }
+
+  .step-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 0.625rem;
+    padding-bottom: 0.875rem;
+    border-bottom: 1px solid var(--aw-color-border);
+  }
+  .step-num {
+    font-family: var(--aw-font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--aw-color-primary);
+    letter-spacing: 0.10em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .step-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.014em;
+    line-height: 1.1;
+  }
+
+  .step-visual { flex-shrink: 0; }
+
+  .step-desc {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--aw-color-text-default);
+    flex: 1;
+  }
+  .step-foot {
+    margin: 0;
+    font-family: var(--aw-font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    color: var(--aw-color-text-muted);
+    text-transform: uppercase;
+    padding-top: 0.875rem;
+    border-top: 1px dashed var(--aw-color-border);
+  }
+
+  /* ── Arrow between cards (desktop only) ── */
+  .flow-arrow { display: none; }
+  @media (min-width: 1024px) {
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      padding: 0 1rem;
+      color: var(--aw-color-text-muted);
+    }
+    .flow-arrow svg { opacity: 0.5; }
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     Visual miniatures — each looks like a real product surface
+     ════════════════════════════════════════════════════════════════ */
+
+  /* === 01 AppInput — form mockup === */
+  .visual-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 0.875rem;
+    background: var(--aw-color-bg-subtle);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 8px;
+  }
+  .vf-field { display: flex; flex-direction: column; gap: 0.25rem; }
+  .vf-label {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.625rem;
+    letter-spacing: 0.04em;
+    color: var(--aw-color-text-muted);
+  }
+  .vf-input {
+    height: 28px;
+    padding: 0 0.625rem;
+    border: 1px solid var(--aw-color-border);
+    border-radius: 5px;
+    background: var(--aw-color-bg-page);
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--aw-color-text-default);
+  }
+  .vf-input-select { justify-content: space-between; }
+  .vf-input-select svg { color: var(--aw-color-text-muted); flex-shrink: 0; }
+  .vf-mono { font-family: var(--aw-font-mono, ui-monospace, monospace); }
+
+  /* === 02 Stage — agent activity mockup === */
+  .visual-stage {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0.875rem;
+    background: var(--aw-color-bg-subtle);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 8px;
+  }
+  .vs-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.625rem;
+    background: var(--aw-color-bg-page);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 6px;
+  }
+  .vs-row-running {
+    border-color: rgba(82, 153, 97, 0.32);
+    background: rgba(82, 153, 97, 0.04);
+  }
+  .vs-icon {
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .vs-icon-done {
+    background: rgba(82, 153, 97, 0.18);
+    color: var(--aw-color-primary);
+  }
+  .vs-icon-running {
+    border: 1.5px solid rgba(82, 153, 97, 0.25);
+    border-top-color: var(--aw-color-primary);
+    animation: vs-spin 0.9s linear infinite;
+  }
+  @keyframes vs-spin { to { transform: rotate(360deg); } }
+  .vs-tool {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    color: var(--aw-color-text-heading);
+    font-weight: 500;
+  }
+  .vs-detail {
+    margin-left: auto;
+    font-size: 0.6875rem;
+    color: var(--aw-color-text-muted);
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+  .vs-bar {
+    margin-top: 0.25rem;
+    height: 4px;
+    background: var(--aw-color-border);
+    border-radius: 9999px;
+    overflow: hidden;
+  }
+  .vs-bar-fill {
+    display: block;
+    width: 64%;
+    height: 100%;
+    background: linear-gradient(to right, var(--aw-color-primary), rgba(82, 153, 97, 0.6));
+    border-radius: 9999px;
+    animation: vs-bar 2.6s ease-in-out infinite alternate;
+  }
+  @keyframes vs-bar {
+    0%   { width: 32%; }
+    100% { width: 78%; }
+  }
+
+  /* === 03 Artifact — file preview mockup === */
+  .visual-file {
+    background: var(--aw-color-bg-subtle);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .vfile-head {
+    padding: 0.5rem 0.75rem;
+    background: var(--aw-color-bg-page);
+    border-bottom: 1px solid var(--aw-color-border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--aw-color-text-muted);
+  }
+  .vfile-name {
+    color: var(--aw-color-text-default);
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+  }
+  .vfile-lines {
+    padding: 0.625rem 0.75rem;
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.625rem;
+    line-height: 1.6;
+    color: var(--aw-color-text-default);
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    background: var(--aw-color-bg-subtle);
+  }
+  .vfile-line {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .vfile-line-h {
+    color: var(--aw-color-text-heading);
+    font-weight: 600;
+    margin-bottom: 0.125rem;
+  }
+  .vfile-formats {
+    padding: 0.5rem 0.75rem 0.625rem;
+    display: flex;
+    gap: 0.25rem;
+    border-top: 1px dashed var(--aw-color-border);
+    background: var(--aw-color-bg-page);
+  }
+  .vfile-chip {
+    padding: 0.125rem 0.375rem;
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    background: var(--aw-color-bg-subtle);
+    border: 1px solid var(--aw-color-border);
+    border-radius: 4px;
+    color: var(--aw-color-text-default);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .vfile-chip-more {
+    color: var(--aw-color-text-muted);
+    background: transparent;
+    border-style: dashed;
+  }
+</style>

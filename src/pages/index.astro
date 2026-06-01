@@ -1,45 +1,28 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import ChatToAppDemo from '~/components/widgets/ChatToAppDemo.astro';
+import AnatomyFlow from '~/components/widgets/AnatomyFlow.astro';
 
 const metadata = {
   title: 'Aitroop — Save AI agent conversations as apps',
   ignoreTitleTemplate: true,
 };
 
-const anatomy = [
+const anatomySteps = [
   {
-    n: '01',
     title: 'AppInput',
-    desc: 'A schema-driven form — text, select, daterange, file. Declare once; renders itself.',
-    example: [
-      { k: 'date_range', v: '2025-05-01 → 05-07' },
-      { k: 'repo',       v: 'shop-frontend' },
-      { k: 'lang',       v: 'English' },
-    ],
-    foot: '4 field types · validation built in',
+    desc: 'A schema-driven form. Text, select, daterange, file — declared once, rendered for you.',
+    foot: '4 input types · validated',
   },
   {
-    n: '02',
     title: 'Stage',
-    desc: 'An agent session with a goal. Most Apps need one; chain them when work spans steps.',
-    example: [
-      { k: 'goal',   v: 'weekly engineering digest' },
-      { k: 'skills', v: 'github-mcp · web-scrape' },
-      { k: 'output', v: 'markdown' },
-    ],
-    foot: 'Single stage · or chain N for pipelines',
+    desc: 'An agent session with one goal, wired to your skills and connects. Chain stages when work spans steps.',
+    foot: '150+ skills · 20+ connects',
   },
   {
-    n: '03',
     title: 'Artifact',
-    desc: 'The deliverable, ready to preview, export, or feed into the next stage.',
-    example: [
-      { k: 'file',    v: 'daily-report.md' },
-      { k: 'formats', v: 'md · csv · pdf · 7 total' },
-      { k: 'flow',    v: '→ next stage' },
-    ],
-    foot: 'Inline preview · one-click export',
+    desc: 'The deliverable. Preview, export, or feed it into the next stage.',
+    foot: '7 formats · preview + export',
   },
 ];
 
@@ -86,29 +69,12 @@ const cases = [
   <!-- ANATOMY ──────────────────────────────────────────────────────── -->
   <section class="aw-section">
     <div class="aw-container">
-      <header class="aw-section-head">
-        <p class="aw-eyebrow">Anatomy</p>
-        <h2 class="aw-h2">An App, in three pieces.</h2>
-      </header>
-
-      <div class="anatomy">
-        {anatomy.map((a) => (
-          <article class="aw-piece">
-            <span class="aw-piece-num">{a.n}</span>
-            <h3 class="aw-piece-title">{a.title}</h3>
-            <p class="aw-piece-desc">{a.desc}</p>
-            <div class="piece-ex" role="presentation">
-              {a.example.map((line) => (
-                <div class="ex-row">
-                  <span class="ex-k">{line.k}</span>
-                  <span class="ex-v">{line.v}</span>
-                </div>
-              ))}
-            </div>
-            <p class="piece-foot">{a.foot}</p>
-          </article>
-        ))}
-      </div>
+      <AnatomyFlow
+        eyebrow="Anatomy"
+        title="Three pieces. One pipeline."
+        lede="Inputs feed the stage. The stage produces the artifact. The artifact ships — or feeds the next stage."
+        steps={anatomySteps}
+      />
 
       <div class="stats" role="list">
         {stats.map((s) => (
@@ -191,54 +157,6 @@ const cases = [
   }
   .hero-lede {
     max-width: 42ch;
-  }
-
-  /* ── Anatomy grid ──────────────────────────────────────────────── */
-  .anatomy {
-    display: grid;
-    gap: 2rem;
-    margin-bottom: 4.5rem;
-  }
-  @media (min-width: 768px) {
-    .anatomy {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2.5rem;
-      margin-bottom: 5.5rem;
-    }
-  }
-
-  /* Mini example block under each piece */
-  .piece-ex {
-    margin-top: 1.25rem;
-    padding: 0.75rem 0.875rem;
-    background: var(--aw-color-bg-subtle);
-    border: 1px solid var(--aw-color-border);
-    border-radius: 8px;
-    font-family: var(--aw-font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
-    font-size: 0.75rem;
-    display: grid;
-    gap: 0.35rem;
-  }
-  .ex-row {
-    display: grid;
-    grid-template-columns: 5.5rem 1fr;
-    column-gap: 0.75rem;
-    align-items: baseline;
-    line-height: 1.4;
-  }
-  .ex-k {
-    color: var(--aw-color-text-muted);
-    letter-spacing: 0.03em;
-  }
-  .ex-v {
-    color: var(--aw-color-text-default);
-    word-break: break-word;
-  }
-  .piece-foot {
-    margin: 0.875rem 0 0;
-    font-size: 0.75rem;
-    color: var(--aw-color-text-muted);
-    font-variant-numeric: tabular-nums;
   }
 
   /* ── Stats ─ table-like row ────────────────────────────────────── */
