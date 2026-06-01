@@ -220,23 +220,4 @@ const wrapperClasses = [
     animation: la-spark-pop 1400ms ease-out 200ms both;
   }
 
-  /* ── Reduced motion — drop straight to the final state ─────── */
-  @media (prefers-reduced-motion: reduce) {
-    .logo-assemble .la-halo,
-    .logo-assemble .la-tile,
-    .logo-assemble .la-pill-1,
-    .logo-assemble .la-pill-2,
-    .logo-assemble .la-spark,
-    .logo-assemble.has-replay:hover .la-halo,
-    .logo-assemble.has-replay:hover .la-tile,
-    .logo-assemble.has-replay:hover .la-pill-1,
-    .logo-assemble.has-replay:hover .la-pill-2,
-    .logo-assemble.has-replay:hover .la-spark {
-      animation: none !important;
-      opacity: 1;
-    }
-    .la-pill-1 { transform: rotate(-38deg) !important; }
-    .la-pill-2 { transform: rotate(75deg)  !important; }
-    .la-spark  { opacity: 0 !important; }
-  }
 </style>

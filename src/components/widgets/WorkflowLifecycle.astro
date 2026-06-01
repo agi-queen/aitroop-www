@@ -178,16 +178,4 @@ const {
   /* Default (before activation) — pure static state */
   [no-intersect] .rail-fill { transform: scaleX(0); }
   [no-intersect] .hint { opacity: 0; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .rail-fill { transition: none; transform: scaleX(1); }
-    .hint { transition: none; opacity: 1; transform: none; }
-    .node .bubble {
-      transition: none;
-      color: #fff;
-      border-color: var(--primary);
-      background: var(--primary);
-    }
-    .node .label { color: var(--aw-color-text-default); }
-  }
 </style>
