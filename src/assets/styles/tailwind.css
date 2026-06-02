@@ -23,24 +23,11 @@
    ════════════════════════════════════════════════════════════════════ */
 @layer components {
   /* ── Layout containers ──────────────────────────────────────────── */
-  .aw-container {
-    max-width: 64rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-  @media (min-width: 768px) {
-    .aw-container { padding-left: 2.5rem; padding-right: 2.5rem; }
-  }
-  .aw-container-narrow {
-    max-width: 36rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    text-align: center;
-  }
+  /* aw-container and aw-container-wide share the same outer page width
+     (80rem) so every page reads with the same gutters as the homepage.
+     Use aw-container-narrow when a centered narrow text column is
+     intentional (CTAs, 404). */
+  .aw-container,
   .aw-container-wide {
     max-width: 80rem;
     margin-left: auto;
@@ -49,7 +36,16 @@
     padding-right: 1.5rem;
   }
   @media (min-width: 768px) {
+    .aw-container,
     .aw-container-wide { padding-left: 2.5rem; padding-right: 2.5rem; }
+  }
+  .aw-container-narrow {
+    max-width: 36rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    text-align: center;
   }
 
   /* ── Section rhythm ─────────────────────────────────────────────── */
