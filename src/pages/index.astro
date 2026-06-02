@@ -142,14 +142,31 @@ const cases = [
 
   .hero-grid {
     display: grid;
-    gap: 3rem;
+    gap: 2.75rem;
     align-items: center;
+    justify-items: center;
   }
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
+    .hero-grid { gap: 3.25rem; }
+  }
+  @media (min-width: 1180px) {
     .hero-grid {
-      grid-template-columns: 1.1fr 1fr;
-      gap: 4.5rem;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: 4rem;
+      justify-items: stretch;
     }
+  }
+  .hero-copy {
+    width: 100%;
+    max-width: 38rem;
+  }
+  .hero-demo {
+    width: 100%;
+    max-width: 44rem;
+  }
+  @media (min-width: 1180px) {
+    .hero-copy,
+    .hero-demo { max-width: none; }
   }
   .hero-display {
     font-size: clamp(2.5rem, 5vw, 3.75rem);
