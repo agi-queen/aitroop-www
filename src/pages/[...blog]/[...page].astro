@@ -32,13 +32,20 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="mx-auto max-w-3xl px-4 sm:px-6 pt-16 sm:pt-20 pb-16 sm:pb-20">
-    <IndexHeader
-      eyebrow="JOURNAL"
-      title="Blog"
-      lede="Practical insights on AI-driven acquisition, outreach, and retention — from the Aitroop team."
-    />
-    <BlogList posts={page.data} />
-    <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
+  <section class="aw-hero">
+    <div class="aw-container">
+      <IndexHeader
+        eyebrow="Journal"
+        title="Blog"
+        lede="Practical insights on AI-driven acquisition, outreach, and retention — from the Aitroop team."
+      />
+    </div>
+  </section>
+
+  <section class="aw-section">
+    <div class="aw-container">
+      <BlogList posts={page.data} />
+      <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
+    </div>
   </section>
 </Layout>

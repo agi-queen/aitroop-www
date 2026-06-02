@@ -32,13 +32,20 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="mx-auto max-w-3xl px-4 sm:px-6 pt-16 sm:pt-20 pb-16 sm:pb-20">
-    <IndexHeader
-      eyebrow="JOURNAL"
-      title="部落格"
-      lede="AI 驅動的獲客、觸達與留存實踐分享 — 來自 Aitroop 團隊。"
-    />
-    <BlogList posts={page.data} />
-    <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} prevText="較新文章" nextText="較舊文章" />
+  <section class="aw-hero">
+    <div class="aw-container">
+      <IndexHeader
+        eyebrow="部落格"
+        title="部落格"
+        lede="AI 驅動的獲客、觸達與留存實踐分享 — 來自 Aitroop 團隊。"
+      />
+    </div>
+  </section>
+
+  <section class="aw-section">
+    <div class="aw-container">
+      <BlogList posts={page.data} />
+      <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} prevText="較新文章" nextText="較舊文章" />
+    </div>
   </section>
 </Layout>

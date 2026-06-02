@@ -68,7 +68,7 @@ const cases = [
 
   <!-- ANATOMY ──────────────────────────────────────────────────────── -->
   <section class="aw-section">
-    <div class="aw-container">
+    <div class="aw-container-wide">
       <AnatomyFlow
         eyebrow=""
         title="Three pieces. One pipeline."
@@ -89,7 +89,7 @@ const cases = [
 
   <!-- USE CASES ────────────────────────────────────────────────────── -->
   <section class="aw-section">
-    <div class="aw-container">
+    <div class="aw-container-wide">
       <header class="aw-section-head">
         <p class="aw-eyebrow">Use cases</p>
         <h2 class="aw-h2">Built for what you actually do.</h2>
@@ -113,9 +113,9 @@ const cases = [
 
   <!-- CTA ──────────────────────────────────────────────────────────── -->
   <section class="aw-section">
-    <div class="aw-container-narrow">
+    <div class="aw-container-wide cta-wrap">
       <h2 class="aw-h2 cta-h2">Ship your first App before lunch.</h2>
-      <p class="aw-lede">Open a chat. Click <code class="aw-code">Save as App</code>. That's the loop.</p>
+      <p class="aw-lede cta-lede">Open a chat. Click <code class="aw-code">Save as App</code>. That's the loop.</p>
       <div class="aw-actions aw-actions-center">
         <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Start free</a>
         <a href="/contact" class="aw-btn aw-btn-ghost">Talk to us</a>
@@ -282,9 +282,16 @@ const cases = [
   .cases a:hover .case-arrow { color: var(--aw-color-primary); }
 
   /* ── CTA tightening ────────────────────────────────────────────── */
+  .cta-wrap {
+    text-align: center;
+  }
   .cta-h2 {
     font-size: clamp(2rem, 4vw, 2.75rem);
     margin: 0 auto 1rem;
     max-width: 18ch;
+  }
+  .cta-lede {
+    margin-left: auto;
+    margin-right: auto;
   }
 </style>
