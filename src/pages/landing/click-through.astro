@@ -1,7 +1,6 @@
 ---
 import Layout from '~/layouts/LandingLayout.astro';
 
-import Hero2 from '~/components/widgets/Hero2.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
@@ -10,22 +9,6 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero2 Widget ******************* -->
-
-  <Hero2
-    tagline=""
-    title="Open the app and ship your first agent App today."
-    subtitle="Learn how to design a Click-Through Landing Page that seamlessly guides visitors to your main offer."
-    actions={[
-      { variant: 'primary', text: 'Open the app', href: 'https://app.aitroop.net', icon: 'tabler:square-rounded-arrow-right' },
-      { text: 'Learn more', href: '#' },
-    ]}
-    image={{
-      src: '/illustrations/data-analysis_b7cp.svg', width: 1024, height: 768,
-      alt: 'Click-through Landing Page Hero Image',
-    }}
-  />
-
   <CallToAction
     title="Coming soon"
     subtitle="We are working on the content of these demo pages. You will see them very soon. Stay tuned."

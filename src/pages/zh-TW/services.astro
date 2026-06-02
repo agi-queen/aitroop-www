@@ -4,7 +4,6 @@ import CallToAction from '~/components/widgets/CallToAction.astro';
 import Content from '~/components/widgets/Content.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Features3 from '~/components/widgets/Features3.astro';
-import Hero from '~/components/widgets/Hero.astro';
 import Steps from '~/components/widgets/Steps.astro';
 import Testimonials from '~/components/widgets/Testimonials.astro';
 import Layout from '~/layouts/PageLayout.astro';
@@ -16,19 +15,6 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Widget ******************* -->
-
-  <Hero
-    tagline="功能特色"
-    title="找到、觸達、轉化、留住，每個環節都用 AI 提速"
-    subtitle="一個平台覆蓋增長全旅程，讓一個人做出過去整個團隊的產出。"
-    actions={[{ variant: 'primary', text: '預約產品示範', href: '/zh-TW/contact' }]}
-    image={{
-      src: '/illustrations/real-time-analytics_50za.svg', width: 1024, height: 768,
-      alt: 'Aitroop 功能特色',
-    }}
-  />
-
   <!-- PILLAR 1: FIND **************** -->
 
   <Features2

@@ -3,13 +3,10 @@ import Layout from '~/layouts/PageLayout.astro';
 
 import Header from '~/components/widgets/Header.astro';
 
-import Hero2 from '~/components/widgets/Hero2.astro';
 import Features3 from '~/components/widgets/Features3.astro';
 import Content from '~/components/widgets/Content.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import Stats from '~/components/widgets/Stats.astro';
-
-import Button from '~/components/ui/Button.astro';
 
 const appLink = 'https://app.aitroop.net';
 
@@ -38,30 +35,6 @@ const metadata = {
       showToggleTheme
     />
   </Fragment>
-
-  <!-- Hero2 Widget ******************* -->
-
-  <Hero2
-    tagline="Mobile App Web Demo"
-    image={{
-      src: '/illustrations/mobile-analytics_bz2a.svg', width: 1024, height: 768,
-      alt: 'Aitroop Hero Image',
-    }}
-  >
-    <Fragment slot="title">
-      <span class="text-accent">Aitroop App</span>: <br /> professional websites <span
-        class="hidden xl:inline">made easy</span
-      >
-    </Fragment>
-
-    <Fragment slot="subtitle">
-      Ship your idea faster with templates, components, and a clean workflow built for modern teams.
-    </Fragment>
-
-    <div slot="actions" class="flex max-w-sm gap-4">
-      <Button variant="primary" href={appLink}>Open the app</Button>
-    </div>
-  </Hero2>
 
   <!-- Features3 Widget ************** -->
 

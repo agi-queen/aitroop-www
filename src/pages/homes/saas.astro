@@ -2,7 +2,6 @@
 import Layout from '~/layouts/PageLayout.astro';
 
 import Header from '~/components/widgets/Header.astro';
-import Hero2 from '~/components/widgets/Hero2.astro';
 import Features from '~/components/widgets/Features.astro';
 import Steps2 from '~/components/widgets/Steps2.astro';
 import Content from '~/components/widgets/Content.astro';
@@ -36,28 +35,6 @@ const metadata = {
       isSticky
     />
   </Fragment>
-
-  <!-- Hero2 Widget ******************* -->
-
-  <Hero2
-    tagline="SaaS Web Demo"
-    actions={[
-      { variant: 'primary', target: '_blank', text: 'Open the app', href: 'https://app.aitroop.net' },
-      { text: 'Learn more', href: '#features' },
-    ]}
-    image={{
-      src: '/illustrations/our-solution_qv3b.svg', width: 1024, height: 768,
-      alt: 'Aitroop Hero Image',
-    }}
-  >
-    <Fragment slot="title">
-      Simplify web design with Aitroop: <br /> your ultimate <span class="text-accent">SaaS</span> companion
-    </Fragment>
-
-    <Fragment slot="subtitle">
-      Ship sites that match your brand with Aitroop. Astro 5.0 and Tailwind CSS, direct workflow.
-    </Fragment>
-  </Hero2>
 
   <!-- Features Widget *************** -->
 

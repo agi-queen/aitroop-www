@@ -1,7 +1,6 @@
 ---
 import Layout from '~/layouts/LandingLayout.astro';
 
-import Hero2 from '~/components/widgets/Hero2.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
@@ -10,22 +9,6 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero2 Widget ******************* -->
-
-  <Hero2
-    tagline=""
-    title="Join the waitlist for the next Aitroop release."
-    subtitle="Craft a tantalizing Coming Soon or Pre-Launch Landing Page that leaves visitors eagerly awaiting your launch."
-    actions={[
-      { variant: 'primary', text: 'Join the waitlist', href: '/contact', icon: 'tabler:square-rounded-arrow-right' },
-      { text: 'Learn more', href: '#' },
-    ]}
-    image={{
-      src: '/illustrations/coming-soon_7lvi.svg', width: 1024, height: 768,
-      alt: 'Store with a Coming Soon sign. Pre-launch Landing Page',
-    }}
-  />
-
   <CallToAction
     title="Coming soon"
     subtitle="We are working on the content of these demo pages. You will see them very soon. Stay tuned."

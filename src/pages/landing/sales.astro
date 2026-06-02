@@ -1,7 +1,6 @@
 ---
 import Layout from '~/layouts/LandingLayout.astro';
 
-import Hero2 from '~/components/widgets/Hero2.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 
 const metadata = {
@@ -10,22 +9,6 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero2 Widget ******************* -->
-
-  <Hero2
-    tagline=""
-    title="Talk to sales and we'll tailor a plan for your team."
-    subtitle="Dive deep into crafting a Landing Page that narrates, persuades, and converts."
-    actions={[
-      { variant: 'primary', text: 'Talk to sales', href: '/contact', icon: 'tabler:square-rounded-arrow-right' },
-      { text: 'Learn more', href: '#' },
-    ]}
-    image={{
-      src: '/illustrations/bull-market_4a8e.svg', width: 1024, height: 768,
-      alt: 'Sales chart illustration',
-    }}
-  />
-
   <CallToAction
     title="Coming soon"
     subtitle="We are working on the content of these demo pages. You will see them very soon. Stay tuned."

@@ -2,7 +2,6 @@
 import Content from '~/components/widgets/Content.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Features3 from '~/components/widgets/Features3.astro';
-import Hero from '~/components/widgets/Hero.astro';
 import Stats from '~/components/widgets/Stats.astro';
 import Steps2 from '~/components/widgets/Steps2.astro';
 import Layout from '~/layouts/PageLayout.astro';
@@ -10,10 +9,6 @@ import Layout from '~/layouts/PageLayout.astro';
 const metadata = { title: '关于我们' };
 ---
 <Layout metadata={metadata}>
-  <Hero tagline="关于 Aitroop" image={{ src: '/illustrations/founding-team_8uhm.svg', width: 1024, height: 768, alt: 'Aitroop 团队' }}>
-    <Fragment slot="title">我们相信，掌握 AI 技能的人<br /><span class="text-accent">能够创造出过去无法想象的增长成果</span></Fragment>
-    <Fragment slot="subtitle">让每个人都能掌握 AI 驱动的获客与留客复合能力，用更少资源，做出更可持续的增长。</Fragment>
-  </Hero>
   <Stats title="我们的影响力" stats={[ { title: '服务客户', amount: '500+' }, { title: 'AI 生成触达内容（每月）', amount: '200万+' } ]} />
   <Features3 title="我们解决的核心问题" subtitle="Aitroop 的每一个功能，都源自一个真实存在的增长痛点。" columns={3} isBeforeContent={true} items={[ { title: '获客没有系统', description: '靠人脉、靠介绍、靠广告砸钱，这些方式不可复制。我们让获客变成一套可以持续运转的系统，而不是每次都从零开始。', icon: 'tabler:users-plus' }, { title: '个性化触达太费时', description: '要让对方感觉「这是为我写的」，原本需要大量的时间调研和撰写。AI 让这件事快 50 倍，且品质不打折。', icon: 'tabler:mail-bolt' }, { title: '工具越来越多，效率却没提高', description: '每加一个工具，就多一个切换的负担。我们把获客、触达、跟进、留存整合在一个平台，让你的注意力聚焦在增长本身。', icon: 'tabler:apps' } ]} />
   <Features2 columns={2} items={[ { title: '增长缺乏可预测性', description: '不知道哪条渠道真的有效、下个月会来多少新客户。我们让增长有数据支撑，让预测成为决策的依据，而不是猜测。', icon: 'tabler:chart-arrows' }, { title: '重复性工作消耗最好的精力', description: '最有价值的时间，不应该花在填表、复制粘贴和手动跟进上。我们让 AI 处理这些，你专注在需要创意和判断力的事。', icon: 'tabler:clock-x' }, { title: '客户流失没有预警', description: '大多数流失都是可以避免的，只是太晚被发现。我们的健康度监测让你在流失信号出现的早期就能介入。', icon: 'tabler:trending-down' } ]} />

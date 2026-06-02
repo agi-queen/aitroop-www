@@ -1,6 +1,5 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import HeroText from '~/components/widgets/HeroText.astro';
 import ContactUs from '~/components/widgets/Contact.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 
@@ -10,14 +9,6 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- HeroText Widget ******************* -->
-
-  <HeroText
-    tagline="联系我们"
-    title="让我们聊聊你的 GTM 挑战"
-    subtitle="无论你是想预约产品演示、探讨企业方案，还是只是想了解更多，我们的顾问都很乐意与你交流。"
-  />
-
   <ContactUs
     id="form"
     title="预约产品演示或咨询"
