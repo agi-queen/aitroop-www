@@ -123,6 +123,20 @@ const demoStrings = {
     </div>
   </section>
 
+  <!-- STATS — quiet strip just below the fold ────────────────────── -->
+  <section class="stats-section">
+    <div class="aw-container">
+      <ul class="stats" role="list">
+        {stats.map((s) => (
+          <li class="stat">
+            <span class="stat-value">{s.value}</span>
+            <span class="stat-label">{s.label}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
   <!-- ANATOMY ──────────────────────────────────────────────────────── -->
   <section class="aw-section">
     <div class="aw-container">
@@ -131,17 +145,7 @@ const demoStrings = {
         title="三塊拼圖。一條管道。"
         lede="輸入餵給 Stage。Stage 產出 Artifact。Artifact 流向下游，或作為下一個 Stage 的輸入。"
         steps={anatomySteps}
-        labels={{ dateRange: '日期範圍', repo: '程式碼倉庫', language: '輸出語言', running: '正在整理 PR…' }}
       />
-
-      <div class="stats" role="list">
-        {stats.map((s) => (
-          <div class="stat" role="listitem">
-            <span class="stat-value">{s.value}</span>
-            <span class="stat-label">{s.label}</span>
-          </div>
-        ))}
-      </div>
     </div>
   </section>
 
@@ -187,14 +191,13 @@ const demoStrings = {
   .hero-glow {
     position: absolute;
     inset: -10% -10% auto -10%;
-    height: 120%;
+    height: 110%;
     z-index: -1;
     pointer-events: none;
     background:
-      radial-gradient(ellipse 55% 50% at 22% 18%, rgba(82, 153, 97, 0.10), transparent 65%),
-      radial-gradient(ellipse 50% 50% at 80% 30%, rgba(82, 153, 97, 0.06), transparent 70%);
-    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 80%);
-            mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 80%);
+      radial-gradient(ellipse 60% 45% at 30% 10%, rgba(82, 153, 97, 0.06), transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 25%, transparent 85%);
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, #000 25%, transparent 85%);
   }
 
   .hero-grid {
@@ -216,51 +219,46 @@ const demoStrings = {
   }
   .hero-lede { max-width: 46ch; }
 
+  .stats-section {
+    padding: 2.5rem 0 4rem;
+  }
+  @media (min-width: 768px) {
+    .stats-section { padding: 3.5rem 0 5rem; }
+  }
   .stats {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0;
-    padding-top: 1.75rem;
-    margin-top: 0.5rem;
-    border-top: 1px solid var(--aw-color-border);
-    background: transparent;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.75rem 1rem;
+  }
+  @media (min-width: 768px) {
+    .stats {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
   }
   .stat {
-    background: transparent;
-    flex: 1 1 50%;
-    padding: 0.5rem 0;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
-  @media (min-width: 768px) {
-    .stat {
-      flex: 1 1 0;
-      padding: 0.25rem 2rem;
-      border-left: 1px solid var(--aw-color-border);
-    }
-    .stat:first-child {
-      border-left: none;
-      padding-left: 0;
-    }
-    .stat:last-child {
-      padding-right: 0;
-    }
-  }
   .stat-value {
     font-family: var(--aw-font-mono, ui-monospace, monospace);
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.625rem;
+    font-weight: 500;
     color: var(--aw-color-text-heading);
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
     line-height: 1;
     font-variant-numeric: tabular-nums;
   }
   .stat-label {
     font-size: 0.75rem;
     color: var(--aw-color-text-muted);
-    letter-spacing: 0.02em;
+    letter-spacing: 0.04em;
     line-height: 1.2;
+    text-transform: uppercase;
   }
 
   .cases {
