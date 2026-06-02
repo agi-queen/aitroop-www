@@ -279,8 +279,12 @@ const currentItem = currentIndex !== -1 ? flat[currentIndex] : null;
 
 <style is:global>
   /* ── Layout ─────────────────────────────────────────────────── */
+  /* max-width matches .aw-container (80rem) so docs sits in the same
+     page chrome as the marketing pages. Padding mirrors aw-container
+     so left/right gutters line up with the site header. Content
+     column is capped at a comfortable reading width inside. */
   .docs-layout {
-    max-width: 84rem;
+    max-width: 80rem;
     margin: 0 auto;
     padding: 2.5rem 1.5rem 5rem;
     display: grid;
@@ -289,17 +293,17 @@ const currentItem = currentIndex !== -1 ? flat[currentIndex] : null;
   }
   @media (min-width: 768px) {
     .docs-layout {
-      padding: 3rem 2rem 6rem;
-      grid-template-columns: 220px minmax(0, 760px);
+      padding: 3rem 2.5rem 6rem;
+      grid-template-columns: 200px minmax(0, 720px);
       justify-content: center;
-      gap: 3rem;
+      gap: 2.5rem;
     }
   }
   @media (min-width: 1200px) {
     .docs-layout {
-      grid-template-columns: 220px minmax(0, 760px) 200px;
+      grid-template-columns: 200px minmax(0, 720px) 200px;
       justify-content: center;
-      gap: 3rem;
+      gap: 2.5rem;
     }
   }
 

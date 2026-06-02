@@ -11,7 +11,7 @@ const backLabel = locale === 'zh-TW' ? '返回部落格' : locale === 'zh-CN' ? 
 const isRtl = textDirection === 'rtl';
 ---
 
-<div class="mx-auto px-4 sm:px-6 max-w-3xl pt-2 pb-12 md:pb-16">
+<div class="aw-container back-link-wrap">
   <a href={blogHref} class="back-link">
     {isRtl ? (
       <Icon name="tabler:arrow-right" class="w-4 h-4" />
@@ -23,6 +23,13 @@ const isRtl = textDirection === 'rtl';
 </div>
 
 <style>
+  .back-link-wrap {
+    padding-top: 0.5rem;
+    padding-bottom: 3rem;
+  }
+  @media (min-width: 768px) {
+    .back-link-wrap { padding-bottom: 4rem; }
+  }
   .back-link {
     display: inline-flex;
     align-items: center;

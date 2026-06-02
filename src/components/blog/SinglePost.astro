@@ -20,59 +20,61 @@ const eyebrow = post.category?.title || (locale === 'zh-CN' ? '文章' : locale 
 ---
 
 <section class="single-post-section">
-  <article>
-    <header class="mx-auto px-4 sm:px-6 max-w-3xl pt-16 sm:pt-20 pb-8 sm:pb-10">
-      <!-- Eyebrow / category -->
-      <p class="single-post__eyebrow">
-        {post.category ? (
-          <a href={getPermalink(post.category.slug, 'category')} class="single-post__eyebrow-link">
-            {eyebrow}
-          </a>
-        ) : (
-          <span>{eyebrow}</span>
-        )}
-      </p>
-
-      <!-- Title -->
-      <h1 class="single-post__title">
-        {post.title}
-      </h1>
-
-      {post.excerpt && (
-        <p class="single-post__excerpt">
-          {post.excerpt}
+  <div class="aw-container">
+    <article class="single-post">
+      <header class="single-post__header">
+        <!-- Eyebrow / category -->
+        <p class="single-post__eyebrow">
+          {post.category ? (
+            <a href={getPermalink(post.category.slug, 'category')} class="single-post__eyebrow-link">
+              {eyebrow}
+            </a>
+          ) : (
+            <span>{eyebrow}</span>
+          )}
         </p>
+
+        <!-- Title -->
+        <h1 class="single-post__title">
+          {post.title}
+        </h1>
+
+        {post.excerpt && (
+          <p class="single-post__excerpt">
+            {post.excerpt}
+          </p>
+        )}
+
+        <!-- Meta row -->
+        <div class="single-post__meta">
+          <time datetime={String(post.publishDate)}>{getFormattedDate(post.publishDate)}</time>
+          {post.readingTime && (
+            <>
+              <span class="single-post__meta-dot">·</span>
+              <span>{post.readingTime} {readLabel}</span>
+            </>
+          )}
+          {post.author && (
+            <>
+              <span class="single-post__meta-dot">·</span>
+              <span class="single-post__author">{post.author}</span>
+            </>
+          )}
+        </div>
+      </header>
+
+      <!-- Content (first h1 hidden — title already rendered in header above) -->
+      <div class="single-post__content prose prose-sm sm:prose-base prose-headings:font-bold prose-headings:tracking-tighter prose-headings:font-heading prose-a:text-primary prose-img:rounded-md prose-headings:scroll-mt-[80px] prose-li:my-0 [&>h1:first-child]:hidden [&_table]:block [&_table]:overflow-x-auto [&_table]:w-full [&_pre]:overflow-x-auto">
+        <slot />
+      </div>
+
+      {post.tags?.length && (
+        <div class="single-post__tags">
+          <PostTags tags={post.tags} title={tagsLabel} />
+        </div>
       )}
-
-      <!-- Meta row -->
-      <div class="single-post__meta">
-        <time datetime={String(post.publishDate)}>{getFormattedDate(post.publishDate)}</time>
-        {post.readingTime && (
-          <>
-            <span class="single-post__meta-dot">·</span>
-            <span>{post.readingTime} {readLabel}</span>
-          </>
-        )}
-        {post.author && (
-          <>
-            <span class="single-post__meta-dot">·</span>
-            <span class="single-post__author">{post.author}</span>
-          </>
-        )}
-      </div>
-    </header>
-
-    <!-- Content (first h1 hidden — title already rendered in header above) -->
-    <div class="single-post__content mx-auto px-4 sm:px-6 max-w-3xl prose prose-sm sm:prose-base prose-headings:font-bold prose-headings:tracking-tighter prose-headings:font-heading prose-a:text-primary prose-img:rounded-md prose-headings:scroll-mt-[80px] prose-li:my-0 [&>h1:first-child]:hidden [&_table]:block [&_table]:overflow-x-auto [&_table]:w-full [&_pre]:overflow-x-auto">
-      <slot />
-    </div>
-
-    {post.tags?.length && (
-      <div class="mx-auto px-4 sm:px-6 max-w-3xl mt-12 pt-8 border-t border-[var(--aw-color-border)]">
-        <PostTags tags={post.tags} title={tagsLabel} />
-      </div>
-    )}
-  </article>
+    </article>
+  </div>
 </section>
 
 <style>
@@ -92,6 +94,24 @@ const eyebrow = post.category?.title || (locale === 'zh-CN' ? '文章' : locale 
       rgba(82, 153, 97, 0.015) 60%,
       transparent 100%
     );
+  }
+
+  /* Centered article column inside the wider page chrome. */
+  .single-post {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+  .single-post__header {
+    padding: 4rem 0 2rem;
+  }
+  @media (min-width: 640px) {
+    .single-post__header { padding: 5rem 0 2.5rem; }
+  }
+  .single-post__content { margin-top: 1.5rem; }
+  .single-post__tags {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--aw-color-border);
   }
 
   .single-post__eyebrow {
@@ -162,9 +182,5 @@ const eyebrow = post.category?.title || (locale === 'zh-CN' ? '文章' : locale 
   }
   .single-post__author {
     color: var(--aw-color-text-default);
-  }
-
-  .single-post__content {
-    margin-top: 1.5rem;
   }
 </style>
