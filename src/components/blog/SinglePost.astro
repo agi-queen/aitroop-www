@@ -64,7 +64,7 @@ const eyebrow = post.category?.title || (locale === 'zh-CN' ? '文章' : locale 
       </header>
 
       <!-- Content (first h1 hidden — title already rendered in header above) -->
-      <div class="single-post__content prose prose-sm sm:prose-base prose-headings:font-bold prose-headings:tracking-tighter prose-headings:font-heading prose-a:text-primary prose-img:rounded-md prose-headings:scroll-mt-[80px] prose-li:my-0 [&>h1:first-child]:hidden [&_table]:block [&_table]:overflow-x-auto [&_table]:w-full [&_pre]:overflow-x-auto">
+      <div class="single-post__content prose prose-sm sm:prose-base max-w-none prose-headings:font-bold prose-headings:tracking-tighter prose-headings:font-heading prose-a:text-primary prose-img:rounded-md prose-headings:scroll-mt-[80px] prose-li:my-0 [&>h1:first-child]:hidden [&_table]:block [&_table]:overflow-x-auto [&_table]:w-full [&_pre]:overflow-x-auto">
         <slot />
       </div>
 
@@ -96,18 +96,19 @@ const eyebrow = post.category?.title || (locale === 'zh-CN' ? '文章' : locale 
     );
   }
 
-  /* Centered article column inside the wider page chrome. */
-  .single-post {
-    max-width: 48rem;
-    margin: 0 auto;
-  }
+  /* Article fills the page chrome — same width as the rest of the site.
+     prose max-width is overridden via the .max-w-none utility on the
+     content node itself (see the JSX class list). */
   .single-post__header {
     padding: 4rem 0 2rem;
+    max-width: 56rem;
   }
   @media (min-width: 640px) {
     .single-post__header { padding: 5rem 0 2.5rem; }
   }
-  .single-post__content { margin-top: 1.5rem; }
+  .single-post__content {
+    margin-top: 1.5rem;
+  }
   .single-post__tags {
     margin-top: 3rem;
     padding-top: 2rem;
