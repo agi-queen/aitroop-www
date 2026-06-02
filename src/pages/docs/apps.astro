@@ -458,7 +458,7 @@ curl -s -H "Authorization: Bearer $AT_USER_TOKEN" \<br/>
       <thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead>
       <tbody>
         <tr><td>Timeout</td><td>Stage exceeded <code>timeout_ms</code></td><td>Bump timeout, or split into two stages</td></tr>
-        <tr><td>"Connect not authorized"</td><td>Required Connect was revoked</td><td>Re-authorize in Settings to Connects</td></tr>
+        <tr><td>"Connect not authorized"</td><td>Required Connect was revoked</td><td>Re-authorize in Settings → Connects</td></tr>
         <tr><td>"Required input missing"</td><td>The form was submitted with a blank required field</td><td>Mark less aggressively as required, or fix form</td></tr>
         <tr><td>Vague or generic output</td><td>Goal not specific enough</td><td>Edit goal; add structure, constraints, examples</td></tr>
         <tr><td>Wrong format</td><td>Stage goal asked for one format, declared another</td><td>Align goal and <code>artifact_defs.format</code></td></tr>
@@ -563,7 +563,7 @@ curl https://app.aitroop.net/api/apps/{`<appId>`} \<br/>
     </p>
     <ul>
       <li><strong>Visibility</strong>: private / team / public link.</li>
-      <li><strong>Role-gated runs</strong>: restrict by org role (admins-only, members-only). Configured under <strong>Apps to Settings</strong>.</li>
+      <li><strong>Role-gated runs</strong>: restrict by org role (admins-only, members-only). Configured under <strong>Apps → Settings</strong>.</li>
       <li><strong>Per-user Connects</strong>: even if a teammate can run the App, the run uses <em>their</em> tokens, not yours.</li>
     </ul>
 

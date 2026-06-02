@@ -38,7 +38,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h3>Path A: Proactively, from Settings</h3>
     <ol>
-      <li>Open <strong>Settings to Connects</strong> (sidebar or top-right menu).</li>
+      <li>Open <strong>Settings → Connects</strong> (sidebar or top-right menu).</li>
       <li>You see two sections: <strong>Authorized</strong> (active Connects) and <strong>Available</strong>
         (providers you can authorize).</li>
       <li>Find the provider you want under Available: Google, GitHub, your CRM, etc.</li>
@@ -156,7 +156,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
     <ol>
       <li>You authorize <strong>Gmail (read-only)</strong> for a triage App.</li>
       <li>Months later you decide the App should also draft replies for you.</li>
-      <li>Open <strong>Settings to Connects to Gmail to Manage scopes</strong>.</li>
+      <li>Open <strong>Settings → Connects → Gmail → Manage scopes</strong>.</li>
       <li>Toggle on <code>gmail.compose</code>.</li>
       <li>Go through OAuth re-prompt. Approve.</li>
       <li>Apps that previously had read-only Gmail can now compose.</li>
@@ -207,7 +207,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
 
     <h3>From Aitroop</h3>
     <ol>
-      <li>Open <strong>Settings to Connects to Authorized</strong>.</li>
+      <li>Open <strong>Settings → Connects → Authorized</strong>.</li>
       <li>Find the Connect to revoke.</li>
       <li>Click <strong>Revoke</strong>.</li>
       <li>Confirm the prompt.</li>
@@ -348,7 +348,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
       <li><strong>Tokens stored encrypted at rest.</strong> Storage uses workspace-level encryption keys.</li>
       <li><strong>Tokens never leave the platform.</strong> The agent uses tokens via internal service calls; raw tokens are never passed to a language model or exposed in chat transcripts.</li>
       <li><strong>Sandboxed execution.</strong> Each run executes in an isolated E2B sandbox. Tokens are injected per-run; the sandbox is destroyed after.</li>
-      <li><strong>Audit trail.</strong> Every Connect call is logged with the App, run, and user that triggered it. Available under <strong>Settings to Connects to Audit log</strong>.</li>
+      <li><strong>Audit trail.</strong> Every Connect call is logged with the App, run, and user that triggered it. Available under <strong>Settings → Connects → Audit log</strong>.</li>
       <li><strong>Revocation propagation.</strong> Revoking a Connect immediately invalidates the stored token. In-flight runs may complete their current call but won't be able to make new ones.</li>
     </ul>
 
@@ -394,7 +394,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
 
     <p class="faq-q">I revoked from the provider's side. How do I clean up Aitroop's state?</p>
     <p>
-      Open <strong>Settings to Connects</strong>. The Connect will show as "Revoked" (the platform detects
+      Open <strong>Settings → Connects</strong>. The Connect will show as "Revoked" (the platform detects
       this on the next attempted call). Click <strong>Remove</strong> to delete the stored token reference
       entirely, or <strong>Re-authorize</strong> to restore the Connect.
     </p>

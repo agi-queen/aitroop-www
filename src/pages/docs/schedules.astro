@@ -276,7 +276,7 @@ Authorization: Bearer $AT_USER_TOKEN
     <table>
       <thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead>
       <tbody>
-        <tr><td><code>last_error: "Missing required connections: ..."</code></td><td>A Connect that the App requires was revoked or expired before the tick.</td><td>Re-authorize the Connect in Settings to Connects. The next tick proceeds.</td></tr>
+        <tr><td><code>last_error: "Missing required connections: ..."</code></td><td>A Connect that the App requires was revoked or expired before the tick.</td><td>Re-authorize the Connect in Settings → Connects. The next tick proceeds.</td></tr>
         <tr><td>Stage timeout</td><td>Goal got more expensive over time (more data, longer searches).</td><td>Bump <code>timeout_ms</code> on the affected stage.</td></tr>
         <tr><td>Empty result</td><td>Window from <code>dynamic_default</code> resolved to a span with no data.</td><td>Widen the window, or have the stage gracefully report "no activity".</td></tr>
         <tr><td>Skipped below minimum</td><td>An interval drifted below 5 minutes (typically via direct DB edits).</td><td>The scheduler pushes <code>next_run_at</code> forward by 5 min and skips. Fix the interval via <code>PUT</code>.</td></tr>

@@ -54,7 +54,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 &nbsp;&nbsp;"required":       <span style="color:var(--aw-color-primary)">boolean</span>,       <span style="color:var(--aw-color-text-muted)">// 預設 false；為空時阻止執行</span><br/>
 &nbsp;&nbsp;"placeholder":    <span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// 可選提示，顯示在欄位內</span><br/>
 &nbsp;&nbsp;"default":        <span style="color:var(--aw-color-primary)">unknown</span>,       <span style="color:var(--aw-color-text-muted)">// 可選的預填值</span><br/>
-&nbsp;&nbsp;"dynamic_default":<span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// "{`{{today}}`}" 等 —— 於執行時解析</span><br/>
+&nbsp;&nbsp;"dynamic_default":<span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// "{`{{today}}`}" 等，於執行時解析</span><br/>
 &nbsp;&nbsp;"description":    <span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// 顯示在下方的說明文字</span><br/>
 &nbsp;&nbsp;"options":        <span style="color:var(--aw-color-primary)">{`{`} label, value {`}`}</span>[],   <span style="color:var(--aw-color-text-muted)">// select/multiselect/radio 必填</span><br/>
 &nbsp;&nbsp;"show_if":        <span style="color:var(--aw-color-primary)">AppInputConditionalRule</span>, <span style="color:var(--aw-color-text-muted)">// 條件顯示</span><br/>
@@ -217,7 +217,7 @@ competitive analysis covering:<br/>
 5. Strengths, weaknesses, opportunities, threats<br/>
 <br/>
 If <span style="color:var(--aw-color-primary)">{`{{include_competitors}}`}</span> is <code>true</code>, also include<br/>
-the top 3–5 direct competitors with a one-paragraph profile each.<br/>
+the top 3-5 direct competitors with a one-paragraph profile each.<br/>
 <br/>
 Produce a Markdown report titled "<span style="color:var(--aw-color-primary)">{`{{company_name}}`}</span> Competitive<br/>
 Analysis" under a <code>## Competitive Analysis</code> heading.

@@ -112,7 +112,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 <span style="color:var(--aw-color-text-muted)">│ </span>📁 My workspace  /  New chat                <strong>Save as App</strong><span style="color:var(--aw-color-text-muted)">    │</span><br/>
 <span style="color:var(--aw-color-text-muted)">├──────────────────────────────────────────────────────────────┤</span><br/>
 <span style="color:var(--aw-color-text-muted)">│</span>                                                              <span style="color:var(--aw-color-text-muted)">│</span><br/>
-<span style="color:var(--aw-color-text-muted)">│   </span><span style="color:var(--aw-color-text-muted)">(empty — your conversation will appear here)</span><span style="color:var(--aw-color-text-muted)">              │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│   </span><span style="color:var(--aw-color-text-muted)">(empty, your conversation will appear here)</span><span style="color:var(--aw-color-text-muted)">              │</span><br/>
 <span style="color:var(--aw-color-text-muted)">│</span>                                                              <span style="color:var(--aw-color-text-muted)">│</span><br/>
 <span style="color:var(--aw-color-text-muted)">├──────────────────────────────────────────────────────────────┤</span><br/>
 <span style="color:var(--aw-color-text-muted)">│ </span>📎  Type your message…                              <strong>[↵ Send]</strong><span style="color:var(--aw-color-text-muted)"> │</span><br/>
@@ -175,8 +175,8 @@ A few quick questions to design this right:<br/>
 <br/>
 &nbsp;1. Should I infer the company URL from the name when the user<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;omits it, or just leave that section thinner?<br/>
-&nbsp;2. Section length — one paragraph each, or longer?<br/>
-&nbsp;3. Output language — English, or configurable per run?<br/>
+&nbsp;2. Section length: one paragraph each, or longer?<br/>
+&nbsp;3. Output language: English, or configurable per run?<br/>
 &nbsp;4. Want a "competitors" section?<br/>
 &nbsp;5. Should I limit the news section to "verified sources only",<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;or include all news?
@@ -212,20 +212,20 @@ Here's the design. Review and tell me what to change:<br/>
 <span style="color:var(--aw-color-text-muted)">icon: 🏢 · tags: [research, briefing]</span><br/>
 <br/>
 <strong>Inputs (input_schema)</strong>:<br/>
-&nbsp;1. company_name <span style="color:var(--aw-color-text-muted)">— text · required</span><br/>
+&nbsp;1. company_name <span style="color:var(--aw-color-text-muted)">· text · required</span><br/>
 &nbsp;&nbsp;&nbsp;placeholder: "Acme Corp"<br/>
-&nbsp;2. company_url <span style="color:var(--aw-color-text-muted)">— text · optional</span><br/>
+&nbsp;2. company_url <span style="color:var(--aw-color-text-muted)">· text · optional</span><br/>
 &nbsp;&nbsp;&nbsp;description: "If blank, I'll find it from the name."<br/>
-&nbsp;3. include_competitors <span style="color:var(--aw-color-text-muted)">— boolean · default: true</span><br/>
+&nbsp;3. include_competitors <span style="color:var(--aw-color-text-muted)">· boolean · default: true</span><br/>
 <br/>
-<strong>Stage 1 — research_and_write</strong> <span style="color:var(--aw-color-text-muted)">(agent stage, 5 min timeout)</span><br/>
+<strong>Stage 1: research_and_write</strong> <span style="color:var(--aw-color-text-muted)">(agent stage, 5 min timeout)</span><br/>
 &nbsp;Goal: Research <span style="color:var(--aw-color-primary)">{`{{company_name}}`}</span> (<span style="color:var(--aw-color-primary)">{`{{company_url}}`}</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;if provided, otherwise find it). Write a one-page<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;brief covering business model, key products, target<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;customers, recent verified news (last 12 months),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;and strengths/weaknesses. Each section ~3 paragraphs.<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--aw-color-primary)">{`{{#if include_competitors}}`}</span> Include a competitors<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;section listing 3–5 competitors.<span style="color:var(--aw-color-primary)">{`{{/if}}`}</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;section listing 3-5 competitors.<span style="color:var(--aw-color-primary)">{`{{/if}}`}</span><br/>
 <br/>
 <strong>Artifact</strong>: company_brief <span style="color:var(--aw-color-text-muted)">(format: markdown)</span><br/>
 <br/>
@@ -327,7 +327,7 @@ test-run it on a sample company right now?
 <span style="color:var(--aw-color-primary)">00:08</span>&nbsp;&nbsp;Agent decides to search for "Stripe recent news 2025"<br/>
 <span style="color:var(--aw-color-primary)">00:12</span>&nbsp;&nbsp;[web-search] 8 results returned<br/>
 <span style="color:var(--aw-color-primary)">00:18</span>&nbsp;&nbsp;Agent starts writing the brief<br/>
-<span style="color:var(--aw-color-primary)">00:35</span>&nbsp;&nbsp;Brief draft complete — appearing in right pane<br/>
+<span style="color:var(--aw-color-primary)">00:35</span>&nbsp;&nbsp;Brief draft complete, appearing in right pane<br/>
 <span style="color:var(--aw-color-primary)">00:42</span>&nbsp;&nbsp;Agent saves artifact as "company_brief.md"<br/>
 <span style="color:var(--aw-color-primary)">00:43</span>&nbsp;&nbsp;Run complete ✅
     </div>
