@@ -243,7 +243,6 @@ const cases = [
     row-gap: 0.5rem;
     padding: 1.75rem 0;
     align-items: center;
-    transition: padding-left 220ms ease;
   }
   @media (min-width: 768px) {
     .cases a {
@@ -253,7 +252,6 @@ const cases = [
       padding: 2.25rem 0;
     }
   }
-  .cases a:hover { padding-left: 0.25rem; }
 
   .case-title {
     grid-area: title;
@@ -262,7 +260,6 @@ const cases = [
     color: var(--aw-color-text-heading);
     letter-spacing: -0.02em;
     line-height: 1.1;
-    transition: color 200ms ease;
   }
   .case-desc {
     grid-area: desc;
@@ -275,10 +272,7 @@ const cases = [
     color: var(--aw-color-text-muted);
     font-size: 1.125rem;
     line-height: 1;
-    transition: color 200ms ease, transform 220ms ease;
   }
-  .cases a:hover .case-title { color: var(--aw-color-primary); }
-  .cases a:hover .case-arrow { color: var(--aw-color-primary); }
 
   /* ── CTA tightening ────────────────────────────────────────────── */
   .cta-wrap {

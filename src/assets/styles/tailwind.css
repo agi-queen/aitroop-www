@@ -338,14 +338,10 @@
     background: rgba(82, 153, 97, 0.06);
   }
 
-  /* ── Animated arrow (inline) ───────────────────────────────────── */
+  /* ── Inline arrow (static — hover-driven motion intentionally
+        removed to keep editorial pages calm) ───────────────────── */
   .aw-arrow {
     display: inline-block;
-    transition: transform 220ms ease;
-  }
-  .group:hover .aw-arrow,
-  a:hover .aw-arrow {
-    transform: translateX(4px);
   }
 
   /* ── Card ──────────────────────────────────────────────────────── */
