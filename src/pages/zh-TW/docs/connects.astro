@@ -3,17 +3,15 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 ---
 
-<Layout metadata={{ title: '連接 — Aitroop 文件' }}>
+<Layout metadata={{ title: '連接 · Aitroop 文件' }}>
   <DocsShell current="connects" locale="zh-TW">
     <h1>連接</h1>
     <p class="lead">
-      連接是 Aitroop 在其他服務上以 <em>你的身分</em> 進行操作的方式。你透過該提供者的 OAuth 流程進行一次授權;
-      之後,任何需要該提供者的對話或應用都會透明地使用你的受限權杖。代理讀取你的 Gmail、在你的 GitHub PR 上留言、
-      向你的 Salesforce 寫入一筆資料——全部使用你自己的身分完成,每一個動作都會被該提供者的稽核日誌記錄下來。
+      連接讓 Aitroop 以你的身分呼叫外部服務:OAuth 授權一次,之後任何對話或應用都會透明使用你的受限權杖,每次呼叫都進入提供者稽核日誌。
     </p>
 
     <div class="callout">
-      <strong>一句話講清權限模型。</strong> 連接預設是 <em>依使用者</em> 的——同事的應用執行在他們自己的帳號上,而不是你的。
+      <strong>一句話講清權限模型。</strong> 連接預設是 <em>依使用者</em> 的，同事的應用執行在他們自己的帳號上,而不是你的。
       即使你建構並分享了一個應用,你的權杖也絕不會離開你的帳號。每個使用者都需要授權自己的連接。
     </div>
 
@@ -41,7 +39,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     <ol>
       <li>開啟 <strong>設定 → 連接</strong>(側邊欄或右上角選單)。</li>
       <li>你會看到兩個區塊:<strong>已授權</strong>(作用中的連接)和 <strong>可用</strong>(你可以授權的提供者)。</li>
-      <li>在「可用」中找到你想要的提供者——Google、GitHub、你的 CRM 等。</li>
+      <li>在「可用」中找到你想要的提供者，Google、GitHub、你的 CRM 等。</li>
       <li>點擊 <strong>授權</strong>。</li>
       <li>彈出視窗開啟該提供者的 OAuth 介面。檢視 Aitroop 請求的權限範圍。</li>
       <li>點擊 <strong>批准</strong>(或提供者對應的按鈕名稱)。</li>
@@ -65,7 +63,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h2>連接背後到底是什麼</h2>
     <p>
-      Aitroop 並不為每個提供者單獨執行一套 OAuth 整合——而是透過
+      Aitroop 並不為每個提供者單獨執行一套 OAuth 整合，而是透過
       <a href="https://composio.dev" target="_blank" rel="noopener">Composio</a> 進行代理。
       平台擁有提供者目錄(種子分類和定義存放在
       <code>connect_category</code> 和 <code>connect_definition</code> 資料表中),而每個使用者的授權狀態在本地有一份鏡像,
@@ -75,7 +73,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h2>提供者目錄</h2>
     <p>
-      撰寫本文時的種子目錄——12 個分類、40+ 個提供者。這套配置可在資料庫中編輯;<code>is_enabled = false</code>
+      撰寫本文時的種子目錄，12 個分類、40+ 個提供者。這套配置可在資料庫中編輯;<code>is_enabled = false</code>
       會隱藏某個定義而不刪除它。
     </p>
 
@@ -131,18 +129,18 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
       直到使用者授權所缺的部分。
     </p>
     <p>
-      舊式簡寫 <code>"connects": ["github", "hubspot"]</code> 仍被接受——讀取時每個字串會被升級為
+      舊式簡寫 <code>"connects": ["github", "hubspot"]</code> 仍被接受，讀取時每個字串會被升級為
       <code>{`{ type: "specific", id: <string>, is_required: true }`}</code>。技能以同樣方式宣告自己的連接需求,
       應用的整體滿足狀態會將應用層級需求與每個所需技能的需求合併起來。
     </p>
 
-    <h2>讀 vs 寫——權限範圍的選擇</h2>
+    <h2>讀 vs 寫：權限範圍的選擇</h2>
     <p>
       大多數提供者提供分開的讀寫 OAuth 權限範圍。當你授權時,提供者的介面會顯示正在請求哪些權限。
     </p>
     <ul>
-      <li><strong>僅授權唯讀</strong>——如果應用只讀取資料,例如「每週收件匣摘要」應用。</li>
-      <li><strong>需要時再加入寫入權限</strong>——只在你希望應用進行寫入時才加入,例如「以回覆形式寄送摘要」。</li>
+      <li><strong>僅授權唯讀</strong>：如果應用只讀取資料,例如「每週收件匣摘要」應用。</li>
+      <li><strong>需要時再加入寫入權限</strong>：只在你希望應用進行寫入時才加入,例如「以回覆形式寄送摘要」。</li>
     </ul>
     <p>你可以重新授權既有的連接以加入權限範圍,而無需先撤銷再從頭授權。</p>
 
@@ -177,7 +175,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
 
     <h3>依使用者連接(個人資料的預設模式)</h3>
     <p>
-      每位使用者授權自己的帳號。當隊友執行一個共享應用時,使用的是 <em>他們自己</em> 的權杖——不是你的。
+      每位使用者授權自己的帳號。當隊友執行一個共享應用時,使用的是 <em>他們自己</em> 的權杖，不是你的。
     </p>
     <p>
       例如:一個共享的「每日收件匣分類」應用,在你執行時讀取你的 Gmail,在同事執行時讀取他的。
@@ -208,7 +206,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
     <h3>從提供者一側撤銷</h3>
     <p>
       你也可以從提供者的帳號設定中撤銷(例如 Google 的「第三方應用程式存取」頁面)。下次應用嘗試使用該權杖時,
-      API 呼叫會失敗——Aitroop 偵測到後會提示重新授權。
+      API 呼叫會失敗，Aitroop 偵測到後會提示重新授權。
     </p>
 
     <h2>感知連接的 AppInputs</h2>
@@ -217,12 +215,12 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
       而不必每次都重新上傳。
     </p>
     <p>
-      這是在應用設計中設定的——當應用的任務自然契合時(例如「對我指定的某個 Notion 頁面進行摘要」),
+      這是在應用設計中設定的，當應用的任務自然契合時(例如「對我指定的某個 Notion 頁面進行摘要」),
       App Builder 會自動採用該方式。執行該應用的使用者會看到一個展示其雲端儲存的檔案選擇器,選擇一個文件後,
       代理透過連接讀取它。
     </p>
 
-    <h2>滿足性模型——平台如何判斷「可以執行」</h2>
+    <h2>滿足性模型：平台如何判斷「可以執行」</h2>
     <p>
       在任何應用執行開始之前(以及每次排程觸發之前),平台會計算一份 <strong>滿足性</strong> 報告:
       對應用所需的每一個連接,使用者是否授權了能滿足它的內容?兩層需求會合併為一次檢查。
@@ -231,11 +229,11 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
     <h3>需求的來源</h3>
     <ol>
       <li>
-        <strong>直接需求</strong>——應用本身在 <code>resources.connects</code> 中宣告的內容
+        <strong>直接需求</strong>：應用本身在 <code>resources.connects</code> 中宣告的內容
         (可以是應用範圍,也可以是每個階段範圍)。
       </li>
       <li>
-        <strong>技能需求</strong>——應用使用的每個技能都會帶來自己的 <code>connects</code> 需求。一個「寄送郵件」
+        <strong>技能需求</strong>：應用使用的每個技能都會帶來自己的 <code>connects</code> 需求。一個「寄送郵件」
         技能實際上是在說 <em>「任何使用我的應用都需要一個郵件連接」</em>。
       </li>
     </ol>
@@ -253,7 +251,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
     </table>
 
     <p>
-      單筆需求的完整滿足性紀錄是這樣的——形態與 API 透過
+      單筆需求的完整滿足性紀錄是這樣的，形態與 API 透過
       <code>GET /api/connect/status</code> 暴露的一致:
     </p>
     <div class="code-block" style="line-height:1.7;">
@@ -279,7 +277,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
       </li>
       <li>
         <strong>透過 API 執行(<code>POST /api/apps/:appId/run</code>):</strong> 呼叫傳回 <code>422</code>,
-        回應主體中列出缺少的需求。測試執行(<code>is_test: true</code>)會跳過此檢查——便於在 App 編輯器中試驗。
+        回應主體中列出缺少的需求。測試執行(<code>is_test: true</code>)會跳過此檢查，便於在 App 編輯器中試驗。
       </li>
       <li>
         <strong>排程觸發:</strong> 排程器不會無限暫停。它會在任務資料列上寫入
@@ -300,7 +298,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
         <tr><td><code>user_id</code></td><td>誰。</td></tr>
         <tr><td><code>provider</code></td><td>哪一個 <code>connect_definition.id</code>(例如 <code>github</code>)。</td></tr>
         <tr><td><code>connected</code></td><td>當使用者對該提供者目前有一個有效的 Composio 連線時為 <code>true</code>。</td></tr>
-        <tr><td><code>connection_id</code></td><td>Composio 一側的 ID——實際呼叫某個動作時我們傳回的就是它。</td></tr>
+        <tr><td><code>connection_id</code></td><td>Composio 一側的 ID，實際呼叫某個動作時我們傳回的就是它。</td></tr>
         <tr><td><code>connected_at</code> / <code>updated_at</code></td><td>該列最近一次翻轉的時間;用於判斷快取新鮮度。</td></tr>
       </tbody>
     </table>
@@ -338,7 +336,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
       <strong>原因:</strong> 瀏覽器攔截了彈窗,或你在提供者傳回授權碼之前就關閉了它。
     </p>
     <p>
-      <strong>解決:</strong> 彈窗失敗時 Aitroop 會回退到重新導向模式——再次點擊 <strong>授權</strong> 即可。
+      <strong>解決:</strong> 彈窗失敗時 Aitroop 會回退到重新導向模式，再次點擊 <strong>授權</strong> 即可。
       如果你的瀏覽器對 Aitroop 網域攔截彈窗,請明確允許後再重試。
     </p>
 
@@ -363,8 +361,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
       並再次完成 OAuth。排程執行會在下一次 cron 觸發時恢復。
     </p>
     <p>
-      要更早收到提醒,可在 <strong>設定 → 通知</strong> 中啟用 <strong>連接健康提醒</strong>——
-      在已知到期日前 7 天你會收到通知。
+      要更早收到提醒,可在 <strong>設定 → 通知</strong> 中啟用 <strong>連接健康提醒</strong>：在已知到期日前 7 天你會收到通知。
     </p>
 
     <p class="faq-q">我從提供者一側撤銷了。如何清理 Aitroop 中的狀態?</p>
@@ -376,13 +373,13 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
     <p class="faq-q">我能確切看到 Aitroop 持有哪些權限範圍嗎?</p>
     <p>
       可以。開啟該連接,點擊 <strong>權限範圍</strong>。你會看到已授予權限的清單,每個權限範圍都有一段簡短易讀的說明。
-      可與提供者自家的稽核頁面上的內容進行比對。兩者應當一致——如果不一致,請撤銷並重新授權。
+      可與提供者自家的稽核頁面上的內容進行比對。兩者應當一致，如果不一致,請撤銷並重新授權。
     </p>
 
     <p class="faq-q">隊友能使用我的連接權杖嗎?</p>
     <p>
       不行,除非你的管理員為該提供者特別設定了 <strong>工作區共享連接</strong>(少見且明確)。預設情況下,
-      每位使用者都要授權自己的連接。當隊友執行你的應用時,使用的是 <em>他們自己</em> 的權杖——這表示他們需要在
+      每位使用者都要授權自己的連接。當隊友執行你的應用時,使用的是 <em>他們自己</em> 的權杖，這表示他們需要在
       自己的帳號中也授權過同一個提供者。
     </p>
 
@@ -392,18 +389,18 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
     </p>
     <ul>
       <li><strong>自訂 MCP 伺服器。</strong> 如果該提供者有 HTTP API,可以把它封裝為 MCP 伺服器,作為自訂<a href="/zh-TW/docs/skills">技能</a>加入。無需連接。</li>
-      <li><strong>請求加入。</strong> <a href="/zh-TW/contact">告訴我們</a>是哪個提供者——呼聲最高的提供者每個衝刺都會新增。</li>
+      <li><strong>請求加入。</strong> <a href="/zh-TW/contact">告訴我們</a>是哪個提供者，呼聲最高的提供者每個衝刺都會新增。</li>
     </ul>
 
     <p class="faq-q">如何稽核某個應用對我的連接做了什麼?</p>
     <p>
-      開啟該次執行,點擊針對該連接的任意工具呼叫——完整的請求和(截斷的)回應都已記錄在案。
+      開啟該次執行,點擊針對該連接的任意工具呼叫，完整的請求和(截斷的)回應都已記錄在案。
       提供者自己的稽核日誌也會在你的帳號下記錄同樣的呼叫。兩份來源應當一致;若有差異,通常表示連接在執行中途被撤銷。
     </p>
 
     <div class="next-up">
       <span class="label">下一步</span>
-      <a href="/zh-TW/docs/executions">執行記錄——生命週期與除錯</a>
+      <a href="/zh-TW/docs/executions">執行記錄：生命週期與除錯</a>
     </div>
   </DocsShell>
 </Layout>

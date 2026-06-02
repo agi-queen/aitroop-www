@@ -3,7 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 
 const metadata = {
-  title: 'Executions — Aitroop Docs',
+  title: 'Executions · Aitroop Docs',
 };
 ---
 
@@ -11,15 +11,13 @@ const metadata = {
   <DocsShell current="executions">
     <h1>Executions</h1>
     <p class="lead">
-      An <strong>Execution</strong> is what happens when you press Run. It's a recorded, time-stamped,
-      auditable trip through an App's stages — with a status, a per-stage log, optional human approval
-      gates, and a final bundle of Artifacts. Every run is replayable, resumable, and shareable.
+      An <strong>Execution</strong> is what happens when you press Run: a recorded, auditable trip through stages, with logs, gates, and artifacts.
     </p>
 
     <div class="callout">
       <strong>The mental model.</strong> An <em>App</em> is the recipe. An <em>Execution</em> is the time
       you actually cooked it. The recipe doesn't change between Tuesday's dinner and Wednesday's; the
-      executions are different — different ingredients on the form, different sandbox, different output,
+      executions are different: different ingredients on the form, different sandbox, different output,
       different timestamps. The platform keeps every execution forever so you can compare, debug, and
       replay.
     </div>
@@ -103,12 +101,12 @@ const metadata = {
     </div>
 
     <p>
-      The <code>goal_expanded</code> field is the goal <em>after</em> input substitution — what the agent
+      The <code>goal_expanded</code> field is the goal <em>after</em> input substitution: what the agent
       actually saw. If your form had <code>company_name: "Stripe"</code>, this is where
       <code>{`{{company_name}}`}</code> in the original goal got resolved.
     </p>
 
-    <h2>Watching a run live — the SSE stream</h2>
+    <h2>Watching a run live: the SSE stream</h2>
     <p>
       During <code>running</code> state, the App page subscribes to a Server-Sent Events stream
       keyed on the execution ID. The same stream is the public API surface for anyone wanting to
@@ -129,8 +127,8 @@ Connection: keep-alive
     <p>
       Each event is framed as <code>event: {`<name>`}\n data: {`<JSON>`}\n\n</code>. On connect, the
       server first <em>replays</em> the current state so a late subscriber always sees a coherent
-      sequence — current execution status, every stage log so far, any pending human gate, every
-      saved artifact — before switching to live broadcast.
+      sequence: current execution status, every stage log so far, any pending human gate, every
+      saved artifact, before switching to live broadcast.
     </p>
 
     <table>
@@ -143,7 +141,7 @@ Connection: keep-alive
         </tr>
         <tr>
           <td><code>stage_log</code></td>
-          <td>A full <code>AppStageLog</code> row — see <em>Anatomy</em> above.</td>
+          <td>A full <code>AppStageLog</code> row; see <em>Anatomy</em> above.</td>
           <td>On subscribe (one per existing stage log) and on every stage transition.</td>
         </tr>
         <tr>
@@ -166,7 +164,7 @@ Connection: keep-alive
 
     <p>
       If you subscribe to an execution that is already in a terminal state, the server replays the
-      stored stage logs and artifacts, sends a <code>done</code> event, and disconnects — no live
+      stored stage logs and artifacts, sends a <code>done</code> event, and disconnects; no live
       socket is created. This makes replay and live monitoring use the same endpoint and the same
       parser.
     </p>
@@ -175,7 +173,7 @@ Connection: keep-alive
     <p>
       The five execution events above are the <strong>summary</strong> stream. Inside an
       <code>agent</code> stage, the underlying <code>run-agent</code> binary emits a much finer
-      JSONL trace — token-by-token text, tool calls, sub-tasks, thinking. Those events live on the
+      JSONL trace: token-by-token text, tool calls, sub-tasks, thinking. Those events live on the
       session-level stream, not the execution-level one, but they're what powers the right-hand
       reasoning trace pane. See <a href="/docs/concepts#the-agent-runner-protocol">the runner
       protocol</a> for the full event catalogue.
@@ -205,7 +203,7 @@ es.addEventListener('done',       (e) =&gt; {`{`} console.log('done', JSON.parse
       <li>Are auto-purged after 30 days unless pinned.</li>
     </ul>
     <p>
-      The App editor uses test runs when you click <strong>Try it</strong> — exactly what you want while
+      The App editor uses test runs when you click <strong>Try it</strong>; exactly what you want while
       iterating on prompts.
     </p>
 
@@ -244,16 +242,16 @@ es.addEventListener('done',       (e) =&gt; {`{`} console.log('done', JSON.parse
 
     <h3>The three buttons</h3>
     <ul>
-      <li><strong>Approve &amp; continue</strong> — gate becomes <code>approved</code>, the next stage starts immediately.</li>
-      <li><strong>Reject</strong> — gate becomes <code>rejected</code>, the run transitions to <code>failed</code>.</li>
-      <li><strong>Edit input first</strong> — opens the artifact for editing (e.g. remove rows from the CSV), then on save the edited version is what Stage <em>n+1</em> reads.</li>
+      <li><strong>Approve &amp; continue</strong>: gate becomes <code>approved</code>, the next stage starts immediately.</li>
+      <li><strong>Reject</strong>: gate becomes <code>rejected</code>, the run transitions to <code>failed</code>.</li>
+      <li><strong>Edit input first</strong>: opens the artifact for editing (e.g. remove rows from the CSV), then on save the edited version is what Stage <em>n+1</em> reads.</li>
     </ul>
 
     <h3>Finding gates that need your attention</h3>
     <p>
       Open <strong>Pending gates</strong> from the top nav, or hit
       <code>GET /api/app-executions/pending-gates</code>. Gates can be set up to ping you via email or Slack
-      when they go <code>pending</code> — useful for long-running pipelines where you might not be watching.
+      when they go <code>pending</code>: useful for long-running pipelines where you might not be watching.
     </p>
 
     <h3>The gate API</h3>
@@ -283,7 +281,7 @@ Authorization: Bearer &lt;token&gt;<br/>
       <strong>The execution stays <code>running</code> the whole time a gate is pending.</strong>
       Only the stage log goes to <code>waiting</code>. The sandbox is held alive (via
       <code>keepAlive</code>) so resuming on approve doesn't pay a cold-start cost. The trade-off is
-      that an indefinitely-pending gate keeps a sandbox warm — set a reasonable expectation with
+      that an indefinitely-pending gate keeps a sandbox warm: set a reasonable expectation with
       your reviewers, or build the gate around an auto-timeout in the App's design.
     </div>
 
@@ -306,7 +304,7 @@ Authorization: Bearer &lt;your_token&gt;
       <li>Refunds any unspent budget back to your balance.</li>
     </ul>
     <p>
-      You can later <strong>Resume</strong> from the next stage — see below.
+      You can later <strong>Resume</strong> from the next stage; see below.
     </p>
 
     <h2>Resuming from a specific stage</h2>
@@ -332,18 +330,18 @@ Content-Type: application/json<br/>
       <li>
         Creates a fresh <code>app_execution</code> row pointing at the same App version. Stage logs
         for indexes <code>0 .. start_from_stage_index - 1</code> are written as
-        <code>status: 'skipped'</code> immediately — the run history makes it clear which stages
+        <code>status: 'skipped'</code> immediately; the run history makes it clear which stages
         weren't re-executed.
       </li>
       <li>
         Loads the skipped stages' artifacts via <code>dao.listArtifactsByStages(priorExecutionId, [stageIds])</code>.
         For each artifact that doesn't carry inline <code>content</code>, the executor downloads
-        the body from S3 by its <code>s3_key</code> and decodes UTF-8 — so the next stage's system
+        the body from S3 by its <code>s3_key</code> and decodes UTF-8, so the next stage's system
         prompt sees the prior content even if the original row was offloaded.
       </li>
       <li>
-        Acquires a brand-new sandbox. Files Stage 0–1 wrote on the original execution's sandbox are
-        <em>gone</em> — only the persisted artifacts cross the boundary. If a later stage depended
+        Acquires a brand-new sandbox. Files Stage 0-1 wrote on the original execution's sandbox are
+        <em>gone</em>; only the persisted artifacts cross the boundary. If a later stage depended
         on intermediate scratch files rather than declared artifacts, resume won't reproduce them.
       </li>
       <li>
@@ -360,14 +358,14 @@ Content-Type: application/json<br/>
       <code>prior_execution_id</code> that already has a <code>session_id</code>, reuses that
       session, and continues the same Claude conversation. Visible result: <em>Debug in chat</em>
       shows one continuous thread spanning the original and the resumed run. Don't enable this
-      blindly — a shared Claude session means the model's context still contains earlier turns,
+      blindly; a shared Claude session means the model's context still contains earlier turns,
       which is sometimes the point and sometimes not.
     </p>
 
     <h3>When you'd use this</h3>
     <ul>
-      <li><strong>Last stage's draft was off.</strong> Stages 0–2 took 4 minutes and worked fine; stage 3's
-        email draft missed the tone. Tweak the App, then re-run from stage 3 — saves 4 minutes.</li>
+      <li><strong>Last stage's draft was off.</strong> Stages 0-2 took 4 minutes and worked fine; stage 3's
+        email draft missed the tone. Tweak the App, then re-run from stage 3; saves 4 minutes.</li>
       <li><strong>Stage failed for an external reason</strong> (Connect token expired mid-run). Fix the
         Connect, re-run from the failed stage with the same inputs.</li>
       <li><strong>Human rejected a gate.</strong> Adjust the prior stage's prompt, re-run from there.</li>
@@ -381,12 +379,12 @@ Content-Type: application/json<br/>
     </div>
 
     <p>
-      In the UI: open the run, click <strong>Re-run from stage…</strong>, pick the stage.
+      In the UI: open the run, click <strong>Re-run from stage</strong>, pick the stage.
     </p>
 
     <h2>Run history</h2>
     <p>
-      On the App page, the <strong>Runs</strong> tab lists every execution — most recent first. Each row
+      On the App page, the <strong>Runs</strong> tab lists every execution, most recent first. Each row
       shows:
     </p>
 
@@ -410,7 +408,7 @@ Content-Type: application/json<br/>
 
     <h2>Debugging failed runs</h2>
 
-    <h3>Step 1 — Read the error</h3>
+    <h3>Step 1: Read the error</h3>
     <p>
       Open the failed run. The first thing on the page is the error message and the stage where it
       happened. Common shapes:
@@ -423,14 +421,14 @@ Content-Type: application/json<br/>
         <tr><td><code>connect_unauthorized</code></td><td>A Connect was revoked or expired. Re-authorize.</td></tr>
         <tr><td><code>required_input_missing</code></td><td>A required form field was blank. Mark less aggressively as required.</td></tr>
         <tr><td><code>artifact_format_mismatch</code></td><td>The stage produced output in the wrong format (e.g. markdown when CSV declared).</td></tr>
-        <tr><td><code>sandbox_oom</code></td><td>Out of memory inside the sandbox. Heavy data processing — split into stages or use a script stage.</td></tr>
-        <tr><td><code>agent_gave_up</code></td><td>The agent decided the task couldn't be done. Read its reasoning — usually a missing input.</td></tr>
+        <tr><td><code>sandbox_oom</code></td><td>Out of memory inside the sandbox. Heavy data processing; split into stages or use a script stage.</td></tr>
+        <tr><td><code>agent_gave_up</code></td><td>The agent decided the task couldn't be done. Read its reasoning; usually a missing input.</td></tr>
       </tbody>
     </table>
 
-    <h3>Step 2 — Debug in chat</h3>
+    <h3>Step 2: Debug in chat</h3>
     <p>
-      Click <strong>Debug in chat</strong>. A chat opens with the failed run's full context — inputs,
+      Click <strong>Debug in chat</strong>. A chat opens with the failed run's full context: inputs,
       partial artifacts, agent reasoning trace, error. Talk to the agent:
     </p>
     <div class="code-block">
@@ -441,18 +439,18 @@ Content-Type: application/json<br/>
       re-run from the same point.
     </p>
 
-    <h3>Step 3 — Retry or re-run</h3>
+    <h3>Step 3: Retry or re-run</h3>
     <ul>
-      <li><strong>Retry</strong> — same inputs, same App version, fresh sandbox. Sometimes flaky external
+      <li><strong>Retry</strong>: same inputs, same App version, fresh sandbox. Sometimes flaky external
         APIs just need a second try.</li>
-      <li><strong>Re-run from stage N</strong> — keeps prior artifacts. Use when only the late stages are broken.</li>
-      <li><strong>Edit App, then run</strong> — for systematic bugs (vague prompt, wrong format). Bumps
+      <li><strong>Re-run from stage N</strong>: keeps prior artifacts. Use when only the late stages are broken.</li>
+      <li><strong>Edit App, then run</strong>: for systematic bugs (vague prompt, wrong format). Bumps
         the App to a new version.</li>
     </ul>
 
     <h2>Sharing an execution</h2>
     <p>
-      You can hand a teammate a read-only view of an execution — useful for "look what this App produced
+      You can hand a teammate a read-only view of an execution: useful for "look what this App produced
       yesterday" without giving them write access to the App itself.
     </p>
 
@@ -465,7 +463,7 @@ Content-Type: application/json<br/>
 
     <p>
       Shares are persisted in the <code>share</code> table with a token, an unlock policy, and a download
-      handler. Revoke any time from <strong>Settings → Shares</strong>.
+      handler. Revoke any time from <strong>Settings to Shares</strong>.
     </p>
 
     <h2>Triggering a run from the API</h2>
@@ -499,11 +497,11 @@ curl https://app.aitroop.net/api/app-executions/{`<execId>`}/stream \<br/>
     <ul>
       <li>Sandbox provider cold start (rare; usually &lt;1 s).</li>
       <li>You hit your plan's concurrent-run quota; the run is queued behind others.</li>
-      <li>The agent worker queue is backed up (status banner at <strong>Settings → Workspace</strong>).</li>
+      <li>The agent worker queue is backed up (status banner at <strong>Settings to Workspace</strong>).</li>
     </ul>
     <p>
       <strong>Fix:</strong> if it's been &gt;2 minutes, cancel and re-run. Check the status banner. If
-      everything's green and it's still stuck, the run is queued — wait or cancel.
+      everything's green and it's still stuck, the run is queued; wait or cancel.
     </p>
 
     <p class="faq-q">Why does my completed run show "0 artifacts"?</p>
@@ -518,7 +516,7 @@ curl https://app.aitroop.net/api/app-executions/{`<execId>`}/stream \<br/>
     <p>
       No, but you can <strong>re-run from the last completed stage</strong>. The prior execution's
       artifacts are preserved, so you don't lose work. Open the cancelled run, click <strong>Re-run from
-      stage…</strong>, pick the stage after the last one that completed.
+      stage</strong>, pick the stage after the last one that completed.
     </p>
 
     <p class="faq-q">A human gate has been pending for 3 days. Did the run die?</p>
@@ -536,7 +534,7 @@ curl https://app.aitroop.net/api/app-executions/{`<execId>`}/stream \<br/>
     <p>
       Yes. Click any stage in the run timeline to expand its reasoning trace. The trace shows the agent's
       plan, every tool call with arguments and results, and its final commentary. For deeper detail,
-      toggle "Show thinking" — this exposes the model's internal reasoning blocks (when available).
+      toggle "Show thinking"; this exposes the model's internal reasoning blocks (when available).
     </p>
 
     <p class="faq-q">Why is the same App taking 2× longer this week than last week?</p>
@@ -556,14 +554,14 @@ curl https://app.aitroop.net/api/app-executions/{`<execId>`}/stream \<br/>
 
     <p class="faq-q">Can I trigger a run from Zapier / n8n / a curl command in CI?</p>
     <p>
-      Yes — <code>POST /api/apps/:appId/run</code> with your bearer token. See the curl above. Most users
+      Yes; <code>POST /api/apps/:appId/run</code> with your bearer token. See the curl above. Most users
       put the call in a webhook handler and wait on <code>GET /api/app-executions/:execId</code> to detect
       completion. Outbound webhooks on completion are also supported via Schedule delivery destinations.
     </p>
 
     <div class="next-up">
       <span class="label">Next</span>
-      <a href="/docs/schedules">Schedules — running on cron</a>
+      <a href="/docs/schedules">Schedules: running on cron</a>
     </div>
   </DocsShell>
 </Layout>

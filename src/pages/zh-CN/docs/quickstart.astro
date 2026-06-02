@@ -3,18 +3,15 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 ---
 
-<Layout metadata={{ title: '快速开始 — Aitroop 文档' }}>
+<Layout metadata={{ title: '快速开始 · Aitroop 文档' }}>
   <DocsShell current="quickstart" locale="zh-CN">
-    <h1>快速开始 — 15 分钟构建你的第一个应用</h1>
+    <h1>快速开始：15 分钟构建你的第一个应用</h1>
     <p class="lead">
-      读完本页时,你将在账户里拥有一个真正可用的应用 —— 它会针对你给定的任何公司展开调研,
-      并输出一份单页 Markdown 简报。你将通过与智能体对话来完成构建(无需编码),用两组不同的输入分别运行,
-      在另一段对话中对其进行编辑,并可选地设置为每周一自动运行。下面会列出每一次点击、每一个字段,
-      以及你应当输入的每一条示例消息。
+      读完本页，你将通过与智能体对话构建一个能调研任意公司、产出单页 Markdown 简报的真实应用，并可设为每周一自动运行。
     </p>
 
     <div class="callout tip">
-      <strong>可以略读,也可以跟着做。</strong> 如果你想先读完再动手,五分钟内即可略览步骤 1–10 ——
+      <strong>可以略读,也可以跟着做。</strong> 如果你想先读完再动手,五分钟内即可略览步骤 1-10,
       不必跟着打字也能看懂整体流程。每一步末尾都会展示你应当看到的截图。
     </div>
 
@@ -63,7 +60,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     </p>
 
     <!-- ── STEP 1 ─────────────────────────────────────────────── -->
-    <h2>步骤 1 — 登录</h2>
+    <h2>步骤 1:登录</h2>
     <ol>
       <li>访问 <a href="https://app.aitroop.net">app.aitroop.net</a>。</li>
       <li>点击 <strong>Sign up</strong>(如果你已有账号,点击 <strong>Log in</strong>)。</li>
@@ -91,20 +88,20 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <p>侧边栏的条目对应平台的几个操作面:</p>
     <ul>
-      <li><strong>Chats</strong> — 与智能体的对话历史。</li>
-      <li><strong>Apps</strong> — 你保存的工作流库。</li>
-      <li><strong>Skills</strong> — 智能体可以调用的能力。</li>
-      <li><strong>Connects</strong> — 通过 OAuth 与外部账号建立的连接。</li>
-      <li><strong>Schedules</strong> — 按 cron 自动运行的应用。</li>
-      <li><strong>Settings</strong> — 工作区、计费、团队成员。</li>
+      <li><strong>Chats</strong>:与智能体的对话历史。</li>
+      <li><strong>Apps</strong>:你保存的工作流库。</li>
+      <li><strong>Skills</strong>:智能体可以调用的能力。</li>
+      <li><strong>Connects</strong>:通过 OAuth 与外部账号建立的连接。</li>
+      <li><strong>Schedules</strong>:按 cron 自动运行的应用。</li>
+      <li><strong>Settings</strong>:工作区、计费、团队成员。</li>
     </ul>
 
     <div class="callout">
-      <strong>"Apps" 库在哪里?</strong> 现在还是空的 —— 你还没有构建任何应用。下一步就来解决这个问题。
+      <strong>"Apps" 库在哪里?</strong> 现在还是空的,你还没有构建任何应用。下一步就来解决这个问题。
     </div>
 
     <!-- ── STEP 2 ─────────────────────────────────────────────── -->
-    <h2>步骤 2 — 打开一个新的对话</h2>
+    <h2>步骤 2:打开一个新的对话</h2>
     <ol>
       <li>点击侧边栏左上角的 <strong>+ New Chat</strong>。</li>
       <li>一个空白对话打开。底部是消息输入框,上方是空的对话区域。</li>
@@ -126,13 +123,13 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     <p>各部分含义:</p>
     <ul>
       <li>顶部的<strong>面包屑</strong>:工作区名称 / 对话名称。</li>
-      <li><strong>"Save as App"</strong> 按钮(右上角)—— 在对话进入可保存状态之前一直处于灰显。</li>
-      <li>消息输入框上的<strong>附件</strong>按钮(📎)—— 把文件拖到这里加入对话。</li>
+      <li><strong>"Save as App"</strong> 按钮(右上角):在对话进入可保存状态之前一直处于灰显。</li>
+      <li>消息输入框上的<strong>附件</strong>按钮(📎):把文件拖到这里加入对话。</li>
       <li><strong>发送</strong>按钮,或者直接按下 Enter。</li>
     </ul>
 
     <!-- ── STEP 3 ─────────────────────────────────────────────── -->
-    <h2>步骤 3 — 让智能体帮你构建应用</h2>
+    <h2>步骤 3:让智能体帮你构建应用</h2>
     <p>
       Aitroop 内置了一个名为 <code>aitroop-app-create</code> 的技能(也就是<strong>应用构建器</strong>)。
       当你的消息包含以下触发短语时,它就会被激活:
@@ -162,14 +159,14 @@ Output: a Markdown report covering:<br/>
     <p>按 <strong>Enter</strong> 发送。接着会依次发生三件事:</p>
     <ol>
       <li>你的消息出现在对话线程中。</li>
-      <li>智能体思考几秒钟 —— 你会看到一个 "thinking" 指示。</li>
+      <li>智能体思考几秒钟,你会看到一个 "thinking" 指示。</li>
       <li>智能体加载应用构建器技能(可能会内联显示一个 "Skill: aitroop-app-create" 标签),然后开始回复。</li>
     </ol>
 
     <!-- ── STEP 4 ─────────────────────────────────────────────── -->
-    <h2>步骤 4 — 回答澄清问题</h2>
+    <h2>步骤 4:回答澄清问题</h2>
     <p>
-      应用构建器会提出 1–5 个简短问题,用来补齐设计中的空白。典型回复大致如下:
+      应用构建器会提出 1-5 个简短问题,用来补齐设计中的空白。典型回复大致如下:
     </p>
 
     <div class="code-block" style="line-height:1.7;">
@@ -197,14 +194,14 @@ Verified sources only for news.
     <h3>把回答答好的几个小窍门</h3>
     <ul>
       <li><strong>言简意赅。</strong> 智能体不需要长篇大论。"Yes / No / 3 paragraphs / English" 这种就足够了。</li>
-      <li><strong>放心让智能体取合理的默认值。</strong> 如果某个问题你并不在意,回一句 "your call" 即可 —— 智能体会选择一个合理的默认值,并在设计中标注出来。</li>
+      <li><strong>放心让智能体取合理的默认值。</strong> 如果某个问题你并不在意,回一句 "your call" 即可,智能体会选择一个合理的默认值,并在设计中标注出来。</li>
       <li><strong>不必一次就拍板。</strong> 任何选择之后都可以再编辑。</li>
     </ul>
 
     <!-- ── STEP 5 ─────────────────────────────────────────────── -->
-    <h2>步骤 5 — 审阅应用设计</h2>
+    <h2>步骤 5:审阅应用设计</h2>
     <p>
-      回答完之后,应用构建器会展示完整的设计。这是最关键的一步 —— 仔细查看每一个字段。
+      回答完之后,应用构建器会展示完整的设计。这是最关键的一步,仔细查看每一个字段。
     </p>
 
     <div class="code-block" style="font-size:0.8125rem;line-height:1.7;">
@@ -242,11 +239,11 @@ Looks good?
 
     <h3>逐项注释:每一块都代表什么</h3>
     <ul>
-      <li><strong>name、icon、tags</strong> —— 用于在应用库中展示。图标是一个 emoji。</li>
-      <li><strong>Inputs</strong> —— 用户要填写的表单字段。标记为 <code>required</code> 的字段未填写时会禁用 Run 按钮。</li>
-      <li><strong>Stage</strong> —— 智能体要做的事。<code>{`{{company_name}}`}</code> 在运行时会被替换为表单里的值。</li>
-      <li><strong>Artifact</strong> —— 最终的产出。<code>format: markdown</code> 会被渲染成一份漂亮的文档。</li>
-      <li><strong>Resources</strong> —— 应用需要的技能和连接。这里的 <code>web-search</code> 表示智能体会上网检索。</li>
+      <li><strong>name、icon、tags</strong>:用于在应用库中展示。图标是一个 emoji。</li>
+      <li><strong>Inputs</strong>:用户要填写的表单字段。标记为 <code>required</code> 的字段未填写时会禁用 Run 按钮。</li>
+      <li><strong>Stage</strong>:智能体要做的事。<code>{`{{company_name}}`}</code> 在运行时会被替换为表单里的值。</li>
+      <li><strong>Artifact</strong>:最终的产出。<code>format: markdown</code> 会被渲染成一份漂亮的文档。</li>
+      <li><strong>Resources</strong>:应用需要的技能和连接。这里的 <code>web-search</code> 表示智能体会上网检索。</li>
     </ul>
 
     <h3>确认或修改</h3>
@@ -270,7 +267,7 @@ Looks good?
     <div class="code-block"><strong>You:</strong> Looks good, save it.</div>
 
     <!-- ── STEP 6 ─────────────────────────────────────────────── -->
-    <h2>步骤 6 — 智能体保存应用</h2>
+    <h2>步骤 6:智能体保存应用</h2>
     <p>
       在后台,应用构建器会校验设计(每个 ID 唯一,每个 <code>{`{{ref}}`}</code> 都能解析,目标足够具体),
       然后调用 <code>POST /api/apps</code>。你会看到类似下面的输出:
@@ -302,7 +299,7 @@ test-run it on a sample company right now?
     </ol>
 
     <!-- ── STEP 7 ─────────────────────────────────────────────── -->
-    <h2>步骤 7 — 运行你的应用</h2>
+    <h2>步骤 7:运行你的应用</h2>
     <ol>
       <li>在应用列表中点击 <strong>Company Brief</strong>。</li>
       <li>应用页面打开,显示表单(你的三个输入)和一个 <strong>Run</strong> 按钮。</li>
@@ -319,8 +316,8 @@ test-run it on a sample company right now?
     <h3>运行过程中你会看到什么</h3>
     <p>页面会拆成左右两栏:</p>
     <ul>
-      <li><strong>左侧 — 运行日志。</strong> 智能体的推理过程、工具调用、阶段性输出。你可以看到每一次网页搜索的发生。</li>
-      <li><strong>右侧 — 产物预览。</strong> 一开始是空白,随后 Markdown 简报会随着智能体的书写逐步呈现。</li>
+      <li><strong>左侧:运行日志。</strong> 智能体的推理过程、工具调用、阶段性输出。你可以看到每一次网页搜索的发生。</li>
+      <li><strong>右侧:产物预览。</strong> 一开始是空白,随后 Markdown 简报会随着智能体的书写逐步呈现。</li>
     </ul>
 
     <p>典型的运行时间线:</p>
@@ -343,9 +340,9 @@ test-run it on a sample company right now?
     <h3>运行结束之后</h3>
     <p>右侧产物预览里,你可以做三件事:</p>
     <ul>
-      <li><strong>阅读</strong> —— 滚动浏览、复制文本、点击链接。</li>
-      <li><strong>下载</strong> —— 原始 Markdown 选 <code>.md</code>,渲染版本则选 PDF/DOCX。在预览面板顶部找到下载图标即可。</li>
-      <li><strong>在对话中打开</strong> —— 如果你想让智能体微调这次具体的输出,点击 <strong>Edit in chat</strong>。系统会打开一个新对话,并把该产物作为上下文加载进去。</li>
+      <li><strong>阅读</strong>:滚动浏览、复制文本、点击链接。</li>
+      <li><strong>下载</strong>:原始 Markdown 选 <code>.md</code>,渲染版本则选 PDF/DOCX。在预览面板顶部找到下载图标即可。</li>
+      <li><strong>在对话中打开</strong>:如果你想让智能体微调这次具体的输出,点击 <strong>Edit in chat</strong>。系统会打开一个新对话,并把该产物作为上下文加载进去。</li>
     </ul>
 
     <h3>运行历史</h3>
@@ -355,7 +352,7 @@ test-run it on a sample company right now?
     </p>
 
     <!-- ── STEP 8 ─────────────────────────────────────────────── -->
-    <h2>步骤 8 — 换一组输入再跑一次</h2>
+    <h2>步骤 8:换一组输入再跑一次</h2>
     <p>
       回到应用页面,点击 <strong>Run</strong>(或 "New run"),用另一家公司填写表单:
     </p>
@@ -365,12 +362,12 @@ test-run it on a sample company right now?
       <li><strong>include_competitors:</strong> 关闭</li>
     </ul>
     <p>
-      点击 <strong>Run</strong>。同一套工作流,完全不同的产出。<strong>这正是甜头时刻</strong> ——
+      点击 <strong>Run</strong>。同一套工作流,完全不同的产出。<strong>这正是甜头时刻</strong>:
       你只描述了一次提示词,现在它可以适配任何输入。
     </p>
 
     <!-- ── STEP 9 ─────────────────────────────────────────────── -->
-    <h2>步骤 9 — 编辑应用</h2>
+    <h2>步骤 9:编辑应用</h2>
     <p>
       假设跑过几次之后,你觉得简报里还应该包含 "招聘信号"。有两种方式来更新这个应用:
     </p>
@@ -405,7 +402,7 @@ Approve and save as v2?
     <ol>
       <li>在应用页面点击 <strong>Edit</strong>。</li>
       <li>所有字段都会以原始形式呈现:name、icon、tags、inputs、stages、artifacts、resources。</li>
-      <li>任意修改 —— 重命名字段、更换输入类型、调整阶段目标。</li>
+      <li>任意修改:重命名字段、更换输入类型、调整阶段目标。</li>
       <li>点击 <strong>Save</strong> 创建 v2。</li>
     </ol>
 
@@ -414,7 +411,7 @@ Approve and save as v2?
     </p>
 
     <!-- ── STEP 10 ────────────────────────────────────────────── -->
-    <h2>步骤 10(可选)— 设为定时任务</h2>
+    <h2>步骤 10(可选):设为定时任务</h2>
     <p>
       对于你希望自动运行的应用:
     </p>
@@ -423,9 +420,9 @@ Approve and save as v2?
       <li>点击 <strong>+ New schedule</strong>。</li>
       <li>填写三个部分:
         <ul>
-          <li><strong>Cron</strong> —— 选一个预设(Hourly、Daily at 9 AM、Weekly Monday),或者写自定义表达式。</li>
-          <li><strong>Inputs</strong> —— 每次运行使用的输入值。对于 "company_name",你可以硬编码一个列表,或者使用动态值(如果应用支持)。</li>
-          <li><strong>Delivery</strong> —— 产物的去向。可以是邮箱、Slack 频道、Drive 目录或 webhook。</li>
+          <li><strong>Cron</strong>:选一个预设(Hourly、Daily at 9 AM、Weekly Monday),或者写自定义表达式。</li>
+          <li><strong>Inputs</strong>:每次运行使用的输入值。对于 "company_name",你可以硬编码一个列表,或者使用动态值(如果应用支持)。</li>
+          <li><strong>Delivery</strong>:产物的去向。可以是邮箱、Slack 频道、Drive 目录或 webhook。</li>
         </ul>
       </li>
       <li>点击 <strong>Save schedule</strong>。</li>
@@ -440,7 +437,7 @@ Approve and save as v2?
     <h2>你都完成了什么</h2>
     <p>你完整走过了 Aitroop 的整套操作闭环:</p>
     <ol>
-      <li><strong>通过对话构建了一个应用</strong> —— 使用应用构建器技能,没写一行 JSON,也没写一行代码。</li>
+      <li><strong>通过对话构建了一个应用</strong>:使用应用构建器技能,没写一行 JSON,也没写一行代码。</li>
       <li><strong>在保存前审阅并确认</strong>了设计。</li>
       <li><strong>用两组不同输入运行</strong>了应用,亲眼看见参数化是怎么工作的。</li>
       <li><strong>通过另一段对话编辑</strong>了应用。</li>
@@ -458,7 +455,7 @@ Approve and save as v2?
     <h3>"智能体没有问我任何澄清问题。"</h3>
     <p>
       这通常意味着你最初的描述已经足够具体。智能体会直接跳到设计审阅(步骤 5)。
-      从那里开始流程一样 —— 审阅、确认或修改。
+      从那里开始流程一样:审阅、确认或修改。
     </p>
 
     <h3>"我的应用需要读 Gmail / Drive / GitHub,该怎么办?"</h3>
@@ -484,12 +481,12 @@ Approve and save as v2?
       <li>点击失败的那次运行。</li>
       <li>在运行日志中查看错误。常见原因:
         <ul>
-          <li><strong>超时</strong> —— 提高阶段的 <code>timeout_ms</code>(默认 3 分钟,重度调研可以试 10 分钟)。</li>
-          <li><strong>缺少连接</strong> —— 在 <strong>Settings → Connects</strong> 里授权所需的连接。</li>
-          <li><strong>输入不合适</strong> —— 表单值与智能体的预期不一致。换一个值再跑一次。</li>
+          <li><strong>超时</strong>:提高阶段的 <code>timeout_ms</code>(默认 3 分钟,重度调研可以试 10 分钟)。</li>
+          <li><strong>缺少连接</strong>:在 <strong>Settings → Connects</strong> 里授权所需的连接。</li>
+          <li><strong>输入不合适</strong>:表单值与智能体的预期不一致。换一个值再跑一次。</li>
         </ul>
       </li>
-      <li>点击 <strong>Debug in chat</strong>,以对话的形式打开这次失败的运行 —— 同样的上下文、同样的输入,但变成可交互的。</li>
+      <li>点击 <strong>Debug in chat</strong>,以对话的形式打开这次失败的运行:同样的上下文、同样的输入,但变成可交互的。</li>
     </ol>
 
     <h3>"这跟 ChatGPT 有什么区别?"</h3>
@@ -509,13 +506,13 @@ Approve and save as v2?
 
     <p class="faq-q">注册邮件一直没收到。</p>
     <p>
-      先检查垃圾邮件,再等 2 分钟。如果还是没有,使用 <strong>Continue with Google</strong> 登录 —— 不需要邮件。
+      先检查垃圾邮件,再等 2 分钟。如果还是没有,使用 <strong>Continue with Google</strong> 登录,不需要邮件。
       如果必须用邮箱,在登录页点击 "Resend verification"。
     </p>
 
     <p class="faq-q">智能体不问我澄清问题。</p>
     <p>
-      说明你最初的描述已经填齐了所有 5 个设计槽位。这其实是好事 ——
+      说明你最初的描述已经填齐了所有 5 个设计槽位。这其实是好事:
       智能体直接跳到步骤 5(审阅设计)。流程从这里继续即可。如果你就是想强制智能体提问,
       可以在消息末尾加一句 <em>"Ask me anything you need to know first."</em>
     </p>
@@ -524,7 +521,7 @@ Approve and save as v2?
     <p>
       对话还没有进入可保存的状态。你需要(a)在消息中带上能识别的触发短语,或者
       (b)至少让智能体完成过一轮看起来是完整任务的回应。直接输入 <em>"save this as an app"</em>
-      也行 —— 应用构建器会从对话中推断出一个 AppDef。
+      也行:应用构建器会从对话中推断出一个 AppDef。
     </p>
 
     <p class="faq-q">应用保存后表单字段不对。</p>
@@ -542,7 +539,7 @@ Approve and save as v2?
       <li>在应用页面打开 <strong>Runs</strong> 标签。</li>
       <li>点击失败的那次运行。</li>
       <li>看顶部的错误。最常见的:超时(提高 <code>timeout_ms</code>)、缺少连接(去授权)、格式不对(调整目标)。</li>
-      <li>点击 <strong>Debug in chat</strong> —— 以对话的形式打开这次失败的运行,带有完整上下文。问一句 <em>"why did this fail?"</em></li>
+      <li>点击 <strong>Debug in chat</strong>,以对话的形式打开这次失败的运行,带有完整上下文。问一句 <em>"why did this fail?"</em></li>
     </ol>
     <p>完整的调试手册见 <a href="/zh-CN/docs/executions">执行记录</a>。</p>
 
@@ -551,9 +548,9 @@ Approve and save as v2?
       三种常见原因:
     </p>
     <ul>
-      <li><strong>调研类阶段。</strong> 联网搜索 + 在十多条结果上推理,通常需要 30–90 秒。属于正常范围。</li>
-      <li><strong>冷启动沙箱。</strong> 长时间空闲后的第一次运行:沙箱启动会多耗 1–3 秒。</li>
-      <li><strong>目标模糊。</strong> 如果智能体不清楚 "做到什么程度算好",它就会反复迭代。把目标收紧 —— 加结构、加约束、加示例。</li>
+      <li><strong>调研类阶段。</strong> 联网搜索 + 在十多条结果上推理,通常需要 30-90 秒。属于正常范围。</li>
+      <li><strong>冷启动沙箱。</strong> 长时间空闲后的第一次运行:沙箱启动会多耗 1-3 秒。</li>
+      <li><strong>目标模糊。</strong> 如果智能体不清楚 "做到什么程度算好",它就会反复迭代。把目标收紧:加结构、加约束、加示例。</li>
     </ul>
 
     <p class="faq-q">怎么把这个应用分享给同事?</p>
@@ -561,12 +558,12 @@ Approve and save as v2?
       共有三档:
     </p>
     <ul>
-      <li><strong>Private</strong>(默认)—— 只有你能看到 / 运行。</li>
-      <li><strong>Team</strong> —— 对工作区内可见。在应用页面点击 <strong>Share → Workspace</strong>。</li>
-      <li><strong>公开链接</strong> —— 任何拿到链接的人都能运行。在应用页面点击 <strong>Share → Public link</strong>,会生成一个 token,可以随时吊销。</li>
+      <li><strong>Private</strong>(默认):只有你能看到 / 运行。</li>
+      <li><strong>Team</strong>:对工作区内可见。在应用页面点击 <strong>Share → Workspace</strong>。</li>
+      <li><strong>公开链接</strong>:任何拿到链接的人都能运行。在应用页面点击 <strong>Share → Public link</strong>,会生成一个 token,可以随时吊销。</li>
     </ul>
     <p>
-      团队应用下的连接是<em>按人配置</em>的 —— 同事会用自己的 Gmail 授权,而不是用你的。
+      团队应用下的连接是<em>按人配置</em>的,同事会用自己的 Gmail 授权,而不是用你的。
       详见 <a href="/zh-CN/docs/connects">连接</a>。
     </p>
 
@@ -586,15 +583,15 @@ curl -X POST https://app.aitroop.net/api/apps/{`<appId>`}/run \<br/>
 
     <p class="faq-q">在哪里能学到完整的功能集?</p>
     <ul>
-      <li><a href="/zh-CN/docs/concepts">核心概念</a> —— 应用 JSON 结构的详细说明。</li>
-      <li><a href="/zh-CN/docs/executions">执行记录</a> —— 运行时究竟发生了什么。</li>
-      <li><a href="/zh-CN/docs/sandbox">沙箱</a> —— 智能体能在里面做什么。</li>
-      <li><a href="/zh-CN/docs/schedules">定时任务</a> —— cron 语法与投递目的地。</li>
+      <li><a href="/zh-CN/docs/concepts">核心概念</a>:应用 JSON 结构的详细说明。</li>
+      <li><a href="/zh-CN/docs/executions">执行记录</a>:运行时究竟发生了什么。</li>
+      <li><a href="/zh-CN/docs/sandbox">沙箱</a>:智能体能在里面做什么。</li>
+      <li><a href="/zh-CN/docs/schedules">定时任务</a>:cron 语法与投递目的地。</li>
     </ul>
 
     <div class="next-up">
       <span class="label">下一步</span>
-      <a href="/zh-CN/docs/concepts">核心概念 —— 应用结构详解</a>
+      <a href="/zh-CN/docs/concepts">核心概念:应用结构详解</a>
     </div>
   </DocsShell>
 </Layout>

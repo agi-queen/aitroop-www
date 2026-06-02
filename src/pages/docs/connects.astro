@@ -3,18 +3,15 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 ---
 
-<Layout metadata={{ title: 'Connects — Aitroop Docs' }}>
+<Layout metadata={{ title: 'Connects · Aitroop Docs' }}>
   <DocsShell current="connects">
     <h1>Connects</h1>
     <p class="lead">
-      A Connect is how Aitroop acts as <em>you</em> on another service. You authorize once via that
-      provider's OAuth flow; from then on, any Chat or App that needs the provider uses your scoped token
-      transparently. The agent reads your Gmail, comments on your GitHub PR, drops a row into your
-      Salesforce — all using your own identity, with your provider's audit log capturing every action.
+      A Connect is how Aitroop acts as <em>you</em> on another service. Authorize once via OAuth; any Chat or App reuses your scoped token transparently.
     </p>
 
     <div class="callout">
-      <strong>The privilege model in one sentence.</strong> Connects are <em>per-user</em> by default —
+      <strong>The privilege model in one sentence.</strong> Connects are <em>per-user</em> by default:
       your colleagues' Apps run against their own accounts, not yours. Even when you build and share an
       App, your token never leaves your account. Each user authorizes their own Connects.
     </div>
@@ -41,10 +38,10 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h3>Path A: Proactively, from Settings</h3>
     <ol>
-      <li>Open <strong>Settings → Connects</strong> (sidebar or top-right menu).</li>
+      <li>Open <strong>Settings to Connects</strong> (sidebar or top-right menu).</li>
       <li>You see two sections: <strong>Authorized</strong> (active Connects) and <strong>Available</strong>
         (providers you can authorize).</li>
-      <li>Find the provider you want under Available — Google, GitHub, your CRM, etc.</li>
+      <li>Find the provider you want under Available: Google, GitHub, your CRM, etc.</li>
       <li>Click <strong>Authorize</strong>.</li>
       <li>A popup opens with the provider's OAuth screen. Review the scopes Aitroop is requesting.</li>
       <li>Click <strong>Approve</strong> (or whatever the provider calls it).</li>
@@ -68,7 +65,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h2>What's actually behind Connects</h2>
     <p>
-      Aitroop doesn't run a separate OAuth integration for each provider — it brokers them through
+      Aitroop doesn't run a separate OAuth integration for each provider; it brokers them through
       <a href="https://composio.dev" target="_blank" rel="noopener">Composio</a>. The platform owns
       the provider catalogue (categories and definitions seeded into the
       <code>connect_category</code> and <code>connect_definition</code> tables), and a local mirror
@@ -79,7 +76,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h2>The provider catalogue</h2>
     <p>
-      The seeded catalogue at time of writing — 12 categories, 40+ providers. The set is editable
+      The seeded catalogue at time of writing: 12 categories, 40+ providers. The set is editable
       from the database; <code>is_enabled = false</code> hides a definition without deleting it.
     </p>
 
@@ -137,21 +134,21 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
       missing piece.
     </p>
     <p>
-      The legacy short form <code>"connects": ["github", "hubspot"]</code> is still accepted — each
+      The legacy short form <code>"connects": ["github", "hubspot"]</code> is still accepted: each
       string is upgraded to <code>{`{ type: "specific", id: <string>, is_required: true }`}</code> on
       read. Skills define their own connect requirements the same way, and the App's overall
       satisfaction state merges the App-level requirements with every required skill's
       requirements.
     </p>
 
-    <h2>Reading vs writing — scope selection</h2>
+    <h2>Reading vs writing: scope selection</h2>
     <p>
       Most providers offer separate read and write OAuth scopes. When you authorize, the provider's
       screen shows what's being requested.
     </p>
     <ul>
-      <li><strong>Authorize read-only</strong> if the App only reads data — for example, a "weekly inbox summary" App.</li>
-      <li><strong>Add write scopes later</strong> only when you want the App to write — for example, "send the summary as a reply".</li>
+      <li><strong>Authorize read-only</strong> if the App only reads data, for example, a "weekly inbox summary" App.</li>
+      <li><strong>Add write scopes later</strong> only when you want the App to write, for example, "send the summary as a reply".</li>
     </ul>
     <p>You can re-authorize an existing Connect to add scopes without revoking and re-authorizing from scratch.</p>
 
@@ -159,7 +156,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
     <ol>
       <li>You authorize <strong>Gmail (read-only)</strong> for a triage App.</li>
       <li>Months later you decide the App should also draft replies for you.</li>
-      <li>Open <strong>Settings → Connects → Gmail → Manage scopes</strong>.</li>
+      <li>Open <strong>Settings to Connects to Gmail to Manage scopes</strong>.</li>
       <li>Toggle on <code>gmail.compose</code>.</li>
       <li>Go through OAuth re-prompt. Approve.</li>
       <li>Apps that previously had read-only Gmail can now compose.</li>
@@ -188,7 +185,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
     <h3>Per-user Connects (default for personal data)</h3>
     <p>
       Each user authorizes their own account. When a teammate runs a shared App, it uses
-      <em>their</em> tokens — not yours.
+      <em>their</em> tokens, not yours.
     </p>
     <p>
       Example: a shared "Daily inbox triage" App reads your Gmail when you run it, your colleague's when
@@ -210,7 +207,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
 
     <h3>From Aitroop</h3>
     <ol>
-      <li>Open <strong>Settings → Connects → Authorized</strong>.</li>
+      <li>Open <strong>Settings to Connects to Authorized</strong>.</li>
       <li>Find the Connect to revoke.</li>
       <li>Click <strong>Revoke</strong>.</li>
       <li>Confirm the prompt.</li>
@@ -221,7 +218,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
     <h3>From the provider's side</h3>
     <p>
       You can also revoke from the provider's account settings (e.g., Google's "third-party app access"
-      page). The next time an App tries to use the token, the API call fails — Aitroop detects this and
+      page). The next time an App tries to use the token, the API call fails. Aitroop detects this and
       prompts for re-authorization.
     </p>
 
@@ -231,12 +228,12 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
       Connects (Drive, Notion, etc.) instead of requiring a fresh upload.
     </p>
     <p>
-      This is set in the App design — the App Builder picks it automatically when the App's task makes
+      This is set in the App design: the App Builder picks it automatically when the App's task makes
       it natural ("summarize a Notion page I'll point at"). The user running the App sees a file picker
       showing their cloud storage, picks a document, and the agent reads it via the Connect.
     </p>
 
-    <h2>The satisfaction model — how the platform decides "OK to run"</h2>
+    <h2>The satisfaction model: how the platform decides "OK to run"</h2>
     <p>
       Before any App execution begins (and again before every scheduled tick), the platform
       computes a <strong>satisfaction</strong> report: for each Connect the App requires, has the
@@ -247,11 +244,11 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
     <h3>Requirement sources</h3>
     <ol>
       <li>
-        <strong>Direct requirements</strong> — what the App itself declares in
+        <strong>Direct requirements</strong>: what the App itself declares in
         <code>resources.connects</code> (either App-wide or per-stage).
       </li>
       <li>
-        <strong>Skill requirements</strong> — every skill the App uses brings its own
+        <strong>Skill requirements</strong>: every skill the App uses brings its own
         <code>connects</code> requirements with it. A "send email" skill effectively says
         <em>"any App that uses me needs an email Connect"</em>.
       </li>
@@ -271,7 +268,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
     </table>
 
     <p>
-      A full satisfaction record for one requirement looks like this — same shape the API exposes
+      A full satisfaction record for one requirement looks like this, same shape the API exposes
       via <code>GET /api/connect/status</code>:
     </p>
     <div class="code-block" style="line-height:1.7;">
@@ -299,11 +296,11 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
       <li>
         <strong>Run via API (<code>POST /api/apps/:appId/run</code>):</strong> the call returns
         <code>422</code> with the missing requirements listed in the response body. Test runs
-        (<code>is_test: true</code>) skip the check — useful for trying things in the App editor.
+        (<code>is_test: true</code>) skip the check; useful for trying things in the App editor.
       </li>
       <li>
         <strong>Scheduled tick:</strong> the scheduler doesn't pause indefinitely. It writes
-        <code>last_status = 'error'</code> with the message <code>"Missing required connections: …"</code>
+        <code>last_status = 'error'</code> with the message <code>"Missing required connections: ..."</code>
         on the task row, leaves <code>next_run_at</code> at its scheduled value, and tries again on
         the next tick. The schedule's runs page surfaces this so you don't have to monitor every
         provider yourself.
@@ -321,7 +318,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
         <tr><td><code>user_id</code></td><td>Who.</td></tr>
         <tr><td><code>provider</code></td><td>Which <code>connect_definition.id</code> (e.g. <code>github</code>).</td></tr>
         <tr><td><code>connected</code></td><td><code>true</code> when the user currently has a live Composio connection for this provider.</td></tr>
-        <tr><td><code>connection_id</code></td><td>Composio-side ID — what we hand back when actually invoking an action.</td></tr>
+        <tr><td><code>connection_id</code></td><td>Composio-side ID; what we hand back when actually invoking an action.</td></tr>
         <tr><td><code>connected_at</code> / <code>updated_at</code></td><td>When the row last flipped; used for cache freshness.</td></tr>
       </tbody>
     </table>
@@ -351,7 +348,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
       <li><strong>Tokens stored encrypted at rest.</strong> Storage uses workspace-level encryption keys.</li>
       <li><strong>Tokens never leave the platform.</strong> The agent uses tokens via internal service calls; raw tokens are never passed to a language model or exposed in chat transcripts.</li>
       <li><strong>Sandboxed execution.</strong> Each run executes in an isolated E2B sandbox. Tokens are injected per-run; the sandbox is destroyed after.</li>
-      <li><strong>Audit trail.</strong> Every Connect call is logged with the App, run, and user that triggered it. Available under <strong>Settings → Connects → Audit log</strong>.</li>
+      <li><strong>Audit trail.</strong> Every Connect call is logged with the App, run, and user that triggered it. Available under <strong>Settings to Connects to Audit log</strong>.</li>
       <li><strong>Revocation propagation.</strong> Revoking a Connect immediately invalidates the stored token. In-flight runs may complete their current call but won't be able to make new ones.</li>
     </ul>
 
@@ -363,7 +360,7 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
       a code.
     </p>
     <p>
-      <strong>Fix:</strong> Aitroop falls back to redirect mode if the popup fails — just click
+      <strong>Fix:</strong> Aitroop falls back to redirect mode if the popup fails. Just click
       <strong>Authorize</strong> again. If your browser blocks popups for the Aitroop domain, allow them
       explicitly and retry.
     </p>
@@ -391,13 +388,13 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
       <strong>Re-authorize</strong> and complete OAuth again. Scheduled runs resume on their next cron tick.
     </p>
     <p>
-      To get alerted earlier, enable <strong>Connect health alerts</strong> in <strong>Settings →
-      Notifications</strong> — you'll get a notification 7 days before a known expiry.
+      To get alerted earlier, enable <strong>Connect health alerts</strong> in <strong>Settings to
+      Notifications</strong>. You'll get a notification 7 days before a known expiry.
     </p>
 
     <p class="faq-q">I revoked from the provider's side. How do I clean up Aitroop's state?</p>
     <p>
-      Open <strong>Settings → Connects</strong>. The Connect will show as "Revoked" (the platform detects
+      Open <strong>Settings to Connects</strong>. The Connect will show as "Revoked" (the platform detects
       this on the next attempted call). Click <strong>Remove</strong> to delete the stored token reference
       entirely, or <strong>Re-authorize</strong> to restore the Connect.
     </p>
@@ -406,14 +403,14 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
     <p>
       Yes. Open the Connect, click <strong>Scopes</strong>. You'll see a list of granted permissions with
       a short human-readable description per scope. Compare against what the provider's own audit page
-      shows. They should match — if not, revoke and re-authorize.
+      shows. They should match; if not, revoke and re-authorize.
     </p>
 
     <p class="faq-q">Can a teammate use my Connect tokens?</p>
     <p>
       No, unless your admin has set up a <strong>shared workspace Connect</strong> for that provider (rare,
       and explicit). By default every user authorizes their own. When a teammate runs your App, it uses
-      <em>their</em> tokens — meaning they need to have authorized the same provider in their own account.
+      <em>their</em> tokens, meaning they need to have authorized the same provider in their own account.
     </p>
 
     <p class="faq-q">My App needs a Connect that's not in the catalog.</p>
@@ -422,19 +419,19 @@ DELETE /api/connect/:provider  <span style="color:var(--aw-color-text-muted)">//
     </p>
     <ul>
       <li><strong>Custom MCP server.</strong> If the provider has an HTTP API, wrap it in an MCP server and add it as a custom <a href="/docs/skills">Skill</a>. No Connect needed.</li>
-      <li><strong>Request it.</strong> <a href="/contact">Tell us</a> which provider — the most-requested ones get added each sprint.</li>
+      <li><strong>Request it.</strong> <a href="/contact">Tell us</a> which provider; the most-requested ones get added each sprint.</li>
     </ul>
 
     <p class="faq-q">How do I audit what an App did with my Connect?</p>
     <p>
-      Open the run, click any tool call against the Connect — full request and (truncated) response are
+      Open the run, click any tool call against the Connect: full request and (truncated) response are
       logged. The provider's own audit log captures the same calls under your account. The two sources
       should match; discrepancies usually mean the Connect was revoked mid-run.
     </p>
 
     <div class="next-up">
       <span class="label">Next</span>
-      <a href="/docs/executions">Executions — lifecycle and debugging</a>
+      <a href="/docs/executions">Executions: lifecycle and debugging</a>
     </div>
   </DocsShell>
 </Layout>

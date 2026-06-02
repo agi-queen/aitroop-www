@@ -3,12 +3,11 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 ---
 
-<Layout metadata={{ title: '核心概念 — Aitroop 文档' }}>
+<Layout metadata={{ title: '核心概念 · Aitroop 文档' }}>
   <DocsShell current="concepts" locale="zh-CN">
     <h1>核心概念</h1>
     <p class="lead">
-      Aitroop 应用的技术结构。本页是
-      <a href="/zh-CN/docs/quickstart">快速开始</a>的参考配套：涵盖每一个字段、每一种类型、每一个选项。完整读完大约需要 15 分钟。你不必死记硬背 —— 收藏本页，当某个概念出现时再回来查阅即可。
+      Aitroop 应用的技术结构参考：每一个字段、每一种类型、每一个选项。可收藏作为查阅手册。
     </p>
 
     <div class="callout">
@@ -17,7 +16,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h2>应用定义</h2>
     <p>
-      一个<strong>应用</strong>是持久化在 <code>app_def</code> 中的 JSON 文档。你不需要自己编写 JSON —— 这由 agent 完成 —— 但了解它包含什么会让其他一切变得清晰。顶层结构如下：
+      一个<strong>应用</strong>是持久化在 <code>app_def</code> 中的 JSON 文档。你不需要自己编写 JSON（这由 agent 完成），但了解它包含什么会让其他一切变得清晰。顶层结构如下：
     </p>
 
     <div class="code-block" style="line-height:1.7;">
@@ -43,7 +42,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     </div>
 
     <!-- ── APP INPUT ─────────────────────────────────────────── -->
-    <h2>AppInput —— 表单字段</h2>
+    <h2>AppInput：表单字段</h2>
     <p>
       <code>input_schema</code> 中的每一项都是用户填写的一个表单字段。完整类型如下：
     </p>
@@ -55,7 +54,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 &nbsp;&nbsp;"required":       <span style="color:var(--aw-color-primary)">boolean</span>,       <span style="color:var(--aw-color-text-muted)">// 默认 false；为空时阻止运行</span><br/>
 &nbsp;&nbsp;"placeholder":    <span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// 可选提示，显示在字段内</span><br/>
 &nbsp;&nbsp;"default":        <span style="color:var(--aw-color-primary)">unknown</span>,       <span style="color:var(--aw-color-text-muted)">// 可选的预填值</span><br/>
-&nbsp;&nbsp;"dynamic_default":<span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// "{`{{today}}`}" 等 —— 在运行时解析</span><br/>
+&nbsp;&nbsp;"dynamic_default":<span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// "{`{{today}}`}" 等：在运行时解析</span><br/>
 &nbsp;&nbsp;"description":    <span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// 显示在下方的帮助文字</span><br/>
 &nbsp;&nbsp;"options":        <span style="color:var(--aw-color-primary)">{`{`} label, value {`}`}</span>[],   <span style="color:var(--aw-color-text-muted)">// select/multiselect/radio 必填</span><br/>
 &nbsp;&nbsp;"show_if":        <span style="color:var(--aw-color-primary)">AppInputConditionalRule</span>, <span style="color:var(--aw-color-text-muted)">// 条件可见性</span><br/>
@@ -70,17 +69,17 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     <table>
       <thead><tr><th>类型</th><th>UI</th><th>使用场景</th><th>额外字段</th></tr></thead>
       <tbody>
-        <tr><td><code>text</code></td><td>单行文本框</td><td>短标识 —— 名称、URL、ID。</td><td>—</td></tr>
-        <tr><td><code>textarea</code></td><td>多行文本框</td><td>长指令、描述、待处理的内容。</td><td>—</td></tr>
+        <tr><td><code>text</code></td><td>单行文本框</td><td>短标识：名称、URL、ID。</td><td>-</td></tr>
+        <tr><td><code>textarea</code></td><td>多行文本框</td><td>长指令、描述、待处理的内容。</td><td>-</td></tr>
         <tr><td><code>number</code></td><td>数字输入</td><td>计数、阈值、价格。</td><td><code>min</code>、<code>max</code>、<code>step</code></td></tr>
         <tr><td><code>slider</code></td><td>数字滑块</td><td>有界范围，注重感觉而非精度。</td><td><code>min</code>、<code>max</code>、<code>step</code></td></tr>
-        <tr><td><code>select</code></td><td>单选下拉</td><td>3–10 个固定选项，仅允许选一项。</td><td><code>options</code>（必填）</td></tr>
-        <tr><td><code>multiselect</code></td><td>多选下拉</td><td>3–10 个固定选项，允许多选。</td><td><code>options</code>（必填）</td></tr>
-        <tr><td><code>radio</code></td><td>单选按钮组</td><td>2–4 个选项，需要全部一次性展示。</td><td><code>options</code>（必填）</td></tr>
-        <tr><td><code>boolean</code></td><td>开关 / 复选框</td><td>是 / 否标志、可选特性。</td><td>—</td></tr>
-        <tr><td><code>date</code></td><td>日期选择器</td><td>"截止日期"、"锚定日期"。</td><td>—</td></tr>
-        <tr><td><code>daterange</code></td><td>两个日期选择器</td><td>区间报表 —— "从 X 到 Y"。</td><td>—</td></tr>
-        <tr><td><code>file</code></td><td>文件上传按钮</td><td>用户每次运行都上传新文件（CSV、PDF、图片）。</td><td>—</td></tr>
+        <tr><td><code>select</code></td><td>单选下拉</td><td>3-10 个固定选项，仅允许选一项。</td><td><code>options</code>（必填）</td></tr>
+        <tr><td><code>multiselect</code></td><td>多选下拉</td><td>3-10 个固定选项，允许多选。</td><td><code>options</code>（必填）</td></tr>
+        <tr><td><code>radio</code></td><td>单选按钮组</td><td>2-4 个选项，需要全部一次性展示。</td><td><code>options</code>（必填）</td></tr>
+        <tr><td><code>boolean</code></td><td>开关 / 复选框</td><td>是 / 否标志、可选特性。</td><td>-</td></tr>
+        <tr><td><code>date</code></td><td>日期选择器</td><td>"截止日期"、"锚定日期"。</td><td>-</td></tr>
+        <tr><td><code>daterange</code></td><td>两个日期选择器</td><td>区间报表，"从 X 到 Y"。</td><td>-</td></tr>
+        <tr><td><code>file</code></td><td>文件上传按钮</td><td>用户每次运行都上传新文件（CSV、PDF、图片）。</td><td>-</td></tr>
       </tbody>
     </table>
 
@@ -125,7 +124,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     </div>
 
     <!-- ── STAGE ─────────────────────────────────────────────── -->
-    <h2>AppStage —— 实际执行的内容</h2>
+    <h2>AppStage:实际执行的内容</h2>
     <p>
       <code>stages</code> 中的每一项都是工作流中的一步。各阶段按顺序运行；每个阶段都可以读取之前阶段产生的产物。
     </p>
@@ -164,12 +163,12 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
         <tr>
           <td><strong>适用场景</strong></td>
           <td>研究、起草、摘要，任何模糊任务</td>
-          <td>精确转换 —— 过滤 CSV、去重、格式化日期</td>
+          <td>精确转换：过滤 CSV、去重、格式化日期</td>
           <td>审批关卡、"挑出最好的 N 个"</td>
         </tr>
         <tr>
           <td><strong>延迟</strong></td>
-          <td>20 秒 – 10 分钟</td>
+          <td>20 秒 - 10 分钟</td>
           <td>通常 &lt; 1 秒</td>
           <td>取决于真人耗时</td>
         </tr>
@@ -182,7 +181,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
         <tr>
           <td><strong>确定性？</strong></td>
           <td>否（LLM 的随机性）</td>
-          <td>是 —— 同样输入，同样输出</td>
+          <td>是：同样输入，同样输出</td>
           <td>否（人的可变性）</td>
         </tr>
       </tbody>
@@ -190,7 +189,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h3>编写 <code>goal</code> 字段</h3>
     <p>
-      goal 就是 agent 的指令。在阶段运行之前，执行器会用正则 <code>/{`\{\{([^}]+)\}\}`}/g</code> 遍历 goal，并将每个 <code>{`{{key}}`}</code> 替换为 <code>execution.input[key]</code>。未匹配的引用会原样保留 —— 并不会报错，但也不会被替换，所以请仔细拼写输入的 <code>id</code>。
+      goal 就是 agent 的指令。在阶段运行之前，执行器会用正则 <code>/{`\{\{([^}]+)\}\}`}/g</code> 遍历 goal，并将每个 <code>{`{{key}}`}</code> 替换为 <code>execution.input[key]</code>。未匹配的引用会原样保留：并不会报错，但也不会被替换，所以请仔细拼写输入的 <code>id</code>。
     </p>
 
     <table>
@@ -203,7 +202,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     </table>
 
     <div class="callout warn">
-      <strong>goal 模板<em>不</em>支持的内容。</strong>这里没有 <code>{`{{today}}`}</code>、没有 <code>{`{{user.email}}`}</code>、没有 <code>{`{{#if x}}...{{/if}}`}</code>，并且 —— 关键是 —— 没有 <code>{`{{ stages.X.Y }}`}</code>。模板展开器只看表单值。对于时间相关的锚点，请改用输入字段上的 <code>dynamic_default</code>。对于上一阶段的输出，请见下面的<em>多阶段应用</em> —— 执行器会自动把它们注入到 system prompt。
+      <strong>goal 模板<em>不</em>支持的内容。</strong>这里没有 <code>{`{{today}}`}</code>、没有 <code>{`{{user.email}}`}</code>、没有 <code>{`{{#if x}}...{{/if}}`}</code>，并且关键是没有 <code>{`{{ stages.X.Y }}`}</code>。模板展开器只看表单值。对于时间相关的锚点，请改用输入字段上的 <code>dynamic_default</code>。对于上一阶段的输出，请见下面的<em>多阶段应用</em>：执行器会自动把它们注入到 system prompt。
     </div>
 
     <p>一个真实示例：</p>
@@ -218,7 +217,7 @@ competitive analysis covering:<br/>
 5. Strengths, weaknesses, opportunities, threats<br/>
 <br/>
 If <span style="color:var(--aw-color-primary)">{`{{include_competitors}}`}</span> is <code>true</code>, also include<br/>
-the top 3–5 direct competitors with a one-paragraph profile each.<br/>
+the top 3-5 direct competitors with a one-paragraph profile each.<br/>
 <br/>
 Produce a Markdown report titled "<span style="color:var(--aw-color-primary)">{`{{company_name}}`}</span> Competitive<br/>
 Analysis" under a <code>## Competitive Analysis</code> heading.
@@ -226,14 +225,14 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
 
     <p>一个好的 goal 应该是：</p>
     <ul>
-      <li><strong>具体</strong> —— 指明要用哪些输入以及如何使用它们。</li>
-      <li><strong>关注输出</strong> —— 指明产物 ID 与格式。</li>
-      <li><strong>可执行</strong> —— 使用祈使动词（"研究"、"撰写"、"分析"）。</li>
-      <li><strong>结构化</strong> —— 一个带编号小节的 10 行 goal 几乎总是优于 2 行的版本。</li>
+      <li><strong>具体</strong>:指明要用哪些输入以及如何使用它们。</li>
+      <li><strong>关注输出</strong>:指明产物 ID 与格式。</li>
+      <li><strong>可执行</strong>:使用祈使动词（"研究"、"撰写"、"分析"）。</li>
+      <li><strong>结构化</strong>:一个带编号小节的 10 行 goal 几乎总是优于 2 行的版本。</li>
     </ul>
 
     <!-- ── ARTIFACT ──────────────────────────────────────────── -->
-    <h2>AppArtifactDef —— 每个阶段的产出</h2>
+    <h2>AppArtifactDef:每个阶段的产出</h2>
     <div class="code-block" style="line-height:1.7;">
 {`{`}<br/>
 &nbsp;&nbsp;"id":          <span style="color:var(--aw-color-primary)">string</span>,    <span style="color:var(--aw-color-text-muted)">// snake_case，例如 "final_report"</span><br/>
@@ -252,9 +251,9 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
         <tr><td><code>code</code></td><td>源代码，单文件或目录树</td><td>语法高亮，多文件输出时附带文件树。</td></tr>
         <tr><td><code>html</code></td><td>渲染页面、仪表盘、幻灯片</td><td>沙箱化的 iframe；允许脚本但被隔离。</td></tr>
         <tr><td><code>json</code></td><td>用于下游系统的结构化数据</td><td>可折叠树，附类型信息。</td></tr>
-        <tr><td><code>csv</code></td><td>表格数据 —— 线索、交易</td><td>可排序、可筛选的电子表格视图。</td></tr>
+        <tr><td><code>csv</code></td><td>表格数据：线索、交易</td><td>可排序、可筛选的电子表格视图。</td></tr>
         <tr><td><code>image</code></td><td>生成的图片、图表、示意图</td><td>支持缩放与平移。PNG / JPEG / SVG / WebP。</td></tr>
-        <tr><td><code>file</code></td><td>其他任何内容 —— PDF、ZIP、音频、视频</td><td>按类型自适应：PDF 内嵌预览、音频播放器、ZIP 文件列表。</td></tr>
+        <tr><td><code>file</code></td><td>其他任何内容：PDF、ZIP、音频、视频</td><td>按类型自适应：PDF 内嵌预览、音频播放器、ZIP 文件列表。</td></tr>
       </tbody>
     </table>
 
@@ -263,7 +262,7 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
     </p>
 
     <!-- ── RESOURCES ─────────────────────────────────────────── -->
-    <h2>Resources —— 应用所需的技能与连接</h2>
+    <h2>Resources:应用所需的技能与连接</h2>
     <div class="code-block">
 "resources": {`{`}<br/>
 &nbsp;&nbsp;"skills":   ["web-search", "pdf-extract"],<br/>
@@ -275,25 +274,25 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
 {`}`}
     </div>
     <p>
-      <strong>技能</strong>是 agent 可以调用的能力模块（网页搜索、PDF 提取、图像生成）—— 详见 <a href="/zh-CN/docs/skills">技能</a>。<strong>连接</strong>是应用所需的 OAuth 桥梁。Aitroop 用一个两级分类来组织连接：
+      <strong>技能</strong>是 agent 可以调用的能力模块（网页搜索、PDF 提取、图像生成），详见 <a href="/zh-CN/docs/skills">技能</a>。<strong>连接</strong>是应用所需的 OAuth 桥梁。Aitroop 用一个两级分类来组织连接：
     </p>
     <ul>
       <li>
-        <strong><code>type: "specific"</code></strong> —— 按 <code>connect_definition.id</code> 锁定单一提供方（例如 <code>github</code>、<code>hubspot</code>、<code>gmail</code>）。仅适配某一种集成时使用。
+        <strong><code>type: "specific"</code></strong>:按 <code>connect_definition.id</code> 锁定单一提供方（例如 <code>github</code>、<code>hubspot</code>、<code>gmail</code>）。仅适配某一种集成时使用。
       </li>
       <li>
-        <strong><code>type: "category"</code></strong> —— 接受 <code>connect_category</code> 内的任一提供方（例如 <code>email</code>、<code>storage</code>、<code>crm</code>）。只要用户授权了该类别下的至少一个提供方，应用就视为满足。当应用与具体提供方无关时（"任意邮箱"、"任意 CRM"）使用。
+        <strong><code>type: "category"</code></strong>:接受 <code>connect_category</code> 内的任一提供方（例如 <code>email</code>、<code>storage</code>、<code>crm</code>）。只要用户授权了该类别下的至少一个提供方，应用就视为满足。当应用与具体提供方无关时（"任意邮箱"、"任意 CRM"）使用。
       </li>
     </ul>
     <p>
-      旧的形式 <code>"connects": ["hubspot", "github"]</code> 仍然可用 —— 应用运行时每个字符串都会被当作 <code>{`{`} type: "specific", id: <span class="">«string»</span>, is_required: true {`}`}</code>。应用构建器在新建应用时会写入更丰富的形式。
+      旧的形式 <code>"connects": ["hubspot", "github"]</code> 仍然可用：应用运行时每个字符串都会被当作 <code>{`{`} type: "specific", id: <span class="">«string»</span>, is_required: true {`}`}</code>。应用构建器在新建应用时会写入更丰富的形式。
     </p>
     <p>
-      资源可以在应用级别声明（如上），也可以按阶段声明（在 <code>stage.skills</code> / <code>stage.connects</code> 下）。按阶段范围化是让多阶段应用更安全的方式 —— 给阶段 1 只配置 <code>web-search</code>，给阶段 2 只配置 CRM 连接，以此类推。请见 <a href="/zh-CN/docs/connects">连接</a> 了解完整的提供方目录与满足模型。
+      资源可以在应用级别声明（如上），也可以按阶段声明（在 <code>stage.skills</code> / <code>stage.connects</code> 下）。按阶段范围化是让多阶段应用更安全的方式：给阶段 1 只配置 <code>web-search</code>，给阶段 2 只配置 CRM 连接，以此类推。请见 <a href="/zh-CN/docs/connects">连接</a> 了解完整的提供方目录与满足模型。
     </p>
 
     <!-- ── EXECUTIONS ─────────────────────────────────── -->
-    <h2>执行记录 —— 应用真正运行的时刻</h2>
+    <h2>执行记录:应用真正运行的时刻</h2>
     <p>
       一次<strong>执行记录</strong>是一次走完应用所有阶段的过程。它就是那个带有状态、阶段日志、耗时和最终产物集合的实体。
     </p>
@@ -333,23 +332,23 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
       </tbody>
     </table>
     <p>
-      当一个 <code>human</code> 阶段在等待时，阶段日志会进入 <code>waiting</code>；父执行仍保持 <code>running</code>。当执行带 <code>start_from_stage_index &gt; 0</code> 恢复时，它们也会进入 <code>skipped</code> —— 较早的阶段不会重新运行。请见 <a href="/zh-CN/docs/executions">执行记录</a> 了解完整生命周期、调试流程与 SSE 流式推送。
+      当一个 <code>human</code> 阶段在等待时，阶段日志会进入 <code>waiting</code>；父执行仍保持 <code>running</code>。当执行带 <code>start_from_stage_index &gt; 0</code> 恢复时，它们也会进入 <code>skipped</code>：较早的阶段不会重新运行。请见 <a href="/zh-CN/docs/executions">执行记录</a> 了解完整生命周期、调试流程与 SSE 流式推送。
     </p>
 
     <!-- ── SANDBOX ─────────────────────────────────── -->
-    <h2>沙箱 —— agent 实际工作的地方</h2>
+    <h2>沙箱:agent 实际工作的地方</h2>
     <p>
-      每一次对话和每一个应用阶段都运行在一个<strong>沙箱</strong>中：一个隔离的运行时，拥有自己的文件系统、自己的进程和出站网络。agent 可以 <code>pip install</code>、运行 shell 命令、写文件、抓取 URL —— 运行结束时，沙箱会被销毁。
+      每一次对话和每一个应用阶段都运行在一个<strong>沙箱</strong>中：一个隔离的运行时，拥有自己的文件系统、自己的进程和出站网络。agent 可以 <code>pip install</code>、运行 shell 命令、写文件、抓取 URL，运行结束时沙箱会被销毁。
     </p>
 
     <p>
       统一在 <code>ISandbox</code> 接口下提供三种后端，再由一个路由器在它们之间选择：
     </p>
     <ul>
-      <li><code>host</code> —— 直接在 Aitroop 服务进程中运行。仅用于自托管开发环境;<code>DATABASE_URL</code>、<code>JWT_SECRET</code>、<code>E2B_API_KEY</code> 与 S3 凭据等敏感变量会从子进程环境中剥离。</li>
-      <li><code>e2b</code> —— 来自 E2B 的 Firecracker 微型虚拟机。Aitroop 托管版的默认选项。</li>
-      <li><code>daytona</code> —— 来自 Daytona 的托管开发容器。适合重负载 / 长时阶段。</li>
-      <li><code>router</code> —— 按用户分发到上述三者之一的选择器（用于把特权用户路由到 <code>host</code>）。</li>
+      <li><code>host</code>:直接在 Aitroop 服务进程中运行。仅用于自托管开发环境;<code>DATABASE_URL</code>、<code>JWT_SECRET</code>、<code>E2B_API_KEY</code> 与 S3 凭据等敏感变量会从子进程环境中剥离。</li>
+      <li><code>e2b</code>:来自 E2B 的 Firecracker 微型虚拟机。Aitroop 托管版的默认选项。</li>
+      <li><code>daytona</code>:来自 Daytona 的托管开发容器。适合重负载 / 长时阶段。</li>
+      <li><code>router</code>:按用户分发到上述三者之一的选择器（用于把特权用户路由到 <code>host</code>）。</li>
     </ul>
 
     <p>
@@ -366,13 +365,13 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
     </div>
 
     <p>
-      同一次执行中的所有阶段共享同一个沙箱，所以阶段 2 可以读取阶段 1 写入的内容。不同的执行使用不同的沙箱 —— 不会跨运行泄漏。实践中你会遇到的常量：<code>SANDBOX_IDLE_TIMEOUT_MS = 5 分钟</code>、<code>SANDBOX_KEEPALIVE_INTERVAL_MS = 30 秒</code>，以及上限 <code>AGENT_RUN_TIMEOUT_MS = 7 天</code>。请见 <a href="/zh-CN/docs/sandbox">沙箱</a> 了解完整的运行模型。
+      同一次执行中的所有阶段共享同一个沙箱，所以阶段 2 可以读取阶段 1 写入的内容。不同的执行使用不同的沙箱，不会跨运行泄漏。实践中你会遇到的常量：<code>SANDBOX_IDLE_TIMEOUT_MS = 5 分钟</code>、<code>SANDBOX_KEEPALIVE_INTERVAL_MS = 30 秒</code>，以及上限 <code>AGENT_RUN_TIMEOUT_MS = 7 天</code>。请见 <a href="/zh-CN/docs/sandbox">沙箱</a> 了解完整的运行模型。
     </p>
 
     <!-- ── MULTI-STAGE ─────────────────────────────────────── -->
     <h2>多阶段应用</h2>
     <p>
-      当一个工作流天然有彼此衔接的步骤时，就定义多个阶段。各阶段按顺序运行。每个阶段在<strong>两个</strong>地方都能看到前序阶段的产物 —— 但都不通过 goal 模板：
+      当一个工作流天然有彼此衔接的步骤时，就定义多个阶段。各阶段按顺序运行。每个阶段在<strong>两个</strong>地方都能看到前序阶段的产物，但都不通过 goal 模板：
     </p>
 
     <ol>
@@ -380,7 +379,7 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
         <strong>共享的沙箱文件系统。</strong>一次执行中的所有阶段都在同一个沙箱中运行（<a href="/zh-CN/docs/sandbox">沙箱</a>）。阶段 1 写入的文件，阶段 2 仍然可以读到。
       </li>
       <li>
-        <strong>system prompt 中自动注入的 <code>## Previous Stage Outputs</code> 段落。</strong>在阶段 N 运行之前，执行器会加载阶段 0..N-1 产生的所有产物，把每个产物渲染为 <code>### {`{{title}}`}\n{`{{content}}`}</code>，并将这一段拼接到 system prompt 之前。agent 把它们当作普通上下文阅读 —— 不需要在 goal 中手动引用。
+        <strong>system prompt 中自动注入的 <code>## Previous Stage Outputs</code> 段落。</strong>在阶段 N 运行之前，执行器会加载阶段 0..N-1 产生的所有产物，把每个产物渲染为 <code>### {`{{title}}`}\n{`{{content}}`}</code>，并将这一段拼接到 system prompt 之前。agent 把它们当作普通上下文阅读，不需要在 goal 中手动引用。
       </li>
     </ol>
 
@@ -408,20 +407,20 @@ stages: [<br/>
     </div>
 
     <p>
-      注意两个 <code>agent</code> 阶段之间夹着一个 <code>human</code> 阶段 —— 这就是<strong>人在回路</strong>（human-in-the-loop）模式。执行在此处暂停，平台会在 <code>app_human_gate</code> 中创建一行，状态为 <code>pending</code>，阶段日志切换为 <code>waiting</code>。只有当 gate 被设为 <code>approved</code> 时下一个阶段才会运行（设为 <code>rejected</code> 时则保持暂停）。
+      注意两个 <code>agent</code> 阶段之间夹着一个 <code>human</code> 阶段，这就是<strong>人在回路</strong>（human-in-the-loop）模式。执行在此处暂停，平台会在 <code>app_human_gate</code> 中创建一行，状态为 <code>pending</code>，阶段日志切换为 <code>waiting</code>。只有当 gate 被设为 <code>approved</code> 时下一个阶段才会运行（设为 <code>rejected</code> 时则保持暂停）。
     </p>
 
     <!-- ── SESSIONS & MESSAGES ─────────────────────────────────────── -->
     <h2>会话与消息队列</h2>
     <p>
-      所有与 agent 的对话 —— 无论是自由聊天、应用阶段，还是定时任务的一次触发 —— 都发生在一个<strong>会话</strong>中。一个会话是一个稳定的容器，拥有自己的 Claude 对话 ID、自己的有序消息日志，以及自己的状态追踪队列。在 <code>app_session.session_type</code> 中持久化有三种形态：
+      所有与 agent 的对话（无论是自由聊天、应用阶段，还是定时任务的一次触发）都发生在一个<strong>会话</strong>中。一个会话是一个稳定的容器，拥有自己的 Claude 对话 ID、自己的有序消息日志，以及自己的状态追踪队列。在 <code>app_session.session_type</code> 中持久化有三种形态：
     </p>
     <table>
       <thead><tr><th>session_type</th><th>由谁创建</th><th>生命周期</th><th>出现位置</th></tr></thead>
       <tbody>
         <tr>
           <td><code>chat</code></td>
-          <td>用户 —— "+ 新对话"。</td>
+          <td>用户："+ 新对话"。</td>
           <td>除非归档/删除否则永久保留。</td>
           <td>侧边栏、搜索、历史。</td>
         </tr>
@@ -429,19 +428,19 @@ stages: [<br/>
           <td><code>app_stage</code></td>
           <td>应用执行器在某个 <code>agent</code> 阶段开始时创建。</td>
           <td>绑定到父执行。永久存储作为审计，可通过<em>在对话中调试</em>浏览。</td>
-          <td>执行详情页 —— 每个阶段日志都带有 <code>session_id</code>。</td>
+          <td>执行详情页：每个阶段日志都带有 <code>session_id</code>。</td>
         </tr>
         <tr>
           <td><code>scheduled</code></td>
           <td>某个 <code>send_message</code> 定时任务的第一次触发。</td>
-          <td>之后该任务的每次触发都复用 —— 设计上就保持连续性。</td>
+          <td>之后该任务的每次触发都复用：设计上就保持连续性。</td>
           <td>从任务行链接而来的单个 "[Scheduled] {`{name}`}" 会话。</td>
         </tr>
       </tbody>
     </table>
 
     <p>
-      在每个会话中，每一次用户回合都是 <code>app_message</code> 中的一行。这些行不是"发完就忘" —— 它们要走一个小型状态机，因为 agent worker 池可能是多实例的，同一个会话必须串行化它的分发：
+      在每个会话中，每一次用户回合都是 <code>app_message</code> 中的一行。这些行不是"发完就忘"，它们要走一个小型状态机，因为 agent worker 池可能是多实例的，同一个会话必须串行化它的分发：
     </p>
 
     <div class="code-block" style="line-height:1.85;text-align:center;padding:1.5rem;">
@@ -452,21 +451,21 @@ stages: [<br/>
 
     <p><code>app_message</code> 上重要的列：</p>
     <ul>
-      <li><strong><code>position</code></strong> —— 每个会话内的整数，单调递增。决定相同优先级行之间的顺序。DAO 在插入行时原子地分配此值。</li>
-      <li><strong><code>priority</code></strong> —— 64 位排序键。优先级越高越先分发；默认为壁钟时间，所以两条没有显式优先级的消息按到达顺序运行。</li>
-      <li><strong><code>attempts</code></strong> —— 每次尝试分发时递增。5 次失败后，行进入 <code>failed</code>，用户可见消息显示错误。</li>
-      <li><strong><code>dispatched_at</code></strong> —— worker 认领该行时设置；与 15 分钟过期阈值配合驱动恢复轮询。</li>
-      <li><strong><code>mode</code></strong> —— 自由形式的标签，表示这条消息是什么类型（用于 UI 中路由格式化）。</li>
-      <li><strong><code>last_error</code></strong> —— 最近一次失败原因，跨重试保留。</li>
+      <li><strong><code>position</code></strong>:每个会话内的整数，单调递增。决定相同优先级行之间的顺序。DAO 在插入行时原子地分配此值。</li>
+      <li><strong><code>priority</code></strong>:64 位排序键。优先级越高越先分发；默认为壁钟时间，所以两条没有显式优先级的消息按到达顺序运行。</li>
+      <li><strong><code>attempts</code></strong>:每次尝试分发时递增。5 次失败后，行进入 <code>failed</code>，用户可见消息显示错误。</li>
+      <li><strong><code>dispatched_at</code></strong>:worker 认领该行时设置；与 15 分钟过期阈值配合驱动恢复轮询。</li>
+      <li><strong><code>mode</code></strong>:自由形式的标签，表示这条消息是什么类型（用于 UI 中路由格式化）。</li>
+      <li><strong><code>last_error</code></strong>:最近一次失败原因，跨重试保留。</li>
     </ul>
 
     <p>
-      worker 通过 <code>SELECT … FOR UPDATE SKIP LOCKED</code> 并按 <code>priority DESC, position ASC</code> 排序来认领工作，因此两个实例永远不会抢到同一行。一个部分唯一索引 —— 在 <code>session_id</code> 上的 <code>uq_app_message_inflight</code>，WHERE 条件为 <code>status = 'dispatching' AND role = 'user'</code> —— 在数据库层强制"每个会话最多一条在途用户消息"。如果某行在 <code>dispatching</code> 状态停留超过 900 秒（worker 崩溃、节点丢失），恢复轮询器会将其重置为 <code>pending</code>，以便另一个 worker 接手。
+      worker 通过 <code>SELECT … FOR UPDATE SKIP LOCKED</code> 并按 <code>priority DESC, position ASC</code> 排序来认领工作，因此两个实例永远不会抢到同一行。一个部分唯一索引（在 <code>session_id</code> 上的 <code>uq_app_message_inflight</code>，WHERE 条件为 <code>status = 'dispatching' AND role = 'user'</code>）在数据库层强制"每个会话最多一条在途用户消息"。如果某行在 <code>dispatching</code> 状态停留超过 900 秒（worker 崩溃、节点丢失），恢复轮询器会将其重置为 <code>pending</code>，以便另一个 worker 接手。
     </p>
 
     <h3>分发是如何流转的</h3>
     <p>
-      机制有两层：进程内的 <code>QueueController</code> 与 Postgres 的 <code>NOTIFY</code> 频道 <code>queue_dispatch</code>。当一条新消息入队时，写入侧实例会在本地广播 <code>queue_updated</code> 事件，并发出 <code>pg_notify('queue_dispatch', '{`{sessionId}`}|{`{originInstanceId}`}')</code>。监听同一频道的其他实例会忽略自己的回声，并接手工作 —— 因此分发在集群范围内是事件驱动的，再辅以 60 秒的轮询作为漏掉通知时的兜底。
+      机制有两层：进程内的 <code>QueueController</code> 与 Postgres 的 <code>NOTIFY</code> 频道 <code>queue_dispatch</code>。当一条新消息入队时，写入侧实例会在本地广播 <code>queue_updated</code> 事件，并发出 <code>pg_notify('queue_dispatch', '{`{sessionId}`}|{`{originInstanceId}`}')</code>。监听同一频道的其他实例会忽略自己的回声，并接手工作。因此分发在集群范围内是事件驱动的，再辅以 60 秒的轮询作为漏掉通知时的兜底。
     </p>
 
     <h3>shared-session 标志</h3>
@@ -476,13 +475,13 @@ stages: [<br/>
 
     <h3><code>ask_user</code> 模式</h3>
     <p>
-      agent 偶尔需要在运行中向用户提问（一个歧义、一段缺失的输入）。发出一个 <code>ask_user</code> 工具调用会暂停 agent 当前回合，将问题在对话 UI 中呈现，并等待回复。平台会在下一次 tick 时把回复作为工具结果回传 —— 所以从模型视角看，agent 的"我问过了，这是答案"只是一次普通的对话步骤。这与 <code>human</code> 阶段（在执行级别对整个流水线设置关卡）不同；<code>ask_user</code> 完全是会话内部行为。
+      agent 偶尔需要在运行中向用户提问（一个歧义、一段缺失的输入）。发出一个 <code>ask_user</code> 工具调用会暂停 agent 当前回合，将问题在对话 UI 中呈现，并等待回复。平台会在下一次 tick 时把回复作为工具结果回传，所以从模型视角看，agent 的"我问过了，这是答案"只是一次普通的对话步骤。这与 <code>human</code> 阶段（在执行级别对整个流水线设置关卡）不同；<code>ask_user</code> 完全是会话内部行为。
     </p>
 
     <!-- ── RUNNER PROTOCOL ─────────────────────────────────────────── -->
     <h2>agent runner 协议</h2>
     <p>
-      每个 <code>agent</code> 阶段和每次对话回合最终都通过一个名为 <code>run-agent</code> 的 Go 二进制运行。服务器把一个 JSON 配置交给该二进制，并按行读取它的 stdout。每一行就是一个事件 —— 这是一个稳定的 JSONL 协议，你会在日志、SSE 负载以及对话 UI 的推理轨迹中看到它的引用。
+      每个 <code>agent</code> 阶段和每次对话回合最终都通过一个名为 <code>run-agent</code> 的 Go 二进制运行。服务器把一个 JSON 配置交给该二进制，并按行读取它的 stdout。每一行就是一个事件：这是一个稳定的 JSONL 协议，你会在日志、SSE 负载以及对话 UI 的推理轨迹中看到它的引用。
     </p>
 
     <h3>转发的事件</h3>
@@ -497,7 +496,7 @@ stages: [<br/>
         <tr><td><code>tool_start</code></td><td>agent 正在调用一个工具。携带 <code>toolId</code>、<code>toolName</code> 和参数。</td></tr>
         <tr><td><code>tool_result</code></td><td>工具返回。携带 <code>toolId</code>、输出与 <code>isError</code>。</td></tr>
         <tr><td><code>subtask_start</code> / <code>subtask_progress</code> / <code>subtask_done</code></td><td>agent 派生了一个嵌套任务（Task 工具 / 子 agent）。</td></tr>
-        <tr><td><code>ask_user</code></td><td>agent 在继续之前需要一个问题被回答 —— 见上文。</td></tr>
+        <tr><td><code>ask_user</code></td><td>agent 在继续之前需要一个问题被回答（见上文）。</td></tr>
         <tr><td><code>context_usage</code></td><td>周期性的 token 用量遥测（输入/输出/缓存命中）。</td></tr>
         <tr><td><code>session_info</code></td><td>携带本次回合背后的 Claude 对话 ID；用于恢复。</td></tr>
         <tr><td><code>system</code></td><td>平台级消息（例如权限提示、重试）。</td></tr>
@@ -508,7 +507,7 @@ stages: [<br/>
 
     <h3>内部事件（永不转发）</h3>
     <p>
-      三个以 <code>__runner_*__</code> 命名的事件只被服务器消费 —— 它们是簿记，不是用户可见的状态：
+      三个以 <code>__runner_*__</code> 命名的事件只被服务器消费：它们是簿记，不是用户可见的状态：
     </p>
     <table>
       <thead><tr><th>事件</th><th>用途</th></tr></thead>
@@ -521,14 +520,14 @@ stages: [<br/>
 
     <h3>错误分类</h3>
     <p>
-      并非每一种 runner 失败都一样。服务器会把捕获到的错误信息归类到以下五个桶之一 —— 桶决定了恢复策略：
+      并非每一种 runner 失败都一样。服务器会把捕获到的错误信息归类到以下五个桶之一，桶决定了恢复策略：
     </p>
     <table>
       <thead><tr><th>类别</th><th>触发条件</th><th>恢复</th></tr></thead>
       <tbody>
         <tr><td><code>session_expired</code></td><td>背后的 Claude 对话被退役或轮换。</td><td>开启新的 Claude 对话；保留 Aitroop 会话行。</td></tr>
         <tr><td><code>sandbox_not_found</code></td><td>沙箱容器已死或被回收。</td><td>驱逐缓存的沙箱并新建一个；本回合重试一次。</td></tr>
-        <tr><td><code>network</code></td><td>传输错误 —— <code>ECONNRESET</code>、<code>ETIMEDOUT</code>。</td><td>退避后重试。</td></tr>
+        <tr><td><code>network</code></td><td>传输错误，如 <code>ECONNRESET</code>、<code>ETIMEDOUT</code>。</td><td>退避后重试。</td></tr>
         <tr><td><code>connection</code></td><td>gRPC / MCP 协议级错误。</td><td>把错误暴露出来；由用户显式重试。</td></tr>
         <tr><td><code>unknown</code></td><td>其他任何情况。</td><td>以原始错误把回合标记为失败。</td></tr>
       </tbody>
@@ -539,14 +538,14 @@ stages: [<br/>
       服务器为每个回合构建一份 <code>RunAgentConfig</code>，并在调用二进制之前写入沙箱中的 <code>~/.aitroop/run-agent-config.json</code>。要点字段：
     </p>
     <ul>
-      <li><strong><code>prompt</code></strong> —— 实际的用户消息（或阶段展开后的 goal）。</li>
-      <li><strong><code>options.model</code></strong> —— Claude 模型 ID；若阶段未锁定则默认为 <code>claude-sonnet-4-6</code>。</li>
-      <li><strong><code>options.resume</code></strong> —— 存在时表示恢复一个已有的 Claude 对话。服务器从会话的 <code>agent_session_id</code> 读取。</li>
-      <li><strong><code>options.allowedTools</code></strong> —— runner 向模型暴露的精选工具集（通常 8 个：Read、Edit、Bash、Glob、Grep、Write、Task，以及 Aitroop MCP 集合）。</li>
-      <li><strong><code>options.permissionMode</code></strong> —— 固定为 <code>'bypassPermissions'</code>；平台在沙箱边界强制权限，而不是交互式询问。</li>
-      <li><strong><code>options.mcpServers</code></strong> —— Aitroop 自研的 MCP 服务器，加上应用 / 阶段请求的其他 MCP。</li>
-      <li><strong><code>options.env</code></strong> —— <code>process.env</code> 中所有以 <code>SANDBOX_ENV_</code> 开头的变量都会被转发并去掉前缀，再加上 <code>AT_USER_TOKEN</code>（用户的 JWT）被注入，以便沙箱内的服务端调用能通过认证。</li>
-      <li><strong><code>options.oauthToken</code></strong> / <strong>代理模式</strong> —— 要么是 Anthropic OAuth token，要么在配置了代理时使用一个指向代理的 <code>ANTHROPIC_BASE_URL</code>，并以用户的 JWT 作为 bearer。平台在每次调用时快照一次，保证一次回合内的所有重试都使用相同凭据。</li>
+      <li><strong><code>prompt</code></strong>:实际的用户消息（或阶段展开后的 goal）。</li>
+      <li><strong><code>options.model</code></strong>:Claude 模型 ID；若阶段未锁定则默认为 <code>claude-sonnet-4-6</code>。</li>
+      <li><strong><code>options.resume</code></strong>:存在时表示恢复一个已有的 Claude 对话。服务器从会话的 <code>agent_session_id</code> 读取。</li>
+      <li><strong><code>options.allowedTools</code></strong>:runner 向模型暴露的精选工具集（通常 8 个：Read、Edit、Bash、Glob、Grep、Write、Task，以及 Aitroop MCP 集合）。</li>
+      <li><strong><code>options.permissionMode</code></strong>:固定为 <code>'bypassPermissions'</code>；平台在沙箱边界强制权限，而不是交互式询问。</li>
+      <li><strong><code>options.mcpServers</code></strong>:Aitroop 自研的 MCP 服务器，加上应用 / 阶段请求的其他 MCP。</li>
+      <li><strong><code>options.env</code></strong>:<code>process.env</code> 中所有以 <code>SANDBOX_ENV_</code> 开头的变量都会被转发并去掉前缀，再加上 <code>AT_USER_TOKEN</code>（用户的 JWT）被注入，以便沙箱内的服务端调用能通过认证。</li>
+      <li><strong><code>options.oauthToken</code></strong> / <strong>代理模式</strong>:要么是 Anthropic OAuth token，要么在配置了代理时使用一个指向代理的 <code>ANTHROPIC_BASE_URL</code>，并以用户的 JWT 作为 bearer。平台在每次调用时快照一次，保证一次回合内的所有重试都使用相同凭据。</li>
     </ul>
 
     <h2>应用是如何被创建出来的</h2>
@@ -556,9 +555,9 @@ stages: [<br/>
     <ol>
       <li>你在对话中告诉 agent：<em>"创建一个应用，让它……"</em></li>
       <li>agent 激活 <code>aitroop-app-create</code> 技能（应用构建器）。</li>
-      <li>必要时应用构建器会问 1–5 个澄清问题。</li>
+      <li>必要时应用构建器会问 1-5 个澄清问题。</li>
       <li>它设计完整的 AppDef（输入、阶段、产物、资源）。</li>
-      <li>它校验设计 —— 每个 ID 唯一、每个 <code>{`{{ref}}`}</code> 可解析、goal 足够具体。</li>
+      <li>它校验设计：每个 ID 唯一、每个 <code>{`{{ref}}`}</code> 可解析、goal 足够具体。</li>
       <li>它调用 <code>POST /api/apps</code> 来保存。</li>
       <li>它报告应用 ID 并提议进一步打磨。</li>
     </ol>
@@ -567,12 +566,12 @@ stages: [<br/>
 
     <h2>常见错误</h2>
     <ul>
-      <li><strong>goal 过于模糊</strong> —— "做点研究"过于宽泛。请指明信息源、深度、输出格式。</li>
-      <li><strong>缺少产物</strong> —— 一个没有 <code>artifact_defs</code> 的应用不会产生任何可见输出。</li>
-      <li><strong>必填项太多</strong> —— 用户会放弃需要长表单的应用。能默认就默认。</li>
-      <li><strong>超时设得太短</strong> —— 重度研究阶段需要 5–10 分钟。把 <code>timeout_ms</code> 调到 <code>600000</code>。</li>
-      <li><strong>输入类型选错</strong> —— 长文本用 <code>textarea</code>，短标识用 <code>text</code>，3–6 个固定选项用 <code>select</code>。</li>
-      <li><strong>过度拆分</strong> —— 把本是一个想法的任务拆成 4 个阶段。只有当工作天然有可分离的步骤时才使用多阶段。</li>
+      <li><strong>goal 过于模糊</strong>:"做点研究"过于宽泛。请指明信息源、深度、输出格式。</li>
+      <li><strong>缺少产物</strong>:一个没有 <code>artifact_defs</code> 的应用不会产生任何可见输出。</li>
+      <li><strong>必填项太多</strong>:用户会放弃需要长表单的应用。能默认就默认。</li>
+      <li><strong>超时设得太短</strong>:重度研究阶段需要 5-10 分钟。把 <code>timeout_ms</code> 调到 <code>600000</code>。</li>
+      <li><strong>输入类型选错</strong>:长文本用 <code>textarea</code>，短标识用 <code>text</code>，3-6 个固定选项用 <code>select</code>。</li>
+      <li><strong>过度拆分</strong>:把本是一个想法的任务拆成 4 个阶段。只有当工作天然有可分离的步骤时才使用多阶段。</li>
     </ul>
 
     <h2>速查词表</h2>
@@ -580,7 +579,7 @@ stages: [<br/>
       <thead><tr><th>术语</th><th>含义</th></tr></thead>
       <tbody>
         <tr><td><strong>应用（App）</strong></td><td>一份保存好的工作流 JSON 文档，包含表单、阶段与产物。</td></tr>
-        <tr><td><strong>AppInput</strong></td><td>一个表单字段。支持 11 种类型 —— 见输入类型表。</td></tr>
+        <tr><td><strong>AppInput</strong></td><td>一个表单字段。支持 11 种类型，详见输入类型表。</td></tr>
         <tr><td><strong>阶段（Stage）</strong></td><td>工作流中的一步。类型：<code>agent</code>、<code>script</code>、<code>human</code>。</td></tr>
         <tr><td><strong>goal</strong></td><td>阶段内 agent 的指令字符串。用 <code>{`{{id}}`}</code> 引用输入。</td></tr>
         <tr><td><strong>产物（Artifact）</strong></td><td>阶段产出的交付物。带类型（markdown、csv 等）。</td></tr>
@@ -588,20 +587,20 @@ stages: [<br/>
         <tr><td><strong>连接（Connect）</strong></td><td>到外部服务的 OAuth 集成（google、github、hubspot）。</td></tr>
         <tr><td><strong>Resources</strong></td><td>应用声明所需的技能与连接。</td></tr>
         <tr><td><strong>执行记录（Execution）</strong></td><td>一次应用的运行。带有状态、阶段日志与产物。</td></tr>
-        <tr><td><strong>阶段日志（Stage log）</strong></td><td>一次执行中按阶段的记录 —— 状态、耗时、错误、会话。</td></tr>
+        <tr><td><strong>阶段日志（Stage log）</strong></td><td>一次执行中按阶段的记录：状态、耗时、错误、会话。</td></tr>
         <tr><td><strong>Human gate</strong></td><td>等待人工通过 / 拒绝 / 编辑的暂停执行。</td></tr>
         <tr><td><strong>沙箱（Sandbox）</strong></td><td>每次对话或应用运行所在的隔离运行时。三种提供方：host / e2b / daytona。</td></tr>
         <tr><td><strong>会话（Session）</strong></td><td>承载消息序列的对话容器。类型：<code>chat</code> / <code>app_stage</code> / <code>scheduled</code>。</td></tr>
         <tr><td><strong>消息（Message）</strong></td><td><code>app_message</code> 中的一行。处于分发队列中，具有状态机与优先级。</td></tr>
         <tr><td><strong>Runner</strong></td><td>实际驱动一次 Claude 回合的 <code>run-agent</code> 二进制。向服务器发回 JSONL 事件。</td></tr>
-        <tr><td><strong>工作区（Workspace）</strong></td><td>账户容器 —— 包含应用、连接与运行历史。</td></tr>
+        <tr><td><strong>工作区（Workspace）</strong></td><td>账户容器：包含应用、连接与运行历史。</td></tr>
         <tr><td><strong>Org</strong></td><td>位于用户之上的团队层。共享应用、共享账单、成员角色。</td></tr>
       </tbody>
     </table>
 
     <div class="next-up">
       <span class="label">下一步</span>
-      <a href="/zh-CN/docs/chat">对话模式 —— agent 驾驶舱</a>
+      <a href="/zh-CN/docs/chat">对话模式:agent 驾驶舱</a>
     </div>
   </DocsShell>
 </Layout>

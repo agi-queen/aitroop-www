@@ -6,10 +6,8 @@ import CallToAction from '~/components/widgets/CallToAction.astro';
 
 import Features2 from '~/components/widgets/Features2.astro';
 import Features from '~/components/widgets/Features.astro';
-import Stats from '~/components/widgets/Stats.astro';
-import Features3 from '~/components/widgets/Features3.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
-import Brands from '~/components/widgets/Brands.astro';
+import Steps from '~/components/widgets/Steps.astro';
 
 import { YouTube } from 'astro-embed';
 
@@ -27,9 +25,9 @@ const metadata = {
       {
         variant: 'primary',
         target: '_blank',
-        text: 'Get templates',
-        href: 'https://github.com/arthelokyo/astrowind',
-        icon: 'tabler:download',
+        text: 'Open the app',
+        href: 'https://app.aitroop.net',
+        icon: 'tabler:arrow-right',
       },
       { text: 'Learn more', href: '#features' },
     ]}
@@ -37,12 +35,11 @@ const metadata = {
     <Fragment slot="title">
       Improve <span class="hidden sm:inline">the online presence of</span> your <span
         class="text-accent">Startup</span
-      > with Astrowind templates
+      > with Aitroop templates
     </Fragment>
 
     <Fragment slot="subtitle">
-      Step into the spotlight with <span class="font-semibold">Astrowind</span> templates, your pathway to fortifying your
-      startup's digital footprint, fostering credibility, and expanding your reach.
+      Build credibility and reach with Aitroop templates, a clear pathway for your startup's digital footprint.
     </Fragment>
 
     <Fragment slot="image">
@@ -66,66 +63,6 @@ const metadata = {
       <div class="absolute inset-0 bg-blue-50"></div>
     </Fragment>
   </Features2>
-
-  <!-- Stats Widget ****************** -->
-
-  <Stats
-    title="Discover the impressive impact of Astrowind"
-    subtitle="The numbers below reflect the trust our users have placed in us and the remarkable outcomes we've helped them achieve."
-    stats={[
-      { title: 'Downloads', amount: '182K' },
-      { title: 'Websites Launched', amount: '87' },
-      { title: 'User Ratings', amount: '4.8' },
-      { title: 'Satisfied Clients', amount: '116K' },
-    ]}
-  />
-
-  <!-- Brands Widget ****************** -->
-
-  <Brands
-    title="Partnerships & Collaborations"
-    subtitle="At Astrowind, we believe in the power of collaboration to drive innovation and create exceptional experiences."
-    icons={[]}
-    images={[
-      {
-        src: 'https://cdn.pixabay.com/photo/2015/05/26/09/37/paypal-784404_1280.png',
-        alt: 'Paypal',
-      },
-      {
-        src: 'https://cdn.pixabay.com/photo/2021/12/06/13/48/visa-6850402_1280.png',
-        alt: 'Visa',
-      },
-      {
-        src: 'https://cdn.pixabay.com/photo/2013/10/01/10/29/ebay-189064_1280.png',
-        alt: 'Ebay',
-      },
-
-      {
-        src: 'https://cdn.pixabay.com/photo/2015/04/13/17/45/icon-720944_1280.png',
-        alt: 'Youtube',
-      },
-      {
-        src: 'https://cdn.pixabay.com/photo/2013/02/12/09/07/microsoft-80658_1280.png',
-        alt: 'Microsoft',
-      },
-      {
-        src: 'https://cdn.pixabay.com/photo/2015/04/23/17/41/node-js-736399_1280.png',
-        alt: 'Node JS',
-      },
-      {
-        src: 'https://cdn.pixabay.com/photo/2015/10/31/12/54/google-1015751_1280.png',
-        alt: 'Google',
-      },
-      {
-        src: 'https://cdn.pixabay.com/photo/2021/12/06/13/45/meta-6850393_1280.png',
-        alt: 'Meta',
-      },
-      {
-        src: 'https://cdn.pixabay.com/photo/2013/01/29/22/53/yahoo-76684_1280.png',
-        alt: 'Yahoo',
-      },
-    ]}
-  />
 
   <!-- Features2 Widget ************** -->
 
@@ -174,7 +111,7 @@ const metadata = {
       },
       {
         title: 'Responsive and Mobile-Friendly',
-        description: 'Adapt seamlessly to different screen sizes and devices to ensure a consistent experience.',
+        description: 'Adapt cleanly to different screen sizes and devices to ensure a consistent experience.',
         icon: 'tabler:picture-in-picture',
       },
       {
@@ -196,7 +133,7 @@ const metadata = {
       },
       {
         title: 'Compatibility',
-        description: 'The templates work seamlessly across various content management systems and website builders.',
+        description: 'The templates work cleanly across various content management systems and website builders.',
         icon: 'tabler:plug-connected',
       },
     ]}
@@ -244,54 +181,34 @@ const metadata = {
     </Fragment>
   </FAQs>
 
-  <!-- Features3 Widget ************** -->
+  <!-- Steps Widget ****************** -->
 
-  <Features3
+  <Steps
     title="Let us know how we can help"
-    subtitle="We’re here to help and answer any question you might have."
-    columns={4}
+    subtitle="We're here to help and answer any question you might have."
     items={[
       {
         title: 'Phone',
+        description: 'Reach our team by phone for quick answers.',
         icon: 'tabler:phone',
-        callToAction: {
-          target: '_blank',
-          text: 'Call us',
-          href: '/',
-          variant: 'link',
-        },
       },
       {
         title: 'Email',
+        description: 'Drop us a line and we will get back to you soon.',
         icon: 'tabler:mail',
-        callToAction: {
-          target: '_blank',
-          text: 'Write to us',
-          href: '/',
-          variant: 'link',
-        },
       },
       {
         title: 'Chat with sales',
+        description: 'Talk to sales about plans, pricing, and onboarding.',
         icon: 'tabler:message-circle',
-        callToAction: {
-          target: '_blank',
-          text: 'Start chatting',
-          href: '/',
-          variant: 'link',
-        },
       },
       {
         title: 'Chat with support',
-        icon: 'tabler:message-circle',
-        callToAction: {
-          target: '_blank',
-          text: 'Start chatting',
-          href: '/',
-          variant: 'link',
-        },
+        description: 'Get help from the support team for any issues.',
+        icon: 'tabler:headset',
       },
     ]}
+    classes={{ container: 'max-w-3xl' }}
   />
 
   <!-- CallToAction Widget *********** -->
@@ -300,18 +217,16 @@ const metadata = {
     actions={[
       {
         variant: 'primary',
-        target: '_blank',
-        text: 'Get templates',
-        href: 'https://github.com/arthelokyo/astrowind',
-        icon: 'tabler:download',
+        text: 'Talk to us',
+        href: '/contact',
+        icon: 'tabler:arrow-right',
       },
     ]}
   >
     <Fragment slot="title">Be a part of our vision</Fragment>
 
     <Fragment slot="subtitle">
-      Discover a dynamic work environment, unparalleled growth opportunities, and the chance to make a meaningful
-      impact.
+      Discover engineering work, sane hours, and the chance to make real impact.
     </Fragment>
   </CallToAction>
 </Layout>

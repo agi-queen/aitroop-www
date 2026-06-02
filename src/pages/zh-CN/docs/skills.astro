@@ -3,16 +3,15 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 ---
 
-<Layout metadata={{ title: '技能 — Aitroop 文档' }}>
+<Layout metadata={{ title: '技能 · Aitroop 文档' }}>
   <DocsShell current="skills" locale="zh-CN">
     <h1>技能</h1>
     <p class="lead">
-      可以把技能想象成智能体的工具箱。推理只能把智能体带到一半的路上;技能负责剩下的一半 —— 它们让智能体能够搜索网络、解析 PDF、查询 CRM、生成
-      图片、抓取站点,或者构建另一个应用。智能体会根据任务自行决定何时去拿哪一件工具;而你决定工具箱里到底放什么。
+      技能是智能体的工具箱：搜网页、解析 PDF、查 CRM、生成图片、抓站点、构建应用。智能体决定何时使用,你决定工具箱里放什么。
     </p>
 
     <div class="callout">
-      <strong>技能 vs 连接。</strong>这两个概念经常被混淆。<strong>技能</strong>是能力(动词 —— <em>"搜索网络"</em>、<em>"发送 Slack 消息"</em>)。
+      <strong>技能 vs 连接。</strong>这两个概念经常被混淆。<strong>技能</strong>是能力(动词，<em>"搜索网络"</em>、<em>"发送 Slack 消息"</em>)。
       <strong>连接</strong>是这项能力以 <em>你</em> 的身份在外部服务上行动时所需的 OAuth 凭据。web-search 技能不需要连接;
       Slack 发送消息的技能则需要一个 Slack 连接。
     </div>
@@ -30,7 +29,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h2>一个技能的结构剖析</h2>
     <p>
-      一个技能就是一份带版本的文件包 —— 根目录下有一个 <code>SKILL.md</code>,再加上该技能引用的任何脚本、prompt 或数据。文件包存放在 S3 上
+      一个技能就是一份带版本的文件包，根目录下有一个 <code>SKILL.md</code>,再加上该技能引用的任何脚本、prompt 或数据。文件包存放在 S3 上
       (平台技能放在 <code>builtin/skills/{`{name}`}/{`{version}`}/</code>,用户发布的则放在
       <code>users/{`{userId}`}/skills/{`{name}`}/{`{version}`}/</code>),并在运行时被镜像到每个沙箱中。
     </p>
@@ -67,26 +66,25 @@ news, or any data that requires looking at public web pages.<br/>
 
     <h3>一个技能如何在沙箱中变得可用</h3>
     <p>
-      技能是通过 Claude Code 基于文件系统的技能加载器暴露出来的 —— 不是通过运行时注册表,也不是作为 MCP 服务器。
+      技能是通过 Claude Code 基于文件系统的技能加载器暴露出来的，不是通过运行时注册表,也不是作为 MCP 服务器。
       智能体运行器会把技能放到沙箱内几个固定路径上:
     </p>
     <ul>
       <li><strong>缓存:</strong>技能包会被解压到 <code>~/.aitroop/skills/{`{name}/{version}/`}</code>。带版本、不可变、可跨多次运行复用。</li>
       <li><strong>全局技能</strong>(标记为 <code>category: "core"</code> 或安装时带 <code>is_global = true</code> 的那些):在
-      <code>~/.claude/skills/{`{name}`}</code> 处建立一个指向缓存的符号链接 —— Claude Code 默认的 <code>configDir</code> 会自动识别它们。</li>
+      <code>~/.claude/skills/{`{name}`}</code> 处建立一个指向缓存的符号链接，Claude Code 默认的 <code>configDir</code> 会自动识别它们。</li>
       <li><strong>每应用技能</strong>(在 <code>resources.skills</code> 中声明、但不是 core 的技能):符号链接到
       <code>~/.aitroop/app_skills/{`{appId}/.claude/skills/`}</code> 下,并通过 <code>--add-dir</code> 暴露给 Claude Code。
       它们只对该应用的运行可见。</li>
     </ul>
     <p>
-      当一个应用的阶段重写了 <code>stage.skills</code> 时,只有那个子集会被为该阶段建立符号链接 ——
-      每阶段的作用域收紧了工具箱,而不会动到工作区里已安装的那套技能。
+      当一个应用的阶段重写了 <code>stage.skills</code> 时,只有那个子集会被为该阶段建立符号链接，每阶段的作用域收紧了工具箱,而不会动到工作区里已安装的那套技能。
     </p>
 
     <div class="callout">
       <strong>技能不是 MCP 服务器。</strong>MCP 服务器是一个运行时进程,通过 Model Context Protocol 暴露工具;
       Aitroop 通过 agent 请求上独立的 <code>extraMCPServers</code> 通道把这些工具传给运行器。
-      而技能是智能体读取的静态内容 —— 没有要启动的进程,没有要协商的协议,也没有
+      而技能是智能体读取的静态内容，没有要启动的进程,没有要协商的协议,也没有
       <code>tools/list</code> 握手。
     </div>
 
@@ -104,8 +102,7 @@ news, or any data that requires looking at public web pages.<br/>
       </tbody>
     </table>
     <p>
-      用户发布的、与某个内置技能<em>同名</em>的技能会<em>遮蔽</em>该内置技能 ——
-      符号链接解析会优先选用户的版本。这是在不 fork 平台的前提下覆盖内置技能行为的官方方式。
+      用户发布的、与某个内置技能<em>同名</em>的技能会<em>遮蔽</em>该内置技能，符号链接解析会优先选用户的版本。这是在不 fork 平台的前提下覆盖内置技能行为的官方方式。
     </p>
 
     <h2>内置技能:App Builder</h2>
@@ -127,15 +124,15 @@ news, or any data that requires looking at public web pages.<br/>
       <li>"I want an app to…"</li>
       <li>"Make an automation that…"</li>
       <li>"Update my app…"</li>
-      <li>"Save this as an app" —— 可以在对话中途使用,把刚刚聊出来的内容固化下来。</li>
+      <li>"Save this as an app"，可以在对话中途使用,把刚刚聊出来的内容固化下来。</li>
     </ul>
 
     <h3>4 个阶段</h3>
     <ol>
-      <li><strong>理解意图</strong> —— 如果你的描述有空缺,会提出 1–5 个澄清问题。</li>
-      <li><strong>设计应用</strong> —— 构造完整的 AppDef。</li>
-      <li><strong>校验</strong> —— 每个 ID 唯一,每个 <code>{`{{ref}}`}</code> 都能解析,目标足够具体。</li>
-      <li><strong>通过 API 保存</strong> —— 调用平台的 REST API 并回报应用 ID。</li>
+      <li><strong>理解意图</strong>：如果你的描述有空缺,会提出 1-5 个澄清问题。</li>
+      <li><strong>设计应用</strong>：构造完整的 AppDef。</li>
+      <li><strong>校验</strong>：每个 ID 唯一,每个 <code>{`{{ref}}`}</code> 都能解析,目标足够具体。</li>
+      <li><strong>通过 API 保存</strong>：调用平台的 REST API 并回报应用 ID。</li>
     </ol>
 
     <p>
@@ -206,8 +203,8 @@ news, or any data that requires looking at public web pages.<br/>
     <h2>只读 vs 可写技能</h2>
     <p>技能分为两类:</p>
     <ul>
-      <li><strong>只读技能</strong> —— 获取信息,但不改动任何东西。比如 web-search、PDF 提取、读取文件。</li>
-      <li><strong>可写技能</strong> —— 会修改外部状态。比如发送邮件、创建 CRM 记录、创建日历事件。
+      <li><strong>只读技能</strong>：获取信息,但不改动任何东西。比如 web-search、PDF 提取、读取文件。</li>
+      <li><strong>可写技能</strong>：会修改外部状态。比如发送邮件、创建 CRM 记录、创建日历事件。
         在 Library 中会清晰标注。</li>
     </ul>
 
@@ -228,14 +225,14 @@ news, or any data that requires looking at public web pages.<br/>
       <tbody>
         <tr><td>"Skill not installed"</td><td>应用声明了一个不在你工作区里的技能</td><td>从 Skills → Library 安装它</td></tr>
         <tr><td>"Required Connect missing"</td><td>技能需要 Gmail/GitHub 等,而你没有授权</td><td>在 Settings → Connects 中授权</td></tr>
-        <tr><td>技能返回空结果</td><td>智能体传给技能的参数与真实数据对不上</td><td>编辑阶段目标 —— 把输入说得更具体</td></tr>
+        <tr><td>技能返回空结果</td><td>智能体传给技能的参数与真实数据对不上</td><td>编辑阶段目标，把输入说得更具体</td></tr>
         <tr><td>技能超时</td><td>底层 API 比较慢</td><td>重新运行;智能体会自动重试一次</td></tr>
       </tbody>
     </table>
 
     <h2>一个技能在物理上是如何进入沙箱的</h2>
     <p>
-      技能并不是以单一的"在工作区里安装好"的形式存在的 —— 每次运行都会把它需要的子集物化到一个全新的沙箱中。
+      技能并不是以单一的"在工作区里安装好"的形式存在的，每次运行都会把它需要的子集物化到一个全新的沙箱中。
       从 S3 到一个可用的 <code>~/.claude/skills/{`{name}`}</code> 符号链接之间的路径很短,但值得理解:
     </p>
 
@@ -249,13 +246,12 @@ news, or any data that requires looking at public web pages.<br/>
       </li>
       <li>
         <strong>预签名。</strong>对于每个 <code>SkillRef</code>,服务端会列出该 S3 前缀,
-        并为每个 object key 签发一个 1 小时有效期的 GET URL。签名 URL 会被打包进 run-agent 配置中 ——
-        这样智能体所在主机就能下载技能文件,而无需自己持有 S3 凭据。
+        并为每个 object key 签发一个 1 小时有效期的 GET URL。签名 URL 会被打包进 run-agent 配置中，这样智能体所在主机就能下载技能文件,而无需自己持有 S3 凭据。
       </li>
       <li>
         <strong>缓存。</strong>在沙箱内,运行器会把每个预签名 URL 的内容拉到
         <code>~/.aitroop/skills/{`{name}/{version}/`}</code>。因为路径里带了版本,
-        第二次运行如果需要相同版本的同一个技能,就会完全跳过下载 —— 目录已经在那儿了。
+        第二次运行如果需要相同版本的同一个技能,就会完全跳过下载，目录已经在那儿了。
       </li>
       <li>
         <strong>建立符号链接。</strong>运行器随后把缓存符号链接到 Claude Code 期望的位置:
@@ -275,7 +271,7 @@ news, or any data that requires looking at public web pages.<br/>
     <h2>Aitroop 自家的 MCP 服务器</h2>
     <p>
       除了用户安装的技能之外,平台还内置了一个小型 MCP 服务器,每次 run-agent 都会连接到它。
-      它不是可选的 —— 它是阶段从沙箱内部不走 HTTP 也能把信息回传给平台的途径。
+      它不是可选的，它是阶段从沙箱内部不走 HTTP 也能把信息回传给平台的途径。
       运行器看到它时的工具名是 <code>mcp__aitroop__*</code>。
     </p>
 
@@ -284,7 +280,7 @@ news, or any data that requires looking at public web pages.<br/>
       <tbody>
         <tr>
           <td><code>mcp__aitroop__ask_question</code></td>
-          <td>在一轮对话中途向用户抛出一个问题。驱动你在聊天 UI 中看到的 <code>ask_user</code> 事件 —— 对应<a href="/zh-CN/docs/concepts">核心概念</a>中描述的<em>"智能体需要澄清"</em>流程。</td>
+          <td>在一轮对话中途向用户抛出一个问题。驱动你在聊天 UI 中看到的 <code>ask_user</code> 事件，对应<a href="/zh-CN/docs/concepts">核心概念</a>中描述的<em>"智能体需要澄清"</em>流程。</td>
         </tr>
         <tr>
           <td><code>mcp__aitroop__get_task</code></td>
@@ -292,7 +288,7 @@ news, or any data that requires looking at public web pages.<br/>
         </tr>
         <tr>
           <td><code>mcp__aitroop__update_task</code></td>
-          <td>更新任务字段 —— App Builder 技能在保存流程中会用它来设置应用草稿的状态。</td>
+          <td>更新任务字段，App Builder 技能在保存流程中会用它来设置应用草稿的状态。</td>
         </tr>
         <tr>
           <td><code>mcp__aitroop__get_asset_content</code></td>
@@ -300,13 +296,13 @@ news, or any data that requires looking at public web pages.<br/>
         </tr>
         <tr>
           <td><code>mcp__aitroop__generate_image</code></td>
-          <td>可选 —— 只有在配置了 Gemini API key 时才会注册。从一个 prompt 生成图片,并返回一个产物句柄。</td>
+          <td>可选，只有在配置了 Gemini API key 时才会注册。从一个 prompt 生成图片,并返回一个产物句柄。</td>
         </tr>
       </tbody>
     </table>
 
     <p>
-      传输方式:HTTP,而非 stdio —— URL 是
+      传输方式:HTTP,而非 stdio，URL 是
       <code>{`{mcpServerURL}?session={conversationId}`}</code>,智能体会把它当作其
       <code>mcpServers</code> 列表中的任何其他 MCP 服务器来对待。你不用手动配置它;
       运行器配置会预先把它填好。
@@ -314,7 +310,7 @@ news, or any data that requires looking at public web pages.<br/>
 
     <div class="callout">
       <strong>这就是让"技能"感觉原生的关键。</strong>一个需要提出澄清问题或附加后续产物的用户技能,
-      不必发明自己的协议 —— 它只要调用平台内置的 MCP 工具就行。
+      不必发明自己的协议，它只要调用平台内置的 MCP 工具就行。
       技能内容可以保持声明式(<code>SKILL.md</code> + 脚本),因为交互性由运行时提供。
     </div>
 
@@ -339,8 +335,8 @@ news, or any data that requires looking at public web pages.<br/>
       自定义技能会根据来源存放在两个地方:
     </p>
     <ul>
-      <li><code>app_user_skills_custom</code> —— 你自己编写或导入到工作区的技能。带版本,有一个 S3 前缀存放它的文件。</li>
-      <li><code>app_user_skills_enabled</code> —— 哪些内置或已安装的技能对你来说是<em>启用</em>状态(因为一个工作区里可用的技能可能多于你实际启用的)。</li>
+      <li><code>app_user_skills_custom</code>：你自己编写或导入到工作区的技能。带版本,有一个 S3 前缀存放它的文件。</li>
+      <li><code>app_user_skills_enabled</code>：哪些内置或已安装的技能对你来说是<em>启用</em>状态(因为一个工作区里可用的技能可能多于你实际启用的)。</li>
     </ul>
 
     <h3>一个自定义技能的形态</h3>
@@ -362,7 +358,7 @@ my-skill/<br/>
 
     <h3>发布一个新版本</h3>
     <p>
-      编辑完技能后,调用 <code>POST /api/user-skills/:name/publish</code> —— 它会升版本号,
+      编辑完技能后,调用 <code>POST /api/user-skills/:name/publish</code>：它会升版本号,
       把新的产物包上传到 S3,并把所有没有锁定版本的应用滚动到新版本。
     </p>
 
@@ -382,7 +378,7 @@ curl -X POST https://app.aitroop.net/api/user-skills/my-skill/publish \<br/>
 
     <p class="faq-q">为什么智能体没有使用我已经安装的某个技能?</p>
     <p>
-      <strong>常见原因:</strong>智能体判断另一种方式更适合这个任务 —— 通常是直接基于上下文推理,
+      <strong>常见原因:</strong>智能体判断另一种方式更适合这个任务，通常是直接基于上下文推理,
       而不是去调用工具。
     </p>
     <p>
@@ -404,7 +400,7 @@ curl -X POST https://app.aitroop.net/api/user-skills/my-skill/publish \<br/>
       <li>对于以命令启动的 MCP 服务器,该命令不在沙箱的 <code>PATH</code> 中。</li>
       <li>对于 HTTP 传输的 MCP,HTTP 端点从沙箱中无法访问。</li>
       <li>认证头错误或缺失。</li>
-      <li>服务器在初始的 <code>tools/list</code> 握手中崩溃 —— 检查它的日志。</li>
+      <li>服务器在初始的 <code>tools/list</code> 握手中崩溃，检查它的日志。</li>
     </ul>
     <p>
       <strong>排错命令:</strong>
@@ -432,7 +428,7 @@ POST /api/mcp/servers/:key/ping
 
     <p class="faq-q">如何把一个自定义技能分享给我整个工作区?</p>
     <p>
-      工作区管理员可以在工作区级别安装技能 —— 让所有成员都能看到和使用。
+      工作区管理员可以在工作区级别安装技能，让所有成员都能看到和使用。
       按用户安装的技能只对你自己生效。技能的设置页里有可见性开关。
     </p>
 
@@ -444,7 +440,7 @@ POST /api/mcp/servers/:key/ping
 
     <div class="next-up">
       <span class="label">下一篇</span>
-      <a href="/zh-CN/docs/connects">连接 —— OAuth 集成</a>
+      <a href="/zh-CN/docs/connects">连接：OAuth 集成</a>
     </div>
   </DocsShell>
 </Layout>

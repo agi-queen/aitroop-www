@@ -3,7 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 
 const metadata = {
-  title: 'Docs — Aitroop',
+  title: 'Docs · Aitroop',
 };
 ---
 
@@ -11,22 +11,19 @@ const metadata = {
   <DocsShell current="index">
     <h1>Welcome to Aitroop</h1>
     <p class="lead">
-      Think of Aitroop as a teammate with their own computer. You describe the work; they design the
-      workflow, run it in a sandboxed environment, return typed outputs you can read, share, or chain
-      into the next step. You don't write code — you have a conversation, and the conversation becomes
-      a saved <strong>App</strong> you can run again, schedule, hand to a colleague, or call from an API.
+      Aitroop is a teammate with their own computer. You chat, and the conversation becomes a saved App you can run, schedule, or call.
     </p>
 
     <div class="callout">
       <strong>Reading order.</strong> If you have 15 minutes, jump straight to the
-      <a href="/docs/quickstart">Quickstart</a> — it walks you end-to-end, with screenshots and exact
+      <a href="/docs/quickstart">Quickstart</a>. It walks you end-to-end, with screenshots and exact
       messages to type. Come back here when you want the conceptual map.
     </div>
 
     <h2>Unlike traditional chatbots</h2>
     <p>
       Most AI tools are a single chat box. You type, it replies, you move on. The next morning your
-      teammate asks for the same thing and re-types the prompt from scratch — losing your tweaks, your
+      teammate asks for the same thing and re-types the prompt from scratch, losing your tweaks, your
       context, your refinements. Aitroop works differently:
     </p>
 
@@ -51,7 +48,7 @@ const metadata = {
         </tr>
         <tr>
           <td>Hand-coordinate "research, then human review, then draft email" across three threads.</td>
-          <td>Define a 3-stage App: <em>agent → human → agent</em>. The platform handles the pause-and-resume.</td>
+          <td>Define a 3-stage App: <em>agent then human then agent</em>. The platform handles the pause-and-resume.</td>
         </tr>
       </tbody>
     </table>
@@ -59,9 +56,9 @@ const metadata = {
     <h2>The one-paragraph version</h2>
     <p>
       Open a chat. Say <em>"Create an app that…"</em>. The agent activates its App Builder skill, asks
-      1–5 clarifying questions, designs the workflow (form fields, stages, output format, required Skills
+      1-5 clarifying questions, designs the workflow (form fields, stages, output format, required Skills
       and Connects), validates everything, saves it via <code>POST /api/apps</code>, and tells you the App
-      ID. You then run the App from your library — fill the form, click Run, get a typed Artifact. Or
+      ID. You then run the App from your library: fill the form, click Run, get a typed Artifact. Or
       attach a Schedule and it runs automatically every Monday at 9.
     </p>
 
@@ -88,7 +85,7 @@ const metadata = {
       A 4-stage App: <em>(1)</em> find companies matching an ICP description, <em>(2)</em> enrich each
       with funding history, <em>(3)</em> <strong>pause</strong> for you to remove rows you don't want,
       <em>(4)</em> draft personalized cold emails for the survivors. The human pause is built into the
-      App — the run waits indefinitely until you approve, then resumes from stage 4.
+      App. The run waits indefinitely until you approve, then resumes from stage 4.
     </p>
 
     <h2>Where to start</h2>
@@ -96,21 +93,21 @@ const metadata = {
     <div class="step-grid">
       <span class="step-num">1</span>
       <div class="step-body">
-        <strong><a href="/docs/quickstart">Quickstart</a> — 15 minutes, end-to-end</strong>
+        <strong><a href="/docs/quickstart">Quickstart</a>: 15 minutes, end-to-end</strong>
         Sign in, build a Company Brief App by chatting with the agent, run it on Stripe and Notion,
         schedule it. <strong>Read this first.</strong>
       </div>
 
       <span class="step-num">2</span>
       <div class="step-body">
-        <strong><a href="/docs/concepts">Core concepts</a> — the schema in detail</strong>
+        <strong><a href="/docs/concepts">Core concepts</a>: the schema in detail</strong>
         The App JSON document. All 12 input types. The 3 stage types. The
         <code>{`{{field_id}}`}</code> template syntax. Reference companion to the Quickstart.
       </div>
 
       <span class="step-num">3</span>
       <div class="step-body">
-        <strong><a href="/docs/chat">Chat</a> and <a href="/docs/apps">Apps</a> — the two surfaces</strong>
+        <strong><a href="/docs/chat">Chat</a> and <a href="/docs/apps">Apps</a>: the two surfaces</strong>
         Chat is the cockpit. Apps are the saved workflows. Most of your time lives in these two pages.
       </div>
 
@@ -125,7 +122,7 @@ const metadata = {
 
     <h2>What an App looks like under the hood</h2>
     <p>
-      You don't write this — the agent does — but seeing the shape makes everything else click:
+      You don't write this; the agent does. Seeing the shape makes everything else click:
     </p>
     <div class="code-block" style="line-height:1.7;">
 {`{`}<br/>
@@ -160,7 +157,7 @@ const metadata = {
         <tr>
           <td><strong>App</strong> <span class="pill green">recipe</span></td>
           <td>A JSON document describing a runnable workflow.</td>
-          <td><code>app_def</code> table · <strong>Sidebar → Apps</strong></td>
+          <td><code>app_def</code> table · <strong>Sidebar to Apps</strong></td>
         </tr>
         <tr>
           <td><strong>Execution</strong> <span class="pill blue">run</span></td>
@@ -175,14 +172,14 @@ const metadata = {
         <tr>
           <td><strong>Connect</strong> <span class="pill" style="background:rgba(120,120,200,0.1);color:#4f46e5;border-color:rgba(120,120,200,0.3);">credential</span></td>
           <td>An OAuth bridge to your account on another service.</td>
-          <td><code>app_user_connect</code> · <strong>Settings → Connects</strong></td>
+          <td><code>app_user_connect</code> · <strong>Settings to Connects</strong></td>
         </tr>
       </tbody>
     </table>
 
     <h2>Two surfaces, one platform</h2>
     <p>
-      Almost everything you do is in one of two surfaces — and the right surface depends on the
+      Almost everything you do is in one of two surfaces, and the right surface depends on the
       <em>repeat</em> question:
     </p>
 
@@ -223,26 +220,26 @@ const metadata = {
     </table>
 
     <p>
-      The key word is <em>real</em>. An Aitroop stage isn't a prompt template — it's an agent that
+      The key word is <em>real</em>. An Aitroop stage isn't a prompt template. It's an agent that
       reasons, calls Skills, hits Connects, executes code, retries on failure, and produces a typed
       artifact. The stage's English prompt is the spec; the agent's behavior is the implementation.
     </p>
 
     <h2>If you get stuck</h2>
     <p>
-      The agent itself is the fastest help. Open a chat and ask <em>"How do I…?"</em> — it has the App
+      The agent itself is the fastest help. Open a chat and ask <em>"How do I…?"</em>. It has the App
       Builder skill loaded and knows every part of the platform. For specifics:
     </p>
     <ul>
-      <li><strong>Your first App fails</strong> — open the failed run, click <strong>Debug in chat</strong>. See <a href="/docs/executions">Executions</a>.</li>
-      <li><strong>Connect won't authorize</strong> — usually a scope issue or wrong account. See <a href="/docs/connects">Connects</a>.</li>
-      <li><strong>Schedule isn't firing</strong> — workspace time zone or paused schedule. See <a href="/docs/schedules">Schedules</a>.</li>
-      <li><strong>Anything else</strong> — <a href="/contact">talk to us</a>.</li>
+      <li><strong>Your first App fails:</strong> open the failed run, click <strong>Debug in chat</strong>. See <a href="/docs/executions">Executions</a>.</li>
+      <li><strong>Connect won't authorize:</strong> usually a scope issue or wrong account. See <a href="/docs/connects">Connects</a>.</li>
+      <li><strong>Schedule isn't firing:</strong> workspace time zone or paused schedule. See <a href="/docs/schedules">Schedules</a>.</li>
+      <li><strong>Anything else:</strong> <a href="/contact">talk to us</a>.</li>
     </ul>
 
     <div class="next-up">
       <span class="label">Start here</span>
-      <a href="/docs/quickstart">Quickstart — build your first App in 15 min</a>
+      <a href="/docs/quickstart">Quickstart: build your first App in 15 min</a>
     </div>
   </DocsShell>
 </Layout>

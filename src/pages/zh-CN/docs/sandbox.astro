@@ -3,7 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 
 const metadata = {
-  title: '沙箱 — Aitroop 文档',
+  title: '沙箱 · Aitroop 文档',
 };
 ---
 
@@ -11,20 +11,18 @@ const metadata = {
   <DocsShell current="sandbox" locale="zh-CN">
     <h1>沙箱</h1>
     <p class="lead">
-      每一次聊天、每一个应用阶段都运行在 <strong>沙箱</strong> 中——一台拥有独立文件系统、独立进程、独立网络栈的隔离计算机。
-      你可以把它想象成智能体在一次运行期间临时借用、用完即扔的一台全新笔记本。智能体安装、下载或弄坏的任何东西，
-      都不会触及你的机器或其他用户。
+      每次聊天和应用阶段都运行在 <strong>沙箱</strong> 中：一台拥有独立文件系统、进程和网络的临时计算机，用完即扔，绝不触及你的机器或其他用户。
     </p>
 
     <div class="callout">
       <strong>一句话讲清它为什么重要。</strong> 正是有了沙箱，我们才敢放心地说"是的，智能体可以随意
-      <code>pip install</code>、执行 shell 命令、写文件、试错"——因为爆炸半径只有一个容器，运行结束就会销毁。
+      <code>pip install</code>、执行 shell 命令、写文件、试错"，因为爆炸半径只有一个容器，运行结束就会销毁。
     </div>
 
     <h2>三种 Provider</h2>
     <p>
       Aitroop 把运行时抽象在统一的 <code>ISandbox</code> 接口背后，并提供三种实现。具体某次运行使用哪一种，
-      取决于工作区设置、套餐以及任务类型。智能体的代码感知不到差异——但运行特性差别很大。
+      取决于工作区设置、套餐以及任务类型。智能体的代码感知不到差异，但运行特性差别很大。
     </p>
 
     <table>
@@ -34,7 +32,7 @@ const metadata = {
           <td><code>host</code> <span class="pill amber">本地</span></td>
           <td>直接运行在 Aitroop 服务器上，使用每个用户的临时目录。</td>
           <td>自托管的开发安装、冒烟测试，以及那种"启动一台远程虚拟机太重"的轻量阶段。</td>
-          <td>用户之间没有真正的隔离——host 模式仅适用于单租户 / 开发环境。</td>
+          <td>用户之间没有真正的隔离，host 模式仅适用于单租户 / 开发环境。</td>
         </tr>
         <tr>
           <td><code>e2b</code> <span class="pill green">默认云端</span></td>
@@ -52,7 +50,7 @@ const metadata = {
     </table>
 
     <h2>智能体在沙箱里能做什么</h2>
-    <p>沙箱接口暴露两个面——<strong>命令</strong>和<strong>文件</strong>——以及几个生命周期钩子：</p>
+    <p>沙箱接口暴露两个面，<strong>命令</strong>和<strong>文件</strong>：以及几个生命周期钩子：</p>
 
     <h3>命令</h3>
     <div class="code-block">
@@ -62,7 +60,7 @@ sandbox.commands.run({`{`} cmd: "node", args: ["build.js"] {`}`})<br/>
     </div>
     <ul>
       <li>Shell 命令以沙箱用户身份（非 root）在 <code>projectDir</code> 下运行。</li>
-      <li>你可以安装包——在 E2B 与 Daytona 上可以用 <code>pip install</code>、<code>npm install</code>、
+      <li>你可以安装包，在 E2B 与 Daytona 上可以用 <code>pip install</code>、<code>npm install</code>、
         <code>apt-get</code>；在 host 模式下则受限于你自己的权限。</li>
       <li>标准输出与标准错误会流式回传到运行日志；命令完成时智能体即可看到。</li>
       <li>单条命令的超时由阶段的 <code>timeout_ms</code> 限定。</li>
@@ -86,8 +84,8 @@ sandbox.files.copy(from, to)
 
     <h3>生命周期钩子</h3>
     <ul>
-      <li><code>sandbox.pause()</code> — 主动释放沙箱。下一次调用会启动一个全新的沙箱。</li>
-      <li><code>sandbox.keepAlive(timeoutMs)</code> — 为长时间运行的阶段延长空闲超时。</li>
+      <li><code>sandbox.pause()</code>：主动释放沙箱。下一次调用会启动一个全新的沙箱。</li>
+      <li><code>sandbox.keepAlive(timeoutMs)</code>：为长时间运行的阶段延长空闲超时。</li>
     </ul>
 
     <h2>你应该了解的几个超时</h2>
@@ -103,8 +101,7 @@ sandbox.files.copy(from, to)
     </table>
 
     <div class="callout warn">
-      <strong>你遇到的失败大多是阶段超时，而不是沙箱超时。</strong> 如果一个研究阶段超过 3 分钟，阶段就会失败——
-      哪怕沙箱本身可以愉快地跑上几个小时。对于重度研究类任务，在应用定义中设置
+      <strong>你遇到的失败大多是阶段超时，而不是沙箱超时。</strong> 如果一个研究阶段超过 3 分钟，阶段就会失败，哪怕沙箱本身可以愉快地跑上几个小时。对于重度研究类任务，在应用定义中设置
       <code>timeout_ms: 600000</code>（10 分钟）。
     </div>
 
@@ -120,14 +117,14 @@ sandbox.files.copy(from, to)
       <li>阶段 1 设置的环境变量会延续到阶段 2。</li>
     </ul>
     <p>
-      这就是为什么 <em>"阶段 1 写报告，阶段 2 转成 PDF"</em> 这种用法天然可行——阶段 2 在阶段 1 放下报告的同一位置
+      这就是为什么 <em>"阶段 1 写报告，阶段 2 转成 PDF"</em> 这种用法天然可行，阶段 2 在阶段 1 放下报告的同一位置
       就能找到它。
     </p>
 
     <h3>跨运行</h3>
     <p>
       <strong>运行之间什么都不会保留。</strong> 即便是同一个应用，每次执行都会得到一个全新的沙箱。
-      如果你的应用需要在两次运行之间记住一些东西——已处理项的列表、计数器、缓存——请存到外部：
+      如果你的应用需要在两次运行之间记住一些东西，已处理项的列表、计数器、缓存，请存到外部：
     </p>
     <ul>
       <li>作为 <strong>产物</strong>，下次运行时再通过 Connect（Drive、S3、Notion）读回来。</li>
@@ -146,14 +143,14 @@ sandbox.files.copy(from, to)
       沙箱拥有完整的对外网络访问权限。智能体可以抓取 URL、调用公开 API、从 npm / pypi 安装包等等。
     </p>
     <p>
-      对于 <strong>Connects</strong>（OAuth 集成），Aitroop 会在运行开始时注入凭证——但不是把 token 写到沙箱
+      对于 <strong>Connects</strong>（OAuth 集成），Aitroop 会在运行开始时注入凭证，但不是把 token 写到沙箱
       文件系统里，而是通过内部代理调用，从不暴露原始 token。如果智能体执行 <code>gh repo list</code> 或调用
       Gmail API，请求会经过一个代理，由代理用你的 OAuth token 签名。token 在沙箱内部完全不可见。
     </p>
 
     <div class="callout tip">
       <strong>对安全意味着什么。</strong> 即使某个阶段的 <code>script_code</code> 是恶意的，
-      它也无法外泄你的 Connect token——这些 token 既不在文件系统里，也不在环境变量里。最坏的情形是脚本利用
+      它也无法外泄你的 Connect token，这些 token 既不在文件系统里，也不在环境变量里。最坏的情形是脚本利用
       Connect 做一些对外可见的动作（发送邮件、创建记录），这些动作会像任何其他操作一样出现在你的服务商审计日志里。
     </div>
 
@@ -161,8 +158,8 @@ sandbox.files.copy(from, to)
 
     <h3>如果你使用托管套餐</h3>
     <p>
-      你不需要选择，由平台决定。99% 的场景平台会选 <code>e2b</code>。对于特定类型的阶段——比如需要跑完整 IDE
-      负载的阶段——可能会选 <code>daytona</code>。
+      你不需要选择，由平台决定。99% 的场景平台会选 <code>e2b</code>。对于特定类型的阶段，比如需要跑完整 IDE
+      负载的阶段，可能会选 <code>daytona</code>。
     </p>
 
     <h3>如果你是自托管</h3>
@@ -185,13 +182,13 @@ DAYTONA_TARGET=...
     </div>
 
     <p>
-      混合 provider 路由——"轻量用 host，重型用 E2B"——在路线图上，但还不是一等的配置项。目前每个部署
+      混合 provider 路由，"轻量用 host，重型用 E2B"，在路线图上，但还不是一等的配置项。目前每个部署
       只能选用一个 provider。
     </p>
 
     <h2>UI 里你能看到什么</h2>
     <p>
-      沙箱基本是隐形的——这正是设计目的——但有两个界面让你可以一窥究竟：
+      沙箱基本是隐形的，这正是设计目的，但有两个界面让你可以一窥究竟：
     </p>
 
     <h3>运行日志</h3>
@@ -215,10 +212,10 @@ DAYTONA_TARGET=...
       你可以点开任意文件查看，然后下载或分享。
     </p>
 
-    <h2>生命周期——沙箱是如何获取与持有的</h2>
+    <h2>生命周期：沙箱是如何获取与持有的</h2>
     <p>
       Aitroop 不会为每个请求都创建一个沙箱。每个用户最多只有一个热的沙箱，记录在 <code>sb_container</code>
-      表的一行里，以其内部用户名为键。连续的聊天与应用运行复用同一个沙箱——这正是把冷启动成本挪出热路径
+      表的一行里，以其内部用户名为键。连续的聊天与应用运行复用同一个沙箱，这正是把冷启动成本挪出热路径
       的关键。生命周期状态全部存放在那一行：
     </p>
 
@@ -231,7 +228,7 @@ DAYTONA_TARGET=...
         <tr><td><code>paused</code></td><td>Provider 因空闲自动暂停沙箱后为 <code>true</code>；恢复并热起来后为 <code>false</code>。</td></tr>
         <tr><td><code>type</code></td><td>归属的 provider（<code>e2b</code> / <code>daytona</code> / <code>local</code>）。</td></tr>
         <tr><td><code>lock_version</code></td><td>乐观锁计数器。每次写入都会自增；版本过期的并发写入会被拒绝。</td></tr>
-        <tr><td><code>total_usage_seconds</code></td><td>沙箱累计活跃的墙钟时间——计费指标。</td></tr>
+        <tr><td><code>total_usage_seconds</code></td><td>沙箱累计活跃的墙钟时间，计费指标。</td></tr>
         <tr><td><code>last_activity_at</code></td><td>SDK 最近一次成功触达的时间。驱动 5 分钟空闲暂停计时器。</td></tr>
       </tbody>
     </table>
@@ -250,14 +247,13 @@ DAYTONA_TARGET=...
     <p>
       如果一个 worker 在获取中途崩溃，会让 <code>status = 'creating'</code> 一直挂着。为了避免被无限卡死，
       任何在 <code>creating</code> 状态停留超过 ~25 秒的行都被视为过期：下一个获取者会重置它、推高版本号，
-      然后继续。这就是过期锁的恢复路径——正常时悄无声息，触发时会在日志里以一行警告出现。
+      然后继续。这就是过期锁的恢复路径，正常时悄无声息，触发时会在日志里以一行警告出现。
     </p>
 
     <h3>暂停 / 恢复</h3>
     <p>
       每一次对底层 provider 的 SDK 调用都会重置 5 分钟空闲计时器。如果 5 分钟内没有任何触达，provider 会冻结
-      沙箱：行记录保留，<code>paused</code> 翻为 <code>true</code>，容器不再计费。下一次获取会把它唤醒——
-      E2B 上的冷恢复大约 1 秒。为了在智能体长时间思考（LLM 轮次之间没有 SDK 调用）时保持沙箱温热，
+      沙箱：行记录保留，<code>paused</code> 翻为 <code>true</code>，容器不再计费。下一次获取会把它唤醒，E2B 上的冷恢复大约 1 秒。为了在智能体长时间思考（LLM 轮次之间没有 SDK 调用）时保持沙箱温热，
       runner 每 30 秒发送一次 <code>keepAlive</code> ping。这就是为什么集群常量是这样对齐的：
     </p>
     <div class="code-block" style="line-height:1.7;">
@@ -268,7 +264,7 @@ AGENT_RUN_TIMEOUT_MS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style
 
     <h3>已死亡的沙箱与 <code>withSandbox</code></h3>
     <p>
-      沙箱可能在平台视线之外死亡——provider 把底层虚拟机删了，host 进程被 OOM 杀死。runner 通过把对应错误
+      沙箱可能在平台视线之外死亡，provider 把底层虚拟机删了，host 进程被 OOM 杀死。runner 通过把对应错误
       归类为 <code>sandbox_not_found</code> 来识别这种情况（参见
       <a href="/zh-CN/docs/concepts">runner 错误分类</a>）。大多数服务端代码都使用一个包装辅助函数：
     </p>
@@ -280,14 +276,14 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
     </div>
     <p>
       如果内部函数抛错且错误匹配"沙箱已不存在"，wrapper 会清掉内存缓存，调用 <code>createOrResume</code>
-      获取一个新的沙箱，并把函数再跑一次。仅重试一次——就这么多；第二次失败会向外抛出。其他临时性错误
+      获取一个新的沙箱，并把函数再跑一次。仅重试一次，就这么多；第二次失败会向外抛出。其他临时性错误
       （网络、繁忙）会立刻向外传播；它们不属于 wrapper 的职责范围。
     </p>
 
     <h3>Host 模式的密钥剥离</h3>
     <p>
       Host 模式是仅供开发者使用的 provider，所谓的"沙箱"就是 Aitroop 服务器上的一个进程。如果不做防护，
-      智能体运行的任何代码都会继承服务器的环境——包括数据库连接串、JWT 签名密钥和 S3 凭证。因此 host provider
+      智能体运行的任何代码都会继承服务器的环境，包括数据库连接串、JWT 签名密钥和 S3 凭证。因此 host provider
       会在 spawn 之前从子进程环境里剥除一组固定的变量：<code>DATABASE_URL</code>、<code>JWT_SECRET</code>、
       <code>E2B_API_KEY</code>、<code>DAYTONA_API_KEY</code>、各种 OAuth client secret、S3 access/secret key，
       以及任何 Composio 侧的密钥。智能体拿到的是一个干净的环境；服务器自己的密钥得以保全。
@@ -299,14 +295,14 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
       每次运行的明细出现在 <strong>设置 → 用量</strong>。
     </p>
     <ul>
-      <li><strong>沙箱时间</strong> — 只在沙箱<em>实际运行</em>时计入。被暂停（空闲 &gt; 5 分钟）的沙箱不产生费用。</li>
-      <li><strong>LLM token</strong> — 按阶段单独计费，因模型而异。默认是 Sonnet-4.6。</li>
-      <li><strong>存储</strong> — S3/R2 中的产物按保留的 GB·月计费。在你套餐额度内免费。</li>
+      <li><strong>沙箱时间</strong>：只在沙箱<em>实际运行</em>时计入。被暂停（空闲 &gt; 5 分钟）的沙箱不产生费用。</li>
+      <li><strong>LLM token</strong>：按阶段单独计费，因模型而异。默认是 Sonnet-4.6。</li>
+      <li><strong>存储</strong>：S3/R2 中的产物按保留的 GB·月计费。在你套餐额度内免费。</li>
     </ul>
 
     <p>
       <code>sb_container</code> 表通过 <code>total_usage_seconds</code> 跟踪每个沙箱实例，
-      <code>sb_usage_log</code> 则按原因记录每段时长——智能体运行、文件操作等等。
+      <code>sb_usage_log</code> 则按原因记录每段时长，智能体运行、文件操作等等。
     </p>
 
     <h2>FAQ 与故障排查</h2>
@@ -317,7 +313,7 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
     </p>
     <ul>
       <li>阶段的 <code>timeout_ms</code> 对于实际工作量太小了（默认 3 分钟）。调大它。</li>
-      <li>命令本身卡住了——一个等不到 stdin 的进程、对无响应主机的 curl，或者公司代理后的
+      <li>命令本身卡住了，一个等不到 stdin 的进程、对无响应主机的 curl，或者公司代理后的
         <code>npm install</code>。</li>
       <li>命令之间触发了沙箱空闲计时器。如果一个阶段在智能体两次决策之间停留 &gt;5 分钟（罕见），沙箱会被暂停。
         下一条命令会自动恢复但会增加延迟。</li>
@@ -342,14 +338,14 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
     <p class="faq-q">我能 SSH 到沙箱里面看看吗？</p>
     <p>
       不能直接连。沙箱在设计上就是封闭的。如果你需要查看运行过程中的状况，对失败的运行使用
-      <strong>Debug in chat</strong>——聊天会带着同一份沙箱快照打开，你可以交互式地运行任何命令。
+      <strong>Debug in chat</strong>：聊天会带着同一份沙箱快照打开，你可以交互式地运行任何命令。
     </p>
 
     <p class="faq-q">我怎么安装系统包（apt-get）？</p>
     <p>
       在 <code>e2b</code> 和 <code>daytona</code> 上，智能体拥有 <code>sudo</code> 权限来安装包。
       在阶段目标里告诉它：<em>"先运行 <code>apt-get install -y ffmpeg</code>，然后……"</em>。
-      在 <code>host</code> 模式下，智能体只拥有 host 进程的权限——通常没有 sudo，所以
+      在 <code>host</code> 模式下，智能体只拥有 host 进程的权限，通常没有 sudo，所以
       <code>apt-get</code> 用不了。
     </p>
 
@@ -363,8 +359,7 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
     <p class="faq-q">两个阶段能并行运行吗？</p>
     <p>
       不能。阶段严格按顺序运行：阶段 <em>n</em> 必须等到阶段 <em>n−1</em> 完成、其产物已保存后才会启动。
-      如果你需要在阶段内部并行，智能体可以通过 <code>commands.run</code> 派生子进程——
-      但那是它的选择，不是你能控制的。
+      如果你需要在阶段内部并行，智能体可以通过 <code>commands.run</code> 派生子进程，但那是它的选择，不是你能控制的。
     </p>
 
     <p class="faq-q">沙箱销毁后我的文件会怎样？</p>
@@ -375,14 +370,14 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
 
     <p class="faq-q">沙箱是真的虚拟机还是容器？</p>
     <p>
-      取决于 provider。E2B 用 Firecracker microVM——完整的内核隔离。Daytona 用开发容器。
+      取决于 provider。E2B 用 Firecracker microVM，完整的内核隔离。Daytona 用开发容器。
       Host 模式只是服务器上属于你账户的一个进程。从功能上看智能体的代码在三种实现里都一样；
       从安全性上看 E2B 最强。
     </p>
 
     <div class="next-up">
       <span class="label">下一步</span>
-      <a href="/zh-CN/docs/executions">执行记录 — 生命周期与调试</a>
+      <a href="/zh-CN/docs/executions">执行记录：生命周期与调试</a>
     </div>
   </DocsShell>
 </Layout>

@@ -2,18 +2,18 @@
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
-  title: 'Contact us — Aitroop',
+  title: 'Contact us · Aitroop',
 };
 
 const fields = [
-  { name: 'name',    label: 'Your name',    type: 'text',  placeholder: 'Jane Smith' },
+  { name: 'name',    label: 'Your name',    type: 'text',  placeholder: 'Full name' },
   { name: 'email',   label: 'Work email',   type: 'email', placeholder: 'name@company.com' },
   { name: 'company', label: 'Company name', type: 'text',  placeholder: 'Your company' },
-  { name: 'role',    label: 'Your role',    type: 'text',  placeholder: 'VP of Sales, Head of Marketing, RevOps…' },
+  { name: 'role',    label: 'Your role',    type: 'text',  placeholder: 'e.g. VP of Sales, RevOps' },
 ] as const;
 
 const offers = [
-  { tag: 'Demo',          title: 'Product demo',        desc: 'Tailored to your context — SDR outreach, marketing attribution, RevOps, customer success. Not a generic deck.' },
+  { tag: 'Demo',          title: 'Product demo',        desc: 'Tailored to your context: SDR outreach, marketing attribution, RevOps, customer success. Not a generic deck.' },
   { tag: 'Enterprise',    title: 'Enterprise plan',     desc: 'Teams of 20+, private deployment, custom integrations. Our sales team designs a dedicated solution and pricing.' },
   { tag: 'Engineering',   title: 'Integration support', desc: 'Connect Aitroop to your existing CRM, data systems, or internal tools. Solutions engineers assess feasibility.' },
   { tag: 'Partner',       title: 'Partnerships',        desc: 'Data providers, CRM vendors, systems integrators. We actively seek ecosystem partners.' },
@@ -25,7 +25,6 @@ const offers = [
   <!-- HERO ─────────────────────────────────────────────────────────── -->
   <section class="aw-hero">
     <div class="aw-container">
-      <p class="aw-eyebrow">Contact us</p>
       <h1 class="aw-display" style="max-width: 22ch;">Let's talk about your GTM challenges.</h1>
       <p class="aw-lede" style="max-width: 52ch;">
         Book a product demo, explore an enterprise plan, or just learn more. Our consultants are happy to connect.
@@ -36,15 +35,14 @@ const offers = [
   <!-- FORM + DIRECT ─────────────────────────────────────────────────── -->
   <section class="aw-section">
     <div class="aw-container">
-      <div class="form-grid">
-        <div class="form-intro">
-          <p class="aw-eyebrow">Form</p>
-          <h2 class="aw-h2" style="max-width: 18ch; margin-bottom: 1.125rem;">Book a demo or consultation.</h2>
-          <p class="aw-lede" style="max-width: 38ch;">
-            We respond within one business day. For urgent inquiries, email <a href="mailto:hello@aitroop.net">hello@aitroop.net</a>.
-          </p>
-        </div>
+      <header class="form-head">
+        <h2 class="aw-h2" style="max-width: 22ch; margin-bottom: 1rem;">Book a demo or consultation.</h2>
+        <p class="aw-lede" style="max-width: 48ch;">
+          We respond within one business day. For urgent inquiries, email <a href="mailto:hello@aitroop.net">hello@aitroop.net</a>.
+        </p>
+      </header>
 
+      <div class="form-grid">
         <form class="form" id="form">
           {fields.map((f) => (
             <div class="aw-field">
@@ -103,7 +101,7 @@ const offers = [
         </div>
         <div class="direct-row">
           <span class="direct-label">WeChat</span>
-          <span class="direct-value">Search "Aitroop" to follow for B2B sales and GTM insights.</span>
+          <span class="direct-value">Search "Aitroop" on WeChat.</span>
         </div>
       </div>
     </div>
@@ -112,23 +110,21 @@ const offers = [
 </Layout>
 
 <style>
-  /* ════ form grid layout ════ */
-  .form-grid {
-    display: grid;
-    gap: 3rem;
+  /* ════ form head + grid ════ */
+  .form-head {
+    margin-bottom: 2.5rem;
   }
-  @media (min-width: 900px) {
-    .form-grid {
-      grid-template-columns: 18rem 1fr;
-      gap: 4.5rem;
-      align-items: start;
-    }
+  @media (min-width: 768px) {
+    .form-head { margin-bottom: 3rem; }
   }
-  .form-intro .aw-lede a {
+  .form-head .aw-lede a {
     color: var(--aw-color-primary);
     text-decoration: underline;
     text-underline-offset: 3px;
     text-decoration-color: rgba(82, 153, 97, 0.4);
+  }
+  .form-grid {
+    display: grid;
   }
 
   /* ════ form ════ */
@@ -174,7 +170,9 @@ const offers = [
     grid-template-columns: 1fr;
     gap: 0.25rem;
     padding: 1.5rem 0;
-    border-bottom: 1px solid var(--aw-color-border);
+  }
+  .direct-row + .direct-row {
+    border-top: 1px solid var(--aw-color-border);
   }
   @media (min-width: 640px) {
     .direct-row {

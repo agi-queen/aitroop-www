@@ -21,7 +21,7 @@ You are responsible for maintaining the confidentiality of your account credenti
 
 ## 3. Intellectual Property
 
-All content, features, and functionality of the App — including but not limited to text, graphics, logos, and software — are the exclusive property of Aitroop and are protected by applicable intellectual property laws.
+All content, features, and functionality of the App, including but not limited to text, graphics, logos, and software, are the exclusive property of Aitroop and are protected by applicable intellectual property laws.
 
 ## 4. Disclaimer of Warranties
 

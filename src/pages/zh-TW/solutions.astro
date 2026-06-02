@@ -3,7 +3,9 @@ import CallToAction from '~/components/widgets/CallToAction.astro';
 import Content from '~/components/widgets/Content.astro';
 import Features3 from '~/components/widgets/Features3.astro';
 import Hero from '~/components/widgets/Hero.astro';
-import Stats from '~/components/widgets/Stats.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import Steps2 from '~/components/widgets/Steps2.astro';
+
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
@@ -17,7 +19,7 @@ const metadata = {
   <Hero
     tagline="解決方案"
     title="無論你在增長旅程的哪個階段，Aitroop 都有答案"
-    subtitle="獲客難、跟進累、留客靠感情——這些問題不是規模的問題，而是方法的問題。Aitroop 把 AI 的力量帶到每一個增長場景，讓你用更少的精力，做出更可預測的成果。"
+    subtitle="把 AI 的力量帶到每一個增長場景，讓你用更少精力做出更可預測的成果。"
     image={{
       src: '/illustrations/global-team_8jok.svg', width: 1024, height: 768,
       alt: 'Aitroop 解決方案',
@@ -28,7 +30,7 @@ const metadata = {
 
   <Content
     isReversed
-    tagline="場景一"
+    tagline="精準獲客"
     title="從零開始找到第一批精準客戶"
     items={[
       {
@@ -46,7 +48,7 @@ const metadata = {
       {
         title: '第一封信就讓對方感覺「這是為我寫的」',
         description:
-          'AI 根據真實的客戶背景——近期新聞、業務方向、公開言論——生成有具體切入點的個性化開場白。不是模板，是真實的連結感。',
+          'AI 根據真實的客戶背景，包括近期新聞、業務方向、公開言論，生成有具體切入點的個性化開場白。不是模板，是真實的連結感。',
         icon: 'tabler:mail-heart',
       },
     ]}
@@ -67,10 +69,9 @@ const metadata = {
 
   <!-- Content Widget **************** -->
 
-  <Content
-    isAfterContent
-    tagline="場景二"
+  <Steps
     title="規模化觸達，不犧牲個性化品質"
+    subtitle="個性化與規模化的矛盾，在 AI 時代已經可以化解。你不需要在品質和數量之間做取捨。"
     items={[
       {
         title: '一個人，做出整個外聯團隊的產出',
@@ -81,41 +82,31 @@ const metadata = {
       {
         title: '設定一次，系統持續跟進',
         description:
-          '設定跟進節奏和觸達渠道，系統自動在對的時間送出對的內容。你不需要每天盯著哪些人該跟進了——有回覆的時候，系統會通知你。',
+          '設定跟進節奏和觸達渠道，系統自動在對的時間送出對的內容。你不需要每天盯著哪些人該跟進了，有回覆的時候，系統會通知你。',
         icon: 'tabler:repeat',
       },
       {
         title: '郵件確實進主收件箱',
         description:
-          '寫了絕妙的開場白，結果進了垃圾箱，一切白費。Aitroop 的送達率基礎設施——域名預熱、信譽監控、智能輪轉——確保你的心血真的被看見。',
+          '寫了絕妙的開場白，結果進了垃圾箱，一切白費。Aitroop 的送達率基礎設施，包含域名預熱、信譽監控、智能輪轉，確保你的心血真的被看見。',
         icon: 'tabler:mail-check',
       },
     ]}
     image={{
-      src: '/illustrations/business-decisions_7vkl.svg', width: 1024, height: 768,
+      src: '/illustrations/business-decisions_7vkl.svg',
       alt: '規模化個性化觸達',
     }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight sm:text-3xl mb-2">個性化 × 規模化，魚與熊掌都要</h3>
-      這個矛盾在 AI 時代已經可以化解。你不需要在品質和數量之間做取捨。
-    </Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50"></div>
-    </Fragment>
-  </Content>
+  />
 
   <!-- Content Widget **************** -->
 
   <Content
     isReversed
     isAfterContent
-    tagline="場景三"
     title="把隱形的興趣轉化成可行動的機會"
     items={[
       {
-        title: '97% 的訪客不留資料就離開',
+        title: '看見那些悄悄瀏覽的訪客',
         description:
           'Aitroop 的訪客識別技術，讓你看見那些悄悄瀏覽你官網、研究你產品的潛在客戶。IP 反查匹配公司資訊，結合訪問頁面和停留時長，識別真正有興趣的對象。',
         icon: 'tabler:eye',
@@ -123,7 +114,7 @@ const metadata = {
       {
         title: '三維意圖信號，不靠猜測',
         description:
-          '官網行為、第三方意圖數據、產品使用信號——三個維度的興趣信號融合成統一的意圖評分。高意圖對象自動推送到跟進隊列，讓你在最佳時機出現。',
+          '官網行為、第三方意圖數據、產品使用信號，三個維度的興趣信號融合成統一的意圖評分。高意圖對象自動推送到跟進隊列，讓你在最佳時機出現。',
         icon: 'tabler:radar',
       },
       {
@@ -150,10 +141,10 @@ const metadata = {
 
   <!-- Content Widget **************** -->
 
-  <Content
-    isAfterContent
-    tagline="場景四"
-    title="守住客戶，比獲得新客戶更划算"
+  <Features3
+    title="守住客戶，是複利持續累積的增長引擎"
+    subtitle="獲客是開始，守住客戶、讓客戶帶來更多客戶，才是可持續增長的真正源頭。"
+    columns={3}
     items={[
       {
         title: '在客戶開始冷淡之前就察覺',
@@ -174,112 +165,61 @@ const metadata = {
         icon: 'tabler:users-group',
       },
     ]}
-    image={{
-      src: '/illustrations/remote-worker_0l91.svg', width: 1024, height: 768,
-      alt: '客戶留存與增長',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight sm:text-3xl mb-2">留住客戶，是複利最強的增長引擎</h3>
-      獲客是開始，守住客戶、讓客戶帶來更多客戶，才是可持續增長的真正源頭。
-    </Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50"></div>
-    </Fragment>
-  </Content>
+  />
 
   <!-- Content Widget **************** -->
 
-  <Content
-    isReversed
-    isAfterContent
-    tagline="場景五"
+  <Steps2
     title="讓正確的內容在正確的時機出現"
+    subtitle="內容、時機與個性化，大多數人只能做到其中一個。Aitroop 讓三個同時發生，而且不需要更多人手。"
     items={[
       {
-        title: '一個話題，五種形式，90 秒完成',
+        title: '一個話題，多種形式，90 秒完成',
         description:
-          'AI 根據你的品牌語調，同時生成部落格長文、LinkedIn 貼文、外聯郵件序列和公眾號文章。內容產量提升 5 倍，每月行銷來源商機增加 25-35%，同樣的人力做出更大的品牌聲量。',
-        icon: 'tabler:pencil',
+          'AI 根據你的品牌語調，同時生成部落格長文、LinkedIn 貼文、外聯郵件序列和公眾號文章。讓每月內容產量與行銷來源商機穩定增長，同樣的人力做出更大的品牌聲量。',
       },
       {
-        title: '在 24 小時黃金窗口精準出擊',
+        title: '在黃金窗口精準出擊',
         description:
-          '潛在客戶剛完成融資、剛換了高管、剛發出招聘廣告——這些事件發生後的 24-72 小時是最佳觸達窗口。Aitroop 在 5-30 分鐘內發出預警，附帶推薦切入點，讓你第一個出現。',
-        icon: 'tabler:bell',
+          '潛在客戶剛完成融資、剛換了高管、剛發出招聘廣告，事件發生後的短窗口是最佳觸達機會。Aitroop 在數分鐘內發出預警，附帶推薦切入點，讓你第一個出現。',
       },
       {
         title: '讓每個訪客看到最相關的官網',
         description:
-          '根據訪客的來源公司、行業、廣告渠道，動態調整你官網的標題、案例和行動呼籲。目標客群的 Demo 申請率提升 20-40%，無需額外開發，行銷反應速度從兩週縮到一天。',
-        icon: 'tabler:layout-dashboard',
+          '根據訪客的來源公司、行業、廣告渠道，動態調整你官網的標題、案例和行動呼籲。無需額外開發，讓目標客群的 Demo 申請率穩定提升，行銷反應速度從數週縮到一天。',
       },
     ]}
-    image={{
-      src: '/illustrations/teamwork_zplp.svg', width: 1024, height: 768,
-      alt: '內容與時機',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight sm:text-3xl mb-2">內容 × 時機 × 個性化，三個同時到位</h3>
-      大多數人只能做到其中一個。Aitroop 讓三個同時發生，而且不需要更多人手。
-    </Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50"></div>
-    </Fragment>
-  </Content>
+  />
 
   <!-- Features3 Widget ************** -->
 
-  <Features3
-    tagline="核心技能模組"
-    title="掌握這六項 AI 複合能力，讓你在增長上無可取代"
-    columns={3}
+  <Steps2
+    title="掌握這六項 AI 複合能力，建立別人難以複製的增長優勢"
     items={[
       {
         title: '數據洞察力',
         description: '讀懂客戶數據、識別意圖信號、量化渠道效果，讓每個決策都有依據。',
-        icon: 'tabler:chart-bar',
       },
       {
         title: '精準觸達力',
         description: '找到對的人、說對的話、在對的時機出現，提升每一次溝通的命中率。',
-        icon: 'tabler:target',
       },
       {
         title: '個性化創作力',
         description: '用 AI 大規模生成有真實切入點的個性化內容，品質不輸手寫，速度快 50 倍。',
-        icon: 'tabler:pencil',
       },
       {
         title: '自動化執行力',
         description: '把重複性工作系統化，設定一次規則持續運轉，把精力留給需要判斷力的事。',
-        icon: 'tabler:settings-automation',
       },
       {
         title: '客戶洞察力',
         description: '理解客戶的健康狀態、需求變化和流失風險，在最關鍵的時刻主動出現。',
-        icon: 'tabler:eye',
       },
       {
         title: '增長預測力',
         description: '把直覺變成數據，用可信的預測支撐增長決策，不再靠感覺行事。',
-        icon: 'tabler:trending-up',
       },
-    ]}
-    isBeforeContent={true}
-  />
-
-  <!-- Stats Widget ****************** -->
-
-  <Stats
-    stats={[
-      { title: '每日觸達量提升', amount: '6x' },
-      { title: '個性化郵件回覆率', amount: '8-15%' },
-      { title: '流失預警提前', amount: '90天' },
-      { title: '收入預測誤差', amount: '<15%' },
     ]}
   />
 
@@ -289,7 +229,7 @@ const metadata = {
     actions={[
       {
         variant: 'primary',
-        text: '找我們聊聊你的增長挑戰',
+        text: '預約產品示範',
         href: '/zh-TW/contact',
         icon: 'tabler:messages',
       },

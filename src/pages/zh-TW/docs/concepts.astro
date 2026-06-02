@@ -3,12 +3,11 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 ---
 
-<Layout metadata={{ title: '核心概念 — Aitroop 文件' }}>
+<Layout metadata={{ title: '核心概念 · Aitroop 文件' }}>
   <DocsShell current="concepts" locale="zh-TW">
     <h1>核心概念</h1>
     <p class="lead">
-      Aitroop 應用的技術結構。本頁是
-      <a href="/zh-TW/docs/quickstart">快速開始</a>的參考配套：涵蓋每一個欄位、每一種類型、每一個選項。完整讀完大約需要 15 分鐘。你不必死記硬背 —— 把本頁加入書籤，當某個概念出現時再回來查閱即可。
+      Aitroop 應用的技術結構參考：每一個欄位、每一種類型、每一個選項。可加入書籤作為查閱手冊。
     </p>
 
     <div class="callout">
@@ -17,7 +16,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h2>應用定義</h2>
     <p>
-      一個<strong>應用</strong>是持久化在 <code>app_def</code> 中的 JSON 文件。你不需要自己撰寫 JSON —— 這由 agent 完成 —— 但了解它包含什麼會讓其他一切變得清晰。頂層結構如下：
+      一個<strong>應用</strong>是持久化在 <code>app_def</code> 中的 JSON 文件。你不需要自己撰寫 JSON，這由 agent 完成，但了解它包含什麼會讓其他一切變得清晰。頂層結構如下：
     </p>
 
     <div class="code-block" style="line-height:1.7;">
@@ -43,7 +42,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     </div>
 
     <!-- ── APP INPUT ─────────────────────────────────────────── -->
-    <h2>AppInput —— 表單欄位</h2>
+    <h2>AppInput：表單欄位</h2>
     <p>
       <code>input_schema</code> 中的每一項都是使用者填寫的一個表單欄位。完整類型如下：
     </p>
@@ -70,17 +69,17 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     <table>
       <thead><tr><th>類型</th><th>UI</th><th>使用情境</th><th>額外欄位</th></tr></thead>
       <tbody>
-        <tr><td><code>text</code></td><td>單行文字框</td><td>短識別字 —— 名稱、URL、ID。</td><td>—</td></tr>
-        <tr><td><code>textarea</code></td><td>多行文字框</td><td>長指令、描述、待處理的內容。</td><td>—</td></tr>
+        <tr><td><code>text</code></td><td>單行文字框</td><td>短識別字，名稱、URL、ID。</td><td>，</td></tr>
+        <tr><td><code>textarea</code></td><td>多行文字框</td><td>長指令、描述、待處理的內容。</td><td>，</td></tr>
         <tr><td><code>number</code></td><td>數字輸入</td><td>計數、閾值、價格。</td><td><code>min</code>、<code>max</code>、<code>step</code></td></tr>
         <tr><td><code>slider</code></td><td>數字滑桿</td><td>有界範圍，注重感覺而非精確度。</td><td><code>min</code>、<code>max</code>、<code>step</code></td></tr>
-        <tr><td><code>select</code></td><td>單選下拉</td><td>3–10 個固定選項，僅允許選一項。</td><td><code>options</code>（必填）</td></tr>
-        <tr><td><code>multiselect</code></td><td>多選下拉</td><td>3–10 個固定選項，允許多選。</td><td><code>options</code>（必填）</td></tr>
-        <tr><td><code>radio</code></td><td>單選按鈕群組</td><td>2–4 個選項，需要一次性全部呈現。</td><td><code>options</code>（必填）</td></tr>
-        <tr><td><code>boolean</code></td><td>切換 / 核取方塊</td><td>是 / 否旗標、選用功能。</td><td>—</td></tr>
-        <tr><td><code>date</code></td><td>日期選擇器</td><td>"截止日期"、"錨定日期"。</td><td>—</td></tr>
-        <tr><td><code>daterange</code></td><td>兩個日期選擇器</td><td>區間報表 —— "從 X 到 Y"。</td><td>—</td></tr>
-        <tr><td><code>file</code></td><td>檔案上傳按鈕</td><td>使用者每次執行都上傳新檔案（CSV、PDF、圖片）。</td><td>—</td></tr>
+        <tr><td><code>select</code></td><td>單選下拉</td><td>3-10 個固定選項，僅允許選一項。</td><td><code>options</code>（必填）</td></tr>
+        <tr><td><code>multiselect</code></td><td>多選下拉</td><td>3-10 個固定選項，允許多選。</td><td><code>options</code>（必填）</td></tr>
+        <tr><td><code>radio</code></td><td>單選按鈕群組</td><td>2-4 個選項，需要一次性全部呈現。</td><td><code>options</code>（必填）</td></tr>
+        <tr><td><code>boolean</code></td><td>切換 / 核取方塊</td><td>是 / 否旗標、選用功能。</td><td>，</td></tr>
+        <tr><td><code>date</code></td><td>日期選擇器</td><td>"截止日期"、"錨定日期"。</td><td>，</td></tr>
+        <tr><td><code>daterange</code></td><td>兩個日期選擇器</td><td>區間報表，"從 X 到 Y"。</td><td>，</td></tr>
+        <tr><td><code>file</code></td><td>檔案上傳按鈕</td><td>使用者每次執行都上傳新檔案（CSV、PDF、圖片）。</td><td>，</td></tr>
       </tbody>
     </table>
 
@@ -125,7 +124,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     </div>
 
     <!-- ── STAGE ─────────────────────────────────────────────── -->
-    <h2>AppStage —— 實際執行的內容</h2>
+    <h2>AppStage：實際執行的內容</h2>
     <p>
       <code>stages</code> 中的每一項都是工作流程中的一步。各階段按順序執行；每個階段都可以讀取先前階段產生的產物。
     </p>
@@ -164,12 +163,12 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
         <tr>
           <td><strong>適用情境</strong></td>
           <td>研究、起草、摘要，任何模糊任務</td>
-          <td>精確轉換 —— 過濾 CSV、去重、格式化日期</td>
+          <td>精確轉換，過濾 CSV、去重、格式化日期</td>
           <td>審批關卡、"挑出最好的 N 個"</td>
         </tr>
         <tr>
           <td><strong>延遲</strong></td>
-          <td>20 秒 – 10 分鐘</td>
+          <td>20 秒 - 10 分鐘</td>
           <td>通常 &lt; 1 秒</td>
           <td>取決於真人耗時</td>
         </tr>
@@ -182,7 +181,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
         <tr>
           <td><strong>確定性？</strong></td>
           <td>否（LLM 的隨機性）</td>
-          <td>是 —— 同樣輸入，同樣輸出</td>
+          <td>是，同樣輸入，同樣輸出</td>
           <td>否（人的變異性）</td>
         </tr>
       </tbody>
@@ -190,7 +189,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h3>撰寫 <code>goal</code> 欄位</h3>
     <p>
-      goal 就是 agent 的指令。在階段執行之前，執行器會用正規表示式 <code>/{`\{\{([^}]+)\}\}`}/g</code> 走訪 goal，並將每個 <code>{`{{key}}`}</code> 替換為 <code>execution.input[key]</code>。未匹配的引用會原樣保留 —— 並不會報錯，但也不會被替換，所以請仔細拼寫輸入的 <code>id</code>。
+      goal 就是 agent 的指令。在階段執行之前，執行器會用正規表示式 <code>/{`\{\{([^}]+)\}\}`}/g</code> 走訪 goal，並將每個 <code>{`{{key}}`}</code> 替換為 <code>execution.input[key]</code>。未匹配的引用會原樣保留，並不會報錯，但也不會被替換，所以請仔細拼寫輸入的 <code>id</code>。
     </p>
 
     <table>
@@ -203,7 +202,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     </table>
 
     <div class="callout warn">
-      <strong>goal 範本<em>不</em>支援的內容。</strong>這裡沒有 <code>{`{{today}}`}</code>、沒有 <code>{`{{user.email}}`}</code>、沒有 <code>{`{{#if x}}...{{/if}}`}</code>，並且 —— 關鍵是 —— 沒有 <code>{`{{ stages.X.Y }}`}</code>。範本展開器只看表單值。對於時間相關的錨點，請改用輸入欄位上的 <code>dynamic_default</code>。對於上一階段的輸出，請見下面的<em>多階段應用</em> —— 執行器會自動把它們注入到 system prompt。
+      <strong>goal 範本<em>不</em>支援的內容。</strong>這裡沒有 <code>{`{{today}}`}</code>、沒有 <code>{`{{user.email}}`}</code>、沒有 <code>{`{{#if x}}...{{/if}}`}</code>，並且，關鍵是，沒有 <code>{`{{ stages.X.Y }}`}</code>。範本展開器只看表單值。對於時間相關的錨點，請改用輸入欄位上的 <code>dynamic_default</code>。對於上一階段的輸出，請見下面的<em>多階段應用</em>，執行器會自動把它們注入到 system prompt。
     </div>
 
     <p>一個真實範例：</p>
@@ -226,14 +225,14 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
 
     <p>一個好的 goal 應該是：</p>
     <ul>
-      <li><strong>具體</strong> —— 指明要用哪些輸入以及如何使用它們。</li>
-      <li><strong>關注輸出</strong> —— 指明產物 ID 與格式。</li>
-      <li><strong>可執行</strong> —— 使用祈使動詞（"研究"、"撰寫"、"分析"）。</li>
-      <li><strong>結構化</strong> —— 一個帶編號小節的 10 行 goal 幾乎總是優於 2 行的版本。</li>
+      <li><strong>具體</strong>：指明要用哪些輸入以及如何使用它們。</li>
+      <li><strong>關注輸出</strong>：指明產物 ID 與格式。</li>
+      <li><strong>可執行</strong>：使用祈使動詞（"研究"、"撰寫"、"分析"）。</li>
+      <li><strong>結構化</strong>：一個帶編號小節的 10 行 goal 幾乎總是優於 2 行的版本。</li>
     </ul>
 
     <!-- ── ARTIFACT ──────────────────────────────────────────── -->
-    <h2>AppArtifactDef —— 每個階段的產出</h2>
+    <h2>AppArtifactDef：每個階段的產出</h2>
     <div class="code-block" style="line-height:1.7;">
 {`{`}<br/>
 &nbsp;&nbsp;"id":          <span style="color:var(--aw-color-primary)">string</span>,    <span style="color:var(--aw-color-text-muted)">// snake_case，例如 "final_report"</span><br/>
@@ -252,9 +251,9 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
         <tr><td><code>code</code></td><td>原始碼，單檔案或目錄樹</td><td>語法高亮，多檔案輸出時附帶檔案樹。</td></tr>
         <tr><td><code>html</code></td><td>渲染頁面、儀表板、簡報</td><td>沙盒化的 iframe；允許腳本但被隔離。</td></tr>
         <tr><td><code>json</code></td><td>用於下游系統的結構化資料</td><td>可折疊樹，附類型資訊。</td></tr>
-        <tr><td><code>csv</code></td><td>表格資料 —— 線索、交易</td><td>可排序、可篩選的試算表檢視。</td></tr>
+        <tr><td><code>csv</code></td><td>表格資料，線索、交易</td><td>可排序、可篩選的試算表檢視。</td></tr>
         <tr><td><code>image</code></td><td>產生的圖片、圖表、示意圖</td><td>支援縮放與平移。PNG / JPEG / SVG / WebP。</td></tr>
-        <tr><td><code>file</code></td><td>其他任何內容 —— PDF、ZIP、音訊、影片</td><td>按類型自適應：PDF 內嵌預覽、音訊播放器、ZIP 檔案清單。</td></tr>
+        <tr><td><code>file</code></td><td>其他任何內容，PDF、ZIP、音訊、影片</td><td>按類型自適應：PDF 內嵌預覽、音訊播放器、ZIP 檔案清單。</td></tr>
       </tbody>
     </table>
 
@@ -263,7 +262,7 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
     </p>
 
     <!-- ── RESOURCES ─────────────────────────────────────────── -->
-    <h2>Resources —— 應用所需的技能與連接</h2>
+    <h2>Resources：應用所需的技能與連接</h2>
     <div class="code-block">
 "resources": {`{`}<br/>
 &nbsp;&nbsp;"skills":   ["web-search", "pdf-extract"],<br/>
@@ -275,25 +274,25 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
 {`}`}
     </div>
     <p>
-      <strong>技能</strong>是 agent 可以調用的能力模組（網頁搜尋、PDF 擷取、圖像生成）—— 詳見 <a href="/zh-TW/docs/skills">技能</a>。<strong>連接</strong>是應用所需的 OAuth 橋樑。Aitroop 以兩層分類來組織連接：
+      <strong>技能</strong>是 agent 可以調用的能力模組（網頁搜尋、PDF 擷取、圖像生成），詳見 <a href="/zh-TW/docs/skills">技能</a>。<strong>連接</strong>是應用所需的 OAuth 橋樑。Aitroop 以兩層分類來組織連接：
     </p>
     <ul>
       <li>
-        <strong><code>type: "specific"</code></strong> —— 以 <code>connect_definition.id</code> 鎖定單一提供方（例如 <code>github</code>、<code>hubspot</code>、<code>gmail</code>）。僅適配某一種整合時使用。
+        <strong><code>type: "specific"</code></strong>：以 <code>connect_definition.id</code> 鎖定單一提供方（例如 <code>github</code>、<code>hubspot</code>、<code>gmail</code>）。僅適配某一種整合時使用。
       </li>
       <li>
-        <strong><code>type: "category"</code></strong> —— 接受 <code>connect_category</code> 內的任一提供方（例如 <code>email</code>、<code>storage</code>、<code>crm</code>）。只要使用者授權了該類別下的至少一個提供方，應用就視為滿足。當應用與具體提供方無關時（"任意信箱"、"任意 CRM"）使用。
+        <strong><code>type: "category"</code></strong>：接受 <code>connect_category</code> 內的任一提供方（例如 <code>email</code>、<code>storage</code>、<code>crm</code>）。只要使用者授權了該類別下的至少一個提供方，應用就視為滿足。當應用與具體提供方無關時（"任意信箱"、"任意 CRM"）使用。
       </li>
     </ul>
     <p>
-      舊的形式 <code>"connects": ["hubspot", "github"]</code> 仍然可用 —— 應用執行時每個字串都會被視為 <code>{`{`} type: "specific", id: <span class="">«string»</span>, is_required: true {`}`}</code>。應用建構器在新建應用時會寫入更豐富的形式。
+      舊的形式 <code>"connects": ["hubspot", "github"]</code> 仍然可用，應用執行時每個字串都會被視為 <code>{`{`} type: "specific", id: <span class="">«string»</span>, is_required: true {`}`}</code>。應用建構器在新建應用時會寫入更豐富的形式。
     </p>
     <p>
-      資源可以在應用級宣告（如上），也可以按階段宣告（在 <code>stage.skills</code> / <code>stage.connects</code> 下）。按階段範圍化是讓多階段應用更安全的方式 —— 給階段 1 只配置 <code>web-search</code>，給階段 2 只配置 CRM 連接，以此類推。請見 <a href="/zh-TW/docs/connects">連接</a> 了解完整的提供方目錄與滿足模型。
+      資源可以在應用級宣告（如上），也可以按階段宣告（在 <code>stage.skills</code> / <code>stage.connects</code> 下）。按階段範圍化是讓多階段應用更安全的方式，給階段 1 只配置 <code>web-search</code>，給階段 2 只配置 CRM 連接，以此類推。請見 <a href="/zh-TW/docs/connects">連接</a> 了解完整的提供方目錄與滿足模型。
     </p>
 
     <!-- ── EXECUTIONS ─────────────────────────────────── -->
-    <h2>執行記錄 —— 應用真正執行的時刻</h2>
+    <h2>執行記錄：應用真正執行的時刻</h2>
     <p>
       一次<strong>執行記錄</strong>是一次走完應用所有階段的過程。它就是那個帶有狀態、階段日誌、耗時和最終產物集合的實體。
     </p>
@@ -333,23 +332,23 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
       </tbody>
     </table>
     <p>
-      當一個 <code>human</code> 階段在等待時，階段日誌會進入 <code>waiting</code>；父執行仍維持 <code>running</code>。當執行帶 <code>start_from_stage_index &gt; 0</code> 恢復時，它們也會進入 <code>skipped</code> —— 較早的階段不會重新執行。請見 <a href="/zh-TW/docs/executions">執行記錄</a> 了解完整生命週期、除錯流程與 SSE 串流。
+      當一個 <code>human</code> 階段在等待時，階段日誌會進入 <code>waiting</code>；父執行仍維持 <code>running</code>。當執行帶 <code>start_from_stage_index &gt; 0</code> 恢復時，它們也會進入 <code>skipped</code>：較早的階段不會重新執行。請見 <a href="/zh-TW/docs/executions">執行記錄</a> 了解完整生命週期、除錯流程與 SSE 串流。
     </p>
 
     <!-- ── SANDBOX ─────────────────────────────────── -->
-    <h2>沙盒 —— agent 實際工作的地方</h2>
+    <h2>沙盒：agent 實際工作的地方</h2>
     <p>
-      每一次對話和每一個應用階段都執行在一個<strong>沙盒</strong>中：一個隔離的執行環境，擁有自己的檔案系統、自己的行程和對外網路。agent 可以 <code>pip install</code>、執行 shell 指令、寫入檔案、抓取 URL —— 執行結束時，沙盒會被銷毀。
+      每一次對話和每一個應用階段都執行在一個<strong>沙盒</strong>中：一個隔離的執行環境，擁有自己的檔案系統、自己的行程和對外網路。agent 可以 <code>pip install</code>、執行 shell 指令、寫入檔案、抓取 URL，執行結束時，沙盒會被銷毀。
     </p>
 
     <p>
       統一在 <code>ISandbox</code> 介面下提供三種後端，再由一個路由器在它們之間挑選：
     </p>
     <ul>
-      <li><code>host</code> —— 直接在 Aitroop 伺服器行程中執行。僅用於自架開發環境；<code>DATABASE_URL</code>、<code>JWT_SECRET</code>、<code>E2B_API_KEY</code> 與 S3 憑證等敏感變數會從子行程環境中剝離。</li>
-      <li><code>e2b</code> —— 來自 E2B 的 Firecracker 微型虛擬機。Aitroop 託管版的預設選項。</li>
-      <li><code>daytona</code> —— 來自 Daytona 的託管開發容器。適合重負載 / 長時間階段。</li>
-      <li><code>router</code> —— 按使用者分派到上述三者之一的選擇器（用於把特權使用者路由到 <code>host</code>）。</li>
+      <li><code>host</code>：直接在 Aitroop 伺服器行程中執行。僅用於自架開發環境；<code>DATABASE_URL</code>、<code>JWT_SECRET</code>、<code>E2B_API_KEY</code> 與 S3 憑證等敏感變數會從子行程環境中剝離。</li>
+      <li><code>e2b</code>：來自 E2B 的 Firecracker 微型虛擬機。Aitroop 託管版的預設選項。</li>
+      <li><code>daytona</code>：來自 Daytona 的託管開發容器。適合重負載 / 長時間階段。</li>
+      <li><code>router</code>：按使用者分派到上述三者之一的選擇器（用於把特權使用者路由到 <code>host</code>）。</li>
     </ul>
 
     <p>
@@ -366,13 +365,13 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
     </div>
 
     <p>
-      同一次執行中的所有階段共享同一個沙盒，所以階段 2 可以讀取階段 1 寫入的內容。不同的執行使用不同的沙盒 —— 不會跨執行洩漏。實務上你會遇到的常數：<code>SANDBOX_IDLE_TIMEOUT_MS = 5 分鐘</code>、<code>SANDBOX_KEEPALIVE_INTERVAL_MS = 30 秒</code>，以及上限 <code>AGENT_RUN_TIMEOUT_MS = 7 天</code>。請見 <a href="/zh-TW/docs/sandbox">沙盒</a> 了解完整的運行模型。
+      同一次執行中的所有階段共享同一個沙盒，所以階段 2 可以讀取階段 1 寫入的內容。不同的執行使用不同的沙盒，不會跨執行洩漏。實務上你會遇到的常數：<code>SANDBOX_IDLE_TIMEOUT_MS = 5 分鐘</code>、<code>SANDBOX_KEEPALIVE_INTERVAL_MS = 30 秒</code>，以及上限 <code>AGENT_RUN_TIMEOUT_MS = 7 天</code>。請見 <a href="/zh-TW/docs/sandbox">沙盒</a> 了解完整的運行模型。
     </p>
 
     <!-- ── MULTI-STAGE ─────────────────────────────────────── -->
     <h2>多階段應用</h2>
     <p>
-      當一個工作流程天然有彼此銜接的步驟時，就定義多個階段。各階段按順序執行。每個階段在<strong>兩個</strong>地方都能看到前序階段的產物 —— 但都不透過 goal 範本：
+      當一個工作流程天然有彼此銜接的步驟時，就定義多個階段。各階段按順序執行。每個階段在<strong>兩個</strong>地方都能看到前序階段的產物，但都不透過 goal 範本：
     </p>
 
     <ol>
@@ -380,7 +379,7 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
         <strong>共享的沙盒檔案系統。</strong>一次執行中的所有階段都在同一個沙盒中執行（<a href="/zh-TW/docs/sandbox">沙盒</a>）。階段 1 寫入的檔案，階段 2 仍然可以讀到。
       </li>
       <li>
-        <strong>system prompt 中自動注入的 <code>## Previous Stage Outputs</code> 區塊。</strong>在階段 N 執行之前，執行器會載入階段 0..N-1 產生的所有產物，把每個產物渲染為 <code>### {`{{title}}`}\n{`{{content}}`}</code>，並將這一段拼接到 system prompt 之前。agent 把它們當作一般上下文閱讀 —— 不需要在 goal 中手動引用。
+        <strong>system prompt 中自動注入的 <code>## Previous Stage Outputs</code> 區塊。</strong>在階段 N 執行之前，執行器會載入階段 0..N-1 產生的所有產物，把每個產物渲染為 <code>### {`{{title}}`}\n{`{{content}}`}</code>，並將這一段拼接到 system prompt 之前。agent 把它們當作一般上下文閱讀，不需要在 goal 中手動引用。
       </li>
     </ol>
 
@@ -408,20 +407,20 @@ stages: [<br/>
     </div>
 
     <p>
-      注意兩個 <code>agent</code> 階段之間夾著一個 <code>human</code> 階段 —— 這就是<strong>人在迴圈</strong>（human-in-the-loop）模式。執行在此處暫停，平台會在 <code>app_human_gate</code> 中建立一列，狀態為 <code>pending</code>，階段日誌切換為 <code>waiting</code>。只有當 gate 被設為 <code>approved</code> 時下一個階段才會執行（設為 <code>rejected</code> 時則維持暫停）。
+      注意兩個 <code>agent</code> 階段之間夾著一個 <code>human</code> 階段，這就是<strong>人在迴圈</strong>（human-in-the-loop）模式。執行在此處暫停，平台會在 <code>app_human_gate</code> 中建立一列，狀態為 <code>pending</code>，階段日誌切換為 <code>waiting</code>。只有當 gate 被設為 <code>approved</code> 時下一個階段才會執行（設為 <code>rejected</code> 時則維持暫停）。
     </p>
 
     <!-- ── SESSIONS & MESSAGES ─────────────────────────────────────── -->
     <h2>會話與訊息佇列</h2>
     <p>
-      所有與 agent 的對話 —— 無論是自由聊天、應用階段，還是排程任務的一次觸發 —— 都發生在一個<strong>會話</strong>中。一個會話是一個穩定的容器，擁有自己的 Claude 對話 ID、自己的有序訊息日誌，以及自己的狀態追蹤佇列。在 <code>app_session.session_type</code> 中持久化有三種形態：
+      所有與 agent 的對話，無論是自由聊天、應用階段，還是排程任務的一次觸發，都發生在一個<strong>會話</strong>中。一個會話是一個穩定的容器，擁有自己的 Claude 對話 ID、自己的有序訊息日誌，以及自己的狀態追蹤佇列。在 <code>app_session.session_type</code> 中持久化有三種形態：
     </p>
     <table>
       <thead><tr><th>session_type</th><th>由誰建立</th><th>生命週期</th><th>出現位置</th></tr></thead>
       <tbody>
         <tr>
           <td><code>chat</code></td>
-          <td>使用者 —— "+ 新對話"。</td>
+          <td>使用者，"+ 新對話"。</td>
           <td>除非封存/刪除否則永久保留。</td>
           <td>側邊欄、搜尋、歷史。</td>
         </tr>
@@ -429,19 +428,19 @@ stages: [<br/>
           <td><code>app_stage</code></td>
           <td>應用執行器在某個 <code>agent</code> 階段開始時建立。</td>
           <td>綁定到父執行。永久存放作為稽核，可透過<em>在對話中除錯</em>瀏覽。</td>
-          <td>執行詳情頁 —— 每個階段日誌都帶有 <code>session_id</code>。</td>
+          <td>執行詳情頁，每個階段日誌都帶有 <code>session_id</code>。</td>
         </tr>
         <tr>
           <td><code>scheduled</code></td>
           <td>某個 <code>send_message</code> 排程任務的第一次觸發。</td>
-          <td>之後該任務的每次觸發都重複使用 —— 設計上就保持連續性。</td>
+          <td>之後該任務的每次觸發都重複使用，設計上就保持連續性。</td>
           <td>從任務列連結而來的單個 "[Scheduled] {`{name}`}" 會話。</td>
         </tr>
       </tbody>
     </table>
 
     <p>
-      在每個會話中，每一次使用者回合都是 <code>app_message</code> 中的一列。這些列不是「發完就忘」 —— 它們要走一個小型狀態機，因為 agent worker 池可能是多實例的，同一個會話必須串列化它的分派：
+      在每個會話中，每一次使用者回合都是 <code>app_message</code> 中的一列。這些列不是「發完就忘」，它們要走一個小型狀態機，因為 agent worker 池可能是多實例的，同一個會話必須串列化它的分派：
     </p>
 
     <div class="code-block" style="line-height:1.85;text-align:center;padding:1.5rem;">
@@ -452,21 +451,21 @@ stages: [<br/>
 
     <p><code>app_message</code> 上重要的欄位：</p>
     <ul>
-      <li><strong><code>position</code></strong> —— 每個會話內的整數，單調遞增。決定相同優先級列之間的順序。DAO 在插入列時原子地分配此值。</li>
-      <li><strong><code>priority</code></strong> —— 64 位元排序鍵。優先級越高越先分派；預設為實際時鐘時間，所以兩條沒有明確優先級的訊息按到達順序執行。</li>
-      <li><strong><code>attempts</code></strong> —— 每次嘗試分派時遞增。5 次失敗後，列進入 <code>failed</code>，使用者可見訊息顯示錯誤。</li>
-      <li><strong><code>dispatched_at</code></strong> —— worker 認領該列時設定；與 15 分鐘過期閾值搭配驅動恢復輪詢。</li>
-      <li><strong><code>mode</code></strong> —— 自由形式的標籤，表示這條訊息是什麼類型（用於 UI 中路由格式化）。</li>
-      <li><strong><code>last_error</code></strong> —— 最近一次失敗原因，跨重試保留。</li>
+      <li><strong><code>position</code></strong>：每個會話內的整數，單調遞增。決定相同優先級列之間的順序。DAO 在插入列時原子地分配此值。</li>
+      <li><strong><code>priority</code></strong>：64 位元排序鍵。優先級越高越先分派；預設為實際時鐘時間，所以兩條沒有明確優先級的訊息按到達順序執行。</li>
+      <li><strong><code>attempts</code></strong>：每次嘗試分派時遞增。5 次失敗後，列進入 <code>failed</code>，使用者可見訊息顯示錯誤。</li>
+      <li><strong><code>dispatched_at</code></strong>：worker 認領該列時設定；與 15 分鐘過期閾值搭配驅動恢復輪詢。</li>
+      <li><strong><code>mode</code></strong>：自由形式的標籤，表示這條訊息是什麼類型（用於 UI 中路由格式化）。</li>
+      <li><strong><code>last_error</code></strong>：最近一次失敗原因，跨重試保留。</li>
     </ul>
 
     <p>
-      worker 透過 <code>SELECT … FOR UPDATE SKIP LOCKED</code> 並按 <code>priority DESC, position ASC</code> 排序來認領工作，因此兩個實例永遠不會搶到同一列。一個部分唯一索引 —— 在 <code>session_id</code> 上的 <code>uq_app_message_inflight</code>，WHERE 條件為 <code>status = 'dispatching' AND role = 'user'</code> —— 在資料庫層強制「每個會話最多一條在途使用者訊息」。如果某列在 <code>dispatching</code> 狀態停留超過 900 秒（worker 崩潰、節點遺失），恢復輪詢器會將其重設為 <code>pending</code>，以便另一個 worker 接手。
+      worker 透過 <code>SELECT … FOR UPDATE SKIP LOCKED</code> 並按 <code>priority DESC, position ASC</code> 排序來認領工作，因此兩個實例永遠不會搶到同一列。一個部分唯一索引，在 <code>session_id</code> 上的 <code>uq_app_message_inflight</code>，WHERE 條件為 <code>status = 'dispatching' AND role = 'user'</code>：在資料庫層強制「每個會話最多一條在途使用者訊息」。如果某列在 <code>dispatching</code> 狀態停留超過 900 秒（worker 崩潰、節點遺失），恢復輪詢器會將其重設為 <code>pending</code>，以便另一個 worker 接手。
     </p>
 
     <h3>分派是如何流轉的</h3>
     <p>
-      機制有兩層：行程內的 <code>QueueController</code> 與 Postgres 的 <code>NOTIFY</code> 頻道 <code>queue_dispatch</code>。當一條新訊息入佇列時，寫入端實例會在本地廣播 <code>queue_updated</code> 事件，並發出 <code>pg_notify('queue_dispatch', '{`{sessionId}`}|{`{originInstanceId}`}')</code>。監聽同一頻道的其他實例會忽略自己的回聲，並接手工作 —— 因此分派在叢集範圍內是事件驅動的，再輔以 60 秒的輪詢作為漏掉通知時的後備。
+      機制有兩層：行程內的 <code>QueueController</code> 與 Postgres 的 <code>NOTIFY</code> 頻道 <code>queue_dispatch</code>。當一條新訊息入佇列時，寫入端實例會在本地廣播 <code>queue_updated</code> 事件，並發出 <code>pg_notify('queue_dispatch', '{`{sessionId}`}|{`{originInstanceId}`}')</code>。監聽同一頻道的其他實例會忽略自己的回聲，並接手工作，因此分派在叢集範圍內是事件驅動的，再輔以 60 秒的輪詢作為漏掉通知時的後備。
     </p>
 
     <h3>shared-session 旗標</h3>
@@ -476,13 +475,13 @@ stages: [<br/>
 
     <h3><code>ask_user</code> 模式</h3>
     <p>
-      agent 偶爾需要在執行中向使用者提問（一個歧義、一段缺失的輸入）。發出一個 <code>ask_user</code> 工具呼叫會暫停 agent 當前回合，將問題在對話 UI 中呈現，並等待回覆。平台會在下一次 tick 時把回覆作為工具結果回傳 —— 所以從模型視角看，agent 的「我問過了，這是答案」只是一次普通的對話步驟。這與 <code>human</code> 階段（在執行級別對整個流水線設置關卡）不同；<code>ask_user</code> 完全是會話內部行為。
+      agent 偶爾需要在執行中向使用者提問（一個歧義、一段缺失的輸入）。發出一個 <code>ask_user</code> 工具呼叫會暫停 agent 當前回合，將問題在對話 UI 中呈現，並等待回覆。平台會在下一次 tick 時把回覆作為工具結果回傳，所以從模型視角看，agent 的「我問過了，這是答案」只是一次普通的對話步驟。這與 <code>human</code> 階段（在執行級別對整個流水線設置關卡）不同；<code>ask_user</code> 完全是會話內部行為。
     </p>
 
     <!-- ── RUNNER PROTOCOL ─────────────────────────────────────────── -->
     <h2>agent runner 協定</h2>
     <p>
-      每個 <code>agent</code> 階段和每次對話回合最終都透過一個名為 <code>run-agent</code> 的 Go 二進位執行。伺服器把一個 JSON 設定交給該二進位，並按行讀取它的 stdout。每一行就是一個事件 —— 這是一個穩定的 JSONL 協定，你會在日誌、SSE 負載以及對話 UI 的推理軌跡中看到它的引用。
+      每個 <code>agent</code> 階段和每次對話回合最終都透過一個名為 <code>run-agent</code> 的 Go 二進位執行。伺服器把一個 JSON 設定交給該二進位，並按行讀取它的 stdout。每一行就是一個事件，這是一個穩定的 JSONL 協定，你會在日誌、SSE 負載以及對話 UI 的推理軌跡中看到它的引用。
     </p>
 
     <h3>轉發的事件</h3>
@@ -497,7 +496,7 @@ stages: [<br/>
         <tr><td><code>tool_start</code></td><td>agent 正在呼叫一個工具。攜帶 <code>toolId</code>、<code>toolName</code> 和參數。</td></tr>
         <tr><td><code>tool_result</code></td><td>工具返回。攜帶 <code>toolId</code>、輸出與 <code>isError</code>。</td></tr>
         <tr><td><code>subtask_start</code> / <code>subtask_progress</code> / <code>subtask_done</code></td><td>agent 衍生了一個嵌套任務（Task 工具 / 子 agent）。</td></tr>
-        <tr><td><code>ask_user</code></td><td>agent 在繼續之前需要一個問題被回答 —— 見上文。</td></tr>
+        <tr><td><code>ask_user</code></td><td>agent 在繼續之前需要一個問題被回答，見上文。</td></tr>
         <tr><td><code>context_usage</code></td><td>週期性的 token 用量遙測（輸入/輸出/快取命中）。</td></tr>
         <tr><td><code>session_info</code></td><td>攜帶本次回合背後的 Claude 對話 ID；用於恢復。</td></tr>
         <tr><td><code>system</code></td><td>平台級訊息（例如權限提示、重試）。</td></tr>
@@ -508,7 +507,7 @@ stages: [<br/>
 
     <h3>內部事件（永不轉發）</h3>
     <p>
-      三個以 <code>__runner_*__</code> 命名的事件只被伺服器消費 —— 它們是簿記，不是使用者可見的狀態：
+      三個以 <code>__runner_*__</code> 命名的事件只被伺服器消費，它們是簿記，不是使用者可見的狀態：
     </p>
     <table>
       <thead><tr><th>事件</th><th>用途</th></tr></thead>
@@ -521,14 +520,14 @@ stages: [<br/>
 
     <h3>錯誤分類</h3>
     <p>
-      並非每一種 runner 失敗都一樣。伺服器會把捕獲到的錯誤訊息歸類到以下五個桶之一 —— 桶決定了恢復策略：
+      並非每一種 runner 失敗都一樣。伺服器會把捕獲到的錯誤訊息歸類到以下五個桶之一，桶決定了恢復策略：
     </p>
     <table>
       <thead><tr><th>類別</th><th>觸發條件</th><th>恢復</th></tr></thead>
       <tbody>
         <tr><td><code>session_expired</code></td><td>背後的 Claude 對話被退役或輪換。</td><td>開啟新的 Claude 對話；保留 Aitroop 會話列。</td></tr>
         <tr><td><code>sandbox_not_found</code></td><td>沙盒容器已死或被回收。</td><td>驅逐快取的沙盒並新建一個；本回合重試一次。</td></tr>
-        <tr><td><code>network</code></td><td>傳輸錯誤 —— <code>ECONNRESET</code>、<code>ETIMEDOUT</code>。</td><td>退避後重試。</td></tr>
+        <tr><td><code>network</code></td><td>傳輸錯誤，<code>ECONNRESET</code>、<code>ETIMEDOUT</code>。</td><td>退避後重試。</td></tr>
         <tr><td><code>connection</code></td><td>gRPC / MCP 協定級錯誤。</td><td>把錯誤暴露出來；由使用者明確重試。</td></tr>
         <tr><td><code>unknown</code></td><td>其他任何情況。</td><td>以原始錯誤把回合標記為失敗。</td></tr>
       </tbody>
@@ -539,14 +538,14 @@ stages: [<br/>
       伺服器為每個回合建立一份 <code>RunAgentConfig</code>，並在呼叫二進位之前寫入沙盒中的 <code>~/.aitroop/run-agent-config.json</code>。要點欄位：
     </p>
     <ul>
-      <li><strong><code>prompt</code></strong> —— 實際的使用者訊息（或階段展開後的 goal）。</li>
-      <li><strong><code>options.model</code></strong> —— Claude 模型 ID；若階段未鎖定則預設為 <code>claude-sonnet-4-6</code>。</li>
-      <li><strong><code>options.resume</code></strong> —— 存在時表示恢復一個既有的 Claude 對話。伺服器從會話的 <code>agent_session_id</code> 讀取。</li>
-      <li><strong><code>options.allowedTools</code></strong> —— runner 向模型暴露的精選工具集（通常 8 個：Read、Edit、Bash、Glob、Grep、Write、Task，以及 Aitroop MCP 集合）。</li>
-      <li><strong><code>options.permissionMode</code></strong> —— 固定為 <code>'bypassPermissions'</code>；平台在沙盒邊界強制權限，而不是互動式詢問。</li>
-      <li><strong><code>options.mcpServers</code></strong> —— Aitroop 自研的 MCP 伺服器，加上應用 / 階段請求的其他 MCP。</li>
-      <li><strong><code>options.env</code></strong> —— <code>process.env</code> 中所有以 <code>SANDBOX_ENV_</code> 開頭的變數都會被轉發並去掉前綴，再加上 <code>AT_USER_TOKEN</code>（使用者的 JWT）被注入，以便沙盒內的伺服器端呼叫能通過認證。</li>
-      <li><strong><code>options.oauthToken</code></strong> / <strong>代理模式</strong> —— 要麼是 Anthropic OAuth token，要麼在設定了代理時使用一個指向代理的 <code>ANTHROPIC_BASE_URL</code>，並以使用者的 JWT 作為 bearer。平台在每次呼叫時快照一次，保證一次回合內的所有重試都使用相同憑證。</li>
+      <li><strong><code>prompt</code></strong>：實際的使用者訊息（或階段展開後的 goal）。</li>
+      <li><strong><code>options.model</code></strong>：Claude 模型 ID；若階段未鎖定則預設為 <code>claude-sonnet-4-6</code>。</li>
+      <li><strong><code>options.resume</code></strong>：存在時表示恢復一個既有的 Claude 對話。伺服器從會話的 <code>agent_session_id</code> 讀取。</li>
+      <li><strong><code>options.allowedTools</code></strong>：runner 向模型暴露的精選工具集（通常 8 個：Read、Edit、Bash、Glob、Grep、Write、Task，以及 Aitroop MCP 集合）。</li>
+      <li><strong><code>options.permissionMode</code></strong>：固定為 <code>'bypassPermissions'</code>；平台在沙盒邊界強制權限，而不是互動式詢問。</li>
+      <li><strong><code>options.mcpServers</code></strong>：Aitroop 自研的 MCP 伺服器，加上應用 / 階段請求的其他 MCP。</li>
+      <li><strong><code>options.env</code></strong>：<code>process.env</code> 中所有以 <code>SANDBOX_ENV_</code> 開頭的變數都會被轉發並去掉前綴，再加上 <code>AT_USER_TOKEN</code>（使用者的 JWT）被注入，以便沙盒內的伺服器端呼叫能通過認證。</li>
+      <li><strong><code>options.oauthToken</code></strong> / <strong>代理模式</strong>：要麼是 Anthropic OAuth token，要麼在設定了代理時使用一個指向代理的 <code>ANTHROPIC_BASE_URL</code>，並以使用者的 JWT 作為 bearer。平台在每次呼叫時快照一次，保證一次回合內的所有重試都使用相同憑證。</li>
     </ul>
 
     <h2>應用是如何被建立出來的</h2>
@@ -556,9 +555,9 @@ stages: [<br/>
     <ol>
       <li>你在對話中告訴 agent：<em>「建立一個應用，讓它……」</em></li>
       <li>agent 啟用 <code>aitroop-app-create</code> 技能（應用建構器）。</li>
-      <li>必要時應用建構器會問 1–5 個釐清問題。</li>
+      <li>必要時應用建構器會問 1-5 個釐清問題。</li>
       <li>它設計完整的 AppDef（輸入、階段、產物、資源）。</li>
-      <li>它驗證設計 —— 每個 ID 唯一、每個 <code>{`{{ref}}`}</code> 可解析、goal 足夠具體。</li>
+      <li>它驗證設計，每個 ID 唯一、每個 <code>{`{{ref}}`}</code> 可解析、goal 足夠具體。</li>
       <li>它呼叫 <code>POST /api/apps</code> 來儲存。</li>
       <li>它回報應用 ID 並提議進一步打磨。</li>
     </ol>
@@ -567,12 +566,12 @@ stages: [<br/>
 
     <h2>常見錯誤</h2>
     <ul>
-      <li><strong>goal 過於模糊</strong> —— 「做點研究」太過寬泛。請指明資訊來源、深度、輸出格式。</li>
-      <li><strong>缺少產物</strong> —— 一個沒有 <code>artifact_defs</code> 的應用不會產生任何可見輸出。</li>
-      <li><strong>必填項太多</strong> —— 使用者會放棄需要長表單的應用。能預設就預設。</li>
-      <li><strong>逾時設得太短</strong> —— 重度研究階段需要 5–10 分鐘。把 <code>timeout_ms</code> 調到 <code>600000</code>。</li>
-      <li><strong>輸入類型選錯</strong> —— 長文字用 <code>textarea</code>，短識別字用 <code>text</code>，3–6 個固定選項用 <code>select</code>。</li>
-      <li><strong>過度拆分</strong> —— 把本是一個想法的任務拆成 4 個階段。只有當工作天然有可分離的步驟時才使用多階段。</li>
+      <li><strong>goal 過於模糊</strong>：「做點研究」太過寬泛。請指明資訊來源、深度、輸出格式。</li>
+      <li><strong>缺少產物</strong>：一個沒有 <code>artifact_defs</code> 的應用不會產生任何可見輸出。</li>
+      <li><strong>必填項太多</strong>：使用者會放棄需要長表單的應用。能預設就預設。</li>
+      <li><strong>逾時設得太短</strong>：重度研究階段需要 5-10 分鐘。把 <code>timeout_ms</code> 調到 <code>600000</code>。</li>
+      <li><strong>輸入類型選錯</strong>：長文字用 <code>textarea</code>，短識別字用 <code>text</code>，3-6 個固定選項用 <code>select</code>。</li>
+      <li><strong>過度拆分</strong>：把本是一個想法的任務拆成 4 個階段。只有當工作天然有可分離的步驟時才使用多階段。</li>
     </ul>
 
     <h2>速查詞表</h2>
@@ -580,7 +579,7 @@ stages: [<br/>
       <thead><tr><th>術語</th><th>含義</th></tr></thead>
       <tbody>
         <tr><td><strong>應用（App）</strong></td><td>一份儲存好的工作流程 JSON 文件，包含表單、階段與產物。</td></tr>
-        <tr><td><strong>AppInput</strong></td><td>一個表單欄位。支援 11 種類型 —— 見輸入類型表。</td></tr>
+        <tr><td><strong>AppInput</strong></td><td>一個表單欄位。支援 11 種類型，見輸入類型表。</td></tr>
         <tr><td><strong>階段（Stage）</strong></td><td>工作流程中的一步。類型：<code>agent</code>、<code>script</code>、<code>human</code>。</td></tr>
         <tr><td><strong>goal</strong></td><td>階段內 agent 的指令字串。以 <code>{`{{id}}`}</code> 引用輸入。</td></tr>
         <tr><td><strong>產物（Artifact）</strong></td><td>階段產出的交付物。帶類型（markdown、csv 等）。</td></tr>
@@ -588,20 +587,20 @@ stages: [<br/>
         <tr><td><strong>連接（Connect）</strong></td><td>到外部服務的 OAuth 整合（google、github、hubspot）。</td></tr>
         <tr><td><strong>Resources</strong></td><td>應用宣告所需的技能與連接。</td></tr>
         <tr><td><strong>執行記錄（Execution）</strong></td><td>一次應用的執行。帶有狀態、階段日誌與產物。</td></tr>
-        <tr><td><strong>階段日誌（Stage log）</strong></td><td>一次執行中按階段的紀錄 —— 狀態、耗時、錯誤、會話。</td></tr>
+        <tr><td><strong>階段日誌（Stage log）</strong></td><td>一次執行中按階段的紀錄，狀態、耗時、錯誤、會話。</td></tr>
         <tr><td><strong>Human gate</strong></td><td>等待人工通過 / 拒絕 / 編輯的暫停執行。</td></tr>
         <tr><td><strong>沙盒（Sandbox）</strong></td><td>每次對話或應用執行所在的隔離執行環境。三種提供方：host / e2b / daytona。</td></tr>
         <tr><td><strong>會話（Session）</strong></td><td>承載訊息序列的對話容器。類型：<code>chat</code> / <code>app_stage</code> / <code>scheduled</code>。</td></tr>
         <tr><td><strong>訊息（Message）</strong></td><td><code>app_message</code> 中的一列。位於分派佇列中，具有狀態機與優先級。</td></tr>
         <tr><td><strong>Runner</strong></td><td>實際驅動一次 Claude 回合的 <code>run-agent</code> 二進位。向伺服器回傳 JSONL 事件。</td></tr>
-        <tr><td><strong>工作區（Workspace）</strong></td><td>帳戶容器 —— 包含應用、連接與執行歷史。</td></tr>
+        <tr><td><strong>工作區（Workspace）</strong></td><td>帳戶容器，包含應用、連接與執行歷史。</td></tr>
         <tr><td><strong>Org</strong></td><td>位於使用者之上的團隊層。共享應用、共享帳單、成員角色。</td></tr>
       </tbody>
     </table>
 
     <div class="next-up">
       <span class="label">下一步</span>
-      <a href="/zh-TW/docs/chat">對話模式 —— agent 駕駛艙</a>
+      <a href="/zh-TW/docs/chat">對話模式：agent 駕駛艙</a>
     </div>
   </DocsShell>
 </Layout>

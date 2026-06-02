@@ -2,13 +2,12 @@
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
-  title: 'Use Cases — Aitroop',
+  title: 'Use Cases · Aitroop',
 };
 
 const cases = [
   {
     slug: '/use-cases/gtm',
-    eyebrow: 'B2B Growth',
     title: 'GTM',
     tagline: 'Pipeline that runs itself.',
     desc: 'Prospecting, outreach, retention, and pipeline insights. Pre-built Apps for revenue teams who want compounding output without expanding headcount.',
@@ -16,10 +15,9 @@ const cases = [
   },
   {
     slug: '/use-cases/finance',
-    eyebrow: 'Finance teams · CFO',
     title: 'Finance',
     tagline: 'Close the books faster.',
-    desc: 'Month-end close, AR/AP analysis, expense compliance, and budget variance — for finance teams who want to spend less time on spreadsheets and more on the analysis.',
+    desc: 'Month-end close, AR/AP analysis, expense compliance, and budget variance. For finance teams who want to spend less time on spreadsheets and more on the analysis.',
     apps: ['Month-end checklist', 'AR aging report', 'Expense audit', 'Variance analysis'],
   },
 ];
@@ -48,7 +46,6 @@ const cases = [
           <li>
             <a href={c.slug} class="group">
               <div class="pack-head">
-                <p class="aw-eyebrow-mono">{c.eyebrow}</p>
                 <h2 class="pack-title">{c.title}</h2>
                 <p class="pack-tagline">{c.tagline}</p>
               </div>
@@ -70,7 +67,6 @@ const cases = [
       <!-- BYO use case -->
       <div class="byo">
         <div class="byo-text">
-          <p class="aw-eyebrow">Custom</p>
           <h3 class="byo-title">Don't see your workflow?</h3>
           <p class="byo-desc">Aitroop is a platform for crystallizing any AI-assisted workflow into a reusable App.</p>
         </div>

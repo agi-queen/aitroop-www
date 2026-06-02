@@ -20,7 +20,7 @@ const { page } = Astro.props as Props;
 const currentPage = page.currentPage ?? 1;
 
 const metadata = {
-  title: `部落格${currentPage > 1 ? ` — 第 ${currentPage} 頁` : ''}`,
+  title: `部落格${currentPage > 1 ? ` · 第 ${currentPage} 頁` : ''}`,
   robots: {
     index: blogListRobots?.index && currentPage === 1,
     follow: blogListRobots?.follow,
@@ -37,7 +37,7 @@ const metadata = {
       <IndexHeader
         eyebrow="部落格"
         title="部落格"
-        lede="AI 驅動的獲客、觸達與留存實踐分享 — 來自 Aitroop 團隊。"
+        lede="AI 驅動的獲客、觸達與留存實踐分享，來自 Aitroop 團隊。"
       />
     </div>
   </section>

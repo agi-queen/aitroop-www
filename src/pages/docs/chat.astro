@@ -3,15 +3,11 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 ---
 
-<Layout metadata={{ title: 'Chat mode — Aitroop Docs' }}>
+<Layout metadata={{ title: 'Chat mode · Aitroop Docs' }}>
   <DocsShell current="chat">
     <h1>Chat mode</h1>
     <p class="lead">
-      Chat is the cockpit. Think of it as the agent's desk — open a chat and the agent gets a fresh
-      sandbox, full web access, every Skill you've installed, every Connect you've authorized, and a
-      blank canvas to work on. You use chat to explore (one-shot tasks), to build Apps (turn a
-      conversation into a saved workflow), to edit existing Apps, and to debug failed runs. Everything
-      else in this section is operational detail.
+      Chat is the cockpit. Open a chat and the agent gets a fresh sandbox, your Skills, your Connects, and a blank canvas.
     </p>
 
     <div class="callout">
@@ -47,7 +43,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h3>4. Debug failed runs</h3>
     <p>
-      Open a failed run from the App's history. Click <strong>Debug in chat</strong> — a chat opens with
+      Open a failed run from the App's history. Click <strong>Debug in chat</strong>. A chat opens with
       the run's context: inputs, partial artifacts, the agent's reasoning trace, the error. Now you can
       ask the agent what went wrong and how to fix it. Best for: "this used to work, why doesn't it now".
     </p>
@@ -56,7 +52,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     <ol>
       <li>From any page, click <strong>+ New Chat</strong> in the sidebar.</li>
       <li>A blank chat opens. Message input at the bottom, conversation area above, breadcrumb at top.</li>
-      <li>The chat runs in an isolated E2B sandbox using the <code>claude-code</code> template — the agent
+      <li>The chat runs in an isolated E2B sandbox using the <code>claude-code</code> template. The agent
         has full read/write access to a temp filesystem and can execute code, but nothing touches your
         machine or other chats.</li>
     </ol>
@@ -64,7 +60,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     <h3>Layout of the chat surface</h3>
     <div class="code-block" style="font-size:0.75rem;line-height:1.7;padding:1rem 1.25rem;">
 <span style="color:var(--aw-color-text-muted)">┌──────────────────────────────────────────────────────────────┐</span><br/>
-<span style="color:var(--aw-color-text-muted)">│ </span>📁 My workspace  /  Chat • 12 May<span style="color:var(--aw-color-text-muted)">       </span><strong>Save as App ▾</strong><span style="color:var(--aw-color-text-muted)">    │</span><br/>
+<span style="color:var(--aw-color-text-muted)">│ </span>📁 My workspace  /  Chat • 12 May<span style="color:var(--aw-color-text-muted)">       </span><strong>Save as App v</strong><span style="color:var(--aw-color-text-muted)">    │</span><br/>
 <span style="color:var(--aw-color-text-muted)">├──────────────────────────────────────────────────────────────┤</span><br/>
 <span style="color:var(--aw-color-text-muted)">│</span> <strong>You</strong>                                                          <span style="color:var(--aw-color-text-muted)">│</span><br/>
 <span style="color:var(--aw-color-text-muted)">│ </span>Summarize last week's commits in shop-frontend.<span style="color:var(--aw-color-text-muted)">              │</span><br/>
@@ -81,12 +77,12 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     </div>
 
     <ul>
-      <li><strong>Breadcrumb (top)</strong> — workspace name / chat name.</li>
-      <li><strong>Save as App ▾ (top-right)</strong> — drop-down with "Save as App" and "Save into existing App". Grayed out until the conversation is saveable.</li>
-      <li><strong>Conversation thread (center)</strong> — alternating user and agent turns. Tool calls (Skill invocations, Connect calls) appear inline with input + output.</li>
-      <li><strong>Status bar (above input)</strong> — count of active Skills and authorized Connects.</li>
-      <li><strong>Attach (📎)</strong> — open a file picker or drag files into the conversation.</li>
-      <li><strong>Send (↵)</strong> — Enter or click.</li>
+      <li><strong>Breadcrumb (top)</strong>: workspace name / chat name.</li>
+      <li><strong>Save as App (top-right)</strong>: drop-down with "Save as App" and "Save into existing App". Grayed out until the conversation is saveable.</li>
+      <li><strong>Conversation thread (center)</strong>: alternating user and agent turns. Tool calls (Skill invocations, Connect calls) appear inline with input + output.</li>
+      <li><strong>Status bar (above input)</strong>: count of active Skills and authorized Connects.</li>
+      <li><strong>Attach (📎)</strong>: open a file picker or drag files into the conversation.</li>
+      <li><strong>Send</strong>: Enter or click.</li>
     </ul>
 
     <h2>What the agent has access to</h2>
@@ -113,10 +109,10 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 What you want the agent to do, in one or two sentences.<br/>
 <br/>
 <span style="color:var(--aw-color-text-muted)"># Inputs</span><br/>
-Specific data points — dates, names, IDs, file references.<br/>
+Specific data points: dates, names, IDs, file references.<br/>
 <br/>
 <span style="color:var(--aw-color-text-muted)"># Output</span><br/>
-What the result should look like — format, length, structure.<br/>
+What the result should look like: format, length, structure.<br/>
 <br/>
 <span style="color:var(--aw-color-text-muted)"># Constraints</span><br/>
 What to include, what to skip, language, tone.
@@ -124,7 +120,7 @@ What to include, what to skip, language, tone.
 
     <p>
       You don't need this template every time. But when the agent's output is missing something, the
-      missing piece is usually one of these four — add it and try again.
+      missing piece is usually one of these four; add it and try again.
     </p>
 
     <h3>Example: a well-formed first message</h3>
@@ -150,7 +146,7 @@ Executive tone, no jargon.
     <ol>
       <li>Drag a file from your machine into the chat, or click the 📎 attach button.</li>
       <li>The file uploads and appears as a chip above the input.</li>
-      <li>The agent gets read access to the file inside its sandbox — it can parse, transform, summarize.</li>
+      <li>The agent gets read access to the file inside its sandbox; it can parse, transform, summarize.</li>
       <li>The attachment lives for the chat. It doesn't follow you to other chats.</li>
     </ol>
 
@@ -160,7 +156,7 @@ Executive tone, no jargon.
       <li><strong>Documents:</strong> <code>.pdf</code>, <code>.docx</code>, <code>.xlsx</code>, <code>.pptx</code>.</li>
       <li><strong>Images:</strong> <code>.png</code>, <code>.jpg</code>, <code>.gif</code>, <code>.webp</code>, <code>.svg</code>.</li>
       <li><strong>Code:</strong> any source file. The agent identifies the language and renders accordingly.</li>
-      <li><strong>Archives:</strong> <code>.zip</code>, <code>.tar.gz</code> — the agent can list contents and extract.</li>
+      <li><strong>Archives:</strong> <code>.zip</code>, <code>.tar.gz</code>. The agent can list contents and extract.</li>
     </ul>
 
     <h3>Tips for files</h3>
@@ -205,7 +201,7 @@ Let me search the web for recent news.<br/>
 
     <h3>Checking which Skills are active</h3>
     <p>
-      Look at the status bar above the input — it shows a count ("Skills: 12 active"). Click for a list.
+      Look at the status bar above the input. It shows a count ("Skills: 12 active"). Click for a list.
       Or ask the agent directly:
     </p>
     <div class="code-block">
@@ -234,8 +230,8 @@ Let me search the web for recent news.<br/>
 
     <h3>Subsequent runs</h3>
     <p>
-      After the first authorization, future chats and runs use the Connect transparently — no prompts.
-      Revoke at any time from <strong>Settings → Connects</strong>.
+      After the first authorization, future chats and runs use the Connect transparently; no prompts.
+      Revoke at any time from <strong>Settings to Connects</strong>.
     </p>
 
     <h3>Confirmation for writes</h3>
@@ -255,7 +251,7 @@ Let me search the web for recent news.<br/>
     <h2>How a message becomes a turn</h2>
     <p>
       The chat box looks like one big text field, but underneath, every send goes through a small,
-      cluster-safe message queue. Understanding what happens is worth two minutes — it explains
+      cluster-safe message queue. Understanding what happens is worth two minutes; it explains
       every "why didn't my message send?" question you'll ever have.
     </p>
 
@@ -300,18 +296,18 @@ Let me search the web for recent news.<br/>
       The schema enforces a single in-flight user message per session via a partial unique index
       over <code>session_id</code> WHERE <code>status = 'dispatching' AND role = 'user'</code>. If
       you somehow send two messages before the first dispatches, the second waits in
-      <code>pending</code> until the first finishes — no interleaved turns, no race between two
+      <code>pending</code> until the first finishes: no interleaved turns, no race between two
       Claude responses. Multi-instance dispatch can never violate this; the database is the source
       of truth.
     </p>
 
     <h3>Recovery from a crashed worker</h3>
     <p>
-      Workers can die mid-dispatch — Kubernetes evicts a pod, a node crashes. A separate recovery
+      Workers can die mid-dispatch: Kubernetes evicts a pod, a node crashes. A separate recovery
       poller scans every 60 seconds for rows stuck in <code>dispatching</code> for more than 900
       seconds (15 minutes) and flips them back to <code>pending</code> so another worker can claim
       them. You'll see this in practice as a 15-minute worst-case delay on a fresh dispatch attempt
-      after an infra incident — never a silently-lost message.
+      after an infra incident, never a silently-lost message.
     </p>
 
     <h3>What "Sending…" really means in the UI</h3>
@@ -319,15 +315,15 @@ Let me search the web for recent news.<br/>
       <li><strong>Spinner stays on briefly.</strong> Status is <code>pending</code> or <code>dispatching</code>; the worker is connecting to the sandbox or starting the runner. Normal for the first few hundred milliseconds.</li>
       <li><strong>Spinner stays on for &gt;30 s without text.</strong> The runner is up but Claude is in long thinking; the keepalive is firing. Wait it out.</li>
       <li><strong>Spinner stays on for 15+ min.</strong> The worker hosting the dispatch may have died. The recovery poller will reset it shortly.</li>
-      <li><strong>Red bubble with an error.</strong> Status is <code>failed</code>; the <code>last_error</code> field is what you're looking at. Retry by sending again — the queue picks up.</li>
+      <li><strong>Red bubble with an error.</strong> Status is <code>failed</code>; the <code>last_error</code> field is what you're looking at. Retry by sending again; the queue picks up.</li>
     </ul>
 
     <h2>Iterating on output</h2>
     <p>The standard rhythm in a productive chat:</p>
     <ol>
-      <li>The agent produces something — text, a draft, a structured output.</li>
+      <li>The agent produces something: text, a draft, a structured output.</li>
       <li>You read it.</li>
-      <li>You tell it what to change — specifically.</li>
+      <li>You tell it what to change, specifically.</li>
       <li>The agent produces a new version.</li>
       <li>Repeat until satisfied.</li>
     </ol>
@@ -381,10 +377,10 @@ Let me search the web for recent news.<br/>
     <h2>Chat history and search</h2>
     <ul>
       <li>All chats live under <strong>Sidebar → Chats</strong>.</li>
-      <li>Click any chat to reopen — you can continue the conversation any time.</li>
+      <li>Click any chat to reopen; you can continue the conversation any time.</li>
       <li>Use search (top of the chat list) to find a chat by content.</li>
       <li>Pin chats you reference often.</li>
-      <li>Archive chats you're done with — they stay searchable but don't clutter the list.</li>
+      <li>Archive chats you're done with; they stay searchable but don't clutter the list.</li>
     </ul>
 
     <h2>When chat isn't the right surface</h2>
@@ -396,7 +392,7 @@ Let me search the web for recent news.<br/>
       <li>You want it to run automatically on a schedule.</li>
     </ul>
 
-    <p>For one-offs, exploration, debugging, and casual questions — stay in chat.</p>
+    <p>For one-offs, exploration, debugging, and casual questions, stay in chat.</p>
 
     <h2>Built-in agent tools</h2>
     <p>
@@ -424,7 +420,7 @@ Let me search the web for recent news.<br/>
     </p>
     <p>
       <strong>Fix:</strong> tell it explicitly. <em>"Use the <code>web-search</code> Skill for this."</em>
-      Or check the status bar above the input — if it says "Skills: 12 active" but the Skill you wanted
+      Or check the status bar above the input; if it says "Skills: 12 active" but the Skill you wanted
       isn't there, install it from <strong>Sidebar → Skills</strong> first.
     </p>
 
@@ -439,9 +435,9 @@ Let me search the web for recent news.<br/>
       Three common causes:
     </p>
     <ul>
-      <li><strong>Cold sandbox.</strong> First message of the chat: +1–2 s for sandbox provision.</li>
-      <li><strong>Heavy tool call.</strong> A research task with 10 web searches takes 30–90 s. Watch the
-        run log — you'll see each call as it happens.</li>
+      <li><strong>Cold sandbox.</strong> First message of the chat: +1-2 s for sandbox provision.</li>
+      <li><strong>Heavy tool call.</strong> A research task with 10 web searches takes 30-90 s. Watch the
+        run log; you'll see each call as it happens.</li>
       <li><strong>Context overflow.</strong> Very long chats (50+ turns) slow down. The status bar shows
         context usage; consider starting a new chat with the artifact you care about as the seed.</li>
     </ul>
@@ -449,13 +445,13 @@ Let me search the web for recent news.<br/>
     <p class="faq-q">How do I share a chat with a teammate?</p>
     <p>
       Open the chat, click the share icon at the top-right, get a public URL. The chat becomes read-only
-      at that URL — your teammate can read but not send messages or trigger new agent turns. Revoke any
+      at that URL; your teammate can read but not send messages or trigger new agent turns. Revoke any
       time from <strong>Settings → Shares</strong>.
     </p>
 
     <p class="faq-q">Can I run the same chat twice with different inputs?</p>
     <p>
-      Not directly — chats are stateful conversations, not parametric workflows. If you want re-runs with
+      Not directly; chats are stateful conversations, not parametric workflows. If you want re-runs with
       different inputs, that's the entire point of an App. Type <em>"save this as an app"</em> and the
       App Builder converts the conversation into one.
     </p>
@@ -465,7 +461,7 @@ Let me search the web for recent news.<br/>
       Front-load the answers. A useful template at the top of your first message:
     </p>
     <div class="code-block">
-<span style="color:var(--aw-color-text-muted"># Task</span><br/>
+<span style="color:var(--aw-color-text-muted)"># Task</span><br/>
 &lt;what to do&gt;<br/>
 <span style="color:var(--aw-color-text-muted)"># Inputs</span><br/>
 &lt;exact data points&gt;<br/>
@@ -485,7 +481,7 @@ Let me search the web for recent news.<br/>
 
     <div class="next-up">
       <span class="label">Next</span>
-      <a href="/docs/apps">Apps — building and running</a>
+      <a href="/docs/apps">Apps: building and running</a>
     </div>
   </DocsShell>
 </Layout>

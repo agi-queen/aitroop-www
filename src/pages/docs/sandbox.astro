@@ -3,7 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 
 const metadata = {
-  title: 'Sandbox — Aitroop Docs',
+  title: 'Sandbox · Aitroop Docs',
 };
 ---
 
@@ -11,23 +11,20 @@ const metadata = {
   <DocsShell current="sandbox">
     <h1>Sandbox</h1>
     <p class="lead">
-      Every Chat and every App stage runs inside a <strong>sandbox</strong> — an isolated computer with its
-      own filesystem, its own processes, its own network stack. Think of it as a fresh laptop the agent
-      borrows for the duration of a run, then throws away. Nothing the agent installs, downloads, or
-      breaks ever touches your machine or another user's.
+      Every Chat and App stage runs inside a sandbox: an isolated computer the agent borrows for one run, then discards.
     </p>
 
     <div class="callout">
       <strong>Why this matters in one sentence.</strong> The sandbox is what makes it safe to say "yes, the
       agent can <code>pip install</code> whatever it needs, run shell commands, write files, and try things
-      that don't work" — because the blast radius is one container that gets destroyed when the run ends.
+      that don't work", because the blast radius is one container that gets destroyed when the run ends.
     </div>
 
     <h2>The three providers</h2>
     <p>
       Aitroop abstracts the runtime behind a single <code>ISandbox</code> interface, then ships three
       implementations. Which one a given run uses depends on workspace settings, plan, and the work being
-      done. The agent's code never knows the difference — but the operational characteristics differ a lot.
+      done. The agent's code never knows the difference, but the operational characteristics differ a lot.
     </p>
 
     <table>
@@ -37,7 +34,7 @@ const metadata = {
           <td><code>host</code> <span class="pill amber">local</span></td>
           <td>On the Aitroop server machine itself, under a per-user temp directory.</td>
           <td>Self-hosted dev installs, smoke tests, and very lightweight stages where spinning up a remote VM would be overkill.</td>
-          <td>No real isolation between users — host mode is intended for single-tenant / dev only.</td>
+          <td>No real isolation between users; host mode is intended for single-tenant / dev only.</td>
         </tr>
         <tr>
           <td><code>e2b</code> <span class="pill green">default cloud</span></td>
@@ -55,7 +52,7 @@ const metadata = {
     </table>
 
     <h2>What the agent can do inside</h2>
-    <p>The sandbox interface exposes two surfaces — <strong>commands</strong> and <strong>files</strong> — and a few lifecycle hooks:</p>
+    <p>The sandbox interface exposes two surfaces, <strong>commands</strong> and <strong>files</strong>, and a few lifecycle hooks:</p>
 
     <h3>Commands</h3>
     <div class="code-block">
@@ -65,7 +62,7 @@ sandbox.commands.run({`{`} cmd: "node", args: ["build.js"] {`}`})<br/>
     </div>
     <ul>
       <li>Shell commands run as the sandbox user (not root) in <code>projectDir</code>.</li>
-      <li>You can install packages — <code>pip install</code>, <code>npm install</code>, <code>apt-get</code>
+      <li>You can install packages: <code>pip install</code>, <code>npm install</code>, <code>apt-get</code>
         on E2B and Daytona, your own permissions on host.</li>
       <li>Standard out and standard error are streamed back to the run log; the agent sees them as the
         command finishes.</li>
@@ -90,8 +87,8 @@ sandbox.files.copy(from, to)
 
     <h3>Lifecycle hooks</h3>
     <ul>
-      <li><code>sandbox.pause()</code> — voluntarily release the sandbox. The next call boots a fresh one.</li>
-      <li><code>sandbox.keepAlive(timeoutMs)</code> — extend the idle timeout for a long-running stage.</li>
+      <li><code>sandbox.pause()</code>: voluntarily release the sandbox. The next call boots a fresh one.</li>
+      <li><code>sandbox.keepAlive(timeoutMs)</code>: extend the idle timeout for a long-running stage.</li>
     </ul>
 
     <h2>Timeouts you should know</h2>
@@ -108,7 +105,7 @@ sandbox.files.copy(from, to)
 
     <div class="callout warn">
       <strong>Most failures you'll see are stage timeouts, not sandbox timeouts.</strong> If a research
-      stage exceeds 3 minutes, the stage fails — even though the sandbox would have happily run for hours.
+      stage exceeds 3 minutes, the stage fails, even though the sandbox would have happily run for hours.
       For heavy research, set <code>timeout_ms: 600000</code> (10 min) in the App definition.
     </div>
 
@@ -124,15 +121,15 @@ sandbox.files.copy(from, to)
       <li>Environment variables set in Stage 1 persist through to Stage 2.</li>
     </ul>
     <p>
-      This is what makes <em>"write a report in Stage 1, then convert it to PDF in Stage 2"</em> just work
-      — Stage 2 finds the report exactly where Stage 1 left it.
+      This is what makes <em>"write a report in Stage 1, then convert it to PDF in Stage 2"</em> just work:
+      Stage 2 finds the report exactly where Stage 1 left it.
     </p>
 
     <h3>Across runs</h3>
     <p>
       <strong>Nothing persists between runs.</strong> Each execution gets a brand-new sandbox, even for the
-      same App. If your App needs to remember something between runs — a list of already-seen items, a
-      counter, a cache — store it externally:
+      same App. If your App needs to remember something between runs (a list of already-seen items, a
+      counter, a cache), store it externally:
     </p>
     <ul>
       <li>As an <strong>Artifact</strong>, then read it back from a Connect (Drive, S3, Notion) on the next run.</li>
@@ -152,7 +149,7 @@ sandbox.files.copy(from, to)
       packages from npm/pypi, and so on.
     </p>
     <p>
-      For <strong>Connects</strong> (OAuth integrations), Aitroop injects credentials at run start — not by
+      For <strong>Connects</strong> (OAuth integrations), Aitroop injects credentials at run start, not by
       writing tokens to the sandbox filesystem, but through internal proxy calls that never expose the raw
       token. If the agent runs <code>gh repo list</code> or calls the Gmail API, the request goes through a
       proxy that signs it with your OAuth token. The token is never visible inside the sandbox.
@@ -160,7 +157,7 @@ sandbox.files.copy(from, to)
 
     <div class="callout tip">
       <strong>What this means for security.</strong> Even if a stage's <code>script_code</code> is
-      malicious, it cannot exfiltrate your Connect tokens — they're not in the filesystem or env vars at
+      malicious, it cannot exfiltrate your Connect tokens; they're not in the filesystem or env vars at
       all. The worst case is that the script uses the Connect to do something visible (send an email,
       create a record), which shows up in your provider's audit log just like any other action.
     </div>
@@ -170,7 +167,7 @@ sandbox.files.copy(from, to)
     <h3>If you're on the hosted plan</h3>
     <p>
       You don't choose. The platform picks. For 99% of work it picks <code>e2b</code>. For specific stage
-      types — for example, a stage that needs to run a full IDE workload — it may pick <code>daytona</code>.
+      types, for example, a stage that needs to run a full IDE workload, it may pick <code>daytona</code>.
     </p>
 
     <h3>If you're self-hosting</h3>
@@ -193,13 +190,13 @@ DAYTONA_TARGET=...
     </div>
 
     <p>
-      Mixed provider routing — "host for cheap stuff, E2B for heavy stuff" — is on the roadmap but not yet a
+      Mixed provider routing ("host for cheap stuff, E2B for heavy stuff") is on the roadmap but not yet a
       first-class config knob. For now, pick one provider per deployment.
     </p>
 
     <h2>What you see in the UI</h2>
     <p>
-      The sandbox is mostly invisible — that's the point — but two surfaces let you peek in:
+      The sandbox is mostly invisible (that's the point), but two surfaces let you peek in:
     </p>
 
     <h3>The run log</h3>
@@ -223,11 +220,11 @@ DAYTONA_TARGET=...
       it existed in the sandbox at end-of-run. You can click any file to view it, then download or share.
     </p>
 
-    <h2>Lifecycle — how a sandbox is acquired and held</h2>
+    <h2>Lifecycle: how a sandbox is acquired and held</h2>
     <p>
       Aitroop doesn't spawn a sandbox per request. Each user has at most one warm sandbox, recorded
       in the <code>sb_container</code> row keyed by their internal username. The same sandbox is
-      reused across consecutive chats and App runs — that's what keeps cold-start cost off the
+      reused across consecutive chats and App runs; that's what keeps cold-start cost off the
       common path. Lifecycle state lives on that one row:
     </p>
 
@@ -240,7 +237,7 @@ DAYTONA_TARGET=...
         <tr><td><code>paused</code></td><td><code>true</code> after the provider auto-paused the sandbox for idleness. <code>false</code> once it's resumed and warm.</td></tr>
         <tr><td><code>type</code></td><td>Which provider owns it (<code>e2b</code> / <code>daytona</code> / <code>local</code>).</td></tr>
         <tr><td><code>lock_version</code></td><td>Optimistic-lock counter. Bumped on every mutation; concurrent writers with a stale version are rejected.</td></tr>
-        <tr><td><code>total_usage_seconds</code></td><td>Cumulative wall-clock time the sandbox has been active — the billable metric.</td></tr>
+        <tr><td><code>total_usage_seconds</code></td><td>Cumulative wall-clock time the sandbox has been active; the billable metric.</td></tr>
         <tr><td><code>last_activity_at</code></td><td>Last successful SDK touch. Drives the 5-minute idle-pause timer.</td></tr>
       </tbody>
     </table>
@@ -254,14 +251,14 @@ DAYTONA_TARGET=...
     <ol>
       <li>The caller reads the current row, including <code>lock_version</code>.</li>
       <li>It tries to claim the lock with an UPDATE conditioned on the version it just saw, incrementing it atomically.</li>
-      <li>Success → that caller owns the sandbox; everyone else retries the read after ~100 ms.</li>
-      <li>Failure → another caller got there first. Re-read and try again.</li>
+      <li>Success: that caller owns the sandbox; everyone else retries the read after ~100 ms.</li>
+      <li>Failure: another caller got there first. Re-read and try again.</li>
     </ol>
     <p>
       A worker that crashed mid-acquire would leave <code>status = 'creating'</code> forever. To
       prevent indefinite stuck state, any row sitting in <code>creating</code> for more than ~25 s is
       considered stale: the next acquirer resets it, bumps the version, and proceeds. This is the
-      stale-lock recovery path — silent in normal operation, visible in logs as a one-line warning
+      stale-lock recovery path: silent in normal operation, visible in logs as a one-line warning
       when it fires.
     </p>
 
@@ -269,20 +266,20 @@ DAYTONA_TARGET=...
     <p>
       Every SDK call to the underlying provider resets the 5-minute idle timer. If 5 minutes elapse
       with no touch, the provider freezes the sandbox: the row stays, <code>paused</code> flips to
-      <code>true</code>, the container is no longer billing. The next acquisition wakes it back up —
+      <code>true</code>, the container is no longer billing. The next acquisition wakes it back up;
       cold-resume on E2B is ~1 s. To keep the sandbox warm during long agent thinking (no SDK calls
       between LLM turns), the runner emits a <code>keepAlive</code> ping every 30 s. That's why the
       cluster constants line up the way they do:
     </p>
     <div class="code-block" style="line-height:1.7;">
 SANDBOX_KEEPALIVE_INTERVAL_MS <span style="color:var(--aw-color-text-muted)">= 30 s</span><br/>
-SANDBOX_IDLE_TIMEOUT_MS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:var(--aw-color-text-muted)">= 5 min  (12× the keepalive)</span><br/>
+SANDBOX_IDLE_TIMEOUT_MS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:var(--aw-color-text-muted)">= 5 min  (12x the keepalive)</span><br/>
 AGENT_RUN_TIMEOUT_MS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:var(--aw-color-text-muted)">= 7 days (hard ceiling on a single turn)</span>
     </div>
 
     <h3>Dead sandboxes and <code>withSandbox</code></h3>
     <p>
-      Sandboxes can die outside the platform's view — a provider deletes the underlying VM, the host
+      Sandboxes can die outside the platform's view: a provider deletes the underlying VM, the host
       process gets OOM-killed. The runner notices this by classifying the resulting error as
       <code>sandbox_not_found</code> (see <a href="/docs/concepts">runner error classification</a>).
       Most server code uses a wrapper helper:
@@ -296,7 +293,7 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
     <p>
       If the inner function throws and the error matches "sandbox is gone", the wrapper evicts the
       in-memory cache, calls <code>createOrResume</code> for a fresh sandbox, and runs the function
-      one more time. One retry — that's it; a second failure propagates out. Other transient errors
+      one more time. One retry; that's it. A second failure propagates out. Other transient errors
       (network, busy) propagate immediately; they're not the wrapper's job to handle.
     </p>
 
@@ -304,7 +301,7 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
     <p>
       Host mode is the developer-only provider where the "sandbox" is a process on the Aitroop
       server itself. Without protection, any code the agent runs would inherit the server's
-      environment — including database URLs, JWT signing keys, and S3 credentials. The host
+      environment, including database URLs, JWT signing keys, and S3 credentials. The host
       provider therefore strips a fixed set of variables from the child environment before spawn:
       <code>DATABASE_URL</code>, <code>JWT_SECRET</code>, <code>E2B_API_KEY</code>,
       <code>DAYTONA_API_KEY</code>, OAuth client secrets, S3 access/secret keys, and anything
@@ -317,14 +314,14 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
       vs. total spent in USD; per-run breakdowns appear in <strong>Settings → Usage</strong>.
     </p>
     <ul>
-      <li><strong>Sandbox time</strong> — only counts while the sandbox is <em>actively running</em>. Paused (idle &gt; 5min) sandboxes don't cost anything.</li>
-      <li><strong>LLM tokens</strong> — billed separately per stage, model-dependent. Sonnet-4.6 is the default.</li>
-      <li><strong>Storage</strong> — Artifacts in S3/R2 are billed by retained GB-month. Free up to your plan's limit.</li>
+      <li><strong>Sandbox time</strong>: only counts while the sandbox is <em>actively running</em>. Paused (idle &gt; 5min) sandboxes don't cost anything.</li>
+      <li><strong>LLM tokens</strong>: billed separately per stage, model-dependent. Sonnet-4.6 is the default.</li>
+      <li><strong>Storage</strong>: Artifacts in S3/R2 are billed by retained GB-month. Free up to your plan's limit.</li>
     </ul>
 
     <p>
       The <code>sb_container</code> table tracks each sandbox instance with <code>total_usage_seconds</code>,
-      and <code>sb_usage_log</code> records every duration with a reason — agent run, file ops, etc.
+      and <code>sb_usage_log</code> records every duration with a reason: agent run, file ops, etc.
     </p>
 
     <h2>FAQ &amp; troubleshooting</h2>
@@ -335,7 +332,7 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
     </p>
     <ul>
       <li>The stage's <code>timeout_ms</code> is too small for the work (default 3 min). Bump it.</li>
-      <li>The command itself hung — a process waiting for stdin that never comes, a curl against a
+      <li>The command itself hung: a process waiting for stdin that never comes, a curl against a
         non-responding host, an <code>npm install</code> behind a corporate proxy.</li>
       <li>The sandbox idle timer fired between commands. If a stage takes &gt;5 min between agent decisions
         (rare), the sandbox pauses. The next command auto-resumes but adds latency.</li>
@@ -360,7 +357,7 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
     <p class="faq-q">Can I SSH into the sandbox to poke around?</p>
     <p>
       Not directly. The sandbox is closed by design. If you need to inspect what happened, use <strong>Debug
-      in chat</strong> on the failed run — the chat opens with the same sandbox snapshot still mounted,
+      in chat</strong> on the failed run: the chat opens with the same sandbox snapshot still mounted,
       and you can run any command interactively.
     </p>
 
@@ -368,7 +365,7 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
     <p>
       On <code>e2b</code> and <code>daytona</code>, the agent has <code>sudo</code> for package installs.
       Tell it in the stage goal: <em>"first run <code>apt-get install -y ffmpeg</code>, then…"</em>. On
-      <code>host</code>, the agent has whatever permissions the host process has — usually no sudo, so
+      <code>host</code>, the agent has whatever permissions the host process has, usually no sudo, so
       <code>apt-get</code> won't work.
     </p>
 
@@ -376,14 +373,14 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
     <p>
       Cold starts vary by region and time of day. Most of the time it's &lt;1 second. If you see a 10-second
       cold start, the agent is waiting for a fresh VM provision. This is normal and resolves on its own. If
-      it happens systematically, check the status banner in <strong>Settings → Workspace</strong>.
+      it happens systematically, check the status banner in <strong>Settings to Workspace</strong>.
     </p>
 
     <p class="faq-q">Can two stages run in parallel?</p>
     <p>
-      No. Stages run strictly in order: Stage <em>n</em> doesn't start until Stage <em>n−1</em> has
+      No. Stages run strictly in order: Stage <em>n</em> doesn't start until Stage <em>n-1</em> has
       finished and its artifact is saved. If you need parallelism inside a stage, the agent can spawn
-      subprocesses with <code>commands.run</code> — but that's its choice, not yours.
+      subprocesses with <code>commands.run</code>, but that's its choice, not yours.
     </p>
 
     <p class="faq-q">What happens to my files when the sandbox is destroyed?</p>
@@ -394,14 +391,14 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
 
     <p class="faq-q">Is the sandbox a real VM or a container?</p>
     <p>
-      Depends on the provider. E2B uses Firecracker microVMs — full kernel isolation. Daytona uses dev
+      Depends on the provider. E2B uses Firecracker microVMs: full kernel isolation. Daytona uses dev
       containers. Host mode is just a process under your user account on the server. Functionally the
       agent code is the same in all three; security-wise, E2B is the strongest.
     </p>
 
     <div class="next-up">
       <span class="label">Next</span>
-      <a href="/docs/executions">Executions — lifecycle and debugging</a>
+      <a href="/docs/executions">Executions: lifecycle and debugging</a>
     </div>
   </DocsShell>
 </Layout>

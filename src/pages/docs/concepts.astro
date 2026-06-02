@@ -3,14 +3,11 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 ---
 
-<Layout metadata={{ title: 'Core concepts — Aitroop Docs' }}>
+<Layout metadata={{ title: 'Core concepts · Aitroop Docs' }}>
   <DocsShell current="concepts">
     <h1>Core concepts</h1>
     <p class="lead">
-      The technical anatomy of an Aitroop App. This page is the reference companion to the
-      <a href="/docs/quickstart">Quickstart</a>: every field, every type, every option. About 15 minutes
-      to read end-to-end. You don't have to memorize it — bookmark it and come back when a concept
-      shows up.
+      The technical anatomy of an Aitroop App: every field, every type, every option. Reference companion to the Quickstart.
     </p>
 
     <div class="callout">
@@ -24,7 +21,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     <h2>The App definition</h2>
     <p>
       An <strong>App</strong> is a JSON document persisted in <code>app_def</code>. You don't write the
-      JSON yourself — the agent does — but knowing what it contains makes everything else clear. The
+      JSON yourself; the agent does. Knowing what it contains makes everything else clear. The
       top-level shape:
     </p>
 
@@ -51,7 +48,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     </div>
 
     <!-- ── APP INPUT ─────────────────────────────────────────── -->
-    <h2>AppInput — the form fields</h2>
+    <h2>AppInput: the form fields</h2>
     <p>
       Each entry in <code>input_schema</code> is one form field your users fill in. The full type:
     </p>
@@ -63,7 +60,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 &nbsp;&nbsp;"required":       <span style="color:var(--aw-color-primary)">boolean</span>,       <span style="color:var(--aw-color-text-muted)">// default false; blocks Run when blank</span><br/>
 &nbsp;&nbsp;"placeholder":    <span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// optional hint shown inside the field</span><br/>
 &nbsp;&nbsp;"default":        <span style="color:var(--aw-color-primary)">unknown</span>,       <span style="color:var(--aw-color-text-muted)">// optional pre-filled value</span><br/>
-&nbsp;&nbsp;"dynamic_default":<span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// "{`{{today}}`}" etc — resolved at run time</span><br/>
+&nbsp;&nbsp;"dynamic_default":<span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// "{`{{today}}`}" etc, resolved at run time</span><br/>
 &nbsp;&nbsp;"description":    <span style="color:var(--aw-color-primary)">string</span>,        <span style="color:var(--aw-color-text-muted)">// help text shown below</span><br/>
 &nbsp;&nbsp;"options":        <span style="color:var(--aw-color-primary)">{`{`} label, value {`}`}</span>[],   <span style="color:var(--aw-color-text-muted)">// required for select/multiselect/radio</span><br/>
 &nbsp;&nbsp;"show_if":        <span style="color:var(--aw-color-primary)">AppInputConditionalRule</span>, <span style="color:var(--aw-color-text-muted)">// conditional visibility</span><br/>
@@ -79,17 +76,17 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     <table>
       <thead><tr><th>Type</th><th>UI</th><th>Use it when</th><th>Extra fields</th></tr></thead>
       <tbody>
-        <tr><td><code>text</code></td><td>Single-line text box</td><td>Short identifiers — names, URLs, IDs.</td><td>—</td></tr>
-        <tr><td><code>textarea</code></td><td>Multi-line text box</td><td>Long instructions, descriptions, content to process.</td><td>—</td></tr>
+        <tr><td><code>text</code></td><td>Single-line text box</td><td>Short identifiers: names, URLs, IDs.</td><td>n/a</td></tr>
+        <tr><td><code>textarea</code></td><td>Multi-line text box</td><td>Long instructions, descriptions, content to process.</td><td>n/a</td></tr>
         <tr><td><code>number</code></td><td>Numeric input</td><td>Counts, thresholds, prices.</td><td><code>min</code>, <code>max</code>, <code>step</code></td></tr>
         <tr><td><code>slider</code></td><td>Numeric slider</td><td>Bounded ranges where a feel matters more than precision.</td><td><code>min</code>, <code>max</code>, <code>step</code></td></tr>
-        <tr><td><code>select</code></td><td>Single-choice dropdown</td><td>3–10 fixed options, only one allowed.</td><td><code>options</code> (required)</td></tr>
-        <tr><td><code>multiselect</code></td><td>Multi-choice dropdown</td><td>3–10 fixed options, multiple allowed.</td><td><code>options</code> (required)</td></tr>
-        <tr><td><code>radio</code></td><td>Radio button group</td><td>2–4 options where showing all of them at once helps.</td><td><code>options</code> (required)</td></tr>
-        <tr><td><code>boolean</code></td><td>Toggle / checkbox</td><td>Yes/no flags, optional features.</td><td>—</td></tr>
-        <tr><td><code>date</code></td><td>Date picker</td><td>"As of date", deadlines, anchor points.</td><td>—</td></tr>
-        <tr><td><code>daterange</code></td><td>Two date pickers</td><td>Windowed reports — "from X to Y".</td><td>—</td></tr>
-        <tr><td><code>file</code></td><td>File upload button</td><td>User uploads a fresh document each run (CSV, PDF, image).</td><td>—</td></tr>
+        <tr><td><code>select</code></td><td>Single-choice dropdown</td><td>3-10 fixed options, only one allowed.</td><td><code>options</code> (required)</td></tr>
+        <tr><td><code>multiselect</code></td><td>Multi-choice dropdown</td><td>3-10 fixed options, multiple allowed.</td><td><code>options</code> (required)</td></tr>
+        <tr><td><code>radio</code></td><td>Radio button group</td><td>2-4 options where showing all of them at once helps.</td><td><code>options</code> (required)</td></tr>
+        <tr><td><code>boolean</code></td><td>Toggle / checkbox</td><td>Yes/no flags, optional features.</td><td>n/a</td></tr>
+        <tr><td><code>date</code></td><td>Date picker</td><td>"As of date", deadlines, anchor points.</td><td>n/a</td></tr>
+        <tr><td><code>daterange</code></td><td>Two date pickers</td><td>Windowed reports: "from X to Y".</td><td>n/a</td></tr>
+        <tr><td><code>file</code></td><td>File upload button</td><td>User uploads a fresh document each run (CSV, PDF, image).</td><td>n/a</td></tr>
       </tbody>
     </table>
 
@@ -139,7 +136,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     </div>
 
     <!-- ── STAGE ─────────────────────────────────────────────── -->
-    <h2>AppStage — what gets done</h2>
+    <h2>AppStage: what gets done</h2>
     <p>
       Each entry in <code>stages</code> is one step in the workflow. Stages run in order; each can read
       the artifacts produced by earlier stages.
@@ -179,12 +176,12 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
         <tr>
           <td><strong>Use for</strong></td>
           <td>Research, drafting, summarization, anything ambiguous</td>
-          <td>Exact transforms — filter CSV, dedupe, format dates</td>
+          <td>Exact transforms: filter CSV, dedupe, format dates</td>
           <td>Approval gates, "pick the best N"</td>
         </tr>
         <tr>
           <td><strong>Latency</strong></td>
-          <td>20 s – 10 min</td>
+          <td>20 s to 10 min</td>
           <td>&lt; 1 s typical</td>
           <td>However long the human takes</td>
         </tr>
@@ -197,7 +194,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
         <tr>
           <td><strong>Deterministic?</strong></td>
           <td>No (LLM stochasticity)</td>
-          <td>Yes — same input, same output</td>
+          <td>Yes; same input, same output</td>
           <td>No (human variability)</td>
         </tr>
       </tbody>
@@ -207,7 +204,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     <p>
       The goal is the agent's instruction. Before the stage runs, the executor walks the goal
       with the regex <code>/{`\{\{([^}]+)\}\}`}/g</code> and replaces each <code>{`{{key}}`}</code>
-      with <code>execution.input[key]</code>. Unmatched references are left literal — they aren't
+      with <code>execution.input[key]</code>. Unmatched references are left literal: they aren't
       an error, but they also won't be substituted, so spell the input <code>id</code>s carefully.
     </p>
 
@@ -223,10 +220,10 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     <div class="callout warn">
       <strong>What the goal template does <em>not</em> support.</strong> There is no
       <code>{`{{today}}`}</code>, no <code>{`{{user.email}}`}</code>, no
-      <code>{`{{#if x}}...{{/if}}`}</code>, and — critically — no <code>{`{{ stages.X.Y }}`}</code>.
+      <code>{`{{#if x}}...{{/if}}`}</code>, and, critically, no <code>{`{{ stages.X.Y }}`}</code>.
       The expander only looks at form values. For time-relative anchors, use
       <code>dynamic_default</code> on an input field instead. For prior-stage outputs, see
-      <em>Multi-stage Apps</em> below — the executor injects them into the system prompt automatically.
+      <em>Multi-stage Apps</em> below; the executor injects them into the system prompt automatically.
     </div>
 
     <p>A real example:</p>
@@ -241,7 +238,7 @@ competitive analysis covering:<br/>
 5. Strengths, weaknesses, opportunities, threats<br/>
 <br/>
 If <span style="color:var(--aw-color-primary)">{`{{include_competitors}}`}</span> is <code>true</code>, also include<br/>
-the top 3–5 direct competitors with a one-paragraph profile each.<br/>
+the top 3-5 direct competitors with a one-paragraph profile each.<br/>
 <br/>
 Produce a Markdown report titled "<span style="color:var(--aw-color-primary)">{`{{company_name}}`}</span> Competitive<br/>
 Analysis" under a <code>## Competitive Analysis</code> heading.
@@ -249,14 +246,14 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
 
     <p>A good goal is:</p>
     <ul>
-      <li><strong>Specific</strong> — names the inputs to use and what to do with them.</li>
-      <li><strong>Output-aware</strong> — names the artifact ID and format.</li>
-      <li><strong>Actionable</strong> — imperative verbs ("Research", "Write", "Analyze").</li>
-      <li><strong>Structured</strong> — a 10-line goal with numbered sections almost always beats a 2-line one.</li>
+      <li><strong>Specific</strong>: names the inputs to use and what to do with them.</li>
+      <li><strong>Output-aware</strong>: names the artifact ID and format.</li>
+      <li><strong>Actionable</strong>: imperative verbs ("Research", "Write", "Analyze").</li>
+      <li><strong>Structured</strong>: a 10-line goal with numbered sections almost always beats a 2-line one.</li>
     </ul>
 
     <!-- ── ARTIFACT ──────────────────────────────────────────── -->
-    <h2>AppArtifactDef — what each stage produces</h2>
+    <h2>AppArtifactDef: what each stage produces</h2>
     <div class="code-block" style="line-height:1.7;">
 {`{`}<br/>
 &nbsp;&nbsp;"id":          <span style="color:var(--aw-color-primary)">string</span>,    <span style="color:var(--aw-color-text-muted)">// snake_case, e.g. "final_report"</span><br/>
@@ -275,9 +272,9 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
         <tr><td><code>code</code></td><td>Source code, single file or a tree</td><td>Syntax-highlighted, with a file tree for multi-file output.</td></tr>
         <tr><td><code>html</code></td><td>Rendered pages, dashboards, slides</td><td>Sandboxed iframe; scripts allowed but isolated.</td></tr>
         <tr><td><code>json</code></td><td>Structured data for downstream systems</td><td>Collapsible tree with type info.</td></tr>
-        <tr><td><code>csv</code></td><td>Tabular data — leads, transactions</td><td>Sortable, filterable spreadsheet view.</td></tr>
+        <tr><td><code>csv</code></td><td>Tabular data: leads, transactions</td><td>Sortable, filterable spreadsheet view.</td></tr>
         <tr><td><code>image</code></td><td>Generated images, charts, diagrams</td><td>Zoom &amp; pan. PNG / JPEG / SVG / WebP.</td></tr>
-        <tr><td><code>file</code></td><td>Anything else — PDF, ZIP, audio, video</td><td>Type-aware: PDF inline, audio player, ZIP listing.</td></tr>
+        <tr><td><code>file</code></td><td>Anything else: PDF, ZIP, audio, video</td><td>Type-aware: PDF inline, audio player, ZIP listing.</td></tr>
       </tbody>
     </table>
 
@@ -288,7 +285,7 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
     </p>
 
     <!-- ── RESOURCES ─────────────────────────────────────────── -->
-    <h2>Resources — Skills and Connects the App needs</h2>
+    <h2>Resources: Skills and Connects the App needs</h2>
     <div class="code-block">
 "resources": {`{`}<br/>
 &nbsp;&nbsp;"skills":   ["web-search", "pdf-extract"],<br/>
@@ -301,36 +298,36 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
     </div>
     <p>
       <strong>Skills</strong> are capability modules the agent can call (web search, PDF extraction,
-      image generation) — see <a href="/docs/skills">Skills</a>. <strong>Connects</strong> are the
+      image generation). See <a href="/docs/skills">Skills</a>. <strong>Connects</strong> are the
       OAuth bridges the App needs. Aitroop tracks Connects in a two-level taxonomy:
     </p>
     <ul>
       <li>
-        <strong><code>type: "specific"</code></strong> — pin a single provider by its
+        <strong><code>type: "specific"</code></strong>: pin a single provider by its
         <code>connect_definition.id</code> (e.g. <code>github</code>, <code>hubspot</code>,
         <code>gmail</code>). Use this when only one integration will do.
       </li>
       <li>
-        <strong><code>type: "category"</code></strong> — accept any provider in a
+        <strong><code>type: "category"</code></strong>: accept any provider in a
         <code>connect_category</code> (e.g. <code>email</code>, <code>storage</code>,
         <code>crm</code>). The App is satisfied if the user has authorized at least one provider in
         that category. Use this when the App is provider-agnostic ("any email", "any CRM").
       </li>
     </ul>
     <p>
-      The legacy form <code>"connects": ["hubspot", "github"]</code> still works — each string is
+      The legacy form <code>"connects": ["hubspot", "github"]</code> still works: each string is
       treated as <code>{`{`} type: "specific", id: <span class="">«string»</span>, is_required: true {`}`}</code>
       when the App runs. The App Builder writes the rich form for new apps.
     </p>
     <p>
       Resources can be declared App-wide (as above) or per-stage (under <code>stage.skills</code> /
-      <code>stage.connects</code>). Per-stage scoping is the way to make a multi-stage App safer — give
+      <code>stage.connects</code>). Per-stage scoping is the way to make a multi-stage App safer: give
       stage 1 only <code>web-search</code>, stage 2 only the CRM Connect, and so on. See
       <a href="/docs/connects">Connects</a> for the full provider catalog and the satisfaction model.
     </p>
 
     <!-- ── EXECUTIONS ─────────────────────────────────── -->
-    <h2>Executions — when an App actually runs</h2>
+    <h2>Executions: when an App actually runs</h2>
     <p>
       An <strong>Execution</strong> is one trip through an App's stages. It's the thing with a status, a
       stage log, a duration, and a final set of artifacts.
@@ -374,17 +371,17 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
     <p>
       Stage logs go to <code>waiting</code> while a <code>human</code> stage holds the run; the
       parent execution stays in <code>running</code>. They also go to <code>skipped</code> when an
-      execution is resumed with <code>start_from_stage_index &gt; 0</code> — the earlier stages
+      execution is resumed with <code>start_from_stage_index &gt; 0</code>; the earlier stages
       aren't re-run. See <a href="/docs/executions">Executions</a> for the full lifecycle, debug
       flows, and SSE streaming.
     </p>
 
     <!-- ── SANDBOX ─────────────────────────────────── -->
-    <h2>Sandbox — where the agent does its work</h2>
+    <h2>Sandbox: where the agent does its work</h2>
     <p>
       Every chat and every App stage runs inside a <strong>sandbox</strong>: an isolated runtime with its
       own filesystem, its own processes, and outbound network. The agent can <code>pip install</code>,
-      run shell commands, write files, fetch URLs — and when the run ends, the sandbox is destroyed.
+      run shell commands, write files, fetch URLs, and when the run ends, the sandbox is destroyed.
     </p>
 
     <p>
@@ -392,10 +389,10 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
       between them:
     </p>
     <ul>
-      <li><code>host</code> — runs directly on the Aitroop server process. Self-hosted dev installs only; secrets like <code>DATABASE_URL</code>, <code>JWT_SECRET</code>, <code>E2B_API_KEY</code>, and S3 credentials are stripped from the child environment.</li>
-      <li><code>e2b</code> — Firecracker microVMs from E2B. Default for hosted Aitroop.</li>
-      <li><code>daytona</code> — managed dev containers from Daytona. For heavy / longer-running stages.</li>
-      <li><code>router</code> — selector that dispatches to one of the three above per user (used to route privileged users to <code>host</code>).</li>
+      <li><code>host</code>: runs directly on the Aitroop server process. Self-hosted dev installs only; secrets like <code>DATABASE_URL</code>, <code>JWT_SECRET</code>, <code>E2B_API_KEY</code>, and S3 credentials are stripped from the child environment.</li>
+      <li><code>e2b</code>: Firecracker microVMs from E2B. Default for hosted Aitroop.</li>
+      <li><code>daytona</code>: managed dev containers from Daytona. For heavy / longer-running stages.</li>
+      <li><code>router</code>: selector that dispatches to one of the three above per user (used to route privileged users to <code>host</code>).</li>
     </ul>
 
     <p>
@@ -407,14 +404,14 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
 ~/.aitroop/run-agent-config.json                   <span style="color:var(--aw-color-text-muted)">← per-run config</span><br/>
 ~/.aitroop/run-agent                               <span style="color:var(--aw-color-text-muted)">← binary (uploaded in remote mode)</span><br/>
 ~/.aitroop/skills/{`{name}/{version}/`}              <span style="color:var(--aw-color-text-muted)">← immutable skill cache (S3-mirrored)</span><br/>
-~/.claude/skills/{`{name}`}                          <span style="color:var(--aw-color-text-muted)">← symlink → cache (always-on core skills)</span><br/>
+~/.claude/skills/{`{name}`}                          <span style="color:var(--aw-color-text-muted)">← symlink to cache (always-on core skills)</span><br/>
 ~/.aitroop/app_skills/{`{appId}/.claude/skills/`}    <span style="color:var(--aw-color-text-muted)">← --add-dir target (per-app skills)</span><br/>
 {`{projectDir}`}                                       <span style="color:var(--aw-color-text-muted)">← where the agent reads/writes files</span>
     </div>
 
     <p>
       All stages in a single execution share the same sandbox, so stage 2 can read what stage 1 wrote.
-      Different executions get different sandboxes — nothing leaks across runs. The constants you'll
+      Different executions get different sandboxes; nothing leaks across runs. The constants you'll
       hit in practice: <code>SANDBOX_IDLE_TIMEOUT_MS = 5 min</code>,
       <code>SANDBOX_KEEPALIVE_INTERVAL_MS = 30 s</code>, and an upper-bound
       <code>AGENT_RUN_TIMEOUT_MS = 7 days</code>. See <a href="/docs/sandbox">Sandbox</a> for the
@@ -425,7 +422,7 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
     <h2>Multi-stage Apps</h2>
     <p>
       When a workflow naturally has steps that feed each other, define multiple stages. Stages run
-      sequentially. Each stage sees the prior stages' artifacts in <strong>two</strong> places —
+      sequentially. Each stage sees the prior stages' artifacts in <strong>two</strong> places,
       neither of which uses goal templating:
     </p>
 
@@ -439,7 +436,7 @@ Analysis" under a <code>## Competitive Analysis</code> heading.
         <strong>An auto-injected <code>## Previous Stage Outputs</code> section in the system
         prompt.</strong> Before stage N runs, the executor loads every artifact produced by stages
         0..N-1, renders each as <code>### {`{{title}}`}\n{`{{content}}`}</code>, and prepends the
-        block to the system prompt. The agent reads them as plain context — no manual reference
+        block to the system prompt. The agent reads them as plain context, no manual reference
         needed in the goal.
       </li>
     </ol>
@@ -468,7 +465,7 @@ stages: [<br/>
     </div>
 
     <p>
-      Notice the <code>human</code> stage between two <code>agent</code> stages — that's the
+      Notice the <code>human</code> stage between two <code>agent</code> stages: that's the
       <strong>human-in-the-loop</strong> pattern. Execution pauses there, the platform creates a
       row in <code>app_human_gate</code> with status <code>pending</code>, and the stage log
       transitions to <code>waiting</code>. The next stage only runs after the gate is set to
@@ -478,8 +475,8 @@ stages: [<br/>
     <!-- ── SESSIONS & MESSAGES ─────────────────────────────────────── -->
     <h2>Sessions and the message queue</h2>
     <p>
-      Every conversation with the agent — whether it's a free-form chat, an App stage, or a tick of
-      a scheduled task — happens inside a <strong>session</strong>. A session is a stable container
+      Every conversation with the agent, whether it's a free-form chat, an App stage, or a tick of
+      a scheduled task, happens inside a <strong>session</strong>. A session is a stable container
       with its own Claude conversation ID, its own ordered message log, and its own
       status-tracked queue. Three flavours are persisted in <code>app_session.session_type</code>:
     </p>
@@ -488,7 +485,7 @@ stages: [<br/>
       <tbody>
         <tr>
           <td><code>chat</code></td>
-          <td>The user — "+ New Chat".</td>
+          <td>The user: "+ New Chat".</td>
           <td>Permanent until archived/deleted.</td>
           <td>Sidebar, search, history.</td>
         </tr>
@@ -496,12 +493,12 @@ stages: [<br/>
           <td><code>app_stage</code></td>
           <td>The App executor when an <code>agent</code> stage begins.</td>
           <td>Tied to the parent execution. Stored forever as audit, browsable via <em>Debug in chat</em>.</td>
-          <td>The execution detail page — each stage log carries a <code>session_id</code>.</td>
+          <td>The execution detail page; each stage log carries a <code>session_id</code>.</td>
         </tr>
         <tr>
           <td><code>scheduled</code></td>
           <td>The first tick of a <code>send_message</code> scheduled task.</td>
-          <td>Reused for every subsequent tick of the same task — continuity by design.</td>
+          <td>Reused for every subsequent tick of the same task: continuity by design.</td>
           <td>A single "[Scheduled] {`{name}`}" session linked from the task row.</td>
         </tr>
       </tbody>
@@ -509,7 +506,7 @@ stages: [<br/>
 
     <p>
       Inside each session, every user turn is a row in <code>app_message</code>. Rows aren't
-      "fire-and-forget" — they go through a small state machine because the agent worker pool can be
+      "fire-and-forget"; they go through a small state machine because the agent worker pool can be
       multi-instance and a single session must serialize its dispatches:
     </p>
 
@@ -521,19 +518,19 @@ stages: [<br/>
 
     <p>The columns that matter on <code>app_message</code>:</p>
     <ul>
-      <li><strong><code>position</code></strong> — integer per session, monotonically increasing. Determines order within equal-priority rows. The DAO assigns this atomically when the row is inserted.</li>
-      <li><strong><code>priority</code></strong> — a 64-bit sort key. Higher priority dispatches first; default is wall-clock time so two messages without explicit priority run in arrival order.</li>
-      <li><strong><code>attempts</code></strong> — increments on each dispatch try. After 5 failures the row goes to <code>failed</code> and the user-visible message shows the error.</li>
-      <li><strong><code>dispatched_at</code></strong> — set when a worker claims the row; combined with a 15-minute staleness threshold drives the recovery poller.</li>
-      <li><strong><code>mode</code></strong> — free-form tag for what kind of message this is (used to route formatting in the UI).</li>
-      <li><strong><code>last_error</code></strong> — last failure reason, kept across retries.</li>
+      <li><strong><code>position</code></strong>: integer per session, monotonically increasing. Determines order within equal-priority rows. The DAO assigns this atomically when the row is inserted.</li>
+      <li><strong><code>priority</code></strong>: a 64-bit sort key. Higher priority dispatches first; default is wall-clock time so two messages without explicit priority run in arrival order.</li>
+      <li><strong><code>attempts</code></strong>: increments on each dispatch try. After 5 failures the row goes to <code>failed</code> and the user-visible message shows the error.</li>
+      <li><strong><code>dispatched_at</code></strong>: set when a worker claims the row; combined with a 15-minute staleness threshold drives the recovery poller.</li>
+      <li><strong><code>mode</code></strong>: free-form tag for what kind of message this is (used to route formatting in the UI).</li>
+      <li><strong><code>last_error</code></strong>: last failure reason, kept across retries.</li>
     </ul>
 
     <p>
       Workers claim work with <code>SELECT … FOR UPDATE SKIP LOCKED</code> ordered by
       <code>priority DESC, position ASC</code>, so two instances will never pick the same row. A
-      partial unique index — <code>uq_app_message_inflight</code> over <code>session_id</code> WHERE
-      <code>status = 'dispatching' AND role = 'user'</code> — enforces "at most one in-flight user
+      partial unique index, <code>uq_app_message_inflight</code> over <code>session_id</code> WHERE
+      <code>status = 'dispatching' AND role = 'user'</code>, enforces "at most one in-flight user
       message per session" at the database level. If a row stays in <code>dispatching</code> for
       more than 900 s (worker crash, node lost), a recovery poller resets it to
       <code>pending</code> so another worker can pick it up.
@@ -545,7 +542,7 @@ stages: [<br/>
       <code>NOTIFY</code> channel called <code>queue_dispatch</code>. When a new message is queued,
       the writing instance broadcasts a <code>queue_updated</code> event locally and emits
       <code>pg_notify('queue_dispatch', '{`{sessionId}`}|{`{originInstanceId}`}')</code>. Other
-      instances listening on the same channel ignore their own echoes and pick up the work — so
+      instances listening on the same channel ignore their own echoes and pick up the work, so
       dispatch is event-driven across the cluster, with a 60 s poll as a safety net for missed
       notifications.
     </p>
@@ -565,7 +562,7 @@ stages: [<br/>
       Agents occasionally need to ask the user something mid-run (an ambiguity, a missing piece of
       input). Emitting an <code>ask_user</code> tool call pauses the agent's turn, surfaces the
       question in the chat UI, and waits for a reply. The platform routes the reply back as the
-      tool result on the next tick — so the agent's "I asked, here's the answer" is a normal
+      tool result on the next tick, so the agent's "I asked, here's the answer" is a normal
       conversational step from the model's point of view. Distinct from <code>human</code> stages
       (which gate the whole pipeline at the execution level); <code>ask_user</code> is purely
       intra-session.
@@ -576,15 +573,15 @@ stages: [<br/>
     <p>
       Every <code>agent</code> stage and every chat turn ultimately runs through a Go binary called
       <code>run-agent</code>. The server hands the binary a JSON config and reads its stdout
-      line-by-line. Each line is one event — a stable JSONL protocol you'll see referenced in
+      line-by-line. Each line is one event: a stable JSONL protocol you'll see referenced in
       logs, in SSE payloads, and in the chat UI's reasoning trace.
     </p>
 
     <h3>Forwarded events</h3>
     <p>
       These are emitted to the UI as they arrive. Field names are camelCase on the wire to JS;
-      the runner's snake_case is auto-converted (<code>tool_id</code> → <code>toolId</code>,
-      <code>is_error</code> → <code>isError</code>, etc.).
+      the runner's snake_case is auto-converted (<code>tool_id</code> to <code>toolId</code>,
+      <code>is_error</code> to <code>isError</code>, etc.).
     </p>
     <table>
       <thead><tr><th>Event</th><th>Meaning</th></tr></thead>
@@ -594,7 +591,7 @@ stages: [<br/>
         <tr><td><code>tool_start</code></td><td>Agent is calling a tool. Carries <code>toolId</code>, <code>toolName</code>, arguments.</td></tr>
         <tr><td><code>tool_result</code></td><td>Tool returned. Carries <code>toolId</code>, output, and <code>isError</code>.</td></tr>
         <tr><td><code>subtask_start</code> / <code>subtask_progress</code> / <code>subtask_done</code></td><td>The agent spawned a nested task (Task tool / sub-agent).</td></tr>
-        <tr><td><code>ask_user</code></td><td>Agent needs a question answered before continuing — see above.</td></tr>
+        <tr><td><code>ask_user</code></td><td>Agent needs a question answered before continuing. See above.</td></tr>
         <tr><td><code>context_usage</code></td><td>Periodic token usage telemetry (in/out/cache hits).</td></tr>
         <tr><td><code>session_info</code></td><td>Carries the underlying Claude conversation ID for this turn; used for resume.</td></tr>
         <tr><td><code>system</code></td><td>A platform-level message (e.g. permission prompt, retry).</td></tr>
@@ -605,7 +602,7 @@ stages: [<br/>
 
     <h3>Internal events (never forwarded)</h3>
     <p>
-      Three events with <code>__runner_*__</code> names are consumed by the server only — they're
+      Three events with <code>__runner_*__</code> names are consumed by the server only: they're
       bookkeeping, not user-visible state:
     </p>
     <table>
@@ -620,14 +617,14 @@ stages: [<br/>
     <h3>Error classification</h3>
     <p>
       Not every runner failure is the same. The server classifies the captured error message into
-      one of five buckets — the bucket determines the recovery strategy:
+      one of five buckets; the bucket determines the recovery strategy:
     </p>
     <table>
       <thead><tr><th>Class</th><th>Trigger</th><th>Recovery</th></tr></thead>
       <tbody>
         <tr><td><code>session_expired</code></td><td>The underlying Claude conversation was retired or rotated.</td><td>Start a fresh Claude conversation; keep the Aitroop session row.</td></tr>
         <tr><td><code>sandbox_not_found</code></td><td>The sandbox container died or was reaped.</td><td>Evict the cached sandbox and create a fresh one; retry the turn once.</td></tr>
-        <tr><td><code>network</code></td><td>Transport errors — <code>ECONNRESET</code>, <code>ETIMEDOUT</code>.</td><td>Retry after backoff.</td></tr>
+        <tr><td><code>network</code></td><td>Transport errors: <code>ECONNRESET</code>, <code>ETIMEDOUT</code>.</td><td>Retry after backoff.</td></tr>
         <tr><td><code>connection</code></td><td>gRPC / MCP protocol-level error.</td><td>Surface the error; user retries explicitly.</td></tr>
         <tr><td><code>unknown</code></td><td>Anything else.</td><td>Mark the turn failed with the verbatim error.</td></tr>
       </tbody>
@@ -640,14 +637,14 @@ stages: [<br/>
       The salient fields:
     </p>
     <ul>
-      <li><strong><code>prompt</code></strong> — the actual user message (or the stage's expanded goal).</li>
-      <li><strong><code>options.model</code></strong> — Claude model ID; defaults to <code>claude-sonnet-4-6</code> if the stage didn't pin one.</li>
-      <li><strong><code>options.resume</code></strong> — when present, resume an existing Claude conversation. The server pulls this from the session's <code>agent_session_id</code>.</li>
-      <li><strong><code>options.allowedTools</code></strong> — the curated tool set the runner exposes to the model (typically 8 names: Read, Edit, Bash, Glob, Grep, Write, Task, plus the Aitroop MCP set).</li>
-      <li><strong><code>options.permissionMode</code></strong> — fixed to <code>'bypassPermissions'</code>; the platform enforces permissions at the sandbox boundary, not interactively.</li>
-      <li><strong><code>options.mcpServers</code></strong> — the Aitroop in-house MCP server plus any extras the App / stage requested.</li>
-      <li><strong><code>options.env</code></strong> — anything in <code>process.env</code> prefixed with <code>SANDBOX_ENV_</code> is forwarded with the prefix stripped, plus <code>AT_USER_TOKEN</code> (the user's JWT) is injected so authenticated server calls work from inside the sandbox.</li>
-      <li><strong><code>options.oauthToken</code></strong> / <strong>proxy mode</strong> — either an Anthropic OAuth token or, when a proxy is configured, an <code>ANTHROPIC_BASE_URL</code> pointing at the proxy with the user's JWT used as bearer. The platform snapshots this once per call so all retries within a turn use the same credentials.</li>
+      <li><strong><code>prompt</code></strong>: the actual user message (or the stage's expanded goal).</li>
+      <li><strong><code>options.model</code></strong>: Claude model ID; defaults to <code>claude-sonnet-4-6</code> if the stage didn't pin one.</li>
+      <li><strong><code>options.resume</code></strong>: when present, resume an existing Claude conversation. The server pulls this from the session's <code>agent_session_id</code>.</li>
+      <li><strong><code>options.allowedTools</code></strong>: the curated tool set the runner exposes to the model (typically 8 names: Read, Edit, Bash, Glob, Grep, Write, Task, plus the Aitroop MCP set).</li>
+      <li><strong><code>options.permissionMode</code></strong>: fixed to <code>'bypassPermissions'</code>; the platform enforces permissions at the sandbox boundary, not interactively.</li>
+      <li><strong><code>options.mcpServers</code></strong>: the Aitroop in-house MCP server plus any extras the App / stage requested.</li>
+      <li><strong><code>options.env</code></strong>: anything in <code>process.env</code> prefixed with <code>SANDBOX_ENV_</code> is forwarded with the prefix stripped, plus <code>AT_USER_TOKEN</code> (the user's JWT) is injected so authenticated server calls work from inside the sandbox.</li>
+      <li><strong><code>options.oauthToken</code></strong> / <strong>proxy mode</strong>: either an Anthropic OAuth token or, when a proxy is configured, an <code>ANTHROPIC_BASE_URL</code> pointing at the proxy with the user's JWT used as bearer. The platform snapshots this once per call so all retries within a turn use the same credentials.</li>
     </ul>
 
     <h2>How Apps actually get created</h2>
@@ -657,9 +654,9 @@ stages: [<br/>
     <ol>
       <li>You tell the agent in chat: <em>"Create an app that…"</em></li>
       <li>The agent activates the <code>aitroop-app-create</code> Skill (the App Builder).</li>
-      <li>The App Builder asks 1–5 clarifying questions if needed.</li>
+      <li>The App Builder asks 1-5 clarifying questions if needed.</li>
       <li>It designs the full AppDef (inputs, stages, artifacts, resources).</li>
-      <li>It validates the design — every ID unique, every <code>{`{{ref}}`}</code> resolves, goals are specific.</li>
+      <li>It validates the design: every ID unique, every <code>{`{{ref}}`}</code> resolves, goals are specific.</li>
       <li>It calls <code>POST /api/apps</code> to save.</li>
       <li>It reports the App ID and offers to refine.</li>
     </ol>
@@ -669,12 +666,12 @@ stages: [<br/>
 
     <h2>Common mistakes to avoid</h2>
     <ul>
-      <li><strong>Vague goals</strong> — "Do research" is too vague. Specify sources, depth, output format.</li>
-      <li><strong>Missing artifacts</strong> — an App with no <code>artifact_defs</code> produces no visible output.</li>
-      <li><strong>Too many required inputs</strong> — users abandon Apps with long forms. Default everything you can.</li>
-      <li><strong>Undersized timeout</strong> — heavy research stages need 5–10 min. Bump <code>timeout_ms</code> to <code>600000</code>.</li>
-      <li><strong>Wrong input type</strong> — use <code>textarea</code> for long text, <code>text</code> for short identifiers, <code>select</code> when there are 3–6 fixed options.</li>
-      <li><strong>Over-decomposing</strong> — splitting a one-thought task into 4 stages. Use multi-stage only when the work naturally has separable steps.</li>
+      <li><strong>Vague goals</strong>: "Do research" is too vague. Specify sources, depth, output format.</li>
+      <li><strong>Missing artifacts</strong>: an App with no <code>artifact_defs</code> produces no visible output.</li>
+      <li><strong>Too many required inputs</strong>: users abandon Apps with long forms. Default everything you can.</li>
+      <li><strong>Undersized timeout</strong>: heavy research stages need 5-10 min. Bump <code>timeout_ms</code> to <code>600000</code>.</li>
+      <li><strong>Wrong input type</strong>: use <code>textarea</code> for long text, <code>text</code> for short identifiers, <code>select</code> when there are 3-6 fixed options.</li>
+      <li><strong>Over-decomposing</strong>: splitting a one-thought task into 4 stages. Use multi-stage only when the work naturally has separable steps.</li>
     </ul>
 
     <h2>Quick glossary</h2>
@@ -682,7 +679,7 @@ stages: [<br/>
       <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
       <tbody>
         <tr><td><strong>App</strong></td><td>A saved workflow JSON document with form, stages, and artifacts.</td></tr>
-        <tr><td><strong>AppInput</strong></td><td>One form field. 11 supported types — see the input-types table.</td></tr>
+        <tr><td><strong>AppInput</strong></td><td>One form field. 11 supported types; see the input-types table.</td></tr>
         <tr><td><strong>Stage</strong></td><td>One step in the workflow. Types: <code>agent</code>, <code>script</code>, <code>human</code>.</td></tr>
         <tr><td><strong>Goal</strong></td><td>The agent's instruction string inside a stage. References inputs with <code>{`{{id}}`}</code>.</td></tr>
         <tr><td><strong>Artifact</strong></td><td>The deliverable a stage produces. Typed (markdown, csv, etc).</td></tr>
@@ -690,20 +687,20 @@ stages: [<br/>
         <tr><td><strong>Connect</strong></td><td>OAuth integration to an external service (google, github, hubspot).</td></tr>
         <tr><td><strong>Resources</strong></td><td>The Skills and Connects an App declares it needs.</td></tr>
         <tr><td><strong>Execution</strong></td><td>One run of an App. Has a status, stage logs, and artifacts.</td></tr>
-        <tr><td><strong>Stage log</strong></td><td>The per-stage record of an execution — status, duration, error, session.</td></tr>
+        <tr><td><strong>Stage log</strong></td><td>The per-stage record of an execution: status, duration, error, session.</td></tr>
         <tr><td><strong>Human gate</strong></td><td>A paused execution waiting for human approve / reject / edit.</td></tr>
         <tr><td><strong>Sandbox</strong></td><td>Isolated runtime each chat or App run executes in. Three providers: host / e2b / daytona.</td></tr>
         <tr><td><strong>Session</strong></td><td>The conversation container holding a sequence of messages. Types: <code>chat</code> / <code>app_stage</code> / <code>scheduled</code>.</td></tr>
         <tr><td><strong>Message</strong></td><td>One row in <code>app_message</code>. Lives in the dispatch queue with a state machine and a priority.</td></tr>
         <tr><td><strong>Runner</strong></td><td>The <code>run-agent</code> binary that actually drives a Claude turn. Emits JSONL events back to the server.</td></tr>
-        <tr><td><strong>Workspace</strong></td><td>Account container — holds Apps, Connects, run history.</td></tr>
+        <tr><td><strong>Workspace</strong></td><td>Account container; holds Apps, Connects, run history.</td></tr>
         <tr><td><strong>Org</strong></td><td>Team layer on top of users. Shared Apps, shared billing, member roles.</td></tr>
       </tbody>
     </table>
 
     <div class="next-up">
       <span class="label">Next</span>
-      <a href="/docs/chat">Chat mode — the agent cockpit</a>
+      <a href="/docs/chat">Chat mode: the agent cockpit</a>
     </div>
   </DocsShell>
 </Layout>

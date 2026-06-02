@@ -1,25 +1,17 @@
-﻿---
+---
 import Layout from '~/layouts/PageLayout.astro';
 
 import Header from '~/components/widgets/Header.astro';
 
 import Hero2 from '~/components/widgets/Hero2.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
 import Features3 from '~/components/widgets/Features3.astro';
 import Content from '~/components/widgets/Content.astro';
-import Testimonials from '~/components/widgets/Testimonials.astro';
-import { generateAvatar } from '~/utils/avatar';
 import FAQs from '~/components/widgets/FAQs.astro';
 import Stats from '~/components/widgets/Stats.astro';
 
 import Button from '~/components/ui/Button.astro';
-import Image from '~/components/common/Image.astro';
 
-const appStoreImg = '~/assets/images/app-store.png';
-const appStoreDownloadLink = 'https://github.com/arthelokyo/astrowind';
-
-const googlePlayImg = '~/assets/images/google-play.png';
-const googlePlayDownloadLink = 'https://github.com/arthelokyo/astrowind';
+const appLink = 'https://app.aitroop.net';
 
 const metadata = {
   title: 'Mobile App Homepage',
@@ -38,8 +30,8 @@ const metadata = {
       ]}
       actions={[
         {
-          text: 'Download',
-          href: '#download',
+          text: 'Open the app',
+          href: appLink,
         },
       ]}
       isSticky
@@ -53,30 +45,21 @@ const metadata = {
     tagline="Mobile App Web Demo"
     image={{
       src: '/illustrations/mobile-analytics_bz2a.svg', width: 1024, height: 768,
-      alt: 'AstroWind Hero Image',
+      alt: 'Aitroop Hero Image',
     }}
   >
     <Fragment slot="title">
-      <span class="text-accent">AstroWind App</span>: <br /> professional websites <span
+      <span class="text-accent">Aitroop App</span>: <br /> professional websites <span
         class="hidden xl:inline">made easy</span
       >
     </Fragment>
 
     <Fragment slot="subtitle">
-      <span class="hidden sm:inline">
-        Unlock boundless creativity at your fingertips: your gateway to innovative design.
-      </span>
-      Download now and embark on a journey to elevate your projects like never before.
+      Ship your idea faster with templates, components, and a clean workflow built for modern teams.
     </Fragment>
 
     <div slot="actions" class="flex max-w-sm gap-4">
-      <Button variant="link" href={appStoreDownloadLink}>
-        <Image src={appStoreImg} alt="App Store Image" width={200} />
-      </Button>
-
-      <Button variant="link" href={googlePlayDownloadLink}>
-        <Image src={googlePlayImg} alt="Google Play Image" width={200} />
-      </Button>
+      <Button variant="primary" href={appLink}>Open the app</Button>
     </div>
   </Hero2>
 
@@ -85,13 +68,13 @@ const metadata = {
   <Features3
     id="features"
     title="How to use our app?"
-    subtitle="Tired of spending hours crafting documents from scratch? Our app offers an innovative solution. With a wide array of professionally designed templates, you can now create stunning documents in minutes. Explore our templates now and experience the difference."
+    subtitle="Tired of spending hours crafting documents from scratch? Our app offers a clear solution. With a wide array of professionally designed templates, you can now create stunning documents in minutes. Explore our templates now and experience the difference."
     tagline="Step-by-step guide"
     columns={2}
     items={[
       {
-        title: 'Download and install the app',
-        description: `Begin your journey by downloading our user-friendly app from your device's app store or our official website.`,
+        title: 'Open the app',
+        description: `Begin your journey by opening Aitroop in your browser. No download required.`,
         icon: 'tabler:square-number-1',
       },
       {
@@ -204,39 +187,6 @@ const metadata = {
     ]}
   />
 
-  <!-- Testimonials Widget *********** -->
-
-  <Testimonials
-    title="What our users say?"
-    testimonials={[
-      {
-        testimonial: `It's made exploring and downloading website templates a breeze. The interface is intuitive, and I had no trouble finding the perfect template for my project. It's an app that truly empowers users.`,
-        name: 'Cary Kennedy',
-        job: 'Film director',
-        image: generateAvatar('Cary Kennedy'),
-      },
-      {
-        testimonial: `The app's seamless download process and intuitive layout have made selecting templates an enjoyable experience. Being able to preview and experiment with different designs before committing has saved me time and ensured I get the perfect look for my website.`,
-        name: 'Josh Wilkinson',
-        job: 'Product Manager',
-        image: generateAvatar('Josh Wilkinson'),
-      },
-      {
-        testimonial:
-          'I was able to download and use a professional website template within minutes. The step-by-step process and user-friendly interface made it easy for me to create a website that looks as if it was designed by a pro.',
-        name: 'Sidney Hansen',
-        job: 'Decorator',
-        image: generateAvatar('Sidney Hansen'),
-      },
-    ]}
-    callToAction={{
-      target: '_blank',
-      text: 'Read more testimonials',
-      href: 'https://github.com/arthelokyo/astrowind',
-      icon: 'tabler:chevron-right',
-    }}
-  />
-
   <!-- FAQs Widget ******************* -->
 
   <FAQs
@@ -259,7 +209,7 @@ const metadata = {
       {
         title: 'What makes this app different from others?',
         description:
-          'Our app stands out for its user-friendly interface, extensive template collection, and seamless integration of the purchasing and downloading process, making it highly efficient.',
+          'Our app stands out for its user-friendly interface, extensive template collection, and clean integration of the purchasing and downloading process, making it highly efficient.',
       },
       {
         title: 'Are there any costs involved?',
@@ -268,22 +218,6 @@ const metadata = {
       },
     ]}
   />
-
-  <!-- CallToAction Widget *********** -->
-
-  <CallToAction
-    id="download"
-    title="Download our app now!"
-    subtitle="Access a variety of stunning templates, simplify your creative process, and elevate your online presence."
-  >
-    <div slot="actions" class="flex max-w-sm gap-4">
-      <Button variant="link" href={appStoreDownloadLink}>
-        <Image src={appStoreImg} alt="App Store Image" width={200} />
-      </Button>
-
-      <Button variant="link" href={googlePlayDownloadLink}>
-        <Image src={googlePlayImg} alt="Google Play Image" width={200} />
-      </Button>
-    </div>
-  </CallToAction>
 </Layout>
+</content>
+</invoke>

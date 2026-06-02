@@ -3,14 +3,11 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 ---
 
-<Layout metadata={{ title: '对话模式 — Aitroop 文档' }}>
+<Layout metadata={{ title: '对话模式 · Aitroop 文档' }}>
   <DocsShell current="chat" locale="zh-CN">
     <h1>对话模式</h1>
     <p class="lead">
-      对话就是驾驶舱。把它想象成智能体的工作台 —— 打开一个对话,智能体就拥有一个全新的沙箱、完整的
-      网络访问、你安装的每一个技能、你授权的每一个 Connect,以及一张空白画布可以开始工作。你用对话
-      来做探索(一次性任务)、构建应用(把对话变成已保存的工作流)、编辑现有应用,以及调试失败的运行。
-      本章节其余部分都是操作细节。
+      对话是智能体的驾驶舱：一个全新的沙箱、完整的网络访问、你的所有技能和 Connect，可用于探索、构建、编辑或调试应用。
     </p>
 
     <div class="callout">
@@ -42,7 +39,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h3>4. 调试失败的运行</h3>
     <p>
-      从应用的历史记录里打开一次失败的运行。点击 <strong>Debug in chat</strong> —— 一个对话会带着此次
+      从应用的历史记录里打开一次失败的运行。点击 <strong>Debug in chat</strong>,一个对话会带着此次
       运行的上下文打开:输入、部分产物、智能体的推理轨迹、错误信息。这下你就可以问智能体哪里出错了、
       该怎么修。适合:"这之前是好的,现在为什么不行了"。
     </p>
@@ -51,7 +48,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     <ol>
       <li>在任意页面,点击侧边栏的 <strong>+ New Chat</strong>。</li>
       <li>一个空白对话会打开。底部是消息输入框,上方是对话区域,顶部是面包屑。</li>
-      <li>对话运行在一个使用 <code>claude-code</code> 模板的隔离 E2B 沙箱里 —— 智能体对临时文件系统
+      <li>对话运行在一个使用 <code>claude-code</code> 模板的隔离 E2B 沙箱里:智能体对临时文件系统
         拥有完整的读写权限,可以执行代码,但不会触碰你的机器或其他对话。</li>
     </ol>
 
@@ -75,14 +72,14 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
     </div>
 
     <ul>
-      <li><strong>面包屑(顶部)</strong> —— 工作区名 / 对话名。</li>
-      <li><strong>Save as App ▾(右上)</strong> —— 下拉菜单,包含 "Save as App" 和 "Save into existing App"。
+      <li><strong>面包屑(顶部)</strong>:工作区名 / 对话名。</li>
+      <li><strong>Save as App ▾(右上)</strong>:下拉菜单,包含 "Save as App" 和 "Save into existing App"。
         在对话变得可保存之前会是灰色不可点击。</li>
-      <li><strong>对话线程(中央)</strong> —— 用户和智能体轮流发言。工具调用(技能调用、Connect 调用)
+      <li><strong>对话线程(中央)</strong>:用户和智能体轮流发言。工具调用(技能调用、Connect 调用)
         会以输入 + 输出的形式内嵌显示。</li>
-      <li><strong>状态栏(输入框上方)</strong> —— 显示已激活的技能数量和已授权的 Connect 数量。</li>
-      <li><strong>附件(📎)</strong> —— 打开文件选择器或把文件拖入对话。</li>
-      <li><strong>发送(↵)</strong> —— 回车键或点击。</li>
+      <li><strong>状态栏(输入框上方)</strong>:显示已激活的技能数量和已授权的 Connect 数量。</li>
+      <li><strong>附件(📎)</strong>:打开文件选择器或把文件拖入对话。</li>
+      <li><strong>发送(↵)</strong>:回车键或点击。</li>
     </ul>
 
     <h2>智能体能访问什么</h2>
@@ -118,7 +115,7 @@ What to include, what to skip, language, tone.
     </div>
 
     <p>
-      你不需要每次都套这个模板。但当智能体的输出少了点什么时,缺的那块通常就是这四项之一 —— 补上再试一次。
+      你不需要每次都套这个模板。但当智能体的输出少了点什么时,缺的那块通常就是这四项之一:补上再试一次。
     </p>
 
     <h3>示例:一条写得好的第一条消息</h3>
@@ -144,7 +141,7 @@ Executive tone, no jargon.
     <ol>
       <li>把文件从你的电脑里拖到对话里,或点击 📎 附件按钮。</li>
       <li>文件上传后,会以小标签的形式出现在输入框上方。</li>
-      <li>智能体可以在沙箱里读取这个文件 —— 可以解析、转换、总结。</li>
+      <li>智能体可以在沙箱里读取这个文件，可以解析、转换、总结。</li>
       <li>附件只属于这次对话。它不会跟着你去到其他对话。</li>
     </ol>
 
@@ -154,7 +151,7 @@ Executive tone, no jargon.
       <li><strong>文档:</strong> <code>.pdf</code>、<code>.docx</code>、<code>.xlsx</code>、<code>.pptx</code>。</li>
       <li><strong>图片:</strong> <code>.png</code>、<code>.jpg</code>、<code>.gif</code>、<code>.webp</code>、<code>.svg</code>。</li>
       <li><strong>代码:</strong> 任何源代码文件。智能体会识别语言并相应渲染。</li>
-      <li><strong>压缩包:</strong> <code>.zip</code>、<code>.tar.gz</code> —— 智能体可以列出内容并解压。</li>
+      <li><strong>压缩包:</strong> <code>.zip</code>、<code>.tar.gz</code>,智能体可以列出内容并解压。</li>
     </ul>
 
     <h3>关于文件的几点小建议</h3>
@@ -198,7 +195,7 @@ Let me search the web for recent news.<br/>
 
     <h3>查看当前激活了哪些技能</h3>
     <p>
-      看一下输入框上方的状态栏 —— 它会显示一个计数("Skills: 12 active")。点击会展开列表。或者直接问智能体:
+      看一下输入框上方的状态栏:它会显示一个计数("Skills: 12 active")。点击会展开列表。或者直接问智能体:
     </p>
     <div class="code-block">
 &gt; what Skills do I have available?
@@ -225,7 +222,7 @@ Let me search the web for recent news.<br/>
 
     <h3>之后的运行</h3>
     <p>
-      第一次授权之后,后续的对话和运行会无声地使用该 Connect —— 不会再有提示。可以随时在
+      第一次授权之后,后续的对话和运行会无声地使用该 Connect,不会再有提示。可以随时在
       <strong>Settings → Connects</strong> 里撤销授权。
     </p>
 
@@ -246,7 +243,7 @@ Let me search the web for recent news.<br/>
     <h2>一条消息怎么变成一个轮次</h2>
     <p>
       对话框看起来就是一个大大的文本框,但它底下,每次发送都会过一遍一个小巧的、集群安全的消息队列。
-      花两分钟搞清楚里面发生了什么是值得的 —— 它解释了你以后所有的"我消息怎么没发出去?"问题。
+      花两分钟搞清楚里面发生了什么是值得的:它解释了你以后所有的"我消息怎么没发出去?"问题。
     </p>
 
     <h3>状态机</h3>
@@ -290,16 +287,16 @@ Let me search the web for recent news.<br/>
       表结构通过一个部分唯一索引强制每个会话最多只有一条正在处理的用户消息,该索引建在
       <code>session_id</code> 上,过滤条件是 <code>status = 'dispatching' AND role = 'user'</code>。
       就算你在第一条还没进入 dispatching 之前就发了第二条,第二条也会卡在 <code>pending</code> 里
-      等第一条结束 —— 不会有交错的轮次,也不会出现两个 Claude 回答之间的竞态。多实例的派发永远
+      等第一条结束,不会有交错的轮次,也不会出现两个 Claude 回答之间的竞态。多实例的派发永远
       不可能破坏这一点;数据库就是事实的唯一来源。
     </p>
 
     <h3>从崩溃的 worker 中恢复</h3>
     <p>
-      Worker 可能在派发过程中挂掉 —— Kubernetes 驱逐了一个 pod、某个节点崩溃了。一个独立的恢复轮询器
+      Worker 可能在派发过程中挂掉(Kubernetes 驱逐了一个 pod、某个节点崩溃了)。一个独立的恢复轮询器
       每 60 秒扫描一次,寻找那些卡在 <code>dispatching</code> 超过 900 秒(15 分钟)的行,把它们翻回
       <code>pending</code>,让另一个 worker 来认领。实际体感是:在基础设施事件之后,新一次派发尝试最坏
-      会有 15 分钟延迟 —— 但消息永远不会被悄悄丢掉。
+      会有 15 分钟延迟,但消息永远不会被悄悄丢掉。
     </p>
 
     <h3>UI 里的 "Sending…" 到底什么意思</h3>
@@ -311,13 +308,13 @@ Let me search the web for recent news.<br/>
       <li><strong>转圈持续 15 分钟以上。</strong> 承载这次派发的 worker 可能已经挂掉了。恢复轮询器
         很快会重置它。</li>
       <li><strong>红色气泡带错误。</strong> 状态是 <code>failed</code>;你看到的就是
-        <code>last_error</code> 字段。再发送一遍就能重试 —— 队列会接着处理。</li>
+        <code>last_error</code> 字段。再发送一遍就能重试，队列会接着处理。</li>
     </ul>
 
     <h2>对输出做迭代</h2>
     <p>一个高效对话的标准节奏:</p>
     <ol>
-      <li>智能体产出一些东西 —— 文本、草稿、结构化输出。</li>
+      <li>智能体产出一些东西，文本、草稿、结构化输出。</li>
       <li>你读一遍。</li>
       <li>你具体地告诉它该改什么。</li>
       <li>智能体产出新版本。</li>
@@ -374,10 +371,10 @@ Let me search the web for recent news.<br/>
     <h2>对话历史和搜索</h2>
     <ul>
       <li>所有对话都集中在 <strong>侧边栏 → Chats</strong> 下面。</li>
-      <li>点击任意一个对话就能重新打开 —— 你可以随时继续对话。</li>
+      <li>点击任意一个对话就能重新打开，你可以随时继续对话。</li>
       <li>用搜索(对话列表顶部)按内容查找对话。</li>
       <li>把你经常引用的对话钉住。</li>
-      <li>把已经完成的对话归档 —— 归档后仍可搜索,但不会塞满列表。</li>
+      <li>把已经完成的对话归档，归档后仍可搜索,但不会塞满列表。</li>
     </ul>
 
     <h2>什么时候对话不是合适的界面</h2>
@@ -389,7 +386,7 @@ Let me search the web for recent news.<br/>
       <li>你希望它能按定时任务自动运行。</li>
     </ul>
 
-    <p>一次性的工作、探索、调试和随意的提问 —— 留在对话里就好。</p>
+    <p>一次性的工作、探索、调试和随意的提问,留在对话里就好。</p>
 
     <h2>内置的智能体工具</h2>
     <p>
@@ -416,7 +413,7 @@ Let me search the web for recent news.<br/>
     </p>
     <p>
       <strong>修复:</strong> 明确告诉它。<em>"这件事用 <code>web-search</code> 技能。"</em>
-      或者检查一下输入框上方的状态栏 —— 如果它显示 "Skills: 12 active",但你想要的那个技能不在,
+      或者检查一下输入框上方的状态栏:如果它显示 "Skills: 12 active",但你想要的那个技能不在,
       先从 <strong>侧边栏 → Skills</strong> 安装它。
     </p>
 
@@ -431,23 +428,23 @@ Let me search the web for recent news.<br/>
       三种常见原因:
     </p>
     <ul>
-      <li><strong>冷启动沙箱。</strong> 对话的第一条消息:+1–2 秒用于配置沙箱。</li>
-      <li><strong>重型工具调用。</strong> 一次包含 10 次网页搜索的研究任务要花 30–90 秒。看一下运行
-        日志 —— 每次调用发生时你都能看到。</li>
+      <li><strong>冷启动沙箱。</strong> 对话的第一条消息:+1-2 秒用于配置沙箱。</li>
+      <li><strong>重型工具调用。</strong> 一次包含 10 次网页搜索的研究任务要花 30-90 秒。看一下运行
+        日志:每次调用发生时你都能看到。</li>
       <li><strong>上下文溢出。</strong> 非常长的对话(50+ 轮)会变慢。状态栏会显示上下文使用情况;
         可以考虑用你关心的那份产物作为种子,开一个新对话。</li>
     </ul>
 
     <p class="faq-q">怎么把一个对话分享给同事?</p>
     <p>
-      打开对话,点击右上角的分享图标,拿到一个公开 URL。在那个 URL 下,对话会变成只读 —— 你的同事
+      打开对话,点击右上角的分享图标,拿到一个公开 URL。在那个 URL 下,对话会变成只读:你的同事
       可以看,但不能发送消息或触发新的智能体轮次。可以随时在 <strong>Settings → Shares</strong> 里
       撤销。
     </p>
 
     <p class="faq-q">我能用不同的输入把同一个对话再跑一次吗?</p>
     <p>
-      不能直接做到 —— 对话是有状态的会话,不是参数化的工作流。如果你想用不同输入重跑,那正是应用的
+      不能直接做到:对话是有状态的会话,不是参数化的工作流。如果你想用不同输入重跑,那正是应用的
       意义所在。打 <em>"save this as an app"</em>,应用构建器会把这段对话变成一个应用。
     </p>
 
@@ -456,7 +453,7 @@ Let me search the web for recent news.<br/>
       把答案提前给它。在你第一条消息的顶部用一个有用的模板:
     </p>
     <div class="code-block">
-<span style="color:var(--aw-color-text-muted"># Task</span><br/>
+<span style="color:var(--aw-color-text-muted)"># Task</span><br/>
 &lt;what to do&gt;<br/>
 <span style="color:var(--aw-color-text-muted)"># Inputs</span><br/>
 &lt;exact data points&gt;<br/>
@@ -475,7 +472,7 @@ Let me search the web for recent news.<br/>
 
     <div class="next-up">
       <span class="label">下一篇</span>
-      <a href="/zh-CN/docs/apps">应用 —— 构建与运行</a>
+      <a href="/zh-CN/docs/apps">应用:构建与运行</a>
     </div>
   </DocsShell>
 </Layout>

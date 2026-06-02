@@ -3,7 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 
 const metadata = {
-  title: '沙盒 — Aitroop 文件',
+  title: '沙盒 · Aitroop 文件',
 };
 ---
 
@@ -11,21 +11,19 @@ const metadata = {
   <DocsShell current="sandbox" locale="zh-TW">
     <h1>沙盒</h1>
     <p class="lead">
-      每一次聊天、每一個應用階段都運行在 <strong>沙盒</strong> 中——一台擁有獨立檔案系統、獨立行程、獨立網路堆疊的
-      隔離電腦。你可以把它想成代理人在一次執行期間臨時借用、用完即丟的一台全新筆電。代理人安裝、下載或弄壞的任何東西，
-      都不會碰到你的機器或其他使用者。
+      每次聊天和應用階段都運行在 <strong>沙盒</strong> 中：一台擁有獨立檔案系統、行程和網路的臨時電腦，用完即丟，絕不碰到你的機器或其他使用者。
     </p>
 
     <div class="callout">
       <strong>一句話講清它為什麼重要。</strong> 正是有了沙盒，我們才敢放心地說「是的，代理人可以隨意
-      <code>pip install</code>、執行 shell 命令、寫檔案、嘗試各種會失敗的東西」——因為爆炸半徑只有一個容器，
+      <code>pip install</code>、執行 shell 命令、寫檔案、嘗試各種會失敗的東西」，因為爆炸半徑只有一個容器，
       執行結束就會銷毀。
     </div>
 
     <h2>三種 Provider</h2>
     <p>
       Aitroop 把執行時抽象在統一的 <code>ISandbox</code> 介面背後，並提供三種實作。具體某次執行使用哪一種，
-      取決於工作區設定、方案以及任務類型。代理人的程式碼感知不到差異——但運行特性差別很大。
+      取決於工作區設定、方案以及任務類型。代理人的程式碼感知不到差異，但運行特性差別很大。
     </p>
 
     <table>
@@ -35,7 +33,7 @@ const metadata = {
           <td><code>host</code> <span class="pill amber">本機</span></td>
           <td>直接運行在 Aitroop 伺服器上，使用每個使用者各自的暫存目錄。</td>
           <td>自架的開發安裝、冒煙測試，以及那種「啟動一台遠端虛擬機太重」的輕量階段。</td>
-          <td>使用者之間沒有真正的隔離——host 模式僅適用於單租戶 / 開發環境。</td>
+          <td>使用者之間沒有真正的隔離，host 模式僅適用於單租戶 / 開發環境。</td>
         </tr>
         <tr>
           <td><code>e2b</code> <span class="pill green">預設雲端</span></td>
@@ -53,7 +51,7 @@ const metadata = {
     </table>
 
     <h2>代理人在沙盒裡能做什麼</h2>
-    <p>沙盒介面暴露兩個面——<strong>命令</strong>和<strong>檔案</strong>——以及幾個生命週期掛鉤：</p>
+    <p>沙盒介面暴露兩個面，<strong>命令</strong>和<strong>檔案</strong>：以及幾個生命週期掛鉤：</p>
 
     <h3>命令</h3>
     <div class="code-block">
@@ -63,7 +61,7 @@ sandbox.commands.run({`{`} cmd: "node", args: ["build.js"] {`}`})<br/>
     </div>
     <ul>
       <li>Shell 命令以沙盒使用者身分（非 root）在 <code>projectDir</code> 下執行。</li>
-      <li>你可以安裝套件——在 E2B 與 Daytona 上可使用 <code>pip install</code>、<code>npm install</code>、
+      <li>你可以安裝套件，在 E2B 與 Daytona 上可使用 <code>pip install</code>、<code>npm install</code>、
         <code>apt-get</code>；在 host 模式下則受限於你自己的權限。</li>
       <li>標準輸出與標準錯誤會串流回傳到執行記錄；命令完成時代理人就能看到。</li>
       <li>單條命令的逾時由階段的 <code>timeout_ms</code> 限定。</li>
@@ -87,8 +85,8 @@ sandbox.files.copy(from, to)
 
     <h3>生命週期掛鉤</h3>
     <ul>
-      <li><code>sandbox.pause()</code> — 主動釋放沙盒。下一次呼叫會啟動一個全新的沙盒。</li>
-      <li><code>sandbox.keepAlive(timeoutMs)</code> — 為長時間運行的階段延長閒置逾時。</li>
+      <li><code>sandbox.pause()</code>：主動釋放沙盒。下一次呼叫會啟動一個全新的沙盒。</li>
+      <li><code>sandbox.keepAlive(timeoutMs)</code>：為長時間運行的階段延長閒置逾時。</li>
     </ul>
 
     <h2>你應該了解的幾個逾時</h2>
@@ -104,8 +102,7 @@ sandbox.files.copy(from, to)
     </table>
 
     <div class="callout warn">
-      <strong>你遇到的失敗大多是階段逾時，而不是沙盒逾時。</strong> 如果一個研究階段超過 3 分鐘，階段就會失敗——
-      就算沙盒本身可以開心地跑上好幾個小時。對於重度研究類任務，在應用定義中設定
+      <strong>你遇到的失敗大多是階段逾時，而不是沙盒逾時。</strong> 如果一個研究階段超過 3 分鐘，階段就會失敗，就算沙盒本身可以開心地跑上好幾個小時。對於重度研究類任務，在應用定義中設定
       <code>timeout_ms: 600000</code>（10 分鐘）。
     </div>
 
@@ -121,14 +118,14 @@ sandbox.files.copy(from, to)
       <li>階段 1 設定的環境變數會延續到階段 2。</li>
     </ul>
     <p>
-      這就是為什麼 <em>「階段 1 寫報告，階段 2 轉成 PDF」</em> 這種用法天然可行——階段 2 在階段 1 放下報告的同一位置
+      這就是為什麼 <em>「階段 1 寫報告，階段 2 轉成 PDF」</em> 這種用法天然可行，階段 2 在階段 1 放下報告的同一位置
       就能找到它。
     </p>
 
     <h3>跨執行</h3>
     <p>
       <strong>執行之間什麼都不會保留。</strong> 即便是同一個應用，每次執行都會得到一個全新的沙盒。
-      如果你的應用需要在兩次執行之間記住一些東西——已處理項的清單、計數器、快取——請存到外部：
+      如果你的應用需要在兩次執行之間記住一些東西，已處理項的清單、計數器、快取，請存到外部：
     </p>
     <ul>
       <li>作為 <strong>產物</strong>，下次執行時再透過 Connect（Drive、S3、Notion）讀回來。</li>
@@ -147,14 +144,14 @@ sandbox.files.copy(from, to)
       沙盒擁有完整的對外網路存取權限。代理人可以抓取 URL、呼叫公開 API、從 npm / pypi 安裝套件等等。
     </p>
     <p>
-      對於 <strong>Connects</strong>（OAuth 整合），Aitroop 會在執行開始時注入憑證——但不是把 token 寫到沙盒
+      對於 <strong>Connects</strong>（OAuth 整合），Aitroop 會在執行開始時注入憑證，但不是把 token 寫到沙盒
       檔案系統裡，而是透過內部 proxy 呼叫，從不暴露原始 token。如果代理人執行 <code>gh repo list</code> 或呼叫
       Gmail API，請求會經過一個 proxy，由 proxy 用你的 OAuth token 簽署。token 在沙盒內部完全不可見。
     </p>
 
     <div class="callout tip">
       <strong>對安全意味著什麼。</strong> 即使某個階段的 <code>script_code</code> 是惡意的，
-      它也無法外洩你的 Connect token——這些 token 既不在檔案系統裡，也不在環境變數裡。最壞的情況是腳本利用
+      它也無法外洩你的 Connect token，這些 token 既不在檔案系統裡，也不在環境變數裡。最壞的情況是腳本利用
       Connect 做一些對外可見的動作（寄送郵件、建立紀錄），這些動作會像任何其他操作一樣出現在你的服務商稽核日誌裡。
     </div>
 
@@ -162,8 +159,8 @@ sandbox.files.copy(from, to)
 
     <h3>如果你使用託管方案</h3>
     <p>
-      你不需要選擇，由平台決定。99% 的情境下平台會選 <code>e2b</code>。對於特定類型的階段——例如需要跑完整 IDE
-      負載的階段——可能會選 <code>daytona</code>。
+      你不需要選擇，由平台決定。99% 的情境下平台會選 <code>e2b</code>。對於特定類型的階段，例如需要跑完整 IDE
+      負載的階段，可能會選 <code>daytona</code>。
     </p>
 
     <h3>如果你是自架</h3>
@@ -186,13 +183,13 @@ DAYTONA_TARGET=...
     </div>
 
     <p>
-      混合 provider 路由——「輕量用 host，重型用 E2B」——已在路線圖上，但還不是一等的設定項。目前每個部署
+      混合 provider 路由，「輕量用 host，重型用 E2B」，已在路線圖上，但還不是一等的設定項。目前每個部署
       只能挑一個 provider。
     </p>
 
     <h2>UI 裡你能看到什麼</h2>
     <p>
-      沙盒基本是隱形的——這正是設計目的——但有兩個介面讓你可以一探究竟：
+      沙盒基本是隱形的，這正是設計目的，但有兩個介面讓你可以一探究竟：
     </p>
 
     <h3>執行記錄</h3>
@@ -216,10 +213,10 @@ DAYTONA_TARGET=...
       你可以點開任何檔案查看，然後下載或分享。
     </p>
 
-    <h2>生命週期——沙盒是如何取得與持有的</h2>
+    <h2>生命週期：沙盒是如何取得與持有的</h2>
     <p>
       Aitroop 不會為每個請求都建立一個沙盒。每個使用者最多只有一個暖的沙盒，記錄在 <code>sb_container</code>
-      表的一列裡，以其內部使用者名稱為鍵。連續的聊天與應用執行會重用同一個沙盒——這正是把冷啟動成本挪出
+      表的一列裡，以其內部使用者名稱為鍵。連續的聊天與應用執行會重用同一個沙盒，這正是把冷啟動成本挪出
       常見路徑的關鍵。生命週期狀態全部存放在那一列：
     </p>
 
@@ -232,7 +229,7 @@ DAYTONA_TARGET=...
         <tr><td><code>paused</code></td><td>Provider 因閒置自動暫停沙盒後為 <code>true</code>；恢復並暖起來後為 <code>false</code>。</td></tr>
         <tr><td><code>type</code></td><td>所屬的 provider（<code>e2b</code> / <code>daytona</code> / <code>local</code>）。</td></tr>
         <tr><td><code>lock_version</code></td><td>樂觀鎖計數器。每次寫入都會自增；版本過期的並行寫入會被拒絕。</td></tr>
-        <tr><td><code>total_usage_seconds</code></td><td>沙盒累計活躍的牆鐘時間——計費指標。</td></tr>
+        <tr><td><code>total_usage_seconds</code></td><td>沙盒累計活躍的牆鐘時間，計費指標。</td></tr>
         <tr><td><code>last_activity_at</code></td><td>SDK 最近一次成功觸達的時間。驅動 5 分鐘閒置暫停計時器。</td></tr>
       </tbody>
     </table>
@@ -251,14 +248,13 @@ DAYTONA_TARGET=...
     <p>
       如果一個 worker 在取得途中崩潰，會讓 <code>status = 'creating'</code> 一直掛著。為了避免被無限卡死，
       任何在 <code>creating</code> 狀態停留超過 ~25 秒的列都被視為過期：下一個取得者會重設它、推高版本號，
-      然後繼續。這就是過期鎖的恢復路徑——正常時悄無聲息，觸發時會在日誌裡以一行警告出現。
+      然後繼續。這就是過期鎖的恢復路徑，正常時悄無聲息，觸發時會在日誌裡以一行警告出現。
     </p>
 
     <h3>暫停 / 恢復</h3>
     <p>
       每一次對底層 provider 的 SDK 呼叫都會重設 5 分鐘閒置計時器。如果 5 分鐘內都沒有任何觸達，provider 會凍結
-      沙盒：列紀錄保留，<code>paused</code> 翻為 <code>true</code>，容器不再計費。下一次取得會把它喚醒——
-      E2B 上的冷恢復大約 1 秒。為了在代理人長時間思考（LLM 輪次之間沒有 SDK 呼叫）時保持沙盒暖著，
+      沙盒：列紀錄保留，<code>paused</code> 翻為 <code>true</code>，容器不再計費。下一次取得會把它喚醒，E2B 上的冷恢復大約 1 秒。為了在代理人長時間思考（LLM 輪次之間沒有 SDK 呼叫）時保持沙盒暖著，
       runner 每 30 秒發送一次 <code>keepAlive</code> ping。這就是為什麼叢集常數是這樣對齊的：
     </p>
     <div class="code-block" style="line-height:1.7;">
@@ -269,7 +265,7 @@ AGENT_RUN_TIMEOUT_MS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style
 
     <h3>已死亡的沙盒與 <code>withSandbox</code></h3>
     <p>
-      沙盒可能在平台視線之外死亡——provider 把底層虛擬機刪了，host 行程被 OOM 殺掉。runner 透過把對應錯誤
+      沙盒可能在平台視線之外死亡，provider 把底層虛擬機刪了，host 行程被 OOM 殺掉。runner 透過把對應錯誤
       歸類為 <code>sandbox_not_found</code> 來識別這種情況（參見
       <a href="/zh-TW/docs/concepts">runner 錯誤分類</a>）。大多數伺服端程式碼都使用一個包裝輔助函式：
     </p>
@@ -281,14 +277,14 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
     </div>
     <p>
       如果內部函式拋錯且錯誤符合「沙盒已不存在」，wrapper 會清掉記憶體快取，呼叫 <code>createOrResume</code>
-      取得一個新的沙盒，並把函式再跑一次。只重試一次——就這樣；第二次失敗會向外拋出。其他暫時性錯誤
+      取得一個新的沙盒，並把函式再跑一次。只重試一次，就這樣；第二次失敗會向外拋出。其他暫時性錯誤
       （網路、忙碌）會立刻向外傳播；它們不屬於 wrapper 的職責範圍。
     </p>
 
     <h3>Host 模式的密鑰剝離</h3>
     <p>
       Host 模式是僅供開發者使用的 provider，所謂的「沙盒」就是 Aitroop 伺服器上的一個行程。如果不做防護，
-      代理人運行的任何程式碼都會繼承伺服器的環境——包括資料庫連線字串、JWT 簽署金鑰和 S3 憑證。因此 host
+      代理人運行的任何程式碼都會繼承伺服器的環境，包括資料庫連線字串、JWT 簽署金鑰和 S3 憑證。因此 host
       provider 會在 spawn 之前從子行程環境裡剝除一組固定的變數：<code>DATABASE_URL</code>、<code>JWT_SECRET</code>、
       <code>E2B_API_KEY</code>、<code>DAYTONA_API_KEY</code>、各種 OAuth client secret、S3 access/secret key，
       以及任何 Composio 端的金鑰。代理人拿到的是一個乾淨的環境；伺服器自己的密鑰得以保全。
@@ -300,14 +296,14 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
       每次執行的明細出現在 <strong>設定 → 使用量</strong>。
     </p>
     <ul>
-      <li><strong>沙盒時間</strong> — 只在沙盒<em>實際運行</em>時計入。被暫停（閒置 &gt; 5 分鐘）的沙盒不產生費用。</li>
-      <li><strong>LLM token</strong> — 依階段個別計費，因模型而異。預設是 Sonnet-4.6。</li>
-      <li><strong>儲存</strong> — S3/R2 中的產物依保留的 GB·月計費。在你方案額度內免費。</li>
+      <li><strong>沙盒時間</strong>：只在沙盒<em>實際運行</em>時計入。被暫停（閒置 &gt; 5 分鐘）的沙盒不產生費用。</li>
+      <li><strong>LLM token</strong>：依階段個別計費，因模型而異。預設是 Sonnet-4.6。</li>
+      <li><strong>儲存</strong>：S3/R2 中的產物依保留的 GB·月計費。在你方案額度內免費。</li>
     </ul>
 
     <p>
       <code>sb_container</code> 表透過 <code>total_usage_seconds</code> 追蹤每個沙盒實例，
-      <code>sb_usage_log</code> 則依原因記錄每段時長——代理人執行、檔案操作等等。
+      <code>sb_usage_log</code> 則依原因記錄每段時長，代理人執行、檔案操作等等。
     </p>
 
     <h2>FAQ 與疑難排解</h2>
@@ -318,7 +314,7 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
     </p>
     <ul>
       <li>階段的 <code>timeout_ms</code> 對於實際工作量太小了（預設 3 分鐘）。把它調大。</li>
-      <li>命令本身卡住了——一個等不到 stdin 的行程、對無回應主機的 curl，或者在公司 proxy 後面的
+      <li>命令本身卡住了，一個等不到 stdin 的行程、對無回應主機的 curl，或者在公司 proxy 後面的
         <code>npm install</code>。</li>
       <li>命令之間觸發了沙盒閒置計時器。如果一個階段在代理人兩次決策之間停留 &gt;5 分鐘（罕見），沙盒會被暫停。
         下一條命令會自動恢復但會增加延遲。</li>
@@ -343,14 +339,14 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
     <p class="faq-q">我可以 SSH 進沙盒裡看看嗎？</p>
     <p>
       不能直接連。沙盒在設計上就是封閉的。如果你需要查看執行過程中的狀況，對失敗的執行使用
-      <strong>Debug in chat</strong>——聊天會帶著同一份沙盒快照打開，你可以互動式地執行任何命令。
+      <strong>Debug in chat</strong>：聊天會帶著同一份沙盒快照打開，你可以互動式地執行任何命令。
     </p>
 
     <p class="faq-q">我要怎麼安裝系統套件（apt-get）？</p>
     <p>
       在 <code>e2b</code> 和 <code>daytona</code> 上，代理人擁有 <code>sudo</code> 權限來安裝套件。
       在階段目標裡告訴它：<em>「先執行 <code>apt-get install -y ffmpeg</code>，然後……」</em>。
-      在 <code>host</code> 模式下，代理人只擁有 host 行程的權限——通常沒有 sudo，所以
+      在 <code>host</code> 模式下，代理人只擁有 host 行程的權限，通常沒有 sudo，所以
       <code>apt-get</code> 無法使用。
     </p>
 
@@ -364,8 +360,7 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
     <p class="faq-q">兩個階段可以並行執行嗎？</p>
     <p>
       不行。階段嚴格依序執行：階段 <em>n</em> 必須等到階段 <em>n−1</em> 完成、其產物已儲存後才會啟動。
-      如果你需要在階段內部並行，代理人可以透過 <code>commands.run</code> 衍生子行程——
-      但那是它的選擇，不是你能控制的。
+      如果你需要在階段內部並行，代理人可以透過 <code>commands.run</code> 衍生子行程，但那是它的選擇，不是你能控制的。
     </p>
 
     <p class="faq-q">沙盒銷毀後我的檔案會怎樣？</p>
@@ -376,14 +371,14 @@ provider.withSandbox(userId, userEmail, async (sb) =&gt; {`{`}<br/>
 
     <p class="faq-q">沙盒是真的虛擬機還是容器？</p>
     <p>
-      取決於 provider。E2B 使用 Firecracker microVM——完整的核心隔離。Daytona 使用開發容器。
+      取決於 provider。E2B 使用 Firecracker microVM，完整的核心隔離。Daytona 使用開發容器。
       Host 模式只是伺服器上屬於你帳號的一個行程。從功能上看代理人的程式碼在三種實作裡都一樣；
       從安全性上看 E2B 最強。
     </p>
 
     <div class="next-up">
       <span class="label">下一步</span>
-      <a href="/zh-TW/docs/executions">執行記錄 — 生命週期與除錯</a>
+      <a href="/zh-TW/docs/executions">執行記錄：生命週期與除錯</a>
     </div>
   </DocsShell>
 </Layout>

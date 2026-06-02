@@ -3,7 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 
 const metadata = {
-  title: '执行记录 — Aitroop Docs',
+  title: '执行记录 · Aitroop Docs',
 };
 ---
 
@@ -11,14 +11,12 @@ const metadata = {
   <DocsShell current="executions" locale="zh-CN">
     <h1>执行记录</h1>
     <p class="lead">
-      <strong>执行记录</strong>就是你按下"运行"后发生的事情。它是一次有时间戳、可审计、对应用各
-      阶段完整走一遍的记录——带有状态、每个阶段的日志、可选的人工审批门控，以及最终的产物集合。
-      每次运行都可重放、可恢复、可分享。
+      <strong>执行记录</strong>是你按下"运行"后产生的可审计记录：状态、阶段日志、人工门控、最终产物。每次运行都可重放、可恢复、可分享。
     </p>
 
     <div class="callout">
       <strong>心智模型。</strong>一个<em>应用</em>是菜谱，一次<em>执行记录</em>是你实际下厨的那一次。
-      菜谱在周二晚饭和周三晚饭之间不会变；变的是执行记录——表单里的食材不同、沙箱不同、输出不同、
+      菜谱在周二晚饭和周三晚饭之间不会变；变的是执行记录，表单里的食材不同、沙箱不同、输出不同、
       时间戳不同。平台会永久保留每一次执行，方便你比较、调试和重放。
     </div>
 
@@ -101,12 +99,12 @@ const metadata = {
     </div>
 
     <p>
-      <code>goal_expanded</code> 字段是输入替换<em>之后</em>的目标——也就是 agent 实际看到的内容。
+      <code>goal_expanded</code> 字段是输入替换<em>之后</em>的目标，也就是 agent 实际看到的内容。
       如果你的表单里 <code>company_name: "Stripe"</code>，那么原始目标中的
       <code>{`{{company_name}}`}</code> 就会在这里被解析出来。
     </p>
 
-    <h2>实时观看运行 —— SSE 流</h2>
+    <h2>实时观看运行：SSE 流</h2>
     <p>
       在 <code>running</code> 状态下，应用页面会订阅一个以执行记录 ID 为键的 Server-Sent Events 流。
       同一个流也是公开的 API 接口，任何想把运行情况镜像到其他系统的人都可以使用。端点如下：
@@ -125,8 +123,8 @@ Connection: keep-alive
     <h3>五种执行级事件</h3>
     <p>
       每个事件以 <code>event: {`<name>`}\n data: {`<JSON>`}\n\n</code> 的形式封帧。连接时，服务端
-      会先<em>回放</em>当前状态，让晚到的订阅者也能看到一个完整序列——当前执行状态、迄今为止的
-      每一条阶段日志、任何待处理的人工门控、每一个已保存的产物——然后再切换到实时广播。
+      会先<em>回放</em>当前状态，让晚到的订阅者也能看到一个完整序列，当前执行状态、迄今为止的
+      每一条阶段日志、任何待处理的人工门控、每一个已保存的产物，然后再切换到实时广播。
     </p>
 
     <table>
@@ -139,7 +137,7 @@ Connection: keep-alive
         </tr>
         <tr>
           <td><code>stage_log</code></td>
-          <td>一整行 <code>AppStageLog</code> 数据——参见上文的<em>结构</em>。</td>
+          <td>一整行 <code>AppStageLog</code> 数据，参见上文的<em>结构</em>。</td>
           <td>订阅时（每条已有阶段日志一次）以及每次阶段状态变化时。</td>
         </tr>
         <tr>
@@ -162,14 +160,14 @@ Connection: keep-alive
 
     <p>
       如果你订阅一个已经处于终止状态的执行，服务端会回放已存储的阶段日志和产物，发送一个
-      <code>done</code> 事件，然后断开——不会建立实时连接。这样一来，回放和实时监控用的是同一个
+      <code>done</code> 事件，然后断开，不会建立实时连接。这样一来，回放和实时监控用的是同一个
       端点和同一个解析器。
     </p>
 
     <h3>更细粒度的 runner 事件</h3>
     <p>
       上面五个执行级事件是<strong>汇总</strong>流。在一个 <code>agent</code> 阶段内部，底层的
-      <code>run-agent</code> 二进制会输出一份粒度细得多的 JSONL 轨迹——逐 token 文本、工具调用、
+      <code>run-agent</code> 二进制会输出一份粒度细得多的 JSONL 轨迹，逐 token 文本、工具调用、
       子任务、思考过程。这些事件位于会话级流而非执行级流，但它们正是右侧推理轨迹面板背后的
       数据来源。完整事件目录请参见<a href="/zh-CN/docs/concepts#the-agent-runner-protocol">runner
       协议</a>。
@@ -199,7 +197,7 @@ es.addEventListener('done',       (e) =&gt; {`{`} console.log('done', JSON.parse
       <li>除非被钉住，30 天后自动清理。</li>
     </ul>
     <p>
-      当你点击<strong>试一下</strong>时，应用编辑器使用的就是测试运行——这正是你在迭代提示词
+      当你点击<strong>试一下</strong>时，应用编辑器使用的就是测试运行，这正是你在迭代提示词
       时想要的。
     </p>
 
@@ -237,16 +235,16 @@ es.addEventListener('done',       (e) =&gt; {`{`} console.log('done', JSON.parse
 
     <h3>三个按钮</h3>
     <ul>
-      <li><strong>Approve &amp; continue</strong>（批准并继续）—— 门控变为 <code>approved</code>，下一个阶段立即开始。</li>
-      <li><strong>Reject</strong>（拒绝）—— 门控变为 <code>rejected</code>，运行转入 <code>failed</code>。</li>
-      <li><strong>Edit input first</strong>（先编辑输入）—— 打开产物以编辑（例如从 CSV 中删除行），保存后，编辑后的版本就是第 <em>n+1</em> 阶段读取的内容。</li>
+      <li><strong>Approve &amp; continue</strong>（批准并继续），门控变为 <code>approved</code>，下一个阶段立即开始。</li>
+      <li><strong>Reject</strong>（拒绝），门控变为 <code>rejected</code>，运行转入 <code>failed</code>。</li>
+      <li><strong>Edit input first</strong>（先编辑输入），打开产物以编辑（例如从 CSV 中删除行），保存后，编辑后的版本就是第 <em>n+1</em> 阶段读取的内容。</li>
     </ul>
 
     <h3>找到需要你处理的门控</h3>
     <p>
       从顶部导航打开<strong>待处理的门控</strong>，或调用
       <code>GET /api/app-executions/pending-gates</code>。门控在变为 <code>pending</code> 时可以
-      配置通过邮件或 Slack ping 你——这对你可能不会盯着看的长任务流水线很有用。
+      配置通过邮件或 Slack ping 你，这对你可能不会盯着看的长任务流水线很有用。
     </p>
 
     <h3>门控 API</h3>
@@ -274,8 +272,7 @@ Authorization: Bearer &lt;token&gt;<br/>
     <div class="callout">
       <strong>在门控待处理期间，执行始终保持 <code>running</code>。</strong>
       只有阶段日志会进入 <code>waiting</code>。沙箱会通过 <code>keepAlive</code> 保活，这样在
-      批准后恢复时不需要付冷启动代价。代价是：一个无限期待处理的门控会一直占着一个热沙箱——
-      请给审核者一个合理的预期，或者在应用设计中给门控加上自动超时。
+      批准后恢复时不需要付冷启动代价。代价是：一个无限期待处理的门控会一直占着一个热沙箱，请给审核者一个合理的预期，或者在应用设计中给门控加上自动超时。
     </div>
 
     <h2>取消运行</h2>
@@ -296,7 +293,7 @@ Authorization: Bearer &lt;your_token&gt;
       <li>把未消耗的预算退回到你的余额。</li>
     </ul>
     <p>
-      之后你可以从下一个阶段<strong>恢复</strong>——见下文。
+      之后你可以从下一个阶段<strong>恢复</strong>：见下文。
     </p>
 
     <h2>从指定阶段恢复</h2>
@@ -321,16 +318,16 @@ Content-Type: application/json<br/>
       <li>
         创建一行新的 <code>app_execution</code>，指向同一个应用版本。对于索引
         <code>0 .. start_from_stage_index - 1</code> 的阶段日志，会立即以
-        <code>status: 'skipped'</code> 写入——运行历史会清楚地标明哪些阶段没有重新执行。
+        <code>status: 'skipped'</code> 写入，运行历史会清楚地标明哪些阶段没有重新执行。
       </li>
       <li>
         通过 <code>dao.listArtifactsByStages(priorExecutionId, [stageIds])</code> 加载被跳过
         阶段的产物。对于不携带内联 <code>content</code> 的产物，执行器会按
-        <code>s3_key</code> 从 S3 下载主体并按 UTF-8 解码——这样即使原始行已经卸载，下一阶段
+        <code>s3_key</code> 从 S3 下载主体并按 UTF-8 解码，这样即使原始行已经卸载，下一阶段
         的系统提示词也能看到之前的内容。
       </li>
       <li>
-        申请一个全新的沙箱。原执行沙箱上第 0–1 阶段写入的文件<em>没有了</em>——只有已持久化的
+        申请一个全新的沙箱。原执行沙箱上第 0-1 阶段写入的文件<em>没有了</em>，只有已持久化的
         产物会穿越边界。如果后续阶段依赖的是中间临时文件而不是声明的产物，那么恢复就重现不
         了它们。
       </li>
@@ -345,14 +342,14 @@ Content-Type: application/json<br/>
       当原始运行使用了 <code>shared_session: true</code>，并且恢复运行也请求了它时，执行器会
       更进一步：它会在 <code>prior_execution_id</code> 上定位一条已经有 <code>session_id</code>
       的阶段日志，复用那个会话，继续同一段 Claude 对话。可见效果：<em>Debug in chat</em>
-      会显示一个跨越原始运行和恢复运行的连续线程。不要无脑启用——共享 Claude 会话意味着模型
+      会显示一个跨越原始运行和恢复运行的连续线程。不要无脑启用，共享 Claude 会话意味着模型
       的上下文仍包含此前的轮次，有时这正是你要的，有时不是。
     </p>
 
     <h3>什么时候会用到它</h3>
     <ul>
-      <li><strong>最后一个阶段的草稿不对。</strong>第 0–2 阶段花了 4 分钟跑得好好的；第 3 阶段的
-        邮件草稿语气不对。调一下应用，然后从第 3 阶段重跑——省下 4 分钟。</li>
+      <li><strong>最后一个阶段的草稿不对。</strong>第 0-2 阶段花了 4 分钟跑得好好的；第 3 阶段的
+        邮件草稿语气不对。调一下应用，然后从第 3 阶段重跑，省下 4 分钟。</li>
       <li><strong>阶段因为外部原因失败</strong>（Connect 令牌运行中过期）。修好 Connect，用同样的
         输入从失败阶段重跑。</li>
       <li><strong>人工拒绝了一个门控。</strong>调整前一阶段的提示词，从那里重跑。</li>
@@ -394,7 +391,7 @@ Content-Type: application/json<br/>
 
     <h2>调试失败的运行</h2>
 
-    <h3>第 1 步 —— 阅读错误信息</h3>
+    <h3>第 1 步：阅读错误信息</h3>
     <p>
       打开失败的运行。页面顶部第一项就是错误信息以及出错的阶段。常见形式：
     </p>
@@ -406,14 +403,14 @@ Content-Type: application/json<br/>
         <tr><td><code>connect_unauthorized</code></td><td>某个 Connect 被吊销或过期了。重新授权。</td></tr>
         <tr><td><code>required_input_missing</code></td><td>有必填的表单字段是空的。不要把字段标得过于激进地"必填"。</td></tr>
         <tr><td><code>artifact_format_mismatch</code></td><td>阶段产出的格式不对（例如声明的是 CSV，结果输出了 Markdown）。</td></tr>
-        <tr><td><code>sandbox_oom</code></td><td>沙箱内存耗尽。数据量太大——拆分阶段，或使用脚本阶段。</td></tr>
-        <tr><td><code>agent_gave_up</code></td><td>agent 判断任务做不下去了。阅读它的推理——通常是少了某个输入。</td></tr>
+        <tr><td><code>sandbox_oom</code></td><td>沙箱内存耗尽。数据量太大，拆分阶段，或使用脚本阶段。</td></tr>
+        <tr><td><code>agent_gave_up</code></td><td>agent 判断任务做不下去了。阅读它的推理，通常是少了某个输入。</td></tr>
       </tbody>
     </table>
 
-    <h3>第 2 步 —— 点击 "Debug in chat"</h3>
+    <h3>第 2 步：点击 "Debug in chat"</h3>
     <p>
-      点击 <strong>Debug in chat</strong>。会打开一个携带失败运行完整上下文的对话——输入、部分产物、
+      点击 <strong>Debug in chat</strong>。会打开一个携带失败运行完整上下文的对话，输入、部分产物、
       agent 推理轨迹、错误。直接对 agent 说话：
     </p>
     <div class="code-block">
@@ -424,17 +421,17 @@ Content-Type: application/json<br/>
       位置重跑。
     </p>
 
-    <h3>第 3 步 —— 重试或重新运行</h3>
+    <h3>第 3 步：重试或重新运行</h3>
     <ul>
-      <li><strong>重试</strong>—— 相同输入、相同应用版本、全新沙箱。有时候不稳定的外部 API 只是
+      <li><strong>重试</strong>：相同输入、相同应用版本、全新沙箱。有时候不稳定的外部 API 只是
         需要再试一次。</li>
-      <li><strong>从第 N 阶段重跑</strong>—— 保留之前的产物。当只有后段阶段坏了时使用。</li>
-      <li><strong>编辑应用后再跑</strong>—— 用于系统性 bug（提示词模糊、格式不对）。会让应用升一个新版本。</li>
+      <li><strong>从第 N 阶段重跑</strong>：保留之前的产物。当只有后段阶段坏了时使用。</li>
+      <li><strong>编辑应用后再跑</strong>：用于系统性 bug（提示词模糊、格式不对）。会让应用升一个新版本。</li>
     </ul>
 
     <h2>分享一次执行记录</h2>
     <p>
-      你可以把一次执行的只读视图给队友看——适合"看看这个应用昨天产出了什么"这种场景，又不必
+      你可以把一次执行的只读视图给队友看，适合"看看这个应用昨天产出了什么"这种场景，又不必
       给对方应用本身的写权限。
     </p>
 
@@ -485,7 +482,7 @@ curl https://app.aitroop.net/api/app-executions/{`<execId>`}/stream \<br/>
     </ul>
     <p>
       <strong>解决：</strong>如果超过 2 分钟，取消并重跑。检查状态横幅。如果一切都正常但仍然卡着，
-      说明运行在排队——等一下或取消。
+      说明运行在排队，等一下或取消。
     </p>
 
     <p class="faq-q">为什么我已完成的运行显示"0 个产物"？</p>
@@ -516,7 +513,7 @@ curl https://app.aitroop.net/api/app-executions/{`<execId>`}/stream \<br/>
     <p class="faq-q">我能看到 agent 当时在想什么吗？</p>
     <p>
       可以。在运行的时间线上点击任意阶段，展开它的推理轨迹。轨迹会显示 agent 的计划、每一次工具
-      调用（包括参数和结果），以及它最后的评注。要看更深的细节，开启"显示思考过程"——这会
+      调用（包括参数和结果），以及它最后的评注。要看更深的细节，开启"显示思考过程"，这会
       暴露模型的内部推理块（当可用时）。
     </p>
 
@@ -536,14 +533,14 @@ curl https://app.aitroop.net/api/app-executions/{`<execId>`}/stream \<br/>
 
     <p class="faq-q">我能从 Zapier / n8n / CI 里的 curl 命令触发运行吗？</p>
     <p>
-      可以——用你的 bearer token 调用 <code>POST /api/apps/:appId/run</code>。参考上面的 curl。多数
+      可以，用你的 bearer token 调用 <code>POST /api/apps/:appId/run</code>。参考上面的 curl。多数
       用户会把这个调用放在一个 webhook 处理器里，再轮询 <code>GET /api/app-executions/:execId</code>
       来检测完成。完成后的对外 webhook 也可通过定时任务的投递目标来支持。
     </p>
 
     <div class="next-up">
       <span class="label">下一篇</span>
-      <a href="/zh-CN/docs/schedules">定时任务 —— 用 cron 跑应用</a>
+      <a href="/zh-CN/docs/schedules">定时任务：用 cron 跑应用</a>
     </div>
   </DocsShell>
 </Layout>

@@ -10,7 +10,6 @@ import Testimonials from '~/components/widgets/Testimonials.astro';
 import { generateAvatar } from '~/utils/avatar';
 import Steps from '~/components/widgets/Steps.astro';
 import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
-import { getPermalink } from '~/utils/permalinks';
 
 const metadata = {
   title: 'Personal Homepage Demo',
@@ -25,9 +24,9 @@ const metadata = {
         { text: 'Home', href: '#' },
         { text: 'About', href: '#about' },
         { text: 'Resume', href: '#resume' },
-        { text: 'Porfolio', href: '#porfolio' },
+        { text: 'Portfolio', href: '#portfolio' },
         { text: 'Blog', href: '#blog' },
-        { text: 'Github', href: 'https://github.com/arthelokyo' },
+        { text: 'Open the app', href: 'https://app.aitroop.net' },
       ]}
       actions={[
         {
@@ -46,12 +45,9 @@ const metadata = {
     id="hero"
     title="Sarah Johnson"
     tagline="Personal Web Demo"
-    actions={[{ variant: 'primary', text: 'Hire me', href: getPermalink('/contact#form') }]}
   >
     <Fragment slot="subtitle">
-      I'm a Graphic Designer passionate about crafting visual stories. <br /> With 5 years of experience and a degree from
-      New York University's School of Design. I infuse vitality into brands and designs, transforming concepts into captivating
-      realities.
+      Graphic Designer with 5 years of experience, turning brand concepts into clear visual stories.
     </Fragment>
   </Hero>
 
@@ -100,7 +96,7 @@ const metadata = {
       </p>
       <br />
       <p>
-        I find inspiration in the world around me, whether through the pages of a captivating novel, the intricate
+        I find inspiration in the world around me, whether through the pages of a clear novel, the intricate
         details of typography, or the vibrant hues of nature during my outdoor escapades.
       </p>
       <br />
@@ -120,13 +116,13 @@ const metadata = {
     items={[
       {
         title:
-          'Graphic Designer <br /> <span class="font-normal">ABC Design Studio, New York, NY</span> <br /> <span class="text-sm font-normal">2021 - Present</span>',
+          'Senior Graphic Designer <br /> <span class="font-normal">Design Studio A, New York, NY</span> <br /> <span class="text-sm font-normal">2021 - Present</span>',
         description: `Collaborate with clients to understand design requirements and objectives. <br /> Develop branding solutions, including logos, color palettes, and brand guidelines. <br /> Design marketing materials such as brochures, posters, and digital assets. <br /> Create visually appealing user interfaces for websites and applications.`,
         icon: 'tabler:briefcase',
       },
       {
         title:
-          'Junior Graphic Designer <br /> <span class="font-normal">XYZ Creative Agency, Los Angeles, CA</span> <br /> <span class="text-sm font-normal">2018 - 2021</span>',
+          'Junior Graphic Designer <br /> <span class="font-normal">Creative Agency B, Los Angeles, CA</span> <br /> <span class="text-sm font-normal">2018 - 2021</span>',
         description: `Assisted senior designers in creating design concepts and visual assets. <br /> Contributed to the development of brand identities and marketing collateral. <br /> Collaborated with the marketing team to ensure consistent design across campaigns. <br /> Gained hands-on experience in various design software and tools.`,
         icon: 'tabler:briefcase',
       },
@@ -202,8 +198,8 @@ const metadata = {
   <!-- Content Widget **************** -->
 
   <Content
-    id="porfolio"
-    title="Elevating visual narratives"
+    id="portfolio"
+    title="Lifting visual narratives"
     subtitle="Embark on a design journey that surpasses pixels, entering a realm of imagination. Explore my portfolio, where passion and creativity converge to shape enthralling visual narratives."
     isReversed
     items={[
@@ -243,13 +239,12 @@ const metadata = {
   <!-- Content Widget **************** -->
 
   <Content
-    isReversed
     isAfterContent={true}
     items={[
       {
         title: 'Description:',
         description:
-          'Designed a captivating event poster for an art and music festival, "ArtWave Fusion," aiming to showcase the synergy between visual art and music genres.',
+          'Designed a clear event poster for an art and music festival, "ArtWave Fusion," aiming to showcase the synergy between visual art and music genres.',
       },
       {
         title: 'Role:',
@@ -328,7 +323,7 @@ const metadata = {
         image: generateAvatar('Mark Thompson'),
       },
       {
-        testimonial: `She transformed our brand identity with her creative finesse, capturing our essence in every element. Her dedication and talent truly shine through her work.`,
+        testimonial: `She refreshed our brand identity with her creative finesse, capturing our essence in every element. Her dedication and talent truly shine through her work.`,
         name: 'Emily Martinez',
         job: 'CEO',
         image: generateAvatar('Emily Martinez'),
@@ -346,13 +341,13 @@ const metadata = {
         image: generateAvatar('Alex Foster'),
       },
       {
-        testimonial: `She took our vision and elevated it beyond imagination. Her ability to capture brand essence and translate it into design is nothing short of remarkable. Working with her has been an inspiring journey.`,
+        testimonial: `She took our vision and lifted it beyond imagination. Her ability to capture brand essence and translate it into design is nothing short of remarkable. Working with her has been an inspiring journey.`,
         name: 'Jessica Collins',
         job: 'Product Manager',
         image: generateAvatar('Jessica Collins'),
       },
       {
-        testimonial: `Her ability to transform concepts into captivating visuals is nothing short of extraordinary. She took our event poster idea and turned it into a visual masterpiece that perfectly captured the essence of our festival. Sarah's dedication, creativity, and knack for delivering beyond expectations make her an invaluable asset to any project.`,
+        testimonial: `Her ability to shape concepts into clear visuals is nothing short of extraordinary. She took our event poster idea and turned it into a visual masterpiece that perfectly captured the essence of our festival. Sarah's dedication, creativity, and knack for delivering beyond expectations make her an invaluable asset to any project.`,
         name: 'Michael Carter',
         job: 'Event Coordinator',
         image: generateAvatar('Michael Carter'),
@@ -364,7 +359,7 @@ const metadata = {
 
   <CallToAction
     title="Let's create together"
-    subtitle="Ready to transform your vision into captivating designs?"
+    subtitle="Ready to ship your idea as clear design work?"
     actions={[
       {
         variant: 'primary',
@@ -379,7 +374,7 @@ const metadata = {
   <BlogLatestPosts
     id="blog"
     title="Explore my insightful articles on my blog"
-    information={`Dive into a realm of design wisdom and creative inspiration, where you'll find invaluable insights, practical tips, and captivating narratives that elevate and enrich your creative journey.`}
+    information={`Dive into a realm of design wisdom and creative inspiration, where you'll find invaluable insights, practical tips, and clear narratives that lift and enrich your creative journey.`}
   >
     <Fragment slot="bg">
       <div class="absolute inset-0 bg-blue-50"></div>

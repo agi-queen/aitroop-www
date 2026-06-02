@@ -3,19 +3,16 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 ---
 
-<Layout metadata={{ title: 'Skills — Aitroop Docs' }}>
+<Layout metadata={{ title: 'Skills · Aitroop Docs' }}>
   <DocsShell current="skills">
     <h1>Skills</h1>
     <p class="lead">
-      Think of Skills as the agent's toolbox. Reasoning gets the agent halfway there; Skills get it the
-      rest of the way — they're what let the agent search the web, parse a PDF, query a CRM, generate an
-      image, scrape a site, or build another App. The agent decides when to reach for one based on the
-      task; you decide which ones are in the toolbox at all.
+      Skills are the agent's toolbox: web search, PDF parsing, CRM queries, image generation, and anything else you install.
     </p>
 
     <div class="callout">
       <strong>Skill vs Connect.</strong> They're often confused. A <strong>Skill</strong> is the
-      capability (the verb — <em>"search the web"</em>, <em>"send a Slack message"</em>). A
+      capability (the verb: <em>"search the web"</em>, <em>"send a Slack message"</em>). A
       <strong>Connect</strong> is the OAuth credential the capability needs to act as <em>you</em> on an
       external service. A web-search Skill needs no Connect; a Slack-post Skill needs a Slack Connect.
     </div>
@@ -33,7 +30,7 @@ import DocsShell from '~/components/widgets/DocsShell.astro';
 
     <h2>Anatomy of a Skill</h2>
     <p>
-      A Skill is a versioned bundle of files — a <code>SKILL.md</code> at the root, plus any
+      A Skill is a versioned bundle of files: a <code>SKILL.md</code> at the root, plus any
       scripts, prompts, or data the skill references. Bundles live in S3 (under
       <code>builtin/skills/{`{name}`}/{`{version}`}/</code> for platform skills and
       <code>users/{`{userId}`}/skills/{`{name}`}/{`{version}`}/</code> for user-published ones) and
@@ -73,25 +70,25 @@ news, or any data that requires looking at public web pages.<br/>
 
     <h3>How a Skill becomes available in a sandbox</h3>
     <p>
-      Skills are surfaced through Claude Code's filesystem-based skill loader — not through a
+      Skills are surfaced through Claude Code's filesystem-based skill loader: not through a
       runtime registry, and not as MCP servers. The agent runner stages skills onto a couple of
       well-known paths inside the sandbox:
     </p>
     <ul>
       <li><strong>Cache:</strong> the skill bundle is unpacked to <code>~/.aitroop/skills/{`{name}/{version}/`}</code>. Versioned, immutable, reused across runs.</li>
-      <li><strong>Global skills</strong> (the ones marked <code>category: "core"</code> or installed with <code>is_global = true</code>): a symlink at <code>~/.claude/skills/{`{name}`}</code> points at the cache — Claude Code's default <code>configDir</code> picks them up automatically.</li>
+      <li><strong>Global skills</strong> (the ones marked <code>category: "core"</code> or installed with <code>is_global = true</code>): a symlink at <code>~/.claude/skills/{`{name}`}</code> points at the cache. Claude Code's default <code>configDir</code> picks them up automatically.</li>
       <li><strong>Per-app skills</strong> (declared in <code>resources.skills</code> but not core): symlinked under <code>~/.aitroop/app_skills/{`{appId}/.claude/skills/`}</code> and exposed to Claude Code via <code>--add-dir</code>. They're visible only for runs of that App.</li>
     </ul>
     <p>
       When an App's stage overrides <code>stage.skills</code>, only that subset is symlinked for the
-      stage — Per-stage scoping shrinks the toolbox without touching the workspace's installed set.
+      stage. Per-stage scoping shrinks the toolbox without touching the workspace's installed set.
     </p>
 
     <div class="callout">
       <strong>Skills are not MCP servers.</strong> An MCP server is a runtime process that exposes
       tools over the Model Context Protocol; Aitroop passes those to the runner via the separate
       <code>extraMCPServers</code> channel on an agent request. Skills, by contrast, are static
-      content the agent reads — there's no process to spawn, no protocol to negotiate, no
+      content the agent reads: there's no process to spawn, no protocol to negotiate, no
       <code>tools/list</code> handshake.
     </div>
 
@@ -110,7 +107,7 @@ news, or any data that requires looking at public web pages.<br/>
     </table>
     <p>
       A user-published skill of the same <code>name</code> as a builtin <em>shadows</em> the builtin
-      for that user — the symlink resolution picks the user's version. That's the supported way to
+      for that user: the symlink resolution picks the user's version. That's the supported way to
       override a built-in skill's behaviour without forking the platform.
     </p>
 
@@ -133,15 +130,15 @@ news, or any data that requires looking at public web pages.<br/>
       <li>"I want an app to…"</li>
       <li>"Make an automation that…"</li>
       <li>"Update my app…"</li>
-      <li>"Save this as an app" — works mid-conversation to crystallize whatever the chat just did.</li>
+      <li>"Save this as an app": works mid-conversation to crystallize whatever the chat just did.</li>
     </ul>
 
     <h3>The 4 phases</h3>
     <ol>
-      <li><strong>Understand intent</strong> — asks 1–5 clarifying questions if your description has gaps.</li>
-      <li><strong>Design the App</strong> — constructs the full AppDef.</li>
-      <li><strong>Validate</strong> — every ID unique, every <code>{`{{ref}}`}</code> resolves, goals are specific.</li>
-      <li><strong>Save via API</strong> — calls the platform's REST API and reports the App ID.</li>
+      <li><strong>Understand intent</strong>: asks 1-5 clarifying questions if your description has gaps.</li>
+      <li><strong>Design the App</strong>: constructs the full AppDef.</li>
+      <li><strong>Validate</strong>: every ID unique, every <code>{`{{ref}}`}</code> resolves, goals are specific.</li>
+      <li><strong>Save via API</strong>: calls the platform's REST API and reports the App ID.</li>
     </ol>
 
     <p>
@@ -173,7 +170,7 @@ news, or any data that requires looking at public web pages.<br/>
     <ol>
       <li>Open <strong>Skills</strong> in the sidebar.</li>
       <li>Switch to the <strong>Library</strong> tab to see available Skills.</li>
-      <li>Filter by category (research, productivity, data, integrations…) or search by name.</li>
+      <li>Filter by category (research, productivity, data, integrations) or search by name.</li>
       <li>Click <strong>Install</strong> on a Skill.</li>
       <li>If the Skill requires a Connect (OAuth), you're prompted to authorize it. Authorize once; available everywhere.</li>
       <li>The Skill is now active in your workspace.</li>
@@ -212,9 +209,9 @@ news, or any data that requires looking at public web pages.<br/>
     <h2>Read-only vs write-capable Skills</h2>
     <p>Skills come in two flavors:</p>
     <ul>
-      <li><strong>Read-only Skills</strong> — fetch information without changing anything. Web search, PDF
+      <li><strong>Read-only Skills</strong>: fetch information without changing anything. Web search, PDF
         extraction, file reading.</li>
-      <li><strong>Write-capable Skills</strong> — modify external state. Sending email, creating CRM records,
+      <li><strong>Write-capable Skills</strong>: modify external state. Sending email, creating CRM records,
         creating Calendar events. These are clearly marked in the Library.</li>
     </ul>
 
@@ -235,14 +232,14 @@ news, or any data that requires looking at public web pages.<br/>
       <tbody>
         <tr><td>"Skill not installed"</td><td>The App declared a Skill that's not in your workspace</td><td>Install it from Skills → Library</td></tr>
         <tr><td>"Required Connect missing"</td><td>The Skill needs Gmail/GitHub/etc. and you haven't authorized</td><td>Authorize in Settings → Connects</td></tr>
-        <tr><td>Skill returned empty result</td><td>The agent's arguments to the Skill didn't match real data</td><td>Edit the stage goal — be more specific about inputs</td></tr>
+        <tr><td>Skill returned empty result</td><td>The agent's arguments to the Skill didn't match real data</td><td>Edit the stage goal; be more specific about inputs</td></tr>
         <tr><td>Skill timed out</td><td>The underlying API was slow</td><td>Re-run; the agent will retry automatically once</td></tr>
       </tbody>
     </table>
 
     <h2>How a skill physically gets into the sandbox</h2>
     <p>
-      Skills don't live "in the workspace" as a single canonical install — every run materializes
+      Skills don't live "in the workspace" as a single canonical install; every run materializes
       the subset it needs into a fresh sandbox. The path from S3 to a working
       <code>~/.claude/skills/{`{name}`}</code> symlink is short but worth understanding:
     </p>
@@ -258,13 +255,13 @@ news, or any data that requires looking at public web pages.<br/>
       <li>
         <strong>Presigning.</strong> For every <code>SkillRef</code>, the server lists the S3 prefix
         and signs each object key with a 1-hour expiry GET URL. The signed URLs are bundled into the
-        run-agent config — so the agent's host can download skill files without holding S3
+        run-agent config, so the agent's host can download skill files without holding S3
         credentials itself.
       </li>
       <li>
         <strong>Caching.</strong> Inside the sandbox, the runner pulls each presigned URL into
         <code>~/.aitroop/skills/{`{name}/{version}/`}</code>. Because the path is versioned, a second
-        run that needs the same skill at the same version skips the download entirely — the
+        run that needs the same skill at the same version skips the download entirely; the
         directory is already there.
       </li>
       <li>
@@ -286,7 +283,7 @@ news, or any data that requires looking at public web pages.<br/>
     <h2>Aitroop's own MCP server</h2>
     <p>
       Independently of user-installed skills, the platform ships a small built-in MCP server that
-      every run-agent attaches to. It's not optional — it's how stages talk back to the platform
+      every run-agent attaches to. It's not optional: it's how stages talk back to the platform
       without going through HTTP from inside the sandbox. The runner sees it as
       <code>mcp__aitroop__*</code> tools.
     </p>
@@ -296,7 +293,7 @@ news, or any data that requires looking at public web pages.<br/>
       <tbody>
         <tr>
           <td><code>mcp__aitroop__ask_question</code></td>
-          <td>Surface a question to the user mid-turn. Drives the <code>ask_user</code> event you see in the chat UI — backs the <em>"agent needs clarification"</em> flow described in <a href="/docs/concepts">Core concepts</a>.</td>
+          <td>Surface a question to the user mid-turn. Drives the <code>ask_user</code> event you see in the chat UI; backs the <em>"agent needs clarification"</em> flow described in <a href="/docs/concepts">Core concepts</a>.</td>
         </tr>
         <tr>
           <td><code>mcp__aitroop__get_task</code></td>
@@ -304,7 +301,7 @@ news, or any data that requires looking at public web pages.<br/>
         </tr>
         <tr>
           <td><code>mcp__aitroop__update_task</code></td>
-          <td>Update task fields — used by the App Builder skill to set draft App state during a save flow.</td>
+          <td>Update task fields: used by the App Builder skill to set draft App state during a save flow.</td>
         </tr>
         <tr>
           <td><code>mcp__aitroop__get_asset_content</code></td>
@@ -312,13 +309,13 @@ news, or any data that requires looking at public web pages.<br/>
         </tr>
         <tr>
           <td><code>mcp__aitroop__generate_image</code></td>
-          <td>Optional — only registered when the Gemini API key is configured. Generates images from a prompt and returns an artifact handle.</td>
+          <td>Optional; only registered when the Gemini API key is configured. Generates images from a prompt and returns an artifact handle.</td>
         </tr>
       </tbody>
     </table>
 
     <p>
-      Transport: HTTP, not stdio — the URL is
+      Transport: HTTP, not stdio. The URL is
       <code>{`{mcpServerURL}?session={conversationId}`}</code>, and the agent treats it like any
       other MCP server in its <code>mcpServers</code> list. You don't configure this manually; the
       runner config is built with it pre-populated.
@@ -326,7 +323,7 @@ news, or any data that requires looking at public web pages.<br/>
 
     <div class="callout">
       <strong>This is what makes "skills" feel native.</strong> A user skill that needs to ask a
-      clarifying question or attach a follow-up artifact doesn't have to invent its own protocol —
+      clarifying question or attach a follow-up artifact doesn't have to invent its own protocol;
       it calls the platform's built-in MCP tools. The skill content can stay declarative
       (<code>SKILL.md</code> + scripts) because the interactivity is provided by the runtime.
     </div>
@@ -353,8 +350,8 @@ news, or any data that requires looking at public web pages.<br/>
       Custom Skills are stored in two places, depending on origin:
     </p>
     <ul>
-      <li><code>app_user_skills_custom</code> — a Skill you authored or imported into your workspace. Versioned, with an S3 prefix where the Skill's files live.</li>
-      <li><code>app_user_skills_enabled</code> — which built-in or installed Skills are <em>active</em> for you (since a workspace may have more available than you've actually turned on).</li>
+      <li><code>app_user_skills_custom</code>: a Skill you authored or imported into your workspace. Versioned, with an S3 prefix where the Skill's files live.</li>
+      <li><code>app_user_skills_enabled</code>: which built-in or installed Skills are <em>active</em> for you (since a workspace may have more available than you've actually turned on).</li>
     </ul>
 
     <h3>The shape of a custom Skill</h3>
@@ -377,7 +374,7 @@ my-skill/<br/>
 
     <h3>Publishing a new version</h3>
     <p>
-      After editing your Skill, call <code>POST /api/user-skills/:name/publish</code> — it bumps the
+      After editing your Skill, call <code>POST /api/user-skills/:name/publish</code>. It bumps the
       version, uploads the new artifact bundle to S3, and rolls forward any Apps that don't pin a version.
     </p>
 
@@ -397,7 +394,7 @@ curl -X POST https://app.aitroop.net/api/user-skills/my-skill/publish \<br/>
 
     <p class="faq-q">Why didn't the agent use a Skill I have installed?</p>
     <p>
-      <strong>Likely cause:</strong> the agent decided a different approach fits the task — usually
+      <strong>Likely cause:</strong> the agent decided a different approach fits the task, usually
       reasoning from context instead of calling the tool.
     </p>
     <p>
@@ -421,7 +418,7 @@ curl -X POST https://app.aitroop.net/api/user-skills/my-skill/publish \<br/>
       <li>The command isn't on the sandbox's <code>PATH</code> (for command-launched MCP servers).</li>
       <li>The HTTP endpoint is unreachable from the sandbox (for HTTP-transport MCP).</li>
       <li>Auth headers wrong or missing.</li>
-      <li>The server crashed during the initial <code>tools/list</code> handshake — check its logs.</li>
+      <li>The server crashed during the initial <code>tools/list</code> handshake; check its logs.</li>
     </ul>
     <p>
       <strong>Debug commands:</strong>
@@ -450,7 +447,7 @@ POST /api/mcp/servers/:key/ping
 
     <p class="faq-q">How do I share a custom Skill with my whole workspace?</p>
     <p>
-      Workspace admins can install Skills at the workspace level — visible to and usable by every member.
+      Workspace admins can install Skills at the workspace level: visible to and usable by every member.
       Per-user Skills install only for you. The Skill's settings page has the visibility toggle.
     </p>
 
@@ -463,7 +460,7 @@ POST /api/mcp/servers/:key/ping
 
     <div class="next-up">
       <span class="label">Next</span>
-      <a href="/docs/connects">Connects — OAuth integrations</a>
+      <a href="/docs/connects">Connects: OAuth integrations</a>
     </div>
   </DocsShell>
 </Layout>

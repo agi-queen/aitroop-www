@@ -24,13 +24,13 @@ const metadata = {
       actions={[
         {
           variant: 'secondary',
-          text: 'Login',
-          href: '#',
+          text: 'Talk to sales',
+          href: '/contact',
         },
         {
           variant: 'primary',
-          text: 'Sign Up',
-          href: '#',
+          text: 'Open the app',
+          href: 'https://app.aitroop.net',
         },
       ]}
       isSticky
@@ -42,24 +42,20 @@ const metadata = {
   <Hero2
     tagline="SaaS Web Demo"
     actions={[
-      { variant: 'primary', target: '_blank', text: 'Get Started', href: 'https://github.com/arthelokyo/astrowind' },
+      { variant: 'primary', target: '_blank', text: 'Open the app', href: 'https://app.aitroop.net' },
       { text: 'Learn more', href: '#features' },
     ]}
     image={{
       src: '/illustrations/our-solution_qv3b.svg', width: 1024, height: 768,
-      alt: 'AstroWind Hero Image',
+      alt: 'Aitroop Hero Image',
     }}
   >
     <Fragment slot="title">
-      Simplify web design with Astrowind: <br /> your ultimate <span class="text-accent">SaaS</span> companion<br
-      />
+      Simplify web design with Aitroop: <br /> your ultimate <span class="text-accent">SaaS</span> companion
     </Fragment>
 
     <Fragment slot="subtitle">
-      <span class="hidden sm:inline">
-        Elevate your website creation process with <span class="font-semibold">AstroWind</span>'s SaaS solutions.</span
-      >
-      Seamlessly blend the power of Astro 5.0 and Tailwind CSS to craft websites that resonate with your brand and audience.
+      Ship sites that match your brand with Aitroop. Astro 5.0 and Tailwind CSS, direct workflow.
     </Fragment>
   </Hero2>
 
@@ -67,8 +63,8 @@ const metadata = {
 
   <Features
     id="features"
-    title="Why choose AstroWind?"
-    subtitle="Each of the following features enhances AstroWind's value proposition."
+    title="Why choose Aitroop?"
+    subtitle="Each of the following features enhances Aitroop's value proposition."
     columns={2}
     items={[
       {
@@ -79,7 +75,7 @@ const metadata = {
       },
       {
         title: 'Versatile design for startups, small businesses, and more',
-        description: `Easily customize AstroWind to harmonize with the unique branding and identity of your venture. AstroWind's versatile design adapts to suit your needs.`,
+        description: `Easily customize Aitroop to harmonize with the unique branding and identity of your venture. Aitroop's versatile design adapts to suit your needs.`,
         icon: 'tabler:artboard',
       },
       {
@@ -90,17 +86,17 @@ const metadata = {
       },
       {
         title: 'Optimized landing pages and engaging blogs',
-        description: `Landing pages are strategically designed to captivate visitors and prompt specific actions. Additionally, the blog creation feature empowers sharing insights, engaging the audience.`,
+        description: `Landing pages are strategically designed to draw visitors and prompt specific actions. Additionally, the blog creation feature empowers sharing insights, engaging the audience.`,
         icon: 'tabler:podium',
       },
       {
         title: 'Fast loading times and production-ready code',
-        description: `Using Astro 5.0 ensures fast loading and seamless rendering, enhancing browsing. The code follows best practices, improving user experience, SEO, and reducing bounce rates.`,
+        description: `Using Astro 5.0 ensures fast loading and clean rendering, enhancing browsing. The code follows best practices, improving user experience, SEO, and reducing bounce rates.`,
         icon: 'tabler:rocket',
       },
       {
         title: 'SEO-optimized structure for enhanced visibility',
-        description: `Follows SEO best practices with clean code, semantic HTML markup, and fast loading, enhancing search engine rankings. AstroWind's SEO structure ensures visibility to potential customers and clients.`,
+        description: `Follows SEO best practices with clean code, semantic HTML markup, and fast loading, enhancing search engine rankings. Aitroop's SEO structure ensures visibility to potential customers and clients.`,
         icon: 'tabler:eyeglass',
       },
     ]}
@@ -110,13 +106,13 @@ const metadata = {
 
   <Content
     title="Use cases"
-    subtitle="Discover how AstroWind's versatile template serves as the ideal solution for various use cases, providing tailored solutions to drive success."
+    subtitle="See how Aitroop's template fits different use cases with focused solutions."
     isReversed
     items={[
       {
         title: 'Description:',
         description:
-          'Are you a startup with big dreams? AstroWind propels your success. Our template forges a seamless online presence, attracting investors and customers from day one. Astro 5.0 and Tailwind CSS ensure striking, responsive sites, leaving lasting impressions. Countless startups leverage AstroWind to kickstart their journey and resonate with audiences.',
+          'Building a startup? Aitroop helps you ship a clean online presence on day one. Astro 5.0 and Tailwind CSS keep the site fast and responsive.',
       },
       {
         title: 'Benefits:',
@@ -130,7 +126,7 @@ const metadata = {
   >
     <Fragment slot="content">
       <h3 class="text-2xl font-bold tracking-tight sm:text-3xl mb-2">
-        Startup success stories: <br /><span class="text-2xl">Launching with AstroWind</span>
+        Startup success stories: <br /><span class="text-2xl">Launching with Aitroop</span>
       </h3>
     </Fragment>
 
@@ -146,11 +142,11 @@ const metadata = {
     items={[
       {
         title: 'Description:',
-        description: `For SaaS businesses, user experience is key. AstroWind enhances showcasing SaaS solutions intuitively. The template's Astro 5.0 and Tailwind CSS integration guarantees user-friendly experience, mirroring your software's efficiency. Customize pages to communicate SaaS value and solutions for your audience.`,
+        description: `For SaaS, user experience is key. Aitroop showcases your product intuitively, with Astro 5.0 and Tailwind CSS keeping it fast.`,
       },
       {
         title: 'Benefits:',
-        description: `Ensuring a cohesive and user-centric design for your SaaS website. <br /> Effectively communicate complex SaaS features through visual aids, animations, and interactive elements. <br /> Prioritize user needs and pain points through well-structured layouts and clear navigation. <br /> Encourage visitors to take action with strategically placed CTAs. <br /> Ensures your SaaS website works seamlessly across all devices.`,
+        description: `Ensuring a cohesive and user-centric design for your SaaS website. <br /> Effectively communicate complex SaaS features through visual aids, animations, and interactive elements. <br /> Prioritize user needs and pain points through well-structured layouts and clear navigation. <br /> Encourage visitors to take action with strategically placed CTAs. <br /> Ensures your SaaS website works cleanly across all devices.`,
       },
     ]}
     image={{
@@ -172,16 +168,15 @@ const metadata = {
   <!-- Content Widget **************** -->
 
   <Content
-    isReversed
     isAfterContent={true}
     items={[
       {
         title: 'Description:',
-        description: `Your portfolio is your masterpiece, and AstroWind is your canvas. Whether you're a designer, photographer, artist, or any other creative professional, AstroWind empowers you to showcase your work with elegance and sophistication. Tailored to highlight your creative projects, AstroWind's templates offer a visually immersive experience that lets your portfolio shine.`,
+        description: `Your portfolio is your masterpiece, and Aitroop is your canvas. Whether designer, photographer, or artist, Aitroop showcases your work with care.`,
       },
       {
         title: 'Benefits:',
-        description: `Serve as a captivating backdrop to showcase your creative work, capturing attention and leaving a lasting impression. <br /> Tailor your portfolio to reflect your unique style and artistic vision. <br /> Prioritizes visuals, allowing you to present your work in high-resolution detail that draws viewers into your creations. <br /> Enables seamless navigation for effortless portfolio exploration.`,
+        description: `Serve as a clear backdrop to showcase your creative work, capturing attention and leaving a lasting impression. <br /> Tailor your portfolio to reflect your unique style and artistic vision. <br /> Prioritizes visuals, allowing you to present your work in high-resolution detail that draws viewers into your creations. <br /> Enables direct navigation for effortless portfolio exploration.`,
       },
     ]}
     image={{
@@ -203,10 +198,11 @@ const metadata = {
   <!-- Content Widget **************** -->
 
   <Content
+    isReversed
     items={[
       {
         title: 'Description:',
-        description: `For small businesses, a well-crafted website can be a game-changer. AstroWind empowers small businesses to not only establish a credible online presence but also convert visitors into loyal customers. The template's thoughtful design and optimization features ensure that your website doesn't just attract attention but also guides visitors through a seamless journey, ultimately leading to conversions.`,
+        description: `For small businesses, a sharp website turns visitors into customers. Aitroop helps you build a credible site and guide users to conversion.`,
       },
       {
         title: 'Benefits:',
@@ -240,9 +236,8 @@ const metadata = {
         price: '0',
         period: '/ month',
         callToAction: {
-          target: '_blank',
-          text: 'Get Started for Free',
-          href: '#',
+          text: 'Open the app',
+          href: 'https://app.aitroop.net',
         },
       },
       {
@@ -251,9 +246,8 @@ const metadata = {
         price: 15,
         period: '/ Month',
         callToAction: {
-          target: '_blank',
-          text: 'Upgrade to Pro',
-          href: '#',
+          text: 'Open the app',
+          href: 'https://app.aitroop.net',
         },
         hasRibbon: true,
         ribbonTitle: 'popular',
@@ -264,9 +258,8 @@ const metadata = {
         price: 45,
         period: '/ Month',
         callToAction: {
-          target: '_blank',
-          text: 'Unlock Enterprise Features',
-          href: '#',
+          text: 'Talk to sales',
+          href: '/contact',
         },
       },
     ]}
@@ -278,24 +271,24 @@ const metadata = {
     title="Frequently Asked Questions"
     items={[
       {
-        title: 'Is AstroWind compatible with the latest versions of Astro and Tailwind CSS?',
+        title: 'Is Aitroop compatible with the latest versions of Astro and Tailwind CSS?',
         description:
-          'Yes, AstroWind is designed to be compatible with the latest versions of both Astro and Tailwind CSS. This ensures that you can harness the full capabilities of these technologies while benefiting from the features offered by AstroWind.',
+          'Yes, Aitroop is designed to be compatible with the latest versions of both Astro and Tailwind CSS. This ensures that you can harness the full capabilities of these technologies while benefiting from the features offered by Aitroop.',
         icon: 'tabler:chevrons-right',
       },
       {
-        title: 'Can I use AstroWind for both personal and commercial projects?',
-        description: `Certainly! AstroWind is versatile and can be used for a wide range of projects, including both personal and commercial endeavors. Whether you're building a professional portfolio, launching a startup, or creating a marketing website, AstroWind has you covered.`,
+        title: 'Can I use Aitroop for both personal and commercial projects?',
+        description: `Certainly! Aitroop is versatile and can be used for a wide range of projects, including both personal and commercial endeavors. Whether you're building a professional portfolio, launching a startup, or creating a marketing website, Aitroop has you covered.`,
         icon: 'tabler:chevrons-right',
       },
       {
-        title: 'What level of coding knowledge is required to use AstroWind?',
+        title: 'What level of coding knowledge is required to use Aitroop?',
         description:
-          'While some familiarity with HTML, CSS, and web development concepts is helpful, the user-friendly interface and customization options allow those with limited coding experience to create impressive websites. For more advanced users, AstroWind offers extensive customization capabilities.',
+          'While some familiarity with HTML, CSS, and web development concepts is helpful, the user-friendly interface and customization options allow those with limited coding experience to create great websites. For more advanced users, Aitroop offers extensive customization capabilities.',
         icon: 'tabler:chevrons-right',
       },
       {
-        title: 'Is customer support available for AstroWind users seeking guidance?',
+        title: 'Is customer support available for Aitroop users seeking guidance?',
         description: `Absolutely, our dedicated customer support team is here to assist you with any questions or challenges you may encounter. Feel free to reach out to us through our support channels, and we'll be happy to provide the help you need.`,
         icon: 'tabler:chevrons-right',
       },
@@ -338,8 +331,8 @@ const metadata = {
 
   <BlogLatestPosts
     id="blog"
-    title="Stay informed with AstroWind's blog"
-    information={`Explore our collection of articles, guides, and tutorials on web development, design trends, and using AstroWind effectively for your projects.`}
+    title="Stay informed with Aitroop's blog"
+    information={`Explore our collection of articles, guides, and tutorials on web development, design trends, and using Aitroop effectively for your projects.`}
   >
     <Fragment slot="bg">
       <div class="absolute inset-0 bg-blue-50"></div>

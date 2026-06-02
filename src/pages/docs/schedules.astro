@@ -3,7 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 
 const metadata = {
-  title: 'Schedules — Aitroop Docs',
+  title: 'Schedules · Aitroop Docs',
 };
 ---
 
@@ -11,22 +11,20 @@ const metadata = {
   <DocsShell current="schedules">
     <h1>Schedules</h1>
     <p class="lead">
-      A Schedule runs an App automatically on a cron expression. This is what turns <em>"I built a useful
-      App"</em> into <em>"the report shows up in my Slack every Monday morning without me thinking about
-      it."</em> Schedules are the difference between a workflow that exists and one that compounds.
+      A Schedule runs an App automatically on a cron. The difference between a workflow that exists and one that compounds.
     </p>
 
     <div class="callout">
-      <strong>The mental model.</strong> A Schedule is a Cron expression × a set of inputs × a delivery
+      <strong>The mental model.</strong> A Schedule is a Cron expression x a set of inputs x a delivery
       destination. You're saying: <em>"every Monday at 9 AM, run this App with these defaults, and send
-      the result here."</em> The platform handles the rest — provision a sandbox, run the stages, save
+      the result here."</em> The platform handles the rest: provision a sandbox, run the stages, save
       the artifacts, deliver them, log everything.
     </div>
 
     <h2>Anatomy of a Schedule</h2>
     <p>
       The platform stores Schedules in <code>app_scheduled_tasks</code>. The shape is the same
-      whether the schedule runs an App or sends a chat prompt — the difference is
+      whether the schedule runs an App or sends a chat prompt; the difference is
       <code>action_type</code>.
     </p>
 
@@ -50,7 +48,7 @@ const metadata = {
 {`}`}
     </div>
 
-    <h3><code>ScheduleConfig</code> — the four shapes</h3>
+    <h3><code>ScheduleConfig</code>: the four shapes</h3>
     <p>
       You don't write cron. You pick one of four <code>schedule_type</code>s; each takes a small
       config object. The server derives <code>cron_expr</code> (a human-readable label) and computes
@@ -64,21 +62,21 @@ const metadata = {
 {`{`} "time": <span style="color:var(--aw-color-primary)">"09:00"</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// HH:MM in the task's timezone</span><br/>
 <br/>
 <span style="color:var(--aw-color-text-muted)">// schedule_type = "weekly"</span><br/>
-{`{`} "time": <span style="color:var(--aw-color-primary)">"09:00"</span>, "days": <span style="color:var(--aw-color-primary)">[1,3,5]</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// 0=Sun .. 6=Sat — Mon/Wed/Fri here</span><br/>
+{`{`} "time": <span style="color:var(--aw-color-primary)">"09:00"</span>, "days": <span style="color:var(--aw-color-primary)">[1,3,5]</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// 0=Sun .. 6=Sat; Mon/Wed/Fri here</span><br/>
 <br/>
 <span style="color:var(--aw-color-text-muted)">// schedule_type = "monthly"</span><br/>
-{`{`} "time": <span style="color:var(--aw-color-primary)">"09:00"</span>, "day": <span style="color:var(--aw-color-primary)">1</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// 1–28 (28 to stay safe across all months)</span>
+{`{`} "time": <span style="color:var(--aw-color-primary)">"09:00"</span>, "day": <span style="color:var(--aw-color-primary)">1</span> {`}`}&nbsp;&nbsp;<span style="color:var(--aw-color-text-muted)">// 1-28 (28 to stay safe across all months)</span>
     </div>
 
-    <h3><code>ActionConfig</code> — what the tick does</h3>
+    <h3><code>ActionConfig</code>: what the tick does</h3>
     <p>
       Two kinds of action. The validator picks them apart at <code>POST /api/scheduled-tasks</code>:
     </p>
     <div class="code-block" style="line-height:1.7;">
-<span style="color:var(--aw-color-text-muted)">// action_type = "send_message" — enqueue a prompt to a session</span><br/>
+<span style="color:var(--aw-color-text-muted)">// action_type = "send_message": enqueue a prompt to a session</span><br/>
 {`{`} "prompt": <span style="color:var(--aw-color-primary)">"Summarize my GitHub activity since yesterday."</span> {`}`}<br/>
 <br/>
-<span style="color:var(--aw-color-text-muted)">// action_type = "run_app" — fire an AppExecution</span><br/>
+<span style="color:var(--aw-color-text-muted)">// action_type = "run_app": fire an AppExecution</span><br/>
 {`{`}<br/>
 &nbsp;&nbsp;"app_id":    <span style="color:var(--aw-color-primary)">"app_..."</span>,<br/>
 &nbsp;&nbsp;"app_input": <span style="color:var(--aw-color-primary)">{`{ company_name: "Stripe", ... }`}</span><br/>
@@ -87,20 +85,20 @@ const metadata = {
     <p>
       For <code>send_message</code>, the first tick creates a dedicated chat session
       (<code>session_type = 'scheduled'</code>) and stores the <code>session_id</code> back on the
-      task. Every subsequent tick enqueues a new message into the <em>same</em> session — so the
+      task. Every subsequent tick enqueues a new message into the <em>same</em> session, so the
       agent has continuity across runs, which is what makes <em>"every morning, check on X"</em>
       actually feel like a recurring conversation.
     </p>
     <p>
       For <code>run_app</code>, before each tick the scheduler verifies that all required Connects
       are still authorized. A run with missing Connects records
-      <code>last_status = 'error'</code> with a <code>"Missing required connections: …"</code>
+      <code>last_status = 'error'</code> with a <code>"Missing required connections: ..."</code>
       message instead of starting the execution.
     </p>
 
     <h2>Creating a Schedule</h2>
     <p>
-      On any App page, click <strong>Schedules → New schedule</strong>. The wizard asks for three things:
+      On any App page, click <strong>Schedules to New schedule</strong>. The wizard asks for three things:
     </p>
 
     <div class="step-grid">
@@ -108,7 +106,7 @@ const metadata = {
       <div class="step-body">
         <strong>When to run.</strong>
         Pick a preset (Hourly, Daily, Weekly, Monthly) or write a cron expression. Times use your
-        workspace's time zone — set it before relying on schedules.
+        workspace's time zone. Set it before relying on schedules.
       </div>
 
       <span class="step-num">2</span>
@@ -133,7 +131,7 @@ const metadata = {
     <h2>Common patterns expressed as ScheduleConfig</h2>
     <p>
       The same recurring runs you'd describe in cron, written in Aitroop's preset shape. The
-      <code>cron_expr</code> column is what the server computes for display — it's never
+      <code>cron_expr</code> column is what the server computes for display; it's never
       user-editable.
     </p>
 
@@ -152,13 +150,13 @@ const metadata = {
     <div class="callout warn">
       <strong>Minimum cadence: 5 minutes.</strong> The server rejects any
       <code>interval</code> below 300 seconds with <code>422 invalid schedule</code>. The scheduler
-      also self-defends — if it picks up a task whose config has drifted below 5 min, it pushes
+      also self-defends: if it picks up a task whose config has drifted below 5 min, it pushes
       <code>next_run_at</code> forward and skips the tick.
     </div>
 
     <h2>What "cron" means here (and what it doesn't)</h2>
     <p>
-      Aitroop's <code>cron_expr</code> field is a derived label, not an input — there is no place to
+      Aitroop's <code>cron_expr</code> field is a derived label, not an input; there is no place to
       paste a 5-field expression like <code>*/30 9-17 * * MON-FRI</code>. The four
       <code>schedule_type</code>s cover the cases the platform supports, and the executor doesn't
       parse a cron grammar at runtime. If you need expressiveness beyond the presets, the canonical
@@ -173,7 +171,7 @@ const metadata = {
     <p>
       Each task carries its own IANA <code>timezone</code> string (e.g.
       <code>America/Los_Angeles</code>). For <code>daily</code> / <code>weekly</code> /
-      <code>monthly</code>, the <code>time</code> field is interpreted in that timezone — so a
+      <code>monthly</code>, the <code>time</code> field is interpreted in that timezone, so a
       Daily 09:00 schedule in <code>America/Los_Angeles</code> fires at 9 AM Pacific year-round,
       automatically tracking DST through Intl-based offset math (see <code>computeNextRun</code> in
       <code>scheduledTasks.ts</code>). Default timezone is <code>UTC</code>.
@@ -189,9 +187,9 @@ const metadata = {
       <code>executeTask</code> path so manual and scheduled runs are indistinguishable downstream.
     </p>
 
-    <h2>Dynamic inputs — defaults that shift on each run</h2>
+    <h2>Dynamic inputs: defaults that shift on each run</h2>
     <p>
-      Most scheduled Apps need a moving anchor — "yesterday's tickets", "last month's expenses".
+      Most scheduled Apps need a moving anchor: "yesterday's tickets", "last month's expenses".
       The right place to make this happen is on the App's <code>input_schema</code>, not on the
       schedule. Set <code>dynamic_default</code> on the relevant input field and leave that field
       out of <code>action_config.app_input</code>; the executor fills it at run time.
@@ -202,22 +200,22 @@ const metadata = {
       <tbody>
         <tr><td><code>today</code></td><td><code>2026-05-31</code></td></tr>
         <tr><td><code>yesterday</code></td><td><code>2026-05-30</code></td></tr>
-        <tr><td><code>last7days</code></td><td><code>2026-05-24 → 2026-05-31</code> (for <code>daterange</code>)</td></tr>
-        <tr><td><code>last30days</code></td><td><code>2026-05-01 → 2026-05-31</code></td></tr>
-        <tr><td><code>thisMonth</code></td><td><code>2026-05-01 → 2026-05-31</code></td></tr>
-        <tr><td><code>lastMonth</code></td><td><code>2026-04-01 → 2026-04-30</code></td></tr>
+        <tr><td><code>last7days</code></td><td><code>2026-05-24 to 2026-05-31</code> (for <code>daterange</code>)</td></tr>
+        <tr><td><code>last30days</code></td><td><code>2026-05-01 to 2026-05-31</code></td></tr>
+        <tr><td><code>thisMonth</code></td><td><code>2026-05-01 to 2026-05-31</code></td></tr>
+        <tr><td><code>lastMonth</code></td><td><code>2026-04-01 to 2026-04-30</code></td></tr>
       </tbody>
     </table>
 
     <p>
       A weekly engineering report with a <code>daterange</code> input set to
-      <code>dynamic_default: "last7days"</code> always covers the right window — you configure
+      <code>dynamic_default: "last7days"</code> always covers the right window: you configure
       it once and the schedule never needs to touch the date again.
     </p>
 
     <div class="callout">
       <strong>Why not goal-side templating?</strong> Earlier docs implied scheduled inputs could
-      use placeholders like <code>{`{{last_week_start}}`}</code>. They can't — the goal expander
+      use placeholders like <code>{`{{last_week_start}}`}</code>. They can't; the goal expander
       is a literal-key substitutor (see <a href="/docs/concepts">Core concepts</a>). All
       time-relativity lives on the input schema.
     </div>
@@ -227,16 +225,16 @@ const metadata = {
       A scheduled run produces the same artifact set as a manual run, and lands in the same place:
       <code>app_artifact</code> rows under the <code>AppExecution</code> (for <code>run_app</code>),
       or the chat session's message history (for <code>send_message</code>). There's no separate
-      "delivery" subsystem — to get the result somewhere external, build it into the App:
+      "delivery" subsystem; to get the result somewhere external, build it into the App:
     </p>
     <ul>
-      <li>To email a report — add a stage that uses the user's authorized email Connect to send.</li>
-      <li>To post to Slack — give the App the Slack Connect and have the final stage post.</li>
-      <li>To save to Drive / Notion — same pattern, via the corresponding Connect.</li>
-      <li>To push to your own webhook — add a <code>script</code> stage that <code>POST</code>s.</li>
+      <li>To email a report: add a stage that uses the user's authorized email Connect to send.</li>
+      <li>To post to Slack: give the App the Slack Connect and have the final stage post.</li>
+      <li>To save to Drive / Notion: same pattern, via the corresponding Connect.</li>
+      <li>To push to your own webhook: add a <code>script</code> stage that <code>POST</code>s.</li>
     </ul>
     <p>
-      Every run is also recorded in <code>app_task_runs</code> with status (<code>queued</code> →
+      Every run is also recorded in <code>app_task_runs</code> with status (<code>queued</code> to
       <code>ok</code> / <code>error</code>), and the App's <strong>Executions</strong> tab shows the
       artifacts as usual.
     </p>
@@ -259,7 +257,7 @@ Authorization: Bearer $AT_USER_TOKEN
     <h2>App versions and Schedules</h2>
     <p>
       A Schedule always uses the App's <em>current</em> version. When you edit the App, the next
-      tick picks up the change — there is no pinning UI today. The execution record stores
+      tick picks up the change; there is no pinning UI today. The execution record stores
       <code>app_version</code> at the time of run, so the history remains unambiguous, but you
       can't freeze a Schedule to an older version. If you need version stability, the practical
       workaround is to clone the App, freeze the clone, and point the Schedule at the clone.
@@ -271,14 +269,14 @@ Authorization: Bearer $AT_USER_TOKEN
       <code>triggered</code> (<code>scheduler</code> | <code>manual</code>). The owning task row
       records the most recent outcome: <code>last_status</code> (<code>ok</code> /
       <code>error</code> / <code>queued</code>), <code>last_error</code>, <code>last_run_at</code>.
-      Failures don't auto-retry — they wait for the next tick.
+      Failures don't auto-retry; they wait for the next tick.
     </p>
 
     <h3>Common failure modes</h3>
     <table>
       <thead><tr><th>Symptom</th><th>Likely cause</th><th>Fix</th></tr></thead>
       <tbody>
-        <tr><td><code>last_error: "Missing required connections: …"</code></td><td>A Connect that the App requires was revoked or expired before the tick.</td><td>Re-authorize the Connect in Settings → Connects. The next tick proceeds.</td></tr>
+        <tr><td><code>last_error: "Missing required connections: ..."</code></td><td>A Connect that the App requires was revoked or expired before the tick.</td><td>Re-authorize the Connect in Settings to Connects. The next tick proceeds.</td></tr>
         <tr><td>Stage timeout</td><td>Goal got more expensive over time (more data, longer searches).</td><td>Bump <code>timeout_ms</code> on the affected stage.</td></tr>
         <tr><td>Empty result</td><td>Window from <code>dynamic_default</code> resolved to a span with no data.</td><td>Widen the window, or have the stage gracefully report "no activity".</td></tr>
         <tr><td>Skipped below minimum</td><td>An interval drifted below 5 minutes (typically via direct DB edits).</td><td>The scheduler pushes <code>next_run_at</code> forward by 5 min and skips. Fix the interval via <code>PUT</code>.</td></tr>
@@ -287,13 +285,13 @@ Authorization: Bearer $AT_USER_TOKEN
 
     <h2>Pausing and editing</h2>
     <p>
-      Toggle a Schedule off without deleting it — useful during incidents or while editing the App. Edit
-      any field — cron, inputs, delivery — and the next run uses the new values.
+      Toggle a Schedule off without deleting it: useful during incidents or while editing the App. Edit
+      any field (cron, inputs, delivery) and the next run uses the new values.
     </p>
 
     <div class="callout warn">
-      <strong>Cost-aware scheduling.</strong> A 15-minute schedule is 4× the cost of an hourly one,
-      and 96× the cost of a daily one. Before cranking up the frequency, ask whether anything actually
+      <strong>Cost-aware scheduling.</strong> A 15-minute schedule is 4x the cost of an hourly one,
+      and 96x the cost of a daily one. Before cranking up the frequency, ask whether anything actually
       changes that often. Most "real-time" alerting needs are well-served by checking once an hour.
     </div>
 
@@ -307,7 +305,7 @@ Authorization: Bearer $AT_USER_TOKEN
       <li><strong>Wrong timezone.</strong> Default is UTC. Either pass an IANA <code>timezone</code> when you create the task, or update it via <code>PUT /api/scheduled-tasks/:id</code>.</li>
       <li><strong>DST transition.</strong> The <code>computeNextRun</code> implementation walks the IANA database so the wall-clock <code>time</code> stays fixed across DST changes. Inspect <code>next_run_at</code> in <code>app_scheduled_tasks</code> to see what the scheduler thinks the next tick should be.</li>
       <li><strong>Task disabled.</strong> Someone set <code>enabled = false</code>. Inspect the row directly or via <code>GET /api/scheduled-tasks</code>.</li>
-      <li><strong>Tick window.</strong> The scheduler runs roughly every 60 s — a tick can lag the configured time by up to a minute on a busy server.</li>
+      <li><strong>Tick window.</strong> The scheduler runs roughly every 60 s; a tick can lag the configured time by up to a minute on a busy server.</li>
     </ul>
 
     <p class="faq-q">How do I run "once per quarter on the second business Tuesday"?</p>
@@ -322,7 +320,7 @@ Authorization: Bearer $AT_USER_TOKEN
 
     <p class="faq-q">Can I trigger a Schedule from a Slack slash command?</p>
     <p>
-      Yes — point a Slack slash command at a webhook URL that POSTs to
+      Yes; point a Slack slash command at a webhook URL that POSTs to
       <code>/api/scheduled-tasks/:id/run</code>. The Schedule runs once with its configured inputs.
       Verify the Slack signing secret on your handler side.
     </p>
@@ -330,7 +328,7 @@ Authorization: Bearer $AT_USER_TOKEN
     <p class="faq-q">My App now needs an extra input. Will old Schedules break?</p>
     <p>
       They keep running. <code>action_config.app_input</code> is passed through verbatim, so missing
-      keys fall back to whatever the App's <code>input_schema</code> specifies — the field's
+      keys fall back to whatever the App's <code>input_schema</code> specifies: the field's
       <code>default</code>, or <code>dynamic_default</code> at run time. If the new input is
       <code>required</code> with no default, the next tick fails at the validator with a
       <code>Missing required input</code> error. Update the task via
@@ -353,15 +351,15 @@ curl https://app.aitroop.net/api/scheduled-tasks/$ID/runs \<br/>
 
     <p class="faq-q">Can I version-control my Schedules?</p>
     <p>
-      Yes — read with <code>GET /api/scheduled-tasks</code> (or filter to one task and persist the
+      Yes; read with <code>GET /api/scheduled-tasks</code> (or filter to one task and persist the
       JSON to a repo). Recreate via <code>POST</code> or amend an existing task via
-      <code>PUT /api/scheduled-tasks/:id</code>. There is no per-task <code>GET</code> endpoint — list
+      <code>PUT /api/scheduled-tasks/:id</code>. There is no per-task <code>GET</code> endpoint; list
       everything and pick the row you want.
     </p>
 
     <div class="next-up">
       <span class="label">Next</span>
-      <a href="/docs/sandbox">Sandbox — where the agent does its work</a>
+      <a href="/docs/sandbox">Sandbox: where the agent does its work</a>
     </div>
   </DocsShell>
 </Layout>

@@ -3,7 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 
 const metadata = {
-  title: '文件 — Aitroop',
+  title: '文件 · Aitroop',
 };
 ---
 
@@ -11,22 +11,19 @@ const metadata = {
   <DocsShell current="index" locale="zh-TW">
     <h1>歡迎使用 Aitroop</h1>
     <p class="lead">
-      把 Aitroop 想像成一位有自己電腦的隊友。你描述要做的事，它來設計工作流程，在沙盒環境中執行，
-      回傳帶型別的輸出供你閱讀、分享，或接入下一個步驟。你不用寫程式 —— 你只是聊天，
-      而這場對話會變成一個可儲存的 <strong>應用</strong>，可以反覆執行、排程、交給同事，
-      或透過 API 呼叫。
+      把 Aitroop 想像成一位有自己電腦的隊友：你描述要做的事，它設計工作流程並在沙盒中執行，輸出可儲存為<strong>應用</strong>，反覆執行、排程或透過 API 呼叫。
     </p>
 
     <div class="callout">
       <strong>閱讀順序。</strong>如果你有 15 分鐘，直接去看
-      <a href="/zh-TW/docs/quickstart">快速開始</a> —— 它會帶你完整走一遍，附帶截圖和需要輸入的具體內容。
+      <a href="/zh-TW/docs/quickstart">快速開始</a>：它會帶你完整走一遍，附帶截圖和需要輸入的具體內容。
       想了解概念地圖時再回到這裡。
     </div>
 
     <h2>與傳統聊天機器人不同</h2>
     <p>
       大多數 AI 工具只是一個聊天框。你輸入，它回覆，然後翻篇。第二天早上你的同事想做同樣的事，
-      只能從頭重新輸入提示詞 —— 丟掉了你的調整、你的上下文、你的打磨。Aitroop 不是這樣：
+      只能從頭重新輸入提示詞，丟掉了你的調整、你的上下文、你的打磨。Aitroop 不是這樣：
     </p>
 
     <table>
@@ -57,10 +54,9 @@ const metadata = {
 
     <h2>一段話版本</h2>
     <p>
-      打開對話。說<em>「建立一個應用來……」</em>。智能體啟動它的應用建構器技能，問 1–5 個澄清問題，
+      打開對話。說<em>「建立一個應用來……」</em>。智能體啟動它的應用建構器技能，問 1-5 個澄清問題，
       設計工作流程（表單欄位、階段、輸出格式、所需的技能和連接），逐項驗證，透過
-      <code>POST /api/apps</code> 儲存，並告訴你應用 ID。然後你就可以從你的應用庫裡執行它 ——
-      填寫表單，點擊 Run 按鈕，得到一個帶型別的產物。或者掛上一個排程，讓它每週一上午 9 點自動跑。
+      <code>POST /api/apps</code> 儲存，並告訴你應用 ID。然後你就可以從你的應用庫裡執行它，填寫表單，點擊 Run 按鈕，得到一個帶型別的產物。或者掛上一個排程，讓它每週一上午 9 點自動跑。
     </p>
 
     <h2>你究竟能用它做什麼</h2>
@@ -84,8 +80,7 @@ const metadata = {
     <p>
       一個 4 階段應用：<em>(1)</em> 根據 ICP 描述找出符合的公司，<em>(2)</em> 用募資歷史
       為每家公司補充資訊，<em>(3)</em> <strong>暫停</strong>等你刪掉不想要的列，
-      <em>(4)</em> 為留下來的對象起草個人化冷郵件。人工暫停是寫在應用裡的 ——
-      這次執行會無限期等待，直到你核准，然後從第 4 階段恢復。
+      <em>(4)</em> 為留下來的對象起草個人化冷郵件。人工暫停是寫在應用裡的，這次執行會無限期等待，直到你核准，然後從第 4 階段恢復。
     </p>
 
     <h2>從哪裡開始</h2>
@@ -93,21 +88,21 @@ const metadata = {
     <div class="step-grid">
       <span class="step-num">1</span>
       <div class="step-body">
-        <strong><a href="/zh-TW/docs/quickstart">快速開始</a> —— 15 分鐘，端到端走完</strong>
+        <strong><a href="/zh-TW/docs/quickstart">快速開始</a>：15 分鐘，端到端走完</strong>
         登入，透過和智能體對話來建立一個「公司簡報」應用，在 Stripe 和 Notion 上執行它，
         給它掛上排程。<strong>先讀這個。</strong>
       </div>
 
       <span class="step-num">2</span>
       <div class="step-body">
-        <strong><a href="/zh-TW/docs/concepts">核心概念</a> —— 詳細的 schema</strong>
+        <strong><a href="/zh-TW/docs/concepts">核心概念</a>：詳細的 schema</strong>
         應用 JSON 文件。全部 12 種輸入型別。3 種階段型別。
         <code>{`{{field_id}}`}</code> 範本語法。是快速開始的參考手冊。
       </div>
 
       <span class="step-num">3</span>
       <div class="step-body">
-        <strong><a href="/zh-TW/docs/chat">對話</a>與<a href="/zh-TW/docs/apps">應用</a> —— 兩個介面</strong>
+        <strong><a href="/zh-TW/docs/chat">對話</a>與<a href="/zh-TW/docs/apps">應用</a>：兩個介面</strong>
         對話是駕駛艙。應用是被儲存下來的工作流程。大部分時間你都在這兩個頁面裡。
       </div>
 
@@ -122,7 +117,7 @@ const metadata = {
 
     <h2>一個應用底層長什麼樣</h2>
     <p>
-      這個不需要你寫 —— 是智能體來寫 —— 但看一眼它的形狀會讓其他一切豁然開朗：
+      這個不需要你寫，是智能體來寫，但看一眼它的形狀會讓其他一切豁然開朗：
     </p>
     <div class="code-block" style="line-height:1.7;">
 {`{`}<br/>
@@ -179,7 +174,7 @@ const metadata = {
 
     <h2>兩個介面，一個平台</h2>
     <p>
-      你幾乎所有動作都發生在這兩個介面之一 —— 選哪個取決於一個問題：<em>會不會再做一次</em>？
+      你幾乎所有動作都發生在這兩個介面之一，選哪個取決於一個問題：<em>會不會再做一次</em>？
     </p>
 
     <table>
@@ -219,26 +214,25 @@ const metadata = {
     </table>
 
     <p>
-      關鍵字是<em>真正的</em>。Aitroop 的一個階段不是一段提示詞範本 —— 它是一個會推理的智能體，
+      關鍵字是<em>真正的</em>。Aitroop 的一個階段不是一段提示詞範本，它是一個會推理的智能體，
       會呼叫技能、命中連接、執行程式、失敗時重試，並產出一個帶型別的產物。
       階段的英文描述就是規格；智能體的行為就是實作。
     </p>
 
     <h2>卡住了怎麼辦</h2>
     <p>
-      最快的幫助就是智能體本身。打開對話問一句<em>「我該怎麼……？」</em> ——
-      它已經載入了應用建構器技能，了解平台的每一個部分。具體場景：
+      最快的幫助就是智能體本身。打開對話問一句<em>「我該怎麼……？」</em>，它已經載入了應用建構器技能，了解平台的每一個部分。具體場景：
     </p>
     <ul>
-      <li><strong>第一個應用就失敗了</strong> —— 打開失敗的執行，點擊 <strong>Debug in chat</strong>。參見<a href="/zh-TW/docs/executions">執行記錄</a>。</li>
-      <li><strong>連接授權不過</strong> —— 通常是權限範圍問題或用錯了帳號。參見<a href="/zh-TW/docs/connects">連接</a>。</li>
-      <li><strong>排程沒觸發</strong> —— 工作區時區，或者任務被暫停了。參見<a href="/zh-TW/docs/schedules">排程</a>。</li>
-      <li><strong>其他問題</strong> —— <a href="/zh-TW/contact">聯絡我們</a>。</li>
+      <li><strong>第一個應用就失敗了</strong>：打開失敗的執行，點擊 <strong>Debug in chat</strong>。參見<a href="/zh-TW/docs/executions">執行記錄</a>。</li>
+      <li><strong>連接授權不過</strong>：通常是權限範圍問題或用錯了帳號。參見<a href="/zh-TW/docs/connects">連接</a>。</li>
+      <li><strong>排程沒觸發</strong>：工作區時區，或者任務被暫停了。參見<a href="/zh-TW/docs/schedules">排程</a>。</li>
+      <li><strong>其他問題</strong>：<a href="/zh-TW/contact">聯絡我們</a>。</li>
     </ul>
 
     <div class="next-up">
       <span class="label">從這裡開始</span>
-      <a href="/zh-TW/docs/quickstart">快速開始 —— 15 分鐘建構你的第一個應用</a>
+      <a href="/zh-TW/docs/quickstart">快速開始：15 分鐘建構你的第一個應用</a>
     </div>
   </DocsShell>
 </Layout>

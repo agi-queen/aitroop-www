@@ -3,7 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
 
 const metadata = {
-  title: '產物格式 — Aitroop 文件',
+  title: '產物格式 · Aitroop 文件',
 };
 ---
 
@@ -11,18 +11,13 @@ const metadata = {
   <DocsShell current="artifacts" locale="zh-TW">
     <h1>產物格式</h1>
     <p class="lead">
-      <strong>產物</strong>是一個階段所產出的交付物 —— 它是平台的一等公民，
-      而不是聊天裡滾過去就消失的一條回覆。產物具有型別，可預覽、可下載、可編輯、
-      可透過公開連結分享，也可以串接到下一個階段。平台支援七種格式，
-      你選用的格式會決定智慧體的寫作方式、預覽面板的渲染邏輯，
-      以及下游階段如何消費它。
+      <strong>產物</strong>是階段產出的帶型別交付物：可預覽、可下載、可編輯、可透過公開連結分享，也可以串接到下一個階段。
     </p>
 
     <div class="callout">
       <strong>為什麼要為輸出指定型別。</strong>「幫我寫一份摘要」和「幫我寫一份 Markdown
       摘要，並在 frontmatter 裡以 YAML 陣列形式列出 5 條關鍵事實」會產生差異極大的結果。
-      格式宣告告訴智慧體「什麼樣的產出才算成功」。同時它也讓預覽面板可以做正確的事 ——
-      渲染 Markdown、依 schema 校驗 JSON、為程式碼做語法高亮、校驗 CSV 的欄位。
+      格式宣告告訴智慧體「什麼樣的產出才算成功」。同時它也讓預覽面板可以做正確的事，渲染 Markdown、依 schema 校驗 JSON、為程式碼做語法高亮、校驗 CSV 的欄位。
     </div>
 
     <h2>智慧體如何產生一個產物</h2>
@@ -31,7 +26,7 @@ const metadata = {
       <code>app_artifact</code> 表中的同一列；根據你目前所處的位置，選擇對應的那一條。
     </p>
 
-    <h3>路徑 A —— 應用階段（基於 Markdown 段落提取）</h3>
+    <h3>路徑 A：應用階段（基於 Markdown 段落提取）</h3>
     <p>
       當一個階段作為 <code>AppExecution</code> 的一部分執行時，執行器會建立一個系統提示詞，
       其末尾包含一個 <code>## Expected Outputs</code> 區塊，把每條
@@ -41,13 +36,13 @@ const metadata = {
     </p>
     <ol>
       <li>比對一個 Markdown 標題，其文字與產物的 <code>title</code> 相同（不分大小寫，
-        <code>#</code> 到 <code>####</code>） —— 取該標題之後、直到下一個同級或更高級標題之間的所有內容。</li>
+        <code>#</code> 到 <code>####</code>），取該標題之後、直到下一個同級或更高級標題之間的所有內容。</li>
       <li>對於結構化格式（<code>code</code>、<code>json</code>、<code>html</code>、
-        <code>csv</code>） —— 回退到第一個語言相符的圍欄程式碼區塊。</li>
-      <li>如果該階段只宣告了一個產物 —— 回退到整段回應文字。</li>
+        <code>csv</code>），回退到第一個語言相符的圍欄程式碼區塊。</li>
+      <li>如果該階段只宣告了一個產物，回退到整段回應文字。</li>
     </ol>
     <p>
-      這就是為什麼下方的範例使用 <code>## Stripe — Company Brief</code> 作為段落標題，
+      這就是為什麼下方的範例使用 <code>## Stripe，Company Brief</code> 作為段落標題，
       而不是 XML 標籤：這才是比對器實際尋找的形式。
     </p>
     <div class="code-block" style="line-height:1.7;">
@@ -74,13 +69,12 @@ Stripe runs payment infrastructure as a service...<br/>
 
     <div class="callout">
       <strong>在應用階段中<em>不</em>奏效的寫法。</strong>目標（goal）裡
-      <em>不存在</em> <code>{`{{ stages.<id>.<artifactId> }}`}</code> 這樣的參照 ——
-      目標模板器只會替換表單輸入。前置階段的產物以另外兩種方式抵達下一個階段：
+      <em>不存在</em> <code>{`{{ stages.<id>.<artifactId> }}`}</code> 這樣的參照，目標模板器只會替換表單輸入。前置階段的產物以另外兩種方式抵達下一個階段：
       （1）留在共享沙盒檔案系統中的檔案，以及（2）自動注入到系統提示詞頂部的
       <code>## Previous Stage Outputs</code> 區塊。
     </div>
 
-    <h3>路徑 B —— 聊天串流（基於 XML 標籤提取）</h3>
+    <h3>路徑 B：聊天串流（基於 XML 標籤提取）</h3>
     <p>
       在自由聊天中，智慧體會直接在輸出串流中以 XML 標籤的形式發出產物。串流解析器
       （<code>artifact/parser.ts</code>）能夠安全處理分塊邊界，並讀取以下三個屬性：
@@ -95,8 +89,7 @@ Stripe runs payment infrastructure as a service...<br/>
     </div>
     <p>
       可辨識的屬性是 <code>title</code>、<code>type</code> 和 <code>language</code>。
-      聊天串流標籤上沒有 <code>id</code> 或 <code>format</code> 屬性 ——
-      解析器會忽略其他任何屬性。串流結束時若仍有未閉合的標籤，會以字面文字呈現，
+      聊天串流標籤上沒有 <code>id</code> 或 <code>format</code> 屬性，解析器會忽略其他任何屬性。串流結束時若仍有未閉合的標籤，會以字面文字呈現，
       而不會被靜默捨棄。
     </p>
 
@@ -116,7 +109,7 @@ Stripe runs payment infrastructure as a service...<br/>
 
     <p>
       你在階段的 <code>artifact_defs</code> 條目上設定格式。智慧體會讓其輸出符合該型別，
-      或者在做不到時明確失敗 —— 這正是你想要的行為。
+      或者在做不到時明確失敗，這正是你想要的行為。
     </p>
 
     <h2>markdown <span class="pill green">最常見</span></h2>
@@ -133,9 +126,9 @@ Stripe runs payment infrastructure as a service...<br/>
 
     <h3>匯出</h3>
     <ul>
-      <li><code>.md</code> —— 原始 Markdown 原始檔。</li>
-      <li><strong>PDF</strong> —— 伺服器端使用工作區品牌樣式渲染。</li>
-      <li><strong>DOCX</strong> —— 透過 Pandoc 轉換；樣式對應到 Word 標題。</li>
+      <li><code>.md</code>：原始 Markdown 原始檔。</li>
+      <li><strong>PDF</strong>：伺服器端使用工作區品牌樣式渲染。</li>
+      <li><strong>DOCX</strong>：透過 Pandoc 轉換；樣式對應到 Word 標題。</li>
     </ul>
 
     <h3>串接</h3>
@@ -157,7 +150,7 @@ Stripe runs payment infrastructure as a service...<br/>
 
     <h3>多檔案輸出</h3>
     <p>
-      單個 <code>code</code> 產物可以容納一棵檔案樹 —— 當應用生成的是小型專案而非單一檔案時非常實用：
+      單個 <code>code</code> 產物可以容納一棵檔案樹，當應用生成的是小型專案而非單一檔案時非常實用：
     </p>
 
     <div class="code-block" style="line-height:1.7;">
@@ -192,9 +185,9 @@ export const greet = (name: string) =&gt; `Hello, ${`{name}`}!`;<br/>
 
     <h3>匯出</h3>
     <ul>
-      <li><code>.html</code> —— 單個自包含的檔案。</li>
-      <li><strong>PDF</strong> —— 伺服器端列印為 PDF。</li>
-      <li><strong>PNG/JPEG 螢幕擷取</strong> —— 整頁或首屏。</li>
+      <li><code>.html</code>：單個自包含的檔案。</li>
+      <li><strong>PDF</strong>：伺服器端列印為 PDF。</li>
+      <li><strong>PNG/JPEG 螢幕擷取</strong>：整頁或首屏。</li>
     </ul>
 
     <h3>什麼時候用這個型別</h3>
@@ -205,7 +198,7 @@ export const greet = (name: string) =&gt; `Hello, ${`{name}`}!`;<br/>
 
     <h2>json <span class="pill" style="background:rgba(120,120,200,0.1);color:#4f46e5;border-color:rgba(120,120,200,0.3);">機器對機器</span></h2>
     <p>
-      結構化資料。當輸出將被另一個系統消費而非人類閱讀時使用 —— 或者當應用中的下一個階段
+      結構化資料。當輸出將被另一個系統消費而非人類閱讀時使用，或者當應用中的下一個階段
       希望讀取特定欄位、而不是重新解析自由文字時使用。
     </p>
 
@@ -233,12 +226,12 @@ export const greet = (name: string) =&gt; `Hello, ${`{name}`}!`;<br/>
     </div>
 
     <p>
-      Schema 給智慧體提供了護欄 —— 它知道應該產出怎樣的形狀 —— 同時也免費讓預覽擁有一個校驗器。
+      Schema 給智慧體提供了護欄，它知道應該產出怎樣的形狀，同時也免費讓預覽擁有一個校驗器。
     </p>
 
     <h3>串接</h3>
     <p>
-      多階段的應用幾乎總是在階段之間使用 <code>json</code> —— 下一個階段可以讀取具體欄位，
+      多階段的應用幾乎總是在階段之間使用 <code>json</code>：下一個階段可以讀取具體欄位，
       而不必重新解析自由文字。
     </p>
 
@@ -255,9 +248,9 @@ export const greet = (name: string) =&gt; `Hello, ${`{name}`}!`;<br/>
 
     <h3>匯出</h3>
     <ul>
-      <li><code>.csv</code> —— 帶標題列的 RFC 4180 格式。</li>
-      <li><code>.xlsx</code> —— Excel 檔案。盡可能保留資料型別。</li>
-      <li><strong>推送到 Google Sheets</strong> —— 在已授權 Drive Connect 的前提下。</li>
+      <li><code>.csv</code>：帶標題列的 RFC 4180 格式。</li>
+      <li><code>.xlsx</code>：Excel 檔案。盡可能保留資料型別。</li>
+      <li><strong>推送到 Google Sheets</strong>：在已授權 Drive Connect 的前提下。</li>
     </ul>
 
     <h3>Schema 校驗</h3>
@@ -279,9 +272,8 @@ export const greet = (name: string) =&gt; `Hello, ${`{name}`}!`;<br/>
     <h3>如何產生</h3>
     <p>有兩種方式：</p>
     <ul>
-      <li><strong>透過 <code>generate_image</code> 工具</strong>（基於所設定提供商的文字轉圖像 ——
-        通常是 Gemini 的圖像 API，如果主機有對應的 key）。</li>
-      <li><strong>透過智慧體沙盒中的程式碼</strong> —— Matplotlib 圖表、Graphviz 示意圖、Pillow 合成、
+      <li><strong>透過 <code>generate_image</code> 工具</strong>（基於所設定提供商的文字轉圖像，通常是 Gemini 的圖像 API，如果主機有對應的 key）。</li>
+      <li><strong>透過智慧體沙盒中的程式碼</strong>：Matplotlib 圖表、Graphviz 示意圖、Pillow 合成、
         Playwright 螢幕擷取。</li>
     </ul>
 
@@ -294,18 +286,18 @@ export const greet = (name: string) =&gt; `Hello, ${`{name}`}!`;<br/>
 
     <h2>file <span class="pill red">兜底通道</span></h2>
     <p>
-      任何不適合其他格式的內容 —— PDF、ZIP、音訊、影片、二進位格式。如果你拿不定主意，
+      任何不適合其他格式的內容，PDF、ZIP、音訊、影片、二進位格式。如果你拿不定主意，
       <code>file</code> 是安全的預設選項。
     </p>
 
     <h3>預覽</h3>
     <p>依型別自我調整：</p>
     <ul>
-      <li><strong>PDF</strong> —— 以內建檢視器內嵌渲染。</li>
-      <li><strong>音訊</strong> —— 帶波形的 HTML5 播放器。</li>
-      <li><strong>影片</strong> —— 可拖曳進度條的 HTML5 播放器。</li>
-      <li><strong>ZIP</strong> —— 檔案清單；點擊任意條目可作為獨立產物預覽。</li>
-      <li><strong>未知</strong> —— 展示中繼資料（大小、MIME）和下載按鈕。</li>
+      <li><strong>PDF</strong>：以內建檢視器內嵌渲染。</li>
+      <li><strong>音訊</strong>：帶波形的 HTML5 播放器。</li>
+      <li><strong>影片</strong>：可拖曳進度條的 HTML5 播放器。</li>
+      <li><strong>ZIP</strong>：檔案清單；點擊任意條目可作為獨立產物預覽。</li>
+      <li><strong>未知</strong>：展示中繼資料（大小、MIME）和下載按鈕。</li>
     </ul>
 
     <h3>匯出</h3>
@@ -328,15 +320,13 @@ total_funding, last_round, last_round_date.
     </div>
 
     <p>
-      變數會解析為前一個階段的輸出，保持其原本的格式。智慧體會根據型別自動選擇讀取方式 ——
-      CSV 當作表格讀、JSON 當作結構化物件讀、Markdown 當作文件讀。你不需要寫任何解析邏輯。
+      變數會解析為前一個階段的輸出，保持其原本的格式。智慧體會根據型別自動選擇讀取方式，CSV 當作表格讀、JSON 當作結構化物件讀、Markdown 當作文件讀。你不需要寫任何解析邏輯。
     </p>
 
-    <h2>產物如何儲存 —— 持久化佈局</h2>
+    <h2>產物如何儲存：持久化佈局</h2>
     <p>
       一旦執行器擷取出內容（上方的路徑 A 或路徑 B），它會寫入<em>兩處</em>：
-      <code>app_artifact</code> 表中的一列，以及設定好的 S3 儲存桶中的一個物件。兩者被設計為可彼此獨立存活
-      —— DB 中的內容是快速路徑，S3 是耐久副本，也是大體積內容的最終來源。
+      <code>app_artifact</code> 表中的一列，以及設定好的 S3 儲存桶中的一個物件。兩者被設計為可彼此獨立存活，DB 中的內容是快速路徑，S3 是耐久副本，也是大體積內容的最終來源。
     </p>
 
     <h3>S3 key 的結構</h3>
@@ -359,10 +349,9 @@ app-artifacts/{`{user_id}`}/{`{execution_id}`}/{`{stage_id}`}/{`{def_id}`}
     <p>
       列上的 <code>file_name</code> 由 slug 化的應用、階段和 def 標題確定性地拼接而成：
       <code>{`{app_slug}_{stage_slug}_{def_slug}.{ext}`}</code>。副檔名來自下方的
-      格式 → 副檔名對應表，但 <code>code</code> 例外 —— 它會原樣使用 def 的
+      格式 → 副檔名對應表，但 <code>code</code> 例外，它會原樣使用 def 的
       <code>language</code> 作為副檔名（所以 Python 程式碼產物最終的檔名是
-      <code>analysis.python</code>，而不是 <code>analysis.py</code> ——
-      這是刻意為之，便於型別的往返還原）。
+      <code>analysis.python</code>，而不是 <code>analysis.py</code>：這是刻意為之，便於型別的往返還原）。
     </p>
 
     <h3>格式 → MIME → 副檔名參考表</h3>
@@ -385,14 +374,13 @@ app-artifacts/{`{user_id}`}/{`{execution_id}`}/{`{stage_id}`}/{`{def_id}`}
 
     <h3>內嵌內容 vs S3 兜底</h3>
     <p>
-      為了便利，列的 <code>content</code> 欄位也會保存產物的原始內容 ——
-      產物是否能從 DB 熱讀取，取決於它的建立方式以及大小。在恢復執行時，
+      為了便利，列的 <code>content</code> 欄位也會保存產物的原始內容，產物是否能從 DB 熱讀取，取決於它的建立方式以及大小。在恢復執行時，
       執行器讀取前置階段產物的規則是確定的：
     </p>
     <ol>
-      <li>如果 <code>app_artifact.content</code> 非空 —— 直接使用。</li>
-      <li>否則如果 <code>s3_key</code> 已設定 —— 從 S3 下載，依 UTF-8 解碼後使用。</li>
-      <li>否則 —— 以空內容繼續（這是一種可恢復的退化狀態）。</li>
+      <li>如果 <code>app_artifact.content</code> 非空，直接使用。</li>
+      <li>否則如果 <code>s3_key</code> 已設定，從 S3 下載，依 UTF-8 解碼後使用。</li>
+      <li>否則，以空內容繼續（這是一種可恢復的退化狀態）。</li>
     </ol>
     <p>
       因此一個產物端到端的最壞情況只是「內容為空」；即使 S3 物件消失，列、它的中繼資料
@@ -465,7 +453,7 @@ data: {`{`}<br/>
     <table>
       <thead><tr><th>欄位</th><th>用途</th></tr></thead>
       <tbody>
-        <tr><td><code>resource_type</code> / <code>resource_id</code></td><td>正在分享的物件 —— 一個產物、一次執行記錄或一個應用。</td></tr>
+        <tr><td><code>resource_type</code> / <code>resource_id</code></td><td>正在分享的物件，一個產物、一次執行記錄或一個應用。</td></tr>
         <tr><td><code>access_mode</code></td><td><code>public</code>（任何持有連結的人）或 <code>token</code>（任何用正確密鑰解鎖的人）。</td></tr>
         <tr><td><code>access_token_hash</code></td><td>當 <code>access_mode = 'token'</code> 時，解鎖密鑰的 Argon2/bcrypt 雜湊。</td></tr>
         <tr><td><code>expires_at</code></td><td>可空。在此時間戳之後，分享會解析為 <code>expired</code>。</td></tr>
@@ -477,8 +465,7 @@ data: {`{`}<br/>
 
     <h3>解析狀態</h3>
     <p>
-      請求 <code>GET /api/public/shares/:token</code> 會回傳五種結果之一 ——
-      公開頁面的渲染邏輯由它決定：
+      請求 <code>GET /api/public/shares/:token</code> 會回傳五種結果之一，公開頁面的渲染邏輯由它決定：
     </p>
     <table>
       <thead><tr><th><code>kind</code></th><th>對應情況</th></tr></thead>
@@ -511,14 +498,13 @@ data: {`{`}<br/>
     <h2>編輯產物</h2>
     <p>
       在任意產物上點擊 <strong>編輯</strong>，你會得到一個專門針對這一個產物的聊天。
-      在裡面提出修改要求 —— <em>「把表格做寬一點」</em>、<em>「加一列 Q4 的資料」</em>、
+      在裡面提出修改要求，<em>「把表格做寬一點」</em>、<em>「加一列 Q4 的資料」</em>、
       <em>「把第二段重寫得不要那麼正式」</em>。可以儲存回同一個產物，也可以分支出新版本。
     </p>
 
     <p>
       對產物的編輯不會改變應用本身。如果你希望該改動套用到後續執行，需要在編輯器中開啟應用並更新
-      階段的目標。「在聊天中編輯」這個介面也是一個實用的除錯工具 ——
-      聊天會帶著該產物和原始目標作為上下文開啟。
+      階段的目標。「在聊天中編輯」這個介面也是一個實用的除錯工具，聊天會帶著該產物和原始目標作為上下文開啟。
     </p>
 
     <h2>常見問題與排錯</h2>
@@ -530,8 +516,8 @@ data: {`{`}<br/>
       如果兩者都沒命中，就不會持久化任何產物。兩種修正方式：
     </p>
     <ul>
-      <li>收緊階段目標，讓智慧體<em>為段落命名</em>：<em>「把報告寫在 <code>## Stripe Competitive Analysis</code> 這個標題之下。」</em> —— 標題必須和產物的 <code>title</code> 一致。</li>
-      <li>檢查階段的 <code>artifact_defs</code> —— 執行器至少需要一個條目才會開始尋找。</li>
+      <li>收緊階段目標，讓智慧體<em>為段落命名</em>：<em>「把報告寫在 <code>## Stripe Competitive Analysis</code> 這個標題之下。」</em>，標題必須和產物的 <code>title</code> 一致。</li>
+      <li>檢查階段的 <code>artifact_defs</code>：執行器至少需要一個條目才會開始尋找。</li>
     </ul>
     <p>
       在聊天中規則不同：串流解析器只會在
@@ -542,7 +528,7 @@ data: {`{`}<br/>
     <p class="faq-q">我的 JSON 產物裡有結尾逗號 / 註解，無法解析。</p>
     <p>
       智慧體偶爾會不小心吐出「JSON5」。預覽會標記這種情況。修一下目標：
-      <em>「輸出嚴格符合 RFC 8259 的 JSON —— 不要註解、不要結尾逗號。」</em>
+      <em>「輸出嚴格符合 RFC 8259 的 JSON，不要註解、不要結尾逗號。」</em>
       對於反覆發生的情況，給 artifact_def 加一個 <code>schema</code>，讓智慧體獲得更嚴格的約束。
     </p>
 
@@ -584,8 +570,8 @@ data: {`{`}<br/>
 
     <p class="faq-q">我能把一個產物作為新一次執行的輸入嗎？</p>
     <p>
-      可以 —— 大多數檔案輸入欄位都接受上傳檔案或對現有產物的參照。在表單中，點擊檔案欄位旁邊的
-      產物選擇器圖示，挑選一個產物即可。新執行會直接從 S3 讀取它 —— 無需重新下載/重新上傳。
+      可以，大多數檔案輸入欄位都接受上傳檔案或對現有產物的參照。在表單中，點擊檔案欄位旁邊的
+      產物選擇器圖示，挑選一個產物即可。新執行會直接從 S3 讀取它，無需重新下載/重新上傳。
     </p>
 
     <p class="faq-q">產物可以多大？</p>
@@ -596,7 +582,7 @@ data: {`{`}<br/>
 
     <p class="faq-q">產物的預覽沒問題，但下載下來損壞了。</p>
     <p>
-      幾乎總是 MIME 類型不相符 —— 產物被宣告為 <code>text/csv</code>，但實際位元組是 XLSX，
+      幾乎總是 MIME 類型不相符，產物被宣告為 <code>text/csv</code>，但實際位元組是 XLSX，
       或者反過來。平台會在儲存時推斷 MIME；如果你懷疑推斷錯了，開啟產物，點擊
       <strong>編輯中繼資料</strong>，設定正確的 MIME，重新儲存即可。
     </p>

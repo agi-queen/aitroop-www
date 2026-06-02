@@ -2,14 +2,14 @@
 import Layout from '~/layouts/PageLayout.astro';
 
 const metadata = {
-  title: 'Finance — Use Cases — Aitroop',
+  title: 'Finance · Use Cases · Aitroop',
 };
 
 const stats = [
-  { value: '↓ 60%', label: 'Close cycle time' },
-  { value: '100%',  label: 'Audit trail coverage' },
-  { value: '7',     label: 'Artifact formats' },
-  { value: '∞',     label: 'Reruns, same shape' },
+  { value: '4',   label: 'Apps in the pack' },
+  { value: '100%', label: 'Audit trail coverage' },
+  { value: '7',    label: 'Artifact formats' },
+  { value: 'cron', label: 'Reruns, same shape' },
 ];
 
 const apps = [
@@ -25,7 +25,7 @@ const apps = [
   {
     tag: 'Receivables',
     name: 'AR aging report',
-    description: 'Bucket receivables by age, flag at-risk balances, and draft customized dunning messages to overdue customers — automatically.',
+    description: 'Bucket receivables by age, flag at-risk balances, and draft customized dunning messages to overdue customers automatically.',
     inputs: ['As-of date', 'Aging buckets', 'Risk threshold'],
     outputs: ['Aging report (CSV)', 'Dunning email drafts (Markdown)'],
     skills: ['ar-bucket', 'risk-score', 'email-writer'],
@@ -71,7 +71,7 @@ const why = [
       <p class="aw-eyebrow">Finance teams · CFO</p>
       <h1 class="aw-display" style="max-width: 18ch;">Close the books faster.</h1>
       <p class="aw-lede" style="max-width: 52ch;">
-        Four pre-built Apps cover the month-end and operational finance workflows your team runs every cycle. Less spreadsheet wrangling — more time on the analysis.
+        Four pre-built Apps cover the month-end and operational finance workflows your team runs every cycle. Less spreadsheet wrangling, more time on the analysis.
       </p>
       <div class="aw-actions">
         <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Install Finance pack</a>
@@ -140,7 +140,6 @@ const why = [
   <section class="aw-section">
     <div class="aw-container">
       <header class="aw-section-head">
-        <p class="aw-eyebrow">Why finance leaders pick Aitroop</p>
         <h2 class="aw-h2">Built for auditable, repeatable work.</h2>
       </header>
       <div class="why">
@@ -160,7 +159,7 @@ const why = [
       <h2 class="aw-h2" style="max-width: 18ch; margin: 0 auto 1rem;">Start with the Finance pack.</h2>
       <p class="aw-lede">Free to install. Connect your accounting system and run the first close-cycle App in a single session.</p>
       <div class="aw-actions aw-actions-center">
-        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Install Finance pack</a>
+        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Open the app</a>
         <a href="/use-cases/gtm" class="aw-btn aw-btn-ghost">See GTM pack</a>
       </div>
     </div>
