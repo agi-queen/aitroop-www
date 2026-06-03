@@ -123,51 +123,58 @@ const homeHref = currentLocale === 'en' ? '/' : `/${currentLocale}`;
   {links.length > 0 && (
     <nav
       id="mobile-nav"
-      class="hidden md:hidden px-4 pb-3 border-t border-[var(--aw-color-border)] bg-[var(--aw-color-bg-page)]"
+      class="hidden md:hidden"
       aria-label="Mobile navigation"
     >
-      {links.map((link) => {
-        const hasChildren = Array.isArray(link.links) && link.links.length > 0;
-        const isActive =
-          link.href === currentPath ||
-          (hasChildren && link.links!.some((c) => c.href === currentPath));
-        return (
-          <div>
-            <a
-              href={link.href}
-              class:list={[
-                'block py-2 text-sm transition-colors duration-150',
-                isActive
-                  ? 'text-[var(--aw-color-text-heading)] font-semibold'
-                  : 'text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)]',
-              ]}
-            >
-              {link.text}
-            </a>
-            {hasChildren && (
-              <div class="pl-3 pb-1 border-l border-[var(--aw-color-border)] ml-1">
-                {link.links!.map((sub) => (
+      <div class="aw-mobile-nav-inner">
+        <ul class="aw-mobile-nav-list">
+          {links.map((link) => {
+            const hasChildren = Array.isArray(link.links) && link.links.length > 0;
+            const isActive =
+              link.href === currentPath ||
+              (hasChildren && link.links!.some((c) => c.href === currentPath));
+            return (
+              <li class="aw-mobile-nav-item">
+                {hasChildren ? (
+                  <>
+                    <a
+                      href={link.href}
+                      class:list={['aw-mobile-nav-group', isActive ? 'is-active' : '']}
+                    >
+                      {link.text}
+                    </a>
+                    <ul class="aw-mobile-nav-sublist">
+                      {link.links!.map((sub) => (
+                        <li>
+                          <a
+                            href={sub.href}
+                            class:list={['aw-mobile-nav-sublink', sub.href === currentPath ? 'is-active' : '']}
+                          >
+                            {sub.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                ) : (
                   <a
-                    href={sub.href}
-                    class:list={[
-                      'block py-1.5 text-[0.8125rem] transition-colors duration-150',
-                      sub.href === currentPath
-                        ? 'text-[var(--aw-color-primary)] font-medium'
-                        : 'text-[var(--aw-color-text-muted)] hover:text-[var(--aw-color-text-default)]',
-                    ]}
+                    href={link.href}
+                    class:list={['aw-mobile-nav-link', isActive ? 'is-active' : '']}
                   >
-                    {sub.text}
+                    {link.text}
                   </a>
-                ))}
-              </div>
-            )}
+                )}
+              </li>
+            );
+          })}
+        </ul>
+        {actions.length > 0 && (
+          <div class="aw-mobile-nav-actions">
+            {actions.map((btnProps) => (
+              <Button {...btnProps} class="aw-mobile-nav-action w-full h-11 text-sm font-semibold" />
+            ))}
           </div>
-        );
-      })}
-      <div class="pt-2 border-t border-[var(--aw-color-border)] mt-2">
-        {actions.map((btnProps) => (
-          <Button {...btnProps} class="w-full h-9 text-sm font-semibold mb-1" />
-        ))}
+        )}
       </div>
     </nav>
   )}
@@ -239,5 +246,84 @@ const homeHref = currentLocale === 'en' ? '/' : `/${currentLocale}`;
     color: var(--aw-color-text-muted);
     margin-top: 0.125rem;
     line-height: 1.45;
+  }
+
+  /* ── Mobile drawer ─────────────────────────────────────────── */
+  :global(.aw-mobile-nav-inner) {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0.5rem 1rem calc(env(safe-area-inset-bottom, 0px) + 1rem);
+  }
+  :global(.aw-mobile-nav-list) {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  :global(.aw-mobile-nav-item + .aw-mobile-nav-item) {
+    border-top: 1px solid var(--aw-color-border);
+  }
+  :global(.aw-mobile-nav-link),
+  :global(.aw-mobile-nav-group) {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0.625rem 0.25rem;
+    font-size: 0.9375rem;
+    color: var(--aw-color-text-default);
+    text-decoration: none;
+    transition: color 120ms ease;
+  }
+  :global(.aw-mobile-nav-group) {
+    font-weight: 600;
+    color: var(--aw-color-text-heading);
+  }
+  :global(.aw-mobile-nav-link.is-active) {
+    color: var(--aw-color-primary);
+    font-weight: 600;
+  }
+  :global(.aw-mobile-nav-group.is-active) {
+    color: var(--aw-color-primary);
+  }
+  :global(.aw-mobile-nav-sublist) {
+    list-style: none;
+    margin: 0 0 0.5rem;
+    padding: 0 0 0 0.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+  :global(.aw-mobile-nav-sublink) {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0.375rem 0.625rem;
+    font-size: 0.875rem;
+    color: var(--aw-color-text-muted);
+    text-decoration: none;
+    border-radius: 6px;
+    border-left: 2px solid var(--aw-color-border);
+    margin-left: 0.5rem;
+    transition: color 120ms ease, background-color 120ms ease, border-color 120ms ease;
+  }
+  :global(.aw-mobile-nav-sublink:hover) {
+    color: var(--aw-color-text-default);
+  }
+  :global(.aw-mobile-nav-sublink.is-active) {
+    color: var(--aw-color-primary);
+    background-color: rgba(82, 153, 97, 0.08);
+    border-left-color: var(--aw-color-primary);
+    font-weight: 500;
+  }
+  :global(.aw-mobile-nav-actions) {
+    margin-top: auto;
+    padding-top: 0.875rem;
+    border-top: 1px solid var(--aw-color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 </style>
