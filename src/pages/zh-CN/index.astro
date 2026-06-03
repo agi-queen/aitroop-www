@@ -1,6 +1,5 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import ChatToAppDemo from '~/components/widgets/ChatToAppDemo.astro';
 import AnatomyFlow from '~/components/widgets/AnatomyFlow.astro';
 
 const metadata = {
@@ -37,63 +36,6 @@ const cases = [
   { slug: '/zh-CN/use-cases/gtm',     title: 'GTM',     desc: '线索挖掘、外部触达、客户留存、管道洞察。' },
   { slug: '/zh-CN/use-cases/finance', title: '财务',    desc: '月结、稽核、差异分析、报告。专为 CFO 团队设计。' },
 ];
-
-const demoStrings = {
-  modeChatLabel: '模式 1 · Chat',
-  modeAppsLabel: '模式 2 · Apps',
-  modeAppLabel: '模式 3 · App',
-  newChatLabel: '新对话',
-  navAppsLabel: 'Apps',
-  navArtifactsLabel: 'Artifacts',
-  toolsLabel: '工具',
-  navConnectLabel: 'Connect',
-  navSkillsLabel: 'Skills',
-  navSchedulesLabel: '定时任务',
-  navSettingsLabel: '设置',
-  composerPlaceholder: '问 AITroop 任何问题…',
-  modelLabel: 'claude',
-  promptParts: [
-    '拉取 2025-05-01 至 05-07 的提交',
-    '按仓库分组、忽略 merge 提交，',
-    '整理成英文工作日报。',
-  ] as [string, string, string],
-  promptCode: 'shop-frontend',
-  skillTagLabel: '技能',
-  connectTagLabel: '集成',
-  toolSkillName: 'github-mcp',
-  toolSkillStatusLoading: '拉取提交中…',
-  toolSkillStatusDone: '已拉取 142 个提交',
-  toolConnectName: 'github',
-  toolConnectStatus: '已授权',
-  agentReplyText: '完成。已从 4 个仓库的 12 个 PR 生成 daily-report.md。',
-  saveAsAppLabel: '提炼为 App',
-  savedToastLabel: '已加入你的 App',
-  appsHeaderLabel: '我的 App',
-  appsCount: '6',
-  newBadgeLabel: 'NEW',
-  justNowLabel: '刚刚',
-  appTitle: '工作日报',
-  appVersion: 'v1 · public',
-  skillsLabel: '技能',
-  connectsLabel: '集成',
-  skills: ['github-mcp', 'web-scrape'] as [string, string],
-  connects: ['github', 'google-drive'] as [string, string],
-  dateRangeLabel: '日期范围',
-  repoLabel: '代码仓库',
-  langLabel: '输出语言',
-  langValue: 'English',
-  runLabel: '运行',
-  runningLabel: '运行中…',
-  artifactLabel: 'daily-report.md',
-  artifactRows: [
-    '## Mon · 12 PRs across 4 repos',
-    '- feat(api): pagination on /v2/orders',
-    '- fix(ui): cart total off by rounding',
-    '- chore(deps): bump astro 5.2 → 5.4',
-    '- perf(cart): memoize line totals',
-  ],
-  exportLabel: '导出至 Drive',
-};
 ---
 
 <Layout metadata={metadata}>
@@ -110,21 +52,16 @@ const demoStrings = {
           <svg class="pill-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
         <h1 class="aw-display hero-display">
-          把 Agent 对话<span class="text-primary">固化成 App。</span>
+          强大的 Agent。<br />
+          无尽的技能。<br />
+          <span class="text-primary">一键即用的 App。</span>
         </h1>
         <p class="aw-lede hero-lede">
-          在 Chat 里探索出有效方法后，保存为带表单与定时任务的 App。团队拿到的是可复用的 AI 工作流，无需编码。
+          一键就把刚刚跑通的 Agent 流程沉淀为 App，团队可以反复运行。不再重敲 prompt，不再写胶水代码。
         </p>
         <div class="aw-actions hero-actions">
           <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">免费开始</a>
           <a href="/zh-CN/use-cases" class="aw-btn aw-btn-ghost">查看案例</a>
-        </div>
-      </div>
-
-      <div class="hero-showcase">
-        <div aria-hidden="true" class="showcase-glow"></div>
-        <div class="showcase-frame">
-          <ChatToAppDemo {...demoStrings} />
         </div>
       </div>
     </div>
@@ -288,33 +225,6 @@ const demoStrings = {
     justify-content: center;
   }
 
-  .hero-showcase {
-    position: relative;
-    width: 100%;
-    max-width: 1180px;
-    margin: clamp(2.5rem, 5vw, 4.5rem) auto 0;
-  }
-  .showcase-glow {
-    position: absolute;
-    inset: -8% -6% 18% -6%;
-    z-index: -1;
-    pointer-events: none;
-    background:
-      radial-gradient(ellipse 65% 55% at 50% 40%, rgba(82, 153, 97, 0.14), transparent 70%),
-      radial-gradient(ellipse 95% 75% at 50% 55%, rgba(45, 110, 63, 0.05), transparent 80%);
-    filter: blur(28px);
-    animation: hero-breathe 14s ease-in-out infinite;
-    animation-delay: -5s;
-  }
-  .showcase-frame {
-    position: relative;
-    border-radius: 12px;
-    box-shadow:
-      0 1px 2px rgba(10, 10, 10, 0.04),
-      0 24px 60px -24px rgba(10, 10, 10, 0.20),
-      0 60px 120px -50px rgba(10, 10, 10, 0.16);
-  }
-
   @keyframes hero-rise {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: none; }
@@ -322,24 +232,20 @@ const demoStrings = {
   .hero-pill,
   .hero-display,
   .hero-lede,
-  .hero-actions,
-  .hero-showcase {
+  .hero-actions {
     animation: hero-rise 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
   .hero-pill      { animation-delay: 0ms; }
   .hero-display   { animation-delay: 80ms; }
   .hero-lede      { animation-delay: 160ms; }
   .hero-actions   { animation-delay: 240ms; }
-  .hero-showcase  { animation-delay: 360ms; }
 
   @media (prefers-reduced-motion: reduce) {
     .hero-glow,
-    .showcase-glow,
     .hero-pill,
     .hero-display,
     .hero-lede,
-    .hero-actions,
-    .hero-showcase {
+    .hero-actions {
       animation: none;
     }
   }

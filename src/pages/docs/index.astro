@@ -1,6 +1,7 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
+import ChatToAppDemo from '~/components/widgets/ChatToAppDemo.astro';
 
 const metadata = {
   title: 'Docs · Aitroop',
@@ -13,6 +14,10 @@ const metadata = {
     <p class="lead">
       Aitroop is a teammate with their own computer. You chat, and the conversation becomes a saved App you can run, schedule, or call.
     </p>
+
+    <div class="docs-demo">
+      <ChatToAppDemo />
+    </div>
 
     <div class="callout">
       <strong>Reading order.</strong> If you have 15 minutes, jump straight to the
@@ -243,3 +248,14 @@ const metadata = {
     </div>
   </DocsShell>
 </Layout>
+
+<style>
+  .docs-demo {
+    margin: 2rem 0 2.5rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+      0 1px 2px rgba(10, 10, 10, 0.04),
+      0 18px 50px -20px rgba(10, 10, 10, 0.18);
+  }
+</style>

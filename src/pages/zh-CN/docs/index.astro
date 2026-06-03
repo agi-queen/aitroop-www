@@ -1,9 +1,67 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import DocsShell from '~/components/widgets/DocsShell.astro';
+import ChatToAppDemo from '~/components/widgets/ChatToAppDemo.astro';
 
 const metadata = {
   title: '文档 · Aitroop',
+};
+
+const demoStrings = {
+  modeChatLabel: '模式 1 · Chat',
+  modeAppsLabel: '模式 2 · Apps',
+  modeAppLabel: '模式 3 · App',
+  newChatLabel: '新对话',
+  navAppsLabel: 'Apps',
+  navArtifactsLabel: 'Artifacts',
+  toolsLabel: '工具',
+  navConnectLabel: 'Connect',
+  navSkillsLabel: 'Skills',
+  navSchedulesLabel: '定时任务',
+  navSettingsLabel: '设置',
+  composerPlaceholder: '问 AITroop 任何问题…',
+  modelLabel: 'claude',
+  promptParts: [
+    '拉取 2025-05-01 至 05-07 的提交',
+    '按仓库分组、忽略 merge 提交，',
+    '整理成英文工作日报。',
+  ] as [string, string, string],
+  promptCode: 'shop-frontend',
+  skillTagLabel: '技能',
+  connectTagLabel: '集成',
+  toolSkillName: 'github-mcp',
+  toolSkillStatusLoading: '拉取提交中…',
+  toolSkillStatusDone: '已拉取 142 个提交',
+  toolConnectName: 'github',
+  toolConnectStatus: '已授权',
+  agentReplyText: '完成。已从 4 个仓库的 12 个 PR 生成 daily-report.md。',
+  saveAsAppLabel: '提炼为 App',
+  savedToastLabel: '已加入你的 App',
+  appsHeaderLabel: '我的 App',
+  appsCount: '6',
+  newBadgeLabel: 'NEW',
+  justNowLabel: '刚刚',
+  appTitle: '工作日报',
+  appVersion: 'v1 · public',
+  skillsLabel: '技能',
+  connectsLabel: '集成',
+  skills: ['github-mcp', 'web-scrape'] as [string, string],
+  connects: ['github', 'google-drive'] as [string, string],
+  dateRangeLabel: '日期范围',
+  repoLabel: '代码仓库',
+  langLabel: '输出语言',
+  langValue: 'English',
+  runLabel: '运行',
+  runningLabel: '运行中…',
+  artifactLabel: 'daily-report.md',
+  artifactRows: [
+    '## Mon · 12 PRs across 4 repos',
+    '- feat(api): pagination on /v2/orders',
+    '- fix(ui): cart total off by rounding',
+    '- chore(deps): bump astro 5.2 → 5.4',
+    '- perf(cart): memoize line totals',
+  ],
+  exportLabel: '导出至 Drive',
 };
 ---
 
@@ -13,6 +71,10 @@ const metadata = {
     <p class="lead">
       把 Aitroop 想象成一位有自己电脑的队友：你描述要做的事，它设计工作流并在沙箱中执行，输出可保存为<strong>应用</strong>，反复运行、定时执行或通过 API 调用。
     </p>
+
+    <div class="docs-demo">
+      <ChatToAppDemo {...demoStrings} />
+    </div>
 
     <div class="callout">
       <strong>阅读顺序。</strong>如果你有 15 分钟，直接去看
@@ -239,3 +301,14 @@ const metadata = {
     </div>
   </DocsShell>
 </Layout>
+
+<style>
+  .docs-demo {
+    margin: 2rem 0 2.5rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+      0 1px 2px rgba(10, 10, 10, 0.04),
+      0 18px 50px -20px rgba(10, 10, 10, 0.18);
+  }
+</style>
