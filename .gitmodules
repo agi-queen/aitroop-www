@@ -1,0 +1,3 @@
+[submodule "apps/my-slide"]
+	path = apps/my-slide
+	url = git@github.com:agi-queen/slide.git

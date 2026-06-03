@@ -91,6 +91,7 @@ export function getFooterData(locale: Locale = 'en') {
       product: 'Product',
       platform: 'Platform Guide',
       contact: 'Contact Us',
+      slides: 'Slides',
       company: 'Company',
       about: 'About',
       blog: 'Blog',
@@ -100,6 +101,7 @@ export function getFooterData(locale: Locale = 'en') {
       product: '產品',
       platform: '平台指南',
       contact: '聯絡客服',
+      slides: '簡報',
       company: '公司',
       about: '關於我們',
       blog: '部落格',
@@ -109,6 +111,7 @@ export function getFooterData(locale: Locale = 'en') {
       product: '产品',
       platform: '平台指南',
       contact: '联系客服',
+      slides: '幻灯片',
       company: '公司',
       about: '关于我们',
       blog: '博客',
@@ -123,6 +126,7 @@ export function getFooterData(locale: Locale = 'en') {
         links: [
           { text: t.platform, href: p(getPermalink('/blog/aitroop-platform-complete-guide')) },
           { text: t.contact, href: p(getPermalink('/contact')) },
+          { text: t.slides, href: '/slide' },
         ],
       },
       {
