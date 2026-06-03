@@ -47,10 +47,6 @@ const cases = [
     <div aria-hidden="true" class="hero-glow"></div>
     <div aria-hidden="true" class="hero-glow-2"></div>
     <div class="aw-container-wide">
-      <div class="hero-marker" aria-hidden="true">
-        <span class="hero-marker-rule"></span>
-        <span>00 / Save chat as app</span>
-      </div>
       <div class="hero-grid">
         <div class="hero-copy">
           <h1 class="aw-display hero-display">
@@ -135,7 +131,7 @@ const cases = [
 </Layout>
 
 <style>
-  /* ── Hero — editorial dot grid, twin glows, chapter marker ─────── */
+  /* ── Hero — editorial dot grid, twin glows ─────────────────────── */
   .hero-dots {
     position: absolute;
     inset: 0;
@@ -176,52 +172,25 @@ const cases = [
     50%      { opacity: 1; }
   }
 
-  /* Editorial chapter marker — sits above the hero grid */
-  .hero-marker {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-family: var(--aw-font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
-    font-size: 0.6875rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--aw-color-text-muted);
-    margin: 0 0 1.75rem;
-  }
-  .hero-marker-rule {
-    display: inline-block;
-    width: 2rem;
-    height: 1px;
-    background: currentColor;
-    opacity: 0.55;
-  }
-  @media (min-width: 768px) {
-    .hero-marker { margin-bottom: 2.5rem; }
-    .hero-marker-rule { width: 2.5rem; }
-  }
-
   /* Entrance stagger — quiet rise */
   @keyframes hero-rise {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: none; }
   }
-  .hero-marker,
   .hero-display,
   .hero-lede,
   .hero-copy .aw-actions,
   .hero-demo {
     animation: hero-rise 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
   }
-  .hero-marker            { animation-delay: 0ms; }
-  .hero-display           { animation-delay: 80ms; }
-  .hero-lede              { animation-delay: 160ms; }
-  .hero-copy .aw-actions  { animation-delay: 240ms; }
-  .hero-demo              { animation-delay: 320ms; }
+  .hero-display           { animation-delay: 0ms; }
+  .hero-lede              { animation-delay: 80ms; }
+  .hero-copy .aw-actions  { animation-delay: 160ms; }
+  .hero-demo              { animation-delay: 240ms; }
 
   @media (prefers-reduced-motion: reduce) {
     .hero-glow,
     .hero-glow-2,
-    .hero-marker,
     .hero-display,
     .hero-lede,
     .hero-copy .aw-actions,

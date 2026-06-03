@@ -93,6 +93,32 @@
   .aw-page-head .aw-eyebrow { margin-bottom: 0.625rem; }
   .aw-page-head .aw-actions { margin-top: 1rem; }
 
+  /* Decorative SVG banner variant — for use-cases, blog, and similar inner pages.
+     Adds a diagonal-stripe green banner background. Container content sits above
+     a soft white-tinted veil so text remains legible at the project's text colors. */
+  .aw-page-head-banner {
+    position: relative;
+    isolation: isolate;
+    background-image: url('/illustrations/page-head-banner.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+    border-bottom: 1px solid var(--aw-color-border);
+  }
+  @media (min-width: 768px) {
+    .aw-page-head-banner { padding-top: 5rem; padding-bottom: 5rem; }
+  }
+  .aw-page-head-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.55) 40%, rgba(255,255,255,0.15) 75%, rgba(255,255,255,0) 100%);
+    z-index: -1;
+  }
+  .aw-page-head-banner > * { position: relative; z-index: 1; }
+
   .aw-section-head {
     margin-bottom: 3rem;
   }
