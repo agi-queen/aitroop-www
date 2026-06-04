@@ -43,12 +43,6 @@ const apps = [
     connects: ['salesforce', 'hubspot'],
   },
 ];
-
-const why = [
-  { title: 'Compounding output', desc: 'Every chat that worked becomes a reusable App. Team know-how compounds week over week.' },
-  { title: 'Native CRM integration', desc: 'Read and write Salesforce, HubSpot, and your data warehouse through OAuth, not Zapier.' },
-  { title: 'Schedule it once', desc: 'Daily pipeline summaries, weekly outreach lists, monthly retention reports. Set the cron and forget it.' },
-];
 ---
 
 <Layout metadata={metadata}>
@@ -112,35 +106,15 @@ const why = [
           </article>
         ))}
       </div>
-    </div>
-  </section>
 
-  <!-- WHY ──────────────────────────────────────────────────────────── -->
-  <section class="aw-section">
-    <div class="aw-container">
-      <header class="aw-section-head">
-        <h2 class="aw-h2">Built for compounding pipeline work.</h2>
-      </header>
-      <div class="why">
-        {why.map((w) => (
-          <article class="aw-piece">
-            <h3 class="aw-piece-title">{w.title}</h3>
-            <p class="aw-piece-desc">{w.desc}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA ──────────────────────────────────────────────────────────── -->
-  <section class="aw-section">
-    <div class="aw-container-narrow">
-      <h2 class="aw-h2" style="max-width: 18ch; margin: 0 auto 1rem;">Start with the GTM pack today.</h2>
-      <p class="aw-lede">Free to install. Connect your CRM and run the first App in under 10 minutes.</p>
-      <div class="aw-actions aw-actions-center">
-        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Open the app</a>
-        <a href="/use-cases/finance" class="aw-btn aw-btn-ghost">See Finance pack</a>
-      </div>
+      <a href="/use-cases/finance" class="next-pack">
+        <span class="next-pack-label">Next pack</span>
+        <span class="next-pack-body">
+          <span class="next-pack-name">Finance</span>
+          <span class="next-pack-tagline">Close the books faster.</span>
+        </span>
+        <span class="aw-arrow next-pack-arrow" aria-hidden="true">→</span>
+      </a>
     </div>
   </section>
 
@@ -156,7 +130,6 @@ const why = [
     border-top: 1px solid var(--aw-color-border-strong);
     padding: 2rem 0 2.5rem;
   }
-  .app:last-child { border-bottom: 1px solid var(--aw-color-border); }
   @media (min-width: 768px) {
     .app {
       display: grid;
@@ -226,12 +199,56 @@ const why = [
   .mono { font-family: var(--aw-font-mono, ui-monospace, monospace); }
   .accent { color: var(--aw-color-primary); }
 
-  /* ════ why grid ════ */
-  .why {
+  /* ════ next pack — single hairline row, replaces bottom CTA ════ */
+  .next-pack {
     display: grid;
-    gap: 2rem;
+    grid-template-columns: auto 1fr auto;
+    gap: 1.25rem;
+    align-items: center;
+    padding: 2rem 0;
+    margin-top: 0;
+    border-top: 1px solid var(--aw-color-border-strong);
+    border-bottom: 1px solid var(--aw-color-border);
+    color: var(--aw-color-text-heading);
+    text-decoration: none;
   }
   @media (min-width: 768px) {
-    .why { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+    .next-pack {
+      grid-template-columns: 16rem 1fr auto;
+      gap: 3rem;
+      padding: 2.25rem 0;
+    }
   }
+  .next-pack-label {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--aw-color-text-muted);
+    line-height: 1;
+  }
+  .next-pack-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .next-pack-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--aw-color-text-heading);
+    line-height: 1.1;
+  }
+  .next-pack-tagline {
+    font-size: 0.875rem;
+    color: var(--aw-color-text-muted);
+    line-height: 1.4;
+  }
+  .next-pack-arrow {
+    color: var(--aw-color-primary);
+    font-size: 1.125rem;
+    transition: transform 0.18s ease;
+  }
+  .next-pack:hover .next-pack-arrow { transform: translateX(4px); }
+  .next-pack:hover .next-pack-name { text-decoration: underline; }
 </style>

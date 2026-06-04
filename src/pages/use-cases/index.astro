@@ -11,14 +11,24 @@ const cases = [
     title: 'GTM',
     tagline: 'Pipeline that runs itself.',
     desc: 'Prospecting, outreach, retention, and pipeline insights. Pre-built Apps for revenue teams who want compounding output without expanding headcount.',
-    apps: ['Prospecting', 'Outreach', 'Retention', 'Pipeline insights'],
+    apps: [
+      { tag: 'Top of funnel',    name: 'Prospecting',       brief: 'Find high-fit accounts using company signals, hiring activity, and intent data.' },
+      { tag: 'Engagement',       name: 'Outreach',          brief: 'Personalized cold emails and LinkedIn messages that match your voice.' },
+      { tag: 'Customer success', name: 'Retention',         brief: 'Flag at-risk customers before churn materializes.' },
+      { tag: 'RevOps',           name: 'Pipeline insights', brief: 'Synthesize pipeline data into deal recommendations you can act on.' },
+    ],
   },
   {
     slug: '/use-cases/finance',
     title: 'Finance',
     tagline: 'Close the books faster.',
     desc: 'Month-end close, AR/AP analysis, expense compliance, and budget variance. For finance teams who want to spend less time on spreadsheets and more on the analysis.',
-    apps: ['Month-end checklist', 'AR aging report', 'Expense audit', 'Variance analysis'],
+    apps: [
+      { tag: 'Close cycle', name: 'Month-end checklist', brief: 'GL reconciliation, accruals, intercompany matching, and sign-off, in order.' },
+      { tag: 'Receivables', name: 'AR aging report',     brief: 'Bucket by age, flag risk, and draft dunning messages automatically.' },
+      { tag: 'Controls',    name: 'Expense audit',       brief: 'Scan reports for policy violations, duplicates, and anomalies.' },
+      { tag: 'FP&A',        name: 'Variance analysis',   brief: 'Compare actuals to budget and explain each variance for the board.' },
+    ],
   },
 ];
 ---
@@ -43,23 +53,28 @@ const cases = [
     <div class="aw-container">
       <ul class="packs">
         {cases.map((c) => (
-          <li>
-            <a href={c.slug} class="group">
-              <div class="pack-head">
-                <h2 class="pack-title">{c.title}</h2>
-                <p class="pack-tagline">{c.tagline}</p>
-              </div>
-              <div class="pack-body">
-                <p class="pack-desc">{c.desc}</p>
-                <ul class="pack-apps">
-                  {c.apps.map((app) => <li class="aw-tag">{app}</li>)}
-                </ul>
-                <span class="pack-cta">
-                  Open use case
-                  <span class="aw-arrow" aria-hidden="true">→</span>
-                </span>
-              </div>
-            </a>
+          <li class="pack">
+            <div class="pack-head">
+              <h2 class="pack-title">
+                <a href={c.slug}>{c.title}</a>
+              </h2>
+              <p class="pack-tagline">{c.tagline}</p>
+              <p class="pack-desc">{c.desc}</p>
+              <a href={c.slug} class="pack-cta">
+                Open use case
+                <span class="aw-arrow" aria-hidden="true">→</span>
+              </a>
+            </div>
+
+            <ul class="pack-apps">
+              {c.apps.map((app) => (
+                <li class="pack-app">
+                  <span class="pack-app-tag">{app.tag}</span>
+                  <span class="pack-app-name">{app.name}</span>
+                  <span class="pack-app-brief">{app.brief}</span>
+                </li>
+              ))}
+            </ul>
           </li>
         ))}
       </ul>
@@ -83,24 +98,27 @@ const cases = [
     list-style: none;
     margin: 0;
     padding: 0;
-    display: grid;
-    gap: 0;
   }
-  .packs > li { border-top: 1px solid var(--aw-color-border-strong); }
-  .packs > li:last-child { border-bottom: 1px solid var(--aw-color-border); }
-  .packs a {
+  .pack {
+    border-top: 1px solid var(--aw-color-border-strong);
+    padding: 2.5rem 0 3rem;
     display: grid;
-    gap: 1.5rem;
-    padding: 2rem 0 2.5rem;
+    gap: 2rem;
     grid-template-columns: 1fr;
     align-items: start;
   }
-  @media (min-width: 768px) {
-    .packs a {
-      grid-template-columns: 16rem 1fr;
+  .pack:last-child { border-bottom: 1px solid var(--aw-color-border); }
+  @media (min-width: 900px) {
+    .pack {
+      grid-template-columns: 18rem 1fr;
       gap: 3.5rem;
-      padding: 2.5rem 0 3rem;
+      padding: 3rem 0 3.5rem;
     }
+  }
+  .pack-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
   .pack-title {
     font-size: clamp(1.875rem, 3.4vw, 2.375rem);
@@ -110,11 +128,16 @@ const cases = [
     color: var(--aw-color-text-heading);
     margin: 0 0 0.5rem;
   }
+  .pack-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .pack-title a:hover { text-decoration: underline; }
   .pack-tagline {
     font-size: 1rem;
     font-weight: 500;
     color: var(--aw-color-text-default);
-    margin: 0;
+    margin: 0 0 1rem;
     line-height: 1.4;
   }
   .pack-desc {
@@ -124,14 +147,6 @@ const cases = [
     margin: 0 0 1.25rem;
     text-wrap: pretty;
   }
-  .pack-apps {
-    list-style: none;
-    margin: 0 0 1.5rem;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
   .pack-cta {
     display: inline-flex;
     align-items: center;
@@ -139,6 +154,53 @@ const cases = [
     font-size: 0.875rem;
     font-weight: 600;
     color: var(--aw-color-primary);
+    text-decoration: none;
+  }
+  .pack-cta:hover { text-decoration: underline; }
+
+  /* ════ pack apps — compact preview rows ════ */
+  .pack-apps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .pack-app {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--aw-color-border);
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+  .pack-app:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+  @media (min-width: 640px) {
+    .pack-app {
+      grid-template-columns: 9rem 11rem 1fr;
+      gap: 1.5rem;
+      align-items: baseline;
+      padding: 1rem 0;
+    }
+  }
+  .pack-app-tag {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--aw-color-text-muted);
+    line-height: 1.4;
+  }
+  .pack-app-name {
+    font-weight: 600;
+    color: var(--aw-color-text-default);
+    letter-spacing: -0.005em;
+  }
+  .pack-app-brief {
+    color: var(--aw-color-text-muted);
+    text-wrap: pretty;
   }
 
   /* ════ BYO row ════ */

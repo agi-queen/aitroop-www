@@ -5,13 +5,6 @@ const metadata = {
   title: 'Finance · Use Cases · Aitroop',
 };
 
-const stats = [
-  { value: '4',   label: 'Apps in the pack' },
-  { value: '100%', label: 'Audit trail coverage' },
-  { value: '7',    label: 'Artifact formats' },
-  { value: 'cron', label: 'Reruns, same shape' },
-];
-
 const apps = [
   {
     tag: 'Close cycle',
@@ -50,12 +43,6 @@ const apps = [
     connects: ['netsuite', 'quickbooks', 'sheets'],
   },
 ];
-
-const why = [
-  { title: 'Auditable by default', desc: 'Every App run produces structured artifacts with full execution logs. Reproducible, comparable, defensible.' },
-  { title: 'Your data stays yours', desc: 'Each user runs in an isolated sandbox. OAuth scopes limit what agents see. No model training on your numbers.' },
-  { title: 'Same shape every cycle', desc: 'An App produces the same structured output every time. Predictable for downstream consumers, auditable for your board.' },
-];
 ---
 
 <Layout metadata={metadata}>
@@ -76,20 +63,6 @@ const why = [
       <div class="aw-actions">
         <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Install Finance pack</a>
         <a href="/contact" class="aw-btn aw-btn-ghost">Talk to a consultant</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- METRICS — hairline grid ──────────────────────────────────────── -->
-  <section class="metrics-section">
-    <div class="aw-container">
-      <div class="metrics" role="list">
-        {stats.map((s) => (
-          <div class="metric" role="listitem">
-            <span class="metric-value">{s.value}</span>
-            <span class="metric-label">{s.label}</span>
-          </div>
-        ))}
       </div>
     </div>
   </section>
@@ -133,84 +106,21 @@ const why = [
           </article>
         ))}
       </div>
-    </div>
-  </section>
 
-  <!-- WHY ──────────────────────────────────────────────────────────── -->
-  <section class="aw-section">
-    <div class="aw-container">
-      <header class="aw-section-head">
-        <h2 class="aw-h2">Built for auditable, repeatable work.</h2>
-      </header>
-      <div class="why">
-        {why.map((w) => (
-          <article class="aw-piece">
-            <h3 class="aw-piece-title">{w.title}</h3>
-            <p class="aw-piece-desc">{w.desc}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA ──────────────────────────────────────────────────────────── -->
-  <section class="aw-section">
-    <div class="aw-container-narrow">
-      <h2 class="aw-h2" style="max-width: 18ch; margin: 0 auto 1rem;">Start with the Finance pack.</h2>
-      <p class="aw-lede">Free to install. Connect your accounting system and run the first close-cycle App in a single session.</p>
-      <div class="aw-actions aw-actions-center">
-        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Open the app</a>
-        <a href="/use-cases/gtm" class="aw-btn aw-btn-ghost">See GTM pack</a>
-      </div>
+      <a href="/use-cases/gtm" class="next-pack">
+        <span class="next-pack-label">Next pack</span>
+        <span class="next-pack-body">
+          <span class="next-pack-name">GTM</span>
+          <span class="next-pack-tagline">Pipeline that runs itself.</span>
+        </span>
+        <span class="aw-arrow next-pack-arrow" aria-hidden="true">→</span>
+      </a>
     </div>
   </section>
 
 </Layout>
 
 <style>
-  /* ════ metrics — first content after hero, no top border ════ */
-  .metrics-section {
-    padding: 0 0 5rem;
-  }
-  @media (min-width: 768px) {
-    .metrics-section { padding: 0 0 7rem; }
-  }
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: var(--aw-color-border);
-    border: 1px solid var(--aw-color-border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  @media (min-width: 768px) {
-    .metrics { grid-template-columns: repeat(4, 1fr); }
-  }
-  .metric {
-    background: var(--aw-color-bg-page);
-    padding: 1.5rem 1.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .metric-value {
-    font-size: clamp(1.625rem, 3vw, 2rem);
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 1;
-    color: var(--aw-color-text-heading);
-    font-variant-numeric: tabular-nums;
-  }
-  .metric-label {
-    font-family: var(--aw-font-mono, ui-monospace, monospace);
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--aw-color-text-muted);
-    line-height: 1.3;
-  }
-
   /* ════ apps — hairline separated rows ════ */
   .apps {
     display: grid;
@@ -220,7 +130,6 @@ const why = [
     border-top: 1px solid var(--aw-color-border-strong);
     padding: 2rem 0 2.5rem;
   }
-  .app:last-child { border-bottom: 1px solid var(--aw-color-border); }
   @media (min-width: 768px) {
     .app {
       display: grid;
@@ -290,12 +199,55 @@ const why = [
   .mono { font-family: var(--aw-font-mono, ui-monospace, monospace); }
   .accent { color: var(--aw-color-primary); }
 
-  /* ════ why grid ════ */
-  .why {
+  /* ════ next pack — single hairline row, replaces bottom CTA ════ */
+  .next-pack {
     display: grid;
-    gap: 2rem;
+    grid-template-columns: auto 1fr auto;
+    gap: 1.25rem;
+    align-items: center;
+    padding: 2rem 0;
+    border-top: 1px solid var(--aw-color-border-strong);
+    border-bottom: 1px solid var(--aw-color-border);
+    color: var(--aw-color-text-heading);
+    text-decoration: none;
   }
   @media (min-width: 768px) {
-    .why { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+    .next-pack {
+      grid-template-columns: 16rem 1fr auto;
+      gap: 3rem;
+      padding: 2.25rem 0;
+    }
   }
+  .next-pack-label {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--aw-color-text-muted);
+    line-height: 1;
+  }
+  .next-pack-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .next-pack-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--aw-color-text-heading);
+    line-height: 1.1;
+  }
+  .next-pack-tagline {
+    font-size: 0.875rem;
+    color: var(--aw-color-text-muted);
+    line-height: 1.4;
+  }
+  .next-pack-arrow {
+    color: var(--aw-color-primary);
+    font-size: 1.125rem;
+    transition: transform 0.18s ease;
+  }
+  .next-pack:hover .next-pack-arrow { transform: translateX(4px); }
+  .next-pack:hover .next-pack-name { text-decoration: underline; }
 </style>
