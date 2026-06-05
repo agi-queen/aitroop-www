@@ -1,0 +1,124 @@
+---
+/**
+ * PopText — cartoon impact reveal.
+ * Overshoot scale + sequential stagger + optional starburst on each letter.
+ * Inspired by shadcn.io /text/pop-text.
+ */
+interface Props {
+  text: string;
+  /** ms between each letter */
+  stagger?: number;
+  /** ms delay before the whole sequence starts */
+  delay?: number;
+  /** ms duration for a single letter */
+  duration?: number;
+  /** show comic starburst behind each letter */
+  burst?: boolean;
+  /** extra class on the wrapper */
+  class?: string;
+}
+
+const {
+  text,
+  stagger = 70,
+  delay = 0,
+  duration = 620,
+  burst = true,
+  class: className = '',
+} = Astro.props;
+
+const chars = Array.from(text);
+---
+
+<span class={`pop-text ${className}`} aria-label={text}>
+  {chars.map((ch, i) => {
+    const style = `--pop-delay:${delay + i * stagger}ms;--pop-duration:${duration}ms;`;
+    if (ch === ' ') {
+      return <span class="pop-space" aria-hidden="true">&nbsp;</span>;
+    }
+    return (
+      <span class="pop-char" style={style} aria-hidden="true">
+        {burst && (
+          <svg class="pop-burst" viewBox="0 0 60 60" aria-hidden="true">
+            <polygon points="30,2 34,18 48,8 42,24 58,22 44,32 58,42 42,40 48,56 34,46 30,60 26,46 12,56 18,40 2,42 16,32 2,22 18,24 12,8 26,18" />
+          </svg>
+        )}
+        <span class="pop-glyph">{ch}</span>
+      </span>
+    );
+  })}
+</span>
+
+<style>
+  .pop-text {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    line-height: inherit;
+  }
+
+  .pop-space {
+    display: inline-block;
+    width: 0.28em;
+  }
+
+  .pop-char {
+    position: relative;
+    display: inline-block;
+    transform-origin: 50% 65%;
+    opacity: 0;
+    transform: scale(0.2) rotate(-8deg);
+    animation: pop-in var(--pop-duration, 620ms) cubic-bezier(0.34, 1.7, 0.45, 1) both;
+    animation-delay: var(--pop-delay, 0ms);
+    will-change: transform, opacity;
+  }
+
+  .pop-glyph {
+    display: inline-block;
+  }
+
+  /* Comic starburst — fades + scales as the letter snaps in, then disappears */
+  .pop-burst {
+    position: absolute;
+    inset: -45% -45% auto -45%;
+    margin: auto;
+    width: 190%;
+    height: 190%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    color: currentColor;
+    fill: currentColor;
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+    animation: pop-burst var(--pop-duration, 620ms) cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    animation-delay: var(--pop-delay, 0ms);
+    filter: drop-shadow(0 0 8px rgba(82, 153, 97, 0.35));
+  }
+
+  @keyframes pop-in {
+    0%   { opacity: 0; transform: scale(0.2) rotate(-8deg); }
+    55%  { opacity: 1; transform: scale(1.18) rotate(2deg); }
+    78%  { transform: scale(0.94) rotate(-1deg); }
+    100% { opacity: 1; transform: scale(1) rotate(0); }
+  }
+
+  @keyframes pop-burst {
+    0%   { opacity: 0;   transform: translate(-50%, -50%) scale(0)   rotate(-30deg); }
+    35%  { opacity: 0.35; transform: translate(-50%, -50%) scale(1.1) rotate(0deg); }
+    70%  { opacity: 0.18; transform: translate(-50%, -50%) scale(1.25) rotate(15deg); }
+    100% { opacity: 0;   transform: translate(-50%, -50%) scale(1.4) rotate(25deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pop-char {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+    .pop-burst {
+      display: none;
+    }
+  }
+</style>

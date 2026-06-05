@@ -1,6 +1,7 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import AnatomyFlow from '~/components/widgets/AnatomyFlow.astro';
+import PopText from '~/components/ui/PopText.astro';
 
 const metadata = {
   title: 'Aitroop - Save AI agent conversations as apps',
@@ -55,7 +56,13 @@ const cases = [
           <h1 class="aw-display hero-display">
             Powerful agents.<br />
             Endless skills.<br />
-            <span class="text-primary">One-click Apps.</span>
+            <PopText
+              text="One-click Apps."
+              stagger={65}
+              delay={520}
+              duration={620}
+              class="text-primary hero-pop"
+            />
           </h1>
           <p class="aw-lede hero-lede">
             One click freezes the agent flow that just worked into an App your team can run forever. No re-prompting. No glue code.
@@ -278,6 +285,12 @@ const cases = [
     line-height: 1.04;
     margin: 0 auto 1.5rem;
     max-width: 22ch;
+  }
+  /* PopText line — keep it on its own row, no wrap, inherit color */
+  :global(.hero-pop) {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    white-space: nowrap;
   }
   .hero-lede {
     margin: 0 auto 2rem;
