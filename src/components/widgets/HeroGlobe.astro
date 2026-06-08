@@ -1,0 +1,226 @@
+---
+/*
+  HeroGlobe — WebGL globe for the home hero.
+  Auto-rotating sphere of green hex dots with animated great-circle
+  arcs and pulse rings, inspired by the Aceternity GitHub Globe.
+
+  Lazy-loaded: the three.js + three-globe bundles only download once
+  the container is visible, keeping first paint untouched.
+*/
+---
+
+<div class="globe-wrap" data-hero-globe>
+  <div class="globe-stage" id="hero-globe-stage"></div>
+</div>
+
+<style>
+  .globe-wrap {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    aspect-ratio: 1;
+    position: relative;
+    isolation: isolate;
+  }
+  .globe-stage {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    contain: strict;
+  }
+  .globe-stage :global(canvas) {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+  }
+  /* Soft halo behind the globe */
+  .globe-wrap::before {
+    content: '';
+    position: absolute;
+    inset: 5%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 50%, rgba(82, 153, 97, 0.18), rgba(82, 153, 97, 0) 65%);
+    z-index: -1;
+    animation: globe-halo 7s ease-in-out infinite;
+  }
+  @keyframes globe-halo {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.04); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .globe-wrap::before { animation: none; }
+  }
+</style>
+
+<script>
+  type Arc = {
+    startLat: number;
+    startLng: number;
+    endLat: number;
+    endLng: number;
+    color: string;
+  };
+
+  const PRIMARY = '#529961';
+  const PRIMARY_LIGHT = '#7BC68A';
+  const PRIMARY_DARK = '#3D7D4D';
+
+  const ARCS: Arc[] = [
+    { startLat:  37.7749, startLng: -122.4194, endLat:  51.5074, endLng:   -0.1278, color: PRIMARY_LIGHT },
+    { startLat:  40.7128, startLng:  -74.0060, endLat:  35.6762, endLng:  139.6503, color: PRIMARY },
+    { startLat:  48.8566, startLng:    2.3522, endLat: -33.8688, endLng:  151.2093, color: PRIMARY_LIGHT },
+    { startLat: -23.5505, startLng:  -46.6333, endLat:   1.3521, endLng:  103.8198, color: PRIMARY },
+    { startLat:  19.4326, startLng:  -99.1332, endLat:  55.7558, endLng:   37.6173, color: PRIMARY_LIGHT },
+    { startLat:  28.6139, startLng:   77.2090, endLat:  -1.2921, endLng:   36.8219, color: PRIMARY },
+    { startLat:  52.5200, startLng:   13.4050, endLat:  -34.6037, endLng:  -58.3816, color: PRIMARY_LIGHT },
+    { startLat:  39.9042, startLng:  116.4074, endLat:  -41.2865, endLng:  174.7762, color: PRIMARY },
+    { startLat:  59.3293, startLng:   18.0686, endLat:  -22.9068, endLng:  -43.1729, color: PRIMARY_LIGHT },
+    { startLat:  25.2048, startLng:   55.2708, endLat:  43.6532, endLng:  -79.3832, color: PRIMARY },
+    { startLat:  41.0082, startLng:   28.9784, endLat:   1.2864, endLng:  103.8503, color: PRIMARY_LIGHT },
+    { startLat:  35.6895, startLng:  139.6917, endLat:  -36.8485, endLng:  174.7633, color: PRIMARY },
+    { startLat:   1.3521, startLng:  103.8198, endLat:  37.5665, endLng:  126.9780, color: PRIMARY_LIGHT },
+    { startLat:  34.0522, startLng: -118.2437, endLat:  22.3193, endLng:  114.1694, color: PRIMARY },
+  ];
+
+  function ringsFromArcs(arcs: Arc[]) {
+    const points = new Map<string, { lat: number; lng: number; color: string }>();
+    for (const a of arcs) {
+      points.set(`${a.startLat},${a.startLng}`, { lat: a.startLat, lng: a.startLng, color: a.color });
+      points.set(`${a.endLat},${a.endLng}`,     { lat: a.endLat,   lng: a.endLng,   color: a.color });
+    }
+    return Array.from(points.values());
+  }
+
+  async function initGlobe(stage: HTMLElement) {
+    const [{ default: Globe }, THREE, geoRes] = await Promise.all([
+      import('three-globe'),
+      import('three'),
+      fetch('/data/countries.geojson').then((r) => r.json()),
+    ]);
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const globe = new Globe()
+      .showGlobe(true)
+      .showAtmosphere(true)
+      .atmosphereColor(PRIMARY)
+      .atmosphereAltitude(0.18)
+      .hexPolygonsData(geoRes.features)
+      .hexPolygonResolution(3)
+      .hexPolygonMargin(0.55)
+      .hexPolygonUseDots(true)
+      .hexPolygonColor(() => 'rgba(82, 153, 97, 0.85)')
+      .arcsData(ARCS)
+      .arcColor((d: any) => [d.color, d.color])
+      .arcAltitudeAutoScale(0.42)
+      .arcStroke(0.4)
+      .arcDashLength(0.45)
+      .arcDashGap(2.6)
+      .arcDashAnimateTime(reduceMotion ? 0 : 2400)
+      .arcsTransitionDuration(0)
+      .ringsData(ringsFromArcs(ARCS))
+      .ringColor((d: any) => (t: number) => `rgba(${hexToRgb(d.color)}, ${1 - t})`)
+      .ringMaxRadius(4)
+      .ringPropagationSpeed(2.6)
+      .ringRepeatPeriod(1100)
+      .ringAltitude(0.005);
+
+    // Hide the underlying solid sphere — show only hex dots + atmosphere
+    const globeMat = globe.globeMaterial() as any;
+    globeMat.color = new THREE.Color('#0a1a10');
+    globeMat.transparent = true;
+    globeMat.opacity = 0.92;
+    globeMat.shininess = 0;
+
+    const scene = new THREE.Scene();
+    scene.add(globe);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.85));
+    const dir = new THREE.DirectionalLight(0xffffff, 0.55);
+    dir.position.set(1, 1, 1);
+    scene.add(dir);
+
+    const size = () => ({ w: stage.clientWidth, h: stage.clientHeight });
+    let { w, h } = size();
+
+    const camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 1000);
+    camera.position.z = 260;
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(w, h, false);
+    renderer.setClearColor(0x000000, 0);
+    stage.appendChild(renderer.domElement);
+
+    // Subtle tilt
+    globe.rotation.x = Math.PI * 0.06;
+
+    let rafId = 0;
+    let last = performance.now();
+    const rotSpeed = reduceMotion ? 0 : 0.0007;
+
+    function tick(now: number) {
+      const dt = now - last;
+      last = now;
+      globe.rotation.y += rotSpeed * dt;
+      renderer.render(scene, camera);
+      rafId = requestAnimationFrame(tick);
+    }
+    rafId = requestAnimationFrame(tick);
+
+    const ro = new ResizeObserver(() => {
+      const s = size();
+      if (s.w === w && s.h === h) return;
+      w = s.w; h = s.h;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h, false);
+    });
+    ro.observe(stage);
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        cancelAnimationFrame(rafId);
+      } else {
+        last = performance.now();
+        rafId = requestAnimationFrame(tick);
+      }
+    });
+  }
+
+  function hexToRgb(hex: string) {
+    const m = hex.replace('#', '').match(/.{2}/g)!;
+    return `${parseInt(m[0], 16)}, ${parseInt(m[1], 16)}, ${parseInt(m[2], 16)}`;
+  }
+
+  function start() {
+    const wrap = document.querySelector('[data-hero-globe]') as HTMLElement | null;
+    if (!wrap) return;
+    const stage = wrap.querySelector('.globe-stage') as HTMLElement | null;
+    if (!stage) return;
+
+    const launch = () => initGlobe(stage).catch((err) => console.warn('[HeroGlobe]', err));
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          io.disconnect();
+          if ('requestIdleCallback' in window) {
+            (window as any).requestIdleCallback(launch, { timeout: 1500 });
+          } else {
+            setTimeout(launch, 60);
+          }
+        }
+      }, { rootMargin: '120px', threshold: 0.05 });
+      io.observe(wrap);
+    } else {
+      launch();
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start, { once: true });
+  } else {
+    start();
+  }
+</script>
