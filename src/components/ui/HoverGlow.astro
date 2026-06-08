@@ -1,0 +1,127 @@
+---
+/*
+  HoverGlow — Aceternity-inspired Evervault card hover effect.
+
+  How it works:
+    - The element you want to enchant gets class="hover-glow" and data-hover-glow.
+    - On pointermove we set --hg-x / --hg-y, which drives a conic-gradient
+      radial mask that "follows" the cursor.
+    - Underneath is a layer of subtle floating mono characters (cipher-like),
+      revealed only by the cursor-tracked mask.
+
+  Include this component once on the page. Add the markup wrapper around
+  any card. The wrapper supplies the cursor-tracked layer; the parent card
+  remains fully styled by its own rules.
+
+  Markup usage:
+    <div class="hover-glow" data-hover-glow>
+      <div class="hover-glow__cipher" aria-hidden="true"></div>
+      <div class="hover-glow__mask" aria-hidden="true"></div>
+      <slot /> // your card content
+    </div>
+*/
+---
+
+<script>
+  const CHARS = '01<>{}[]/\\#$%&@*+-=:;~?!ABCDEF0123456789';
+
+  function fillCipher(el: HTMLElement) {
+    if (el.dataset.filled) return;
+    const cols = 64;
+    const rows = 28;
+    let txt = '';
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        txt += CHARS[Math.floor(Math.random() * CHARS.length)];
+      }
+      txt += '\n';
+    }
+    el.textContent = txt;
+    el.dataset.filled = '1';
+  }
+
+  const init = () => {
+    const cards = document.querySelectorAll<HTMLElement>('[data-hover-glow]:not([data-hg-init])');
+    cards.forEach((el) => {
+      el.dataset.hgInit = '1';
+      const cipher = el.querySelector<HTMLElement>('.hover-glow__cipher');
+      if (cipher) fillCipher(cipher);
+
+      el.addEventListener('pointermove', (e) => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--hg-x', `${e.clientX - r.left}px`);
+        el.style.setProperty('--hg-y', `${e.clientY - r.top}px`);
+      });
+    });
+  };
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>
+
+<style is:global>
+  .hover-glow {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  /* base content always sits above the effect layers */
+  .hover-glow > :not(.hover-glow__cipher):not(.hover-glow__mask) {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* cipher rain — revealed only inside the cursor mask */
+  .hover-glow__cipher {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    white-space: pre;
+    overflow: hidden;
+    font-family: var(--aw-font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+    font-size: 11px;
+    line-height: 14px;
+    letter-spacing: 0.08em;
+    color: rgba(82, 153, 97, 0.55);
+    opacity: 0;
+    transition: opacity 220ms ease;
+    -webkit-mask-image: radial-gradient(
+      180px circle at var(--hg-x, 50%) var(--hg-y, 50%),
+      #000 0%,
+      rgba(0, 0, 0, 0.55) 30%,
+      transparent 70%
+    );
+            mask-image: radial-gradient(
+      180px circle at var(--hg-x, 50%) var(--hg-y, 50%),
+      #000 0%,
+      rgba(0, 0, 0, 0.55) 30%,
+      transparent 70%
+    );
+  }
+  .hover-glow:hover .hover-glow__cipher { opacity: 0.85; }
+
+  /* coloured aura that tracks the cursor */
+  .hover-glow__mask {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: radial-gradient(
+      260px circle at var(--hg-x, 50%) var(--hg-y, 50%),
+      rgba(82, 153, 97, 0.18) 0%,
+      rgba(82, 153, 97, 0.10) 30%,
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 220ms ease;
+    mix-blend-mode: multiply;
+  }
+  .hover-glow:hover .hover-glow__mask { opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hover-glow__cipher,
+    .hover-glow__mask { transition: none; }
+  }
+</style>

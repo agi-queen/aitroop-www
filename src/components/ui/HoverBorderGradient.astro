@@ -1,0 +1,92 @@
+---
+/*
+  HoverBorderGradient — Aceternity-inspired animated conic border.
+
+  Renders a thin gradient ring around its slot that slowly rotates;
+  on hover the rotation accelerates and a soft glow blooms.
+
+  Implementation uses CSS @property to animate a custom <angle>
+  inside a conic-gradient — the cleanest way to rotate the gradient
+  pattern without rotating the layout box.
+
+  Props:
+    - radius: border-radius (default 20px)
+    - thickness: border width in px (default 1)
+*/
+export interface Props {
+  radius?: string;
+  thickness?: number;
+  class?: string;
+}
+const { radius = '20px', thickness = 1, class: className = '' } = Astro.props;
+const style = `--hbg-radius: ${radius}; --hbg-thickness: ${thickness}px;`;
+---
+
+<div class:list={['hbg', className]} style={style}>
+  <div class="hbg__ring" aria-hidden="true"></div>
+  <div class="hbg__inner">
+    <slot />
+  </div>
+</div>
+
+<style>
+  @property --hbg-angle {
+    syntax: '<angle>';
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  .hbg {
+    position: relative;
+    border-radius: var(--hbg-radius);
+    isolation: isolate;
+  }
+
+  .hbg__ring {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: var(--hbg-thickness);
+    background: conic-gradient(
+      from var(--hbg-angle),
+      rgba(82, 153, 97, 0.0)   0deg,
+      rgba(82, 153, 97, 0.55) 60deg,
+      rgba(82, 153, 97, 0.0) 130deg,
+      rgba(82, 153, 97, 0.0) 240deg,
+      rgba(82, 153, 97, 0.40) 300deg,
+      rgba(82, 153, 97, 0.0) 360deg
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    animation: hbg-spin 9s linear infinite;
+    transition: filter 320ms ease;
+    z-index: 0;
+  }
+  .hbg:hover .hbg__ring {
+    animation-duration: 4.5s;
+    filter: drop-shadow(0 0 14px rgba(82, 153, 97, 0.35));
+  }
+
+  .hbg__inner {
+    position: relative;
+    z-index: 1;
+    border-radius: calc(var(--hbg-radius) - var(--hbg-thickness));
+    margin: var(--hbg-thickness);
+  }
+
+  @keyframes hbg-spin {
+    to { --hbg-angle: 360deg; }
+  }
+
+  /* Firefox/older Safari without @property: fall back to a static ring */
+  @supports not (background: conic-gradient(from 0deg, red, blue)) {
+    .hbg__ring { animation: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hbg__ring { animation: none; }
+  }
+</style>

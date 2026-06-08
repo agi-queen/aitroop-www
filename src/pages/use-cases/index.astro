@@ -1,6 +1,9 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import Spotlight from '~/components/ui/Spotlight.astro';
+import HoverGlow from '~/components/ui/HoverGlow.astro';
+import GridBackground from '~/components/ui/GridBackground.astro';
+import GlareHover from '~/components/ui/GlareHover.astro';
 
 const metadata = {
   title: 'Use Cases · Aitroop',
@@ -36,9 +39,12 @@ const cases = [
 
 <Layout metadata={metadata}>
   <Spotlight />
+  <HoverGlow />
+  <GlareHover />
 
   <!-- PAGE HEAD ────────────────────────────────────────────────────── -->
-  <section class="aw-page-head aw-page-head-banner">
+  <section class="aw-page-head aw-page-head-banner relative isolate overflow-hidden">
+    <GridBackground variant="small-grid" tone="brand" />
     <div class="aw-container">
       <p class="aw-eyebrow">Use cases</p>
       <h1 class="aw-h2">
@@ -55,7 +61,9 @@ const cases = [
     <div class="aw-container">
       <ul class="packs">
         {cases.map((c) => (
-          <li class="pack spotlight-card" data-spotlight>
+          <li class="pack hover-glow glare-hover" data-hover-glow>
+            <div class="hover-glow__cipher" aria-hidden="true"></div>
+            <div class="hover-glow__mask" aria-hidden="true"></div>
             <div class="pack-head">
               <h2 class="pack-title">
                 <a href={c.slug}>{c.title}</a>
@@ -95,26 +103,36 @@ const cases = [
 </Layout>
 
 <style>
-  /* ════ pack list — hairline editorial ════ */
+  /* ════ pack list — cards with hover-glow ════ */
   .packs {
     list-style: none;
     margin: 0;
     padding: 0;
+    display: grid;
+    gap: 1.25rem;
   }
   .pack {
-    border-top: 1px solid var(--aw-color-border-strong);
-    padding: 2.5rem 0 3rem;
+    position: relative;
+    border: 1px solid var(--aw-color-border);
+    border-radius: 18px;
+    background: var(--aw-color-bg-page);
+    padding: 2rem 1.75rem 2.25rem;
     display: grid;
     gap: 2rem;
     grid-template-columns: 1fr;
     align-items: start;
+    transition: border-color 220ms ease, transform 240ms ease, box-shadow 240ms ease;
   }
-  .pack:last-child { border-bottom: 1px solid var(--aw-color-border); }
+  .pack:hover {
+    border-color: rgba(82, 153, 97, 0.32);
+    transform: translateY(-2px);
+    box-shadow: 0 22px 50px -28px rgba(10, 10, 10, 0.18);
+  }
   @media (min-width: 900px) {
     .pack {
       grid-template-columns: 18rem 1fr;
       gap: 3.5rem;
-      padding: 3rem 0 3.5rem;
+      padding: 2.5rem 2.25rem 2.75rem;
     }
   }
   .pack-head {

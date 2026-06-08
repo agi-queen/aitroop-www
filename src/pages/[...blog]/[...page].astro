@@ -6,6 +6,8 @@ import BlogList from '~/components/blog/List.astro';
 import IndexHeader from '~/components/blog/IndexHeader.astro';
 import Pagination from '~/components/blog/Pagination.astro';
 import Spotlight from '~/components/ui/Spotlight.astro';
+import GlareHover from '~/components/ui/GlareHover.astro';
+import GridBackground from '~/components/ui/GridBackground.astro';
 
 import { blogListRobots, getStaticPathsBlogList } from '~/utils/blog';
 
@@ -34,7 +36,9 @@ const metadata = {
 
 <Layout metadata={metadata}>
   <Spotlight />
-  <section class="aw-page-head aw-page-head-banner">
+  <GlareHover />
+  <section class="aw-page-head aw-page-head-banner relative isolate overflow-hidden">
+    <GridBackground variant="small-grid" tone="brand" />
     <div class="aw-container">
       <IndexHeader
         eyebrow="Journal"

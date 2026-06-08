@@ -1,0 +1,103 @@
+---
+/*
+  GridBackground — Aceternity-style grid + radial spotlight backdrop.
+
+  Drop into any `position: relative` container. It positions itself
+  absolutely and renders behind siblings. Two layers:
+    - grid lines, faded out toward the edges via mask
+    - soft radial spotlight at the top
+
+  Variants via `variant` prop:
+    - 'grid'       (default): orthogonal grid lines
+    - 'dots'                : dot lattice
+    - 'small-grid'          : tighter grid for hero copy areas
+
+  Tone via `tone`:
+    - 'neutral'    (default): neutral ink colour
+    - 'brand'              : green primary tint
+*/
+export interface Props {
+  variant?: 'grid' | 'dots' | 'small-grid';
+  tone?: 'neutral' | 'brand';
+  class?: string;
+}
+
+const { variant = 'grid', tone = 'neutral', class: className = '' } = Astro.props;
+---
+
+<div
+  class:list={['gridbg', `gridbg--${variant}`, `gridbg--${tone}`, className]}
+  aria-hidden="true"
+>
+  <div class="gridbg__layer"></div>
+  <div class="gridbg__spot"></div>
+</div>
+
+<style>
+  .gridbg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .gridbg__layer {
+    position: absolute;
+    inset: 0;
+    -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 25%, #000 25%, transparent 85%);
+            mask-image: radial-gradient(ellipse 75% 60% at 50% 25%, #000 25%, transparent 85%);
+  }
+
+  /* grid */
+  .gridbg--grid .gridbg__layer {
+    background-image:
+      linear-gradient(to right,  rgba(10,10,10,0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(10,10,10,0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  .gridbg--small-grid .gridbg__layer {
+    background-image:
+      linear-gradient(to right,  rgba(10,10,10,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(10,10,10,0.05) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  /* dots */
+  .gridbg--dots .gridbg__layer {
+    background-image: radial-gradient(circle at 1px 1px, rgba(10, 10, 10, 0.07) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+
+  /* tone — brand-tinted */
+  .gridbg--brand.gridbg--grid .gridbg__layer,
+  .gridbg--brand.gridbg--small-grid .gridbg__layer {
+    background-image:
+      linear-gradient(to right,  rgba(82, 153, 97, 0.10) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(82, 153, 97, 0.10) 1px, transparent 1px);
+  }
+  .gridbg--brand.gridbg--dots .gridbg__layer {
+    background-image: radial-gradient(circle at 1px 1px, rgba(82, 153, 97, 0.16) 1px, transparent 0);
+  }
+
+  /* top spotlight that gently lights the masthead */
+  .gridbg__spot {
+    position: absolute;
+    inset: -20% -10% auto -10%;
+    height: 90%;
+    background:
+      radial-gradient(ellipse 55% 45% at 50% 12%, rgba(82, 153, 97, 0.10), transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse 75% 60% at 50% 0%, #000 25%, transparent 85%);
+            mask-image: radial-gradient(ellipse 75% 60% at 50% 0%, #000 25%, transparent 85%);
+    animation: gridbg-breathe 14s ease-in-out infinite;
+  }
+
+  @keyframes gridbg-breathe {
+    0%, 100% { opacity: 0.55; }
+    50%      { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gridbg__spot { animation: none; }
+  }
+</style>
