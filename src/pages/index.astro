@@ -1,6 +1,7 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import AnatomyFlow from '~/components/widgets/AnatomyFlow.astro';
+import WorkflowLifecycle from '~/components/widgets/WorkflowLifecycle.astro';
 import PopText from '~/components/ui/PopText.astro';
 
 const metadata = {
@@ -33,9 +34,71 @@ const stats = [
   { value: 'cron', label: 'Schedules' },
 ];
 
+const features = [
+  {
+    title: 'Save chats as Apps',
+    desc: 'One click freezes the working flow into a typed, runnable workflow with named inputs.',
+    icon: 'M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z',
+  },
+  {
+    title: 'Multi-stage pipelines',
+    desc: 'Chain stages when a single agent run is not enough. Each stage owns its own model, skills and prompt.',
+    icon: 'M4 6h16M4 12h16M4 18h10',
+  },
+  {
+    title: '150+ skills, 20+ connects',
+    desc: 'GitHub, Gmail, Slack, Drive, Notion, web search, code execution — wired in with one toggle.',
+    icon: 'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z',
+  },
+  {
+    title: 'Real sandboxes',
+    desc: 'Every run lands in an isolated environment with file access, network and the right toolchain.',
+    icon: 'M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z',
+  },
+  {
+    title: 'Schedules & webhooks',
+    desc: 'Run on a cron, on demand, or off a webhook. Hands-free after one setup, with full run history.',
+    icon: 'M12 6v6l4 2M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20z',
+  },
+  {
+    title: 'Share with your team',
+    desc: 'Each App is a permissioned object. Hand it off, embed it, or expose it as an internal API.',
+    icon: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75',
+  },
+];
+
 const cases = [
-  { slug: '/use-cases/gtm',     title: 'GTM',     desc: 'Prospecting, outreach, retention, pipeline insights.' },
-  { slug: '/use-cases/finance', title: 'Finance', desc: 'Close, audit, variance, reporting. Built for CFO teams.' },
+  {
+    slug: '/use-cases/gtm',
+    title: 'GTM',
+    desc: 'Prospecting, outreach, retention, pipeline insights.',
+    points: ['ICP research at scale', 'Personalised sequences', 'Pipeline & retention reports'],
+  },
+  {
+    slug: '/use-cases/finance',
+    title: 'Finance',
+    desc: 'Close, audit, variance, reporting. Built for CFO teams.',
+    points: ['Close-pack assembly', 'Variance & flux analysis', 'Auditor-ready exports'],
+  },
+];
+
+const faqs = [
+  {
+    q: 'Do I have to rebuild my prompts to save an App?',
+    a: 'No. Open a chat that already works, click Save as App, and Aitroop captures the skills, connects and prompts as a runnable workflow.',
+  },
+  {
+    q: 'What runs the App after it is saved?',
+    a: 'Each run executes in an isolated sandbox with the file system, network and tools the agent needs. You can trigger it manually, on a cron, or from a webhook.',
+  },
+  {
+    q: 'Can I chain steps that need different tools?',
+    a: 'Yes. Stages let you wire one agent into the next, each with its own model, skills and prompt. The artifact from one stage feeds the input of the next.',
+  },
+  {
+    q: 'Who can use the App once I publish it?',
+    a: 'Apps are permissioned objects. Share with a teammate, an external collaborator, or expose them as an internal API. Run history is visible to admins.',
+  },
 ];
 ---
 
@@ -129,8 +192,19 @@ const cases = [
     </div>
   </section>
 
+  <!-- LIFECYCLE — the loop, end to end ───────────────────────────── -->
+  <section class="aw-section-flush home-section home-section--soft">
+    <div class="aw-container-wide">
+      <header class="aw-section-head lifecycle-head">
+        <h2 class="aw-h2">From chat to scheduled App, in one loop.</h2>
+        <p class="aw-lede lifecycle-lede">A conversation becomes a form. The form runs a stage. The stage ships an artifact. The artifact triggers the next run.</p>
+      </header>
+      <WorkflowLifecycle loopHint="and it repeats — on a cron, on demand, on a webhook" />
+    </div>
+  </section>
+
   <!-- ANATOMY ──────────────────────────────────────────────────────── -->
-  <section class="aw-section">
+  <section class="aw-section-flush home-section anatomy-borderless">
     <div class="aw-container-wide">
       <AnatomyFlow
         eyebrow=""
@@ -141,22 +215,56 @@ const cases = [
     </div>
   </section>
 
-  <!-- USE CASES ────────────────────────────────────────────────────── -->
-  <section class="aw-section">
+  <!-- FEATURES — six concrete capabilities ─────────────────────── -->
+  <section class="aw-section-flush home-section home-section--soft">
     <div class="aw-container-wide">
       <header class="aw-section-head">
+        <p class="aw-eyebrow">Why teams pick Aitroop</p>
+        <h2 class="aw-h2">Everything you need to make an agent stick.</h2>
+      </header>
+      <ul class="features-grid" role="list">
+        {features.map((f) => (
+          <li class="feature-tile">
+            <span class="tile-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d={f.icon} />
+              </svg>
+            </span>
+            <h3 class="tile-title">{f.title}</h3>
+            <p class="tile-desc">{f.desc}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- USE CASES ────────────────────────────────────────────────────── -->
+  <section class="aw-section-flush home-section">
+    <div class="aw-container-wide">
+      <header class="aw-section-head">
+        <p class="aw-eyebrow">Use cases</p>
         <h2 class="aw-h2">Built for what you actually do.</h2>
       </header>
 
-      <ul class="cases">
+      <ul class="cases-grid" role="list">
         {cases.map((c) => (
-          <li>
-            <a href={c.slug}>
-              <span class="case-title">{c.title}</span>
-              <span class="case-desc">{c.desc}</span>
-              <span class="case-arrow aw-arrow" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-              </span>
+          <li class="case-card">
+            <a href={c.slug} class="case-link">
+              <div class="case-head">
+                <span class="case-title">{c.title}</span>
+                <span class="case-arrow aw-arrow" aria-hidden="true">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </span>
+              </div>
+              <p class="case-desc">{c.desc}</p>
+              <ul class="case-points" role="list">
+                {c.points.map((p) => (
+                  <li>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    <span>{p}</span>
+                  </li>
+                ))}
+              </ul>
             </a>
           </li>
         ))}
@@ -164,14 +272,34 @@ const cases = [
     </div>
   </section>
 
+  <!-- FAQ ──────────────────────────────────────────────────────────── -->
+  <section class="aw-section-flush home-section home-section--soft">
+    <div class="aw-container-wide">
+      <header class="aw-section-head faq-head">
+        <p class="aw-eyebrow">FAQ</p>
+        <h2 class="aw-h2">Questions, answered.</h2>
+      </header>
+      <ul class="faq-list" role="list">
+        {faqs.map((item) => (
+          <li class="faq-item">
+            <h3 class="faq-q">{item.q}</h3>
+            <p class="faq-a">{item.a}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
   <!-- CTA ──────────────────────────────────────────────────────────── -->
-  <section class="aw-section">
-    <div class="aw-container-wide cta-wrap">
-      <h2 class="aw-h2 cta-h2">Ship your first App before lunch.</h2>
-      <p class="aw-lede cta-lede">Open a chat. Click <code class="aw-code">Save as App</code>. That's the loop.</p>
-      <div class="aw-actions aw-actions-center">
-        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Open the app</a>
-        <a href="/contact" class="aw-btn aw-btn-ghost">Talk to us</a>
+  <section class="aw-section-flush home-section cta-section">
+    <div class="aw-container-wide">
+      <div class="cta-card">
+        <h2 class="aw-h2 cta-h2">Ship your first App before lunch.</h2>
+        <p class="aw-lede cta-lede">Open a chat. Click <code class="aw-code">Save as App</code>. That's the loop.</p>
+        <div class="aw-actions aw-actions-center">
+          <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Open the app</a>
+          <a href="/contact" class="aw-btn aw-btn-ghost">Talk to us</a>
+        </div>
       </div>
     </div>
   </section>
@@ -180,8 +308,7 @@ const cases = [
 
 <style>
   /* ══════════════════════════════════════════════════════════════════
-     HERO — shadcn-style "app showcase" layout
-       Centered eyebrow pill → big headline → lede → CTAs → showcase
+     HERO — split layout
      ══════════════════════════════════════════════════════════════════ */
   .hero {
     padding-top: clamp(3rem, 7vw, 5rem);
@@ -215,7 +342,6 @@ const cases = [
     50%      { opacity: 1; }
   }
 
-  /* Split layout — copy left, features right on desktop */
   .hero-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -242,7 +368,6 @@ const cases = [
     }
   }
 
-  /* Eyebrow pill — quiet "what's new" tag */
   .hero-pill {
     display: inline-flex;
     align-items: center;
@@ -286,7 +411,6 @@ const cases = [
     margin: 0 auto 1.5rem;
     max-width: 22ch;
   }
-  /* PopText line — keep it on its own row, no wrap, inherit color */
   :global(.hero-pop) {
     display: inline-flex;
     flex-wrap: nowrap;
@@ -306,7 +430,6 @@ const cases = [
     .hero-actions { justify-content: flex-start; }
   }
 
-  /* Feature stack — right column on desktop, full-width below copy on mobile */
   .hero-features {
     list-style: none;
     margin: 0;
@@ -356,7 +479,6 @@ const cases = [
     margin: 0;
   }
 
-  /* Entrance stagger — quiet rise */
   @keyframes hero-rise {
     from { opacity: 0; transform: translateY(8px); }
     to   { opacity: 1; transform: none; }
@@ -387,10 +509,10 @@ const cases = [
 
   /* ── Stats ─ minimal strip, no borders, lots of air ──────────── */
   .stats-section {
-    padding: 2.5rem 0 4rem;
+    padding: 2rem 0 3rem;
   }
   @media (min-width: 768px) {
-    .stats-section { padding: 3.5rem 0 5rem; }
+    .stats-section { padding: 2.75rem 0 3.5rem; }
   }
   .stats {
     list-style: none;
@@ -428,36 +550,128 @@ const cases = [
     text-transform: uppercase;
   }
 
-  /* ── Use-case row list ─────────────────────────────────────────── */
-  .cases {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .cases li { border-top: 1px solid var(--aw-color-border); }
-  .cases li:last-child { border-bottom: 1px solid var(--aw-color-border); }
-  .cases a {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-areas:
-      "title arrow"
-      "desc  arrow";
-    column-gap: 1rem;
-    row-gap: 0.5rem;
-    padding: 1.75rem 0;
-    align-items: center;
+  /* ── Home sections — divider-free rhythm via soft tints ──────── */
+  .home-section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
   }
   @media (min-width: 768px) {
-    .cases a {
-      grid-template-columns: 12rem 1fr auto;
-      grid-template-areas: "title desc arrow";
-      column-gap: 2.5rem;
-      padding: 2.25rem 0;
+    .home-section { padding-top: 5.5rem; padding-bottom: 5.5rem; }
+  }
+  .home-section--soft {
+    background: rgba(82, 153, 97, 0.025);
+  }
+
+  /* Anatomy: remove the hairline borders inside the component */
+  :global(.anatomy-borderless .step-card) {
+    border-top: none !important;
+    border-bottom: none !important;
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  @media (min-width: 1024px) {
+    :global(.anatomy-borderless .step-card) {
+      padding-top: 0 !important;
     }
   }
 
+  /* Lifecycle section heading uses a tighter rhythm */
+  .lifecycle-head { max-width: 56rem; margin-bottom: 2.5rem; }
+  .lifecycle-lede { max-width: 52ch; margin: 0; }
+
+  /* ── Features grid — 6 tiles, borderless, soft hover ─────────── */
+  .features-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 640px) {
+    .features-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 960px) {
+    .features-grid { grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  }
+  .feature-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 1.5rem 1.5rem 1.625rem;
+    border-radius: 14px;
+    background: var(--aw-color-bg-page);
+    border: 1px solid transparent;
+    transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+  }
+  .feature-tile:hover {
+    border-color: rgba(82, 153, 97, 0.25);
+    transform: translateY(-1px);
+    box-shadow: 0 12px 30px -20px rgba(10, 10, 10, 0.12);
+  }
+  .tile-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(82, 153, 97, 0.10);
+    color: var(--aw-color-primary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+  .tile-icon svg { width: 20px; height: 20px; }
+  .tile-title {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--aw-color-text-heading);
+    margin: 0;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .tile-desc {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--aw-color-text-muted);
+  }
+
+  /* ── Use-case cards (no row borders) ─────────────────────────── */
+  .cases-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .cases-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  }
+  .case-card {
+    border-radius: 16px;
+    background: var(--aw-color-bg-page);
+    border: 1px solid var(--aw-color-border);
+    transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+  }
+  .case-card:hover {
+    border-color: rgba(82, 153, 97, 0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px -22px rgba(10, 10, 10, 0.18);
+  }
+  .case-link {
+    display: block;
+    padding: 1.75rem 1.75rem 1.875rem;
+    color: inherit;
+    text-decoration: none;
+  }
+  .case-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.625rem;
+  }
   .case-title {
-    grid-area: title;
     font-size: 1.625rem;
     font-weight: 700;
     color: var(--aw-color-text-heading);
@@ -465,21 +679,89 @@ const cases = [
     line-height: 1.1;
   }
   .case-desc {
-    grid-area: desc;
     color: var(--aw-color-text-muted);
     font-size: 0.9375rem;
     line-height: 1.55;
+    margin: 0 0 1.125rem;
   }
   .case-arrow {
-    grid-area: arrow;
     color: var(--aw-color-text-muted);
-    font-size: 1.125rem;
-    line-height: 1;
+    transition: transform 200ms ease, color 200ms ease;
+  }
+  .case-card:hover .case-arrow {
+    transform: translateX(3px);
+    color: var(--aw-color-primary);
+  }
+  .case-points {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .case-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    font-size: 0.9rem;
+    color: var(--aw-color-text-default);
+    line-height: 1.5;
+  }
+  .case-points svg {
+    width: 16px;
+    height: 16px;
+    color: var(--aw-color-primary);
+    margin-top: 2px;
+    flex-shrink: 0;
   }
 
-  /* ── CTA tightening ────────────────────────────────────────────── */
-  .cta-wrap {
+  /* ── FAQ — borderless, two columns on desktop ────────────────── */
+  .faq-head { max-width: 56rem; }
+  .faq-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.75rem 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .faq-list { grid-template-columns: repeat(2, 1fr); }
+  }
+  .faq-item { max-width: 44ch; }
+  .faq-q {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--aw-color-text-heading);
+    margin: 0 0 0.5rem;
+    line-height: 1.35;
+  }
+  .faq-a {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--aw-color-text-muted);
+  }
+
+  /* ── CTA card ────────────────────────────────────────────────── */
+  .cta-section {
+    padding-top: 3rem;
+    padding-bottom: 5rem;
+  }
+  .cta-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    border: 1px solid var(--aw-color-border);
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 0%, rgba(82, 153, 97, 0.10), transparent 70%),
+      var(--aw-color-bg-page);
+    border-radius: 20px;
+    padding: 3rem 1.5rem 3.25rem;
     text-align: center;
+  }
+  @media (min-width: 768px) {
+    .cta-card { padding: 4rem 2rem 4.25rem; }
   }
   .cta-h2 {
     font-size: clamp(2rem, 4vw, 2.75rem);
@@ -487,7 +769,7 @@ const cases = [
     max-width: 18ch;
   }
   .cta-lede {
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto 1.75rem;
+    max-width: 44ch;
   }
 </style>
