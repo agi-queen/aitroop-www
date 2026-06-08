@@ -1,0 +1,138 @@
+---
+/*
+  HeroOrb — animated agent/skills cluster for the home hero.
+  A tight cluster of overlapping gradient orbs with gentle pulse,
+  drift, and ambient sparkles. Pure SVG + CSS animation.
+*/
+---
+
+<svg
+  class="hero-orb"
+  viewBox="0 0 420 420"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="Aitroop agent skill cluster"
+>
+  <defs>
+    <linearGradient id="orb-grad-strong" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8FCB9D" />
+      <stop offset="100%" stop-color="#3C7C4D" />
+    </linearGradient>
+    <linearGradient id="orb-grad-soft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#B9DFC0" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#5BA571" stop-opacity="0.95" />
+    </linearGradient>
+    <radialGradient id="orb-halo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(82, 153, 97, 0.28)" />
+      <stop offset="100%" stop-color="rgba(82, 153, 97, 0)" />
+    </radialGradient>
+  </defs>
+
+  <!-- Soft ambient halo -->
+  <circle cx="210" cy="210" r="180" fill="url(#orb-halo)" class="orb-halo" />
+
+  <!-- Cluster wrapper for the slow drift -->
+  <g class="cluster">
+    <!-- Outline rings -->
+    <circle cx="170" cy="170" r="54" fill="none" stroke="url(#orb-grad-soft)"   stroke-width="2.5" class="orb orb-1" />
+    <circle cx="275" cy="160" r="44" fill="none" stroke="url(#orb-grad-soft)"   stroke-width="2.5" class="orb orb-2" />
+    <circle cx="150" cy="260" r="40" fill="none" stroke="url(#orb-grad-strong)" stroke-width="2.5" class="orb orb-3" />
+    <circle cx="285" cy="270" r="50" fill="none" stroke="url(#orb-grad-strong)" stroke-width="2.5" class="orb orb-4" />
+
+    <!-- Filled orbs -->
+    <circle cx="220" cy="195" r="42" fill="url(#orb-grad-strong)" class="orb orb-5" />
+    <circle cx="240" cy="252" r="30" fill="url(#orb-grad-soft)"   class="orb orb-6" />
+    <circle cx="195" cy="240" r="22" fill="url(#orb-grad-strong)" class="orb orb-7" />
+  </g>
+
+  <!-- Ambient sparkles -->
+  <g class="sparkles" fill="#7BBE8C">
+    <circle cx="90"  cy="110" r="3"   class="sparkle s-1" />
+    <circle cx="335" cy="90"  r="3.5" class="sparkle s-2" />
+    <circle cx="350" cy="335" r="3"   class="sparkle s-3" />
+    <circle cx="75"  cy="310" r="3.5" class="sparkle s-4" />
+    <circle cx="380" cy="200" r="2.5" class="sparkle s-5" />
+    <circle cx="40"  cy="210" r="2.5" class="sparkle s-6" />
+  </g>
+</svg>
+
+<style>
+  .hero-orb {
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    filter: drop-shadow(0 26px 50px rgba(82, 153, 97, 0.14));
+  }
+
+  /* Halo breathes softly */
+  @keyframes orb-halo-breathe {
+    0%, 100% { opacity: 0.65; transform: scale(1); }
+    50%      { opacity: 1;    transform: scale(1.06); }
+  }
+  .orb-halo {
+    transform-origin: 210px 210px;
+    transform-box: view-box;
+    animation: orb-halo-breathe 7s ease-in-out infinite;
+  }
+
+  /* Whole cluster drifts very slowly */
+  @keyframes cluster-drift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    50%      { transform: translate(0, -6px) rotate(2deg); }
+  }
+  .cluster {
+    transform-origin: 210px 210px;
+    transform-box: view-box;
+    animation: cluster-drift 14s ease-in-out infinite;
+  }
+
+  /* Individual orbs pulse on their own clocks */
+  .orb {
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+
+  @keyframes orb-pulse {
+    0%, 100% { transform: scale(1);    opacity: 1; }
+    50%      { transform: scale(0.92); opacity: 0.78; }
+  }
+  @keyframes orb-pulse-soft {
+    0%, 100% { transform: scale(1);    opacity: 0.95; }
+    50%      { transform: scale(1.06); opacity: 1; }
+  }
+
+  .orb-1 { animation: orb-pulse 5.4s ease-in-out infinite 0.0s; }
+  .orb-2 { animation: orb-pulse 6.2s ease-in-out infinite 0.6s; }
+  .orb-3 { animation: orb-pulse 5.8s ease-in-out infinite 1.0s; }
+  .orb-4 { animation: orb-pulse 6.6s ease-in-out infinite 1.4s; }
+  .orb-5 { animation: orb-pulse-soft 4.4s ease-in-out infinite 0.3s; }
+  .orb-6 { animation: orb-pulse-soft 5.0s ease-in-out infinite 1.2s; }
+  .orb-7 { animation: orb-pulse-soft 4.0s ease-in-out infinite 0.8s; }
+
+  /* Sparkles twinkle in and out */
+  @keyframes sparkle-twinkle {
+    0%, 100% { opacity: 0;   transform: scale(0.4); }
+    50%      { opacity: 0.9; transform: scale(1); }
+  }
+  .sparkle {
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+  .s-1 { animation: sparkle-twinkle 4.0s ease-in-out infinite 0.0s; }
+  .s-2 { animation: sparkle-twinkle 4.6s ease-in-out infinite 0.9s; }
+  .s-3 { animation: sparkle-twinkle 5.2s ease-in-out infinite 1.7s; }
+  .s-4 { animation: sparkle-twinkle 3.8s ease-in-out infinite 2.5s; }
+  .s-5 { animation: sparkle-twinkle 4.4s ease-in-out infinite 1.2s; }
+  .s-6 { animation: sparkle-twinkle 5.0s ease-in-out infinite 0.4s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orb-halo,
+    .cluster,
+    .orb,
+    .sparkle {
+      animation: none !important;
+    }
+  }
+</style>
