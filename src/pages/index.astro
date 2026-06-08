@@ -9,6 +9,12 @@ import BentoGrid from '~/components/ui/BentoGrid.astro';
 import HoverGlow from '~/components/ui/HoverGlow.astro';
 import HoverBorderGradient from '~/components/ui/HoverBorderGradient.astro';
 import GlareHover from '~/components/ui/GlareHover.astro';
+import Aurora from '~/components/ui/Aurora.astro';
+import Sparkles from '~/components/ui/Sparkles.astro';
+import Meteors from '~/components/ui/Meteors.astro';
+import Marquee from '~/components/ui/Marquee.astro';
+import Tilt3D from '~/components/ui/Tilt3D.astro';
+import AnimatedCounter from '~/components/ui/AnimatedCounter.astro';
 
 const metadata = {
   title: 'Aitroop - Save AI agent conversations as apps',
@@ -34,10 +40,38 @@ const anatomySteps = [
 ];
 
 const stats = [
-  { value: '150+', label: 'Skills' },
-  { value: '20+',  label: 'Connects' },
-  { value: '7',    label: 'Artifact formats' },
-  { value: 'cron', label: 'Schedules' },
+  { value: 150, suffix: '+', label: 'Skills' },
+  { value: 20,  suffix: '+', label: 'Connects' },
+  { value: 7,   suffix: '',  label: 'Artifact formats' },
+  { value: 'cron', suffix: '', label: 'Schedules' },
+];
+
+const skills = [
+  'GitHub', 'Gmail', 'Slack', 'Notion', 'Drive', 'Linear',
+  'Stripe', 'HubSpot', 'Salesforce', 'Figma', 'Jira', 'Asana',
+  'Webhook', 'Web search', 'Code exec', 'PDF', 'CSV', 'Postgres',
+  'Discord', 'Twitter', 'YouTube', 'Calendar', 'Sheets', 'Airtable',
+];
+
+const testimonials = [
+  {
+    quote: 'We replaced a 4-person ops loop with three Apps. They run on a cron and nobody touches them.',
+    name: 'Marta R.',
+    title: 'Head of RevOps',
+    company: 'Northbound',
+  },
+  {
+    quote: 'Save as App turned my chaotic prompt notebook into something the rest of the team can actually run.',
+    name: 'Diego K.',
+    title: 'Solutions Architect',
+    company: 'Plate',
+  },
+  {
+    quote: 'The sandbox is the killer feature. Real file access, real tools, real outputs — no toy demos.',
+    name: 'Priya S.',
+    title: 'Director of AI',
+    company: 'Vector Labs',
+  },
 ];
 
 const features = [
@@ -112,9 +146,11 @@ const faqs = [
   <Spotlight />
   <GlareHover />
 
-  <!-- HERO — grid backdrop + radial spotlight ────────────────────── -->
+  <!-- HERO — grid + aurora + sparkles ─────────────────────────────── -->
   <section class="aw-hero hero relative isolate overflow-hidden">
     <GridBackground variant="grid" tone="brand" />
+    <Aurora intensity="subtle" position="top" />
+    <Sparkles count={42} size={2} />
     <div class="aw-container-wide">
       <div class="hero-grid">
         <div class="hero-copy">
@@ -147,18 +183,43 @@ const faqs = [
     </div>
   </section>
 
-  <!-- STATS — quiet strip just below the fold ────────────────────── -->
+  <!-- STATS — animated counters strip ─────────────────────────────── -->
   <section class="stats-section">
     <div class="aw-container-wide">
       <ul class="stats" role="list">
         {stats.map((s) => (
           <li class="stat">
-            <span class="stat-value">{s.value}</span>
+            <span class="stat-value">
+              <AnimatedCounter value={s.value} suffix={s.suffix} />
+            </span>
             <span class="stat-label">{s.label}</span>
           </li>
         ))}
       </ul>
     </div>
+  </section>
+
+  <!-- SKILLS MARQUEE — infinite scroller of connect chips ─────────── -->
+  <section class="skills-section">
+    <div class="aw-container-wide">
+      <p class="skills-eyebrow">Works with the tools your team already uses</p>
+    </div>
+    <Marquee speed={45} class="skills-marquee">
+      {skills.map((s) => (
+        <span class="skill-chip">
+          <span class="skill-dot" aria-hidden="true"></span>
+          {s}
+        </span>
+      ))}
+    </Marquee>
+    <Marquee speed={55} direction="right" class="skills-marquee skills-marquee--second">
+      {skills.slice().reverse().map((s) => (
+        <span class="skill-chip skill-chip--ghost">
+          <span class="skill-dot" aria-hidden="true"></span>
+          {s}
+        </span>
+      ))}
+    </Marquee>
   </section>
 
   <!-- LIFECYCLE — the loop, end to end ───────────────────────────── -->
@@ -195,8 +256,9 @@ const faqs = [
     </div>
   </section>
 
-  <!-- USE CASES — hover-glow cipher cards ─────────────────────────── -->
+  <!-- USE CASES — 3D tilt cards with cipher hover ─────────────────── -->
   <HoverGlow />
+  <Tilt3D />
   <section class="aw-section-flush home-section">
     <div class="aw-container-wide">
       <header class="aw-section-head">
@@ -206,12 +268,12 @@ const faqs = [
 
       <ul class="cases-grid" role="list">
         {cases.map((c) => (
-          <li class="case-card hover-glow glare-hover" data-hover-glow>
+          <li class="case-card tilt-3d hover-glow glare-hover" data-tilt-3d data-hover-glow>
             <div class="hover-glow__cipher" aria-hidden="true"></div>
             <div class="hover-glow__mask" aria-hidden="true"></div>
             <a href={c.slug} class="case-link">
               <div class="case-head">
-                <span class="case-title">{c.title}</span>
+                <span class="case-title" data-tilt-pop>{c.title}</span>
                 <span class="case-arrow aw-arrow" aria-hidden="true">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                 </span>
@@ -226,6 +288,34 @@ const faqs = [
                 ))}
               </ul>
             </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS — quote cards with glare + spotlight ───────────── -->
+  <section class="aw-section-flush home-section home-section--soft testimonials-section">
+    <div class="aw-container-wide">
+      <header class="aw-section-head">
+        <p class="aw-eyebrow">Trusted by AI-first teams</p>
+        <h2 class="aw-h2">Operators who already shipped the loop.</h2>
+      </header>
+
+      <ul class="testimonials" role="list">
+        {testimonials.map((t) => (
+          <li class="testimonial spotlight-card glare-hover" data-spotlight>
+            <svg class="testimonial__quote" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M7.17 6A5.17 5.17 0 0 0 2 11.17V18h7v-6.83H5.5c0-1.93 1.57-3.5 3.5-3.5V6h-1.83zm10 0a5.17 5.17 0 0 0-5.17 5.17V18h7v-6.83h-3.5c0-1.93 1.57-3.5 3.5-3.5V6h-1.83z"/>
+            </svg>
+            <p class="testimonial__quote-text">{t.quote}</p>
+            <div class="testimonial__author">
+              <span class="testimonial__avatar" aria-hidden="true">{t.name.charAt(0)}</span>
+              <div>
+                <div class="testimonial__name">{t.name}</div>
+                <div class="testimonial__title">{t.title} · {t.company}</div>
+              </div>
+            </div>
           </li>
         ))}
       </ul>
@@ -250,16 +340,20 @@ const faqs = [
     </div>
   </section>
 
-  <!-- CTA — animated conic border ────────────────────────────────── -->
+  <!-- CTA — conic border + meteors + aurora ──────────────────────── -->
   <section class="aw-section-flush home-section cta-section">
     <div class="aw-container-wide">
       <HoverBorderGradient radius="20px" thickness={1} class="cta-hbg">
         <div class="cta-card">
-          <h2 class="aw-h2 cta-h2">Ship your first App before lunch.</h2>
-          <p class="aw-lede cta-lede">Open a chat. Click <code class="aw-code">Save as App</code>. That's the loop.</p>
-          <div class="aw-actions aw-actions-center">
-            <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Open the app</a>
-            <a href="/contact" class="aw-btn aw-btn-ghost">Talk to us</a>
+          <Aurora intensity="bold" position="center" class="cta-aurora" />
+          <Meteors count={14} angle={215} class="cta-meteors" />
+          <div class="cta-content">
+            <h2 class="aw-h2 cta-h2">Ship your first App before lunch.</h2>
+            <p class="aw-lede cta-lede">Open a chat. Click <code class="aw-code">Save as App</code>. That's the loop.</p>
+            <div class="aw-actions aw-actions-center">
+              <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Open the app</a>
+              <a href="/contact" class="aw-btn aw-btn-ghost">Talk to us</a>
+            </div>
           </div>
         </div>
       </HoverBorderGradient>
@@ -566,6 +660,9 @@ const faqs = [
   @media (min-width: 768px) {
     .cta-card { padding: 4rem 2rem 4.25rem; }
   }
+  :global(.cta-card .cta-aurora)  { z-index: 0; opacity: 0.6; }
+  :global(.cta-card .cta-meteors) { z-index: 0; opacity: 0.85; }
+  .cta-content { position: relative; z-index: 2; }
   .cta-h2 {
     font-size: clamp(2rem, 4vw, 2.75rem);
     margin: 0 auto 1rem;
@@ -574,5 +671,141 @@ const faqs = [
   .cta-lede {
     margin: 0 auto 1.75rem;
     max-width: 44ch;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     SKILLS MARQUEE
+     ══════════════════════════════════════════════════════════════════ */
+  .skills-section {
+    padding: 1.5rem 0 3rem;
+  }
+  @media (min-width: 768px) {
+    .skills-section { padding: 1.75rem 0 3.5rem; }
+  }
+  .skills-eyebrow {
+    font-family: var(--aw-font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--aw-color-text-muted);
+    text-align: center;
+    margin: 0 0 1.5rem;
+  }
+  .skills-marquee {
+    padding: 0.5rem 0;
+  }
+  .skills-marquee--second {
+    margin-top: 0.5rem;
+    opacity: 0.85;
+  }
+  .skill-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.95rem;
+    border: 1px solid var(--aw-color-border);
+    border-radius: 9999px;
+    background: var(--aw-color-bg-page);
+    font-size: 0.8125rem;
+    color: var(--aw-color-text-default);
+    white-space: nowrap;
+    transition: border-color 200ms ease, color 200ms ease, transform 200ms ease;
+  }
+  .skill-chip:hover {
+    border-color: rgba(82, 153, 97, 0.4);
+    color: var(--aw-color-primary);
+    transform: translateY(-1px);
+  }
+  .skill-chip--ghost {
+    background: transparent;
+    color: var(--aw-color-text-muted);
+  }
+  .skill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--aw-color-primary);
+    box-shadow: 0 0 8px rgba(82, 153, 97, 0.55);
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     TESTIMONIALS
+     ══════════════════════════════════════════════════════════════════ */
+  .testimonials-section { position: relative; }
+  .testimonials {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 768px) {
+    .testimonials { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  }
+  .testimonial {
+    position: relative;
+    overflow: hidden;
+    padding: 1.75rem 1.5rem 1.5rem;
+    border: 1px solid var(--aw-color-border);
+    border-radius: 16px;
+    background: var(--aw-color-bg-page);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    transition: border-color 220ms ease, transform 240ms ease, box-shadow 240ms ease;
+  }
+  .testimonial:hover {
+    border-color: rgba(82, 153, 97, 0.32);
+    transform: translateY(-2px);
+    box-shadow: 0 22px 50px -28px rgba(10, 10, 10, 0.18);
+  }
+  .testimonial__quote {
+    width: 22px;
+    height: 22px;
+    color: rgba(82, 153, 97, 0.35);
+    flex-shrink: 0;
+  }
+  .testimonial__quote-text {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--aw-color-text-default);
+    text-wrap: pretty;
+  }
+  .testimonial__author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--aw-color-border);
+  }
+  .testimonial__avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(82, 153, 97, 0.2), rgba(82, 153, 97, 0.05));
+    color: var(--aw-color-primary);
+    font-weight: 700;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1px solid rgba(82, 153, 97, 0.25);
+  }
+  .testimonial__name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--aw-color-text-heading);
+    line-height: 1.2;
+  }
+  .testimonial__title {
+    font-size: 0.75rem;
+    color: var(--aw-color-text-muted);
+    letter-spacing: 0.01em;
+    line-height: 1.4;
+    margin-top: 2px;
   }
 </style>

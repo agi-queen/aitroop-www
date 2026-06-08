@@ -1,0 +1,86 @@
+---
+/*
+  AnimatedCounter — count up to a numeric target on viewport entry.
+
+  Pass either a number target (digits will animate) or any string (in
+  which case the component just renders it statically). Use `suffix`
+  for "+", "M", "K", etc.
+
+  Props:
+    - value: number | string (the final value)
+    - suffix: string (default '')
+    - duration: ms (default 1400)
+*/
+export interface Props {
+  value: number | string;
+  suffix?: string;
+  duration?: number;
+  class?: string;
+}
+const { value, suffix = '', duration = 1400, class: className = '' } = Astro.props;
+const isNum = typeof value === 'number';
+---
+
+{isNum ? (
+  <span
+    class:list={['ac', className]}
+    data-ac
+    data-ac-target={String(value)}
+    data-ac-duration={String(duration)}
+  >
+    <span class="ac__num">0</span><span class="ac__suffix">{suffix}</span>
+  </span>
+) : (
+  <span class:list={['ac', className]}>{value}</span>
+)}
+
+<script>
+  const animate = (el: HTMLElement) => {
+    const target = Number(el.dataset.acTarget || '0');
+    const duration = Number(el.dataset.acDuration || '1400');
+    const numNode = el.querySelector<HTMLElement>('.ac__num');
+    if (!numNode) return;
+    const start = performance.now();
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      // easeOutCubic
+      const eased = 1 - Math.pow(1 - t, 3);
+      const current = Math.round(target * eased);
+      numNode.textContent = String(current);
+      if (t < 1) requestAnimationFrame(step);
+      else numNode.textContent = String(target);
+    };
+    requestAnimationFrame(step);
+  };
+
+  const init = () => {
+    const counters = document.querySelectorAll<HTMLElement>('[data-ac]:not([data-ac-init])');
+    if (!counters.length) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const el = e.target as HTMLElement;
+            el.dataset.acInit = '1';
+            animate(el);
+            io.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.4 }
+    );
+    counters.forEach((c) => io.observe(c));
+  };
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>
+
+<style>
+  .ac {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.05em;
+    font-variant-numeric: tabular-nums;
+  }
+</style>

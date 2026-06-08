@@ -1,0 +1,76 @@
+---
+/*
+  Sparkles — twinkling dot particle layer.
+
+  Renders N randomly-positioned dots that pulse on offset timelines.
+  Done at SSR time so it stays cache-friendly and hydration-free.
+
+  Props:
+    - count: number of particles (default 36)
+    - size:  base px (default 2)
+    - color: CSS color (default brand primary)
+*/
+export interface Props {
+  count?: number;
+  size?: number;
+  color?: string;
+  class?: string;
+}
+const {
+  count = 36,
+  size = 2,
+  color = 'rgba(82, 153, 97, 0.9)',
+  class: className = '',
+} = Astro.props;
+
+const particles = Array.from({ length: count }).map(() => ({
+  x: Math.random() * 100,
+  y: Math.random() * 100,
+  delay: Math.random() * 6,
+  duration: 2 + Math.random() * 3,
+  scale: 0.5 + Math.random() * 1.3,
+}));
+---
+
+<div class:list={['sparkles', className]} aria-hidden="true" style={`--spk-size: ${size}px; --spk-color: ${color};`}>
+  {particles.map((p) => (
+    <span
+      class="sparkle"
+      style={`
+        left: ${p.x}%;
+        top: ${p.y}%;
+        animation-delay: ${p.delay}s;
+        animation-duration: ${p.duration}s;
+        --spk-scale: ${p.scale};
+      `}
+    ></span>
+  ))}
+</div>
+
+<style>
+  .sparkles {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .sparkle {
+    position: absolute;
+    width: var(--spk-size);
+    height: var(--spk-size);
+    border-radius: 50%;
+    background: var(--spk-color);
+    box-shadow: 0 0 6px var(--spk-color);
+    opacity: 0;
+    transform: scale(var(--spk-scale, 1));
+    animation: sparkle-twinkle ease-in-out infinite;
+  }
+  @keyframes sparkle-twinkle {
+    0%, 100% { opacity: 0; transform: scale(calc(var(--spk-scale, 1) * 0.4)); }
+    50%      { opacity: 1; transform: scale(var(--spk-scale, 1)); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sparkle { animation: none; opacity: 0.6; }
+  }
+</style>

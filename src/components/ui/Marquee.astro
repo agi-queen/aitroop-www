@@ -1,0 +1,76 @@
+---
+/*
+  Marquee — Aceternity-style infinite scrolling strip with edge fade.
+
+  Renders the children twice and translates by -50% so the loop has no
+  visible seam. CSS-only animation, pauses on hover.
+
+  Slots:
+    - default: the items to scroll.
+
+  Props:
+    - speed: seconds for one full loop (default 40)
+    - direction: 'left' | 'right'
+    - pauseOnHover: boolean (default true)
+*/
+export interface Props {
+  speed?: number;
+  direction?: 'left' | 'right';
+  pauseOnHover?: boolean;
+  class?: string;
+}
+const {
+  speed = 40,
+  direction = 'left',
+  pauseOnHover = true,
+  class: className = '',
+} = Astro.props;
+---
+
+<div
+  class:list={['marquee', `marquee--${direction}`, pauseOnHover && 'marquee--pause', className]}
+  style={`--mq-speed: ${speed}s;`}
+>
+  <div class="marquee__track">
+    <div class="marquee__group">
+      <slot />
+    </div>
+    <div class="marquee__group" aria-hidden="true">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  .marquee {
+    position: relative;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+            mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll var(--mq-speed) linear infinite;
+  }
+  .marquee--right .marquee__track {
+    animation-direction: reverse;
+  }
+  .marquee__group {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  .marquee--pause:hover .marquee__track {
+    animation-play-state: paused;
+  }
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track { animation: none; }
+  }
+</style>

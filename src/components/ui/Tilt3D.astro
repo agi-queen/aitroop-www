@@ -1,0 +1,69 @@
+---
+/*
+  Tilt3D — mouse-tracked perspective tilt (Aceternity-style 3D Card).
+
+  Add `class="tilt-3d"` and `data-tilt-3d` to any card root. On hover,
+  the card rotates a few degrees on X/Y based on cursor position. Add
+  `data-tilt-pop` to any descendant to make it lift "out of" the card.
+
+  Include this component once on the page to register the global script.
+*/
+---
+
+<script>
+  const MAX = 7; // max rotation in deg
+
+  const init = () => {
+    const cards = document.querySelectorAll<HTMLElement>('[data-tilt-3d]:not([data-tilt-init])');
+    cards.forEach((el) => {
+      el.dataset.tiltInit = '1';
+      el.style.transformStyle = 'preserve-3d';
+
+      const onMove = (e: PointerEvent) => {
+        const r = el.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width;  // 0..1
+        const py = (e.clientY - r.top) / r.height;  // 0..1
+        const rx = (0.5 - py) * (2 * MAX);
+        const ry = (px - 0.5) * (2 * MAX);
+        el.style.setProperty('--tilt-rx', `${rx.toFixed(2)}deg`);
+        el.style.setProperty('--tilt-ry', `${ry.toFixed(2)}deg`);
+      };
+
+      const reset = () => {
+        el.style.setProperty('--tilt-rx', '0deg');
+        el.style.setProperty('--tilt-ry', '0deg');
+      };
+
+      el.addEventListener('pointermove', onMove);
+      el.addEventListener('pointerleave', reset);
+    });
+  };
+
+  init();
+  document.addEventListener('astro:page-load', init);
+</script>
+
+<style is:global>
+  .tilt-3d {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+    transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .tilt-3d > * {
+    transform: rotateX(var(--tilt-rx, 0deg)) rotateY(var(--tilt-ry, 0deg));
+    transform-style: preserve-3d;
+    transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    will-change: transform;
+  }
+  /* propagate 3D context so nested data-tilt-pop elements can translateZ */
+  .tilt-3d * { transform-style: preserve-3d; }
+  .tilt-3d [data-tilt-pop] {
+    transform: translateZ(40px);
+    transition: transform 220ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tilt-3d > *,
+    .tilt-3d [data-tilt-pop] { transform: none !important; }
+  }
+</style>

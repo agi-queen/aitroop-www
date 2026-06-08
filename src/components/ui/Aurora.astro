@@ -1,0 +1,94 @@
+---
+/*
+  Aurora — slow drifting conic/mesh gradient. Drop into a relative parent.
+
+  Two stacked blurred blobs animate on offset timelines, masked to a soft
+  ellipse at the top so the heading lights up without bleeding to the
+  whole section. Pure CSS, no JS.
+
+  Props:
+    - intensity: 'subtle' | 'normal' | 'bold'   (default 'normal')
+    - position: 'top' | 'center'                (default 'top')
+*/
+export interface Props {
+  intensity?: 'subtle' | 'normal' | 'bold';
+  position?: 'top' | 'center';
+  class?: string;
+}
+const { intensity = 'normal', position = 'top', class: className = '' } = Astro.props;
+---
+
+<div class:list={['aurora', `aurora--${intensity}`, `aurora--${position}`, className]} aria-hidden="true">
+  <div class="aurora__blob aurora__blob--a"></div>
+  <div class="aurora__blob aurora__blob--b"></div>
+  <div class="aurora__blob aurora__blob--c"></div>
+</div>
+
+<style>
+  .aurora {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 25%, #000 30%, transparent 85%);
+            mask-image: radial-gradient(ellipse 80% 70% at 50% 25%, #000 30%, transparent 85%);
+  }
+  .aurora--center {
+    -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 35%, transparent 90%);
+            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, #000 35%, transparent 90%);
+  }
+
+  .aurora__blob {
+    position: absolute;
+    width: 60vw;
+    height: 60vw;
+    max-width: 900px;
+    max-height: 900px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+
+  /* three blobs at different positions / hues for the aurora feel */
+  .aurora__blob--a {
+    left: -10%;
+    top: -25%;
+    background: radial-gradient(circle at 30% 30%, rgba(82, 153, 97, 0.55), transparent 65%);
+    animation: aurora-drift-a 22s ease-in-out infinite alternate;
+  }
+  .aurora__blob--b {
+    right: -15%;
+    top: -10%;
+    background: radial-gradient(circle at 70% 40%, rgba(139, 192, 153, 0.45), transparent 65%);
+    animation: aurora-drift-b 28s ease-in-out infinite alternate;
+  }
+  .aurora__blob--c {
+    left: 30%;
+    top: -35%;
+    background: radial-gradient(circle at 50% 50%, rgba(208, 235, 213, 0.55), transparent 65%);
+    animation: aurora-drift-c 34s ease-in-out infinite alternate;
+  }
+
+  .aurora--subtle .aurora__blob { opacity: 0.35; }
+  .aurora--normal .aurora__blob { opacity: 0.55; }
+  .aurora--bold   .aurora__blob { opacity: 0.85; }
+
+  @keyframes aurora-drift-a {
+    0%   { transform: translate3d(0, 0, 0) scale(1); }
+    100% { transform: translate3d(8%, 6%, 0) scale(1.15); }
+  }
+  @keyframes aurora-drift-b {
+    0%   { transform: translate3d(0, 0, 0) scale(1); }
+    100% { transform: translate3d(-6%, 4%, 0) scale(1.1); }
+  }
+  @keyframes aurora-drift-c {
+    0%   { transform: translate3d(0, 0, 0) scale(1); }
+    100% { transform: translate3d(0, 9%, 0) scale(1.18); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora__blob { animation: none; }
+  }
+</style>

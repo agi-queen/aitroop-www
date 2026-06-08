@@ -1,0 +1,87 @@
+---
+/*
+  Meteors — diagonal streak lines that periodically fall across the
+  container. Lightweight: a few absolutely positioned spans with delayed
+  CSS animations. No JS.
+
+  Props:
+    - count: number of meteors (default 18)
+    - angle: tilt in deg (default 215 — top-right → bottom-left)
+*/
+export interface Props {
+  count?: number;
+  angle?: number;
+  class?: string;
+}
+const { count = 18, angle = 215, class: className = '' } = Astro.props;
+
+const meteors = Array.from({ length: count }).map(() => ({
+  left: Math.random() * 100,
+  delay: Math.random() * 8,
+  duration: 3 + Math.random() * 6,
+  topOffset: Math.random() * 40,
+}));
+---
+
+<div class:list={['meteors', className]} aria-hidden="true" style={`--mt-angle: ${angle}deg;`}>
+  {meteors.map((m) => (
+    <span
+      class="meteor"
+      style={`
+        left: ${m.left}%;
+        top: ${m.topOffset}%;
+        animation-delay: ${m.delay}s;
+        animation-duration: ${m.duration}s;
+      `}
+    ></span>
+  ))}
+</div>
+
+<style>
+  .meteors {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    transform: rotate(var(--mt-angle));
+    transform-origin: 50% 50%;
+  }
+  .meteor {
+    position: absolute;
+    width: 1px;
+    height: 70px;
+    background: linear-gradient(
+      to bottom,
+      rgba(82, 153, 97, 0.0) 0%,
+      rgba(82, 153, 97, 0.55) 60%,
+      rgba(82, 153, 97, 0.85) 90%,
+      rgba(255, 255, 255, 0.95) 100%
+    );
+    border-radius: 1px;
+    opacity: 0;
+    animation: meteor-fall linear infinite;
+    filter: drop-shadow(0 0 6px rgba(82, 153, 97, 0.6));
+  }
+  .meteor::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 12px rgba(82, 153, 97, 0.9);
+    transform: translateX(-50%);
+  }
+  @keyframes meteor-fall {
+    0%   { transform: translateY(-120%); opacity: 0; }
+    10%  { opacity: 1; }
+    70%  { opacity: 1; }
+    100% { transform: translateY(800%); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .meteor { animation: none; opacity: 0; }
+  }
+</style>
