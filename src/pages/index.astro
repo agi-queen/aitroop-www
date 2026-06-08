@@ -3,6 +3,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import AnatomyFlow from '~/components/widgets/AnatomyFlow.astro';
 import WorkflowLifecycle from '~/components/widgets/WorkflowLifecycle.astro';
 import PopText from '~/components/ui/PopText.astro';
+import Spotlight from '~/components/ui/Spotlight.astro';
 
 const metadata = {
   title: 'Aitroop - Save AI agent conversations as apps',
@@ -103,6 +104,7 @@ const faqs = [
 ---
 
 <Layout metadata={metadata}>
+  <Spotlight />
 
   <!-- HERO — split layout: copy left, feature stack right ─────────── -->
   <section class="aw-hero hero relative isolate overflow-hidden">
@@ -184,22 +186,19 @@ const faqs = [
         <p class="aw-eyebrow">Why teams pick Aitroop</p>
         <h2 class="aw-h2">Everything you need to make an agent stick.</h2>
       </header>
-      <div class="features-hover" data-features-hover>
-        <span class="features-hover-blob" aria-hidden="true"></span>
-        <ul class="features-grid" role="list">
-          {features.map((f) => (
-            <li class="feature-tile" data-feature-tile>
-              <span class="tile-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <path d={f.icon} />
-                </svg>
-              </span>
-              <h3 class="tile-title">{f.title}</h3>
-              <p class="tile-desc">{f.desc}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul class="features-grid" role="list">
+        {features.map((f) => (
+          <li class="feature-tile spotlight-card" data-spotlight>
+            <span class="tile-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d={f.icon} />
+              </svg>
+            </span>
+            <h3 class="tile-title">{f.title}</h3>
+            <p class="tile-desc">{f.desc}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
@@ -213,7 +212,7 @@ const faqs = [
 
       <ul class="cases-grid" role="list">
         {cases.map((c) => (
-          <li class="case-card">
+          <li class="case-card spotlight-card" data-spotlight>
             <a href={c.slug} class="case-link">
               <div class="case-head">
                 <span class="case-title">{c.title}</span>
@@ -270,58 +269,6 @@ const faqs = [
   </section>
 
 </Layout>
-
-<script>
-  const hosts = document.querySelectorAll<HTMLElement>('[data-features-hover]');
-  hosts.forEach((host) => {
-    const blob = host.querySelector<HTMLElement>('.features-hover-blob');
-    const tiles = host.querySelectorAll<HTMLElement>('[data-feature-tile]');
-    if (!blob || tiles.length === 0) return;
-
-    let measured = false;
-    const moveTo = (tile: HTMLElement) => {
-      const hostRect = host.getBoundingClientRect();
-      const rect = tile.getBoundingClientRect();
-      const x = rect.left - hostRect.left;
-      const y = rect.top - hostRect.top;
-      // First placement: snap without transition so the blob doesn't fly in from (0,0).
-      if (!measured) {
-        const prev = blob.style.transition;
-        blob.style.transition = 'none';
-        blob.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-        blob.style.width = `${rect.width}px`;
-        blob.style.height = `${rect.height}px`;
-        // force reflow then restore transition
-        void blob.offsetWidth;
-        blob.style.transition = prev;
-        measured = true;
-        return;
-      }
-      blob.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-      blob.style.width = `${rect.width}px`;
-      blob.style.height = `${rect.height}px`;
-    };
-
-    tiles.forEach((tile) => {
-      tile.addEventListener('pointerenter', () => {
-        host.classList.add('is-active');
-        moveTo(tile);
-      });
-      tile.addEventListener('focusin', () => {
-        host.classList.add('is-active');
-        moveTo(tile);
-      });
-    });
-    host.addEventListener('pointerleave', () => {
-      host.classList.remove('is-active');
-    });
-    host.addEventListener('focusout', (e) => {
-      if (!host.contains(e.relatedTarget as Node)) {
-        host.classList.remove('is-active');
-      }
-    });
-  });
-</script>
 
 <style>
   /* ══════════════════════════════════════════════════════════════════
@@ -523,33 +470,8 @@ const faqs = [
   .lifecycle-head { max-width: 56rem; margin-bottom: 2.5rem; }
   .lifecycle-lede { max-width: 52ch; margin: 0; }
 
-  /* ── Features grid — 6 tiles, Aceternity-style hover blob ────── */
-  .features-hover {
-    position: relative;
-  }
-  .features-hover-blob {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    border-radius: 16px;
-    background: rgba(82, 153, 97, 0.10);
-    pointer-events: none;
-    opacity: 0;
-    z-index: 0;
-    transition:
-      opacity 220ms ease,
-      transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
-      width 360ms cubic-bezier(0.22, 1, 0.36, 1),
-      height 360ms cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: transform, width, height, opacity;
-  }
-  .features-hover.is-active .features-hover-blob { opacity: 1; }
-
+  /* ── Features grid — 6 tiles, Spotlight on hover ─────────────── */
   .features-grid {
-    position: relative;
-    z-index: 1;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -564,7 +486,6 @@ const faqs = [
     .features-grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
   }
   .feature-tile {
-    position: relative;
     display: flex;
     flex-direction: column;
     gap: 0.625rem;
@@ -576,10 +497,6 @@ const faqs = [
   }
   .feature-tile:hover {
     border-color: rgba(82, 153, 97, 0.22);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .features-hover-blob { transition: opacity 120ms ease; }
   }
   .tile-icon {
     width: 38px;

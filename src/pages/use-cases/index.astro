@@ -1,5 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import Spotlight from '~/components/ui/Spotlight.astro';
 
 const metadata = {
   title: 'Use Cases · Aitroop',
@@ -34,6 +35,7 @@ const cases = [
 ---
 
 <Layout metadata={metadata}>
+  <Spotlight />
 
   <!-- PAGE HEAD ────────────────────────────────────────────────────── -->
   <section class="aw-page-head aw-page-head-banner">
@@ -53,7 +55,7 @@ const cases = [
     <div class="aw-container">
       <ul class="packs">
         {cases.map((c) => (
-          <li class="pack">
+          <li class="pack spotlight-card" data-spotlight>
             <div class="pack-head">
               <h2 class="pack-title">
                 <a href={c.slug}>{c.title}</a>

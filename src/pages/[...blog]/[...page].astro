@@ -5,6 +5,7 @@ import Layout from '~/layouts/PageLayout.astro';
 import BlogList from '~/components/blog/List.astro';
 import IndexHeader from '~/components/blog/IndexHeader.astro';
 import Pagination from '~/components/blog/Pagination.astro';
+import Spotlight from '~/components/ui/Spotlight.astro';
 
 import { blogListRobots, getStaticPathsBlogList } from '~/utils/blog';
 
@@ -32,6 +33,7 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
+  <Spotlight />
   <section class="aw-page-head aw-page-head-banner">
     <div class="aw-container">
       <IndexHeader

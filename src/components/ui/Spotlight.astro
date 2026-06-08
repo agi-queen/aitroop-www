@@ -1,0 +1,60 @@
+---
+/*
+  Spotlight — mouse-tracking radial glow for any card.
+
+  Usage:
+    1. Add `class="spotlight-card"` and `data-spotlight` to the card root.
+       The card must be a stacking context — this component supplies
+       `position: relative; isolation: isolate` and a clipped ::before glow.
+    2. Include `<Spotlight />` once on any page that uses .spotlight-card.
+
+  Light, dependency-free, and unobtrusive: no opacity transition delay,
+  no scroll listeners, no per-frame work — only pointermove on hover.
+*/
+---
+
+<script>
+  const init = () => {
+    const cards = document.querySelectorAll<HTMLElement>('[data-spotlight]:not([data-spotlight-init])');
+    cards.forEach((el) => {
+      el.dataset.spotlightInit = '1';
+      el.addEventListener('pointermove', (e) => {
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--spot-x', `${e.clientX - r.left}px`);
+        el.style.setProperty('--spot-y', `${e.clientY - r.top}px`);
+      });
+    });
+  };
+
+  init();
+  // Re-bind after Astro view transitions / soft navigations
+  document.addEventListener('astro:page-load', init);
+</script>
+
+<style is:global>
+  .spotlight-card {
+    position: relative;
+    isolation: isolate;
+  }
+  .spotlight-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    background: radial-gradient(
+      520px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      rgba(82, 153, 97, 0.16),
+      transparent 45%
+    );
+    opacity: 0;
+    transition: opacity 220ms ease;
+    z-index: 0;
+  }
+  .spotlight-card:hover::before { opacity: 1; }
+  .spotlight-card > * { position: relative; z-index: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .spotlight-card::before { transition: none; }
+  }
+</style>
