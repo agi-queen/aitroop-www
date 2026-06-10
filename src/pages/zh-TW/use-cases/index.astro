@@ -1,5 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import GridBackground from '~/components/ui/GridBackground.astro';
 
 const metadata = {
   title: '案例 · Aitroop',
@@ -8,7 +9,6 @@ const metadata = {
 const cases = [
   {
     slug: '/zh-TW/use-cases/gtm',
-    eyebrow: 'B2B 成長',
     title: 'GTM',
     tagline: '讓管道自動運轉。',
     desc: '線索挖掘、外部觸達、客戶留存、管道洞察。為不想增加 headcount 又想持續放大產出的營收團隊預置的 App 套件。',
@@ -16,7 +16,6 @@ const cases = [
   },
   {
     slug: '/zh-TW/use-cases/finance',
-    eyebrow: '財務團隊 · CFO',
     title: '財務',
     tagline: '更快地把帳關掉。',
     desc: '月結、應收帳款分析、費用合規、預算差異分析。讓財務團隊少花時間在表格上，多花時間在驅動決策的分析上。',
@@ -28,9 +27,9 @@ const cases = [
 <Layout metadata={metadata}>
 
   <!-- PAGE HEAD ────────────────────────────────────────────────────── -->
-  <section class="aw-page-head aw-page-head-banner">
+  <section class="aw-page-head aw-page-head-banner relative isolate overflow-hidden">
+    <GridBackground variant="small-grid" tone="brand" />
     <div class="aw-container">
-      <p class="aw-eyebrow">案例</p>
       <h1 class="aw-h2">
         團隊真實在做的工作，都有預置 App 包。
       </h1>
@@ -45,31 +44,33 @@ const cases = [
     <div class="aw-container">
       <ul class="packs">
         {cases.map((c) => (
-          <li>
-            <a href={c.slug} class="group">
-              <div class="pack-head">
-                <p class="aw-eyebrow-mono">{c.eyebrow}</p>
-                <h2 class="pack-title">{c.title}</h2>
-                <p class="pack-tagline">{c.tagline}</p>
-              </div>
-              <div class="pack-body">
-                <p class="pack-desc">{c.desc}</p>
-                <ul class="pack-apps">
-                  {c.apps.map((app) => <li class="aw-tag">{app}</li>)}
-                </ul>
-                <span class="pack-cta">
-                  查看案例
-                  <span class="aw-arrow" aria-hidden="true">→</span>
-                </span>
-              </div>
-            </a>
+          <li class="pack">
+            <div class="pack-head">
+              <h2 class="pack-title">
+                <a href={c.slug}>{c.title}</a>
+              </h2>
+              <p class="pack-tagline">{c.tagline}</p>
+              <p class="pack-desc">{c.desc}</p>
+              <a href={c.slug} class="pack-cta">
+                查看案例
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+
+            <ul class="pack-apps">
+              {c.apps.map((app) => (
+                <li class="pack-app">
+                  <span class="pack-app-name">{app}</span>
+                </li>
+              ))}
+            </ul>
           </li>
         ))}
       </ul>
 
+      <!-- BYO use case -->
       <div class="byo">
         <div class="byo-text">
-          <p class="aw-eyebrow">客製</p>
           <h3 class="byo-title">沒找到你的場景？</h3>
           <p class="byo-desc">Aitroop 是把任意 AI 輔助工作流固化成可重複使用 App 的平台。聊聊你團隊的具體場景。</p>
         </div>
@@ -81,6 +82,7 @@ const cases = [
 </Layout>
 
 <style>
+  /* ════ pack list — editorial hairline rows, no card chrome ════ */
   .packs {
     list-style: none;
     margin: 0;
@@ -88,65 +90,101 @@ const cases = [
     display: grid;
     gap: 0;
   }
-  .packs > li { border-top: 1px solid var(--aw-color-border-strong); }
-  .packs > li:last-child { border-bottom: 1px solid var(--aw-color-border); }
-  .packs a {
+  .pack {
+    border-top: 1px solid var(--aw-color-border-strong);
+    padding: 2.25rem 0 2.5rem;
     display: grid;
-    gap: 1.5rem;
-    padding: 2rem 0 2.5rem;
+    gap: 1.75rem;
     grid-template-columns: 1fr;
-    align-items: start;
   }
-  @media (min-width: 768px) {
-    .packs a {
-      grid-template-columns: 16rem 1fr;
+  @media (min-width: 900px) {
+    .pack {
+      grid-template-columns: 18rem 1fr;
       gap: 3.5rem;
-      padding: 2.5rem 0 3rem;
+      padding: 2.75rem 0 3rem;
     }
   }
+  .pack-head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
   .pack-title {
-    font-size: clamp(1.875rem, 3.4vw, 2.375rem);
+    font-size: clamp(2rem, 3.6vw, 2.625rem);
     font-weight: 700;
     letter-spacing: -0.025em;
-    line-height: 1.05;
+    line-height: 1.04;
     color: var(--aw-color-text-heading);
-    margin: 0 0 0.5rem;
+    margin: 0 0 0.625rem;
   }
+  .pack-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .pack-title a:hover { text-decoration: underline; }
   .pack-tagline {
-    font-size: 1rem;
+    font-size: 1.0625rem;
     font-weight: 500;
     color: var(--aw-color-text-default);
-    margin: 0;
+    margin: 0 0 1rem;
     line-height: 1.4;
   }
   .pack-desc {
     font-size: 0.9375rem;
-    line-height: 1.7;
+    line-height: 1.65;
     color: var(--aw-color-text-muted);
     margin: 0 0 1.25rem;
+    max-width: 42ch;
     text-wrap: pretty;
-  }
-  .pack-apps {
-    list-style: none;
-    margin: 0 0 1.5rem;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
   }
   .pack-cta {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     font-weight: 600;
     color: var(--aw-color-primary);
+    text-decoration: none;
+    transition: gap 200ms cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .pack-cta svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 200ms cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .pack-cta:hover { gap: 0.625rem; }
+  .pack-cta:hover svg { transform: translateX(2px); }
+
+  /* ════ pack apps — compact preview rows ════ */
+  .pack-apps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .pack-app {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--aw-color-border);
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+  .pack-app:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+  .pack-app-name {
+    font-weight: 600;
+    color: var(--aw-color-text-default);
+    letter-spacing: -0.005em;
   }
 
+  /* ════ BYO row ════ */
   .byo {
     margin-top: 3rem;
     padding: 2.5rem 0 0;
-    border-top: 1px solid var(--aw-color-border);
+    border-top: 1px solid var(--aw-color-border-strong);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -172,9 +210,9 @@ const cases = [
   }
   .byo-desc {
     font-size: 0.9375rem;
-    line-height: 1.65;
+    line-height: 1.6;
     color: var(--aw-color-text-muted);
     margin: 0;
-    max-width: 56ch;
+    max-width: 50ch;
   }
 </style>

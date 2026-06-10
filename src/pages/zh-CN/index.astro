@@ -3,18 +3,10 @@ import Layout from '~/layouts/PageLayout.astro';
 import AnatomyFlow from '~/components/widgets/AnatomyFlow.astro';
 import WorkflowLifecycle from '~/components/widgets/WorkflowLifecycle.astro';
 import PopText from '~/components/ui/PopText.astro';
-import Spotlight from '~/components/ui/Spotlight.astro';
 import GridBackground from '~/components/ui/GridBackground.astro';
 import BentoGrid from '~/components/ui/BentoGrid.astro';
-import HoverGlow from '~/components/ui/HoverGlow.astro';
-import HoverBorderGradient from '~/components/ui/HoverBorderGradient.astro';
-import GlareHover from '~/components/ui/GlareHover.astro';
-import Aurora from '~/components/ui/Aurora.astro';
-import Sparkles from '~/components/ui/Sparkles.astro';
-import Meteors from '~/components/ui/Meteors.astro';
+import type { BentoItem } from '~/components/ui/BentoGrid.astro';
 import Marquee from '~/components/ui/Marquee.astro';
-import Tilt3D from '~/components/ui/Tilt3D.astro';
-import AnimatedCounter from '~/components/ui/AnimatedCounter.astro';
 
 const metadata = {
   title: 'Aitroop - 把 AI Agent 对话固化成 App',
@@ -39,13 +31,6 @@ const anatomySteps = [
   },
 ];
 
-const stats = [
-  { value: 150, suffix: '+', label: '技能' },
-  { value: 20,  suffix: '+', label: '集成' },
-  { value: 7,   suffix: '',  label: '产物格式' },
-  { value: 'cron', suffix: '', label: '调度' },
-];
-
 const skills = [
   'GitHub', 'Gmail', 'Slack', 'Notion', 'Drive', 'Linear',
   'Stripe', 'HubSpot', 'Salesforce', 'Figma', 'Jira', 'Asana',
@@ -59,6 +44,7 @@ const testimonials = [
     name: 'Marta R.',
     title: '营收运营主管',
     company: 'Northbound',
+    featured: true,
   },
   {
     quote: '「存为 App」让我那堆混乱的 prompt 笔记，变成了团队真的能跑起来的东西。',
@@ -74,11 +60,12 @@ const testimonials = [
   },
 ];
 
-const features = [
+const features: BentoItem[] = [
   {
     title: '对话存为 App',
     desc: '一键沉淀刚跑通的流程，变成带类型化输入、可重复运行的工作流。',
     icon: 'M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z',
+    span: 'wide',
   },
   {
     title: '多 Stage 管道',
@@ -113,12 +100,14 @@ const cases = [
     title: 'GTM',
     desc: '线索挖掘、外部触达、客户留存、管道洞察。',
     points: ['规模化的 ICP 调研', '个性化外联序列', '管道与留存报告'],
+    cta: '查看 GTM',
   },
   {
     slug: '/zh-CN/use-cases/finance',
     title: '财务',
     desc: '月结、稽核、差异分析、报告。专为 CFO 团队设计。',
     points: ['月结报告包自动装配', '差异与变动分析', '审计就绪的导出'],
+    cta: '查看财务',
   },
 ];
 
@@ -143,66 +132,47 @@ const faqs = [
 ---
 
 <Layout metadata={metadata}>
-  <Spotlight />
-  <GlareHover />
 
-  <!-- HERO — grid + aurora + sparkles ─────────────────────────────── -->
+  <!-- HERO — single backdrop (grid only) ─────────────────────────── -->
   <section class="aw-hero hero relative isolate overflow-hidden">
     <GridBackground variant="grid" tone="brand" />
-    <Aurora intensity="subtle" position="top" />
-    <Sparkles count={42} size={2} />
     <div class="aw-container-wide">
-      <div class="hero-grid">
-        <div class="hero-copy">
-          <a href="/zh-CN/use-cases" class="hero-pill">
-            <span class="pill-tag">NEW</span>
-            <span class="pill-text">150+ 技能 · 20+ 集成</span>
-            <svg class="pill-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </a>
-          <h1 class="aw-display hero-display">
-            强大的 Agent。<br />
-            无尽的技能。<br />
-            <PopText
-              text="一键即用的 App。"
-              stagger={32}
-              delay={260}
-              duration={310}
-              class="text-primary hero-pop"
-            />
-          </h1>
-          <p class="aw-lede hero-lede">
-            一键就把刚跑通的 Agent 流程沉淀为 App，团队可以反复运行。不再重敲 prompt，不再写胶水代码。
-          </p>
-          <div class="aw-actions hero-actions">
-            <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">免费开始</a>
-            <a href="/zh-CN/use-cases" class="aw-btn aw-btn-ghost">查看案例</a>
-          </div>
+      <div class="hero-copy">
+        <a href="/zh-CN/use-cases" class="hero-pill">
+          <span class="pill-tag">NEW</span>
+          <span class="pill-text">150+ 技能 · 20+ 集成</span>
+          <svg class="pill-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <h1 class="aw-display hero-display">
+          强大的 Agent。<br />
+          无尽的技能。<br />
+          <PopText
+            text="一键即用的 App。"
+            stagger={28}
+            delay={220}
+            duration={420}
+            burst={false}
+            class="text-primary hero-pop"
+          />
+        </h1>
+        <p class="aw-lede hero-lede">
+          一键就把刚跑通的 Agent 流程沉淀为 App，团队可以反复运行。不再重敲 prompt，不再写胶水代码。
+        </p>
+        <div class="aw-actions hero-actions">
+          <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">免费开始</a>
+          <a href="/zh-CN/use-cases" class="aw-btn aw-btn-ghost">查看案例</a>
         </div>
-
       </div>
     </div>
   </section>
 
-  <!-- STATS — animated counters strip ─────────────────────────────── -->
-  <section class="stats-section">
-    <div class="aw-container-wide">
-      <ul class="stats" role="list">
-        {stats.map((s) => (
-          <li class="stat">
-            <span class="stat-value">
-              <AnimatedCounter value={s.value} suffix={s.suffix} />
-            </span>
-            <span class="stat-label">{s.label}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <!-- SKILLS MARQUEE — infinite scroller of connect chips ─────────── -->
+  <!-- SKILLS — single lede (replaces stats strip) + dual marquee ── -->
   <section class="skills-section">
     <div class="aw-container-wide">
-      <p class="skills-eyebrow">适配你团队已经在用的工具</p>
+      <p class="skills-lede">
+        已经内置 <strong>150+ 技能</strong> 与 <strong>20+ 集成</strong> —
+        从 GitHub、Gmail 到 Slack、Notion、Drive、Linear，覆盖你团队日常在用的长尾工具。
+      </p>
     </div>
     <Marquee speed={45} class="skills-marquee">
       {skills.map((s) => (
@@ -245,66 +215,53 @@ const faqs = [
     </div>
   </section>
 
-  <!-- FEATURES — bento grid ──────────────────────────────────────── -->
+  <!-- FEATURES — bento grid (first tile is wide for asymmetry) ──── -->
   <section class="aw-section-flush home-section home-section--soft">
     <div class="aw-container-wide">
       <header class="aw-section-head">
-        <p class="aw-eyebrow">团队为什么选择 Aitroop</p>
         <h2 class="aw-h2">让一个 Agent 真正沉淀下来，所需的一切。</h2>
       </header>
       <BentoGrid items={features} />
     </div>
   </section>
 
-  <!-- USE CASES — 3D tilt cards with cipher hover ─────────────────── -->
-  <HoverGlow />
-  <Tilt3D />
+  <!-- USE CASES — editorial two-column, no card chrome ───────────── -->
   <section class="aw-section-flush home-section">
     <div class="aw-container-wide">
       <header class="aw-section-head">
-        <p class="aw-eyebrow">案例</p>
         <h2 class="aw-h2">为团队真实在做的事而设计。</h2>
       </header>
 
-      <ul class="cases-grid" role="list">
+      <div class="cases-editorial">
         {cases.map((c) => (
-          <li class="case-card tilt-3d hover-glow glare-hover" data-tilt-3d data-hover-glow>
-            <div class="hover-glow__cipher" aria-hidden="true"></div>
-            <div class="hover-glow__mask" aria-hidden="true"></div>
+          <article class="case">
             <a href={c.slug} class="case-link">
-              <div class="case-head">
-                <span class="case-title" data-tilt-pop>{c.title}</span>
-                <span class="case-arrow aw-arrow" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                </span>
-              </div>
+              <h3 class="case-title">{c.title}</h3>
               <p class="case-desc">{c.desc}</p>
               <ul class="case-points" role="list">
-                {c.points.map((p) => (
-                  <li>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                    <span>{p}</span>
-                  </li>
-                ))}
+                {c.points.map((p) => <li>{p}</li>)}
               </ul>
+              <span class="case-cta">
+                {c.cta}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </span>
             </a>
-          </li>
+          </article>
         ))}
-      </ul>
+      </div>
     </div>
   </section>
 
-  <!-- TESTIMONIALS — quote cards with glare + spotlight ───────────── -->
+  <!-- TESTIMONIALS — first one featured, others quieter ──────────── -->
   <section class="aw-section-flush home-section home-section--soft testimonials-section">
     <div class="aw-container-wide">
       <header class="aw-section-head">
-        <p class="aw-eyebrow">深得 AI 优先团队信赖</p>
         <h2 class="aw-h2">已经把闭环跑通的运营者们。</h2>
       </header>
 
       <ul class="testimonials" role="list">
         {testimonials.map((t) => (
-          <li class="testimonial spotlight-card glare-hover" data-spotlight>
+          <li class:list={['testimonial', t.featured && 'testimonial--featured']}>
             <svg class="testimonial__quote" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M7.17 6A5.17 5.17 0 0 0 2 11.17V18h7v-6.83H5.5c0-1.93 1.57-3.5 3.5-3.5V6h-1.83zm10 0a5.17 5.17 0 0 0-5.17 5.17V18h7v-6.83h-3.5c0-1.93 1.57-3.5 3.5-3.5V6h-1.83z"/>
             </svg>
@@ -326,7 +283,6 @@ const faqs = [
   <section class="aw-section-flush home-section home-section--soft">
     <div class="aw-container-wide">
       <header class="aw-section-head faq-head">
-        <p class="aw-eyebrow">FAQ</p>
         <h2 class="aw-h2">常见问题，一次说清。</h2>
       </header>
       <ul class="faq-list" role="list">
@@ -340,23 +296,17 @@ const faqs = [
     </div>
   </section>
 
-  <!-- CTA — conic border + meteors + aurora ──────────────────────── -->
+  <!-- CTA — drenched brand green, no decoration ──────────────────── -->
   <section class="aw-section-flush home-section cta-section">
     <div class="aw-container-wide">
-      <HoverBorderGradient radius="20px" thickness={1} class="cta-hbg">
-        <div class="cta-card">
-          <Aurora intensity="bold" position="center" class="cta-aurora" />
-          <Meteors count={14} angle={215} class="cta-meteors" />
-          <div class="cta-content">
-            <h2 class="aw-h2 cta-h2">午饭前发布你的第一个 App。</h2>
-            <p class="aw-lede cta-lede">打开对话。点击 <code class="aw-code">存为 App</code>。整个流程就是这样。</p>
-            <div class="aw-actions aw-actions-center">
-              <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">打开应用</a>
-              <a href="/zh-CN/contact" class="aw-btn aw-btn-ghost">联系我们</a>
-            </div>
-          </div>
+      <div class="cta-drench">
+        <h2 class="cta-h2">午饭前发布你的第一个 App。</h2>
+        <p class="cta-lede">打开对话。点击 <code class="cta-code">存为 App</code>。整个流程就是这样。</p>
+        <div class="aw-actions aw-actions-center cta-actions">
+          <a href="https://app.aitroop.net" class="aw-btn cta-btn-primary">打开应用</a>
+          <a href="/zh-CN/contact" class="aw-btn cta-btn-ghost">联系我们</a>
         </div>
-      </HoverBorderGradient>
+      </div>
     </div>
   </section>
 
@@ -364,15 +314,11 @@ const faqs = [
 
 <style>
   /* ══════════════════════════════════════════════════════════════════
-     HERO — split layout
+     HERO — centered single column, restrained backdrop
      ══════════════════════════════════════════════════════════════════ */
   .hero {
-    padding-top: clamp(3rem, 7vw, 5rem);
-    padding-bottom: clamp(3rem, 6vw, 5rem);
-  }
-
-  .hero-grid {
-    display: block;
+    padding-top: clamp(3.5rem, 7vw, 5.5rem);
+    padding-bottom: clamp(4rem, 7vw, 6rem);
   }
 
   .hero-copy {
@@ -393,7 +339,7 @@ const faqs = [
     color: var(--aw-color-text-muted);
     text-decoration: none;
     margin-bottom: 1.75rem;
-    transition: border-color 200ms ease, color 200ms ease, transform 200ms ease;
+    transition: border-color 200ms ease, color 200ms ease;
   }
   .hero-pill:hover {
     border-color: rgba(82, 153, 97, 0.35);
@@ -419,7 +365,7 @@ const faqs = [
   .hero-pill:hover .pill-arrow { transform: translateX(2px); }
 
   .hero-display {
-    font-size: clamp(2.5rem, 5vw, 3.75rem);
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
     line-height: 1.04;
     margin: 0 auto 1.5rem;
     max-width: 22ch;
@@ -446,7 +392,7 @@ const faqs = [
   .hero-display,
   .hero-lede,
   .hero-actions {
-    animation: hero-rise 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation: hero-rise 700ms cubic-bezier(0.25, 1, 0.5, 1) both;
   }
   .hero-pill    { animation-delay: 0ms; }
   .hero-display { animation-delay: 80ms; }
@@ -462,50 +408,64 @@ const faqs = [
     }
   }
 
-  /* ── Stats ─ minimal strip, no borders, lots of air ──────────── */
-  .stats-section {
-    padding: 2rem 0 3rem;
+  /* ══════════════════════════════════════════════════════════════════
+     SKILLS MARQUEE — replaces the hero-metric stats strip
+     ══════════════════════════════════════════════════════════════════ */
+  .skills-section {
+    padding: 0.5rem 0 3rem;
   }
   @media (min-width: 768px) {
-    .stats-section { padding: 2.75rem 0 3.5rem; }
+    .skills-section { padding: 1rem 0 4rem; }
   }
-  .stats {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.75rem 1rem;
+  .skills-lede {
+    text-align: center;
+    max-width: 56ch;
+    margin: 0 auto 2rem;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--aw-color-text-muted);
   }
-  @media (min-width: 768px) {
-    .stats {
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-    }
-  }
-  .stat {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .stat-value {
-    font-family: var(--aw-font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
-    font-size: 1.625rem;
-    font-weight: 500;
+  .skills-lede strong {
     color: var(--aw-color-text-heading);
-    letter-spacing: -0.02em;
-    line-height: 1;
+    font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
-  .stat-label {
-    font-size: 0.75rem;
+  .skills-marquee { padding: 0.5rem 0; }
+  .skills-marquee--second {
+    margin-top: 0.5rem;
+    opacity: 0.85;
+  }
+  .skill-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.95rem;
+    border: 1px solid var(--aw-color-border);
+    border-radius: 9999px;
+    background: var(--aw-color-bg-page);
+    font-size: 0.8125rem;
+    color: var(--aw-color-text-default);
+    white-space: nowrap;
+    transition: border-color 200ms ease, color 200ms ease;
+  }
+  .skill-chip:hover {
+    border-color: rgba(82, 153, 97, 0.4);
+    color: var(--aw-color-primary);
+  }
+  .skill-chip--ghost {
+    background: transparent;
     color: var(--aw-color-text-muted);
-    letter-spacing: 0.04em;
-    line-height: 1.2;
-    text-transform: uppercase;
+  }
+  .skill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--aw-color-primary);
   }
 
-  /* ── Home sections — divider-free rhythm via soft tints ──────── */
+  /* ══════════════════════════════════════════════════════════════════
+     Home section rhythm — soft tinted bands replace section borders
+     ══════════════════════════════════════════════════════════════════ */
   .home-section {
     padding-top: 4rem;
     padding-bottom: 4rem;
@@ -514,10 +474,10 @@ const faqs = [
     .home-section { padding-top: 5.5rem; padding-bottom: 5.5rem; }
   }
   .home-section--soft {
-    background: rgba(82, 153, 97, 0.025);
+    background: rgba(82, 153, 97, 0.04);
   }
 
-  /* Anatomy: remove the hairline borders inside the component */
+  /* Anatomy: drop hairline borders inside the component */
   :global(.anatomy-borderless .step-card) {
     border-top: none !important;
     border-bottom: none !important;
@@ -530,90 +490,167 @@ const faqs = [
     }
   }
 
-  /* Lifecycle section heading uses a tighter rhythm */
   .lifecycle-head { max-width: 56rem; margin-bottom: 2.5rem; }
   .lifecycle-lede { max-width: 52ch; margin: 0; }
 
-  /* ── Use-case cards (no row borders) ─────────────────────────── */
-  .cases-grid {
+  /* ══════════════════════════════════════════════════════════════════
+     USE CASES — editorial two-column, no card chrome
+     ══════════════════════════════════════════════════════════════════ */
+  .cases-editorial {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .cases-editorial {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3.5rem 4rem;
+    }
+  }
+  .case {
+    border-top: 1px solid var(--aw-color-border-strong);
+    padding-top: 1.5rem;
+  }
+  .case-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    color: inherit;
+    text-decoration: none;
+  }
+  .case-title {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 700;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    margin: 0;
+  }
+  .case-desc {
+    color: var(--aw-color-text-default);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin: 0;
+    max-width: 48ch;
+    text-wrap: pretty;
+  }
+  .case-points {
+    list-style: none;
+    margin: 0.25rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.375rem;
+    color: var(--aw-color-text-muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+  .case-points li::before {
+    content: '— ';
+    color: var(--aw-color-primary);
+    margin-right: 0.125rem;
+  }
+  .case-cta {
+    margin-top: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--aw-color-primary);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    transition: gap 200ms cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .case-cta svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 200ms cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .case-link:hover .case-cta {
+    gap: 0.625rem;
+  }
+  .case-link:hover .case-cta svg {
+    transform: translateX(2px);
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     TESTIMONIALS — asymmetric weight, no card chrome
+     ══════════════════════════════════════════════════════════════════ */
+  .testimonials-section { position: relative; }
+  .testimonials {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
     grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  @media (min-width: 900px) {
+    .testimonials {
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 2rem 2.5rem;
+      align-items: start;
+    }
+  }
+  .testimonial {
+    display: flex;
+    flex-direction: column;
     gap: 1.25rem;
   }
-  @media (min-width: 768px) {
-    .cases-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-  }
-  .case-card {
-    border-radius: 16px;
-    background: var(--aw-color-bg-page);
-    border: 1px solid var(--aw-color-border);
-    transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
-  }
-  .case-card:hover {
-    border-color: rgba(82, 153, 97, 0.35);
-    transform: translateY(-2px);
-    box-shadow: 0 18px 40px -22px rgba(10, 10, 10, 0.18);
-  }
-  .case-link {
-    display: block;
-    padding: 1.75rem 1.75rem 1.875rem;
-    color: inherit;
-    text-decoration: none;
-  }
-  .case-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.625rem;
-  }
-  .case-title {
-    font-size: 1.625rem;
-    font-weight: 700;
-    color: var(--aw-color-text-heading);
-    letter-spacing: -0.02em;
-    line-height: 1.1;
-  }
-  .case-desc {
-    color: var(--aw-color-text-muted);
-    font-size: 0.9375rem;
-    line-height: 1.55;
-    margin: 0 0 1.125rem;
-  }
-  .case-arrow {
-    color: var(--aw-color-text-muted);
-    transition: transform 200ms ease, color 200ms ease;
-  }
-  .case-card:hover .case-arrow {
-    transform: translateX(3px);
-    color: var(--aw-color-primary);
-  }
-  .case-points {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 0.5rem;
-  }
-  .case-points li {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.625rem;
-    font-size: 0.9rem;
-    color: var(--aw-color-text-default);
-    line-height: 1.5;
-  }
-  .case-points svg {
-    width: 16px;
-    height: 16px;
-    color: var(--aw-color-primary);
-    margin-top: 2px;
+  .testimonial__quote {
+    width: 22px;
+    height: 22px;
+    color: rgba(82, 153, 97, 0.55);
     flex-shrink: 0;
   }
+  .testimonial__quote-text {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--aw-color-text-default);
+    text-wrap: pretty;
+  }
+  .testimonial--featured .testimonial__quote { width: 30px; height: 30px; }
+  .testimonial--featured .testimonial__quote-text {
+    font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+    line-height: 1.6;
+    color: var(--aw-color-text-heading);
+    font-weight: 500;
+  }
+  .testimonial__author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: auto;
+  }
+  .testimonial__avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(82, 153, 97, 0.12);
+    color: var(--aw-color-primary);
+    font-weight: 700;
+    font-size: 0.875rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .testimonial__name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--aw-color-text-heading);
+    line-height: 1.2;
+  }
+  .testimonial__title {
+    font-size: 0.75rem;
+    color: var(--aw-color-text-muted);
+    letter-spacing: 0.01em;
+    line-height: 1.4;
+    margin-top: 2px;
+  }
 
-  /* ── FAQ — borderless, two columns on desktop ────────────────── */
+  /* ══════════════════════════════════════════════════════════════════
+     FAQ — borderless, two columns on desktop
+     ══════════════════════════════════════════════════════════════════ */
   .faq-head { max-width: 56rem; }
   .faq-list {
     list-style: none;
@@ -632,180 +669,105 @@ const faqs = [
     font-weight: 600;
     color: var(--aw-color-text-heading);
     margin: 0 0 0.5rem;
-    line-height: 1.35;
+    line-height: 1.4;
   }
   .faq-a {
     margin: 0;
     font-size: 0.9375rem;
-    line-height: 1.65;
+    line-height: 1.7;
     color: var(--aw-color-text-muted);
   }
 
-  /* ── CTA card ────────────────────────────────────────────────── */
+  /* ══════════════════════════════════════════════════════════════════
+     CTA — drenched brand green
+     ══════════════════════════════════════════════════════════════════ */
   .cta-section {
     padding-top: 3rem;
     padding-bottom: 5rem;
   }
-  .cta-card {
+  .cta-drench {
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    border-radius: inherit;
-    background:
-      radial-gradient(ellipse 60% 80% at 50% 0%, rgba(82, 153, 97, 0.10), transparent 70%),
-      var(--aw-color-bg-page);
-    padding: 3rem 1.5rem 3.25rem;
+    border-radius: 20px;
+    background: var(--aw-color-primary);
+    color: #fff;
+    padding: 3.25rem 1.75rem 3.5rem;
     text-align: center;
   }
   @media (min-width: 768px) {
-    .cta-card { padding: 4rem 2rem 4.25rem; }
+    .cta-drench { padding: 4.5rem 2.5rem 4.75rem; }
   }
-  :global(.cta-card .cta-aurora)  { z-index: 0; opacity: 0.6; }
-  :global(.cta-card .cta-meteors) { z-index: 0; opacity: 0.85; }
-  .cta-content { position: relative; z-index: 2; }
+  /* subtle inner light — a single thin highlight, no aurora/meteors */
+  .cta-drench::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 0%, rgba(255, 255, 255, 0.18), transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .cta-drench > * { position: relative; z-index: 1; }
   .cta-h2 {
-    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-size: clamp(2rem, 4vw, 2.875rem);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    color: #fff;
     margin: 0 auto 1rem;
-    max-width: 18ch;
+    max-width: 20ch;
+    text-wrap: balance;
   }
   .cta-lede {
-    margin: 0 auto 1.75rem;
-    max-width: 44ch;
+    margin: 0 auto 2rem;
+    max-width: 46ch;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 1.0625rem;
+    line-height: 1.7;
   }
-
-  /* ══════════════════════════════════════════════════════════════════
-     SKILLS MARQUEE
-     ══════════════════════════════════════════════════════════════════ */
-  .skills-section {
-    padding: 1.5rem 0 3rem;
-  }
-  @media (min-width: 768px) {
-    .skills-section { padding: 1.75rem 0 3.5rem; }
-  }
-  .skills-eyebrow {
+  .cta-code {
     font-family: var(--aw-font-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
-    font-size: 0.7rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--aw-color-text-muted);
-    text-align: center;
-    margin: 0 0 1.5rem;
+    font-size: 0.86em;
+    padding: 0.12em 0.5em;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #fff;
+    font-weight: 500;
   }
-  .skills-marquee {
-    padding: 0.5rem 0;
-  }
-  .skills-marquee--second {
-    margin-top: 0.5rem;
-    opacity: 0.85;
-  }
-  .skill-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0.95rem;
-    border: 1px solid var(--aw-color-border);
-    border-radius: 9999px;
-    background: var(--aw-color-bg-page);
-    font-size: 0.8125rem;
-    color: var(--aw-color-text-default);
-    white-space: nowrap;
-    transition: border-color 200ms ease, color 200ms ease, transform 200ms ease;
-  }
-  .skill-chip:hover {
-    border-color: rgba(82, 153, 97, 0.4);
-    color: var(--aw-color-primary);
-    transform: translateY(-1px);
-  }
-  .skill-chip--ghost {
-    background: transparent;
-    color: var(--aw-color-text-muted);
-  }
-  .skill-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--aw-color-primary);
-    box-shadow: 0 0 8px rgba(82, 153, 97, 0.55);
-  }
-
-  /* ══════════════════════════════════════════════════════════════════
-     TESTIMONIALS
-     ══════════════════════════════════════════════════════════════════ */
-  .testimonials-section { position: relative; }
-  .testimonials {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  @media (min-width: 768px) {
-    .testimonials { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
-  }
-  .testimonial {
-    position: relative;
-    overflow: hidden;
-    padding: 1.75rem 1.5rem 1.5rem;
-    border: 1px solid var(--aw-color-border);
-    border-radius: 16px;
-    background: var(--aw-color-bg-page);
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    transition: border-color 220ms ease, transform 240ms ease, box-shadow 240ms ease;
-  }
-  .testimonial:hover {
-    border-color: rgba(82, 153, 97, 0.32);
-    transform: translateY(-2px);
-    box-shadow: 0 22px 50px -28px rgba(10, 10, 10, 0.18);
-  }
-  .testimonial__quote {
-    width: 22px;
-    height: 22px;
-    color: rgba(82, 153, 97, 0.35);
-    flex-shrink: 0;
-  }
-  .testimonial__quote-text {
-    margin: 0;
-    font-size: 0.9375rem;
-    line-height: 1.6;
-    color: var(--aw-color-text-default);
-    text-wrap: pretty;
-  }
-  .testimonial__author {
-    display: flex;
-    align-items: center;
+  .cta-actions {
     gap: 0.75rem;
-    margin-top: auto;
-    padding-top: 0.75rem;
-    border-top: 1px solid var(--aw-color-border);
   }
-  .testimonial__avatar {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(82, 153, 97, 0.2), rgba(82, 153, 97, 0.05));
-    color: var(--aw-color-primary);
-    font-weight: 700;
-    font-size: 0.875rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border: 1px solid rgba(82, 153, 97, 0.25);
+  .cta-btn-primary {
+    background: #fff;
+    color: var(--aw-color-accent);
+    border-color: rgba(0, 0, 0, 0.04);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 1px 2px rgba(20, 50, 30, 0.18),
+      0 8px 18px -8px rgba(20, 50, 30, 0.45);
   }
-  .testimonial__name {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--aw-color-text-heading);
-    line-height: 1.2;
+  .cta-btn-primary:hover {
+    background: #fafafa;
+    color: #1c4d2b;
   }
-  .testimonial__title {
-    font-size: 0.75rem;
-    color: var(--aw-color-text-muted);
-    letter-spacing: 0.01em;
-    line-height: 1.4;
-    margin-top: 2px;
+  .cta-btn-ghost {
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.42);
+  }
+  .cta-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.7);
+    color: #fff;
+  }
+  .cta-btn-primary:focus-visible,
+  .cta-btn-ghost:focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px var(--aw-color-primary),
+      0 0 0 4px #fff;
   }
 </style>
+
