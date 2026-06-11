@@ -3,7 +3,6 @@ import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
 
 import Layout from '~/layouts/PageLayout.astro';
 import BlogList from '~/components/blog/List.astro';
-import IndexHeader from '~/components/blog/IndexHeader.astro';
 import Pagination from '~/components/blog/Pagination.astro';
 
 import { blogListRobots, getStaticPathsBlogList } from '~/utils/blog';
@@ -32,13 +31,13 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="aw-page-head aw-page-head-banner">
+  <section class="aw-page-head">
     <div class="aw-container">
-      <IndexHeader
-        eyebrow="博客"
-        title="博客"
-        lede="AI 驱动的获客、触达与留存实践分享，来自 Aitroop 团队。"
-      />
+      <p class="aw-eyebrow">0.3 · 博客</p>
+      <h1 class="aw-h1" style="max-width: 22ch;">博客</h1>
+      <p class="aw-page-head-desc">
+        AI 驱动的获客、触达与留存实践分享，来自 Aitroop 团队。
+      </p>
     </div>
   </section>
 

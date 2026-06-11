@@ -58,20 +58,13 @@
   }
 
   .aw-section {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-    border-top: 1px solid var(--aw-color-border);
+    padding-top: clamp(4.5rem, 8vw, 6rem);
+    padding-bottom: clamp(4.5rem, 8vw, 6rem);
+    border-top: 1px solid var(--ds-hairline);
   }
-  @media (min-width: 768px) {
-    .aw-section { padding-top: 7rem; padding-bottom: 7rem; }
-  }
-
   .aw-section-flush {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-  }
-  @media (min-width: 768px) {
-    .aw-section-flush { padding-top: 7rem; padding-bottom: 7rem; }
+    padding-top: clamp(4.5rem, 8vw, 6rem);
+    padding-bottom: clamp(4.5rem, 8vw, 6rem);
   }
 
   /* Compact page-head: breadcrumb-style title strip for non-home pages */
@@ -93,31 +86,16 @@
   .aw-page-head .aw-eyebrow { margin-bottom: 0.625rem; }
   .aw-page-head .aw-actions { margin-top: 1rem; }
 
-  /* Decorative SVG banner variant — for use-cases, blog, and similar inner pages.
-     Adds a diagonal-stripe green banner background. Container content sits above
-     a soft white-tinted veil so text remains legible at the project's text colors. */
+  /* Page-head "banner" — kept as a class for back-compat but stripped of decoration.
+     Inner pages should not feel hero-like (see project memory). */
   .aw-page-head-banner {
-    position: relative;
-    isolation: isolate;
-    background-image: url('/illustrations/page-head-banner.svg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
-    border-bottom: 1px solid var(--aw-color-border);
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--ds-hairline);
   }
   @media (min-width: 768px) {
-    .aw-page-head-banner { padding-top: 5rem; padding-bottom: 5rem; }
+    .aw-page-head-banner { padding-top: 3.25rem; padding-bottom: 3.25rem; }
   }
-  .aw-page-head-banner::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.55) 40%, rgba(255,255,255,0.15) 75%, rgba(255,255,255,0) 100%);
-    z-index: -1;
-  }
-  .aw-page-head-banner > * { position: relative; z-index: 1; }
 
   .aw-section-head {
     margin-bottom: 3rem;
@@ -126,120 +104,118 @@
     .aw-section-head { margin-bottom: 4rem; }
   }
 
-  /* ── Eyebrow (small uppercase primary label) ────────────────────── */
+  /* ── Eyebrow (mono uppercase quiet label — Linear-style) ────────── */
   .aw-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.625rem;
-    font-size: 0.75rem;
-    font-weight: 600;
+    display: inline-block;
+    font-family: var(--ds-font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.6875rem;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--aw-color-primary);
-    margin: 0 0 1.125rem;
+    letter-spacing: 0.18em;
+    color: var(--ds-text-quiet);
+    margin: 0 0 1rem;
     line-height: 1;
-  }
-  .aw-eyebrow::before {
-    content: '';
-    width: 1.25rem;
-    height: 1px;
-    background: currentColor;
-    opacity: 0.55;
   }
 
   .aw-eyebrow-mono {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--ds-font-mono);
     font-size: 0.6875rem;
     text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: var(--aw-color-text-muted);
+    letter-spacing: 0.18em;
+    color: var(--ds-text-quiet);
     margin: 0 0 0.625rem;
     line-height: 1;
-    font-weight: 600;
+    font-weight: 500;
     display: inline-block;
   }
 
-  /* ── Typography scale ───────────────────────────────────────────── */
+  /* ── Typography scale (Inter Tight weight 580, ds tokens) ───────── */
   .aw-display {
+    font-family: var(--aw-font-heading);
     font-size: clamp(2.25rem, 4.8vw, 3.5rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
+    font-weight: 580;
+    letter-spacing: -0.028em;
     line-height: 1.06;
-    color: var(--aw-color-text-heading);
+    color: var(--ds-text);
     margin: 0 0 1.25rem;
     text-wrap: balance;
   }
 
   .aw-h1 {
+    font-family: var(--aw-font-heading);
     font-size: clamp(2rem, 4vw, 2.875rem);
-    font-weight: 700;
-    letter-spacing: -0.028em;
+    font-weight: 580;
+    letter-spacing: -0.026em;
     line-height: 1.1;
-    color: var(--aw-color-text-heading);
+    color: var(--ds-text);
     margin: 0;
     text-wrap: balance;
   }
 
   .aw-h2 {
+    font-family: var(--aw-font-heading);
     font-size: clamp(1.75rem, 3.2vw, 2.25rem);
-    font-weight: 700;
+    font-weight: 580;
     letter-spacing: -0.024em;
     line-height: 1.15;
-    color: var(--aw-color-text-heading);
+    color: var(--ds-text);
     margin: 0;
     text-wrap: balance;
   }
 
   .aw-h3 {
+    font-family: var(--aw-font-heading);
     font-size: 1.125rem;
     font-weight: 600;
     letter-spacing: -0.012em;
-    color: var(--aw-color-text-heading);
+    color: var(--ds-text);
     margin: 0;
     line-height: 1.35;
   }
 
   .aw-lede {
     font-size: 1.0625rem;
-    line-height: 1.65;
-    color: var(--aw-color-text-muted);
-    max-width: 44ch;
+    line-height: 1.6;
+    color: var(--ds-text-body);
+    max-width: 46ch;
     margin: 0 0 2rem;
     text-wrap: pretty;
+    font-weight: 500;
   }
   .aw-container-narrow .aw-lede { margin-left: auto; margin-right: auto; }
 
   .aw-lede a {
-    color: var(--aw-color-primary);
+    color: var(--ds-accent);
     text-decoration: underline;
-    text-decoration-color: rgba(82, 153, 97, 0.4);
+    text-decoration-color: var(--ds-accent-tint-2);
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
     transition: text-decoration-color 160ms ease;
   }
-  .aw-lede a:hover { text-decoration-color: var(--aw-color-primary); }
+  .aw-lede a:hover { text-decoration-color: var(--ds-accent); }
 
   /* ── Inline code ────────────────────────────────────────────────── */
   .aw-code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--ds-font-mono);
     font-size: 0.86em;
     padding: 0.12em 0.42em;
     border-radius: 5px;
-    background: rgba(82, 153, 97, 0.08);
-    border: 1px solid rgba(82, 153, 97, 0.18);
-    color: rgb(45, 110, 63);
+    background: var(--ds-surface-2);
+    border: 1px solid var(--ds-hairline);
+    color: var(--ds-text);
     font-weight: 500;
   }
 
-  /* ── Buttons ────────────────────────────────────────────────────── */
+  /* ── Buttons (neutral dark primary, green only as accent) ───────── */
   .aw-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     height: 2.625rem;
-    padding: 0 1.25rem;
-    border-radius: 8px;
+    padding: 0 1.125rem;
+    border-radius: var(--ds-radius-md);
     font-size: 0.9375rem;
     font-weight: 600;
     letter-spacing: -0.005em;
@@ -249,64 +225,55 @@
     cursor: pointer;
     user-select: none;
     transition:
-      background-color 160ms ease,
-      border-color 160ms ease,
-      color 160ms ease,
-      box-shadow 200ms ease,
-      transform 160ms ease;
+      background-color 150ms var(--ds-ease-out),
+      border-color 150ms var(--ds-ease-out),
+      color 150ms var(--ds-ease-out),
+      transform 150ms var(--ds-ease-out);
   }
   .aw-btn:focus-visible {
     outline: none;
     box-shadow:
-      0 0 0 2px var(--aw-color-bg-page),
-      0 0 0 4px rgba(82, 153, 97, 0.45);
+      0 0 0 2px var(--ds-ground),
+      0 0 0 4px var(--ds-accent-tint-2);
   }
   .aw-btn:disabled { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
 
   .aw-btn-primary {
-    background: var(--aw-color-primary);
-    color: #fff;
-    border-color: rgba(0, 0, 0, 0.04);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.16),
-      0 1px 2px rgba(45, 110, 63, 0.22),
-      0 6px 16px -8px rgba(82, 153, 97, 0.45);
+    background: var(--ds-text);
+    color: var(--ds-surface);
+    border-color: transparent;
   }
   .aw-btn-primary:hover {
-    background: var(--aw-color-secondary);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.2),
-      0 2px 4px rgba(45, 110, 63, 0.28),
-      0 12px 24px -10px rgba(82, 153, 97, 0.55);
+    background: #1f1f1f;
+    transform: translateY(-1px);
   }
   .aw-btn-primary:active {
-    background: var(--aw-color-accent);
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+    background: #000;
+    transform: translateY(0);
   }
 
   .aw-btn-ghost {
-    background: var(--aw-color-bg-page);
-    color: var(--aw-color-text-default);
-    border-color: var(--aw-color-border);
+    background: var(--ds-surface);
+    color: var(--ds-text);
+    border-color: var(--ds-hairline-strong);
   }
   .aw-btn-ghost:hover {
-    background: rgba(0, 0, 0, 0.025);
-    border-color: rgba(0, 0, 0, 0.18);
-    color: var(--aw-color-text-heading);
+    background: var(--ds-surface-2);
+    border-color: var(--ds-text);
   }
-  .aw-btn-ghost:active { background: rgba(0, 0, 0, 0.045); }
+  .aw-btn-ghost:active { background: var(--ds-surface-2); }
 
   .aw-btn-link {
     background: transparent;
-    color: var(--aw-color-primary);
+    color: var(--ds-accent);
     border-color: transparent;
     height: auto;
     padding: 0;
     text-decoration: underline;
-    text-decoration-color: rgba(82, 153, 97, 0.4);
+    text-decoration-color: var(--ds-accent-tint-2);
     text-underline-offset: 3px;
   }
-  .aw-btn-link:hover { text-decoration-color: var(--aw-color-primary); }
+  .aw-btn-link:hover { text-decoration-color: var(--ds-accent); }
 
   /* Button row */
   .aw-actions {
@@ -344,21 +311,21 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
-    color: var(--aw-color-text-muted);
-    margin: 0 0 2rem;
+    font-family: var(--ds-font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    color: var(--ds-text-quiet);
+    margin: 0 0 1.5rem;
   }
   .aw-crumbs a {
-    color: var(--aw-color-text-muted);
-    text-decoration: underline;
-    text-decoration-color: var(--aw-color-border);
-    text-underline-offset: 3px;
-    transition: color 160ms ease, text-decoration-color 160ms ease;
+    color: var(--ds-text-muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ds-hairline);
+    transition: color 150ms ease, border-color 150ms ease;
   }
   .aw-crumbs a:hover {
-    color: var(--aw-color-primary);
-    text-decoration-color: var(--aw-color-primary);
+    color: var(--ds-accent);
+    border-bottom-color: var(--ds-accent);
   }
   .aw-crumbs span[aria-hidden] { opacity: 0.5; }
 
@@ -366,21 +333,23 @@
   .aw-tag {
     display: inline-flex;
     align-items: center;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
-    padding: 0.3125rem 0.625rem;
-    border: 1px solid var(--aw-color-border);
-    border-radius: 6px;
-    color: var(--aw-color-text-default);
-    background: var(--aw-color-bg-page);
+    font-family: var(--ds-font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--ds-hairline);
+    border-radius: var(--ds-radius-sm);
+    color: var(--ds-text-body);
+    background: var(--ds-surface);
     line-height: 1;
-    transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+    transition: border-color 150ms ease, background-color 150ms ease, color 150ms ease;
   }
-  .aw-tag-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  .aw-tag-mono { font-family: var(--ds-font-mono); }
   .aw-tag-accent {
-    color: var(--aw-color-primary);
-    border-color: rgba(82, 153, 97, 0.28);
-    background: rgba(82, 153, 97, 0.06);
+    color: var(--ds-accent);
+    border-color: var(--ds-accent-tint-2);
+    background: var(--ds-accent-tint);
   }
 
   /* ── Inline arrow (static — hover-driven motion intentionally
@@ -391,47 +360,47 @@
 
   /* ── Card ──────────────────────────────────────────────────────── */
   .aw-card {
-    background: var(--aw-color-bg-page);
-    border: 1px solid var(--aw-color-border);
-    border-radius: 12px;
+    background: var(--ds-surface);
+    border: 1px solid var(--ds-hairline);
+    border-radius: var(--ds-radius-lg);
     padding: 1.5rem;
     transition:
-      border-color 220ms ease,
-      box-shadow 260ms ease,
-      transform 220ms ease;
+      border-color 220ms var(--ds-ease-out),
+      box-shadow 240ms var(--ds-ease-out),
+      transform 220ms var(--ds-ease-out);
   }
   .aw-card-interactive:hover {
-    border-color: rgba(82, 153, 97, 0.35);
+    border-color: var(--ds-hairline-strong);
     transform: translateY(-2px);
-    box-shadow:
-      0 14px 32px -18px rgba(82, 153, 97, 0.28),
-      0 4px 12px -6px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--ds-shadow-2);
   }
 
   /* ── Form fields ───────────────────────────────────────────────── */
   .aw-field {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
   .aw-field-label {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--aw-color-text-heading);
-    letter-spacing: -0.005em;
+    font-family: var(--ds-font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--ds-text-quiet);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
   .aw-input,
   .aw-textarea {
     width: 100%;
     padding: 0.625rem 0.875rem;
-    border: 1px solid var(--aw-color-border);
-    border-radius: 8px;
-    background: var(--aw-color-bg-page);
-    color: var(--aw-color-text-default);
+    border: 1px solid var(--ds-hairline);
+    border-radius: var(--ds-radius-md);
+    background: var(--ds-surface);
+    color: var(--ds-text);
     font-family: inherit;
     font-size: 0.9375rem;
     line-height: 1.45;
-    transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
   }
   .aw-textarea {
     resize: vertical;
@@ -439,57 +408,56 @@
     line-height: 1.6;
   }
   .aw-input::placeholder,
-  .aw-textarea::placeholder { color: var(--aw-color-text-muted); }
+  .aw-textarea::placeholder { color: var(--ds-text-muted); }
   .aw-input:hover,
   .aw-textarea:hover {
-    border-color: rgba(0, 0, 0, 0.22);
+    border-color: var(--ds-hairline-strong);
   }
   .aw-input:focus,
   .aw-textarea:focus {
     outline: none;
-    border-color: var(--aw-color-primary);
-    box-shadow: 0 0 0 3px rgba(82, 153, 97, 0.15);
-    background: var(--aw-color-bg-page);
+    border-color: var(--ds-accent);
+    box-shadow: 0 0 0 3px var(--ds-accent-tint);
   }
 
-  /* ── Editorial piece (top hairline + category tag + title) ──── */
+  /* ── Editorial piece (top hairline + index + title) ──────────── */
   .aw-piece {
-    border-top: 1px solid var(--aw-color-border-strong);
+    border-top: 1px solid var(--ds-hairline-strong);
     padding-top: 1.25rem;
   }
   .aw-piece-num {
     display: block;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--aw-color-primary);
+    font-family: var(--ds-font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--ds-text-quiet);
     letter-spacing: 0.06em;
-    margin-bottom: 0.875rem;
+    margin-bottom: 0.75rem;
     font-variant-numeric: tabular-nums;
     line-height: 1;
   }
   .aw-piece-tag {
     display: inline-block;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-family: var(--ds-font-mono);
     font-size: 0.6875rem;
-    font-weight: 600;
-    color: var(--aw-color-primary);
+    font-weight: 500;
+    color: var(--ds-text-quiet);
     text-transform: uppercase;
-    letter-spacing: 0.14em;
-    margin-bottom: 0.875rem;
+    letter-spacing: 0.18em;
+    margin-bottom: 0.75rem;
     line-height: 1;
   }
   .aw-piece-title {
     font-size: 1.0625rem;
     font-weight: 600;
-    color: var(--aw-color-text-heading);
+    color: var(--ds-text);
     margin: 0 0 0.375rem;
     letter-spacing: -0.005em;
     line-height: 1.35;
   }
   .aw-piece-desc {
     margin: 0;
-    color: var(--aw-color-text-muted);
+    color: var(--ds-text-muted);
     font-size: 0.9375rem;
     line-height: 1.6;
   }
@@ -499,23 +467,23 @@
    GLOBAL STYLES — sticky header chrome, dropdowns, scrollbars
    ════════════════════════════════════════════════════════════════════ */
 
-/* Sticky header scroll-state hook — kept for BasicScripts hook */
+/* Sticky header scroll-state hook — kept for BasicScripts hook.
+   The new Header.astro paints itself via .ds-header[data-aw-sticky-header].scroll;
+   leave a no-op selector here so the legacy hook compiles without leaking style. */
 #header.scroll > div:first-child {
-  @apply backdrop-blur-md;
-  background-color: rgb(255 255 255 / 96%);
-  border-bottom: 1px solid var(--aw-color-border);
+  /* intentionally empty — see Header.astro for the .ds-header.scroll rule */
 }
 
 #header.expanded #mobile-nav {
   position: fixed;
-  top: 56px;
+  top: 52px;
   left: 0;
   right: 0;
   bottom: 0 !important;
   display: flex;
   flex-direction: column;
-  background-color: var(--aw-color-bg-page);
-  border-top: 1px solid var(--aw-color-border);
+  background-color: var(--ds-ground);
+  border-top: 1px solid var(--ds-hairline);
   animation: aw-mobile-nav-in 180ms ease-out;
 }
 @keyframes aw-mobile-nav-in {
