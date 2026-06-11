@@ -1,5 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import GridBackground from '~/components/ui/GridBackground.astro';
 
 const metadata = {
   title: 'Use Cases · Aitroop',
@@ -36,7 +37,8 @@ const cases = [
 <Layout metadata={metadata}>
 
   <!-- PAGE HEAD ────────────────────────────────────────────────────── -->
-  <section class="aw-page-head">
+  <section class="aw-page-head usecases-page-head">
+    <GridBackground variant="dots" tone="brand" class="usecases-bg" />
     <div class="aw-container">
       <p class="aw-eyebrow">0.1 · Use cases</p>
       <h1 class="aw-h1" style="max-width: 28ch;">
@@ -51,7 +53,7 @@ const cases = [
   <!-- PACKS ────────────────────────────────────────────────────────── -->
   <section class="aw-section">
     <div class="aw-container">
-      <ul class="packs">
+      <ul class="packs ds-reveal-stagger">
         {cases.map((c, i) => (
           <li class="pack">
             <div class="pack-head">
@@ -96,6 +98,19 @@ const cases = [
 </Layout>
 
 <style>
+  /* ════ ambient page-head backdrop ════ */
+  .usecases-page-head {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .usecases-page-head :global(.usecases-bg) { z-index: -1; opacity: 0.5; }
+  .usecases-page-head :global(.usecases-bg .gridbg__layer) {
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 25% 30%, #000 30%, transparent 80%) !important;
+            mask-image: radial-gradient(ellipse 70% 70% at 25% 30%, #000 30%, transparent 80%) !important;
+  }
+  .usecases-page-head > .aw-container { position: relative; z-index: 1; }
+
   /* ════ pack list — editorial hairline rows, no card chrome ════ */
   .packs {
     list-style: none;

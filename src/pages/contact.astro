@@ -1,5 +1,6 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import GridBackground from '~/components/ui/GridBackground.astro';
 
 const metadata = {
   title: 'Contact us · Aitroop',
@@ -23,7 +24,8 @@ const offers = [
 <Layout metadata={metadata}>
 
   <!-- PAGE HEAD ────────────────────────────────────────────────────── -->
-  <section class="aw-page-head">
+  <section class="aw-page-head contact-page-head">
+    <GridBackground variant="dots" tone="brand" class="contact-bg" />
     <div class="aw-container">
       <p class="aw-eyebrow">0.2 · Talk to us</p>
       <h1 class="aw-h1" style="max-width: 22ch;">Let's talk about your GTM challenges.</h1>
@@ -120,6 +122,19 @@ const offers = [
 </Layout>
 
 <style>
+  /* ════ ambient page-head backdrop ════ */
+  .contact-page-head {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .contact-page-head :global(.contact-bg) { z-index: -1; opacity: 0.5; }
+  .contact-page-head :global(.contact-bg .gridbg__layer) {
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 25% 30%, #000 30%, transparent 80%) !important;
+            mask-image: radial-gradient(ellipse 70% 70% at 25% 30%, #000 30%, transparent 80%) !important;
+  }
+  .contact-page-head > .aw-container { position: relative; z-index: 1; }
+
   /* ════ editorial split — sticky head on desktop ════ */
   .contact-split {
     display: grid;

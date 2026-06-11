@@ -1,5 +1,7 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import GridBackground from '~/components/ui/GridBackground.astro';
+import Spotlight from '~/components/ui/Spotlight.astro';
 
 const metadata = {
   title: 'Aitroop - Save AI agent conversations as apps',
@@ -78,8 +80,11 @@ const faqs = [
 
 <Layout metadata={metadata}>
 
+  <Spotlight />
+
   <!-- 0.1 · HERO — manifesto + real App specimen ─────────────────── -->
   <section class="home-hero">
+    <GridBackground variant="dots" tone="brand" class="home-hero-bg" />
     <div class="aw-container-wide home-hero-copy">
       <p class="ds-eyebrow home-hero-eyebrow">0.1 · The loop</p>
       <h1 class="home-hero-display">
@@ -112,7 +117,7 @@ const faqs = [
     </div>
 
     <div class="aw-container-wide">
-      <figure class="home-specimen" aria-label="Anatomy of an App — sample run">
+      <figure class="home-specimen spotlight-card ds-reveal" data-spotlight aria-label="Anatomy of an App — sample run">
         <figcaption class="home-specimen-caption">
           <span class="ds-eyebrow">Specimen · app run</span>
           <span class="home-specimen-caption-note">illustrative — your data, your skills</span>
@@ -174,8 +179,11 @@ const faqs = [
 
   <!-- 0.2 · THE LOOP — single dark band, anatomy + lifecycle merged ── -->
   <section class="home-loop">
+    <div class="home-loop-ambient" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
     <div class="aw-container-wide">
-      <header class="home-section-head">
+      <header class="home-section-head ds-reveal">
         <p class="ds-eyebrow home-section-eyebrow">0.2 · The loop</p>
         <h2 class="home-section-title">
           A chat becomes a form.<br />
@@ -184,7 +192,7 @@ const faqs = [
         </h2>
       </header>
 
-      <ol class="home-loop-flow" role="list">
+      <ol class="home-loop-flow ds-reveal-stagger" role="list">
         {loopNodes.map((n, i) => (
           <>
             <li class="home-loop-node">
@@ -221,14 +229,14 @@ const faqs = [
   <!-- 0.3 · WHAT SHIPS — three artifact specimens ──────────────────── -->
   <section class="home-ships">
     <div class="aw-container-wide">
-      <header class="home-section-head">
+      <header class="home-section-head ds-reveal">
         <p class="ds-eyebrow home-section-eyebrow">0.3 · What ships</p>
         <h2 class="home-section-title">Not features. Artifacts.</h2>
         <p class="home-section-lede">What actually lands in your team's inbox after a stage runs.</p>
       </header>
 
-      <div class="home-ships-grid">
-        <article class="home-ship">
+      <div class="home-ships-grid ds-reveal-stagger">
+        <article class="home-ship spotlight-card" data-spotlight>
           <header class="home-ship-head">
             <span class="home-ship-ext">csv</span>
             <span class="home-ship-name">q2-close-pack.csv</span>
@@ -244,7 +252,7 @@ const faqs = [
           <p class="home-ship-foot">142 rows · close-of-month · variance flagged</p>
         </article>
 
-        <article class="home-ship">
+        <article class="home-ship spotlight-card" data-spotlight>
           <header class="home-ship-head">
             <span class="home-ship-ext">md</span>
             <span class="home-ship-name">weekly-status.md</span>
@@ -260,7 +268,7 @@ const faqs = [
           <p class="home-ship-foot">posted to slack #ops · cc CEO</p>
         </article>
 
-        <article class="home-ship">
+        <article class="home-ship spotlight-card" data-spotlight>
           <header class="home-ship-head">
             <span class="home-ship-ext">json</span>
             <span class="home-ship-name">POST /pipeline/intake</span>
@@ -280,13 +288,13 @@ const faqs = [
   <!-- 0.4 · SKILLS & CONNECTS — quiet taxonomy, no marquee ─────────── -->
   <section class="home-skills">
     <div class="aw-container-wide">
-      <header class="home-section-head">
+      <header class="home-section-head ds-reveal">
         <p class="ds-eyebrow home-section-eyebrow">0.4 · Skills &amp; connects</p>
         <h2 class="home-section-title">150 skills. 20 connects.<br />Already wired.</h2>
         <p class="home-section-lede">A library, not a logo wall. Toggle on what you need; we keep the auth.</p>
       </header>
 
-      <div class="home-skills-grid">
+      <div class="home-skills-grid ds-reveal-stagger">
         {skillGroups.map((g) => (
           <div class="home-skill-col">
             <p class="home-skill-col-head">
@@ -314,12 +322,12 @@ const faqs = [
   <!-- 0.5 · USE CASES — editorial, kept ────────────────────────────── -->
   <section class="home-section home-cases">
     <div class="aw-container-wide">
-      <header class="home-section-head">
+      <header class="home-section-head ds-reveal">
         <p class="ds-eyebrow home-section-eyebrow">0.5 · Use cases</p>
         <h2 class="home-section-title">Built for what you actually do.</h2>
       </header>
 
-      <div class="cases-editorial">
+      <div class="cases-editorial ds-reveal-stagger">
         {cases.map((c, i) => (
           <article class="case">
             <a href={c.slug} class="case-link">
@@ -343,12 +351,12 @@ const faqs = [
   <!-- 0.6 · OPERATORS — testimonials, kept ─────────────────────────── -->
   <section class="home-section home-operators">
     <div class="aw-container-wide">
-      <header class="home-section-head">
+      <header class="home-section-head ds-reveal">
         <p class="ds-eyebrow home-section-eyebrow">0.6 · Operators</p>
         <h2 class="home-section-title">Already shipped the loop.</h2>
       </header>
 
-      <ul class="testimonials" role="list">
+      <ul class="testimonials ds-reveal-stagger" role="list">
         {testimonials.map((t) => (
           <li class:list={['testimonial', t.featured && 'testimonial--featured']}>
             <p class="testimonial__quote-text">{t.quote}</p>
@@ -368,11 +376,11 @@ const faqs = [
   <!-- 0.7 · QUESTIONS — borderless 2-col, kept ─────────────────────── -->
   <section class="home-section home-faq">
     <div class="aw-container-wide">
-      <header class="home-section-head">
+      <header class="home-section-head ds-reveal">
         <p class="ds-eyebrow home-section-eyebrow">0.7 · Questions</p>
         <h2 class="home-section-title">Answered.</h2>
       </header>
-      <ul class="faq-list" role="list">
+      <ul class="faq-list ds-reveal-stagger" role="list">
         {faqs.map((item, i) => (
           <li class="faq-item">
             <p class="ds-eyebrow faq-index">{`0.7.${i + 1}`}</p>
@@ -386,7 +394,7 @@ const faqs = [
 
   <!-- 0.8 · CTA — quiet inline, no drenched box ────────────────────── -->
   <section class="home-cta">
-    <div class="aw-container-wide">
+    <div class="aw-container-wide ds-reveal">
       <p class="ds-eyebrow home-section-eyebrow">0.8 · Ship</p>
       <h2 class="home-cta-line">
         Open a chat.<br />
@@ -421,10 +429,23 @@ const faqs = [
      0.1 · HERO — manifesto + real App specimen
      ══════════════════════════════════════════════════════════════════ */
   .home-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     background: var(--ds-ground);
     padding-top: clamp(4.5rem, 8vw, 7rem);
     padding-bottom: clamp(3.5rem, 6vw, 5.5rem);
   }
+  /* Tame the GridBackground default so it reads as ambient texture only */
+  .home-hero :global(.home-hero-bg) {
+    z-index: -1;
+    opacity: 0.55;
+  }
+  .home-hero :global(.home-hero-bg .gridbg__layer) {
+    -webkit-mask-image: radial-gradient(ellipse 80% 55% at 50% 20%, #000 35%, transparent 85%) !important;
+            mask-image: radial-gradient(ellipse 80% 55% at 50% 20%, #000 35%, transparent 85%) !important;
+  }
+  .home-hero > .aw-container-wide { position: relative; z-index: 1; }
   .home-hero-copy {
     margin: 0 auto 3.5rem;
     max-width: 64rem;
@@ -735,8 +756,7 @@ const faqs = [
   .home-hero-display,
   .home-hero-lede,
   .home-hero-stats,
-  .home-hero-actions,
-  .home-specimen {
+  .home-hero-actions {
     animation: home-rise 600ms var(--ds-ease-out) both;
   }
   .home-hero-eyebrow { animation-delay: 0ms; }
@@ -744,14 +764,13 @@ const faqs = [
   .home-hero-lede    { animation-delay: 130ms; }
   .home-hero-stats   { animation-delay: 200ms; }
   .home-hero-actions { animation-delay: 260ms; }
-  .home-specimen     { animation-delay: 360ms; }
+  /* The specimen card uses .ds-reveal (IntersectionObserver) instead of home-rise. */
   @media (prefers-reduced-motion: reduce) {
     .home-hero-eyebrow,
     .home-hero-display,
     .home-hero-lede,
     .home-hero-stats,
-    .home-hero-actions,
-    .home-specimen { animation: none; }
+    .home-hero-actions { animation: none; }
   }
 
   /* ══════════════════════════════════════════════════════════════════
@@ -799,6 +818,7 @@ const faqs = [
     padding: clamp(5.5rem, 9vw, 7.5rem) 0 clamp(5rem, 8vw, 6.5rem);
     position: relative;
     isolation: isolate;
+    overflow: hidden;
   }
   .home-loop::before {
     content: '';
@@ -810,6 +830,39 @@ const faqs = [
     z-index: 0;
   }
   .home-loop > * { position: relative; z-index: 1; }
+
+  /* Ambient vertical streaks drifting downward — extremely slow + faint */
+  .home-loop-ambient {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 70%, transparent 100%);
+            mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 70%, transparent 100%);
+  }
+  .home-loop-ambient span {
+    position: absolute;
+    top: -40%;
+    width: 1px;
+    height: 60%;
+    background: linear-gradient(180deg, transparent, rgba(82, 153, 97, 0.42), transparent);
+    animation: home-loop-streak 18s linear infinite;
+    opacity: 0.55;
+  }
+  .home-loop-ambient span:nth-child(1) { left: 12%; animation-delay:   0s; animation-duration: 17s; }
+  .home-loop-ambient span:nth-child(2) { left: 34%; animation-delay:  -4s; animation-duration: 21s; opacity: 0.35; }
+  .home-loop-ambient span:nth-child(3) { left: 58%; animation-delay:  -9s; animation-duration: 19s; }
+  .home-loop-ambient span:nth-child(4) { left: 76%; animation-delay: -13s; animation-duration: 23s; opacity: 0.35; }
+  .home-loop-ambient span:nth-child(5) { left: 91%; animation-delay:  -6s; animation-duration: 25s; opacity: 0.45; }
+  @keyframes home-loop-streak {
+    0%   { transform: translateY(0);    opacity: 0; }
+    15%  { opacity: 0.55; }
+    85%  { opacity: 0.55; }
+    100% { transform: translateY(220vh); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .home-loop-ambient span { animation: none; opacity: 0.2; }
+  }
   .home-loop .home-section-eyebrow { color: rgba(255, 255, 255, 0.45); }
   .home-loop .home-section-title { color: var(--ds-dark-text); max-width: 42ch; }
 

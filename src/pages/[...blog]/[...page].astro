@@ -4,6 +4,7 @@ import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
 import Layout from '~/layouts/PageLayout.astro';
 import BlogList from '~/components/blog/List.astro';
 import Pagination from '~/components/blog/Pagination.astro';
+import GridBackground from '~/components/ui/GridBackground.astro';
 
 import { blogListRobots, getStaticPathsBlogList } from '~/utils/blog';
 
@@ -31,7 +32,8 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="aw-page-head">
+  <section class="aw-page-head blog-page-head">
+    <GridBackground variant="dots" tone="brand" class="blog-bg" />
     <div class="aw-container">
       <p class="aw-eyebrow">0.3 · Journal</p>
       <h1 class="aw-h1" style="max-width: 22ch;">Blog</h1>
@@ -48,3 +50,17 @@ const metadata = {
     </div>
   </section>
 </Layout>
+
+<style>
+  .blog-page-head {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .blog-page-head :global(.blog-bg) { z-index: -1; opacity: 0.5; }
+  .blog-page-head :global(.blog-bg .gridbg__layer) {
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 25% 30%, #000 30%, transparent 80%) !important;
+            mask-image: radial-gradient(ellipse 70% 70% at 25% 30%, #000 30%, transparent 80%) !important;
+  }
+  .blog-page-head > .aw-container { position: relative; z-index: 1; }
+</style>
