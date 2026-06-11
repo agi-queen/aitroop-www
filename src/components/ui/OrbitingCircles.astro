@@ -1,16 +1,21 @@
 ---
 /*
-  OrbitingCircles — concentric orbits with icons revolving around a centre.
-  Inspired by https://magicui.design/docs/components/orbiting-circles
+  OrbitingCircles — concentric orbits with brand glyphs revolving around a
+  centre. Inspired by https://magicui.design/docs/components/orbiting-circles
 
-  Pure CSS animation. Items at the same radius share one duration and direction;
-  each item is given a negative animation-delay so it starts at its own angle on
-  the ring. The keyframe combines an outer rotate + translateX + inner counter-
-  rotate so the chip stays upright as it travels.
+  Pure CSS animation. Items at the same radius share one duration + direction;
+  each item gets a negative animation-delay so it starts at its own angle.
+  The keyframe combines an outer rotate + translateX + inner counter-rotate
+  so each chip stays upright as it travels.
 */
 
 export interface OrbitItem {
-  label?: string;
+  label: string;
+  /** Inner SVG markup (paths, etc.) rendered with viewBox 0 0 24 24. */
+  svg?: string;
+  /** Brand colour for the glyph. Falls back to text colour. */
+  color?: string;
+  /** Fallback short text if no svg is provided. */
   text?: string;
 }
 
@@ -32,9 +37,9 @@ export interface Props {
 }
 
 const {
-  size = 520,
-  iconSize = 44,
-  centerSize = 76,
+  size = 500,
+  iconSize = 56,
+  centerSize = 88,
   rings = [],
   centerSrc,
   centerAlt = '',
@@ -69,15 +74,20 @@ const {
     return r.items.map((item, i) => {
       const angle = (360 / count) * i;
       const delay = -(angle / 360) * duration;
-      const label = item.label ?? item.text ?? '';
       return (
         <div
           class="orbit-item"
           style={`--radius:${r.radius}px;animation-duration:${duration}s;animation-delay:${delay}s;animation-direction:${dir};`}
-          title={label}
-          aria-label={label}
+          title={item.label}
+          aria-label={item.label}
         >
-          <span class="orbit-chip">{item.text ?? label.slice(0, 2).toUpperCase()}</span>
+          <span class="orbit-chip" style={item.color ? `color:${item.color};` : undefined}>
+            {item.svg ? (
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" set:html={item.svg}></svg>
+            ) : (
+              <span class="orbit-chip__text">{item.text ?? item.label.slice(0, 2)}</span>
+            )}
+          </span>
         </div>
       );
     });
@@ -129,12 +139,6 @@ const {
     height: 72%;
     display: block;
   }
-  .orbit-center span {
-    color: var(--aw-color-primary);
-    font-weight: 800;
-    font-size: calc(var(--orbit-center) * 0.42);
-    letter-spacing: -0.02em;
-  }
 
   .orbit-item {
     position: absolute;
@@ -156,19 +160,26 @@ const {
     width: 100%;
     height: 100%;
     border-radius: 9999px;
-    background: var(--aw-color-bg-page);
+    background: #ffffff;
     border: 1px solid var(--aw-color-border);
     color: var(--aw-color-text-default);
+    box-shadow: 0 8px 18px -10px rgba(20, 50, 30, 0.25);
+    transition: border-color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+  }
+  .orbit-chip svg {
+    width: 56%;
+    height: 56%;
+    display: block;
+  }
+  .orbit-chip__text {
     font-size: 0.6875rem;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.01em;
-    box-shadow: 0 6px 14px -8px rgba(20, 50, 30, 0.20);
-    transition: border-color 200ms ease, color 200ms ease, transform 200ms ease;
   }
   .orbit-item:hover .orbit-chip {
     border-color: rgba(82, 153, 97, 0.5);
-    color: var(--aw-color-primary);
-    transform: scale(1.08);
+    transform: scale(1.10);
+    box-shadow: 0 12px 24px -10px rgba(20, 50, 30, 0.30);
   }
 
   @keyframes orbit {
@@ -194,5 +205,4 @@ const {
         0 18px 40px -10px rgba(20, 50, 30, 0.30);
     }
   }
-
 </style>

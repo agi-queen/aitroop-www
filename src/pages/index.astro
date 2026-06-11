@@ -8,6 +8,7 @@ import BentoGrid from '~/components/ui/BentoGrid.astro';
 import type { BentoItem } from '~/components/ui/BentoGrid.astro';
 import Marquee from '~/components/ui/Marquee.astro';
 import OrbitingCircles from '~/components/ui/OrbitingCircles.astro';
+import { brandIcons } from '~/data/brandIcons';
 
 const metadata = {
   title: 'Aitroop - Save AI agent conversations as apps',
@@ -16,45 +17,22 @@ const metadata = {
 
 const orbitRings = [
   {
-    radius: 78,
-    duration: 22,
+    radius: 92,
+    duration: 26,
     reverse: false,
-    items: [
-      { text: 'GH', label: 'GitHub' },
-      { text: 'GM', label: 'Gmail' },
-      { text: 'SL', label: 'Slack' },
-      { text: 'NO', label: 'Notion' },
-      { text: 'DR', label: 'Drive' },
-    ],
+    items: [brandIcons.claude, brandIcons.openai, brandIcons.gmail, brandIcons.github],
   },
   {
-    radius: 148,
-    duration: 32,
+    radius: 200,
+    duration: 42,
     reverse: true,
     items: [
-      { text: 'Linear', label: 'Linear' },
-      { text: 'Stripe', label: 'Stripe' },
-      { text: 'HubSpot', label: 'HubSpot' },
-      { text: 'Figma', label: 'Figma' },
-      { text: 'Jira', label: 'Jira' },
-      { text: 'Asana', label: 'Asana' },
-      { text: 'Discord', label: 'Discord' },
-    ],
-  },
-  {
-    radius: 218,
-    duration: 44,
-    reverse: false,
-    items: [
-      { text: 'Webhook', label: 'Webhook' },
-      { text: 'Web search', label: 'Web search' },
-      { text: 'Code exec', label: 'Code exec' },
-      { text: 'PDF', label: 'PDF' },
-      { text: 'CSV', label: 'CSV' },
-      { text: 'Postgres', label: 'Postgres' },
-      { text: 'Calendar', label: 'Calendar' },
-      { text: 'Sheets', label: 'Sheets' },
-      { text: 'Airtable', label: 'Airtable' },
+      brandIcons.slack,
+      brandIcons.notion,
+      brandIcons.figma,
+      brandIcons.discord,
+      brandIcons.linear,
+      brandIcons.stripe,
     ],
   },
 ];
@@ -210,9 +188,9 @@ const faqs = [
         </div>
         <div class="hero-visual" aria-hidden="true">
           <OrbitingCircles
-            size={520}
-            iconSize={46}
-            centerSize={84}
+            size={480}
+            iconSize={58}
+            centerSize={92}
             centerSrc="/favicon.svg"
             centerAlt="Aitroop"
             rings={orbitRings}
@@ -408,7 +386,7 @@ const faqs = [
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 520px;
+      min-height: 480px;
     }
   }
 
