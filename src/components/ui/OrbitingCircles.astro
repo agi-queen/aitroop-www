@@ -1,0 +1,202 @@
+---
+/*
+  OrbitingCircles — concentric orbits with icons revolving around a centre.
+  Inspired by https://magicui.design/docs/components/orbiting-circles
+
+  Pure CSS animation. Items at the same radius share one duration and direction;
+  each item is given a negative animation-delay so it starts at its own angle on
+  the ring. The keyframe combines an outer rotate + translateX + inner counter-
+  rotate so the chip stays upright as it travels.
+*/
+
+export interface OrbitItem {
+  label?: string;
+  text?: string;
+}
+
+export interface OrbitRing {
+  radius: number;
+  duration?: number;
+  reverse?: boolean;
+  items: OrbitItem[];
+}
+
+export interface Props {
+  size?: number;
+  iconSize?: number;
+  centerSize?: number;
+  rings: OrbitRing[];
+  centerSrc?: string;
+  centerAlt?: string;
+  class?: string;
+}
+
+const {
+  size = 520,
+  iconSize = 44,
+  centerSize = 76,
+  rings = [],
+  centerSrc,
+  centerAlt = '',
+  class: className = '',
+} = Astro.props;
+---
+
+<div
+  class:list={['orbits', className]}
+  style={`--orbit-box:${size}px;--orbit-icon:${iconSize}px;--orbit-center:${centerSize}px;`}
+>
+  {rings.map((r) => (
+    <div
+      class="orbit-ring"
+      style={`width:${r.radius * 2}px;height:${r.radius * 2}px;`}
+      aria-hidden="true"
+    ></div>
+  ))}
+
+  <div class="orbit-center" aria-hidden="true">
+    {centerSrc ? (
+      <img src={centerSrc} alt={centerAlt} />
+    ) : (
+      <span>A</span>
+    )}
+  </div>
+
+  {rings.map((r) => {
+    const duration = r.duration ?? 24;
+    const dir = r.reverse ? 'reverse' : 'normal';
+    const count = r.items.length;
+    return r.items.map((item, i) => {
+      const angle = (360 / count) * i;
+      const delay = -(angle / 360) * duration;
+      const label = item.label ?? item.text ?? '';
+      return (
+        <div
+          class="orbit-item"
+          style={`--radius:${r.radius}px;animation-duration:${duration}s;animation-delay:${delay}s;animation-direction:${dir};`}
+          title={label}
+          aria-label={label}
+        >
+          <span class="orbit-chip">{item.text ?? label.slice(0, 2).toUpperCase()}</span>
+        </div>
+      );
+    });
+  })}
+</div>
+
+<style>
+  .orbits {
+    position: relative;
+    width: var(--orbit-box);
+    height: var(--orbit-box);
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+    color: var(--aw-color-text-default);
+  }
+
+  .orbit-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px dashed rgba(82, 153, 97, 0.22);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .orbit-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--orbit-center);
+    height: var(--orbit-center);
+    margin-top: calc(var(--orbit-center) / -2);
+    margin-left: calc(var(--orbit-center) / -2);
+    border-radius: 22%;
+    background: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 0 0 6px rgba(82, 153, 97, 0.10),
+      0 0 0 14px rgba(82, 153, 97, 0.05),
+      0 18px 40px -10px rgba(20, 50, 30, 0.30);
+    animation: orbit-center-pulse 4.5s ease-in-out infinite;
+  }
+  .orbit-center img {
+    width: 72%;
+    height: 72%;
+    display: block;
+  }
+  .orbit-center span {
+    color: var(--aw-color-primary);
+    font-weight: 800;
+    font-size: calc(var(--orbit-center) * 0.42);
+    letter-spacing: -0.02em;
+  }
+
+  .orbit-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--orbit-icon);
+    height: var(--orbit-icon);
+    margin-top: calc(var(--orbit-icon) / -2);
+    margin-left: calc(var(--orbit-icon) / -2);
+    animation-name: orbit;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform;
+  }
+  .orbit-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 9999px;
+    background: var(--aw-color-bg-page);
+    border: 1px solid var(--aw-color-border);
+    color: var(--aw-color-text-default);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    box-shadow: 0 6px 14px -8px rgba(20, 50, 30, 0.20);
+    transition: border-color 200ms ease, color 200ms ease, transform 200ms ease;
+  }
+  .orbit-item:hover .orbit-chip {
+    border-color: rgba(82, 153, 97, 0.5);
+    color: var(--aw-color-primary);
+    transform: scale(1.08);
+  }
+
+  @keyframes orbit {
+    from {
+      transform: rotate(0deg) translateX(var(--radius)) rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg) translateX(var(--radius)) rotate(-360deg);
+    }
+  }
+
+  @keyframes orbit-center-pulse {
+    0%, 100% {
+      box-shadow:
+        0 0 0 6px rgba(82, 153, 97, 0.10),
+        0 0 0 14px rgba(82, 153, 97, 0.05),
+        0 18px 40px -10px rgba(20, 50, 30, 0.30);
+    }
+    50% {
+      box-shadow:
+        0 0 0 10px rgba(82, 153, 97, 0.14),
+        0 0 0 22px rgba(82, 153, 97, 0.06),
+        0 18px 40px -10px rgba(20, 50, 30, 0.30);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orbit-item { animation: none; }
+    .orbit-center { animation: none; }
+  }
+</style>

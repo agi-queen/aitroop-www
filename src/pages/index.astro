@@ -7,11 +7,57 @@ import GridBackground from '~/components/ui/GridBackground.astro';
 import BentoGrid from '~/components/ui/BentoGrid.astro';
 import type { BentoItem } from '~/components/ui/BentoGrid.astro';
 import Marquee from '~/components/ui/Marquee.astro';
+import OrbitingCircles from '~/components/ui/OrbitingCircles.astro';
 
 const metadata = {
   title: 'Aitroop - Save AI agent conversations as apps',
   ignoreTitleTemplate: true,
 };
+
+const orbitRings = [
+  {
+    radius: 78,
+    duration: 22,
+    reverse: false,
+    items: [
+      { text: 'GH', label: 'GitHub' },
+      { text: 'GM', label: 'Gmail' },
+      { text: 'SL', label: 'Slack' },
+      { text: 'NO', label: 'Notion' },
+      { text: 'DR', label: 'Drive' },
+    ],
+  },
+  {
+    radius: 148,
+    duration: 32,
+    reverse: true,
+    items: [
+      { text: 'Linear', label: 'Linear' },
+      { text: 'Stripe', label: 'Stripe' },
+      { text: 'HubSpot', label: 'HubSpot' },
+      { text: 'Figma', label: 'Figma' },
+      { text: 'Jira', label: 'Jira' },
+      { text: 'Asana', label: 'Asana' },
+      { text: 'Discord', label: 'Discord' },
+    ],
+  },
+  {
+    radius: 218,
+    duration: 44,
+    reverse: false,
+    items: [
+      { text: 'Webhook', label: 'Webhook' },
+      { text: 'Web search', label: 'Web search' },
+      { text: 'Code exec', label: 'Code exec' },
+      { text: 'PDF', label: 'PDF' },
+      { text: 'CSV', label: 'CSV' },
+      { text: 'Postgres', label: 'Postgres' },
+      { text: 'Calendar', label: 'Calendar' },
+      { text: 'Sheets', label: 'Sheets' },
+      { text: 'Airtable', label: 'Airtable' },
+    ],
+  },
+];
 
 const anatomySteps = [
   {
@@ -135,30 +181,42 @@ const faqs = [
   <section class="aw-hero hero relative isolate overflow-hidden">
     <GridBackground variant="grid" tone="brand" />
     <div class="aw-container-wide">
-      <div class="hero-copy">
-        <a href="/use-cases" class="hero-pill">
-          <span class="pill-tag">NEW</span>
-          <span class="pill-text">150+ skills · 20+ connects</span>
-          <svg class="pill-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-        <h1 class="aw-display hero-display">
-          Powerful agents.<br />
-          Endless skills.<br />
-          <PopText
-            text="One-click Apps."
-            stagger={28}
-            delay={220}
-            duration={420}
-            burst={false}
-            class="text-primary hero-pop"
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <a href="/use-cases" class="hero-pill">
+            <span class="pill-tag">NEW</span>
+            <span class="pill-text">150+ skills · 20+ connects</span>
+            <svg class="pill-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <h1 class="aw-display hero-display">
+            Powerful agents.<br />
+            Endless skills.<br />
+            <PopText
+              text="One-click Apps."
+              stagger={28}
+              delay={220}
+              duration={420}
+              burst={false}
+              class="text-primary hero-pop"
+            />
+          </h1>
+          <p class="aw-lede hero-lede">
+            One click freezes the agent flow that just worked into an App your team can run forever. No re-prompting. No glue code.
+          </p>
+          <div class="aw-actions hero-actions">
+            <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Start free</a>
+            <a href="/use-cases" class="aw-btn aw-btn-ghost">See use cases</a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <OrbitingCircles
+            size={520}
+            iconSize={46}
+            centerSize={84}
+            centerSrc="/favicon.svg"
+            centerAlt="Aitroop"
+            rings={orbitRings}
           />
-        </h1>
-        <p class="aw-lede hero-lede">
-          One click freezes the agent flow that just worked into an App your team can run forever. No re-prompting. No glue code.
-        </p>
-        <div class="aw-actions hero-actions">
-          <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">Start free</a>
-          <a href="/use-cases" class="aw-btn aw-btn-ghost">See use cases</a>
         </div>
       </div>
     </div>
@@ -319,10 +377,39 @@ const faqs = [
     padding-bottom: clamp(4rem, 7vw, 6rem);
   }
 
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: center;
+  }
+
   .hero-copy {
     text-align: center;
     max-width: 44rem;
     margin: 0 auto;
+  }
+
+  .hero-visual {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      gap: clamp(2rem, 4vw, 4rem);
+    }
+    .hero-copy {
+      text-align: left;
+      max-width: 36rem;
+      margin: 0;
+    }
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 520px;
+    }
   }
 
   .hero-pill {
@@ -380,6 +467,20 @@ const faqs = [
   }
   .hero-actions {
     justify-content: center;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-display {
+      margin: 0 0 1.5rem;
+      max-width: none;
+    }
+    .hero-lede {
+      margin: 0 0 2rem;
+      max-width: 34rem;
+    }
+    .hero-actions {
+      justify-content: flex-start;
+    }
   }
 
   @keyframes hero-rise {
