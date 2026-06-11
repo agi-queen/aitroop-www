@@ -78,58 +78,88 @@ const eyebrow = post.category?.title || (locale === 'zh-CN' ? '文章' : locale 
 </section>
 
 <style>
-  .single-post-section { position: relative; }
+  .single-post-section {
+    position: relative;
+  }
+  .single-post-section::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 320px;
+    pointer-events: none;
+    z-index: -1;
+    background: linear-gradient(
+      180deg,
+      rgba(82, 153, 97, 0.04) 0%,
+      rgba(82, 153, 97, 0.015) 60%,
+      transparent 100%
+    );
+  }
 
+  /* Article fills the page chrome — same width as the rest of the site.
+     prose max-width is overridden via the .max-w-none utility on the
+     content node itself (see the JSX class list). */
   .single-post__header {
-    padding: 3.5rem 0 2rem;
+    padding: 4rem 0 2rem;
     max-width: 56rem;
   }
   @media (min-width: 640px) {
-    .single-post__header { padding: 4.5rem 0 2.5rem; }
+    .single-post__header { padding: 5rem 0 2.5rem; }
   }
-  .single-post__content { margin-top: 1.5rem; }
+  .single-post__content {
+    margin-top: 1.5rem;
+  }
   .single-post__tags {
     margin-top: 3rem;
     padding-top: 2rem;
-    border-top: 1px solid var(--ds-hairline-strong);
+    border-top: 1px solid var(--aw-color-border);
   }
 
   .single-post__eyebrow {
-    display: inline-block;
-    font-family: var(--ds-font-mono);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     font-size: 0.6875rem;
     text-transform: uppercase;
     letter-spacing: 0.18em;
-    font-weight: 500;
-    color: var(--ds-text-quiet);
+    font-weight: 700;
+    color: var(--aw-color-primary);
     margin: 0 0 1.25rem;
     line-height: 1;
   }
+  .single-post__eyebrow::before {
+    content: '';
+    width: 18px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+    display: inline-block;
+  }
   .single-post__eyebrow-link {
     color: inherit;
-    transition: color 160ms ease;
+    transition: opacity 160ms ease;
   }
-  .single-post__eyebrow-link:hover { color: var(--ds-accent); }
+  .single-post__eyebrow-link:hover {
+    opacity: 0.75;
+  }
 
   .single-post__title {
-    font-family: var(--aw-font-heading);
     font-size: clamp(1.75rem, 4.2vw, 2.625rem);
-    font-weight: 580;
-    letter-spacing: -0.028em;
-    line-height: 1.08;
-    color: var(--ds-text);
+    font-weight: 800;
+    letter-spacing: -0.032em;
+    line-height: 1.1;
+    color: var(--aw-color-text-heading);
     margin: 0 0 1rem;
     text-wrap: balance;
   }
 
   .single-post__excerpt {
     font-size: 1.0625rem;
-    line-height: 1.6;
-    color: var(--ds-text-body);
+    line-height: 1.65;
+    color: var(--aw-color-text-muted);
     margin: 0 0 1.5rem;
     text-wrap: pretty;
-    font-weight: 500;
-    max-width: 60ch;
   }
   @media (min-width: 768px) {
     .single-post__excerpt { font-size: 1.125rem; }
@@ -141,14 +171,17 @@ const eyebrow = post.category?.title || (locale === 'zh-CN' ? '文章' : locale 
     align-items: center;
     gap: 0.5rem;
     padding-top: 1.25rem;
-    border-top: 1px solid var(--ds-hairline);
-    font-family: var(--ds-font-mono);
-    font-variant-numeric: tabular-nums;
-    font-size: 0.6875rem;
-    color: var(--ds-text-muted);
+    border-top: 1px solid var(--aw-color-border);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.75rem;
+    color: var(--aw-color-text-muted);
     line-height: 1.4;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
   }
-  .single-post__meta-dot { opacity: 0.4; }
-  .single-post__author { color: var(--ds-text); }
+  .single-post__meta-dot {
+    opacity: 0.4;
+  }
+  .single-post__author {
+    color: var(--aw-color-text-default);
+  }
 </style>

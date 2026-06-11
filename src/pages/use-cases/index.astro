@@ -37,11 +37,10 @@ const cases = [
 <Layout metadata={metadata}>
 
   <!-- PAGE HEAD ────────────────────────────────────────────────────── -->
-  <section class="aw-page-head usecases-page-head">
-    <GridBackground variant="dots" tone="brand" class="usecases-bg" />
+  <section class="aw-page-head aw-page-head-banner relative isolate overflow-hidden">
+    <GridBackground variant="small-grid" tone="brand" />
     <div class="aw-container">
-      <p class="aw-eyebrow">0.1 · Use cases</p>
-      <h1 class="aw-h1" style="max-width: 28ch;">
+      <h1 class="aw-h2">
         Pre-built App packs for the work your team actually does.
       </h1>
       <p class="aw-page-head-desc">
@@ -53,11 +52,10 @@ const cases = [
   <!-- PACKS ────────────────────────────────────────────────────────── -->
   <section class="aw-section">
     <div class="aw-container">
-      <ul class="packs ds-reveal-stagger">
-        {cases.map((c, i) => (
+      <ul class="packs">
+        {cases.map((c) => (
           <li class="pack">
             <div class="pack-head">
-              <p class="aw-eyebrow pack-index">{`0.1.${i + 1}`}</p>
               <h2 class="pack-title">
                 <a href={c.slug}>{c.title}</a>
               </h2>
@@ -70,9 +68,8 @@ const cases = [
             </div>
 
             <ul class="pack-apps">
-              {c.apps.map((app, j) => (
+              {c.apps.map((app) => (
                 <li class="pack-app">
-                  <span class="pack-app-idx">{`${i + 1}.${j + 1}`}</span>
                   <span class="pack-app-tag">{app.tag}</span>
                   <span class="pack-app-name">{app.name}</span>
                   <span class="pack-app-brief">{app.brief}</span>
@@ -83,14 +80,13 @@ const cases = [
         ))}
       </ul>
 
-      <!-- BYO — inline, no card chrome -->
+      <!-- BYO use case -->
       <div class="byo">
         <div class="byo-text">
-          <p class="aw-eyebrow">0.1.x · Bring your own</p>
           <h3 class="byo-title">Don't see your workflow?</h3>
-          <p class="byo-desc">Aitroop crystallizes any AI-assisted workflow into a reusable App. Bring the use case; we'll fit the pack to it.</p>
+          <p class="byo-desc">Aitroop is a platform for crystallizing any AI-assisted workflow into a reusable App.</p>
         </div>
-        <a href="/contact" class="aw-btn aw-btn-ghost">Talk to us →</a>
+        <a href="/contact" class="aw-btn aw-btn-ghost">Talk to us</a>
       </div>
     </div>
   </section>
@@ -98,19 +94,6 @@ const cases = [
 </Layout>
 
 <style>
-  /* ════ ambient page-head backdrop ════ */
-  .usecases-page-head {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
-  }
-  .usecases-page-head :global(.usecases-bg) { z-index: -1; opacity: 0.5; }
-  .usecases-page-head :global(.usecases-bg .gridbg__layer) {
-    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 25% 30%, #000 30%, transparent 80%) !important;
-            mask-image: radial-gradient(ellipse 70% 70% at 25% 30%, #000 30%, transparent 80%) !important;
-  }
-  .usecases-page-head > .aw-container { position: relative; z-index: 1; }
-
   /* ════ pack list — editorial hairline rows, no card chrome ════ */
   .packs {
     list-style: none;
@@ -120,17 +103,17 @@ const cases = [
     gap: 0;
   }
   .pack {
-    border-top: 1px solid var(--ds-hairline-strong);
-    padding: 2.5rem 0 2.75rem;
+    border-top: 1px solid var(--aw-color-border-strong);
+    padding: 2.25rem 0 2.5rem;
     display: grid;
-    gap: 2rem;
+    gap: 1.75rem;
     grid-template-columns: 1fr;
   }
   @media (min-width: 900px) {
     .pack {
-      grid-template-columns: 20rem 1fr;
-      gap: 4rem;
-      padding: 3rem 0 3.25rem;
+      grid-template-columns: 18rem 1fr;
+      gap: 3.5rem;
+      padding: 2.75rem 0 3rem;
     }
   }
   .pack-head {
@@ -138,30 +121,31 @@ const cases = [
     flex-direction: column;
     align-items: flex-start;
   }
-  .pack-index { margin: 0 0 1rem; }
   .pack-title {
-    font-family: var(--aw-font-heading);
     font-size: clamp(2rem, 3.6vw, 2.625rem);
-    font-weight: 580;
-    letter-spacing: -0.026em;
+    font-weight: 700;
+    letter-spacing: -0.025em;
     line-height: 1.04;
-    color: var(--ds-text);
-    margin: 0 0 0.875rem;
+    color: var(--aw-color-text-heading);
+    margin: 0 0 0.625rem;
   }
-  .pack-title a { color: inherit; text-decoration: none; }
-  .pack-title a:hover { color: var(--ds-accent); }
+  .pack-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .pack-title a:hover { text-decoration: underline; }
   .pack-tagline {
     font-size: 1.0625rem;
     font-weight: 500;
-    color: var(--ds-text-body);
+    color: var(--aw-color-text-default);
     margin: 0 0 1rem;
     line-height: 1.4;
   }
   .pack-desc {
     font-size: 0.9375rem;
-    line-height: 1.6;
-    color: var(--ds-text-muted);
-    margin: 0 0 1.5rem;
+    line-height: 1.65;
+    color: var(--aw-color-text-muted);
+    margin: 0 0 1.25rem;
     max-width: 42ch;
     text-wrap: pretty;
   }
@@ -169,21 +153,21 @@ const cases = [
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.875rem;
+    font-size: 0.9375rem;
     font-weight: 600;
-    color: var(--ds-accent);
+    color: var(--aw-color-primary);
     text-decoration: none;
-    transition: gap 200ms var(--ds-ease-out);
+    transition: gap 200ms cubic-bezier(0.25, 1, 0.5, 1);
   }
   .pack-cta svg {
-    width: 14px;
-    height: 14px;
-    transition: transform 200ms var(--ds-ease-out);
+    width: 16px;
+    height: 16px;
+    transition: transform 200ms cubic-bezier(0.25, 1, 0.5, 1);
   }
-  .pack-cta:hover { gap: 0.7rem; }
-  .pack-cta:hover svg { transform: translateX(3px); }
+  .pack-cta:hover { gap: 0.625rem; }
+  .pack-cta:hover svg { transform: translateX(2px); }
 
-  /* ════ pack apps — mono-indexed rows ════ */
+  /* ════ pack apps — compact preview rows ════ */
   .pack-apps {
     list-style: none;
     margin: 0;
@@ -194,48 +178,45 @@ const cases = [
     grid-template-columns: 1fr;
     gap: 0.25rem;
     padding: 1rem 0;
-    border-top: 1px dashed var(--ds-hairline);
+    border-top: 1px solid var(--aw-color-border);
     font-size: 0.875rem;
     line-height: 1.55;
   }
-  .pack-app:first-child { border-top: 0; padding-top: 0; }
+  .pack-app:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
   @media (min-width: 640px) {
     .pack-app {
-      grid-template-columns: 3rem 8rem 11rem 1fr;
-      gap: 1.25rem;
+      grid-template-columns: 9rem 11rem 1fr;
+      gap: 1.5rem;
       align-items: baseline;
       padding: 1rem 0;
     }
   }
-  .pack-app-idx {
-    font-family: var(--ds-font-mono);
-    font-variant-numeric: tabular-nums;
-    font-size: 0.6875rem;
-    color: var(--ds-text-quiet);
-  }
   .pack-app-tag {
-    font-family: var(--ds-font-mono);
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
     font-size: 0.6875rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--ds-text-muted);
+    letter-spacing: 0.12em;
+    color: var(--aw-color-text-muted);
     line-height: 1.4;
   }
   .pack-app-name {
     font-weight: 600;
-    color: var(--ds-text);
+    color: var(--aw-color-text-default);
     letter-spacing: -0.005em;
   }
   .pack-app-brief {
-    color: var(--ds-text-muted);
+    color: var(--aw-color-text-muted);
     text-wrap: pretty;
   }
 
-  /* ════ BYO inline row — no card chrome ════ */
+  /* ════ BYO row ════ */
   .byo {
     margin-top: 3rem;
-    padding-top: 2.75rem;
-    border-top: 1px solid var(--ds-hairline-strong);
+    padding: 2.5rem 0 0;
+    border-top: 1px solid var(--aw-color-border-strong);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -253,18 +234,17 @@ const cases = [
   }
   .byo-text { flex: 1; }
   .byo-title {
-    font-family: var(--aw-font-heading);
-    font-size: 1.375rem;
-    font-weight: 580;
-    color: var(--ds-text);
-    letter-spacing: -0.018em;
-    margin: 0.5rem 0 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.015em;
+    margin: 0 0 0.5rem;
   }
   .byo-desc {
     font-size: 0.9375rem;
     line-height: 1.6;
-    color: var(--ds-text-muted);
+    color: var(--aw-color-text-muted);
     margin: 0;
-    max-width: 52ch;
+    max-width: 50ch;
   }
 </style>

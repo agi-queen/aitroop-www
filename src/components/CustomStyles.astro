@@ -53,7 +53,7 @@ import '@fontsource-variable/inter';
     font-weight: 400;
     line-height: 1.55;
     color: var(--aw-color-text-default);
-    background-color: #FAFAF9;
+    background-color: var(--aw-color-bg-page);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: 'calt', 'cv01', 'ss03';
@@ -141,87 +141,4 @@ import '@fontsource-variable/inter';
 
   /* ── Default link styling (outside .prose) ─────────────────────── */
   a { color: inherit; }
-
-  /* ══════════════════════════════════════════════════════════════════
-     DS — new design system tokens for the redesigned homepage.
-     Additive only. Existing `--aw-*` tokens are preserved so other
-     pages keep their current look.
-     ══════════════════════════════════════════════════════════════════ */
-  :root {
-    --ds-ground:           #FAFAF9;
-    --ds-surface:          #FFFFFF;
-    --ds-surface-2:        #F4F4F2;
-    --ds-hairline:         rgba(10, 10, 10, 0.08);
-    --ds-hairline-strong:  rgba(10, 10, 10, 0.16);
-    --ds-text:             #0A0A0A;
-    --ds-text-body:        #1A1A1A;
-    --ds-text-muted:       #6B6B6B;
-    --ds-text-quiet:       #9A9A9A;
-    --ds-accent:           var(--aw-color-primary);
-    --ds-accent-tint:      rgba(82, 153, 97, 0.08);
-    --ds-accent-tint-2:    rgba(82, 153, 97, 0.16);
-
-    --ds-dark-ground:      #0B0C0E;
-    --ds-dark-surface:     #16171C;
-    --ds-dark-surface-2:   #1E1F25;
-    --ds-dark-hairline:    rgba(255, 255, 255, 0.08);
-    --ds-dark-text:        #F7F8F8;
-    --ds-dark-text-muted:  #9CA3AF;
-
-    --ds-shadow-1: 0 1px 0 rgba(10,10,10,0.04), 0 1px 2px rgba(10,10,10,0.04);
-    --ds-shadow-2: 0 1px 0 rgba(10,10,10,0.04), 0 8px 24px -8px rgba(10,10,10,0.08);
-    --ds-shadow-3: 0 1px 0 rgba(10,10,10,0.04), 0 24px 60px -24px rgba(10,10,10,0.20);
-
-    --ds-radius-xs: 4px;
-    --ds-radius-sm: 6px;
-    --ds-radius-md: 10px;
-    --ds-radius-lg: 14px;
-    --ds-radius-xl: 18px;
-
-    --ds-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-    --ds-d-fast:   150ms;
-    --ds-d-medium: 240ms;
-    --ds-d-slow:   380ms;
-
-    --ds-font-mono: ui-monospace, 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  }
-
-  /* DS utilities — used by Header and the redesigned home page */
-  .ds-mono {
-    font-family: var(--ds-font-mono);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: 0.005em;
-  }
-  .ds-eyebrow {
-    font-family: var(--ds-font-mono);
-    font-variant-numeric: tabular-nums;
-    font-size: 0.6875rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ds-text-quiet);
-    font-weight: 500;
-  }
-  .ds-kbd {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--ds-font-mono);
-    font-size: 0.72rem;
-    font-weight: 500;
-    height: 18px;
-    min-width: 18px;
-    padding: 0 5px;
-    border: 1px solid var(--ds-hairline-strong);
-    border-radius: 4px;
-    background: var(--ds-surface);
-    color: var(--ds-text-body);
-    box-shadow: 0 1px 0 rgba(10,10,10,0.04);
-    line-height: 1;
-  }
-  .ds-kbd--on-dark {
-    background: rgba(255,255,255,0.14);
-    border-color: rgba(255,255,255,0.22);
-    color: var(--ds-surface);
-    box-shadow: none;
-  }
 </style>

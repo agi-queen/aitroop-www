@@ -1,6 +1,5 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import GridBackground from '~/components/ui/GridBackground.astro';
 
 const metadata = {
   title: 'Contact us · Aitroop',
@@ -24,33 +23,27 @@ const offers = [
 <Layout metadata={metadata}>
 
   <!-- PAGE HEAD ────────────────────────────────────────────────────── -->
-  <section class="aw-page-head contact-page-head">
-    <GridBackground variant="dots" tone="brand" class="contact-bg" />
+  <section class="aw-page-head">
     <div class="aw-container">
-      <p class="aw-eyebrow">0.2 · Talk to us</p>
-      <h1 class="aw-h1" style="max-width: 22ch;">Let's talk about your GTM challenges.</h1>
+      <h1 class="aw-h2">Let's talk about your GTM challenges.</h1>
       <p class="aw-page-head-desc">
         Book a product demo, explore an enterprise plan, or just learn more. Our consultants are happy to connect.
       </p>
     </div>
   </section>
 
-  <!-- FORM ──────────────────────────────────────────────────────────── -->
+  <!-- FORM + DIRECT ─────────────────────────────────────────────────── -->
   <section class="aw-section">
     <div class="aw-container">
-      <div class="contact-split">
-        <header class="contact-form-head">
-          <p class="aw-eyebrow">0.2.1 · Book</p>
-          <h2 class="aw-h2" style="max-width: 18ch; margin-bottom: 1rem;">Book a demo or consultation.</h2>
-          <p class="aw-lede" style="max-width: 36ch;">
-            We respond within one business day. For urgent inquiries, email <a href="mailto:hello@aitroop.net">hello@aitroop.net</a>.
-          </p>
-          <p class="contact-form-meta ds-mono">
-            <span>response · &lt; 1 business day</span>
-          </p>
-        </header>
+      <header class="form-head">
+        <h2 class="aw-h2" style="max-width: 22ch; margin-bottom: 1rem;">Book a demo or consultation.</h2>
+        <p class="aw-lede" style="max-width: 48ch;">
+          We respond within one business day. For urgent inquiries, email <a href="mailto:hello@aitroop.net">hello@aitroop.net</a>.
+        </p>
+      </header>
 
-        <form class="contact-form" id="form">
+      <div class="form-grid">
+        <form class="form" id="form">
           {fields.map((f) => (
             <div class="aw-field">
               <label class="aw-field-label" for={f.name}>{f.label}</label>
@@ -78,26 +71,21 @@ const offers = [
             <input type="checkbox" id="disclaimer" name="disclaimer" />
             <span>By submitting, you agree we may use your contact info per our Privacy Policy to respond to your inquiry. We will not share it with third parties.</span>
           </label>
-          <button type="submit" class="aw-btn aw-btn-primary contact-submit">
-            Send message
-            <kbd class="ds-kbd ds-kbd--on-dark" aria-hidden="true">↵</kbd>
-          </button>
+          <button type="submit" class="aw-btn aw-btn-primary form-submit">Send message</button>
         </form>
       </div>
     </div>
   </section>
 
-  <!-- OFFERS ────────────────────────────────────────────────────────── -->
+  <!-- WHAT WE OFFER ────────────────────────────────────────────────── -->
   <section class="aw-section">
     <div class="aw-container">
       <header class="aw-section-head">
-        <p class="aw-eyebrow">0.2.2 · Ways to work with us</p>
-        <h2 class="aw-h2">Four lanes.</h2>
+        <h2 class="aw-h2">Four ways to work with us.</h2>
       </header>
       <div class="offers">
-        {offers.map((o, i) => (
+        {offers.map((o) => (
           <article class="aw-piece">
-            <p class="aw-piece-num">{`0.2.2.${i + 1}`}</p>
             <span class="aw-piece-tag">{o.tag}</span>
             <h3 class="aw-piece-title">{o.title}</h3>
             <p class="aw-piece-desc">{o.desc}</p>
@@ -106,7 +94,6 @@ const offers = [
       </div>
 
       <div class="direct">
-        <p class="aw-eyebrow direct-eyebrow">0.2.3 · Or just</p>
         <div class="direct-row">
           <span class="direct-label">Email</span>
           <a href="mailto:hello@aitroop.net" class="direct-value direct-link">hello@aitroop.net</a>
@@ -122,59 +109,31 @@ const offers = [
 </Layout>
 
 <style>
-  /* ════ ambient page-head backdrop ════ */
-  .contact-page-head {
-    position: relative;
-    isolation: isolate;
-    overflow: hidden;
+  /* ════ form head + grid ════ */
+  .form-head {
+    margin-bottom: 2.5rem;
   }
-  .contact-page-head :global(.contact-bg) { z-index: -1; opacity: 0.5; }
-  .contact-page-head :global(.contact-bg .gridbg__layer) {
-    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 25% 30%, #000 30%, transparent 80%) !important;
-            mask-image: radial-gradient(ellipse 70% 70% at 25% 30%, #000 30%, transparent 80%) !important;
+  @media (min-width: 768px) {
+    .form-head { margin-bottom: 3rem; }
   }
-  .contact-page-head > .aw-container { position: relative; z-index: 1; }
-
-  /* ════ editorial split — sticky head on desktop ════ */
-  .contact-split {
+  .form-head .aw-lede a {
+    color: var(--aw-color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(82, 153, 97, 0.4);
+  }
+  .form-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-  @media (min-width: 900px) {
-    .contact-split {
-      grid-template-columns: 22rem 1fr;
-      gap: 5rem;
-      align-items: start;
-    }
-  }
-  .contact-form-head {
-    position: relative;
-  }
-  @media (min-width: 900px) {
-    .contact-form-head {
-      position: sticky;
-      top: 5rem;
-    }
-  }
-  .contact-form-meta {
-    margin: 1.5rem 0 0;
-    padding-top: 1rem;
-    border-top: 1px dashed var(--ds-hairline);
-    font-size: 0.6875rem;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    color: var(--ds-text-quiet);
   }
 
   /* ════ form ════ */
-  .contact-form {
+  .form {
     display: flex;
     flex-direction: column;
-    gap: 1.125rem;
-    max-width: 34rem;
+    gap: 1.25rem;
+    max-width: 32rem;
   }
-  .contact-submit { align-self: flex-start; margin-top: 0.5rem; }
+  .form-submit { align-self: flex-start; }
 
   /* ════ disclaimer ════ */
   .disclaimer {
@@ -182,39 +141,37 @@ const offers = [
     gap: 0.625rem;
     align-items: flex-start;
     font-size: 0.8125rem;
-    color: var(--ds-text-muted);
+    color: var(--aw-color-text-muted);
     line-height: 1.55;
     cursor: pointer;
   }
   .disclaimer input {
     margin-top: 0.2rem;
-    accent-color: var(--ds-accent);
+    accent-color: var(--aw-color-primary);
   }
 
   /* ════ offers ════ */
   .offers {
     display: grid;
-    gap: 2.5rem;
+    gap: 2rem;
   }
   @media (min-width: 768px) {
-    .offers { grid-template-columns: repeat(2, 1fr); gap: 3rem 4rem; }
+    .offers { grid-template-columns: repeat(2, 1fr); gap: 2.5rem 3rem; }
   }
 
   /* ════ direct contact rows ════ */
   .direct {
     margin-top: 4rem;
-    padding-top: 2.5rem;
-    border-top: 1px solid var(--ds-hairline-strong);
+    border-top: 1px solid var(--aw-color-border);
   }
-  .direct-eyebrow { display: block; margin-bottom: 1.25rem; }
   .direct-row {
     display: grid;
     grid-template-columns: 1fr;
     gap: 0.25rem;
-    padding: 1rem 0;
+    padding: 1.5rem 0;
   }
   .direct-row + .direct-row {
-    border-top: 1px dashed var(--ds-hairline);
+    border-top: 1px solid var(--aw-color-border);
   }
   @media (min-width: 640px) {
     .direct-row {
@@ -224,23 +181,24 @@ const offers = [
     }
   }
   .direct-label {
-    font-family: var(--ds-font-mono);
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
     font-size: 0.6875rem;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ds-text-quiet);
-    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--aw-color-text-muted);
+    font-weight: 600;
   }
   .direct-value {
     font-size: 0.9375rem;
-    color: var(--ds-text);
+    color: var(--aw-color-text-default);
     line-height: 1.5;
   }
   .direct-link {
-    color: var(--ds-accent);
-    text-decoration: none;
-    border-bottom: 1px solid var(--ds-accent-tint-2);
-    transition: border-color 160ms ease;
+    color: var(--aw-color-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--aw-color-border);
+    transition: text-decoration-color 160ms ease;
   }
-  .direct-link:hover { border-bottom-color: var(--ds-accent); }
+  .direct-link:hover { text-decoration-color: var(--aw-color-primary); }
 </style>
