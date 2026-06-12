@@ -1,6 +1,5 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import GridBackground from '~/components/ui/GridBackground.astro';
 
 const metadata = {
   title: '案例 · Aitroop',
@@ -27,8 +26,7 @@ const cases = [
 <Layout metadata={metadata}>
 
   <!-- PAGE HEAD ────────────────────────────────────────────────────── -->
-  <section class="aw-page-head aw-page-head-banner relative isolate overflow-hidden">
-    <GridBackground variant="small-grid" tone="brand" />
+  <section class="aw-page-head">
     <div class="aw-container">
       <h1 class="aw-h2">
         團隊真實在做的工作，都有預置 App 包。

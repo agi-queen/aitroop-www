@@ -11,26 +11,63 @@ const defaultMode: string =
 
 <script is:inline define:vars={{ forced, defaultMode }}>
   (function () {
+    if (window.__aw_theme_init) {
+      // Re-apply on subsequent head re-executions (View Transitions).
+      window.__aw_theme_init();
+      return;
+    }
+
+    function resolve(mode) {
+      if (mode === 'dark') return 'dark';
+      if (mode === 'light') return 'light';
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+
+    function readPref() {
+      if (forced) return forced;
+      try {
+        var stored = localStorage.getItem('theme');
+        if (stored === 'dark' || stored === 'light' || stored === 'system') return stored;
+      } catch (_) {}
+      return defaultMode;
+    }
+
+    function apply(root) {
+      var pref = readPref();
+      root.setAttribute('data-theme', resolve(pref));
+      root.setAttribute('data-theme-pref', pref);
+    }
+
+    window.__aw_theme_init = function () { apply(document.documentElement); };
+    window.__aw_theme_init();
+
+    // Astro ClientRouter replaces <html> attributes with the new document's
+    // attributes during swap — copy our theme onto the incoming document
+    // before the swap to keep the theme stable across navigations.
+    document.addEventListener('astro:before-swap', function (e) {
+      var inc = e && e.newDocument && e.newDocument.documentElement;
+      var cur = document.documentElement;
+      if (!inc) return;
+      var theme = cur.getAttribute('data-theme');
+      var pref = cur.getAttribute('data-theme-pref');
+      if (theme) inc.setAttribute('data-theme', theme);
+      if (pref) inc.setAttribute('data-theme-pref', pref);
+    });
+
+    document.addEventListener('astro:after-swap', function () {
+      apply(document.documentElement);
+    });
+
+    // Follow OS changes when the user is on "system" preference.
     try {
-      var root = document.documentElement;
-      var resolve = function (mode) {
-        if (mode === 'dark') return 'dark';
-        if (mode === 'light') return 'light';
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      };
-      var mode;
-      if (forced) {
-        mode = forced;
-      } else {
-        try {
-          var stored = localStorage.getItem('theme');
-          mode = stored === 'dark' || stored === 'light' || stored === 'system' ? stored : defaultMode;
-        } catch (_) {
-          mode = defaultMode;
+      var mq = window.matchMedia('(prefers-color-scheme: dark)');
+      var onChange = function () {
+        if (document.documentElement.getAttribute('data-theme-pref') === 'system') {
+          apply(document.documentElement);
         }
-      }
-      root.setAttribute('data-theme', resolve(mode));
-      root.setAttribute('data-theme-pref', mode);
+      };
+      if (mq.addEventListener) mq.addEventListener('change', onChange);
+      else if (mq.addListener) mq.addListener(onChange);
     } catch (_) {}
   })();
 </script>
