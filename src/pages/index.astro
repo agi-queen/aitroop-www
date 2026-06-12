@@ -2,7 +2,7 @@
 import Layout from '~/layouts/PageLayout.astro';
 import AnatomyFlow from '~/components/widgets/AnatomyFlow.astro';
 import WorkflowLifecycle from '~/components/widgets/WorkflowLifecycle.astro';
-import PopText from '~/components/ui/PopText.astro';
+import CircleHighlight from '~/components/ui/CircleHighlight.astro';
 import GridBackground from '~/components/ui/GridBackground.astro';
 import BentoGrid from '~/components/ui/BentoGrid.astro';
 import type { BentoItem } from '~/components/ui/BentoGrid.astro';
@@ -169,14 +169,9 @@ const faqs = [
           <h1 class="aw-display hero-display">
             Powerful agents.<br />
             Endless skills.<br />
-            <PopText
-              text="One-click Apps."
-              stagger={28}
-              delay={220}
-              duration={420}
-              burst={false}
-              class="text-primary hero-pop"
-            />
+            <span class="hero-finale">
+              One-click <CircleHighlight text="Apps" class="hero-apps-circle" delay={520} />.
+            </span>
           </h1>
           <p class="aw-lede hero-lede">
             One click freezes the agent flow that just worked into an App your team can run forever. No re-prompting. No glue code.
@@ -433,9 +428,9 @@ const faqs = [
     margin: 0 auto 1.5rem;
     max-width: 22ch;
   }
-  :global(.hero-pop) {
-    display: inline-flex;
-    flex-wrap: nowrap;
+  .hero-finale {
+    display: inline-block;
+    color: var(--aw-color-primary);
     white-space: nowrap;
   }
   .hero-lede {

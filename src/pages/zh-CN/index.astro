@@ -2,7 +2,7 @@
 import Layout from '~/layouts/PageLayout.astro';
 import AnatomyFlow from '~/components/widgets/AnatomyFlow.astro';
 import WorkflowLifecycle from '~/components/widgets/WorkflowLifecycle.astro';
-import PopText from '~/components/ui/PopText.astro';
+import CircleHighlight from '~/components/ui/CircleHighlight.astro';
 import GridBackground from '~/components/ui/GridBackground.astro';
 import BentoGrid from '~/components/ui/BentoGrid.astro';
 import type { BentoItem } from '~/components/ui/BentoGrid.astro';
@@ -171,14 +171,9 @@ const faqs = [
           <h1 class="aw-display hero-display">
             强大的 Agent。<br />
             无尽的技能。<br />
-            <PopText
-              text="一键即用的 App。"
-              stagger={28}
-              delay={220}
-              duration={420}
-              burst={false}
-              class="text-primary hero-pop"
-            />
+            <span class="hero-finale">
+              一键即用的 <CircleHighlight text="App" class="hero-apps-circle" delay={520} />。
+            </span>
           </h1>
           <p class="aw-lede hero-lede">
             一键就把刚跑通的 Agent 流程沉淀为 App，团队可以反复运行。不再重敲 prompt，不再写胶水代码。
@@ -435,9 +430,9 @@ const faqs = [
     margin: 0 auto 1.5rem;
     max-width: 22ch;
   }
-  :global(.hero-pop) {
-    display: inline-flex;
-    flex-wrap: nowrap;
+  .hero-finale {
+    display: inline-block;
+    color: var(--aw-color-primary);
     white-space: nowrap;
   }
   .hero-lede {

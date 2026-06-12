@@ -1,0 +1,77 @@
+---
+/**
+ * CircleHighlight — hand-drawn circle that strokes around the word on mount.
+ * Uses a conic-gradient mask animated via a registered custom property.
+ */
+interface Props {
+  text: string;
+  /** ms before the stroke starts drawing */
+  delay?: number;
+  /** ms duration of the stroke draw */
+  duration?: number;
+  /** extra class on the wrapper */
+  class?: string;
+}
+
+const {
+  text,
+  delay = 600,
+  duration = 900,
+  class: className = '',
+} = Astro.props;
+---
+
+<span
+  class={`circle-highlight ${className}`}
+  style={`--ch-delay:${delay}ms;--ch-duration:${duration}ms;`}
+>
+  <span class="ch-text">{text}</span>
+</span>
+
+<style>
+  @property --ch-mask {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 0%;
+  }
+
+  .circle-highlight {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+  }
+
+  .ch-text {
+    position: relative;
+    z-index: 1;
+  }
+
+  .circle-highlight::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 52%;
+    translate: -50% -50%;
+    width: 128%;
+    aspect-ratio: 1.45 / 1;
+    border: 0.16em solid #a8de97;
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none;
+    mask-image: conic-gradient(from -27deg, #000 var(--ch-mask), transparent 0);
+    -webkit-mask-image: conic-gradient(from -27deg, #000 var(--ch-mask), transparent 0);
+    animation: ch-draw var(--ch-duration, 900ms) cubic-bezier(0.65, 0, 0.35, 1) var(--ch-delay, 600ms) both;
+  }
+
+  @keyframes ch-draw {
+    from { --ch-mask: 0%; }
+    to   { --ch-mask: 92%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .circle-highlight::before {
+      animation: none;
+      --ch-mask: 92%;
+    }
+  }
+</style>
