@@ -1,3 +1,36 @@
 ---
-// Dark mode removed — light only
+import { UI } from 'astrowind:config';
+
+const themeSetting: string = (UI as { theme?: string })?.theme ?? 'system';
+const forced: string | null = themeSetting.endsWith(':only')
+  ? themeSetting.split(':')[0]
+  : null;
+const defaultMode: string =
+  forced ?? (themeSetting === 'dark' || themeSetting === 'light' ? themeSetting : 'system');
 ---
+
+<script is:inline define:vars={{ forced, defaultMode }}>
+  (function () {
+    try {
+      var root = document.documentElement;
+      var resolve = function (mode) {
+        if (mode === 'dark') return 'dark';
+        if (mode === 'light') return 'light';
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      };
+      var mode;
+      if (forced) {
+        mode = forced;
+      } else {
+        try {
+          var stored = localStorage.getItem('theme');
+          mode = stored === 'dark' || stored === 'light' || stored === 'system' ? stored : defaultMode;
+        } catch (_) {
+          mode = defaultMode;
+        }
+      }
+      root.setAttribute('data-theme', resolve(mode));
+      root.setAttribute('data-theme-pref', mode);
+    } catch (_) {}
+  })();
+</script>

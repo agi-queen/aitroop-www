@@ -502,7 +502,7 @@
 /* Sticky header scroll-state hook — kept for BasicScripts hook */
 #header.scroll > div:first-child {
   @apply backdrop-blur-md;
-  background-color: rgb(255 255 255 / 96%);
+  background-color: var(--aw-color-header-bg-scroll);
   border-bottom: 1px solid var(--aw-color-border);
 }
 

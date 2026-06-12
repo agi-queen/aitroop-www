@@ -1,6 +1,7 @@
 ---
 import Logo from '~/components/Logo.astro';
 import ToggleMenu from '~/components/common/ToggleMenu.astro';
+import ToggleTheme from '~/components/common/ToggleTheme.astro';
 import Button from '~/components/ui/Button.astro';
 import LanguagePicker from '~/components/widgets/LanguagePicker.astro';
 
@@ -101,6 +102,7 @@ const homeHref = currentLocale === 'en' ? '/' : `/${currentLocale}`;
         </nav>
       )}
       <LanguagePicker />
+      <ToggleTheme />
       {actions.map((btnProps) => (
         <Button {...btnProps} class="aw-header-action ml-1.5 h-8 px-3.5 text-sm font-semibold" />
       ))}
@@ -109,6 +111,7 @@ const homeHref = currentLocale === 'en' ? '/' : `/${currentLocale}`;
     <!-- Mobile: lang + hamburger -->
     <div class="flex items-center gap-1 md:hidden">
       <LanguagePicker />
+      <ToggleTheme />
       {links.length > 0 ? (
         <ToggleMenu />
       ) : (
@@ -183,13 +186,13 @@ const homeHref = currentLocale === 'en' ? '/' : `/${currentLocale}`;
 <style>
   /* Sticky header — glass that strengthens on scroll. */
   .aw-header {
-    background-color: rgb(255 255 255 / 0.70);
+    background-color: var(--aw-color-header-bg);
     -webkit-backdrop-filter: saturate(180%) blur(14px);
             backdrop-filter: saturate(180%) blur(14px);
     border-bottom: 1px solid transparent;
   }
   .aw-header[data-aw-sticky-header].scroll {
-    background-color: rgb(255 255 255 / 0.88);
+    background-color: var(--aw-color-header-bg-scroll);
     border-bottom-color: var(--aw-color-border);
     box-shadow:
       0 1px 0 rgba(0, 0, 0, 0.02),
