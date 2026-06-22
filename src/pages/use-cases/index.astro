@@ -7,27 +7,99 @@ const metadata = {
 
 const cases = [
   {
+    slug: '/use-cases/engineering',
+    title: 'Engineering',
+    tagline: 'Ship safely, write less.',
+    desc: 'PR review, release notes, on-call digests, postmortems. Apps that sit next to your repo and pager, doing the writing-up nobody loves.',
+    apps: [
+      { name: 'PR review',        brief: 'Senior-level review that flags real bugs, not nits.' },
+      { name: 'Release notes',    brief: 'Roll commits and tickets into a clean changelog.' },
+      { name: 'Incident digest',  brief: 'Group overnight alerts into one on-call brief.' },
+      { name: 'Postmortem',       brief: 'Timeline, root cause, action items — from logs.' },
+    ],
+  },
+  {
+    slug: '/use-cases/marketing',
+    title: 'Marketing',
+    tagline: 'Ship the campaign without the scramble.',
+    desc: 'Briefs, social distribution, weekly newsletters, SEO audits. Each App keeps the marketing engine moving when the calendar runs out of hours.',
+    apps: [
+      { name: 'Content brief',    brief: 'Keyword to outline, with competitor gaps mapped.' },
+      { name: 'Social pack',      brief: 'One source post into platform-native variants.' },
+      { name: 'Weekly digest',    brief: 'Sweep your sources into a newsletter.' },
+      { name: 'Content audit',    brief: 'Crawl, find thin pages, prioritise the fixes.' },
+    ],
+  },
+  {
+    slug: '/use-cases/support',
+    title: 'Customer support',
+    tagline: 'Triage, draft, resolve.',
+    desc: 'Ticket triage, KB-grounded reply drafts, knowledge sync, churn signals. Apps that take the repetitive half off the queue.',
+    apps: [
+      { name: 'Ticket triage',    brief: 'Classify and route with reasoning attached.' },
+      { name: 'Reply drafter',    brief: 'First-response drafts, grounded in your KB.' },
+      { name: 'KB sync',          brief: 'Turn solved tickets into KB articles.' },
+      { name: 'Churn signal',     brief: 'Escalate at-risk accounts before renewal.' },
+    ],
+  },
+  {
+    slug: '/use-cases/research',
+    title: 'Research',
+    tagline: 'Insight without the slog.',
+    desc: 'Competitor scans, interview synthesis, market sizing, weekly briefings. Apps for the half of research that is just reading a lot of things carefully.',
+    apps: [
+      { name: 'Competitor scan',  brief: 'Diff competitor sites weekly with a take.' },
+      { name: 'Interview synthesis', brief: 'Cluster transcripts into themes with quotes.' },
+      { name: 'Market sizing',    brief: 'Top-down + bottom-up with auditable sources.' },
+      { name: 'Weekly briefing',  brief: 'Rank what is worth your read time.' },
+    ],
+  },
+  {
+    slug: '/use-cases/operations',
+    title: 'Operations',
+    tagline: 'Process without the busywork.',
+    desc: 'SOP drafts, vendor risk reviews, contract redlines, controls scans. The unglamorous back-office work, captured as Apps the team can run.',
+    apps: [
+      { name: 'SOP draft',        brief: 'Chat to structured procedure, with owners.' },
+      { name: 'Vendor risk',      brief: 'Read SOC2 PDFs and flag what to discuss.' },
+      { name: 'Contract redline', brief: 'Mark deviations against your playbook.' },
+      { name: 'Controls scan',    brief: 'Walk SOC2/ISO/GDPR gaps with evidence.' },
+    ],
+  },
+  {
     slug: '/use-cases/gtm',
     title: 'GTM',
     tagline: 'Pipeline that runs itself.',
-    desc: 'Prospecting, outreach, retention, and pipeline insights. Pre-built Apps for revenue teams who want compounding output without expanding headcount.',
+    desc: 'Prospecting, outreach, retention, pipeline insights. Apps for revenue teams that want compounding output without expanding headcount.',
     apps: [
-      { tag: 'Top of funnel',    name: 'Prospecting',       brief: 'Find high-fit accounts using company signals, hiring activity, and intent data.' },
-      { tag: 'Engagement',       name: 'Outreach',          brief: 'Personalized cold emails and LinkedIn messages that match your voice.' },
-      { tag: 'Customer success', name: 'Retention',         brief: 'Flag at-risk customers before churn materializes.' },
-      { tag: 'RevOps',           name: 'Pipeline insights', brief: 'Synthesize pipeline data into deal recommendations you can act on.' },
+      { name: 'Prospecting',      brief: 'Find ICP-fit accounts from company signals.' },
+      { name: 'Outreach',         brief: 'Personalised emails and LinkedIn messages.' },
+      { name: 'Retention',        brief: 'Flag at-risk customers before churn.' },
+      { name: 'Pipeline insights', brief: 'Deal recommendations from pipeline data.' },
     ],
   },
   {
     slug: '/use-cases/finance',
     title: 'Finance',
     tagline: 'Close the books faster.',
-    desc: 'Month-end close, AR/AP analysis, expense compliance, and budget variance. For finance teams who want to spend less time on spreadsheets and more on the analysis.',
+    desc: 'Month-end close, AR/AP analysis, expense compliance, budget variance. Less spreadsheet wrangling, more time on the analysis.',
     apps: [
-      { tag: 'Close cycle', name: 'Month-end checklist', brief: 'GL reconciliation, accruals, intercompany matching, and sign-off, in order.' },
-      { tag: 'Receivables', name: 'AR aging report',     brief: 'Bucket by age, flag risk, and draft dunning messages automatically.' },
-      { tag: 'Controls',    name: 'Expense audit',       brief: 'Scan reports for policy violations, duplicates, and anomalies.' },
-      { tag: 'FP&A',        name: 'Variance analysis',   brief: 'Compare actuals to budget and explain each variance for the board.' },
+      { name: 'Month-end checklist', brief: 'GL reconcile, accruals, intercompany.' },
+      { name: 'AR aging report',     brief: 'Bucket by age, flag risk, draft dunning.' },
+      { name: 'Expense audit',       brief: 'Find policy violations and anomalies.' },
+      { name: 'Variance analysis',   brief: 'Actuals vs budget with a narrative.' },
+    ],
+  },
+  {
+    slug: '/use-cases/personal',
+    title: 'Personal productivity',
+    tagline: 'Reclaim your inbox.',
+    desc: 'Inbox triage, meeting prep, weekly reviews, decision logs. Apps that quietly run in the background of your week.',
+    apps: [
+      { name: 'Inbox triage',     brief: 'Label, summarise, draft fast replies.' },
+      { name: 'Meeting prep',     brief: 'Pre-read that lands before every call.' },
+      { name: 'Weekly review',    brief: 'Sweep your week into a digest.' },
+      { name: 'Decision log',     brief: 'Capture decisions with their rationale.' },
     ],
   },
 ];
@@ -39,10 +111,10 @@ const cases = [
   <section class="aw-page-head">
     <div class="aw-container">
       <h1 class="aw-h2">
-        Pre-built App packs for the work your team actually does.
+        Any repeated work can be an App.
       </h1>
       <p class="aw-page-head-desc">
-        Each pack is a curated set of Apps, skills, and connects that work together out of the box. Use as-is, or fork to fit your process.
+        Aitroop is a generic agent — it does not assume your job. Below are starting points across eight functions. Open one, install it, or fork it into your own shape.
       </p>
     </div>
   </section>
@@ -68,7 +140,6 @@ const cases = [
             <ul class="pack-apps">
               {c.apps.map((app) => (
                 <li class="pack-app">
-                  <span class="pack-app-tag">{app.tag}</span>
                   <span class="pack-app-name">{app.name}</span>
                   <span class="pack-app-brief">{app.brief}</span>
                 </li>
@@ -82,7 +153,7 @@ const cases = [
       <div class="byo">
         <div class="byo-text">
           <h3 class="byo-title">Don't see your workflow?</h3>
-          <p class="byo-desc">Aitroop is a platform for crystallizing any AI-assisted workflow into a reusable App.</p>
+          <p class="byo-desc">The eight packs above are starting points, not the product. Aitroop crystallises any AI-assisted workflow into a reusable App — including the one your team has not named yet.</p>
         </div>
         <a href="/contact" class="aw-btn aw-btn-ghost">Talk to us</a>
       </div>
@@ -120,12 +191,12 @@ const cases = [
     align-items: flex-start;
   }
   .pack-title {
-    font-size: clamp(2rem, 3.6vw, 2.625rem);
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
     font-weight: 700;
     letter-spacing: -0.025em;
-    line-height: 1.04;
+    line-height: 1.06;
     color: var(--aw-color-text-heading);
-    margin: 0 0 0.625rem;
+    margin: 0 0 0.5rem;
   }
   .pack-title a {
     color: inherit;
@@ -133,17 +204,17 @@ const cases = [
   }
   .pack-title a:hover { text-decoration: underline; }
   .pack-tagline {
-    font-size: 1.0625rem;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--aw-color-text-default);
-    margin: 0 0 1rem;
+    margin: 0 0 0.875rem;
     line-height: 1.4;
   }
   .pack-desc {
     font-size: 0.9375rem;
     line-height: 1.65;
     color: var(--aw-color-text-muted);
-    margin: 0 0 1.25rem;
+    margin: 0 0 1.125rem;
     max-width: 42ch;
     text-wrap: pretty;
   }
@@ -175,7 +246,7 @@ const cases = [
     display: grid;
     grid-template-columns: 1fr;
     gap: 0.25rem;
-    padding: 1rem 0;
+    padding: 0.875rem 0;
     border-top: 1px solid var(--aw-color-border);
     font-size: 0.875rem;
     line-height: 1.55;
@@ -186,19 +257,10 @@ const cases = [
   }
   @media (min-width: 640px) {
     .pack-app {
-      grid-template-columns: 9rem 11rem 1fr;
+      grid-template-columns: 12rem 1fr;
       gap: 1.5rem;
       align-items: baseline;
-      padding: 1rem 0;
     }
-  }
-  .pack-app-tag {
-    font-family: var(--aw-font-mono, ui-monospace, monospace);
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--aw-color-text-muted);
-    line-height: 1.4;
   }
   .pack-app-name {
     font-weight: 600;
@@ -243,6 +305,6 @@ const cases = [
     line-height: 1.6;
     color: var(--aw-color-text-muted);
     margin: 0;
-    max-width: 50ch;
+    max-width: 56ch;
   }
 </style>

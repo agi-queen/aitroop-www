@@ -1,4 +1,4 @@
-﻿import { getPermalink, getBlogPermalink, getAsset } from './utils/permalinks';
+import { getPermalink, getBlogPermalink, getAsset } from './utils/permalinks';
 import type { Locale } from './i18n/utils';
 
 function lp(locale: Locale, path: string): string {
@@ -12,10 +12,6 @@ interface HeaderLabels {
   useCases: string;
   blog: string;
   docs: string;
-  gtm: string;
-  gtmDesc: string;
-  finance: string;
-  financeDesc: string;
 }
 
 const headerLabels: Record<Locale, HeaderLabels> = {
@@ -24,30 +20,18 @@ const headerLabels: Record<Locale, HeaderLabels> = {
     useCases: 'Use cases',
     blog: 'Blog',
     docs: 'Docs',
-    gtm: 'GTM',
-    gtmDesc: 'Prospecting, outreach, retention, pipeline insights.',
-    finance: 'Finance',
-    financeDesc: 'Month-end close, AR aging, expense audit, variance.',
   },
   'zh-CN': {
     home: '主页',
     useCases: '案例',
     blog: '博客',
     docs: '文档',
-    gtm: 'GTM',
-    gtmDesc: '线索挖掘、外部触达、客户留存、管道洞察。',
-    finance: '财务 Finance',
-    financeDesc: '月结、应收账龄、费用稽核、差异分析。',
   },
   'zh-TW': {
     home: '首頁',
     useCases: '案例',
     blog: '部落格',
     docs: '文件',
-    gtm: 'GTM',
-    gtmDesc: '線索挖掘、外部觸達、客戶留存、管道洞察。',
-    finance: '財務 Finance',
-    financeDesc: '月結、應收帳齡、費用稽核、差異分析。',
   },
 };
 
@@ -56,14 +40,7 @@ function buildHeaderLinks(locale: Locale) {
   const p = (path: string) => lp(locale, path);
   return [
     { text: t.home, href: p('/') },
-    {
-      text: t.useCases,
-      href: p('/use-cases'),
-      links: [
-        { text: t.gtm,     href: p('/use-cases/gtm'),     desc: t.gtmDesc },
-        { text: t.finance, href: p('/use-cases/finance'), desc: t.financeDesc },
-      ],
-    },
+    { text: t.useCases, href: p('/use-cases') },
     { text: t.blog, href: p(getBlogPermalink()) },
     { text: t.docs, href: p('/docs') },
   ];

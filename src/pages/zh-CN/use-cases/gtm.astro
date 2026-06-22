@@ -1,8 +1,17 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import UseCasePack from '~/components/widgets/UseCasePack.astro';
 
-const metadata = {
-  title: 'GTM 案例 · Aitroop',
+const metadata = { title: 'GTM 案例 · Aitroop' };
+
+const labels = {
+  useCases: '案例',
+  inputs: '输入',
+  outputs: '产物',
+  skills: '技能',
+  connects: '集成',
+  appsHeading: '四个 App，一条营收主线。',
+  nextPack: '下一个套件',
 };
 
 const apps = [
@@ -43,191 +52,18 @@ const apps = [
     connects: ['salesforce', 'hubspot'],
   },
 ];
-
-const why = [
-  { title: '复合式产出',     desc: '每一次跑通的对话都变成可复用的 App。团队的集体经验逐周复利。' },
-  { title: '原生 CRM 集成',  desc: '通过 OAuth 读写 Salesforce、HubSpot 和数据仓库，不用 Zapier，也不用自写脚本。' },
-  { title: '设一次定时',     desc: '每日管道摘要、每周触达清单、每月留存报告。设好 cron 就忘掉它。' },
-];
 ---
 
 <Layout metadata={metadata}>
-
-  <!-- PAGE HEAD ────────────────────────────────────────────────────── -->
-  <section class="aw-page-head">
-    <div class="aw-container">
-      <nav class="aw-crumbs">
-        <a href="/zh-CN/use-cases">案例</a>
-        <span aria-hidden="true">/</span>
-        <span>GTM</span>
-      </nav>
-      <h1 class="aw-h2">让管道自动运转。</h1>
-      <p class="aw-page-head-desc">
-        四个预置 App 端到端覆盖 GTM 流程：从找到线索到留住客户。每一个都自带所需的技能与集成，第一天就能跑起来。
-      </p>
-      <div class="aw-actions">
-        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">安装 GTM 套件</a>
-        <a href="/zh-CN/contact" class="aw-btn aw-btn-ghost">预约演示</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- APPS ─────────────────────────────────────────────────────────── -->
-  <section class="aw-section">
-    <div class="aw-container">
-      <header class="aw-section-head">
-        <h2 class="aw-h2">四个 App，一条营收主线。</h2>
-      </header>
-
-      <div class="apps">
-        {apps.map((app) => (
-          <article class="app">
-            <div class="app-head">
-              <span class="app-tag">{app.tag}</span>
-              <h3 class="app-title">{app.name}</h3>
-            </div>
-            <div class="app-body">
-              <p class="app-desc">{app.description}</p>
-              <dl class="app-meta">
-                <div>
-                  <dt>输入</dt>
-                  <dd>{app.inputs.join(' · ')}</dd>
-                </div>
-                <div>
-                  <dt>产物</dt>
-                  <dd>{app.outputs.join(' · ')}</dd>
-                </div>
-                <div>
-                  <dt>技能</dt>
-                  <dd class="mono">{app.skills.join(' · ')}</dd>
-                </div>
-                <div>
-                  <dt>集成</dt>
-                  <dd class="mono accent">{app.connects.join(' · ')}</dd>
-                </div>
-              </dl>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- WHY ──────────────────────────────────────────────────────────── -->
-  <section class="aw-section">
-    <div class="aw-container">
-      <header class="aw-section-head">
-        <h2 class="aw-h2">为可复利的管道工作而设计。</h2>
-      </header>
-      <div class="why">
-        {why.map((w) => (
-          <article class="aw-piece">
-            <h3 class="aw-piece-title">{w.title}</h3>
-            <p class="aw-piece-desc">{w.desc}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA ──────────────────────────────────────────────────────────── -->
-  <section class="aw-section">
-    <div class="aw-container-narrow">
-      <h2 class="aw-h2" style="max-width: 18ch; margin: 0 auto 1rem;">从 GTM 套件开始。</h2>
-      <p class="aw-lede">免费安装。连接 CRM，10 分钟内跑出第一个 App。</p>
-      <div class="aw-actions aw-actions-center">
-        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">安装 GTM 套件</a>
-        <a href="/zh-CN/use-cases/finance" class="aw-btn aw-btn-ghost">看财务套件</a>
-      </div>
-    </div>
-  </section>
-
+  <UseCasePack
+    crumb="GTM"
+    h1="让管道自动运转。"
+    lede="四个预置 App 端到端覆盖 GTM 流程：从找到线索到留住客户。每一个都自带所需的技能与集成,第一天就能跑起来。"
+    primaryCta={{ label: '安装 GTM 套件', href: 'https://app.aitroop.net' }}
+    secondaryCta={{ label: '预约演示', href: '/zh-CN/contact' }}
+    apps={apps}
+    next={{ href: '/zh-CN/use-cases/finance', name: '财务', tagline: '更快地把账关掉。' }}
+    hubHref="/zh-CN/use-cases"
+    labels={labels}
+  />
 </Layout>
-
-<style>
-  .apps {
-    display: grid;
-    gap: 0;
-  }
-  .app {
-    border-top: 1px solid var(--aw-color-border-strong);
-    padding: 2rem 0 2.5rem;
-  }
-  .app:last-child { border-bottom: 1px solid var(--aw-color-border); }
-  @media (min-width: 768px) {
-    .app {
-      display: grid;
-      grid-template-columns: 16rem 1fr;
-      gap: 3rem;
-      padding: 2.25rem 0 2.75rem;
-    }
-  }
-  .app-head {
-    display: flex;
-    flex-direction: column;
-    gap: 0.625rem;
-  }
-  .app-tag {
-    align-self: flex-start;
-    font-family: var(--aw-font-mono, ui-monospace, monospace);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    color: var(--aw-color-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    line-height: 1;
-  }
-  .app-title {
-    font-size: 1.375rem;
-    font-weight: 700;
-    color: var(--aw-color-text-heading);
-    letter-spacing: -0.02em;
-    margin: 0;
-    line-height: 1.15;
-  }
-  .app-desc {
-    font-size: 0.9375rem;
-    line-height: 1.7;
-    color: var(--aw-color-text-muted);
-    margin: 1rem 0 1.5rem;
-    text-wrap: pretty;
-  }
-  @media (min-width: 768px) {
-    .app-desc { margin: 0 0 1.5rem; }
-  }
-  .app-meta {
-    margin: 0;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  @media (min-width: 640px) {
-    .app-meta { grid-template-columns: repeat(2, 1fr); gap: 1.125rem 2rem; }
-  }
-  .app-meta dt {
-    font-family: var(--aw-font-mono, ui-monospace, monospace);
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--aw-color-text-muted);
-    margin: 0 0 0.3125rem;
-    line-height: 1;
-    font-weight: 600;
-  }
-  .app-meta dd {
-    margin: 0;
-    font-size: 0.8125rem;
-    line-height: 1.55;
-    color: var(--aw-color-text-default);
-  }
-  .mono { font-family: var(--aw-font-mono, ui-monospace, monospace); }
-  .accent { color: var(--aw-color-primary); }
-
-  .why {
-    display: grid;
-    gap: 2rem;
-  }
-  @media (min-width: 768px) {
-    .why { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
-  }
-</style>

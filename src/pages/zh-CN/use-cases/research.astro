@@ -1,0 +1,69 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import UseCasePack from '~/components/widgets/UseCasePack.astro';
+
+const metadata = { title: '研究案例 · Aitroop' };
+
+const labels = {
+  useCases: '案例',
+  inputs: '输入',
+  outputs: '产物',
+  skills: '技能',
+  connects: '集成',
+  appsHeading: '四个 App，把读资料的工作交出去。',
+  nextPack: '下一个套件',
+};
+
+const apps = [
+  {
+    tag: '竞品',
+    name: '竞品监测 Competitor scan',
+    description: '盯着竞品站点、价格页、changelog、招聘页。每周把 diff 抓出来,附一句"这意味着什么"的解读。',
+    inputs: ['竞品 URL', '监测页面', '频率'],
+    outputs: ['每周摘要 (Markdown)', '变更记录 (CSV)'],
+    skills: ['page-diff', 'changelog-read', 'angle-write'],
+    connects: ['rss', 'slack', 'notion'],
+  },
+  {
+    tag: '洞察',
+    name: '访谈合成 Interview synthesis',
+    description: '读访谈逐字稿,把"用户真正说了什么"聚类成主题,引用原话作为证据。一次抢回研究后那一整周。',
+    inputs: ['逐字稿文件', '研究问题', '主题提示'],
+    outputs: ['主题报告 (Markdown)', '引用映射 (CSV)'],
+    skills: ['transcript-read', 'cluster', 'quote-extract'],
+    connects: ['drive', 'notion', 'dovetail'],
+  },
+  {
+    tag: '市场',
+    name: '市场规模 Market sizing',
+    description: '汇总公开数据集、招股书、新闻稿。同时给出 top-down 与 bottom-up 两套估算,来源全部可溯源。',
+    inputs: ['市场定义', '地域', '年份范围'],
+    outputs: ['规模备忘 (Markdown)', '来源表 (CSV)'],
+    skills: ['public-data-fetch', 'filing-read', 'numbers-reason'],
+    connects: ['google-search', 'sec', 'sheets'],
+  },
+  {
+    tag: '阅读',
+    name: '每周简报 Weekly briefing',
+    description: '在你关心的主题上扫 arXiv、博客和 newsletter,总结发生了什么变化,排序哪些值得你花阅读时间。',
+    inputs: ['主题', '信息源列表', '阅读时间预算'],
+    outputs: ['简报 (Markdown)', '排序后的阅读清单 (Markdown)'],
+    skills: ['feed-read', 'summarise', 'rank-score'],
+    connects: ['rss', 'arxiv', 'pocket'],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <UseCasePack
+    crumb="研究 / 调研"
+    h1="不再被读资料压垮。"
+    lede="研究工作有一半是认真地读很多东西 —— 把这一半交给 Agent,按 cron 跑。"
+    primaryCta={{ label: '安装研究套件', href: 'https://app.aitroop.net' }}
+    secondaryCta={{ label: '预约演示', href: '/zh-CN/contact' }}
+    apps={apps}
+    next={{ href: '/zh-CN/use-cases/operations', name: '运营 / 法务', tagline: '把流程从忙碌中解放出来。' }}
+    hubHref="/zh-CN/use-cases"
+    labels={labels}
+  />
+</Layout>

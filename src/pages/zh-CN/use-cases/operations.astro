@@ -1,0 +1,69 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import UseCasePack from '~/components/widgets/UseCasePack.astro';
+
+const metadata = { title: '运营 / 法务案例 · Aitroop' };
+
+const labels = {
+  useCases: '案例',
+  inputs: '输入',
+  outputs: '产物',
+  skills: '技能',
+  connects: '集成',
+  appsHeading: '四个 App，搞定不讨喜的后台工作。',
+  nextPack: '下一个套件',
+};
+
+const apps = [
+  {
+    tag: '流程',
+    name: 'SOP 起草 SOP draft',
+    description: '把"工作真正发生的那段对话"变成一份结构化 SOP —— 步骤、负责人、异常路径。Agent 干掉没人愿意做的 writing-up。',
+    inputs: ['来源对话或逐字稿', '流程负责人', '受众'],
+    outputs: ['SOP 文档 (Markdown)', '决策树 (Mermaid)'],
+    skills: ['transcript-read', 'process-extract', 'doc-write'],
+    connects: ['notion', 'drive', 'confluence'],
+  },
+  {
+    tag: '供应商',
+    name: '供应商风险审 Vendor risk review',
+    description: '读供应商的安全问卷与 SOC2 报告,输出一份风险摘要,把值得"和供应商谈一谈"的条款标出来。',
+    inputs: ['供应商名称', 'SOC2 / 渗透测试 PDF', '内部风险政策'],
+    outputs: ['风险摘要 (Markdown)', '问题清单 (CSV)'],
+    skills: ['pdf-read', 'policy-match', 'risk-score'],
+    connects: ['drive', 'vanta', 'slack'],
+  },
+  {
+    tag: '法务',
+    name: '合同 redline Contract redline',
+    description: '把对方合同与你的 playbook 比对,标出偏离,给出降级条款建议,把需要人来定夺的部分标出。',
+    inputs: ['合同文件', 'Playbook', '对方公司'],
+    outputs: ['Redline 草稿 (DOCX)', '问题备忘 (Markdown)'],
+    skills: ['pdf-read', 'clause-match', 'redline-write'],
+    connects: ['drive', 'ironclad', 'docusign'],
+  },
+  {
+    tag: '合规',
+    name: '合规扫描 Controls scan',
+    description: '按一套框架 (SOC2、ISO 27001、GDPR) 走查你当前的环境。输出一份盲区清单,自动收集截图与策略作为证据。',
+    inputs: ['框架', '范围', '证据来源'],
+    outputs: ['盲区报告 (Markdown)', '证据包 (ZIP)'],
+    skills: ['control-walk', 'evidence-collect', 'gap-write'],
+    connects: ['vanta', 'drive', 'github'],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <UseCasePack
+    crumb="运营 / 法务"
+    h1="把流程从忙碌中解放出来。"
+    lede="SOP、供应商审、redline、合规 —— 那些悄无声息塞满日历的运营工作,每一项做成一个 Agent 在团队旁边跑的 App。"
+    primaryCta={{ label: '安装运营套件', href: 'https://app.aitroop.net' }}
+    secondaryCta={{ label: '预约演示', href: '/zh-CN/contact' }}
+    apps={apps}
+    next={{ href: '/zh-CN/use-cases/personal', name: '个人提效', tagline: '把收件箱拿回来。' }}
+    hubHref="/zh-CN/use-cases"
+    labels={labels}
+  />
+</Layout>

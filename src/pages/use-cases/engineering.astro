@@ -1,0 +1,58 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import UseCasePack from '~/components/widgets/UseCasePack.astro';
+
+const metadata = { title: 'Engineering · Use Cases · Aitroop' };
+
+const apps = [
+  {
+    tag: 'Code quality',
+    name: 'PR review',
+    description: 'Read a pull request like a senior engineer would. Flags correctness bugs, missed edge cases, and reuse opportunities — not nits.',
+    inputs: ['Repo', 'PR number', 'Review focus (correctness · perf · security)'],
+    outputs: ['Inline comments (Markdown)', 'Reviewer summary (Markdown)'],
+    skills: ['code-read', 'diff-analyze', 'static-lint'],
+    connects: ['github', 'gitlab'],
+  },
+  {
+    tag: 'Release',
+    name: 'Release notes',
+    description: 'Roll up commits, PR descriptions, and Linear tickets into a clean changelog grouped by feature, fix, and breaking change.',
+    inputs: ['Repo', 'Tag range', 'Audience (engineers · customers)'],
+    outputs: ['Changelog (Markdown)', 'Customer-facing post (Markdown)'],
+    skills: ['git-log', 'pr-fetch', 'ticket-link'],
+    connects: ['github', 'linear', 'notion'],
+  },
+  {
+    tag: 'On-call',
+    name: 'Incident digest',
+    description: 'Cluster overnight alerts by service, attach the relevant runbooks, and hand the on-call a single morning brief instead of a Slack pile.',
+    inputs: ['Time window', 'Service filter', 'Severity threshold'],
+    outputs: ['On-call brief (Markdown)', 'Alert grouping (JSON)'],
+    skills: ['log-query', 'alert-cluster', 'runbook-match'],
+    connects: ['pagerduty', 'datadog', 'slack'],
+  },
+  {
+    tag: 'Postmortem',
+    name: 'Incident write-up',
+    description: 'Reconstruct timeline from logs, chat, and deploys. Drafts a blameless postmortem with root cause hypotheses and action items.',
+    inputs: ['Incident ID', 'Time range', 'Linked services'],
+    outputs: ['Postmortem doc (Markdown)', 'Action items (CSV)'],
+    skills: ['timeline-build', 'log-correlate', 'doc-write'],
+    connects: ['pagerduty', 'github', 'slack'],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <UseCasePack
+    crumb="Engineering"
+    h1="Code review, release, on-call — captured as Apps."
+    lede="Four pre-built Apps for the work that owns every engineering team: shipping safely and explaining what changed."
+    primaryCta={{ label: 'Install Engineering pack', href: 'https://app.aitroop.net' }}
+    secondaryCta={{ label: 'Book demo', href: '/contact' }}
+    apps={apps}
+    next={{ href: '/use-cases/marketing', name: 'Marketing', tagline: 'Ship the campaign without the scramble.' }}
+    labels={{ appsHeading: 'Four Apps along the release loop.' }}
+  />
+</Layout>

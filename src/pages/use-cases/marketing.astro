@@ -1,0 +1,58 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import UseCasePack from '~/components/widgets/UseCasePack.astro';
+
+const metadata = { title: 'Marketing · Use Cases · Aitroop' };
+
+const apps = [
+  {
+    tag: 'Briefing',
+    name: 'Content brief',
+    description: 'Turn a target keyword into a brief: search-intent read, competitor coverage gaps, outline, and the angles only you can own.',
+    inputs: ['Target keyword', 'ICP', 'Existing posts (URL list)'],
+    outputs: ['Brief (Markdown)', 'Competitor matrix (CSV)'],
+    skills: ['serp-read', 'page-fetch', 'gap-analyze'],
+    connects: ['gsc', 'ahrefs', 'notion'],
+  },
+  {
+    tag: 'Distribution',
+    name: 'Social pack',
+    description: 'Take one source post and produce platform-native variants — LinkedIn, X, Threads — each rewritten to that platforms voice, not just truncated.',
+    inputs: ['Source post (URL or doc)', 'Platform set', 'Tone'],
+    outputs: ['Platform drafts (Markdown)', 'Image prompts (JSON)'],
+    skills: ['rewrite-tone', 'hook-write', 'thread-split'],
+    connects: ['linkedin', 'buffer', 'drive'],
+  },
+  {
+    tag: 'Newsletter',
+    name: 'Weekly digest',
+    description: 'Sweep your sources — blogs, podcasts, GitHub, Twitter — cluster the noise, and assemble a digest with your editorial voice on top.',
+    inputs: ['Source list', 'Topic focus', 'Length target'],
+    outputs: ['Newsletter draft (Markdown)', 'Source list (CSV)'],
+    skills: ['feed-read', 'cluster', 'editorial-write'],
+    connects: ['rss', 'gmail', 'beehiiv'],
+  },
+  {
+    tag: 'SEO',
+    name: 'Content audit',
+    description: 'Crawl your domain, find thin pages, cannibalisation, and quick-win gaps. Outputs a prioritised hit list, not a 200-row spreadsheet.',
+    inputs: ['Domain', 'Sitemap', 'Priority pages'],
+    outputs: ['Audit summary (Markdown)', 'Fix list (CSV)'],
+    skills: ['site-crawl', 'serp-read', 'keyword-cluster'],
+    connects: ['gsc', 'ahrefs', 'sheets'],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <UseCasePack
+    crumb="Marketing"
+    h1="Ship the campaign without the scramble."
+    lede="Briefs, distribution, newsletters, audits — the marketing motion most teams ship with three tools and a shared spreadsheet, captured as four Apps."
+    primaryCta={{ label: 'Install Marketing pack', href: 'https://app.aitroop.net' }}
+    secondaryCta={{ label: 'Book demo', href: '/contact' }}
+    apps={apps}
+    next={{ href: '/use-cases/support', name: 'Customer support', tagline: 'Triage, draft, resolve.' }}
+    labels={{ appsHeading: 'Four Apps across the content loop.' }}
+  />
+</Layout>

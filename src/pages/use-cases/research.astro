@@ -1,0 +1,58 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import UseCasePack from '~/components/widgets/UseCasePack.astro';
+
+const metadata = { title: 'Research · Use Cases · Aitroop' };
+
+const apps = [
+  {
+    tag: 'Competitive',
+    name: 'Competitor scan',
+    description: 'Watch competitor sites, pricing pages, changelogs, and job posts. Surfaces the diff each week with a short take on what it means.',
+    inputs: ['Competitor URLs', 'Pages to watch', 'Cadence'],
+    outputs: ['Weekly digest (Markdown)', 'Change log (CSV)'],
+    skills: ['page-diff', 'changelog-read', 'angle-write'],
+    connects: ['rss', 'slack', 'notion'],
+  },
+  {
+    tag: 'Synthesis',
+    name: 'Interview synthesis',
+    description: 'Read interview transcripts, cluster what was actually said into themes, and quote the line that proves it. Saves the entire week after research.',
+    inputs: ['Transcript files', 'Research question', 'Theme hints'],
+    outputs: ['Theme report (Markdown)', 'Quote map (CSV)'],
+    skills: ['transcript-read', 'cluster', 'quote-extract'],
+    connects: ['drive', 'notion', 'dovetail'],
+  },
+  {
+    tag: 'Sizing',
+    name: 'Market sizing',
+    description: 'Pull together public datasets, filings, and press releases. Reasons a top-down and bottom-up estimate side by side, with sources you can audit.',
+    inputs: ['Market definition', 'Geography', 'Year range'],
+    outputs: ['Sizing memo (Markdown)', 'Source table (CSV)'],
+    skills: ['public-data-fetch', 'filing-read', 'numbers-reason'],
+    connects: ['google-search', 'sec', 'sheets'],
+  },
+  {
+    tag: 'Reading',
+    name: 'Weekly briefing',
+    description: 'Skim arXiv, blogs, and newsletters in your topic, summarise what shifted, and rank what is worth your read time and what is hype.',
+    inputs: ['Topic', 'Source list', 'Read-time budget'],
+    outputs: ['Briefing (Markdown)', 'Ranked reading list (Markdown)'],
+    skills: ['feed-read', 'summarise', 'rank-score'],
+    connects: ['rss', 'arxiv', 'pocket'],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <UseCasePack
+    crumb="Research"
+    h1="Insight without the slog."
+    lede="Four Apps for the half of research that is just reading a lot of things carefully — handed off to an agent that does it on a cron."
+    primaryCta={{ label: 'Install Research pack', href: 'https://app.aitroop.net' }}
+    secondaryCta={{ label: 'Book demo', href: '/contact' }}
+    apps={apps}
+    next={{ href: '/use-cases/operations', name: 'Operations', tagline: 'Process without the busywork.' }}
+    labels={{ appsHeading: 'Four Apps across the research loop.' }}
+  />
+</Layout>

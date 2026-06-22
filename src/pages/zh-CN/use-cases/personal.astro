@@ -1,0 +1,69 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import UseCasePack from '~/components/widgets/UseCasePack.astro';
+
+const metadata = { title: '个人提效案例 · Aitroop' };
+
+const labels = {
+  useCases: '案例',
+  inputs: '输入',
+  outputs: '产物',
+  skills: '技能',
+  connects: '集成',
+  appsHeading: '四个 App,把你一周的节奏接管。',
+  nextPack: '下一个套件',
+};
+
+const apps = [
+  {
+    tag: '收件箱',
+    name: '邮件分流 Inbox triage',
+    description: '把昨夜涌进来的邮件打标签、写摘要、起草快速回复。你打开 Gmail 时只剩下十封真正需要人来处理的。',
+    inputs: ['收件箱', '重要性提示', '回复语气'],
+    outputs: ['分流摘要 (Markdown)', '回复草稿 (按线程)'],
+    skills: ['email-classify', 'reply-write', 'tone-match'],
+    connects: ['gmail', 'outlook'],
+  },
+  {
+    tag: '会议',
+    name: '会前准备 Meeting prep',
+    description: '在每次通话之前把简报拼好 —— 参会人、最近往来、共享文档、未决事项。会议前五分钟自动出现在日程里。',
+    inputs: ['日历', '回看窗口', '人物背景来源'],
+    outputs: ['会前简报 (Markdown)', '谈话要点 (Markdown)'],
+    skills: ['calendar-read', 'thread-fetch', 'profile-enrich'],
+    connects: ['google-calendar', 'gmail', 'linkedin'],
+  },
+  {
+    tag: '复盘',
+    name: '周复盘 Weekly review',
+    description: '把你这一周的 commit、文档、消息、日程扫一遍,变成一份可以直接贴到周五汇报或者扔给老板的摘要。',
+    inputs: ['时间窗口', '来源集合', '受众'],
+    outputs: ['周报 (Markdown)', '亮点摘要 (Markdown)'],
+    skills: ['activity-sweep', 'summarise', 'narrative-write'],
+    connects: ['github', 'gmail', 'slack'],
+  },
+  {
+    tag: '记忆',
+    name: '决策日志 Decision log',
+    description: '在聊天与文档中扫描"真正做出决策的那一刻",捕捉理由,追加到一个按主题可搜索的日志里。',
+    inputs: ['来源集合', '时间窗口', '主题筛选'],
+    outputs: ['决策日志条目 (Markdown)', '主题索引 (CSV)'],
+    skills: ['decision-detect', 'rationale-write', 'tag-extract'],
+    connects: ['slack', 'notion', 'drive'],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <UseCasePack
+    crumb="个人提效"
+    h1="把你的收件箱、日历、一周时间拿回来。"
+    lede="四个 App 在后台默默替你跑 —— 你花在工具上的时间,变回你本来想花的那些时间。"
+    primaryCta={{ label: '安装个人套件', href: 'https://app.aitroop.net' }}
+    secondaryCta={{ label: '预约演示', href: '/zh-CN/contact' }}
+    apps={apps}
+    next={{ href: '/zh-CN/use-cases/gtm', name: 'GTM', tagline: '让管道自动运转。' }}
+    hubHref="/zh-CN/use-cases"
+    labels={labels}
+  />
+</Layout>

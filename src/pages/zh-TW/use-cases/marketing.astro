@@ -1,0 +1,69 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import UseCasePack from '~/components/widgets/UseCasePack.astro';
+
+const metadata = { title: '市場行銷案例 · Aitroop' };
+
+const labels = {
+  useCases: '案例',
+  inputs: '輸入',
+  outputs: '產物',
+  skills: '技能',
+  connects: '整合',
+  appsHeading: '四個 App，覆蓋內容閉環。',
+  nextPack: '下一個套件',
+};
+
+const apps = [
+  {
+    tag: '選題',
+    name: '內容簡報 Content brief',
+    description: '把一個目標關鍵詞變成一份簡報：搜尋意圖分析、競品覆蓋盲區、內容大綱,以及只有你能講的角度。',
+    inputs: ['目標關鍵詞', 'ICP', '已有內容 (URL 清單)'],
+    outputs: ['簡報 (Markdown)', '競品矩陣 (CSV)'],
+    skills: ['serp-read', 'page-fetch', 'gap-analyze'],
+    connects: ['gsc', 'ahrefs', 'notion'],
+  },
+  {
+    tag: '分發',
+    name: '社媒包 Social pack',
+    description: '把一篇原文改寫成各平台的原生版本 —— LinkedIn、X、Threads —— 按各自的語境改寫,不是簡單截斷。',
+    inputs: ['原文 (URL 或文件)', '平台集合', '語氣'],
+    outputs: ['各平台草稿 (Markdown)', '配圖 prompt (JSON)'],
+    skills: ['rewrite-tone', 'hook-write', 'thread-split'],
+    connects: ['linkedin', 'buffer', 'drive'],
+  },
+  {
+    tag: 'Newsletter',
+    name: '週報摘要 Weekly digest',
+    description: '掃一遍你的資訊來源 —— 部落格、podcast、GitHub、Twitter —— 把雜訊聚類,按你的編輯口吻輸出週報。',
+    inputs: ['資訊來源清單', '主題方向', '篇幅目標'],
+    outputs: ['週報草稿 (Markdown)', '原始來源 (CSV)'],
+    skills: ['feed-read', 'cluster', 'editorial-write'],
+    connects: ['rss', 'gmail', 'beehiiv'],
+  },
+  {
+    tag: 'SEO',
+    name: '內容稽核 Content audit',
+    description: '爬一遍你的網站,找出薄頁、關鍵詞內耗、容易拿下的機會詞。輸出一份排序好的修復清單,而不是 200 行 sheet。',
+    inputs: ['網域', '網站地圖', '重點頁'],
+    outputs: ['稽核摘要 (Markdown)', '修復清單 (CSV)'],
+    skills: ['site-crawl', 'serp-read', 'keyword-cluster'],
+    connects: ['gsc', 'ahrefs', 'sheets'],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <UseCasePack
+    crumb="市場行銷"
+    h1="讓 campaign 不再卡在最後一公里。"
+    lede="選題、分發、newsletter、SEO 稽核 —— 多數團隊靠三個工具加一張表撐下的工作流,捏成四個 App。"
+    primaryCta={{ label: '安裝行銷套件', href: 'https://app.aitroop.net' }}
+    secondaryCta={{ label: '預約演示', href: '/zh-TW/contact' }}
+    apps={apps}
+    next={{ href: '/zh-TW/use-cases/support', name: '客戶支援', tagline: '分流、起草、收單。' }}
+    hubHref="/zh-TW/use-cases"
+    labels={labels}
+  />
+</Layout>

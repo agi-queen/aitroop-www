@@ -1,0 +1,58 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import UseCasePack from '~/components/widgets/UseCasePack.astro';
+
+const metadata = { title: 'Customer Support · Use Cases · Aitroop' };
+
+const apps = [
+  {
+    tag: 'Triage',
+    name: 'Ticket triage',
+    description: 'Classify incoming tickets by intent, severity, and team. Surfaces the half that can answer themselves and routes the rest with reasoning attached.',
+    inputs: ['Inbox', 'Routing rules', 'SLA matrix'],
+    outputs: ['Routed queue (CSV)', 'Triage rationale (Markdown)'],
+    skills: ['intent-classify', 'severity-score', 'route-match'],
+    connects: ['zendesk', 'intercom', 'slack'],
+  },
+  {
+    tag: 'Reply',
+    name: 'Reply drafter',
+    description: 'Draft the first response grounded in your knowledge base and past tickets. Agent reviews and sends — no more typing the same answer.',
+    inputs: ['Ticket ID', 'Knowledge base', 'Voice guide'],
+    outputs: ['Reply draft (Markdown)', 'Cited sources (JSON)'],
+    skills: ['kb-search', 'reply-write', 'tone-match'],
+    connects: ['zendesk', 'intercom', 'notion'],
+  },
+  {
+    tag: 'Knowledge',
+    name: 'KB sync',
+    description: 'Turn resolved tickets into KB articles. Detects gaps in coverage and proposes new entries with the wording that actually closed the case.',
+    inputs: ['Resolved tickets (period)', 'KB structure'],
+    outputs: ['New article drafts (Markdown)', 'Gap list (CSV)'],
+    skills: ['cluster-tickets', 'article-write', 'kb-publish'],
+    connects: ['zendesk', 'notion', 'helpscout'],
+  },
+  {
+    tag: 'Health',
+    name: 'Churn signal',
+    description: 'Cross-reference ticket sentiment, product usage, and exec changes. Escalates accounts at risk before renewal even hits the calendar.',
+    inputs: ['Account list', 'Lookback window', 'Risk threshold'],
+    outputs: ['Risk report (Markdown)', 'Account scores (CSV)'],
+    skills: ['sentiment-read', 'usage-analyze', 'risk-score'],
+    connects: ['zendesk', 'salesforce', 'segment'],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <UseCasePack
+    crumb="Customer support"
+    h1="Triage, draft, resolve — without the queue anxiety."
+    lede="Four Apps that quietly take the repetitive half off the support queue, so agents spend their time on the cases that actually need a human."
+    primaryCta={{ label: 'Install Support pack', href: 'https://app.aitroop.net' }}
+    secondaryCta={{ label: 'Book demo', href: '/contact' }}
+    apps={apps}
+    next={{ href: '/use-cases/research', name: 'Research', tagline: 'Insight without the slog.' }}
+    labels={{ appsHeading: 'Four Apps across the support loop.' }}
+  />
+</Layout>

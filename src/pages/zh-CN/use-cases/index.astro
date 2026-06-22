@@ -7,18 +7,100 @@ const metadata = {
 
 const cases = [
   {
+    slug: '/zh-CN/use-cases/engineering',
+    title: '工程',
+    tagline: '安全发版,写得更少。',
+    desc: 'PR 评审、发版说明、On-call 摘要、事故复盘。在代码库和告警旁边运行,把没人愿意做的 writing-up 接管掉。',
+    apps: [
+      { name: 'PR 评审',     brief: '资深视角找真 bug,而非格式纠结。' },
+      { name: '发版说明',     brief: '把 commit 与工单汇成 changelog。' },
+      { name: '事故摘要',     brief: '把过夜告警聚类成一份值班简报。' },
+      { name: '事故复盘',     brief: '从日志重建时间线 + 行动项。' },
+    ],
+  },
+  {
+    slug: '/zh-CN/use-cases/marketing',
+    title: '市场营销',
+    tagline: '让 campaign 不再卡在最后一公里。',
+    desc: '内容简报、社媒分发、每周 newsletter、SEO 审计。日历不够用时,让这些 App 顶上去。',
+    apps: [
+      { name: '内容简报',     brief: '从关键词到大纲,带竞品盲区。' },
+      { name: '社媒包',       brief: '一篇原文改写为各平台原生版本。' },
+      { name: '周报摘要',     brief: '扫信息源出一份 newsletter。' },
+      { name: '内容审计',     brief: '爬站找薄页,排序好的修复清单。' },
+    ],
+  },
+  {
+    slug: '/zh-CN/use-cases/support',
+    title: '客户支持',
+    tagline: '分流、起草、收单。',
+    desc: '工单分流、KB 起草、知识沉淀、流失信号。把重复的那一半工作从队列里抠出来。',
+    apps: [
+      { name: '工单分流',     brief: '带判断理由地路由工单。' },
+      { name: '回复起草',     brief: '基于 KB 的首次回复草稿。' },
+      { name: 'KB 同步',      brief: '把已解决工单沉淀为知识库。' },
+      { name: '流失信号',     brief: '续约前预警高风险账户。' },
+    ],
+  },
+  {
+    slug: '/zh-CN/use-cases/research',
+    title: '研究 / 调研',
+    tagline: '不再被读资料压垮。',
+    desc: '竞品监测、访谈合成、市场规模、每周简报。研究里"认真读很多东西"的那一半工作。',
+    apps: [
+      { name: '竞品监测',     brief: '每周 diff 竞品站点附解读。' },
+      { name: '访谈合成',     brief: '把逐字稿聚类成主题 + 引用。' },
+      { name: '市场规模',     brief: 'top-down 与 bottom-up 双估算。' },
+      { name: '每周简报',     brief: '按阅读时间排序值得读的内容。' },
+    ],
+  },
+  {
+    slug: '/zh-CN/use-cases/operations',
+    title: '运营 / 法务',
+    tagline: '把流程从忙碌中解放出来。',
+    desc: 'SOP 起草、供应商审、合同 redline、合规扫描。塞满日历的后台工作,捏成可跑的 App。',
+    apps: [
+      { name: 'SOP 起草',     brief: '对话转结构化流程,带负责人。' },
+      { name: '供应商风险审', brief: '读 SOC2 PDF,标出值得谈的条款。' },
+      { name: '合同 redline', brief: '与 playbook 比对,标偏离。' },
+      { name: '合规扫描',     brief: 'SOC2/ISO/GDPR 盲区与证据。' },
+    ],
+  },
+  {
     slug: '/zh-CN/use-cases/gtm',
     title: 'GTM',
     tagline: '让管道自动运转。',
-    desc: '线索挖掘、外部触达、客户留存、管道洞察。为不想增加 headcount 又想持续放大产出的营收团队预置的 App 套件。',
-    apps: ['线索挖掘', '外部触达', '客户留存', '管道洞察'],
+    desc: '线索挖掘、外部触达、客户留存、管道洞察。给不想增加 headcount 又想放大产出的营收团队。',
+    apps: [
+      { name: '线索挖掘',     brief: '基于公司信号找 ICP 高匹配账户。' },
+      { name: '外部触达',     brief: '个性化邮件与 LinkedIn 消息。' },
+      { name: '客户留存',     brief: '客户流失前预警。' },
+      { name: '管道洞察',     brief: '基于管道数据的 deal 建议。' },
+    ],
   },
   {
     slug: '/zh-CN/use-cases/finance',
     title: '财务',
     tagline: '更快地把账关掉。',
-    desc: '月结、应收账款分析、费用合规、预算差异分析。让财务团队少花时间在表格上，多花时间在驱动决策的分析上。',
-    apps: ['月结清单', '应收账龄', '费用稽核', '差异分析'],
+    desc: '月结、应收账款、费用合规、预算差异。少花时间在表格上,多花时间在分析上。',
+    apps: [
+      { name: '月结清单',     brief: '总账核对、计提、内部往来。' },
+      { name: '应收账龄',     brief: '按账龄分桶,催款邮件草稿。' },
+      { name: '费用稽核',     brief: '识别违规、重复与异常。' },
+      { name: '差异分析',     brief: '实际对预算 + 叙事说明。' },
+    ],
+  },
+  {
+    slug: '/zh-CN/use-cases/personal',
+    title: '个人提效',
+    tagline: '把收件箱拿回来。',
+    desc: '邮件分流、会前准备、周复盘、决策日志。在你一周的后台默默运行的 App。',
+    apps: [
+      { name: '邮件分流',     brief: '打标签、写摘要、起草快速回复。' },
+      { name: '会前准备',     brief: '每次会议前出现的会前简报。' },
+      { name: '周复盘',       brief: '把这周扫成一份摘要。' },
+      { name: '决策日志',     brief: '捕捉决策与背后的理由。' },
+    ],
   },
 ];
 ---
@@ -29,10 +111,10 @@ const cases = [
   <section class="aw-page-head">
     <div class="aw-container">
       <h1 class="aw-h2">
-        团队真实在做的工作，都有预置 App 包。
+        任何重复性工作都可以做成 App。
       </h1>
       <p class="aw-page-head-desc">
-        每个套件是策划好的一组 App、技能与集成，开箱即用。直接使用，或 fork 后定制成你团队的流程。
+        Aitroop 是一个通用 Agent —— 它不预设你的工种。下面是八个职能的起点。打开一个、装上,或 fork 成你团队真正的形状。
       </p>
     </div>
   </section>
@@ -58,7 +140,8 @@ const cases = [
             <ul class="pack-apps">
               {c.apps.map((app) => (
                 <li class="pack-app">
-                  <span class="pack-app-name">{app}</span>
+                  <span class="pack-app-name">{app.name}</span>
+                  <span class="pack-app-brief">{app.brief}</span>
                 </li>
               ))}
             </ul>
@@ -70,7 +153,7 @@ const cases = [
       <div class="byo">
         <div class="byo-text">
           <h3 class="byo-title">没找到你的场景？</h3>
-          <p class="byo-desc">Aitroop 是把任意 AI 辅助工作流固化成可复用 App 的平台。聊聊你团队的具体场景。</p>
+          <p class="byo-desc">上面这八个套件只是起点,不是产品本身。Aitroop 把任意 AI 辅助工作流固化成可复用 App —— 包括你团队还没命名的那个。</p>
         </div>
         <a href="/zh-CN/contact" class="aw-btn aw-btn-ghost">联系我们</a>
       </div>
@@ -80,7 +163,6 @@ const cases = [
 </Layout>
 
 <style>
-  /* ════ pack list — editorial hairline rows, no card chrome ════ */
   .packs {
     list-style: none;
     margin: 0;
@@ -108,12 +190,12 @@ const cases = [
     align-items: flex-start;
   }
   .pack-title {
-    font-size: clamp(2rem, 3.6vw, 2.625rem);
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
     font-weight: 700;
     letter-spacing: -0.025em;
     line-height: 1.1;
     color: var(--aw-color-text-heading);
-    margin: 0 0 0.625rem;
+    margin: 0 0 0.5rem;
   }
   .pack-title a {
     color: inherit;
@@ -121,17 +203,17 @@ const cases = [
   }
   .pack-title a:hover { text-decoration: underline; }
   .pack-tagline {
-    font-size: 1.0625rem;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--aw-color-text-default);
-    margin: 0 0 1rem;
+    margin: 0 0 0.875rem;
     line-height: 1.4;
   }
   .pack-desc {
     font-size: 0.9375rem;
     line-height: 1.7;
     color: var(--aw-color-text-muted);
-    margin: 0 0 1.25rem;
+    margin: 0 0 1.125rem;
     max-width: 42ch;
     text-wrap: pretty;
   }
@@ -153,14 +235,16 @@ const cases = [
   .pack-cta:hover { gap: 0.625rem; }
   .pack-cta:hover svg { transform: translateX(2px); }
 
-  /* ════ pack apps — compact preview rows ════ */
   .pack-apps {
     list-style: none;
     margin: 0;
     padding: 0;
   }
   .pack-app {
-    padding: 1rem 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+    padding: 0.875rem 0;
     border-top: 1px solid var(--aw-color-border);
     font-size: 0.9375rem;
     line-height: 1.55;
@@ -169,13 +253,24 @@ const cases = [
     border-top: 0;
     padding-top: 0;
   }
+  @media (min-width: 640px) {
+    .pack-app {
+      grid-template-columns: 11rem 1fr;
+      gap: 1.5rem;
+      align-items: baseline;
+    }
+  }
   .pack-app-name {
     font-weight: 600;
     color: var(--aw-color-text-default);
     letter-spacing: -0.005em;
   }
+  .pack-app-brief {
+    color: var(--aw-color-text-muted);
+    text-wrap: pretty;
+    font-size: 0.875rem;
+  }
 
-  /* ════ BYO row ════ */
   .byo {
     margin-top: 3rem;
     padding: 2.5rem 0 0;
@@ -208,6 +303,6 @@ const cases = [
     line-height: 1.7;
     color: var(--aw-color-text-muted);
     margin: 0;
-    max-width: 50ch;
+    max-width: 56ch;
   }
 </style>

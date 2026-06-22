@@ -1,16 +1,18 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
+import UseCasePack from '~/components/widgets/UseCasePack.astro';
 
-const metadata = {
-  title: '财务案例 · Aitroop',
+const metadata = { title: '财务案例 · Aitroop' };
+
+const labels = {
+  useCases: '案例',
+  inputs: '输入',
+  outputs: '产物',
+  skills: '技能',
+  connects: '集成',
+  appsHeading: '四个 App，对准财务周期。',
+  nextPack: '下一个套件',
 };
-
-const stats = [
-  { value: '↓ 60%', label: '月结周期' },
-  { value: '100%',  label: '审计可追溯' },
-  { value: '7',     label: '产物格式' },
-  { value: '∞',     label: '同形态复跑' },
-];
 
 const apps = [
   {
@@ -34,7 +36,7 @@ const apps = [
   {
     tag: '内控',
     name: '费用稽核 Expense audit',
-    description: '扫描费用报销，识别政策违规、重复提交与异常项。Agent 解释每个例外的理由，供人工复核。',
+    description: '扫描费用报销，识别政策违规、重复提交与异常项。Agent 解释每个例外的理由,供人工复核。',
     inputs: ['期间', '政策文档', '阈值规则'],
     outputs: ['例外清单 (CSV)', '稽核摘要 (Markdown)'],
     skills: ['expense-classify', 'policy-match', 'anomaly-detect'],
@@ -50,247 +52,18 @@ const apps = [
     connects: ['netsuite', 'quickbooks', 'sheets'],
   },
 ];
-
-const why = [
-  { title: '默认可审计',   desc: '每一次 App 运行都产出结构化产物与完整执行日志。可复现、可比对、可对外解释。' },
-  { title: '数据始终属于你', desc: '每个用户在隔离沙箱中运行。OAuth 仅授权 Agent 看到的范围。数据不会用于模型训练。' },
-  { title: '每周期同形态',  desc: '相同的 App 每次产出相同的结构化输出。对下游消费者可预测，对董事会可审计。' },
-];
 ---
 
 <Layout metadata={metadata}>
-
-  <!-- PAGE HEAD ────────────────────────────────────────────────────── -->
-  <section class="aw-page-head">
-    <div class="aw-container">
-      <nav class="aw-crumbs">
-        <a href="/zh-CN/use-cases">案例</a>
-        <span aria-hidden="true">/</span>
-        <span>财务</span>
-      </nav>
-      <h1 class="aw-h2">更快地把账关掉。</h1>
-      <p class="aw-page-head-desc">
-        四个预置 App 覆盖月结与日常财务运营的常见环节。让团队少花时间在表格上，多花时间在驱动决策的分析上。
-      </p>
-      <div class="aw-actions">
-        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">安装财务套件</a>
-        <a href="/zh-CN/contact" class="aw-btn aw-btn-ghost">联系顾问</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- METRICS ──────────────────────────────────────────────────────── -->
-  <section class="metrics-section">
-    <div class="aw-container">
-      <div class="metrics" role="list">
-        {stats.map((s) => (
-          <div class="metric" role="listitem">
-            <span class="metric-value">{s.value}</span>
-            <span class="metric-label">{s.label}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- APPS ─────────────────────────────────────────────────────────── -->
-  <section class="aw-section">
-    <div class="aw-container">
-      <header class="aw-section-head">
-        <h2 class="aw-h2">四个 App，覆盖财务周期。</h2>
-      </header>
-
-      <div class="apps">
-        {apps.map((app) => (
-          <article class="app">
-            <div class="app-head">
-              <span class="app-tag">{app.tag}</span>
-              <h3 class="app-title">{app.name}</h3>
-            </div>
-            <div class="app-body">
-              <p class="app-desc">{app.description}</p>
-              <dl class="app-meta">
-                <div>
-                  <dt>输入</dt>
-                  <dd>{app.inputs.join(' · ')}</dd>
-                </div>
-                <div>
-                  <dt>产物</dt>
-                  <dd>{app.outputs.join(' · ')}</dd>
-                </div>
-                <div>
-                  <dt>技能</dt>
-                  <dd class="mono">{app.skills.join(' · ')}</dd>
-                </div>
-                <div>
-                  <dt>集成</dt>
-                  <dd class="mono accent">{app.connects.join(' · ')}</dd>
-                </div>
-              </dl>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- WHY ──────────────────────────────────────────────────────────── -->
-  <section class="aw-section">
-    <div class="aw-container">
-      <header class="aw-section-head">
-        <h2 class="aw-h2">为可审计、可复用的工作而设计。</h2>
-      </header>
-      <div class="why">
-        {why.map((w) => (
-          <article class="aw-piece">
-            <h3 class="aw-piece-title">{w.title}</h3>
-            <p class="aw-piece-desc">{w.desc}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA ──────────────────────────────────────────────────────────── -->
-  <section class="aw-section">
-    <div class="aw-container-narrow">
-      <h2 class="aw-h2" style="max-width: 18ch; margin: 0 auto 1rem;">从财务套件开始。</h2>
-      <p class="aw-lede">免费安装。连接你的财务系统，一次会话内跑出第一个月结 App。</p>
-      <div class="aw-actions aw-actions-center">
-        <a href="https://app.aitroop.net" class="aw-btn aw-btn-primary">安装财务套件</a>
-        <a href="/zh-CN/use-cases/gtm" class="aw-btn aw-btn-ghost">看 GTM 套件</a>
-      </div>
-    </div>
-  </section>
-
+  <UseCasePack
+    crumb="财务"
+    h1="更快地把账关掉。"
+    lede="四个预置 App 覆盖每个周期都要跑的月结与日常财务工作。少花时间在表格上,多花时间在分析上。"
+    primaryCta={{ label: '安装财务套件', href: 'https://app.aitroop.net' }}
+    secondaryCta={{ label: '预约演示', href: '/zh-CN/contact' }}
+    apps={apps}
+    next={{ href: '/zh-CN/use-cases/engineering', name: '工程', tagline: '安全发版,写得更少。' }}
+    hubHref="/zh-CN/use-cases"
+    labels={labels}
+  />
 </Layout>
-
-<style>
-  .metrics-section {
-    padding: 0 0 5rem;
-  }
-  @media (min-width: 768px) {
-    .metrics-section { padding: 0 0 7rem; }
-  }
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: var(--aw-color-border);
-    border: 1px solid var(--aw-color-border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  @media (min-width: 768px) {
-    .metrics { grid-template-columns: repeat(4, 1fr); }
-  }
-  .metric {
-    background: var(--aw-color-bg-page);
-    padding: 1.5rem 1.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .metric-value {
-    font-size: clamp(1.625rem, 3vw, 2rem);
-    font-weight: 700;
-    letter-spacing: -0.025em;
-    line-height: 1;
-    color: var(--aw-color-text-heading);
-    font-variant-numeric: tabular-nums;
-  }
-  .metric-label {
-    font-family: var(--aw-font-mono, ui-monospace, monospace);
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--aw-color-text-muted);
-    line-height: 1.3;
-  }
-
-  .apps {
-    display: grid;
-    gap: 0;
-  }
-  .app {
-    border-top: 1px solid var(--aw-color-border-strong);
-    padding: 2rem 0 2.5rem;
-  }
-  .app:last-child { border-bottom: 1px solid var(--aw-color-border); }
-  @media (min-width: 768px) {
-    .app {
-      display: grid;
-      grid-template-columns: 16rem 1fr;
-      gap: 3rem;
-      padding: 2.25rem 0 2.75rem;
-    }
-  }
-  .app-head {
-    display: flex;
-    flex-direction: column;
-    gap: 0.625rem;
-  }
-  .app-tag {
-    align-self: flex-start;
-    font-family: var(--aw-font-mono, ui-monospace, monospace);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    color: var(--aw-color-primary);
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    line-height: 1;
-  }
-  .app-title {
-    font-size: 1.375rem;
-    font-weight: 700;
-    color: var(--aw-color-text-heading);
-    letter-spacing: -0.02em;
-    margin: 0;
-    line-height: 1.15;
-  }
-  .app-desc {
-    font-size: 0.9375rem;
-    line-height: 1.7;
-    color: var(--aw-color-text-muted);
-    margin: 1rem 0 1.5rem;
-    text-wrap: pretty;
-  }
-  @media (min-width: 768px) {
-    .app-desc { margin: 0 0 1.5rem; }
-  }
-  .app-meta {
-    margin: 0;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  @media (min-width: 640px) {
-    .app-meta { grid-template-columns: repeat(2, 1fr); gap: 1.125rem 2rem; }
-  }
-  .app-meta dt {
-    font-family: var(--aw-font-mono, ui-monospace, monospace);
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--aw-color-text-muted);
-    margin: 0 0 0.3125rem;
-    line-height: 1;
-    font-weight: 600;
-  }
-  .app-meta dd {
-    margin: 0;
-    font-size: 0.8125rem;
-    line-height: 1.55;
-    color: var(--aw-color-text-default);
-  }
-  .mono { font-family: var(--aw-font-mono, ui-monospace, monospace); }
-  .accent { color: var(--aw-color-primary); }
-
-  .why {
-    display: grid;
-    gap: 2rem;
-  }
-  @media (min-width: 768px) {
-    .why { grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
-  }
-</style>

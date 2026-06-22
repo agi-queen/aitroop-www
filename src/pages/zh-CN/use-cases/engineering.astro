@@ -1,0 +1,69 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import UseCasePack from '~/components/widgets/UseCasePack.astro';
+
+const metadata = { title: '工程团队案例 · Aitroop' };
+
+const labels = {
+  useCases: '案例',
+  inputs: '输入',
+  outputs: '产物',
+  skills: '技能',
+  connects: '集成',
+  appsHeading: '四个 App，覆盖发版闭环。',
+  nextPack: '下一个套件',
+};
+
+const apps = [
+  {
+    tag: '代码质量',
+    name: 'PR 评审 PR review',
+    description: '像资深工程师那样读一个 PR：找出真正的正确性 bug、被遗漏的边界条件，以及可复用的实现 —— 不挑无意义的格式。',
+    inputs: ['仓库', 'PR 编号', '评审重点 (正确性 / 性能 / 安全)'],
+    outputs: ['行内评论 (Markdown)', '评审摘要 (Markdown)'],
+    skills: ['code-read', 'diff-analyze', 'static-lint'],
+    connects: ['github', 'gitlab'],
+  },
+  {
+    tag: '发版',
+    name: '发版说明 Release notes',
+    description: '把 commit、PR 描述与 Linear 工单汇成一份按特性 / 修复 / 破坏性变更分组的干净 changelog。',
+    inputs: ['仓库', 'Tag 范围', '受众 (工程师 / 客户)'],
+    outputs: ['Changelog (Markdown)', '面向客户的发版稿 (Markdown)'],
+    skills: ['git-log', 'pr-fetch', 'ticket-link'],
+    connects: ['github', 'linear', 'notion'],
+  },
+  {
+    tag: 'On-call',
+    name: '事故摘要 Incident digest',
+    description: '按服务把过夜告警聚类，附上对应的 runbook，给值班同事一份每天早晨的简报,而不是一片刷屏的 Slack。',
+    inputs: ['时间窗口', '服务过滤', '严重程度阈值'],
+    outputs: ['值班简报 (Markdown)', '告警聚类 (JSON)'],
+    skills: ['log-query', 'alert-cluster', 'runbook-match'],
+    connects: ['pagerduty', 'datadog', 'slack'],
+  },
+  {
+    tag: '复盘',
+    name: '事故复盘 Postmortem',
+    description: '从日志、聊天、部署记录里重建时间线。生成不指责个人的事故复盘文档，包含根因假设与待办事项。',
+    inputs: ['事故 ID', '时间范围', '关联服务'],
+    outputs: ['复盘文档 (Markdown)', '待办事项 (CSV)'],
+    skills: ['timeline-build', 'log-correlate', 'doc-write'],
+    connects: ['pagerduty', 'github', 'slack'],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <UseCasePack
+    crumb="工程"
+    h1="代码评审、发版、On-call —— 都做成 App。"
+    lede="四个预置 App 对准每个工程团队都背着的两件事：安全地发版，把变更解释清楚。"
+    primaryCta={{ label: '安装工程套件', href: 'https://app.aitroop.net' }}
+    secondaryCta={{ label: '预约演示', href: '/zh-CN/contact' }}
+    apps={apps}
+    next={{ href: '/zh-CN/use-cases/marketing', name: '市场营销', tagline: '让 campaign 不再卡在最后一公里。' }}
+    hubHref="/zh-CN/use-cases"
+    labels={labels}
+  />
+</Layout>

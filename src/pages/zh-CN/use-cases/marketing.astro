@@ -1,0 +1,69 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import UseCasePack from '~/components/widgets/UseCasePack.astro';
+
+const metadata = { title: '市场营销案例 · Aitroop' };
+
+const labels = {
+  useCases: '案例',
+  inputs: '输入',
+  outputs: '产物',
+  skills: '技能',
+  connects: '集成',
+  appsHeading: '四个 App，覆盖内容闭环。',
+  nextPack: '下一个套件',
+};
+
+const apps = [
+  {
+    tag: '选题',
+    name: '内容简报 Content brief',
+    description: '把一个目标关键词变成一份简报：搜索意图分析、竞品覆盖盲区、内容大纲，以及只有你能讲的角度。',
+    inputs: ['目标关键词', 'ICP', '已有内容 (URL 列表)'],
+    outputs: ['简报 (Markdown)', '竞品矩阵 (CSV)'],
+    skills: ['serp-read', 'page-fetch', 'gap-analyze'],
+    connects: ['gsc', 'ahrefs', 'notion'],
+  },
+  {
+    tag: '分发',
+    name: '社媒包 Social pack',
+    description: '把一篇原文改写成各平台的原生版本 —— LinkedIn、X、小红书 —— 按各自的语境改写，不是简单截断。',
+    inputs: ['原文 (URL 或文档)', '平台集合', '语气'],
+    outputs: ['各平台草稿 (Markdown)', '配图 prompt (JSON)'],
+    skills: ['rewrite-tone', 'hook-write', 'thread-split'],
+    connects: ['linkedin', 'buffer', 'drive'],
+  },
+  {
+    tag: 'Newsletter',
+    name: '周报摘要 Weekly digest',
+    description: '扫一遍你的信息源 —— 博客、播客、GitHub、Twitter —— 把噪音聚类，按你的编辑口吻输出周报。',
+    inputs: ['信息源列表', '主题方向', '篇幅目标'],
+    outputs: ['周报草稿 (Markdown)', '原始来源 (CSV)'],
+    skills: ['feed-read', 'cluster', 'editorial-write'],
+    connects: ['rss', 'gmail', 'beehiiv'],
+  },
+  {
+    tag: 'SEO',
+    name: '内容审计 Content audit',
+    description: '爬一遍你的站点，找出薄页、关键词内耗、容易拿下的机会词。输出一份排序好的修复清单，而不是 200 行 sheet。',
+    inputs: ['域名', '站点地图', '重点页'],
+    outputs: ['审计摘要 (Markdown)', '修复清单 (CSV)'],
+    skills: ['site-crawl', 'serp-read', 'keyword-cluster'],
+    connects: ['gsc', 'ahrefs', 'sheets'],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <UseCasePack
+    crumb="市场营销"
+    h1="让 campaign 不再卡在最后一公里。"
+    lede="选题、分发、newsletter、SEO 审计 —— 多数团队靠三个工具加一张表撑下的工作流，捏成四个 App。"
+    primaryCta={{ label: '安装市场套件', href: 'https://app.aitroop.net' }}
+    secondaryCta={{ label: '预约演示', href: '/zh-CN/contact' }}
+    apps={apps}
+    next={{ href: '/zh-CN/use-cases/support', name: '客户支持', tagline: '分流、起草、收单。' }}
+    hubHref="/zh-CN/use-cases"
+    labels={labels}
+  />
+</Layout>

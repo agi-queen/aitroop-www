@@ -119,18 +119,14 @@ const features: BentoItem[] = [
 ];
 
 const cases = [
-  {
-    slug: '/use-cases/gtm',
-    title: 'GTM',
-    desc: 'Prospecting, outreach, retention, pipeline insights — handed off as Apps your revenue team runs daily.',
-    points: ['ICP research at scale', 'Personalised sequences', 'Pipeline & retention reports'],
-  },
-  {
-    slug: '/use-cases/finance',
-    title: 'Finance',
-    desc: 'Close, audit, variance, reporting. Built for CFO teams who need traceable, repeatable output.',
-    points: ['Close-pack assembly', 'Variance & flux analysis', 'Auditor-ready exports'],
-  },
+  { slug: '/use-cases/engineering', title: 'Engineering',   tagline: 'PR review, release notes, on-call digest.' },
+  { slug: '/use-cases/marketing',   title: 'Marketing',     tagline: 'Briefs, social pack, weekly digest.' },
+  { slug: '/use-cases/support',     title: 'Customer support', tagline: 'Triage, reply drafts, KB sync.' },
+  { slug: '/use-cases/research',    title: 'Research',      tagline: 'Competitor scans, synthesis, briefings.' },
+  { slug: '/use-cases/operations',  title: 'Operations',    tagline: 'SOPs, vendor risk, redlines.' },
+  { slug: '/use-cases/gtm',         title: 'GTM',           tagline: 'Prospecting, outreach, pipeline.' },
+  { slug: '/use-cases/finance',     title: 'Finance',       tagline: 'Close, AR aging, variance.' },
+  { slug: '/use-cases/personal',    title: 'Personal',      tagline: 'Inbox, meetings, weekly review.' },
 ];
 
 const faqs = [
@@ -254,29 +250,31 @@ const faqs = [
     </div>
   </section>
 
-  <!-- USE CASES — editorial two-column, no card chrome ───────────── -->
+  <!-- USE CASES — function tile grid, generic-agent framing ──────── -->
   <section class="aw-section-flush home-section">
     <div class="aw-container-wide">
-      <header class="aw-section-head">
-        <h2 class="aw-h2">Built for what you actually do.</h2>
+      <header class="aw-section-head cases-head">
+        <h2 class="aw-h2">Any repeated work can be an App.</h2>
+        <p class="aw-lede cases-lede">Aitroop is a generic agent — it does not assume your job. Below are starting points across eight functions. Open one, install it, or fork it into your own shape.</p>
       </header>
 
-      <div class="cases-editorial">
+      <ul class="cases-tiles" role="list">
         {cases.map((c) => (
-          <article class="case">
-            <a href={c.slug} class="case-link">
-              <h3 class="case-title">{c.title}</h3>
-              <p class="case-desc">{c.desc}</p>
-              <ul class="case-points" role="list">
-                {c.points.map((p) => <li>{p}</li>)}
-              </ul>
-              <span class="case-cta">
-                Explore {c.title.toLowerCase()}
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-              </span>
+          <li>
+            <a href={c.slug} class="case-tile">
+              <span class="case-tile-title">{c.title}</span>
+              <span class="case-tile-tagline">{c.tagline}</span>
+              <span class="case-tile-arrow" aria-hidden="true">→</span>
             </a>
-          </article>
+          </li>
         ))}
+      </ul>
+
+      <div class="cases-cta">
+        <a href="/use-cases" class="cases-cta-link">
+          See all use cases
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
       </div>
     </div>
   </section>
@@ -558,82 +556,105 @@ const faqs = [
   .lifecycle-lede { max-width: 52ch; margin: 0; }
 
   /* ══════════════════════════════════════════════════════════════════
-     USE CASES — editorial two-column, no card chrome
+     USE CASES — function tile grid (8 starting points)
      ══════════════════════════════════════════════════════════════════ */
-  .cases-editorial {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-  @media (min-width: 768px) {
-    .cases-editorial {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 3.5rem 4rem;
-    }
-  }
-  .case {
-    border-top: 1px solid var(--aw-color-border-strong);
-    padding-top: 1.5rem;
-  }
-  .case-link {
-    display: flex;
-    flex-direction: column;
-    gap: 0.875rem;
-    color: inherit;
-    text-decoration: none;
-  }
-  .case-title {
-    font-size: clamp(1.75rem, 3vw, 2.25rem);
-    font-weight: 700;
-    color: var(--aw-color-text-heading);
-    letter-spacing: -0.025em;
-    line-height: 1.05;
-    margin: 0;
-  }
-  .case-desc {
-    color: var(--aw-color-text-default);
-    font-size: 1rem;
-    line-height: 1.6;
-    margin: 0;
-    max-width: 48ch;
-    text-wrap: pretty;
-  }
-  .case-points {
+  .cases-head { max-width: 60rem; margin-bottom: 2.5rem; }
+  .cases-lede { max-width: 56ch; margin: 0.75rem 0 0; }
+
+  .cases-tiles {
     list-style: none;
-    margin: 0.25rem 0 0;
+    margin: 0;
     padding: 0;
     display: grid;
-    gap: 0.375rem;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--aw-color-border-strong);
+  }
+  @media (min-width: 640px) {
+    .cases-tiles { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .cases-tiles { grid-template-columns: repeat(4, 1fr); }
+  }
+  .case-tile {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1.125rem;
+    border-bottom: 1px solid var(--aw-color-border);
+    border-right: 1px solid var(--aw-color-border);
+    color: inherit;
+    text-decoration: none;
+    background: transparent;
+    transition: background 180ms ease, color 180ms ease;
+  }
+  @media (min-width: 640px) {
+    .case-tile:nth-child(2n) { border-right: 1px solid var(--aw-color-border); }
+  }
+  /* trim trailing right borders at the row's end */
+  .cases-tiles li:nth-child(2n) .case-tile { border-right: 0; }
+  @media (min-width: 1024px) {
+    .cases-tiles li:nth-child(2n) .case-tile { border-right: 1px solid var(--aw-color-border); }
+    .cases-tiles li:nth-child(4n) .case-tile { border-right: 0; }
+  }
+  .case-tile-title {
+    grid-row: 1;
+    grid-column: 1;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+  .case-tile-tagline {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    font-size: 0.8125rem;
     color: var(--aw-color-text-muted);
-    font-size: 0.9375rem;
-    line-height: 1.55;
+    line-height: 1.5;
+    margin-top: 0.25rem;
   }
-  .case-points li::before {
-    content: '— ';
+  .case-tile-arrow {
+    grid-row: 1;
+    grid-column: 2;
+    color: var(--aw-color-text-muted);
+    font-size: 0.95rem;
+    transition: transform 180ms ease, color 180ms ease;
+  }
+  .case-tile:hover {
+    background: rgba(82, 153, 97, 0.05);
+  }
+  .case-tile:hover .case-tile-arrow {
     color: var(--aw-color-primary);
-    margin-right: 0.125rem;
+    transform: translateX(3px);
   }
-  .case-cta {
-    margin-top: 0.5rem;
+  .case-tile:hover .case-tile-title {
+    color: var(--aw-color-primary);
+  }
+
+  .cases-cta {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-start;
+  }
+  .cases-cta-link {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--aw-color-primary);
-    font-weight: 600;
     font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--aw-color-primary);
+    text-decoration: none;
     transition: gap 200ms cubic-bezier(0.25, 1, 0.5, 1);
   }
-  .case-cta svg {
+  .cases-cta-link svg {
     width: 16px;
     height: 16px;
     transition: transform 200ms cubic-bezier(0.25, 1, 0.5, 1);
   }
-  .case-link:hover .case-cta {
-    gap: 0.625rem;
-  }
-  .case-link:hover .case-cta svg {
-    transform: translateX(2px);
-  }
+  .cases-cta-link:hover { gap: 0.625rem; }
+  .cases-cta-link:hover svg { transform: translateX(2px); }
 
   /* ══════════════════════════════════════════════════════════════════
      TESTIMONIALS — asymmetric weight, no card chrome

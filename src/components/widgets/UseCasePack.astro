@@ -1,0 +1,248 @@
+---
+interface App {
+  tag: string;
+  name: string;
+  description: string;
+  inputs: string[];
+  outputs: string[];
+  skills: string[];
+  connects: string[];
+}
+
+interface NextPack {
+  href: string;
+  name: string;
+  tagline: string;
+}
+
+interface Labels {
+  useCases: string;
+  inputs: string;
+  outputs: string;
+  skills: string;
+  connects: string;
+  appsHeading: string;
+  nextPack: string;
+}
+
+export interface Props {
+  crumb: string;
+  h1: string;
+  lede: string;
+  primaryCta: { label: string; href: string };
+  secondaryCta: { label: string; href: string };
+  apps: App[];
+  next: NextPack;
+  hubHref?: string;
+  labels?: Partial<Labels>;
+}
+
+const {
+  crumb,
+  h1,
+  lede,
+  primaryCta,
+  secondaryCta,
+  apps,
+  next,
+  hubHref = '/use-cases',
+  labels = {},
+} = Astro.props;
+
+const t: Labels = {
+  useCases: 'Use cases',
+  inputs: 'Inputs',
+  outputs: 'Outputs',
+  skills: 'Skills',
+  connects: 'Connects',
+  appsHeading: 'Four Apps. One workflow.',
+  nextPack: 'Next pack',
+  ...labels,
+};
+---
+
+<!-- PAGE HEAD ────────────────────────────────────────────────────── -->
+<section class="aw-page-head">
+  <div class="aw-container">
+    <nav class="aw-crumbs">
+      <a href={hubHref}>{t.useCases}</a>
+      <span aria-hidden="true">/</span>
+      <span>{crumb}</span>
+    </nav>
+    <h1 class="aw-h2">{h1}</h1>
+    <p class="aw-page-head-desc">{lede}</p>
+    <div class="aw-actions">
+      <a href={primaryCta.href} class="aw-btn aw-btn-primary">{primaryCta.label}</a>
+      <a href={secondaryCta.href} class="aw-btn aw-btn-ghost">{secondaryCta.label}</a>
+    </div>
+  </div>
+</section>
+
+<!-- APPS ─────────────────────────────────────────────────────────── -->
+<section class="aw-section">
+  <div class="aw-container">
+    <header class="aw-section-head">
+      <h2 class="aw-h2">{t.appsHeading}</h2>
+    </header>
+
+    <div class="ucp-apps">
+      {apps.map((app) => (
+        <article class="ucp-app">
+          <div class="ucp-app-head">
+            <span class="ucp-app-tag">{app.tag}</span>
+            <h3 class="ucp-app-title">{app.name}</h3>
+          </div>
+          <div class="ucp-app-body">
+            <p class="ucp-app-desc">{app.description}</p>
+            <dl class="ucp-app-meta">
+              <div>
+                <dt>{t.inputs}</dt>
+                <dd>{app.inputs.join(' · ')}</dd>
+              </div>
+              <div>
+                <dt>{t.outputs}</dt>
+                <dd>{app.outputs.join(' · ')}</dd>
+              </div>
+              <div>
+                <dt>{t.skills}</dt>
+                <dd class="ucp-mono">{app.skills.join(' · ')}</dd>
+              </div>
+              <div>
+                <dt>{t.connects}</dt>
+                <dd class="ucp-mono ucp-accent">{app.connects.join(' · ')}</dd>
+              </div>
+            </dl>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <a href={next.href} class="ucp-next-pack">
+      <span class="ucp-next-pack-label">{t.nextPack}</span>
+      <span class="ucp-next-pack-body">
+        <span class="ucp-next-pack-name">{next.name}</span>
+        <span class="ucp-next-pack-tagline">{next.tagline}</span>
+      </span>
+      <span class="ucp-next-pack-arrow" aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .ucp-apps { display: grid; gap: 0; }
+  .ucp-app {
+    border-top: 1px solid var(--aw-color-border-strong);
+    padding: 2rem 0 2.5rem;
+  }
+  @media (min-width: 768px) {
+    .ucp-app {
+      display: grid;
+      grid-template-columns: 16rem 1fr;
+      gap: 3rem;
+      padding: 2.25rem 0 2.75rem;
+    }
+  }
+  .ucp-app-head { display: flex; flex-direction: column; gap: 0.625rem; }
+  .ucp-app-tag {
+    align-self: flex-start;
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--aw-color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    line-height: 1;
+  }
+  .ucp-app-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.02em;
+    margin: 0;
+    line-height: 1.1;
+  }
+  .ucp-app-desc {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--aw-color-text-muted);
+    margin: 1rem 0 1.5rem;
+    text-wrap: pretty;
+  }
+  @media (min-width: 768px) {
+    .ucp-app-desc { margin: 0 0 1.5rem; }
+  }
+  .ucp-app-meta {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  @media (min-width: 640px) {
+    .ucp-app-meta { grid-template-columns: repeat(2, 1fr); gap: 1.125rem 2rem; }
+  }
+  .ucp-app-meta dt {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--aw-color-text-muted);
+    margin: 0 0 0.3125rem;
+    line-height: 1;
+    font-weight: 600;
+  }
+  .ucp-app-meta dd {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--aw-color-text-default);
+  }
+  .ucp-mono { font-family: var(--aw-font-mono, ui-monospace, monospace); }
+  .ucp-accent { color: var(--aw-color-primary); }
+
+  .ucp-next-pack {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1.25rem;
+    align-items: center;
+    padding: 2rem 0;
+    border-top: 1px solid var(--aw-color-border-strong);
+    border-bottom: 1px solid var(--aw-color-border);
+    color: var(--aw-color-text-heading);
+    text-decoration: none;
+  }
+  @media (min-width: 768px) {
+    .ucp-next-pack {
+      grid-template-columns: 16rem 1fr auto;
+      gap: 3rem;
+      padding: 2.25rem 0;
+    }
+  }
+  .ucp-next-pack-label {
+    font-family: var(--aw-font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--aw-color-text-muted);
+    line-height: 1;
+  }
+  .ucp-next-pack-body { display: flex; flex-direction: column; gap: 0.25rem; }
+  .ucp-next-pack-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--aw-color-text-heading);
+    line-height: 1.1;
+  }
+  .ucp-next-pack-tagline {
+    font-size: 0.875rem;
+    color: var(--aw-color-text-muted);
+    line-height: 1.4;
+  }
+  .ucp-next-pack-arrow {
+    color: var(--aw-color-primary);
+    font-size: 1.125rem;
+    transition: transform 0.18s ease;
+  }
+  .ucp-next-pack:hover .ucp-next-pack-arrow { transform: translateX(4px); }
+  .ucp-next-pack:hover .ucp-next-pack-name { text-decoration: underline; }
+</style>

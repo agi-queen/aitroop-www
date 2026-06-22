@@ -1,0 +1,58 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import UseCasePack from '~/components/widgets/UseCasePack.astro';
+
+const metadata = { title: 'Operations · Use Cases · Aitroop' };
+
+const apps = [
+  {
+    tag: 'Process',
+    name: 'SOP draft',
+    description: 'Turn a chat where the work actually happened into a structured procedure — steps, owners, exception paths. The agent does the writing-up nobody loves.',
+    inputs: ['Source chat or transcript', 'Process owner', 'Audience'],
+    outputs: ['SOP doc (Markdown)', 'Decision tree (Mermaid)'],
+    skills: ['transcript-read', 'process-extract', 'doc-write'],
+    connects: ['notion', 'drive', 'confluence'],
+  },
+  {
+    tag: 'Vendor',
+    name: 'Vendor risk review',
+    description: 'Read a vendors security questionnaire and SOC2 report. Produces a risk summary with the clauses worth a conversation flagged.',
+    inputs: ['Vendor name', 'SOC2 / pen-test PDFs', 'Internal risk policy'],
+    outputs: ['Risk summary (Markdown)', 'Issue list (CSV)'],
+    skills: ['pdf-read', 'policy-match', 'risk-score'],
+    connects: ['drive', 'vanta', 'slack'],
+  },
+  {
+    tag: 'Legal',
+    name: 'Contract redline',
+    description: 'Read a counter-party contract against your playbook. Marks deviations, suggests fallback language, and flags clauses for human review.',
+    inputs: ['Contract file', 'Playbook', 'Counter-party'],
+    outputs: ['Redlined draft (DOCX)', 'Issue memo (Markdown)'],
+    skills: ['pdf-read', 'clause-match', 'redline-write'],
+    connects: ['drive', 'ironclad', 'docusign'],
+  },
+  {
+    tag: 'Compliance',
+    name: 'Controls scan',
+    description: 'Walk your current setup against a framework — SOC2, ISO 27001, GDPR. Returns a gap list with the screenshots and policies as evidence.',
+    inputs: ['Framework', 'Scope', 'Evidence sources'],
+    outputs: ['Gap report (Markdown)', 'Evidence pack (ZIP)'],
+    skills: ['control-walk', 'evidence-collect', 'gap-write'],
+    connects: ['vanta', 'drive', 'github'],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <UseCasePack
+    crumb="Operations"
+    h1="Process without the busywork."
+    lede="Four Apps for the operations work that quietly fills calendars — SOPs, vendor reviews, redlines, controls — each one a workflow the agent runs alongside the team."
+    primaryCta={{ label: 'Install Ops pack', href: 'https://app.aitroop.net' }}
+    secondaryCta={{ label: 'Book demo', href: '/contact' }}
+    apps={apps}
+    next={{ href: '/use-cases/personal', name: 'Personal productivity', tagline: 'Reclaim your inbox.' }}
+    labels={{ appsHeading: 'Four Apps across the back-office loop.' }}
+  />
+</Layout>

@@ -119,18 +119,14 @@ const features: BentoItem[] = [
 ];
 
 const cases = [
-  {
-    slug: '/zh-TW/use-cases/gtm',
-    title: 'GTM',
-    desc: '線索挖掘、外部觸達、客戶留存、管道洞察。',
-    points: ['規模化的 ICP 研究', '個人化外聯序列', '管道與留存報告'],
-  },
-  {
-    slug: '/zh-TW/use-cases/finance',
-    title: '財務',
-    desc: '月結、稽核、差異分析、報告。專為 CFO 團隊設計。',
-    points: ['月結報告包自動組裝', '差異與變動分析', '稽核就緒的匯出'],
-  },
+  { slug: '/zh-TW/use-cases/engineering', title: '工程',       tagline: 'PR 評審、發版說明、On-call 摘要。' },
+  { slug: '/zh-TW/use-cases/marketing',   title: '市場行銷',   tagline: '簡報、社媒包、週報摘要。' },
+  { slug: '/zh-TW/use-cases/support',     title: '客戶支援',   tagline: '分流、回覆起草、KB 同步。' },
+  { slug: '/zh-TW/use-cases/research',    title: '研究',       tagline: '競品監測、合成、每週簡報。' },
+  { slug: '/zh-TW/use-cases/operations',  title: '營運 / 法務', tagline: 'SOP、供應商風險、redline。' },
+  { slug: '/zh-TW/use-cases/gtm',         title: 'GTM',         tagline: '獲客、觸達、管道。' },
+  { slug: '/zh-TW/use-cases/finance',     title: '財務',        tagline: '月結、應收、差異分析。' },
+  { slug: '/zh-TW/use-cases/personal',    title: '個人效率',   tagline: '收件夾、會議、週復盤。' },
 ];
 
 const faqs = [
@@ -257,26 +253,28 @@ const faqs = [
   <!-- USE CASES — editorial two-column, no card chrome ───────────── -->
   <section class="aw-section-flush home-section">
     <div class="aw-container-wide">
-      <header class="aw-section-head">
-        <h2 class="aw-h2">為團隊真實在做的事而設計。</h2>
+      <header class="aw-section-head cases-head">
+        <h2 class="aw-h2">任何重複性工作都可以做成 App。</h2>
+        <p class="aw-lede cases-lede">Aitroop 是一個通用 Agent —— 它不預設你的工種。下面是八個職能的起點。打開一個、裝上,或 fork 成你團隊真正的形狀。</p>
       </header>
 
-      <div class="cases-editorial">
+      <ul class="cases-tiles" role="list">
         {cases.map((c) => (
-          <article class="case">
-            <a href={c.slug} class="case-link">
-              <h3 class="case-title">{c.title}</h3>
-              <p class="case-desc">{c.desc}</p>
-              <ul class="case-points" role="list">
-                {c.points.map((p) => <li>{p}</li>)}
-              </ul>
-              <span class="case-cta">
-                查看 {c.title}
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-              </span>
+          <li>
+            <a href={c.slug} class="case-tile">
+              <span class="case-tile-title">{c.title}</span>
+              <span class="case-tile-tagline">{c.tagline}</span>
+              <span class="case-tile-arrow" aria-hidden="true">→</span>
             </a>
-          </article>
+          </li>
         ))}
+      </ul>
+
+      <div class="cases-cta">
+        <a href="/zh-TW/use-cases" class="cases-cta-link">
+          看所有案例
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
       </div>
     </div>
   </section>
@@ -558,82 +556,93 @@ const faqs = [
   .lifecycle-lede { max-width: 52ch; margin: 0; }
 
   /* ══════════════════════════════════════════════════════════════════
-     USE CASES — editorial two-column, no card chrome
+     USE CASES — function tile grid (8 starting points)
      ══════════════════════════════════════════════════════════════════ */
-  .cases-editorial {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-  @media (min-width: 768px) {
-    .cases-editorial {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 3.5rem 4rem;
-    }
-  }
-  .case {
-    border-top: 1px solid var(--aw-color-border-strong);
-    padding-top: 1.5rem;
-  }
-  .case-link {
-    display: flex;
-    flex-direction: column;
-    gap: 0.875rem;
-    color: inherit;
-    text-decoration: none;
-  }
-  .case-title {
-    font-size: clamp(1.75rem, 3vw, 2.25rem);
-    font-weight: 700;
-    color: var(--aw-color-text-heading);
-    letter-spacing: -0.025em;
-    line-height: 1.05;
-    margin: 0;
-  }
-  .case-desc {
-    color: var(--aw-color-text-default);
-    font-size: 1rem;
-    line-height: 1.6;
-    margin: 0;
-    max-width: 48ch;
-    text-wrap: pretty;
-  }
-  .case-points {
+  .cases-head { max-width: 60rem; margin-bottom: 2.5rem; }
+  .cases-lede { max-width: 56ch; margin: 0.75rem 0 0; }
+
+  .cases-tiles {
     list-style: none;
-    margin: 0.25rem 0 0;
+    margin: 0;
     padding: 0;
     display: grid;
-    gap: 0.375rem;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--aw-color-border-strong);
+  }
+  @media (min-width: 640px) {
+    .cases-tiles { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .cases-tiles { grid-template-columns: repeat(4, 1fr); }
+  }
+  .case-tile {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1.125rem;
+    border-bottom: 1px solid var(--aw-color-border);
+    border-right: 1px solid var(--aw-color-border);
+    color: inherit;
+    text-decoration: none;
+    background: transparent;
+    transition: background 180ms ease, color 180ms ease;
+  }
+  .cases-tiles li:nth-child(2n) .case-tile { border-right: 0; }
+  @media (min-width: 1024px) {
+    .cases-tiles li:nth-child(2n) .case-tile { border-right: 1px solid var(--aw-color-border); }
+    .cases-tiles li:nth-child(4n) .case-tile { border-right: 0; }
+  }
+  .case-tile-title {
+    grid-row: 1;
+    grid-column: 1;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--aw-color-text-heading);
+    letter-spacing: -0.015em;
+    line-height: 1.2;
+  }
+  .case-tile-tagline {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    font-size: 0.8125rem;
     color: var(--aw-color-text-muted);
-    font-size: 0.9375rem;
-    line-height: 1.55;
+    line-height: 1.5;
+    margin-top: 0.25rem;
   }
-  .case-points li::before {
-    content: '— ';
+  .case-tile-arrow {
+    grid-row: 1;
+    grid-column: 2;
+    color: var(--aw-color-text-muted);
+    font-size: 0.95rem;
+    transition: transform 180ms ease, color 180ms ease;
+  }
+  .case-tile:hover { background: rgba(82, 153, 97, 0.05); }
+  .case-tile:hover .case-tile-arrow {
     color: var(--aw-color-primary);
-    margin-right: 0.125rem;
+    transform: translateX(3px);
   }
-  .case-cta {
-    margin-top: 0.5rem;
+  .case-tile:hover .case-tile-title { color: var(--aw-color-primary); }
+
+  .cases-cta { margin-top: 2rem; display: flex; justify-content: flex-start; }
+  .cases-cta-link {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--aw-color-primary);
-    font-weight: 600;
     font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--aw-color-primary);
+    text-decoration: none;
     transition: gap 200ms cubic-bezier(0.25, 1, 0.5, 1);
   }
-  .case-cta svg {
+  .cases-cta-link svg {
     width: 16px;
     height: 16px;
     transition: transform 200ms cubic-bezier(0.25, 1, 0.5, 1);
   }
-  .case-link:hover .case-cta {
-    gap: 0.625rem;
-  }
-  .case-link:hover .case-cta svg {
-    transform: translateX(2px);
-  }
+  .cases-cta-link:hover { gap: 0.625rem; }
+  .cases-cta-link:hover svg { transform: translateX(2px); }
 
   /* ══════════════════════════════════════════════════════════════════
      TESTIMONIALS — asymmetric weight, no card chrome

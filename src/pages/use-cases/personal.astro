@@ -1,0 +1,58 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import UseCasePack from '~/components/widgets/UseCasePack.astro';
+
+const metadata = { title: 'Personal productivity · Use Cases · Aitroop' };
+
+const apps = [
+  {
+    tag: 'Inbox',
+    name: 'Inbox triage',
+    description: 'Label, summarise, and draft fast replies for everything that arrived overnight. You open Gmail to the ten things that actually need a human.',
+    inputs: ['Inbox', 'Importance hints', 'Reply tone'],
+    outputs: ['Triage summary (Markdown)', 'Reply drafts (per-thread)'],
+    skills: ['email-classify', 'reply-write', 'tone-match'],
+    connects: ['gmail', 'outlook'],
+  },
+  {
+    tag: 'Meeting',
+    name: 'Meeting prep',
+    description: 'Pull together the brief before every call — attendees, recent threads, shared docs, outstanding items. Lands in your calendar five minutes before.',
+    inputs: ['Calendar', 'Lookback window', 'Attendee context sources'],
+    outputs: ['Pre-read (Markdown)', 'Talking points (Markdown)'],
+    skills: ['calendar-read', 'thread-fetch', 'profile-enrich'],
+    connects: ['google-calendar', 'gmail', 'linkedin'],
+  },
+  {
+    tag: 'Review',
+    name: 'Weekly review',
+    description: 'Sweep your week — commits, docs, messages, calendar — into a digest you can paste straight into Friday updates or a leadership ping.',
+    inputs: ['Time window', 'Source set', 'Audience'],
+    outputs: ['Weekly digest (Markdown)', 'Highlights (Markdown)'],
+    skills: ['activity-sweep', 'summarise', 'narrative-write'],
+    connects: ['github', 'gmail', 'slack'],
+  },
+  {
+    tag: 'Memory',
+    name: 'Decision log',
+    description: 'Scan chats and docs for moments where a real decision happened, capture the rationale, and append it to a log you can search by topic later.',
+    inputs: ['Source set', 'Time window', 'Topic filter'],
+    outputs: ['Decision log entry (Markdown)', 'Topic index (CSV)'],
+    skills: ['decision-detect', 'rationale-write', 'tag-extract'],
+    connects: ['slack', 'notion', 'drive'],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <UseCasePack
+    crumb="Personal productivity"
+    h1="Reclaim your inbox, your calendar, your week."
+    lede="Four Apps the agent runs for you in the background — so the time you spend on your tools is the time you actually wanted to spend."
+    primaryCta={{ label: 'Install Personal pack', href: 'https://app.aitroop.net' }}
+    secondaryCta={{ label: 'Book demo', href: '/contact' }}
+    apps={apps}
+    next={{ href: '/use-cases/gtm', name: 'GTM', tagline: 'Pipeline that runs itself.' }}
+    labels={{ appsHeading: 'Four Apps for the rhythm of your week.' }}
+  />
+</Layout>

@@ -1,0 +1,69 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import UseCasePack from '~/components/widgets/UseCasePack.astro';
+
+const metadata = { title: '客戶支援案例 · Aitroop' };
+
+const labels = {
+  useCases: '案例',
+  inputs: '輸入',
+  outputs: '產物',
+  skills: '技能',
+  connects: '整合',
+  appsHeading: '四個 App，覆蓋支援閉環。',
+  nextPack: '下一個套件',
+};
+
+const apps = [
+  {
+    tag: '分流',
+    name: '工單分流 Ticket triage',
+    description: '按意圖、嚴重程度、負責團隊對工單分類。挑出那一半能自動答完的,剩下的帶著判斷理由分配給人。',
+    inputs: ['工單收件夾', '路由規則', 'SLA 矩陣'],
+    outputs: ['分流後佇列 (CSV)', '分流理由 (Markdown)'],
+    skills: ['intent-classify', 'severity-score', 'route-match'],
+    connects: ['zendesk', 'intercom', 'slack'],
+  },
+  {
+    tag: '回覆',
+    name: '回覆起草 Reply drafter',
+    description: '基於你的知識庫和歷史工單起草首次回覆。Agent 負責寫,客服 review 後發出 —— 不用再敲同樣的答案。',
+    inputs: ['工單 ID', '知識庫', '語氣指南'],
+    outputs: ['回覆草稿 (Markdown)', '引用來源 (JSON)'],
+    skills: ['kb-search', 'reply-write', 'tone-match'],
+    connects: ['zendesk', 'intercom', 'notion'],
+  },
+  {
+    tag: '知識',
+    name: 'KB 同步 KB sync',
+    description: '把已解決的工單沉澱成知識庫文章。發現覆蓋盲區,並按真正解決問題的表達起草新條目。',
+    inputs: ['已解決工單 (期間)', 'KB 結構'],
+    outputs: ['新文章草稿 (Markdown)', '盲區清單 (CSV)'],
+    skills: ['cluster-tickets', 'article-write', 'kb-publish'],
+    connects: ['zendesk', 'notion', 'helpscout'],
+  },
+  {
+    tag: '健康度',
+    name: '流失訊號 Churn signal',
+    description: '把工單情緒、產品使用、關鍵人變動交叉比對。在續約日曆響起之前就把高風險客戶標記出來。',
+    inputs: ['帳戶清單', '回看視窗', '風險閾值'],
+    outputs: ['風險報告 (Markdown)', '帳戶評分 (CSV)'],
+    skills: ['sentiment-read', 'usage-analyze', 'risk-score'],
+    connects: ['zendesk', 'salesforce', 'segment'],
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <UseCasePack
+    crumb="客戶支援"
+    h1="分流、起草、收單 —— 不再被佇列綁架。"
+    lede="四個 App 默默把重複的那一半工單從佇列裡摳出來,讓客服把時間花在真正需要人來處理的工單上。"
+    primaryCta={{ label: '安裝支援套件', href: 'https://app.aitroop.net' }}
+    secondaryCta={{ label: '預約演示', href: '/zh-TW/contact' }}
+    apps={apps}
+    next={{ href: '/zh-TW/use-cases/research', name: '研究 / 調研', tagline: '不再被讀資料壓垮。' }}
+    hubHref="/zh-TW/use-cases"
+    labels={labels}
+  />
+</Layout>
