@@ -1,0 +1,68 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Pricing from '~/components/widgets/Pricing.astro';
+
+const metadata = {
+  title: '定價 · Aitroop',
+};
+---
+
+<Layout metadata={metadata}>
+  <Pricing
+    title="簡單透明的定價"
+    subtitle="所有方案均包含完整平台功能，Token 額度每個計費週期自動補充。"
+    tagline="定價"
+    prices={[
+      {
+        title: '月租',
+        subtitle: '按月靈活付費',
+        price: 20,
+        period: '每月',
+        items: [
+          { description: '每月 $18 AI Token 額度' },
+          { description: '完整平台功能權限' },
+          { description: '所有應用與自動化工作流' },
+          { description: '隨時取消' },
+        ],
+        callToAction: {
+          text: '立即開始',
+          href: 'https://app.aitroop.net',
+        },
+      },
+      {
+        title: '季租',
+        subtitle: '按季付費更划算',
+        price: 55,
+        period: '每季度',
+        items: [
+          { description: '每季度 $50 AI Token 額度' },
+          { description: '完整平台功能權限' },
+          { description: '所有應用與自動化工作流' },
+          { description: '相比月租節省約 8%' },
+        ],
+        callToAction: {
+          text: '立即開始',
+          href: 'https://app.aitroop.net',
+        },
+      },
+      {
+        title: '年租',
+        subtitle: '年付最超值',
+        price: 200,
+        period: '每年',
+        hasRibbon: true,
+        ribbonTitle: '最超值',
+        items: [
+          { description: '每年 $180 AI Token 額度' },
+          { description: '完整平台功能權限' },
+          { description: '所有應用與自動化工作流' },
+          { description: '相比月租節省約 17%' },
+        ],
+        callToAction: {
+          text: '立即開始',
+          href: 'https://app.aitroop.net',
+        },
+      },
+    ]}
+  />
+</Layout>

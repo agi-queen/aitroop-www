@@ -1,0 +1,68 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Pricing from '~/components/widgets/Pricing.astro';
+
+const metadata = {
+  title: 'Pricing · Aitroop',
+};
+---
+
+<Layout metadata={metadata}>
+  <Pricing
+    title="Simple, transparent pricing"
+    subtitle="All plans include full platform access. Token credits refill each billing cycle."
+    tagline="Pricing"
+    prices={[
+      {
+        title: 'Monthly',
+        subtitle: 'Flexible month-to-month',
+        price: 20,
+        period: 'per month',
+        items: [
+          { description: '$18 AI token credit / month' },
+          { description: 'Full platform access' },
+          { description: 'All apps & automations' },
+          { description: 'Cancel anytime' },
+        ],
+        callToAction: {
+          text: 'Get started',
+          href: 'https://app.aitroop.net',
+        },
+      },
+      {
+        title: 'Quarterly',
+        subtitle: 'Save with 3-month billing',
+        price: 55,
+        period: 'per quarter',
+        items: [
+          { description: '$50 AI token credit / quarter' },
+          { description: 'Full platform access' },
+          { description: 'All apps & automations' },
+          { description: 'Save ~8% vs monthly' },
+        ],
+        callToAction: {
+          text: 'Get started',
+          href: 'https://app.aitroop.net',
+        },
+      },
+      {
+        title: 'Annual',
+        subtitle: 'Best value for committed teams',
+        price: 200,
+        period: 'per year',
+        hasRibbon: true,
+        ribbonTitle: 'Best value',
+        items: [
+          { description: '$180 AI token credit / year' },
+          { description: 'Full platform access' },
+          { description: 'All apps & automations' },
+          { description: 'Save ~17% vs monthly' },
+        ],
+        callToAction: {
+          text: 'Get started',
+          href: 'https://app.aitroop.net',
+        },
+      },
+    ]}
+  />
+</Layout>

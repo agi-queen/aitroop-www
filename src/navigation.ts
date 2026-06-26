@@ -10,6 +10,7 @@ function lp(locale: Locale, path: string): string {
 interface HeaderLabels {
   home: string;
   useCases: string;
+  pricing: string;
   blog: string;
   docs: string;
 }
@@ -18,18 +19,21 @@ const headerLabels: Record<Locale, HeaderLabels> = {
   en: {
     home: 'Home',
     useCases: 'Use cases',
+    pricing: 'Pricing',
     blog: 'Blog',
     docs: 'Docs',
   },
   'zh-CN': {
     home: '主页',
     useCases: '案例',
+    pricing: '定价',
     blog: '博客',
     docs: '文档',
   },
   'zh-TW': {
     home: '首頁',
     useCases: '案例',
+    pricing: '定價',
     blog: '部落格',
     docs: '文件',
   },
@@ -41,6 +45,7 @@ function buildHeaderLinks(locale: Locale) {
   return [
     { text: t.home, href: p('/') },
     { text: t.useCases, href: p('/use-cases') },
+    { text: t.pricing, href: p('/pricing') },
     { text: t.blog, href: p(getBlogPermalink()) },
     { text: t.docs, href: p('/docs') },
   ];
