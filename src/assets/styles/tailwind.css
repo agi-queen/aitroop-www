@@ -114,7 +114,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.55) 40%, rgba(255,255,255,0.15) 75%, rgba(255,255,255,0) 100%);
+    background: linear-gradient(90deg, color-mix(in srgb, var(--aw-color-bg-page) 78%, transparent) 0%, color-mix(in srgb, var(--aw-color-bg-page) 55%, transparent) 40%, color-mix(in srgb, var(--aw-color-bg-page) 15%, transparent) 75%, transparent 100%);
     z-index: -1;
   }
   .aw-page-head-banner > * { position: relative; z-index: 1; }
@@ -212,7 +212,7 @@
   .aw-lede a {
     color: var(--aw-color-primary);
     text-decoration: underline;
-    text-decoration-color: rgba(82, 153, 97, 0.4);
+    text-decoration-color: color-mix(in srgb, var(--aw-color-primary) 40%, transparent);
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
     transition: text-decoration-color 160ms ease;
@@ -540,3 +540,29 @@
 }
 
 .dd *:first-child { margin-top: 0; }
+
+/* ════════════════════════════════════════════════════════════════════
+   DARK THEME OVERRIDES — fix hardcoded rgba(0,0,0) values that become
+   invisible on the dark page background
+   ════════════════════════════════════════════════════════════════════ */
+
+html[data-theme='dark'] .aw-btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+html[data-theme='dark'] .aw-btn-ghost:active,
+html[data-theme='dark'] .btn-secondary:active {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+html[data-theme='dark'] .aw-btn-tertiary:hover,
+html[data-theme='dark'] .btn-tertiary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--aw-color-text-default);
+}
+
+html[data-theme='dark'] .aw-input:hover,
+html[data-theme='dark'] .aw-textarea:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+}

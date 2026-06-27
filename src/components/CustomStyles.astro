@@ -165,7 +165,7 @@ import '@fontsource-variable/inter';
   }
   .prose blockquote {
     border-left: 3px solid var(--aw-color-primary);
-    background-color: rgba(82, 153, 97, 0.06);
+    background-color: var(--aw-color-primary-tint);
     border-radius: 0 8px 8px 0;
     padding: 0.875rem 1.125rem;
     font-style: normal;
@@ -176,7 +176,7 @@ import '@fontsource-variable/inter';
 
   .prose thead { background-color: var(--aw-color-primary); }
   .prose thead th { color: #fff !important; font-weight: 600; }
-  .prose tbody tr:nth-child(even) { background-color: rgba(82, 153, 97, 0.04); }
+  .prose tbody tr:nth-child(even) { background-color: color-mix(in srgb, var(--aw-color-primary) 4%, transparent); }
   .prose table { border-radius: 8px; overflow: hidden; }
   .prose hr { border-color: var(--aw-color-border); }
 
@@ -185,7 +185,7 @@ import '@fontsource-variable/inter';
     text-decoration: underline;
     text-underline-offset: 3px;
     text-decoration-thickness: 1px;
-    text-decoration-color: rgba(82, 153, 97, 0.4);
+    text-decoration-color: color-mix(in srgb, var(--aw-color-primary) 40%, transparent);
     font-weight: 500;
     transition: text-decoration-color 160ms ease;
   }
