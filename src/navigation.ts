@@ -122,6 +122,7 @@ export function getFooterData(locale: Locale = 'en') {
     secondaryLinks: [
       { text: 'Privacy', href: getPermalink('/app-privacy') },
       { text: 'Terms', href: getPermalink('/app-terms') },
+      { text: 'Refund Policy', href: getPermalink('/app-refund') },
     ],
     socialLinks: [
       { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') },
