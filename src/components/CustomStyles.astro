@@ -145,7 +145,9 @@ import '@fontsource-variable/inter';
   }
 
   /* ── Prose (blog / markdown) ──────────────────────────────────── */
-  .prose {
+  /* Use html .prose (specificity 0,1,1) to beat Tailwind Typography's
+     .prose (specificity 0,1,0) regardless of stylesheet load order. */
+  html .prose {
     --tw-prose-body:    var(--aw-color-text-default);
     --tw-prose-headings:var(--aw-color-text-heading);
     --tw-prose-lead:    var(--aw-color-text-muted);
@@ -162,6 +164,25 @@ import '@fontsource-variable/inter';
     --tw-prose-pre-bg:  var(--aw-color-bg-subtle);
     --tw-prose-th-borders: var(--aw-color-border);
     --tw-prose-td-borders: var(--aw-color-border);
+  }
+  /* Explicit dark mode prose variables — beats any Tailwind Typography override */
+  html[data-theme='dark'] .prose {
+    --tw-prose-body:         rgb(220 220 220);
+    --tw-prose-headings:     rgb(244 244 244);
+    --tw-prose-lead:         rgb(155 158 162);
+    --tw-prose-links:        rgb(116 192 132);
+    --tw-prose-bold:         rgb(244 244 244);
+    --tw-prose-counters:     rgb(155 158 162);
+    --tw-prose-bullets:      rgb(155 158 162);
+    --tw-prose-hr:           rgb(44 47 52);
+    --tw-prose-quotes:       rgb(220 220 220);
+    --tw-prose-quote-borders:rgb(116 192 132);
+    --tw-prose-captions:     rgb(155 158 162);
+    --tw-prose-code:         rgb(244 244 244);
+    --tw-prose-pre-code:     rgb(220 220 220);
+    --tw-prose-pre-bg:       rgb(22 24 28);
+    --tw-prose-th-borders:   rgb(44 47 52);
+    --tw-prose-td-borders:   rgb(44 47 52);
   }
   .prose blockquote {
     border-left: 3px solid var(--aw-color-primary);
