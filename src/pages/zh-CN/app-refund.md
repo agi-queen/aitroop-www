@@ -39,11 +39,11 @@ Aitroop 提供按月和按年订阅套餐，所有费用均针对即将到来的
 
 您可随时在账户设置中取消订阅。取消订阅将停止后续扣款，但**不会**自动触发退款。您对付费功能的访问权限将持续至当前计费周期结束。
 
-取消方式：在本应用中进入**设置 → 订阅 → 取消套餐**，或联系 [support@aitroop.net](mailto:support@aitroop.net)。
+取消方式：在本应用中进入**设置 → 订阅 → 取消套餐**，或联系 [agi.sys001@gmail.com](mailto:agi.sys001@gmail.com)。
 
 ## 6. 退款申请流程
 
-如需申请退款，请发送电子邮件至 [support@aitroop.net](mailto:support@aitroop.net)，并提供以下信息：
+如需申请退款，请发送电子邮件至 [agi.sys001@gmail.com](mailto:agi.sys001@gmail.com)，并提供以下信息：
 
 - 与您 Aitroop 账户关联的电子邮件地址。
 - 购买日期及订阅套餐名称。
@@ -57,4 +57,4 @@ Aitroop 提供按月和按年订阅套餐，所有费用均针对即将到来的
 
 ## 8. 联系我们
 
-如您有任何退款相关问题，请通过 [support@aitroop.net](mailto:support@aitroop.net) 联系我们。
+如您有任何退款相关问题，请通过 [agi.sys001@gmail.com](mailto:agi.sys001@gmail.com) 联系我们。

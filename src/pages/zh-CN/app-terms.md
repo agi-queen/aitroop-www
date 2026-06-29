@@ -23,7 +23,7 @@ _最后更新_：2026 年 6 月 29 日
 您有责任维护账户凭据的保密性，并对您账户下发生的所有活动负责。您须：
 
 - 提供准确、最新的注册信息。
-- 如怀疑存在未经授权的访问，立即通过 [support@aitroop.net](mailto:support@aitroop.net) 通知我们。
+- 如怀疑存在未经授权的访问，立即通过 [agi.sys001@gmail.com](mailto:agi.sys001@gmail.com) 通知我们。
 - 不得与他人共享账户，或未经授权代表第三方创建账户。
 
 我们保留停用违反本条款的账户的权利。
@@ -74,4 +74,4 @@ _最后更新_：2026 年 6 月 29 日
 
 ## 11. 联系我们
 
-如您对本条款有任何疑问，请通过 [support@aitroop.net](mailto:support@aitroop.net) 联系我们。
+如您对本条款有任何疑问，请通过 [agi.sys001@gmail.com](mailto:agi.sys001@gmail.com) 联系我们。

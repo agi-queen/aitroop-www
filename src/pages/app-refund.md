@@ -39,11 +39,11 @@ We define "reasonable usage" as using paid features in a manner consistent with 
 
 You may cancel your subscription at any time from your account settings. Cancellation stops future billing but does **not** automatically trigger a refund. Your access to paid features continues until the end of the current billing period.
 
-To cancel, go to **Settings → Subscription → Cancel Plan** in the App, or contact [support@aitroop.net](mailto:support@aitroop.net).
+To cancel, go to **Settings → Subscription → Cancel Plan** in the App, or contact [agi.sys001@gmail.com](mailto:agi.sys001@gmail.com).
 
 ## 6. How to Request a Refund
 
-To request a refund, email [support@aitroop.net](mailto:support@aitroop.net) with:
+To request a refund, email [agi.sys001@gmail.com](mailto:agi.sys001@gmail.com) with:
 
 - The email address associated with your Aitroop account.
 - The date of purchase and the subscription plan.
@@ -57,4 +57,4 @@ We may update this Refund Policy from time to time. Material changes will be com
 
 ## 8. Contact Us
 
-For any refund-related questions, please reach out to [support@aitroop.net](mailto:support@aitroop.net).
+For any refund-related questions, please reach out to [agi.sys001@gmail.com](mailto:agi.sys001@gmail.com).

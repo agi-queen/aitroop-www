@@ -23,7 +23,7 @@ _最後更新_：2026 年 6 月 29 日
 您有責任維護帳戶憑證的保密性，並對您帳戶下發生的所有活動負責。您須：
 
 - 提供準確、最新的註冊資訊。
-- 如懷疑存在未經授權的存取，立即透過 [support@aitroop.net](mailto:support@aitroop.net) 通知我們。
+- 如懷疑存在未經授權的存取，立即透過 [agi.sys001@gmail.com](mailto:agi.sys001@gmail.com) 通知我們。
 - 不得與他人共享帳戶，或未經授權代表第三方建立帳戶。
 
 我們保留停用違反本條款之帳戶的權利。
@@ -74,4 +74,4 @@ _最後更新_：2026 年 6 月 29 日
 
 ## 11. 聯繫我們
 
-如您對本條款有任何疑問，請透過 [support@aitroop.net](mailto:support@aitroop.net) 聯繫我們。
+如您對本條款有任何疑問，請透過 [agi.sys001@gmail.com](mailto:agi.sys001@gmail.com) 聯繫我們。

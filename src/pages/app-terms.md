@@ -23,7 +23,7 @@ You may use the App only for lawful purposes and in accordance with these Terms.
 You are responsible for maintaining the confidentiality of your account credentials and for all activities that occur under your account. You must:
 
 - Provide accurate and current registration information.
-- Notify us immediately at [support@aitroop.net](mailto:support@aitroop.net) if you suspect unauthorized access.
+- Notify us immediately at [agi.sys001@gmail.com](mailto:agi.sys001@gmail.com) if you suspect unauthorized access.
 - Not share your account with others or create accounts on behalf of third parties without authorization.
 
 We reserve the right to disable accounts that violate these Terms.
@@ -74,4 +74,4 @@ We may revise these Terms at any time. We will provide at least 14 days' notice 
 
 ## 11. Contact Us
 
-If you have any questions about these Terms, please contact us at [support@aitroop.net](mailto:support@aitroop.net).
+If you have any questions about these Terms, please contact us at [agi.sys001@gmail.com](mailto:agi.sys001@gmail.com).
