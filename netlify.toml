@@ -4,6 +4,13 @@
   status = 301
   force = true
 
+# Paddle checkout return — forward to the app, preserving query string (Paddle adds _ptxn=...)
+[[redirects]]
+  from = "/paddle-return"
+  to = "https://app.aitroop.net/billing"
+  status = 302
+  force = true
+
 [[redirects]]
   from = "/:path/"
   to = "/:path"

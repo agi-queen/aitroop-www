@@ -1,0 +1,22 @@
+---
+// Paddle checkout return URL.
+// Paddle requires the return domain to be pre-approved; app.aitroop.net is pending,
+// so we land on the approved root domain and forward to the app, preserving query
+// params (Paddle appends _ptxn=<transactionId> and others we may want to inspect).
+const target = 'https://app.aitroop.net/billing';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Redirecting…</title>
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <script is:inline define:vars={{ target }}>
+      location.replace(target + location.search + location.hash);
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to <a href={target}>{target}</a>…</p>
+  </body>
+</html>
