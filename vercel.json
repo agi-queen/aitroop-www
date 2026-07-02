@@ -15,12 +15,5 @@
         }
       ]
     }
-  ],
-  "redirects": [
-    {
-      "source": "/paddle-return",
-      "destination": "https://app.aitroop.net/billing",
-      "permanent": false
-    }
   ]
 }

@@ -1,22 +1,74 @@
 ---
-// Paddle checkout return URL.
-// Paddle requires the return domain to be pre-approved; app.aitroop.net is pending,
-// so we land on the approved root domain and forward to the app, preserving query
-// params (Paddle appends _ptxn=<transactionId> and others we may want to inspect).
-const target = 'https://app.aitroop.net/billing';
+// Paddle checkout landing page.
+//
+// Paddle's Transactions API `checkout.url` field is the base URL for a
+// *custom checkout page* — Paddle appends `_ptxn=<transactionId>` to it and
+// sends the browser here. This page must load Paddle.js and open the
+// checkout overlay for that transaction; it must NOT just redirect, or the
+// customer never sees a payment form and nothing gets charged.
+//
+// app.aitroop.net can't be used directly because Paddle requires the
+// checkout domain to be pre-approved, and that approval is still pending —
+// so the approved root domain (aitroop.net) hosts the checkout overlay and
+// forwards back to the app afterwards.
+const APP_BILLING_URL = 'https://app.aitroop.net/billing';
+const PADDLE_CLIENT_TOKEN = import.meta.env.PUBLIC_PADDLE_CLIENT_TOKEN ?? '';
+const PADDLE_ENVIRONMENT = import.meta.env.PUBLIC_PADDLE_ENVIRONMENT ?? 'production';
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Redirecting…</title>
+    <title>Completing your payment…</title>
     <meta name="robots" content="noindex" />
-    <meta http-equiv="refresh" content={`0; url=${target}`} />
-    <script is:inline define:vars={{ target }}>
-      location.replace(target + location.search + location.hash);
-    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
   </head>
   <body>
-    <p>Redirecting to <a href={target}>{target}</a>…</p>
+    <p id="status">Loading checkout…</p>
+
+    <script
+      is:inline
+      define:vars={{ APP_BILLING_URL, PADDLE_CLIENT_TOKEN, PADDLE_ENVIRONMENT }}
+    >
+      const statusEl = document.getElementById('status');
+      const txnId = new URLSearchParams(location.search).get('_ptxn');
+
+      function backToBilling(topupResult) {
+        location.replace(`${APP_BILLING_URL}?topup=${topupResult}`);
+      }
+
+      if (!txnId) {
+        // Landed here without a transaction to check out — nothing to do.
+        backToBilling('cancelled');
+      } else if (!PADDLE_CLIENT_TOKEN) {
+        statusEl.textContent = 'Payment is not configured. Please contact support.';
+      } else {
+        if (PADDLE_ENVIRONMENT === 'sandbox') {
+          Paddle.Environment.set('sandbox');
+        }
+
+        Paddle.Setup({
+          token: PADDLE_CLIENT_TOKEN,
+          eventCallback(event) {
+            // successUrl below handles the happy path; this is the fallback
+            // for the customer closing the overlay without paying.
+            if (event.name === 'checkout.closed' && !event.data?.status) {
+              backToBilling('cancelled');
+            }
+          },
+        });
+
+        Paddle.Checkout.open({
+          transactionId: txnId,
+          settings: {
+            successUrl: `${APP_BILLING_URL}?topup=success`,
+          },
+        });
+
+        statusEl.textContent = 'Opening checkout…';
+      }
+    </script>
   </body>
 </html>
