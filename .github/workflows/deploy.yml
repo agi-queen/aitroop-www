@@ -35,6 +35,9 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          PUBLIC_PADDLE_CLIENT_TOKEN: ${{ secrets.PADDLE_CLIENT_TOKEN }}
+          PUBLIC_PADDLE_ENVIRONMENT: production
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
